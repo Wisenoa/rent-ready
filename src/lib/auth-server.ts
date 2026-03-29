@@ -6,6 +6,9 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  trustedOrigins: [
+    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+  ],
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
@@ -76,7 +79,7 @@ export const auth = betterAuth({
         input: false,
       },
       trialEndsAt: {
-        type: "string",
+        type: "date",
         required: false,
         input: false,
       },

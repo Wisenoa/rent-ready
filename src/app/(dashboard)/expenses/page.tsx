@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
 import { prisma } from "@/lib/prisma";
-import { getCurrentUserId } from "@/lib/auth";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { EXPENSE_CATEGORY_LABELS } from "@/lib/validations/expense";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,7 @@ function formatCurrency(amount: number): string {
 }
 
 export default async function ExpensesPage() {
-  const userId = await getCurrentUserId();
+  const userId = await getAuthenticatedUserId();
 
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);

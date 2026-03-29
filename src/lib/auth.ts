@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { cache } from "react";
@@ -20,23 +21,51 @@ export class AuthorizationError extends Error {
 /**
  * Get the current Better Auth session from server context.
  * Returns the session + user, or null if not authenticated.
+ * Re-throws Next.js internal errors (redirect, not-found, dynamic usage).
  */
 async function getServerSession() {
-  const reqHeaders = await headers();
-  const session = await auth.api.getSession({
-    headers: reqHeaders,
-  });
-  return session;
+  try {
+    const reqHeaders = await headers();
+    const session = await auth.api.getSession({
+      headers: reqHeaders,
+    });
+    return session;
+  } catch (error: unknown) {
+    // Re-throw Next.js internal errors so the framework handles them
+    if (
+      error instanceof Error &&
+      "digest" in error &&
+      typeof (error as Record<string, unknown>).digest === "string"
+    ) {
+      throw error;
+    }
+    console.error("[auth] getServerSession failed:", error);
+    return null;
+  }
 }
 
 /**
  * Require authentication. Throws AuthenticationError if not logged in.
  * Returns the Better Auth user ID (which is also the Prisma User.id).
+ *
+ * Use in Server Actions where you want the error to be caught by the action's try/catch.
  */
 export async function requireAuth(): Promise<string> {
   const session = await getServerSession();
   if (!session?.user?.id) {
     throw new AuthenticationError();
+  }
+  return session.user.id;
+}
+
+/**
+ * Get the authenticated user ID or redirect to /login.
+ * Use in Server Components (RSC pages) — never throws, always resolves or redirects.
+ */
+export async function getAuthenticatedUserId(): Promise<string> {
+  const session = await getServerSession();
+  if (!session?.user?.id) {
+    redirect("/login");
   }
   return session.user.id;
 }
@@ -75,6 +104,7 @@ export const getCurrentUser = cache(async () => {
 /**
  * Get just the database user ID for the current session.
  * Use this in server actions for lightweight auth checks.
+ * Throws AuthenticationError if not logged in.
  */
 export const getCurrentUserId = cache(async (): Promise<string> => {
   return requireAuth();

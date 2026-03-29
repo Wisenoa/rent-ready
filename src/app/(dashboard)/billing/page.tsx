@@ -9,7 +9,7 @@ import {
   Receipt,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import { getCurrentUserId } from "@/lib/auth";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -73,7 +73,7 @@ function formatCurrency(amount: number): string {
 }
 
 export default async function BillingPage() {
-  const userId = await getCurrentUserId();
+  const userId = await getAuthenticatedUserId();
 
   // Current month boundaries
   const now = new Date();

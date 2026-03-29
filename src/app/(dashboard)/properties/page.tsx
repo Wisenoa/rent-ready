@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { Building2, Home, MapPin, Plus } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
-import { getCurrentUserId } from "@/lib/auth";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -32,7 +32,7 @@ function formatCurrency(amount: number): string {
 }
 
 export default async function PropertiesPage() {
-  const userId = await getCurrentUserId();
+  const userId = await getAuthenticatedUserId();
 
   const properties = await prisma.property.findMany({
     where: { userId },

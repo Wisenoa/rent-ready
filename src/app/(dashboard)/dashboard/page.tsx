@@ -22,7 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
-import { getCurrentUserId } from "@/lib/auth";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
@@ -51,24 +51,7 @@ const transactionStatusConfig: Record<
 };
 
 export default async function DashboardPage() {
-  let userId: string;
-
-  try {
-    userId = await getCurrentUserId();
-  } catch {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Card className="max-w-md">
-          <CardHeader>
-            <CardTitle>Connexion requise</CardTitle>
-            <CardDescription>
-              Veuillez vous connecter pour accéder à votre tableau de bord.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
+  const userId = await getAuthenticatedUserId();
 
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);

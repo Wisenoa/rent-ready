@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Wrench } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import { getCurrentUserId } from "@/lib/auth";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -35,7 +35,7 @@ const PRIORITY_CONFIG: Record<string, { label: string; className: string }> = {
 };
 
 export default async function MaintenancePage() {
-  const userId = await getCurrentUserId();
+  const userId = await getAuthenticatedUserId();
 
   const tickets = await prisma.maintenanceTicket.findMany({
     where: {

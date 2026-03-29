@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { prisma } from "@/lib/prisma";
-import { getCurrentUserId } from "@/lib/auth";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import {
   TenantForm,
   DeleteTenantButton,
@@ -52,7 +52,7 @@ function getPaymentBadge(status: PaymentStatus) {
 }
 
 export default async function TenantsPage() {
-  const userId = await getCurrentUserId();
+  const userId = await getAuthenticatedUserId();
 
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
