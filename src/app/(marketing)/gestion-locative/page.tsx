@@ -3,10 +3,25 @@ import Link from "next/link";
 import cities from "@/data/cities.json";
 
 export const metadata: Metadata = {
-  title: "Gestion Locative en France — Toutes les Villes",
+  title: "Gestion locative en France — 50 villes",
   description:
-    "Découvrez RentReady pour la gestion locative dans les 50 plus grandes villes de France. Quittances automatiques, suivi des loyers, conformité légale.",
-  alternates: { canonical: "/gestion-locative" },
+    "Logiciel de gestion locative dans les 50 plus grandes villes de France. Quittances, suivi des loyers, conformité 2026. Essai gratuit →",
+  openGraph: {
+    title: "Gestion locative en France — 50 villes | RentReady",
+    description:
+      "Logiciel de gestion locative dans les 50 plus grandes villes de France. Quittances, suivi des loyers, conformité 2026.",
+    type: "website",
+    siteName: "RentReady",
+    images: [
+      {
+        url: "https://www.rentready.fr/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RentReady — Gestion locative en France",
+      },
+    ],
+  },
+  alternates: { canonical: "https://www.rentready.fr/gestion-locative" },
 };
 
 type City = (typeof cities)[number];

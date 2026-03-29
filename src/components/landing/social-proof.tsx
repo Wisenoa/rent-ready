@@ -15,9 +15,9 @@ export function SocialProof() {
   return (
     <ScrollReveal className="py-16 sm:py-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <p className="mb-8 text-center text-[12px] font-medium uppercase tracking-[0.2em] text-stone-400">
+        <h2 className="mb-8 text-center text-[12px] font-medium uppercase tracking-[0.2em] text-stone-400">
           Intégrations conformes &amp; sécurisées
-        </p>
+        </h2>
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 sm:gap-x-14">
           {logos.map((logo, i) => (
             <motion.span

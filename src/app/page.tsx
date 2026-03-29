@@ -11,10 +11,12 @@ import { PricingSection } from "@/components/landing/pricing-section";
 import { FaqSection, FaqJsonLd } from "@/components/landing/faq-section";
 import { FinalCta } from "@/components/landing/final-cta";
 
+/* ─── Metadata (Title ≤60, Description ≤155) ─── */
+
 export const metadata: Metadata = {
-  title: "RentReady — Logiciel de Gestion Locative pour Particuliers | Quittances, IRL, Open Banking",
+  title: "Gestion locative automatisée particuliers | RentReady",
   description:
-    "Le logiciel de gestion locative pour propriétaires indépendants (1 à 10 biens). Quittances conformes loi 1989, révision IRL automatique INSEE, détection des loyers via Open Banking DSP2, portail locataire. 15 €/mois.",
+    "Quittances conformes, détection des virements, révision IRL automatique. Le logiciel de gestion locative pour propriétaires bailleurs. Essai gratuit.",
   keywords: [
     "logiciel gestion locative",
     "gestion locative particulier",
@@ -30,21 +32,118 @@ export const metadata: Metadata = {
     "open banking DSP2 loyer",
   ],
   openGraph: {
-    title: "RentReady — Le logiciel de gestion locative qui automatise tout",
+    title: "RentReady — Gestion locative automatisée pour particuliers",
     description:
-      "Quittances légales, détection des virements, révision IRL, portail locataire. Le pilote automatique pour propriétaires bailleurs. 15 €/mois.",
+      "Quittances légales, détection des virements, révision IRL. Le pilote automatique des propriétaires bailleurs. 15 €/mois.",
     type: "website",
     locale: "fr_FR",
     siteName: "RentReady",
+    images: [
+      {
+        url: "https://www.rentready.fr/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RentReady — Logiciel de gestion locative automatisée",
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.rentready.fr",
   },
 };
 
+/* ─── JSON-LD: SoftwareApplication + Organization + Service ─── */
+
+function HomeJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        name: "RentReady",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: "https://www.rentready.fr",
+        description:
+          "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France (1 à 10 biens).",
+        offers: {
+          "@type": "Offer",
+          price: "15.00",
+          priceCurrency: "EUR",
+          priceValidUntil: "2027-12-31",
+          availability: "https://schema.org/InStock",
+          url: "https://www.rentready.fr/register",
+        },
+        featureList: [
+          "Quittances de loyer conformes loi du 6 juillet 1989",
+          "Détection automatique des virements via Open Banking DSP2",
+          "Révision IRL connectée à l'INSEE",
+          "Portail locataire avec gestion de la maintenance",
+          "OCR factures artisans par intelligence artificielle",
+          "Conformité Factur-X et e-reporting B2C 2027",
+        ],
+      },
+      {
+        "@type": "Organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        logo: "https://www.rentready.fr/logo.png",
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "contact@rentready.fr",
+          availableLanguage: "French",
+        },
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "FR",
+        },
+      },
+      {
+        "@type": "Service",
+        name: "RentReady — Gestion locative automatisée",
+        serviceType: "Property Management Software",
+        provider: {
+          "@type": "Organization",
+          name: "RentReady",
+        },
+        offers: {
+          "@type": "Offer",
+          price: "15.00",
+          priceCurrency: "EUR",
+          eligibleDuration: {
+            "@type": "QuantitativeValue",
+            value: "1",
+            unitCode: "MON",
+          },
+        },
+        areaServed: {
+          "@type": "Country",
+          name: "France",
+        },
+        description:
+          "Quittances conformes loi 1989, détection automatique des loyers via Open Banking, révision IRL, portail locataire et conformité Factur-X.",
+      },
+      {
+        "@type": "WebSite",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+      },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+      <HomeJsonLd />
       <FaqJsonLd />
       <GlassNav />
       <HeroSection />
