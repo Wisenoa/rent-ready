@@ -3,33 +3,58 @@ import type { Metadata } from "next";
 import { GlassNav } from "@/components/landing/glass-nav";
 import { HeroSection } from "@/components/landing/hero-section";
 import { SocialProof } from "@/components/landing/social-proof";
+import { ProblemSection } from "@/components/landing/problem-section";
 import { BentoBenefits } from "@/components/landing/bento-benefits";
 import { ComparisonSection } from "@/components/landing/comparison-section";
+import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { PricingSection } from "@/components/landing/pricing-section";
+import { FaqSection, FaqJsonLd } from "@/components/landing/faq-section";
 import { FinalCta } from "@/components/landing/final-cta";
 
 export const metadata: Metadata = {
-  title: "RentReady — Gestion Locative Automatisée pour Propriétaires Indépendants",
+  title: "RentReady — Logiciel de Gestion Locative pour Particuliers | Quittances, IRL, Open Banking",
   description:
-    "Encaissement automatique, quittances légales et gestion des urgences. RentReady est le pilote automatique qui sécurise vos revenus locatifs pour 15 €/mois.",
+    "Le logiciel de gestion locative pour propriétaires indépendants (1 à 10 biens). Quittances conformes loi 1989, révision IRL automatique INSEE, détection des loyers via Open Banking DSP2, portail locataire. 15 €/mois.",
+  keywords: [
+    "logiciel gestion locative",
+    "gestion locative particulier",
+    "quittance de loyer automatique",
+    "indice de référence des loyers IRL",
+    "revision loyer INSEE",
+    "gestion locative en ligne",
+    "logiciel propriétaire bailleur",
+    "Factur-X gestion locative",
+    "e-reporting B2C location",
+    "LMNP gestion",
+    "SCI gestion locative",
+    "open banking DSP2 loyer",
+  ],
   openGraph: {
-    title: "RentReady — Libérez-vous de la gestion locative",
+    title: "RentReady — Le logiciel de gestion locative qui automatise tout",
     description:
-      "Le pilote automatique pour propriétaires bailleurs. Quittances, IRL, portail locataire. 15 €/mois.",
+      "Quittances légales, détection des virements, révision IRL, portail locataire. Le pilote automatique pour propriétaires bailleurs. 15 €/mois.",
     type: "website",
     locale: "fr_FR",
+    siteName: "RentReady",
+  },
+  alternates: {
+    canonical: "https://www.rentready.fr",
   },
 };
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+      <FaqJsonLd />
       <GlassNav />
       <HeroSection />
       <SocialProof />
+      <ProblemSection />
       <BentoBenefits />
       <ComparisonSection />
+      <TestimonialsSection />
       <PricingSection />
+      <FaqSection />
       <FinalCta />
 
       {/* ─── Footer ─── */}

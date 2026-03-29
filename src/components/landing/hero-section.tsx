@@ -66,9 +66,9 @@ export function HeroSection() {
               variants={fadeUp}
               className="text-[clamp(2.5rem,5vw,3.5rem)] font-bold leading-[1.08] tracking-tight text-stone-900"
             >
-              Libérez-vous de la gestion locative.{" "}
+              Le logiciel de gestion locative pour particuliers{" "}
               <span className="bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
-                Sans payer d&apos;agence.
+                qui automatise tout.
               </span>
             </motion.h1>
 
@@ -76,10 +76,11 @@ export function HeroSection() {
               variants={fadeUp}
               className="mt-6 text-lg leading-relaxed text-stone-500 sm:text-xl sm:leading-relaxed"
             >
-              Encaissement automatique, quittances légales et gestion des
-              urgences.{" "}
+              Quittances conformes à la loi de 1989, détection automatique des
+              virements, révision IRL connectée à l&apos;INSEE et portail
+              locataire.{" "}
               <span className="text-stone-700">
-                15&nbsp;€ par mois. Zéro effort quotidien.
+                Tout pour 15&nbsp;€/mois, sans payer d&apos;agence.
               </span>
             </motion.p>
 
