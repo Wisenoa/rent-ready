@@ -10,6 +10,8 @@ import {
   FileText,
   Settings,
   Brain,
+  Receipt,
+  Wrench,
 } from "lucide-react";
 import {
   Sidebar,
@@ -29,6 +31,8 @@ const mainNav = [
   { title: "Biens", href: "/properties", icon: Building2 },
   { title: "Locataires", href: "/tenants", icon: Users },
   { title: "Paiements", href: "/billing", icon: CreditCard },
+  { title: "Dépenses", href: "/expenses", icon: Receipt },
+  { title: "Maintenance", href: "/maintenance", icon: Wrench },
 ];
 
 const toolsNav = [

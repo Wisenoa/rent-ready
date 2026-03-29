@@ -32,7 +32,26 @@ export function QuittanceButton({ transactionId }: { transactionId: string }) {
         const { QuittancePDF } = await import("@/lib/quittance-generator");
 
         const blob = await pdf(<QuittancePDF data={quittanceData} />).toBlob();
-        const url = URL.createObjectURL(blob);
+
+        // Factur-X: embed structured XML into the PDF
+        const { generateFacturXml } = await import("@/lib/facturx");
+        const { embedFacturX } = await import("@/lib/facturx-pdf");
+
+        const facturXml = generateFacturXml(quittanceData);
+        const basePdfBytes = new Uint8Array(await blob.arrayBuffer());
+
+        const documentTitle = quittanceData.isFullPayment
+          ? "Quittance de Loyer"
+          : "Reçu de Paiement Partiel";
+
+        const enhancedPdf = await embedFacturX(basePdfBytes, facturXml, {
+          title: documentTitle,
+          author: `${quittanceData.landlord.firstName} ${quittanceData.landlord.lastName}`,
+          subject: `${documentTitle} - ${quittanceData.receiptNumber}`,
+        });
+
+        const facturXBlob = new Blob([enhancedPdf.buffer as ArrayBuffer], { type: "application/pdf" });
+        const url = URL.createObjectURL(facturXBlob);
 
         const link = document.createElement("a");
         link.href = url;

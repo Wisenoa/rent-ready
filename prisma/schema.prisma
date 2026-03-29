@@ -35,6 +35,7 @@ model User {
   transactions  Transaction[]
   documents     Document[]
   bankConnections BankConnection[]
+  expenses      Expense[]
 
   @@index([clerkId])
 }
@@ -69,6 +70,8 @@ model Property {
 
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   leases        Lease[]
+  maintenanceTickets MaintenanceTicket[]
+  expenses      Expense[]
 
   @@index([userId])
 }
@@ -105,8 +108,25 @@ model Tenant {
 
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   leases        Lease[]
+  accessTokens  TenantAccessToken[]
+  maintenanceTickets MaintenanceTicket[]
 
   @@index([userId])
+}
+
+// ─── Tenant Portal Access Tokens (Magic Links) ───
+model TenantAccessToken {
+  id        String    @id @default(cuid())
+  tenantId  String
+  token     String    @unique
+  expiresAt DateTime?
+  lastUsedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([tenantId])
 }
 
 // ─── Leases (Baux) ───
@@ -320,4 +340,89 @@ model IrlIndex {
   createdAt DateTime @default(now())
 
   @@index([year, trimester])
+}
+
+// ─── Maintenance Tickets (Demandes de réparation) ───
+model MaintenanceTicket {
+  id          String              @id @default(cuid())
+  tenantId    String
+  propertyId  String
+  title       String
+  description String
+  status      MaintenanceStatus   @default(OPEN)
+  priority    MaintenancePriority @default(MEDIUM)
+  resolvedAt  DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  tenant      Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  property    Property            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  attachments MaintenanceAttachment[]
+
+  @@index([tenantId])
+  @@index([propertyId])
+  @@index([status])
+}
+
+enum MaintenanceStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum MaintenancePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model MaintenanceAttachment {
+  id        String   @id @default(cuid())
+  ticketId  String
+  fileName  String
+  fileType  String   // MIME type
+  fileUrl   String
+  fileSize  Int      // bytes
+  createdAt DateTime @default(now())
+
+  ticket    MaintenanceTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+}
+
+// ─── Expenses (Dépenses / Charges propriétaire) ───
+model Expense {
+  id          String          @id @default(cuid())
+  userId      String
+  propertyId  String?
+  vendorName  String
+  description String?
+  amount      Float
+  category    ExpenseCategory
+  date        DateTime
+  invoiceUrl  String?         // Uploaded invoice file
+  aiExtracted Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property    Property?       @relation(fields: [propertyId], references: [id])
+
+  @@index([userId])
+  @@index([propertyId])
+  @@index([category])
+}
+
+enum ExpenseCategory {
+  PLUMBING          // Plomberie
+  ELECTRICAL        // Électricité
+  GENERAL_MAINTENANCE // Entretien général
+  INSURANCE         // Assurance
+  TAX               // Taxes / Impôts
+  CONDO_FEES        // Charges de copropriété
+  MANAGEMENT_FEES   // Frais de gestion
+  RENOVATION        // Rénovation / Travaux
+  OTHER             // Autre
 }
