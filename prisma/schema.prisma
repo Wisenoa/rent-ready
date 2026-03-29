@@ -8,27 +8,34 @@ datasource db {
 
 // ─── Users (Bailleurs / Propriétaires) ───
 model User {
-  id            String   @id @default(cuid())
-  clerkId       String   @unique // Clerk external user ID
-  email         String   @unique
-  firstName     String
-  lastName      String
+  id            String    @id
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  name          String
+  image         String?
+  firstName     String    @default("")
+  lastName      String    @default("")
   phone         String?
   // Full address required for quittances
-  addressLine1  String   @default("")
+  addressLine1  String    @default("")
   addressLine2  String?
-  city          String   @default("")
-  postalCode    String   @default("")
-  country       String   @default("France")
+  city          String    @default("")
+  postalCode    String    @default("")
+  country       String    @default("France")
   // Stripe
   stripeCustomerId     String?  @unique
   stripeSubscriptionId String?  @unique
   subscriptionStatus   SubscriptionStatus @default(TRIAL)
   trialEndsAt          DateTime?
   // Metadata
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
+  // Better Auth relations
+  sessions      Session[]
+  accounts      Account[]
+
+  // Business relations
   properties    Property[]
   tenants       Tenant[]
   leases        Lease[]
@@ -36,8 +43,52 @@ model User {
   documents     Document[]
   bankConnections BankConnection[]
   expenses      Expense[]
+}
 
-  @@index([clerkId])
+// ─── Better Auth: Sessions ───
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+}
+
+// ─── Better Auth: Accounts (credential / OAuth providers) ───
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+// ─── Better Auth: Email Verification Tokens ───
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
 }
 
 enum SubscriptionStatus {

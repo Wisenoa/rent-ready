@@ -16,13 +16,13 @@ export default function MarketingLayout({
 
           <div className="flex items-center gap-3">
             <Link
-              href="/sign-in"
+              href="/login"
               className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-900"
             >
               Connexion
             </Link>
             <Link
-              href="/sign-up"
+              href="/register"
               className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
             >
               Essai gratuit

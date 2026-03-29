@@ -82,7 +82,7 @@ export default function GestionLocativeIndex() {
           en un seul logiciel.
         </p>
         <Link
-          href="/sign-up"
+          href="/register"
           className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
         >
           Essai gratuit 14&nbsp;jours
