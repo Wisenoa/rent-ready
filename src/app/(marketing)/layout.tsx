@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SmartHeaderCta } from "@/components/smart-header-cta";
 
 export default function MarketingLayout({
   children,
@@ -15,18 +16,7 @@ export default function MarketingLayout({
           </Link>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/login"
-              className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-900"
-            >
-              Connexion
-            </Link>
-            <Link
-              href="/register"
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
-            >
-              Essai gratuit
-            </Link>
+            <SmartHeaderCta />
           </div>
         </nav>
       </header>
