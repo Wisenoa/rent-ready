@@ -20,7 +20,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { format } from "date-fns";
@@ -264,21 +263,21 @@ export default async function DashboardPage() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/properties"
-              className={buttonVariants({ variant: "outline" })}
+              className="inline-flex items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
             >
               <Home className="size-4 mr-2" />
               Ajouter un bien
             </Link>
             <Link
               href="/tenants"
-              className={buttonVariants({ variant: "outline" })}
+              className="inline-flex items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
             >
               <Plus className="size-4 mr-2" />
               Ajouter un locataire
             </Link>
             <Link
               href="/billing"
-              className={buttonVariants({ variant: "outline" })}
+              className="inline-flex items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
             >
               <CreditCard className="size-4 mr-2" />
               Enregistrer un paiement

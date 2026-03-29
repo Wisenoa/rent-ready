@@ -125,9 +125,24 @@ export async function verifyPortalToken(token: string) {
   };
 }
 
+// ─── Portal Token Verification Helper ───
+
+async function verifyPortalAccess(tenantId: string): Promise<boolean> {
+  const token = await prisma.tenantAccessToken.findFirst({
+    where: {
+      tenantId,
+      OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+    },
+  });
+  return !!token;
+}
+
 // ─── Quittances ───
 
 export async function getPortalQuittances(tenantId: string) {
+  const hasAccess = await verifyPortalAccess(tenantId);
+  if (!hasAccess) return [];
+
   const transactions = await prisma.transaction.findMany({
     where: {
       lease: { tenantId },
@@ -196,6 +211,12 @@ export async function createMaintenanceTicket(
 
     if (!tenantId || !title || !description) {
       return { success: false, error: "Veuillez remplir tous les champs obligatoires." };
+    }
+
+    // Verify the tenant has a valid portal access token
+    const hasAccess = await verifyPortalAccess(tenantId);
+    if (!hasAccess) {
+      return { success: false, error: "Accès non autorisé." };
     }
 
     // Get tenant's active lease to find propertyId
@@ -268,6 +289,9 @@ export async function createMaintenanceTicket(
 }
 
 export async function getMaintenanceTickets(tenantId: string) {
+  const hasAccess = await verifyPortalAccess(tenantId);
+  if (!hasAccess) return [];
+
   const tickets = await prisma.maintenanceTicket.findMany({
     where: { tenantId },
     include: {

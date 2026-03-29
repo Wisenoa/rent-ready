@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { prisma } from "@/lib/prisma";
 import { generateReceiptNumber } from "@/lib/quittance-generator";
 
@@ -32,19 +33,57 @@ interface BankWebhookPayload {
   data?: Record<string, unknown>;
 }
 
-export async function POST(request: NextRequest) {
-  const webhookSecret = request.headers.get("x-webhook-secret");
+function verifyHmacSignature(body: string, signature: string, secret: string): boolean {
+  try {
+    const expected = createHmac("sha256", secret).update(body).digest("hex");
+    const sigBuffer = Buffer.from(signature, "hex");
+    const expectedBuffer = Buffer.from(expected, "hex");
+    if (sigBuffer.length !== expectedBuffer.length) return false;
+    return timingSafeEqual(sigBuffer, expectedBuffer);
+  } catch {
+    return false;
+  }
+}
 
-  if (webhookSecret !== process.env.BANK_WEBHOOK_SECRET) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+export async function POST(request: NextRequest) {
+  const secret = process.env.BANK_WEBHOOK_SECRET;
+  if (!secret) {
+    console.error("[Bank Webhook] BANK_WEBHOOK_SECRET not configured");
+    return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
+  }
+
+  const rawBody = await request.text();
+
+  // Verify HMAC signature (Bridge sends X-Bridge-Signature)
+  const signature =
+    request.headers.get("x-bridge-signature") ??
+    request.headers.get("x-webhook-signature") ??
+    request.headers.get("x-webhook-secret");
+
+  if (!signature || !verifyHmacSignature(rawBody, signature, secret)) {
+    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
   let payload: BankWebhookPayload;
 
   try {
-    payload = await request.json();
+    payload = JSON.parse(rawBody);
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  // Replay protection: reject events already processed
+  if (payload.timestamp) {
+    const existing = await prisma.bankWebhookEvent.findFirst({
+      where: {
+        eventType: payload.event_type,
+        processedAt: { not: null },
+        payload: { path: ["$.timestamp"], equals: payload.timestamp },
+      },
+    });
+    if (existing) {
+      return NextResponse.json({ received: true, deduplicated: true });
+    }
   }
 
   // Find the connection
@@ -87,19 +126,14 @@ export async function POST(request: NextRequest) {
         if (!bankConn) break;
 
         // Search for a PENDING transaction matching this amount
-        // Match by total due (rent + charges) within a small tolerance (€0.01)
+        // Match by total due (rent + charges) within ±€0.01 tolerance
         const matchingTransaction = await prisma.transaction.findFirst({
           where: {
             userId: bankConn.userId,
             status: { in: ["PENDING", "LATE"] },
             lease: {
-              // Match: rent + charges ≈ incoming amount
               AND: [
-                {
-                  rentAmount: {
-                    gte: 0,
-                  },
-                },
+                { rentAmount: { gte: 0 } },
               ],
             },
           },
@@ -109,11 +143,23 @@ export async function POST(request: NextRequest) {
             },
             user: true,
           },
-          orderBy: { dueDate: "asc" }, // Oldest pending first
+          orderBy: { dueDate: "asc" },
         });
 
+        // Secondary check: verify the amount actually matches the lease total
         if (!matchingTransaction) {
           console.log(`[Bank] No matching pending transaction for amount ${incomingAmount}€`);
+          break;
+        }
+
+        const expectedTotal =
+          matchingTransaction.lease.rentAmount + matchingTransaction.lease.chargesAmount;
+
+        // Only auto-match if amount is within ±1 cent of expected OR is a recognizable partial
+        if (Math.abs(incomingAmount - expectedTotal) > 0.01 && incomingAmount > expectedTotal) {
+          console.log(
+            `[Bank] Amount ${incomingAmount}€ doesn't match expected ${expectedTotal}€ for lease ${matchingTransaction.lease.id} — skipping`
+          );
           break;
         }
 

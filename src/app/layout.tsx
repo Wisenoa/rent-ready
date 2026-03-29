@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { CookieConsent } from "@/components/cookie-consent";
 import "./globals.css";
 
 const inter = Inter({
@@ -29,6 +30,13 @@ export const metadata: Metadata = {
     "SaaS immobilier",
     "France",
   ],
+  twitter: {
+    card: "summary_large_image",
+    title: "RentReady — Gestion Locative Intelligente",
+    description:
+      "Quittances automatiques, suivi bancaire DSP2, et IA pour les propriétaires bailleurs. 15 €/mois.",
+    site: "@rentready_fr",
+  },
 };
 
 export default function RootLayout({
@@ -44,6 +52,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {children}
+        <CookieConsent />
         <Toaster richColors position="bottom-right" />
       </body>
     </html>
