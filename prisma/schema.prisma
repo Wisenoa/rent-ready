@@ -1,0 +1,321 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Users (Bailleurs / Propriétaires) ───
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  phone         String?
+  // Full address required for quittances
+  addressLine1  String
+  addressLine2  String?
+  city          String
+  postalCode    String
+  country       String   @default("France")
+  // Stripe
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?  @unique
+  subscriptionStatus   SubscriptionStatus @default(TRIAL)
+  trialEndsAt          DateTime?
+  // Metadata
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  properties    Property[]
+  tenants       Tenant[]
+  leases        Lease[]
+  transactions  Transaction[]
+  documents     Document[]
+  bankConnections BankConnection[]
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  EXPIRED
+}
+
+// ─── Properties (Biens Immobiliers) ───
+model Property {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String   // "Appartement Rue de Rivoli"
+  type          PropertyType
+  addressLine1  String
+  addressLine2  String?
+  city          String
+  postalCode    String
+  country       String   @default("France")
+  surface       Float?   // m²
+  rooms         Int?
+  description   String?
+  // Tax reference
+  cadastralRef  String?  // Référence cadastrale
+  taxRef        String?  // Numéro fiscal du bien
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  leases        Lease[]
+
+  @@index([userId])
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  STUDIO
+  COMMERCIAL
+  PARKING
+  OTHER
+}
+
+// ─── Tenants (Locataires) ───
+model Tenant {
+  id            String   @id @default(cuid())
+  userId        String   // Owner who manages this tenant
+  firstName     String
+  lastName      String
+  email         String?
+  phone         String?
+  addressLine1  String   // Current address (or same as property)
+  addressLine2  String?
+  city          String
+  postalCode    String
+  country       String   @default("France")
+  dateOfBirth   DateTime?
+  placeOfBirth  String?
+  // Emergency contact
+  emergencyName  String?
+  emergencyPhone String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  leases        Lease[]
+
+  @@index([userId])
+}
+
+// ─── Leases (Baux) ───
+model Lease {
+  id              String    @id @default(cuid())
+  userId          String
+  propertyId      String
+  tenantId        String
+  // Financial
+  rentAmount      Float     // Loyer hors charges (€)
+  chargesAmount   Float     // Provision pour charges (€)
+  depositAmount   Float     // Dépôt de garantie (€)
+  // Dates
+  startDate       DateTime
+  endDate         DateTime?
+  // IRL revision
+  irlReferenceValue Float?  // IRL at signature
+  irlReferenceQuarter String? // e.g. "T4-2025"
+  revisionDate    DateTime? // Date anniversaire de révision
+  // Payment
+  paymentDay      Int       @default(1) // Day of month rent is due
+  paymentMethod   PaymentMethod @default(TRANSFER)
+  // Lease type
+  leaseType       LeaseType @default(UNFURNISHED)
+  status          LeaseStatus @default(ACTIVE)
+  // Document reference
+  documentUrl     String?   // Uploaded lease PDF
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property        Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  tenant          Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  transactions    Transaction[]
+
+  @@index([userId])
+  @@index([propertyId])
+  @@index([tenantId])
+}
+
+enum PaymentMethod {
+  TRANSFER
+  CHECK
+  CASH
+  DIRECT_DEBIT
+  OTHER
+}
+
+enum LeaseType {
+  UNFURNISHED   // Location vide
+  FURNISHED     // Location meublée
+  COMMERCIAL    // Bail commercial
+  SEASONAL      // Location saisonnière
+}
+
+enum LeaseStatus {
+  DRAFT
+  ACTIVE
+  TERMINATED
+  EXPIRED
+}
+
+// ─── Transactions (Paiements de Loyers) ───
+model Transaction {
+  id              String    @id @default(cuid())
+  userId          String
+  leaseId         String
+  // Financial
+  amount          Float     // Total amount received
+  rentPortion     Float     // Part loyer
+  chargesPortion  Float     // Part charges
+  // Period
+  periodStart     DateTime  // Start of rental period
+  periodEnd       DateTime  // End of rental period
+  // Payment info
+  paidAt          DateTime?
+  dueDate         DateTime
+  paymentMethod   PaymentMethod?
+  // Status
+  status          TransactionStatus @default(PENDING)
+  isFullPayment   Boolean   @default(false)
+  // Generated document
+  receiptType     ReceiptType?      // QUITTANCE or RECU
+  receiptUrl      String?           // Generated PDF URL
+  receiptNumber   String?           // Sequential number
+  // Banking reconciliation (Open Banking prep)
+  bankTransactionId String?  @unique // External bank transaction ID
+  bankMatchedAt   DateTime?
+  bankRawData     Json?     // Raw transaction data from bank API
+  // Metadata
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lease           Lease     @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([leaseId])
+  @@index([status])
+  @@index([dueDate])
+  @@index([bankTransactionId])
+}
+
+enum TransactionStatus {
+  PENDING
+  PARTIAL
+  PAID
+  LATE
+  CANCELLED
+}
+
+enum ReceiptType {
+  QUITTANCE   // Full payment receipt (legally binding)
+  RECU        // Partial payment receipt
+}
+
+// ─── Documents (AI-extracted & generated) ───
+model Document {
+  id            String       @id @default(cuid())
+  userId        String
+  type          DocumentType
+  fileName      String
+  fileUrl       String
+  mimeType      String
+  fileSize      Int          // bytes
+  // AI extraction
+  extractedData Json?        // Structured data extracted by LLM
+  extractionStatus ExtractionStatus @default(PENDING)
+  extractionError  String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([type])
+}
+
+enum DocumentType {
+  LEASE_SCAN        // Uploaded lease for OCR
+  QUITTANCE_PDF     // Generated rent receipt
+  RECU_PDF          // Generated partial receipt
+  OTHER
+}
+
+enum ExtractionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// ─── Bank Connections (Open Banking / DSP2 prep) ───
+model BankConnection {
+  id              String   @id @default(cuid())
+  userId          String
+  provider        String   // "bridge" | "powens"
+  providerUserId  String?  // User ID on provider side
+  providerItemId  String?  // Item/connection ID on provider
+  bankName        String?
+  status          BankConnectionStatus @default(PENDING)
+  lastSyncAt      DateTime?
+  consentExpiresAt DateTime?
+  accessToken     String?  // Encrypted
+  refreshToken    String?  // Encrypted
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  webhookEvents   BankWebhookEvent[]
+
+  @@index([userId])
+  @@unique([provider, providerItemId])
+}
+
+enum BankConnectionStatus {
+  PENDING
+  ACTIVE
+  EXPIRED
+  ERROR
+  REVOKED
+}
+
+// ─── Bank Webhook Events (DSP2 event log) ───
+model BankWebhookEvent {
+  id              String   @id @default(cuid())
+  connectionId    String?
+  provider        String
+  eventType       String   // "transaction.created", "item.refreshed", etc.
+  payload         Json     // Raw webhook payload
+  processedAt     DateTime?
+  error           String?
+  createdAt       DateTime @default(now())
+
+  connection      BankConnection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
+
+  @@index([connectionId])
+  @@index([eventType])
+  @@index([createdAt])
+}
+
+// ─── IRL Reference Data (INSEE indices) ───
+model IrlIndex {
+  id        String   @id @default(cuid())
+  quarter   String   @unique // e.g. "T4-2025"
+  year      Int
+  trimester Int      // 1-4
+  value     Float    // e.g. 145.78
+  publishedAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([year, trimester])
+}
