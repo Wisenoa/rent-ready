@@ -162,3 +162,34 @@
     @apply font-sans;
   }
 }
+
+/* ─── Liquid Glass Design System (2026 Trends) ─── */
+@layer components {
+  .glass-surface {
+    @apply backdrop-blur-xl bg-white/70 dark:bg-black/40 border border-white/30 dark:border-white/10 shadow-lg;
+  }
+  
+  .glass-surface-heavy {
+    @apply backdrop-blur-2xl bg-white/80 dark:bg-black/50 border border-white/25 dark:border-white/10 shadow-2xl;
+  }
+  
+  .glass-surface-subtle {
+    @apply backdrop-blur-md bg-white/50 dark:bg-black/30 border border-white/20 dark:border-white/5;
+  }
+}
+
+/* ─── Ambient AI suggestion styling ─── */
+@layer components {
+  .ai-suggestion {
+    @apply text-muted-foreground/40 pointer-events-none select-none;
+  }
+  
+  .ai-suggestion-pulse {
+    animation: ai-pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes ai-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+}

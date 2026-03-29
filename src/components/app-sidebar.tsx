@@ -12,6 +12,7 @@ import {
   Brain,
   Receipt,
   Wrench,
+  Calculator,
 } from "lucide-react";
 import {
   Sidebar,
@@ -36,6 +37,7 @@ const mainNav = [
 ];
 
 const toolsNav = [
+  { title: "Analyse Fiscale", href: "/fiscal", icon: Calculator },
   { title: "Documents", href: "/documents", icon: FileText },
   { title: "Assistant IA", href: "/ai-assistant", icon: Brain },
 ];
