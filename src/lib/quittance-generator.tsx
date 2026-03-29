@@ -5,7 +5,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Font,
 } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -13,7 +12,6 @@ import { fr } from "date-fns/locale";
 // ─── Types ───
 
 export interface QuittanceData {
-  // Bailleur (landlord)
   landlord: {
     firstName: string;
     lastName: string;
@@ -22,7 +20,6 @@ export interface QuittanceData {
     city: string;
     postalCode: string;
   };
-  // Locataire (tenant)
   tenant: {
     firstName: string;
     lastName: string;
@@ -31,19 +28,15 @@ export interface QuittanceData {
     city: string;
     postalCode: string;
   };
-  // Property
   propertyAddress: string;
-  // Financial
-  rentAmount: number; // Loyer hors charges
-  chargesAmount: number; // Charges
-  totalAmount: number; // Total paid
-  // Period
+  rentAmount: number;
+  chargesAmount: number;
+  totalAmount: number;
   periodStart: Date;
   periodEnd: Date;
   paidAt: Date;
-  // Metadata
   receiptNumber: string;
-  isFullPayment: boolean; // true = Quittance, false = Reçu
+  isFullPayment: boolean;
 }
 
 // ─── Styles ───
@@ -155,6 +148,25 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     color: "#ffffff",
   },
+  remainingRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    backgroundColor: "#dc3545",
+    borderRadius: 4,
+    marginTop: 4,
+  },
+  remainingLabel: {
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+    color: "#ffffff",
+  },
+  remainingValue: {
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+    color: "#ffffff",
+  },
   legalNotice: {
     marginTop: 30,
     padding: 12,
@@ -227,6 +239,7 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
     : "Reçu de Paiement Partiel";
 
   const expectedTotal = data.rentAmount + data.chargesAmount;
+  const remainingBalance = expectedTotal - data.totalAmount;
 
   return (
     <Document
@@ -251,16 +264,19 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
         {!data.isFullPayment && (
           <View style={styles.warningBanner}>
             <Text style={styles.warningText}>
-              ATTENTION : Ce document est un reçu de paiement partiel et non une
-              quittance de loyer. Le montant reçu ({formatCurrency(data.totalAmount)})
-              est inférieur au montant dû ({formatCurrency(expectedTotal)}).
-              Conformément à l&apos;article 21 de la loi n°89-462, une quittance ne peut
-              être délivrée que pour un paiement intégral du loyer et des charges.
+              ATTENTION : Ce document est un reçu de paiement partiel et non
+              une quittance de loyer. Le montant reçu (
+              {formatCurrency(data.totalAmount)}) est inférieur au montant dû (
+              {formatCurrency(expectedTotal)}). Solde restant dû :{" "}
+              {formatCurrency(remainingBalance)}.{"\n"}
+              Conformément à l'article 21 de la loi n°89-462, une quittance ne
+              peut être délivrée que pour un paiement intégral du loyer et des
+              charges.
             </Text>
           </View>
         )}
 
-        {/* Parties */}
+        {/* Parties — full addresses required by law */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Parties</Text>
           <View style={styles.row}>
@@ -291,24 +307,29 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
           <Text style={{ fontSize: 10 }}>{data.propertyAddress}</Text>
         </View>
 
-        {/* Amounts — must legally separate rent and charges */}
+        {/* Amounts — MUST legally separate loyer de base and charges */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Détail du paiement</Text>
           <View style={styles.amountTable}>
+            {/* Ligne 1: Loyer de base (hors charges) */}
             <View style={styles.amountRow}>
-              <Text style={styles.amountLabel}>Loyer (hors charges)</Text>
+              <Text style={styles.amountLabel}>
+                Loyer de base (hors charges)
+              </Text>
               <Text style={styles.amountValue}>
                 {formatCurrency(data.rentAmount)}
               </Text>
             </View>
+            {/* Ligne 2: Provisions pour charges */}
             <View style={styles.amountRow}>
               <Text style={styles.amountLabel}>
-                Provision pour charges
+                Provisions pour charges
               </Text>
               <Text style={styles.amountValue}>
                 {formatCurrency(data.chargesAmount)}
               </Text>
             </View>
+            {/* Total dû */}
             <View style={styles.amountRow}>
               <Text style={styles.amountLabel}>
                 Total dû pour la période
@@ -317,6 +338,7 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
                 {formatCurrency(expectedTotal)}
               </Text>
             </View>
+            {/* Total paid */}
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>
                 {data.isFullPayment ? "Total acquitté" : "Montant reçu"}
@@ -325,6 +347,17 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
                 {formatCurrency(data.totalAmount)}
               </Text>
             </View>
+            {/* Remaining balance for partial payment */}
+            {!data.isFullPayment && remainingBalance > 0 && (
+              <View style={styles.remainingRow}>
+                <Text style={styles.remainingLabel}>
+                  Solde restant dû
+                </Text>
+                <Text style={styles.remainingValue}>
+                  {formatCurrency(remainingBalance)}
+                </Text>
+              </View>
+            )}
           </View>
         </View>
 
@@ -340,23 +373,24 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
           {data.isFullPayment ? (
             <Text style={styles.legalText}>
               La présente quittance est délivrée sous réserve de tous droits du
-              bailleur, conformément aux dispositions de l&apos;article 21 de la loi
+              bailleur, conformément aux dispositions de l'article 21 de la loi
               n°89-462 du 6 juillet 1989 modifiée. Cette quittance annule et
               remplace tout reçu qui aurait pu être établi pour la même période.
               {"\n\n"}
               Le bailleur est tenu de transmettre gratuitement la quittance au
-              locataire qui en fait la demande (loi ALUR du 24 mars 2014).
-              La quittance porte sur le loyer et les charges du bail.
-              Si le locataire a effectué un paiement partiel, le bailleur remet un
+              locataire qui en fait la demande (loi ALUR du 24 mars 2014). La
+              quittance porte sur le loyer et les charges du bail. Si le
+              locataire a effectué un paiement partiel, le bailleur remet un
               reçu pour le montant versé.
             </Text>
           ) : (
             <Text style={styles.legalText}>
               Le présent reçu atteste du paiement partiel indiqué ci-dessus.
-              Conformément à l&apos;article 21 de la loi n°89-462 du 6 juillet 1989,
+              Conformément à l'article 21 de la loi n°89-462 du 6 juillet 1989,
               une quittance ne peut être délivrée que pour un paiement intégral
               du loyer et des charges. Ce reçu ne constitue pas une quittance et
-              ne libère pas le locataire du solde restant dû.
+              ne libère pas le locataire du solde restant dû de{" "}
+              {formatCurrency(remainingBalance)}.
             </Text>
           )}
         </View>
@@ -379,9 +413,9 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
  * Determines whether a payment qualifies for a Quittance (full receipt)
  * or only a Reçu (partial receipt) per French law.
  *
- * Rules:
- * - Quittance: payment >= rent + charges (full payment)
- * - Reçu: payment < rent + charges (partial payment)
+ * Règle métier stricte (loi du 6 juillet 1989, art. 21):
+ * - Paiement >= loyer + charges → "Quittance de loyer"
+ * - Paiement < loyer + charges → "Reçu de paiement partiel"
  */
 export function determineReceiptType(
   amountPaid: number,

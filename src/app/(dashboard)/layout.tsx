@@ -1,6 +1,7 @@
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
+import { UserButton } from "@clerk/nextjs";
 
 export default function DashboardLayout({
   children,
@@ -15,10 +16,13 @@ export default function DashboardLayout({
           <SidebarTrigger className="-ml-2" />
           <Separator orientation="vertical" className="mr-2 !h-5" />
           <div className="flex-1" />
-          {/* User menu placeholder */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">Mon compte</span>
-          </div>
+          <UserButton
+            appearance={{
+              elements: {
+                avatarBox: "h-8 w-8",
+              },
+            }}
+          />
         </header>
         <main className="flex-1 p-6">
           {children}

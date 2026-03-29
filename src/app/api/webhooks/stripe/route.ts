@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import Stripe from "stripe";
 
@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event;
 
   try {
+    const stripe = getStripe();
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -24,10 +25,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     console.error("Stripe webhook signature verification failed:", err);
-    return NextResponse.json(
-      { error: "Invalid signature" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   try {
@@ -44,6 +42,7 @@ export async function POST(request: NextRequest) {
               subscriptionStatus: "ACTIVE",
             },
           });
+          console.log(`[Stripe] User ${userId} subscribed (isPro: true)`);
         }
         break;
       }
@@ -52,21 +51,22 @@ export async function POST(request: NextRequest) {
         const subscription = event.data.object as Stripe.Subscription;
         const userId = subscription.metadata?.userId;
         if (userId) {
-          const statusMap: Record<string, string> = {
+          const statusMap: Record<string, "ACTIVE" | "PAST_DUE" | "CANCELLED" | "TRIAL" | "EXPIRED"> = {
             active: "ACTIVE",
             past_due: "PAST_DUE",
             canceled: "CANCELLED",
             unpaid: "PAST_DUE",
             trialing: "TRIAL",
+            incomplete: "PAST_DUE",
+            incomplete_expired: "EXPIRED",
+            paused: "EXPIRED",
           };
+          const newStatus = statusMap[subscription.status] ?? "ACTIVE";
           await prisma.user.update({
             where: { id: userId },
-            data: {
-              subscriptionStatus:
-                (statusMap[subscription.status] as "ACTIVE" | "PAST_DUE" | "CANCELLED" | "TRIAL") ||
-                "ACTIVE",
-            },
+            data: { subscriptionStatus: newStatus },
           });
+          console.log(`[Stripe] User ${userId} subscription → ${newStatus}`);
         }
         break;
       }
@@ -77,22 +77,44 @@ export async function POST(request: NextRequest) {
         if (userId) {
           await prisma.user.update({
             where: { id: userId },
-            data: { subscriptionStatus: "CANCELLED" },
+            data: {
+              subscriptionStatus: "CANCELLED",
+              stripeSubscriptionId: null,
+            },
           });
+          console.log(`[Stripe] User ${userId} subscription cancelled`);
+        }
+        break;
+      }
+
+      case "invoice.payment_failed": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionDetails = invoice.parent?.subscription_details;
+        const subscriptionId =
+          typeof subscriptionDetails?.subscription === "string"
+            ? subscriptionDetails.subscription
+            : subscriptionDetails?.subscription?.id;
+        if (subscriptionId) {
+          const user = await prisma.user.findFirst({
+            where: { stripeSubscriptionId: subscriptionId },
+          });
+          if (user) {
+            await prisma.user.update({
+              where: { id: user.id },
+              data: { subscriptionStatus: "PAST_DUE" },
+            });
+            console.log(`[Stripe] User ${user.id} payment failed → PAST_DUE`);
+          }
         }
         break;
       }
 
       default:
-        // Unhandled event type
         break;
     }
   } catch (err) {
     console.error(`Error processing Stripe event ${event.type}:`, err);
-    return NextResponse.json(
-      { error: "Webhook handler failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Webhook handler failed" }, { status: 500 });
   }
 
   return NextResponse.json({ received: true });

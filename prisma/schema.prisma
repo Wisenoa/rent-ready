@@ -9,16 +9,16 @@ datasource db {
 // ─── Users (Bailleurs / Propriétaires) ───
 model User {
   id            String   @id @default(cuid())
+  clerkId       String   @unique // Clerk external user ID
   email         String   @unique
-  passwordHash  String
   firstName     String
   lastName      String
   phone         String?
   // Full address required for quittances
-  addressLine1  String
+  addressLine1  String   @default("")
   addressLine2  String?
-  city          String
-  postalCode    String
+  city          String   @default("")
+  postalCode    String   @default("")
   country       String   @default("France")
   // Stripe
   stripeCustomerId     String?  @unique
@@ -35,6 +35,8 @@ model User {
   transactions  Transaction[]
   documents     Document[]
   bankConnections BankConnection[]
+
+  @@index([clerkId])
 }
 
 enum SubscriptionStatus {
