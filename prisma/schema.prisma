@@ -380,6 +380,17 @@ model BankWebhookEvent {
   @@index([createdAt])
 }
 
+// Stripe webhook events for idempotency — prevents duplicate processing on retries
+model StripeWebhookEvent {
+  id           String   @id @default(cuid())
+  stripeEventId String  @unique  // Stripe's event ID — used for idempotency check
+  eventType    String
+  processedAt  DateTime @default(now())
+
+  @@index([eventType])
+  @@index([processedAt])
+}
+
 // ─── IRL Reference Data (INSEE indices) ───
 model IrlIndex {
   id        String   @id @default(cuid())

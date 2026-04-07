@@ -6,8 +6,62 @@ export const metadata: Metadata = {
     "Conditions générales d'utilisation de RentReady, plateforme de gestion locative en ligne.",
 };
 
+function CguJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        name: "RentReady — Conditions Générales d'Utilisation",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: "https://www.rentready.fr/cgu",
+        description:
+          "Conditions générales d'utilisation de RentReady, plateforme SaaS de gestion locative pour propriétaires bailleurs en France.",
+      },
+      {
+        "@type": "Organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "contact@rentready.fr",
+          availableLanguage: "French",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Conditions Générales d'Utilisation",
+            item: "https://www.rentready.fr/cgu",
+          },
+        ],
+      },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export default function CguPage() {
   return (
+    <>
+      <CguJsonLd />
     <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
       <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
         Conditions Générales d&apos;Utilisation
@@ -162,5 +216,6 @@ export default function CguPage() {
         </section>
       </div>
     </article>
+    </>
   );
 }

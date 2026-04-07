@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus, Mail, Phone, Pencil, Users } from "lucide-react";
+import { Plus, Mail, Phone, Pencil, Users, FileText } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ import {
   DeleteTenantButton,
   type SerializedTenant,
 } from "@/components/tenant-form";
+import { LeaseForm } from "@/components/lease-form";
 
 export const metadata: Metadata = {
   title: "Locataires",
@@ -58,26 +59,42 @@ export default async function TenantsPage() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 
-  const tenants = await prisma.tenant.findMany({
-    where: { userId },
-    include: {
-      leases: {
-        where: { status: "ACTIVE" },
-        include: {
-          property: { select: { name: true } },
-          transactions: {
-            where: {
-              periodStart: { lte: monthEnd },
-              periodEnd: { gte: monthStart },
+  const [tenantsResult, propertiesResult] = await Promise.all([
+    prisma.tenant.findMany({
+      where: { userId },
+      include: {
+        leases: {
+          where: { status: "ACTIVE" },
+          include: {
+            property: { select: { name: true } },
+            transactions: {
+              where: {
+                periodStart: { lte: monthEnd },
+                periodEnd: { gte: monthStart },
+              },
+              orderBy: { dueDate: "desc" },
+              take: 1,
             },
-            orderBy: { dueDate: "desc" },
-            take: 1,
           },
         },
       },
-    },
-    orderBy: [{ lastName: "asc" }, { firstName: "asc" }],
-  });
+      orderBy: [{ lastName: "asc" }, { firstName: "asc" }],
+    }),
+    prisma.property.findMany({
+      where: { userId },
+      select: { id: true, name: true, addressLine1: true, city: true },
+      orderBy: { name: "asc" },
+    }),
+  ]);
+
+  const tenants = tenantsResult;
+  const properties = propertiesResult;
+
+  const tenantsForLeaseForm = tenants.map((t) => ({
+    id: t.id,
+    firstName: t.firstName,
+    lastName: t.lastName,
+  }));
 
   return (
     <div className="space-y-8">
@@ -90,12 +107,20 @@ export default async function TenantsPage() {
             Gérez vos locataires et suivez leurs paiements
           </p>
         </div>
-        <TenantForm>
-          <Button>
-            <Plus className="size-4 mr-2" />
-            Ajouter un locataire
-          </Button>
-        </TenantForm>
+        <div className="flex items-center gap-2">
+          <LeaseForm properties={properties} tenants={tenantsForLeaseForm}>
+            <Button variant="outline">
+              <FileText className="size-4 mr-2" />
+              Créer un bail
+            </Button>
+          </LeaseForm>
+          <TenantForm>
+            <Button>
+              <Plus className="size-4 mr-2" />
+              Ajouter un locataire
+            </Button>
+          </TenantForm>
+        </div>
       </div>
 
       {tenants.length === 0 ? (

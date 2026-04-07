@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import cities from "@/data/cities.json";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Gestion locative en France — 50 villes",
   description:

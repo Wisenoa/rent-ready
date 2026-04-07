@@ -5,14 +5,27 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/gestion-locative"],
+        allow: [
+          "/",
+          "/gestion-locative",
+          "/locations",
+          "/bail",
+          "/quittances",
+          "/maintenance",
+          "/pricing",
+          "/blog",
+          "/glossaire-immobilier",
+          "/outils",
+          "/mentions-legales",
+          "/politique-confidentialite",
+          "/cgu",
+        ],
         disallow: [
           "/dashboard",
           "/properties",
           "/tenants",
           "/billing",
           "/expenses",
-          "/maintenance",
           "/fiscal",
           "/portal",
           "/api",
@@ -22,5 +35,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: "https://www.rentready.fr/sitemap.xml",
+    host: "https://www.rentready.fr",
   };
 }

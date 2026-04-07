@@ -13,6 +13,7 @@ import {
   Receipt,
   Wrench,
   Calculator,
+  FileSignature,
 } from "lucide-react";
 import {
   Sidebar,
@@ -31,6 +32,7 @@ const mainNav = [
   { title: "Tableau de bord", href: "/dashboard", icon: LayoutDashboard },
   { title: "Biens", href: "/properties", icon: Building2 },
   { title: "Locataires", href: "/tenants", icon: Users },
+  { title: "Baux", href: "/leases", icon: FileSignature },
   { title: "Paiements", href: "/billing", icon: CreditCard },
   { title: "Dépenses", href: "/expenses", icon: Receipt },
   { title: "Maintenance", href: "/maintenance", icon: Wrench },

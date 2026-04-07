@@ -9,8 +9,10 @@ const COOKIE_KEY = "rentready_cookie_consent";
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const consent = localStorage.getItem(COOKIE_KEY);
     if (!consent) {
       const timer = setTimeout(() => setVisible(true), 1500);
@@ -26,6 +28,11 @@ export function CookieConsent() {
   function reject() {
     localStorage.setItem(COOKIE_KEY, "rejected");
     setVisible(false);
+  }
+
+  // Don't render during SSR to avoid framer-motion context issues
+  if (!mounted) {
+    return null;
   }
 
   return (

@@ -245,7 +245,12 @@ export async function createMaintenanceTicket(
       for (const file of files) {
         if (!(file instanceof File) || file.size === 0) continue;
 
-        const ext = file.name.split(".").pop() ?? "bin";
+        // Allowlist only safe file extensions to prevent path traversal / executable uploads
+        const allowedExtensions = ["jpg", "jpeg", "png", "gif", "webp", "pdf", "doc", "docx", "xls", "xlsx"];
+        const ext = (file.name.split(".").pop() ?? "").toLowerCase();
+        if (!allowedExtensions.includes(ext)) {
+          return { success: false, error: `Type de fichier non autorisé: .${ext}` };
+        }
         const uniqueName = `${nanoid(16)}.${ext}`;
         const filePath = join(uploadDir, uniqueName);
         const buffer = Buffer.from(await file.arrayBuffer());

@@ -10,6 +10,7 @@ import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { FaqSection, FaqJsonLd } from "@/components/landing/faq-section";
 import { FinalCta } from "@/components/landing/final-cta";
+import { MarketingFooter } from "@/components/landing/marketing-footer";
 
 /* ─── Metadata (Title ≤60, Description ≤155) ─── */
 
@@ -155,39 +156,7 @@ export default function HomePage() {
       <PricingSection />
       <FaqSection />
       <FinalCta />
-
-      {/* ─── Footer ─── */}
-      <footer className="pb-12 pt-8">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-5 text-[13px] text-stone-400 sm:flex-row sm:justify-between sm:px-8">
-          <p>&copy; {new Date().getFullYear()} RentReady. Tous droits réservés.</p>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link
-              href="/gestion-locative"
-              className="transition-colors hover:text-stone-600"
-            >
-              Gestion locative
-            </Link>
-            <Link
-              href="/mentions-legales"
-              className="transition-colors hover:text-stone-600"
-            >
-              Mentions légales
-            </Link>
-            <Link
-              href="/politique-confidentialite"
-              className="transition-colors hover:text-stone-600"
-            >
-              Confidentialité
-            </Link>
-            <Link
-              href="/cgu"
-              className="transition-colors hover:text-stone-600"
-            >
-              CGU
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <MarketingFooter />
     </div>
   );
 }

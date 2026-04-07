@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import cities from "@/data/cities.json";
 
+export const dynamic = "force-dynamic";
+
 /* ---------- Types ---------- */
 
 type City = (typeof cities)[number];

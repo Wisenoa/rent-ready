@@ -1,0 +1,118 @@
+version: '3.9'
+
+services:
+  # ========================================
+  # PostgreSQL Database
+  # ========================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: rent-ready-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-rentready}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rentready_dev_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-rentready}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rentready}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rent-ready-network
+
+  # ========================================
+  # Redis for Session & Caching
+  # ========================================
+  redis:
+    image: redis:7-alpine
+    container_name: rent-ready-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rent-ready-network
+
+  # ========================================
+  # MinIO (S3-compatible storage for files)
+  # ========================================
+  minio:
+    image: minio/minio:latest
+    container_name: rent-ready-minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-minioadmin123}
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - rent-ready-network
+
+  # ========================================
+  # App - Development Mode
+  # ========================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: rent-ready-app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-rentready}:${POSTGRES_PASSWORD:-rentready_dev_2026}@postgres:5432/${POSTGRES_DB:-rentready}
+      REDIS_URL: redis://redis:6379
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      BRIDGE_API_KEY: ${BRIDGE_API_KEY}
+      BRIDGE_WEBHOOK_SECRET: ${BRIDGE_WEBHOOK_SECRET}
+      POWENS_API_KEY: ${POWENS_API_KEY}
+      POWENS_WEBHOOK_SECRET: ${POWENS_WEBHOOK_SECRET}
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: ${MINIO_USER:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_PASSWORD:-minioadmin123}
+      MINIO_BUCKET: ${MINIO_BUCKET:-rent-ready-docs}
+      MINIO_USE_SSL: "false"
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - rent-ready-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+
+networks:
+  rent-ready-network:
+    driver: bridge

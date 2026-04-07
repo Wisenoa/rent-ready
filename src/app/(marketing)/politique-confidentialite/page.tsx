@@ -6,8 +6,62 @@ export const metadata: Metadata = {
     "Politique de confidentialité et protection des données personnelles de RentReady, conformément au RGPD.",
 };
 
+function PolitiqueConfidentialiteJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        name: "RentReady — Politique de Confidentialité",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: "https://www.rentready.fr/politique-confidentialite",
+        description:
+          "Politique de confidentialité de RentReady. Protection des données personnelles conformément au RGPD, gestion locative SaaS.",
+      },
+      {
+        "@type": "Organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "contact@rentready.fr",
+          availableLanguage: "French",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Politique de Confidentialité",
+            item: "https://www.rentready.fr/politique-confidentialite",
+          },
+        ],
+      },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export default function PolitiqueConfidentialitePage() {
   return (
+    <>
+      <PolitiqueConfidentialiteJsonLd />
     <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
       <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
         Politique de Confidentialité
@@ -191,5 +245,6 @@ export default function PolitiqueConfidentialitePage() {
         </section>
       </div>
     </article>
+    </>
   );
 }

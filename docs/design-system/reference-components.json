@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RentReady Marketing Components Specification",
+  "version": "1.0.0",
+  "description": "Design tokens and component specifications for Phase 2 marketing site",
+  "tokens": {
+    "colors": {
+      "primary": {
+        "50": "oklch(0.96 0.02 264)",
+        "100": "oklch(0.92 0.04 264)",
+        "200": "oklch(0.85 0.08 264)",
+        "300": "oklch(0.72 0.14 264)",
+        "400": "oklch(0.62 0.18 264)",
+        "500": "oklch(0.55 0.20 264)",
+        "600": "oklch(0.488 0.217 264)",
+        "700": "oklch(0.45 0.20 264)",
+        "800": "oklch(0.40 0.18 264)",
+        "900": "oklch(0.35 0.15 264)"
+      },
+      "neutral": {
+        "50": "oklch(0.97 0.004 90)",
+        "100": "oklch(0.92 0.005 90)",
+        "200": "oklch(0.85 0.008 85)",
+        "300": "oklch(0.75 0.01 260)",
+        "400": "oklch(0.60 0.01 260)",
+        "500": "oklch(0.50 0.01 260)",
+        "600": "oklch(0.45 0.01 260)",
+        "700": "oklch(0.35 0.01 260)",
+        "800": "oklch(0.25 0.01 260)",
+        "900": "oklch(0.18 0.01 260)"
+      },
+      "accent": {
+        "teal": "oklch(0.60 0.12 190)",
+        "emerald": "oklch(0.62 0.17 145)",
+        "amber": "oklch(0.75 0.15 75)"
+      },
+      "semantic": {
+        "success": "oklch(0.62 0.17 145)",
+        "warning": "oklch(0.75 0.15 75)",
+        "error": "oklch(0.58 0.22 25)"
+      }
+    },
+    "typography": {
+      "fontFamily": {
+        "sans": "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+        "mono": "'JetBrains Mono', monospace"
+      },
+      "scale": {
+        "xs": "clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem)",
+        "sm": "clamp(0.875rem, 0.8rem + 0.3vw, 0.9375rem)",
+        "base": "clamp(1rem, 0.95rem + 0.25vw, 1.0625rem)",
+        "lg": "clamp(1.125rem, 1rem + 0.5vw, 1.25rem)",
+        "xl": "clamp(1.25rem, 1rem + 1vw, 1.5rem)",
+        "2xl": "clamp(1.5rem, 1rem + 2vw, 2rem)",
+        "3xl": "clamp(1.875rem, 1rem + 3vw, 2.5rem)",
+        "4xl": "clamp(2.25rem, 1rem + 4vw, 3.5rem)"
+      }
+    },
+    "spacing": {
+      "1": "0.25rem",
+      "2": "0.5rem",
+      "3": "0.75rem",
+      "4": "1rem",
+      "5": "1.25rem",
+      "6": "1.5rem",
+      "8": "2rem",
+      "10": "2.5rem",
+      "12": "3rem",
+      "16": "4rem",
+      "20": "5rem",
+      "24": "6rem"
+    },
+    "radius": {
+      "sm": "0.5rem",
+      "md": "0.75rem",
+      "lg": "1rem",
+      "xl": "1.5rem",
+      "2xl": "2rem",
+      "3xl": "2.5rem",
+      "full": "9999px"
+    },
+    "shadows": {
+      "sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      "md": "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
+      "lg": "0 10px 15px -3px rgba(0, 0, 0, 0.05)",
+      "xl": "0 20px 25px -5px rgba(0, 0, 0, 0.05)",
+      "glass": "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05)"
+    }
+  },
+  "components": {
+    "GlassCard": {
+      "description": "Glass morphism card component for feature highlights",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["default", "heavy", "subtle"],
+          "default": "default"
+        },
+        "className": { "type": "string" }
+      },
+      "styling": {
+        "background": "rgba(255, 255, 255, 0.6)",
+        "backdropFilter": "blur(12px)",
+        "border": "1px solid rgba(255, 255, 255, 0.3)",
+        "borderRadius": "2rem"
+      }
+    },
+    "FeatureCard": {
+      "description": "Feature highlight card with icon and content",
+      "props": {
+        "icon": { "type": "LucideIcon" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "accentGradient": { "type": "string" },
+        "iconBackground": { "type": "string" },
+        "large": { "type": "boolean", "default": false }
+      }
+    },
+    "CTAButton": {
+      "description": "Primary call-to-action button",
+      "props": {
+        "children": { "type": "ReactNode" },
+        "href": { "type": "string" },
+        "variant": {
+          "type": "enum",
+          "values": ["primary", "secondary", "ghost"],
+          "default": "primary"
+        },
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg"],
+          "default": "md"
+        }
+      }
+    },
+    "PricingCard": {
+      "description": "Pricing tier card component",
+      "props": {
+        "tier": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "price": { "type": "number" },
+            "period": { "type": "string" },
+            "features": { "type": "string[]" },
+            "highlighted": { "type": "boolean" },
+            "ctaText": { "type": "string" }
+          }
+        }
+      }
+    },
+    "SectionHeading": {
+      "description": "Reusable section header with subtitle",
+      "props": {
+        "overline": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "align": {
+          "type": "enum",
+          "values": ["left", "center", "right"],
+          "default": "center"
+        }
+      }
+    },
+    "BentoGrid": {
+      "description": "Responsive asymmetric bento layout",
+      "props": {
+        "items": { "type": "BentoItem[]" },
+        "columns": {
+          "type": "object",
+          "properties": {
+            "mobile": { "type": "number", "default": 1 },
+            "tablet": { "type": "number", "default": 2 },
+            "desktop": { "type": "number", "default": 3 }
+          }
+        }
+      }
+    }
+  },
+  "motion": {
+    "spring": {
+      "gentle": { "type": "spring", "stiffness": 200, "damping": 30 },
+      "snappy": { "type": "spring", "stiffness": 300, "damping": 25 },
+      "bouncy": { "type": "spring", "stiffness": 400, "damping": 20 }
+    },
+    "stagger": {
+      "fast": 0.05,
+      "normal": 0.08,
+      "slow": 0.12
+    }
+  }
+}

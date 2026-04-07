@@ -28,6 +28,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  // Idempotency: skip if we've already processed this event
+  // Use Stripe's event ID as the idempotency key stored in the DB
+  try {
+    const existing = await prisma.stripeWebhookEvent.findUnique({
+      where: { stripeEventId: event.id },
+    });
+    if (existing) {
+      // Already processed — Stripe webhooks can be retried; safe to return 200
+      return NextResponse.json({ received: true, status: "already_processed" });
+    }
+  } catch {
+    // If the table doesn't exist yet, proceed (migration may be pending)
+  }
+
   try {
     switch (event.type) {
       case "checkout.session.completed": {
@@ -111,6 +125,18 @@ export async function POST(request: NextRequest) {
 
       default:
         break;
+    }
+
+    // Record processed event for idempotency
+    try {
+      await prisma.stripeWebhookEvent.upsert({
+        where: { stripeEventId: event.id },
+        create: { stripeEventId: event.id, eventType: event.type },
+        update: {},
+      });
+    } catch {
+      // Non-fatal: if the table doesn't exist, log and continue
+      console.warn("[Stripe] Could not record webhook event — table may need migration");
     }
   } catch (err) {
     console.error(`Error processing Stripe event ${event.type}:`, err);

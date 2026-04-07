@@ -1,29 +1,59 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "@/lib/auth-client";
+import { useEffect, useState } from "react";
 
 /**
  * Session-aware CTA for the marketing header.
- * Rendered as a client component so SSG pages stay fully static —
- * the HTML is pre-rendered with the public fallback, then this
- * hydrates on the client and swaps to the correct link.
+ * Renders static CTA during SSR/SSG, then hydrates on client to show
+ * the appropriate link based on session state without causing hydration errors.
  */
 export function SmartHeaderCta() {
-  const { data: session, isPending } = useSession();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // During hydration, show a neutral placeholder to avoid layout shift
-  if (isPending) {
-    return <div className="h-9 w-32 animate-pulse rounded-lg bg-stone-200" />;
+  useEffect(() => {
+    setMounted(true);
+    // Check session on client only
+    fetch("/api/auth/session", { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => {
+        setIsAuthenticated(!!data?.user);
+      })
+      .catch(() => {
+        // Session check failed, show default CTA
+        setIsAuthenticated(false);
+      });
+  }, []);
+
+  // During SSR and initial hydration, show the static CTA
+  // This prevents hydration mismatches and allows static generation
+  if (!mounted) {
+    return (
+      <>
+        <Link
+          href="/login"
+          className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-900"
+        >
+          Connexion
+        </Link>
+        <Link
+          href="/register"
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
+        >
+          Essai gratuit
+        </Link>
+      </>
+    );
   }
 
-  if (session?.user) {
+  if (isAuthenticated) {
     return (
       <Link
         href="/dashboard"
         className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
       >
-        Accéder au Dashboard
+        Accéder auDashboard
       </Link>
     );
   }

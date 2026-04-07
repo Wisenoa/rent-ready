@@ -11,6 +11,8 @@ import {
   Plus,
   Receipt,
   Home,
+  Calendar,
+  Wrench,
 } from "lucide-react";
 import {
   Card,
@@ -20,19 +22,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { getDashboardStats, formatCurrency } from "@/lib/queries/dashboard-stats";
+import {
+  RevenueExpenseChart,
+  ExpenseByCategoryChart,
+  NOISummary,
+} from "@/components/dashboard/charts";
 
 export const metadata: Metadata = {
   title: "Tableau de bord",
 };
-
-const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(
-    amount,
-  );
 
 const transactionStatusConfig: Record<
   string,
@@ -52,39 +54,9 @@ const transactionStatusConfig: Record<
 export default async function DashboardPage() {
   const userId = await getAuthenticatedUserId();
 
-  const now = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-
-  const [
-    totalProperties,
-    propertiesWithActiveLease,
-    activeTenantsResult,
-    monthlyRevenueResult,
-    recentTransactions,
-  ] = await Promise.all([
-    prisma.property.count({ where: { userId } }),
-
-    prisma.property.count({
-      where: { userId, leases: { some: { status: "ACTIVE" } } },
-    }),
-
-    prisma.lease.findMany({
-      where: { userId, status: "ACTIVE" },
-      select: { tenantId: true },
-      distinct: ["tenantId"],
-    }),
-
-    prisma.transaction.aggregate({
-      where: {
-        userId,
-        status: "PAID",
-        periodStart: { gte: monthStart, lt: monthEnd },
-      },
-      _sum: { amount: true },
-    }),
-
-    prisma.transaction.findMany({
+  const [stats, recentTransactions] = await Promise.all([
+    getDashboardStats(userId),
+    (await import("@/lib/prisma")).prisma.transaction.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
       take: 10,
@@ -99,47 +71,42 @@ export default async function DashboardPage() {
     }),
   ]);
 
-  const activeTenants = activeTenantsResult.length;
-  const monthlyRevenue = monthlyRevenueResult._sum.amount ?? 0;
-  const occupancyRate =
-    totalProperties > 0
-      ? Math.round((propertiesWithActiveLease / totalProperties) * 100)
-      : 0;
+  const now = new Date();
 
   const kpis = [
     {
       title: "Biens",
-      value: String(totalProperties),
+      value: String(stats.properties.total),
       description:
-        totalProperties === 0
+        stats.properties.total === 0
           ? "Aucun bien enregistré"
-          : `${propertiesWithActiveLease} avec bail actif`,
+          : `${stats.properties.withActiveLease} avec bail actif`,
       icon: Building2,
     },
     {
       title: "Locataires actifs",
-      value: String(activeTenants),
+      value: String(stats.tenants.active),
       description:
-        activeTenants === 0
+        stats.tenants.active === 0
           ? "Aucun locataire actif"
-          : `${activeTenants} bail${activeTenants > 1 ? "s" : ""} en cours`,
+          : `${stats.tenants.active} bail${stats.tenants.active > 1 ? "s" : ""} en cours`,
       icon: Users,
     },
     {
       title: "Revenus du mois",
-      value: formatCurrency(monthlyRevenue),
+      value: formatCurrency(stats.revenue.currentMonth),
       description: format(now, "MMMM yyyy", { locale: fr }),
       icon: CreditCard,
     },
     {
-      title: "Taux d\u2019occupation",
-      value: `${occupancyRate}\u202F%`,
+      title: "Taux d'occupation",
+      value: `${stats.properties.occupancyRate}\u202F%`,
       description:
-        occupancyRate === 100
+        stats.properties.occupancyRate === 100
           ? "Aucune vacance"
-          : occupancyRate === 0
+          : stats.properties.occupancyRate === 0
             ? "Aucun bien occupé"
-            : `${totalProperties - propertiesWithActiveLease} bien${totalProperties - propertiesWithActiveLease > 1 ? "s" : ""} vacant${totalProperties - propertiesWithActiveLease > 1 ? "s" : ""}`,
+            : `${stats.properties.vacant} bien${stats.properties.vacant > 1 ? "s" : ""} vacant${stats.properties.vacant > 1 ? "s" : ""}`,
       icon: TrendingUp,
     },
   ];
@@ -177,6 +144,113 @@ export default async function DashboardPage() {
           </Card>
         ))}
       </div>
+
+      {/* Charts Section */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <RevenueExpenseChart
+            revenue={stats.revenue}
+            expenses={stats.expenses}
+            noi={stats.noi}
+          />
+        </div>
+        <NOISummary noi={stats.noi} />
+      </div>
+
+      {Object.keys(stats.expenses.byCategory).length > 0 && (
+        <div className="grid gap-4 lg:grid-cols-2">
+          <ExpenseByCategoryChart expenses={stats.expenses.byCategory} />
+        </div>
+      )}
+
+      {/* Lease Expirations */}
+      {stats.upcomingLeaseExpirations.length > 0 && (
+        <Card className="shadow-sm border-border/50">
+          <CardHeader>
+            <CardTitle className="text-lg">Baux à échoir</CardTitle>
+            <CardDescription>
+              Baux expirant dans les 90 prochains jours
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-1">
+              {stats.upcomingLeaseExpirations.map((lease) => (
+                <div
+                  key={lease.id}
+                  className="flex items-center justify-between py-3 border-b border-border/30 last:border-0"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
+                      <Calendar className="size-4 text-muted-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">
+                        {lease.tenant.firstName} {lease.tenant.lastName}
+                        <span className="text-muted-foreground font-normal">
+                          {" "}
+                          — {lease.property.name}
+                        </span>
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {format(lease.endDate, "d MMM yyyy", { locale: fr })}
+                      </p>
+                    </div>
+                  </div>
+                  <Badge
+                    variant={
+                      lease.daysUntilExpiry <= 30
+                        ? "destructive"
+                        : "outline"
+                    }
+                    className="text-xs"
+                  >
+                    {lease.daysUntilExpiry} jours
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Maintenance Summary */}
+      {stats.maintenanceTickets.open > 0 && (
+        <Card className="shadow-sm border-border/50">
+          <CardHeader>
+            <CardTitle className="text-lg">Maintenance</CardTitle>
+            <CardDescription>
+              Tickets en cours
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="flex items-center gap-3">
+                <Wrench className="size-5 text-blue-600" />
+                <div>
+                  <p className="text-2xl font-bold">{stats.maintenanceTickets.open}</p>
+                  <p className="text-xs text-muted-foreground">Tickets ouverts</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <AlertCircle className="size-5 text-red-600" />
+                <div>
+                  <p className="text-2xl font-bold">{stats.maintenanceTickets.urgent}</p>
+                  <p className="text-xs text-muted-foreground">Urgents</p>
+                </div>
+              </div>
+              {stats.maintenanceTickets.avgResolutionDays !== null && (
+                <div className="flex items-center gap-3">
+                  <Clock className="size-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-2xl font-bold">{stats.maintenanceTickets.avgResolutionDays}j</p>
+                    <p className="text-xs text-muted-foreground">Résolution moy.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Activité récente */}
       <Card className="shadow-sm border-border/50">

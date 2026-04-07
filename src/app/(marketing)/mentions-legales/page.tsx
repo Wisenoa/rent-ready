@@ -6,8 +6,62 @@ export const metadata: Metadata = {
     "Mentions légales de RentReady, logiciel de gestion locative pour propriétaires indépendants.",
 };
 
+function MentionsLegalesJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        name: "RentReady — Mentions Légales",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: "https://www.rentready.fr/mentions-legales",
+        description:
+          "Mentions légales de RentReady, plateforme SaaS de gestion locative pour propriétaires bailleurs en France.",
+      },
+      {
+        "@type": "Organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "contact@rentready.fr",
+          availableLanguage: "French",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Mentions Légales",
+            item: "https://www.rentready.fr/mentions-legales",
+          },
+        ],
+      },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export default function MentionsLegalesPage() {
   return (
+    <>
+      <MentionsLegalesJsonLd />
     <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
       <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
         Mentions Légales
@@ -115,5 +169,6 @@ export default function MentionsLegalesPage() {
         </section>
       </div>
     </article>
+    </>
   );
 }

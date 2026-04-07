@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PropertyForm } from "@/components/property-form";
 import { PropertyActions } from "@/components/property-actions";
+import { LeaseForm } from "@/components/lease-form";
+import { FileText } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Mes Biens",
@@ -34,17 +36,31 @@ function formatCurrency(amount: number): string {
 export default async function PropertiesPage() {
   const userId = await getAuthenticatedUserId();
 
-  const properties = await prisma.property.findMany({
-    where: { userId },
-    include: {
-      leases: {
-        where: { status: "ACTIVE" },
-        include: { tenant: true },
-        take: 1,
+  const [properties, tenants] = await Promise.all([
+    prisma.property.findMany({
+      where: { userId },
+      include: {
+        leases: {
+          where: { status: "ACTIVE" },
+          include: { tenant: true },
+          take: 1,
+        },
       },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.tenant.findMany({
+      where: { userId },
+      select: { id: true, firstName: true, lastName: true },
+      orderBy: { lastName: "asc" },
+    }),
+  ]);
+
+  const propertiesForLeaseForm = properties.map((p) => ({
+    id: p.id,
+    name: p.name,
+    addressLine1: p.addressLine1,
+    city: p.city,
+  }));
 
   return (
     <div className="space-y-8">
@@ -56,14 +72,22 @@ export default async function PropertiesPage() {
             Gérez votre patrimoine immobilier
           </p>
         </div>
-        <PropertyForm
-          trigger={
-            <Button>
-              <Plus className="size-4 mr-2" />
-              Ajouter un bien
+        <div className="flex items-center gap-2">
+          <LeaseForm properties={propertiesForLeaseForm} tenants={tenants}>
+            <Button variant="outline">
+              <FileText className="size-4 mr-2" />
+              Créer un bail
             </Button>
-          }
-        />
+          </LeaseForm>
+          <PropertyForm
+            trigger={
+              <Button>
+                <Plus className="size-4 mr-2" />
+                Ajouter un bien
+              </Button>
+            }
+          />
+        </div>
       </div>
 
       {/* Empty state */}

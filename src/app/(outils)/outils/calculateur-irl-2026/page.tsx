@@ -7,6 +7,8 @@ import {
 } from "@/components/seo/schema-markup";
 import { IrlCalculator } from "./irl-calculator";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Calculateur IRL 2026 — Révision de loyer gratuit",
   description:
