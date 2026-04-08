@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Plus, FileText, Building2, Users, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -127,9 +128,13 @@ export default async function LeasesPage() {
             const lastTx = lease.transactions[0];
 
             return (
-              <Card
+              <Link
                 key={lease.id}
-                className="shadow-sm border-border/50 hover:shadow-md transition-shadow"
+                href={`/leases/${lease.id}`}
+                className="block"
+              >
+              <Card
+                className="shadow-sm border-border/50 hover:shadow-md transition-shadow h-full"
               >
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between gap-2">
@@ -264,6 +269,7 @@ export default async function LeasesPage() {
                   )}
                 </CardContent>
               </Card>
+              </Link>
             );
           })}
         </div>
