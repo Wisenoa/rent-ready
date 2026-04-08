@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Plus, Mail, Phone, Pencil, Users, FileText } from "lucide-react";
+import Link from "next/link";
+import { Plus, Mail, Phone, Pencil, Users, FileText, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -59,7 +60,7 @@ export default async function TenantsPage() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 
-  const [tenantsResult, propertiesResult] = await Promise.all([
+  const [tenantsResult, paidTransactionsResult, propertiesResult] = await Promise.all([
     prisma.tenant.findMany({
       where: { userId },
       include: {
@@ -80,6 +81,32 @@ export default async function TenantsPage() {
       },
       orderBy: [{ lastName: "asc" }, { firstName: "asc" }],
     }),
+    // Fetch latest paid transactions with receiptUrl for each tenant
+    prisma.transaction.findMany({
+      where: {
+        userId,
+        status: { in: ["PAID", "PARTIAL"] },
+        receiptUrl: { not: null },
+      },
+      select: {
+        id: true,
+        amount: true,
+        paidAt: true,
+        periodStart: true,
+        periodEnd: true,
+        receiptUrl: true,
+        receiptNumber: true,
+        lease: {
+          select: {
+            id: true,
+            tenantId: true,
+            property: { select: { name: true } },
+          },
+        },
+      },
+      orderBy: { paidAt: "desc" },
+      take: 50,
+    }),
     prisma.property.findMany({
       where: { userId },
       select: { id: true, name: true, addressLine1: true, city: true },
@@ -88,6 +115,7 @@ export default async function TenantsPage() {
   ]);
 
   const tenants = tenantsResult;
+  const paidTransactions = paidTransactionsResult;
   const properties = propertiesResult;
 
   const tenantsForLeaseForm = tenants.map((t) => ({
@@ -143,6 +171,10 @@ export default async function TenantsPage() {
           {tenants.map((tenant) => {
             const activeLease = tenant.leases[0];
             const latestTx = activeLease?.transactions[0];
+            // Find latest paid transaction with receipt for this tenant
+            const latestReceipt = paidTransactions.find(
+              (tx) => tx.lease?.tenantId === tenant.id
+            );
 
             let paymentStatus: PaymentStatus = "none";
             if (activeLease) {
@@ -176,9 +208,24 @@ export default async function TenantsPage() {
             };
 
             return (
-              <Card
+              <Link
                 key={tenant.id}
-                className="shadow-sm border-border/50 hover:shadow-md transition-shadow"
+                href={`/tenants/${tenant.id}`}
+                className="block"
+                onClick={(e) => {
+                  // Don't navigate if clicking action buttons
+                  const target = e.target as HTMLElement;
+                  if (
+                    target.closest("button") ||
+                    target.closest('[role="button"]') ||
+                    target.closest("a")
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+              <Card
+                className="shadow-sm border-border/50 hover:shadow-md transition-shadow h-full"
               >
                 <CardHeader className="pb-3">
                   <div className="flex items-start gap-4">
@@ -237,6 +284,17 @@ export default async function TenantsPage() {
                       )}
                     </div>
                     <div className="flex items-center gap-1">
+                      {latestReceipt?.receiptUrl && (
+                        <a
+                          href={latestReceipt.receiptUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline"
+                        >
+                          <Download className="size-3" />
+                          Quittance
+                        </a>
+                      )}
                       <TenantForm tenant={serialized}>
                         <Button
                           variant="ghost"
@@ -254,6 +312,7 @@ export default async function TenantsPage() {
                   </div>
                 </CardContent>
               </Card>
+              </Link>
             );
           })}
         </div>
