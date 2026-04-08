@@ -31,6 +31,7 @@ import {
   ExpenseByCategoryChart,
   NOISummary,
 } from "@/components/dashboard/charts";
+import { DashboardOnboardingWrapper } from "@/components/dashboard-onboarding-wrapper";
 
 export const metadata: Metadata = {
   title: "Tableau de bord",
@@ -113,6 +114,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      <DashboardOnboardingWrapper hasProperties={stats.properties.total > 0} />
       {/* En-tête */}
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">

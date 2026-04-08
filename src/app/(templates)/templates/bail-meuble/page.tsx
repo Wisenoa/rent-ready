@@ -103,22 +103,27 @@ const faqData = [
   {
     question: "Quelle est la durée d'un bail meublé ?",
     answer:
-      "Le bail meublé est conclu pour une durée de 1 an (reconduction tacite) ou 1 mois (bail mobilité). Il se reconduit tacitement pour la même durée sauf préavis de 1 mois par le locataire.",
+      "Le bail meublé est conclu pour une durée de 1 an (reconduction tacite) ou 1 mois (bail mobilité). Il se reconduit tacitement pour la même durée sauf préavis de 1 mois par le locataire. La durée ne peut pas être inférieure à 1 an sauf pour le bail mobilité (1 à 10 mois).",
   },
   {
     question: "Quel dépôt de garantie pour un bail meublé ?",
     answer:
-      "Le dépôt de garantie est limité à 2 mois de loyer hors charges (contre 1 mois pour un bail vide). Il doit être restitué dans les 2 mois suivant la remise des clés, déduction faite des sommes dues.",
+      "Le dépôt de garantie est limité à 2 mois de loyer hors charges (contre 1 mois pour un bail vide, loi Alur). Il doit être restitué dans les 2 mois suivant la remise des clés, déduction faite des sommes dues. En cas de litige, le dépôt est consigné auprès de la CLE (Commission de Litigation).",
   },
   {
     question: "Le bail meublé doit-il contenir un état des lieux ?",
     answer:
-      "Oui. L'état des lieux est obligatoire (loi du 6 juillet 1989) et doit être annexé au bail. Il décrit l'état du logement et du mobilier à l'entrée et à la sortie du locataire.",
+      "Oui. L'état des lieux est obligatoire (loi du 6 juillet 1989) et doit être annexé au bail. Il décrit l'état du logement et du mobilier à l'entrée et à la sortie du locataire. Pour le mobilier, chaque élément doit être décrit avec son état de fonctionnement.",
   },
   {
     question: "Comment savoir si mon bail est aux normes ?",
     answer:
-      "Le bail doit contenir les mentions obligatoires : identité des parties, description du bien, loyer, charges, dépôt de garantie, durée, date de début, et annexes (DPE, état des risques, inventaire mobilière). Notre modèle intègre automatiquement toutes ces mentions.",
+      "Le bail doit contenir les mentions obligatoires : identité des parties, description du bien, loyer, charges, dépôt de garantie, durée, date de début, et annexes (DPE, état des risques, inventaire mobilier). Notre modèle intègre automatiquement toutes ces mentions.",
+  },
+  {
+    question: "Quel équipement minimum pour un bail meublé ?",
+    answer:
+      "Le décret n°2015-1370 définit le mobilier minimum obligatoire : literie avec sommier et matelas, plaques de cuisson, réfrigérateur, ustensiles de cuisine, vaisselier, table et chaises, étagères de rangement, luminaires, matériel d'entretien ménager. Sans ces éléments, le bail peut être requalifié en bail vide.",
   },
 ];
 
@@ -181,14 +186,14 @@ export default function BailMeublePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
             >
-              Utiliser ce modèle
+              Télécharger le modèle PDF
               <ArrowRight className="size-4" />
             </Link>
             <Link
-              href="/templates"
-              className="inline-flex items-center gap-2 rounded-lg border border-stone-300 bg-white px-6 py-3 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
+              href="/register"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-sm border border-blue-200 transition-colors hover:bg-blue-50"
             >
-              Voir tous les modèles
+              Générer avec RentReady →
             </Link>
           </div>
         </header>
@@ -275,6 +280,7 @@ export default function BailMeublePage() {
           <ul className="grid gap-3 sm:grid-cols-2">
             {[
               "Loi du 6 juillet 1989 (baux d'habitation)",
+              "Décret n°2015-1370 (équipement minimum meublé)",
               "Loi Alur (encadrement des loyers)",
               "Loi ÉLAN (garantie universelle loyer)",
               "Décret du 29 mai 2015 (état des lieux)",
@@ -289,6 +295,96 @@ export default function BailMeublePage() {
           </ul>
         </section>
 
+        {/* Step-by-step */}
+        <section className="mb-20 rounded-2xl bg-white p-8 shadow-sm sm:p-10">
+          <h2 className="mb-6 text-xl font-bold text-stone-900">
+            Comment utiliser ce modèle de bail meublé
+          </h2>
+          <div className="space-y-6">
+            {[
+              {
+                step: "1",
+                title: "Vérifiez l'éligibilité du bien",
+                desc: "Avant de proposer un bail meublé, vérifiez que votre bien dispose de tous les équipements obligatoires (décret n°2015-1370). Sans cela, le bail sera requalifié en bail vide.",
+              },
+              {
+                step: "2",
+                title: "Téléchargez le modèle",
+                desc: "Cliquez sur le bouton de téléchargement pour obtenir le modèle de bail meublé en PDF, mis à jour pour 2026.",
+              },
+              {
+                step: "3",
+                title: "Remplissez les informations",
+                desc: "Indiquez vos coordonnées, celles du locataire, l'adresse du bien, le montant du loyer, les charges, et le dépôt de garantie (max 2 mois).",
+              },
+              {
+                step: "4",
+                title: "Complétez l'inventaire mobilier",
+                desc: "Listez chaque meuble et équipement avec son état de fonctionnement (neuf, bon état, état moyen, à remplacer). Joignez des photos datées.",
+              },
+              {
+                step: "5",
+                title: "Joignez les annexes",
+                desc: "Annexez le DPE, l'état des risques, l'état des lieux d'entrée, et les diagnostics obligatoires.",
+              },
+              {
+                step: "6",
+                title: "Faites signer et archivez",
+                desc: "Faites signer le bail par les deux parties. Chaque partie conserve un exemplaire.Archivez pendant toute la durée + 5 ans.",
+              },
+            ].map((item) => (
+              <div key={item.step} className="flex gap-4">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-700">
+                  {item.step}
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-stone-900">{item.title}</h3>
+                  <p className="text-sm text-stone-600">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Comparison table */}
+        <section className="mb-20 rounded-2xl bg-stone-100 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-bold text-stone-900">
+            Bail meublé vs bail vide : que choisir ?
+          </h2>
+          <p className="mb-6 text-stone-600">
+            Le bail meublé offre plus de flexibilité mais exige un niveau de
+            mobilier minimum. Comparez les caractéristiques pour choisir.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-stone-300">
+                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Critère</th>
+                  <th className="text-left py-3 px-4 font-semibold text-blue-700">Bail Meublé</th>
+                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Bail Vide</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-200">
+                {[
+                  ["Durée minimale", "1 an", "3 ans (zone tendue) / 1 an (autre)"],
+                  ["Dépôt de garantie", "2 mois max", "1 mois max"],
+                  ["Loyer en zone tendue", "Libre (si mobilier suffisant)", "Encadré (IRL)"],
+                  ["Inventaire mobilier", "Obligatoire (décret 2015-1370)", "Non requis"],
+                  ["Équipement minimum", "Conforme décret 2015-1370", "Aucun"],
+                  ["Tacite reconduction", "1 mois de préavis", "6 mois de préavis"],
+                  ["Encadrement loyers", "Partiellement (loi Elan)", "Oui en zone tendue"],
+                ].map(([critere, meuble, vide]) => (
+                  <tr key={critere} className="hover:bg-stone-50">
+                    <td className="py-3 px-4 font-medium text-stone-700">{critere}</td>
+                    <td className="py-3 px-4 text-blue-700 font-medium">{meuble}</td>
+                    <td className="py-3 px-4 text-stone-600">{vide}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-bold sm:text-3xl">
@@ -298,12 +394,20 @@ export default function BailMeublePage() {
             Remplissez en ligne, téléchargez en PDF, envoyez à votre locataire.
             Signature électronique incluse.
           </p>
-          <Link
-            href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
-          >
-            Essai gratuit 14 jours
-          </Link>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link
+              href="/register"
+              className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            >
+              Essai gratuit 14 jours
+            </Link>
+            <Link
+              href="/outils/calculateur-irl-2026"
+              className="inline-block rounded-lg border border-blue-500 px-6 py-3 font-medium text-blue-300 transition-colors hover:bg-blue-800"
+            >
+              Simulateur IRL →
+            </Link>
+          </div>
         </section>
 
         {/* FAQ */}
@@ -327,6 +431,29 @@ export default function BailMeublePage() {
                   {item.answer}
                 </div>
               </details>
+            ))}
+          </div>
+        </section>
+
+        {/* Related content */}
+        <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
+          <h2 className="mb-4 text-lg font-bold text-stone-900">
+            Ressources complémentaires
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              { href: "/blog/difference-bail-meuble-bail-vide", label: "Bail meublé vs bail vide : que choisir ? →" },
+              { href: "/blog/equipement-minimum-bail-meuble", label: "Équipement minimum pour un bail meublé →" },
+              { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
+              { href: "/templates/etat-des-lieux", label: "Modèle d'état des lieux →" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                {link.label}
+              </Link>
             ))}
           </div>
         </section>

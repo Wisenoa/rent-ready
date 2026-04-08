@@ -94,7 +94,6 @@ export default async function TenantDetailPage({ params }: Props) {
         include: {
           tenant: true,
           property: true,
-          lease: true,
         },
         orderBy: { createdAt: "desc" },
       },
@@ -134,11 +133,12 @@ export default async function TenantDetailPage({ params }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="/tenants">
-            <ArrowLeft className="size-4" />
-          </Link>
-        </Button>
+        <Link
+          href="/tenants"
+          className="inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent hover:bg-muted hover:text-foreground size-8"
+        >
+          <ArrowLeft className="size-4" />
+        </Link>
         <div className="flex-1">
           <h1 className="text-2xl font-semibold tracking-tight">
             {tenant.firstName} {tenant.lastName}
@@ -309,12 +309,13 @@ export default async function TenantDetailPage({ params }: Props) {
                   </span>
                 </div>
                 <div className="flex items-center gap-2 mt-2">
-                  <Button variant="outline" size="sm" className="flex-1" asChild>
-                    <Link href={`/leases/${activeLease.id}`}>
-                      <FileText className="size-3 mr-1" />
-                      Voir le bail
-                    </Link>
-                  </Button>
+                  <Link
+                    href={`/leases/${activeLease.id}`}
+                    className="inline-flex items-center justify-center gap-1 rounded-[min(var(--radius-md),12px)] border border-border bg-background hover:bg-muted hover:text-foreground h-7 px-2.5 text-[0.8rem] flex-1"
+                  >
+                    <FileText className="size-3 mr-1" />
+                    Voir le bail
+                  </Link>
                 </div>
               </CardContent>
             </Card>
@@ -381,7 +382,9 @@ export default async function TenantDetailPage({ params }: Props) {
                               : "—"}
                           </TableCell>
                           <TableCell>
-                            {tx.receiptUrl && (
+                            {(tx.status === "PAID" || tx.status === "PARTIAL") && tx.receiptType ? (
+                              <QuittanceButton transactionId={tx.id} />
+                            ) : tx.receiptUrl ? (
                               <a
                                 href={tx.receiptUrl}
                                 target="_blank"
@@ -390,7 +393,7 @@ export default async function TenantDetailPage({ params }: Props) {
                               >
                                 Télécharger
                               </a>
-                            )}
+                            ) : null}
                           </TableCell>
                         </TableRow>
                       );

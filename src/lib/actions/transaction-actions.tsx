@@ -8,8 +8,6 @@ import { determineReceiptType } from "@/lib/quittance-generator";
 import { generateQuittance } from "@/lib/actions/quittance-actions";
 import { generateRentFollowUpDraft } from "@/lib/ai/lease-analyzer";
 import { resend, fromEmail } from "@/lib/email";
-import { PaymentReminderEmail } from "@/lib/emails/payment-reminder";
-import { renderToBuffer } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { ActionResult } from "./property-actions";
@@ -198,6 +196,12 @@ export async function sendPaymentReminder(
     const letterUrl = letterText
       ? `${portalBaseUrl}/api/reminders/letter?tx=${transactionId}&tone=${tone}`
       : undefined;
+
+    // Dynamic imports to prevent Next.js build analysis of React Email components
+    const [{ renderToBuffer }, { PaymentReminderEmail }] = await Promise.all([
+      import("@react-pdf/renderer"),
+      import("@/lib/emails/payment-reminder"),
+    ]);
 
     const emailHtml = await renderToBuffer(
       <PaymentReminderEmail

@@ -43,6 +43,10 @@ model User {
   documents     Document[]
   bankConnections BankConnection[]
   expenses      Expense[]
+  organizationMembers OrganizationMember[]
+  reminders     Reminder[]
+  notifications Notification[]
+  auditLogs    AuditLog[]
 }
 
 // ─── Better Auth: Sessions ───
@@ -123,6 +127,9 @@ model Property {
   leases        Lease[]
   maintenanceTickets MaintenanceTicket[]
   expenses      Expense[]
+  units         Unit[]
+  reminders     Reminder[]
+  notifications Notification[]
 
   @@index([userId])
 }
@@ -161,6 +168,8 @@ model Tenant {
   leases        Lease[]
   accessTokens  TenantAccessToken[]
   maintenanceTickets MaintenanceTicket[]
+  reminders     Reminder[]
+  notifications Notification[]
 
   @@index([userId])
 }
@@ -186,6 +195,7 @@ model Lease {
   userId          String
   propertyId      String
   tenantId        String
+  unitId          String?
   // Financial
   rentAmount      Float     // Loyer hors charges (€)
   chargesAmount   Float     // Provision pour charges (€)
@@ -211,11 +221,14 @@ model Lease {
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   property        Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   tenant          Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  unit            Unit?     @relation(fields: [unitId], references: [id], onDelete: SetNull)
+  guarantor       Guarantor?
   transactions    Transaction[]
 
   @@index([userId])
   @@index([propertyId])
   @@index([tenantId])
+  @@index([unitId])
 }
 
 enum PaymentMethod {
@@ -409,6 +422,7 @@ model MaintenanceTicket {
   id          String              @id @default(cuid())
   tenantId    String
   propertyId  String
+  unitId      String?
   title       String
   description String
   status      MaintenanceStatus   @default(OPEN)
@@ -419,11 +433,13 @@ model MaintenanceTicket {
 
   tenant      Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   property    Property            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  unit        Unit?               @relation(fields: [unitId], references: [id], onDelete: SetNull)
   attachments MaintenanceAttachment[]
 
   @@index([tenantId])
   @@index([propertyId])
   @@index([status])
+  @@index([unitId])
 }
 
 enum MaintenanceStatus {
@@ -487,4 +503,247 @@ enum ExpenseCategory {
   MANAGEMENT_FEES   // Frais de gestion
   RENOVATION        // Rénovation / Travaux
   OTHER             // Autre
+}
+
+// ─── Organization / Workspace ─────────────────────────────────────────────────
+
+enum OrgRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum Plan {
+  FREE
+  STARTER
+  PRO
+  AGENCY
+}
+
+// ─── Unit (multi-unit building support) ───────────────────────────────────────
+
+enum UnitStatus {
+  VACANT
+  RENTED
+  DRAFT
+}
+
+// ─── Guarantor ────────────────────────────────────────────────────────────────
+
+enum GuarantorType {
+  PERSON
+  COMPANY
+}
+
+enum GuarantorStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ─── Reminders ───────────────────────────────────────────────────────────────
+
+enum ReminderType {
+  RENT_DUE
+  LEASE_RENEWAL
+  DEPOSIT_RETURN
+  TAX_DEADLINE
+  CONDO_FEE
+  MAINTENANCE_DUE
+  CUSTOM
+}
+
+enum ReminderStatus {
+  PENDING
+  COMPLETED
+  SNOOZED
+  CANCELLED
+}
+
+enum ReminderPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+
+enum NotificationType {
+  RENT_REMINDER
+  PAYMENT_CONFIRMED
+  PAYMENT_LATE
+  MAINTENANCE_UPDATE
+  LEASE_EXPIRING
+  DOCUMENT_READY
+  MESSAGE
+  SYSTEM
+}
+
+// ─── Audit Log ────────────────────────────────────────────────────────────────
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+}
+
+// ─── Organization (multi-user workspaces) ────────────────────────────────────
+
+model Organization {
+  id                   String              @id @default(cuid())
+  name                 String
+  slug                 String              @unique
+  plan                 Plan                @default(FREE)
+  stripeOrgId          String?             @unique
+  subscriptionStatus   SubscriptionStatus   @default(TRIAL)
+  trialEndsAt          DateTime?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+
+  members              OrganizationMember[]
+}
+
+model OrganizationMember {
+  id              String    @id @default(cuid())
+  organizationId  String
+  userId          String
+  role            OrgRole   @default(VIEWER)
+  joinedAt        DateTime  @default(now())
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([userId])
+}
+
+// ─── Unit (multi-unit building support) ──────────────────────────────────────
+
+model Unit {
+  id          String       @id @default(cuid())
+  propertyId  String
+  name       String
+  floor      Int?
+  unitNumber String?
+  surface    Float?
+  rooms      Int?
+  type       PropertyType @default(APARTMENT)
+  status     UnitStatus   @default(VACANT)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  property          Property            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  leases            Lease[]
+  maintenanceTickets MaintenanceTicket[]
+
+  @@index([propertyId])
+  @@index([status])
+}
+
+// ─── Guarantor (lease financial backing) ────────────────────────────────────
+
+model Guarantor {
+  id                 String           @id @default(cuid())
+  leaseId            String           @unique
+  type               GuarantorType
+  firstName          String?
+  lastName           String?
+  dateOfBirth        DateTime?
+  placeOfBirth       String?
+  companyName        String?
+  siren              String?
+  email              String
+  phone              String?
+  addressLine1       String
+  addressLine2       String?
+  city               String
+  postalCode         String
+  country            String           @default("France")
+  financialDocumentIds String[]
+  status             GuarantorStatus  @default(PENDING)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  lease              Lease            @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+
+  @@index([leaseId])
+}
+
+// ─── Reminder (task/deadline tracking) ──────────────────────────────────────
+
+model Reminder {
+  id               String          @id @default(cuid())
+  userId           String
+  leaseId          String?
+  propertyId       String?
+  tenantId         String?
+  type             ReminderType
+  title            String
+  description      String?
+  dueDate          DateTime
+  completedAt      DateTime?
+  snoozedUntil     DateTime?
+  isRecurring      Boolean         @default(false)
+  recurringInterval Int?
+  nextDueDate      DateTime?
+  priority         ReminderPriority @default(MEDIUM)
+  status           ReminderStatus  @default(PENDING)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property         Property?       @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  tenant           Tenant?         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, dueDate])
+  @@index([userId, type])
+  @@index([leaseId])
+  @@index([propertyId])
+}
+
+// ─── Notification (user-facing alerts) ──────────────────────────────────────
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  tenantId    String?
+  propertyId  String?
+  type        NotificationType
+  title       String
+  body        String
+  data        Json?
+  read        Boolean          @default(false)
+  readAt      DateTime?
+  createdAt   DateTime         @default(now())
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant      Tenant?          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  property    Property?        @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read, createdAt])
+  @@index([tenantId])
+  @@index([propertyId])
+}
+
+// ─── Audit Log (security/compliance trail) ───────────────────────────────────
+
+model AuditLog {
+  id          String      @id @default(cuid())
+  userId      String
+  entityType  String
+  entityId    String
+  action      AuditAction
+  changes     Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime    @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([entityType, entityId])
+  @@index([userId, createdAt])
 }

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
 import { leaseSchema } from "@/lib/validations/lease";
 import type { ActionResult } from "./property-actions";
+import { generateAndUploadBailPdf } from "./bail-pdf-server";
 
 export async function createLease(formData: FormData): Promise<ActionResult> {
   try {
@@ -30,11 +31,71 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
       return { success: false, error: "Locataire introuvable ou accès non autorisé." };
     }
 
+    const leaseData = {
+      userId,
+      propertyId: parsed.data.propertyId,
+      tenantId: parsed.data.tenantId,
+      rentAmount: parsed.data.rentAmount,
+      chargesAmount: parsed.data.chargesAmount,
+      depositAmount: parsed.data.depositAmount,
+      startDate: new Date(parsed.data.startDate),
+      endDate: parsed.data.endDate ? new Date(parsed.data.endDate) : null,
+      paymentDay: parsed.data.paymentDay,
+      paymentMethod: parsed.data.paymentMethod,
+      leaseType: parsed.data.leaseType,
+      irlReferenceQuarter: parsed.data.irlReferenceQuarter || null,
+      irlReferenceValue: parsed.data.irlReferenceValue ?? null,
+    };
+
     const lease = await prisma.lease.create({
+      data: leaseData,
+    });
+
+    // Generate and upload bail PDF — best-effort (non-blocking)
+    const documentUrl = await generateAndUploadBailPdf(
+      lease.id,
+      userId,
+      parsed.data.propertyId,
+      parsed.data.tenantId,
+      leaseData
+    );
+
+    if (documentUrl) {
+      await prisma.lease.update({
+        where: { id: lease.id },
+        data: { documentUrl },
+      });
+    }
+
+    revalidatePath("/properties");
+    revalidatePath("/tenants");
+    revalidatePath("/billing");
+    return { success: true, data: { id: lease.id } };
+  } catch (error) {
+    console.error("createLease error:", error);
+    return { success: false, error: "Impossible de créer le bail." };
+  }
+}
+
+export async function updateLease(id: string, formData: FormData): Promise<ActionResult> {
+  try {
+    const userId = await getCurrentUserId();
+
+    const raw = Object.fromEntries(formData.entries());
+    const parsed = leaseSchema.safeParse(raw);
+
+    if (!parsed.success) {
+      return { success: false, error: parsed.error.issues[0]?.message ?? "Données invalides" };
+    }
+
+    const existing = await prisma.lease.findUnique({ where: { id } });
+    if (!existing || existing.userId !== userId) {
+      return { success: false, error: "Bail introuvable ou accès non autorisé." };
+    }
+
+    await prisma.lease.update({
+      where: { id },
       data: {
-        userId,
-        propertyId: parsed.data.propertyId,
-        tenantId: parsed.data.tenantId,
         rentAmount: parsed.data.rentAmount,
         chargesAmount: parsed.data.chargesAmount,
         depositAmount: parsed.data.depositAmount,
@@ -48,13 +109,15 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
       },
     });
 
+    revalidatePath("/leases");
+    revalidatePath("/leases/" + id);
     revalidatePath("/properties");
     revalidatePath("/tenants");
     revalidatePath("/billing");
-    return { success: true, data: { id: lease.id } };
+    return { success: true };
   } catch (error) {
-    console.error("createLease error:", error);
-    return { success: false, error: "Impossible de créer le bail." };
+    console.error("updateLease error:", error);
+    return { success: false, error: "Impossible de mettre à jour le bail." };
   }
 }
 

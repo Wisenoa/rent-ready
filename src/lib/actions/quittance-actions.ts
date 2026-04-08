@@ -9,6 +9,7 @@ import {
   type QuittanceData,
 } from "@/lib/quittance-generator";
 import type { ActionResult } from "./property-actions";
+import { generateAndUploadQuittancePdf } from "./quittance-pdf-server";
 
 /**
  * Generate a quittance/reçu for a transaction.
@@ -104,15 +105,28 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
     };
 
     // Update transaction with receipt info
-    await prisma.transaction.update({
+    const updatedTransaction = await prisma.transaction.update({
       where: { id: transactionId },
       data: {
         receiptType,
         receiptNumber,
-        // In a full implementation, we'd render the PDF to a file/blob store
-        // and save the URL here. For MVP, we store the data for client-side rendering.
       },
     });
+
+    // Generate and upload quittance PDF — best-effort (non-blocking)
+    const receiptUrl = await generateAndUploadQuittancePdf(
+      transactionId,
+      quittanceData,
+      receiptNumber,
+      userId
+    );
+
+    if (receiptUrl) {
+      await prisma.transaction.update({
+        where: { id: transactionId },
+        data: { receiptUrl },
+      });
+    }
 
     revalidatePath("/billing");
     return {
@@ -120,6 +134,7 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       data: {
         receiptType,
         receiptNumber,
+        receiptUrl,
         quittanceData: JSON.parse(JSON.stringify(quittanceData)),
       },
     };

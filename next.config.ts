@@ -7,6 +7,15 @@ const config: NextConfig = {
   output: 'standalone',
 
   // ========================================
+  // External Packages (Prevent build analysis of React Email)
+  // ========================================
+  serverExternalPackages: [
+    '@react-email/components',
+    '@react-email/render',
+    '@react-pdf/renderer',
+  ],
+
+  // ========================================
   // Image Optimization
   // ========================================
   images: {
