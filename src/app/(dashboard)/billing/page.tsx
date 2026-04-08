@@ -218,6 +218,7 @@ export default async function BillingPage() {
                   <TableHead>Statut</TableHead>
                   <TableHead>Type reçu</TableHead>
                   <TableHead>Date paiement</TableHead>
+                  <TableHead>Reçu</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -258,6 +259,19 @@ export default async function BillingPage() {
                         {tx.paidAt
                           ? format(tx.paidAt, "dd/MM/yyyy", { locale: fr })
                           : "—"}
+                      </TableCell>
+                      <TableCell>
+                        {tx.receiptUrl && (
+                          <a
+                            href={tx.receiptUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline"
+                          >
+                            <FileCheck className="size-3" />
+                            Télécharger
+                          </a>
+                        )}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-1">

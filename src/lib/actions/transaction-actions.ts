@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
 import { transactionSchema } from "@/lib/validations/transaction";
 import { determineReceiptType } from "@/lib/quittance-generator";
+import { generateQuittance } from "@/lib/actions/quittance-actions";
 import type { ActionResult } from "./property-actions";
 
 export async function createTransaction(formData: FormData): Promise<ActionResult> {
@@ -109,9 +110,18 @@ export async function markTransactionPaid(
       },
     });
 
+    // Auto-generate PDF quittance after marking as paid
+    const quittanceResult = await generateQuittance(id);
+
     revalidatePath("/billing");
     revalidatePath("/dashboard");
-    return { success: true, data: { receiptType } };
+    return {
+      success: true,
+      data: {
+        receiptType,
+        receiptUrl: quittanceResult.success ? (quittanceResult.data as { receiptUrl?: string })?.receiptUrl : undefined,
+      },
+    };
   } catch (error) {
     console.error("markTransactionPaid error:", error);
     return { success: false, error: "Impossible de valider le paiement." };
