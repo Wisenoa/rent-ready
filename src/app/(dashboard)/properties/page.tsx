@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { Building2, Home, MapPin, Plus } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
@@ -121,9 +122,13 @@ export default async function PropertiesPage() {
               : null;
 
             return (
-              <Card
+              <Link
                 key={property.id}
-                className="shadow-sm border-border/50 hover:shadow-md transition-shadow"
+                href={`/properties/${property.id}`}
+                className="block"
+              >
+              <Card
+                className="shadow-sm border-border/50 hover:shadow-md transition-shadow h-full"
               >
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">
@@ -190,6 +195,7 @@ export default async function PropertiesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </Link>
             );
           })}
         </div>
