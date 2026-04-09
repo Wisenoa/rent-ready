@@ -2,6 +2,14 @@ import type { NextConfig } from 'next';
 
 const config: NextConfig = {
   // ========================================
+  // Lint Configuration
+  // ========================================
+  eslint: {
+    // ESLint 9 + rushstack patch incompatibility — lint is handled by CI
+    ignoreDuringBuilds: true,
+  },
+
+  // ========================================
   // Output Configuration (Required for Docker)
   // ========================================
   output: 'standalone',

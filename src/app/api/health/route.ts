@@ -50,11 +50,10 @@ async function checkRedis(): Promise<{ status: string; latency?: number; error?:
 
   try {
     const start = Date.now();
-    
+
     // Dynamically import to avoid build errors if package not installed
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const redis = require('redis');
-    const client = redis.createClient({ url: process.env.REDIS_URL });
+    const { createClient } = await import("redis");
+    const client = createClient({ url: process.env.REDIS_URL });
     
     await client.connect();
     await client.ping();
@@ -77,9 +76,8 @@ async function checkStorage(): Promise<{ status: string; error?: string }> {
 
   try {
     // Dynamically import to avoid build errors if package not installed
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const minio = require('minio');
-    const minioClient = new minio.Client({
+    const { Client: MinioClient } = await import("minio");
+    const minioClient = new MinioClient({
       endPoint: process.env.MINIO_ENDPOINT,
       port: parseInt(process.env.MINIO_PORT || '9000'),
       useSSL: process.env.MINIO_USE_SSL === 'true',

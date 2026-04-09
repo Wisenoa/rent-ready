@@ -5,7 +5,7 @@ import {
   Head,
   Heading,
   Hr,
-  Html,
+  Html as EmailHtml,
   Link,
   Preview,
   Section,
@@ -28,7 +28,7 @@ export function TenantInvitationEmail({
   propertyAddress,
 }: TenantInvitationEmailProps) {
   return (
-    <Html>
+    <EmailHtml>
       <Head />
       <Preview>
         Accédez à votre espace locataire - {landlordFirstName} {landlordLastName} vous invite
@@ -94,7 +94,7 @@ export function TenantInvitationEmail({
           </Section>
         </Container>
       </Body>
-    </Html>
+    </EmailHtml>
   );
 }
 

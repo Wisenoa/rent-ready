@@ -34,8 +34,8 @@ export async function uploadBuffer(
     };
   }
 
-  const Minio = require("minio");
-  const client = new Minio.Client({
+  const { Client: MinioClient } = await import("minio");
+  const client = new MinioClient({
     endPoint: process.env.MINIO_ENDPOINT,
     port: parseInt(process.env.MINIO_PORT || "9000"),
     useSSL: process.env.MINIO_USE_SSL === "true",
@@ -69,8 +69,8 @@ export async function deleteObject(objectName: string): Promise<void> {
     return;
   }
 
-  const Minio = require("minio");
-  const client = new Minio.Client({
+  const { Client: MinioClient } = await import("minio");
+  const client = new MinioClient({
     endPoint: process.env.MINIO_ENDPOINT,
     port: parseInt(process.env.MINIO_PORT || "9000"),
     useSSL: process.env.MINIO_USE_SSL === "true",

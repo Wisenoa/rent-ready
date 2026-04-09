@@ -5,7 +5,7 @@ import {
   Head,
   Heading,
   Hr,
-  Html,
+  Html as EmailHtml,
   Link,
   Preview,
   Section,
@@ -87,7 +87,7 @@ export function PaymentReminderEmail({
   const daysRemaining = Math.max(0, 14 - daysLate);
 
   return (
-    <Html>
+    <EmailHtml>
       <Head />
       <Preview>{config.preview}</Preview>
       <Body style={styles.body}>
@@ -163,7 +163,7 @@ export function PaymentReminderEmail({
           </Section>
         </Container>
       </Body>
-    </Html>
+    </EmailHtml>
   );
 }
 
