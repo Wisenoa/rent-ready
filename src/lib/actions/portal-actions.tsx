@@ -106,7 +106,7 @@ export async function sendTenantInvitation(tenantId: string): Promise<ActionResu
 
     // Send email via Resend
     const { resend, fromEmail } = await import("@/lib/email");
-    const { TenantInvitationEmail } = await import("@/lib/emails/tenant-invitation");
+    const { TenantInvitationEmail } = await import("../../../emails/tenant-invitation");
 
     const emailResult = await resend.emails.send({
       from: fromEmail,
