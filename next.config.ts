@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { withSentryConfig } from '@sentry/nextjs';
 
 const config: NextConfig = {
   // ========================================
@@ -117,4 +118,9 @@ const config: NextConfig = {
   },
 };
 
-export default config;
+export default withSentryConfig(config, {
+  org: process.env.SENTRY_ORG || 'wisenoa',
+  project: 'rent-ready',
+  widenClientFileUpload: false,
+  tunnelRoute: '/api/sentry-error',
+});
