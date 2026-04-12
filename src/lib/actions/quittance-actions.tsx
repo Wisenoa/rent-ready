@@ -7,9 +7,8 @@ import {
   determineReceiptType,
   generateReceiptNumber,
   type QuittanceData,
-  QuittancePDF,
 } from "@/lib/quittance-generator";
-import { uploadBuffer } from "@/lib/storage";
+import { generateAndUploadQuittancePdf } from "./quittance-pdf-server";
 import type { ActionResult } from "./property-actions";
 
 /**
@@ -102,39 +101,13 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       isFullPayment: receiptType === "QUITTANCE",
     };
 
-    // Render PDF on the server side using @react-pdf/renderer
-    const { renderToBuffer } = await import("@react-pdf/renderer");
-    const facturX = await import("@/lib/facturx");
-    const facturXPDF = await import("@/lib/facturx-pdf");
-
-    const pdfBuffer = await renderToBuffer(
-      <QuittancePDF data={quittanceData} />
+    // Delegate PDF generation to the dedicated server module (avoids duplicate renderToBuffer + embedFacturX logic)
+    const receiptUrl = await generateAndUploadQuittancePdf(
+      transactionId,
+      quittanceData,
+      receiptNumber,
+      userId
     );
-
-    const facturXml = facturX.generateFacturXml(quittanceData);
-    const enhancedPdfBuffer = await facturXPDF.embedFacturX(
-      Buffer.from(pdfBuffer),
-      facturXml,
-      {
-        title: quittanceData.isFullPayment ? "Quittance de Loyer" : "Reçu de Paiement Partiel",
-        author: `${quittanceData.landlord.firstName} ${quittanceData.landlord.lastName}`,
-        subject: `${quittanceData.receiptNumber}`,
-      }
-    );
-
-    // Upload to object storage
-    let receiptUrl = "";
-    try {
-      const objectName = `quittances/${userId}/${receiptNumber}.pdf`;
-      const uploadResult = await uploadBuffer(
-        Buffer.from(enhancedPdfBuffer),
-        objectName,
-        "application/pdf"
-      );
-      receiptUrl = uploadResult.url;
-    } catch (storageError) {
-      console.warn("MinIO not configured, skipping PDF upload:", storageError);
-    }
 
     await prisma.transaction.update({
       where: { id: transactionId },
@@ -151,7 +124,7 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       data: {
         receiptType,
         receiptNumber,
-        receiptUrl,
+        receiptUrl: receiptUrl || "",
         quittanceData: JSON.parse(JSON.stringify(quittanceData)),
       },
     };
