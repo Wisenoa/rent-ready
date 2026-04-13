@@ -7,25 +7,25 @@ groups:
       # ========================================
       - alert: HighErrorRate
         expr: |
-          sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+          sum(rate(http_requests_total{job="rent-ready-app",status=~"5.."}[5m])) by (job)
           /
-          sum(rate(http_requests_total[5m])) by (service) > 0.05
+          sum(rate(http_requests_total{job="rent-ready-app"}[5m])) by (job) > 0.05
         for: 5m
         labels:
           severity: critical
         annotations:
           summary: High error rate detected
-          description: "Service {{ $labels.service }} has error rate > 5% for 5 minutes"
+          description: "Service rent-ready-app has error rate > 5% for 5 minutes on staging"
 
       - alert: HighResponseTime
         expr: |
-          histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service)) > 3
+          histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="rent-ready-app"}[5m])) by (le)) > 3
         for: 5m
         labels:
           severity: warning
         annotations:
           summary: High response time
-          description: "Service {{ $labels.service }} P95 latency > 3s"
+          description: "rent-ready-app P95 latency > 3s on staging"
 
       # ========================================
       # Database Alerts
@@ -93,3 +93,25 @@ groups:
         annotations:
           summary: Low disk space
           description: "Only {{ $value }}% disk space remaining"
+
+  # ========================================
+  # Uptime / Availability Alerts
+  # ========================================
+  - alert: StagingHealthDown
+        expr: probe_success{job="blackbox-http", env="staging"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Staging /health endpoint is down"
+          description: "The staging health endpoint has been unreachable for more than 2 minutes"
+
+  - alert: StagingHealthSlow
+        expr: |
+          probe_http_duration_seconds{job="blackbox-http", env="staging", phase="ready"} > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Staging health endpoint is slow"
+          description: "Staging /health response time > 3s for 5 minutes"

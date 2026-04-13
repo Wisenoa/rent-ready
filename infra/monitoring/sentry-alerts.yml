@@ -1,0 +1,63 @@
+# ========================================
+# Sentry Alert Rules — Staging Environment
+# ========================================
+# These alerts should be configured in the Sentry UI:
+# https://sentry.io/organizations/wisenoa/alerts/
+#
+# Environment: staging (set via NEXT_PUBLIC_APP_ENV=staging or NODE_ENV=staging)
+# Project: rent-ready
+# ========================================
+
+# ──────────────────────────────────────
+# Alert 1: API Error Rate > 1%
+# ──────────────────────────────────────
+# Condition: 95% of transactions in an API route have errors
+# Frequency: Every 5 minutes
+# Severity: warning
+# Notify: #devops-alerts Slack channel
+
+# ──────────────────────────────────────
+# Alert 2: API P95 Latency > 3s
+# ──────────────────────────────────────
+# Condition:95% of transactions in any API route exceed 3 second duration
+# Frequency: Every 5 minutes
+# Severity: warning
+# Notify: #devops-alerts Slack channel
+
+# ──────────────────────────────────────
+# Alert 3: Critical Error — Unhandled Exception
+# ──────────────────────────────────────
+# Condition: Any unhandled exception (level: error, exception type: *)
+# Frequency: Immediately
+# Severity: critical
+# Notify: #devops-critical Slack channel + email:devops@example.com
+
+# ──────────────────────────────────────
+# Alert 4: Database Connection Failure
+# ──────────────────────────────────────
+# Condition: Error message contains "Can't reach database" or "Connection refused"
+# Frequency: Immediately
+# Severity: critical
+# Notify: #devops-critical Slack channel + email:devops@example.com
+
+# ──────────────────────────────────────
+# Alert 5: Authentication/Auth Errors Spike
+# ──────────────────────────────────────
+# Condition: More than 10 auth errors in 5 minutes
+# Frequency: Every 5 minutes
+# Severity: warning
+# Notify: #devops-alerts Slack channel
+
+# ──────────────────────────────────────
+# Sentry Environments Setup
+# ──────────────────────────────────────
+# In Sentry, configure environments:
+#   - development  (local dev)
+#   - staging      (staging server / Vercel preview)
+#   - production   (production)
+#
+# Each environment should have its own:
+#   - Alert rules
+#   - Ownership rules
+#   - Slack integration
+#   - DSN (already configured via NEXT_PUBLIC_SENTRY_DSN env var)

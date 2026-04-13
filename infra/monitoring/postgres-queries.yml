@@ -1,0 +1,114 @@
+# ========================================
+# PostgreSQL Exporter — Custom Queries
+# ========================================
+
+pg_stat_database:
+  query: |
+    SELECT
+      datname,
+      numbackfillconnects,
+      xact_commit AS transactions_committed,
+      xact_rollback AS transactions_rolledback,
+      blks_read,
+      blks_hit,
+      tup_returned,
+      tup_fetched,
+      tup_inserted,
+      tup_updated,
+      tup_deleted,
+      conflicts,
+      temp_files,
+      temp_bytes,
+      deadlocks,
+      blk_read_time,
+      blk_write_time,
+      stats_reset
+    FROM pg_stat_database
+    WHERE datname NOT IN ('template0', 'template1', 'postgres')
+  metrics:
+    - numbackfillconnects:
+        usage: "GAUGE"
+        description: "Number of background processes"
+    - transactions_committed:
+        usage: "COUNTER"
+        description: "Number of committed transactions"
+    - transactions_rolledback:
+        usage: "COUNTER"
+        description: "Number of rolled back transactions"
+    - blks_read:
+        usage: "COUNTER"
+        description: "Number of disk blocks read"
+    - blks_hit:
+        usage: "COUNTER"
+        description: "Number of times disk blocks were found in buffer cache"
+    - tup_returned:
+        usage: "COUNTER"
+        description: "Number of rows returned by queries in database"
+    - tup_fetched:
+        usage: "COUNTER"
+        description: "Number of rows fetched by queries in database"
+    - tup_inserted:
+        usage: "COUNTER"
+        description: "Number of rows inserted"
+    - tup_updated:
+        usage: "COUNTER"
+        description: "Number of rows updated"
+    - tup_deleted:
+        usage: "COUNTER"
+        description: "Number of rows deleted"
+    - conflicts:
+        usage: "COUNTER"
+        description: "Number of queries that failed due to conflicts"
+    - temp_files:
+        usage: "COUNTER"
+        description: "Number of temporary files created"
+    - temp_bytes:
+        usage: "COUNTER"
+        description: "Total bytes written to temporary files"
+    - deadlocks:
+        usage: "COUNTER"
+        description: "Number of deadlocks detected"
+    - blk_read_time:
+        usage: "COUNTER"
+        description: "Time spent reading data file blocks"
+    - blk_write_time:
+        usage: "COUNTER"
+        description: "Time spent writing data file blocks"
+
+pg_replication:
+  query: |
+    SELECT
+      client_addr,
+      state,
+      sent_lsn,
+      write_lsn,
+      flush_lsn,
+      replay_lsn,
+      sync_priority,
+      sync_state
+    FROM pg_stat_replication
+  metrics:
+    - client_addr:
+        usage: "LABEL"
+        description: "Client IP address"
+    - state:
+        usage: "LABEL"
+        description: "Wal sender state"
+    - sent_lsn:
+        usage: "GAUGE"
+        description: "Last WAL position sent"
+    - write_lsn:
+        usage: "GAUGE"
+        description: "Last WAL position written to disk"
+    - flush_lsn:
+        usage: "GAUGE"
+        description: "Last WAL position flushed to disk"
+    - replay_lsn:
+        usage: "GAUGE"
+        description: "Last WAL position replayed"
+    - sync_priority:
+        usage: "GAUGE"
+        description: "Priority in synchronous replication"
+    - sync_state:
+        usage: "LABEL"
+        description: "Synchronous state of replica"

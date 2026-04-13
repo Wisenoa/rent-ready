@@ -1,26 +1,50 @@
 # ========================================
 # Docker Compose Override for Staging
 # ========================================
-version: '3.9'
 
 services:
   # ========================================
-  # Staging Database (separate instance)
+  # Staging Database
   # ========================================
   postgres:
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-rentready}}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rentready_staging_2026}
+      POSTGRES_USER: ${POSTGRES_USER:-rentready}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rentre...2026}
       POSTGRES_DB: ${POSTGRES_DB:-rentready_staging}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
 
   # ========================================
-  # Staging App with Debugging
+  # Staging Redis
+  # ========================================
+  redis:
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
+
+  # ========================================
+  # Staging App
   # ========================================
   app:
     environment:
       NODE_ENV: staging
       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://staging.your-domain.com}
       SENTRY_ENVIRONMENT: staging
-      LOG_LEVEL: debug
+      SENTRY_DSN: ${SENTRY_DSN}
+      LOG_LEVEL: ${LOG_LEVEL:-debug}
+      DATABASE_URL: ${DATABASE_URL}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     volumes:
       - ./logs:/app/logs
+
+  # ========================================
+  # Monitoring Network Join
+  # ========================================
+networks:
+  default:
+    name: rent-ready-network
+  rent-ready-monitoring:
+    name: rent-ready-monitoring
+    external: true

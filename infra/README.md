@@ -291,11 +291,166 @@ deploy:
 - [ ] Set up database read replicas
 - [ ] Configure auto-scaling policies
 
-### 13. Support Contacts
+## Support Contacts
 
 For infrastructure issues:
 - CTO: (Your CTO agent)
 - DevOps: (Your DevOps agent)
+
+---
+
+## Staging Environment — Operations Guide
+
+### Overview
+
+The staging environment mirrors production architecture and is automatically deployed on every push to `master` or `main` via the CI/CD pipeline (`.github/workflows/ci.yml`).
+
+### Infrastructure Components
+
+| Component | URL | Purpose |
+|-----------|-----|---------|
+| **Staging App** | `https://staging.your-domain.com` | Main Next.js application |
+| **Health Check** | `https://staging.your-domain.com/api/health` | Liveness/readiness probe |
+| **Metrics** | `https://staging.your-domain.com/api/metrics` | Prometheus metrics |
+| **Grafana** | `http://<staging-server>:3001` | Dashboards & visualization |
+| **Prometheus** | `http://<staging-server>:9090` | Metrics collection |
+| **Alertmanager** | `http://<staging-server>:9093` | Alert routing |
+| **Vercel Preview** | Generated per PR | Preview deployments |
+
+### GitHub Secrets Required (CI/CD)
+
+Set these in **GitHub → Settings → Secrets and variables → Actions**:
+
+| Secret | Description | Example |
+|--------|-------------|---------|
+| `STAGING_HOST` | Staging server hostname/IP | `staging.your-domain.com` |
+| `STAGING_SSH_KEY` | SSH private key for deploy user | `-----BEGIN OPENSSH...` |
+| `STAGING_DATABASE_URL` | Staging PostgreSQL connection string | `postgresql://...` |
+| `STAGING_STRIPE_KEY` | Stripe test publishable key | `pk_test_...` |
+| `VERCEL_TOKEN` | Vercel API token | `xxxxx` |
+| `VERCEL_APP_URL` | Vercel preview app URL base | `https://rent-ready-xxx.vercel.app` |
+
+### GitHub Variables Required
+
+Set these in **GitHub → Settings → Variables → Actions**:
+
+| Variable | Description |
+|----------|-------------|
+| `STAGING_APP_URL` | Public staging app URL (e.g. `https://staging.your-domain.com`) |
+
+### Starting the Full Staging Stack
+
+```bash
+# 1. Start the app + database + redis
+docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d
+
+# 2. Start the monitoring stack (Prometheus, Grafana, Alertmanager)
+docker compose -f docker-compose.monitoring.yml up -d
+
+# 3. Run migrations
+docker compose -f docker-compose.yml -f docker-compose.staging.yml exec app \
+  npx prisma migrate deploy
+
+# 4. Verify health
+curl -sf https://staging.your-domain.com/api/health | jq .
+```
+
+### Monitoring Stack Access
+
+```bash
+# Prometheus (metrics)
+open http://<staging-server>:9090
+
+# Grafana (dashboards) — default admin/changeme
+open http://<staging-server>:3001
+
+# Alertmanager (alert status)
+open http://<staging-server>:9093
+```
+
+### Alerting Channels
+
+Alerts route through **Alertmanager** to:
+
+| Severity | Channel |
+|----------|---------|
+| `critical` | Email: `devops@example.com` + Slack webhook |
+| `warning` | Email: `team@example.com` |
+| `info` | Slack webhook (optional) |
+
+Configure email/SMTP in environment variables:
+```bash
+SMTP_HOST=smtp.example.com
+SMTP_FROM=alerts@example.com
+CRITICAL_ALERT_EMAIL=devops@example.com
+WARNING_ALERT_EMAIL=team@example.com
+CRITICAL_WEBHOOK_URL=https://hooks.slack.com/services/...
+```
+
+### Vercel Preview Deployments
+
+Every pull request automatically triggers a Vercel preview deployment via the `vercel-preview` CI job. The preview URL is posted as a PR comment.
+
+Required GitHub Secrets for Vercel:
+- `VERCEL_TOKEN` — Create at https://vercel.com/account/tokens
+- `VERCEL_APP_URL` — Set in Vercel project settings
+
+### Uptime Monitoring
+
+For the `/api/health` endpoint:
+
+1. **Vercel Uptime** (if using Vercel hosting): Built-in uptime monitoring in Vercel dashboard
+2. **Better Uptime / Pingdom**: Add `https://staging.your-domain.com/api/health` with 1-minute check interval
+3. **Custom**: Use Prometheus `blackbox_exporter` with `http_2xx` probe against the health endpoint
+
+### Health Check Response
+
+A healthy staging response looks like:
+
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-04-13T08:00:00.000Z",
+  "version": "0.1.0",
+  "environment": "staging",
+  "checks": {
+    "database": { "status": "healthy", "latency": 5 },
+    "redis": { "status": "healthy", "latency": 2 },
+    "storage": { "status": "healthy" }
+  }
+}
+```
+
+### CI/CD Pipeline
+
+The pipeline (`.github/workflows/ci.yml`) runs:
+
+1. **lint** — TypeScript type checking (`tsc --noEmit`)
+2. **test** — Unit tests (`vitest`)
+3. **build** — Docker image build + push to GHCR (on `master`/`main`)
+4. **deploy-staging** — SSH to staging server, pull image, run migrations, restart services (on `master`/`main`)
+5. **vercel-preview** — Vercel preview deployment (on every PR)
+6. **migration-check** — Prisma schema validation (on all PRs)
+
+### Troubleshooting
+
+```bash
+# View app logs
+docker compose -f docker-compose.yml -f docker-compose.staging.yml logs -f app
+
+# View all staging logs
+docker compose -f docker-compose.yml -f docker-compose.staging.yml logs -f
+
+# Restart app only
+docker compose -f docker-compose.yml -f docker-compose.staging.yml restart app
+
+# Force redeploy
+docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d --force-recreate --no-deps app
+
+# Check Prometheus targets
+curl -s http://localhost:9090/api/v1/targets | jq '.data.activeTargets[] | select(.labels.job=="rent-ready-app")'
+```
+
 
 ## Quick Start
 

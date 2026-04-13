@@ -12,13 +12,15 @@ rule_files:
 
 scrape_configs:
   # ========================================
-  # Application Metrics
+  # Application Metrics (Next.js /api/metrics)
   # ========================================
   - job_name: 'rent-ready-app'
     static_configs:
       - targets: ['app:3000']
     metrics_path: '/api/metrics'
     scheme: http
+    scrape_interval: 15s
+    scrape_timeout: 10s
 
   # ========================================
   # PostgreSQL Exporter
@@ -47,6 +49,30 @@ scrape_configs:
   - job_name: 'nginx'
     static_configs:
       - targets: ['nginx-exporter:9113']
+
+  # ========================================
+  # Blackbox — HTTP Uptime Probes
+  # ========================================
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      # ─── Staging Health Endpoint ───
+      - labels:
+          env: staging
+          service: rent-ready-app
+        targets:
+          - https://staging.your-domain.com/api/health
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+    scrape_interval: 60s
+    scrape_timeout: 30s
 
 alerting:
   alertmanagers:

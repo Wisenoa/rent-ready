@@ -72,6 +72,8 @@ jobs:
     timeout-minutes: 20
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     environment: staging
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tags }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -94,7 +96,7 @@ jobs:
           tags: |
             type=ref,event=branch
             type=sha,prefix={{branch}}-
-            type=raw,value=staging,enable=${{ github.ref == 'refs/heads/master' }}
+            type=raw,value=staging,enable=${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -111,13 +113,13 @@ jobs:
           cache-to: type=gha,mode=max
 
   # ─────────────────────────────────────────────
-  # Deploy to Staging (only on master/main)
+  # Deploy to Staging (on both master and main)
   # ─────────────────────────────────────────────
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     environment: staging
     needs: [build]
     steps:
@@ -129,6 +131,9 @@ jobs:
             docker-compose.prod.yml
           sparse-checkout-cone-mode: non-recursive
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Deploy to staging server
         uses: appleboy/ssh-action@v1
         with:
@@ -136,21 +141,111 @@ jobs:
           username: ubuntu
           key: ${{ secrets.STAGING_SSH_KEY }}
           script: |
-            cd /opt/rent-ready
+            set -e
+            set -o pipefail
+
+            REPO="${{ github.repository_owner }}/rent-ready"
             
-            # Pull latest docker image
-            docker pull ghcr.io/${{ github.repository_owner }}/rent-ready:master
+            # Determine image tag from branch
+            BRANCH_IMAGE="${REPO}:$(echo ${{ github.ref_name }} | sed 's/\//-/g')"
+            
+            echo "🚀 Pulling image: ${BRANCH_IMAGE}"
+            docker pull ghcr.io/${BRANCH_IMAGE} || docker pull ghcr.io/${REPO}:master || exit 1
+            
+            # Determine compose profile / compose file
+            COMPOSE_FILES="-f docker-compose.yml -f docker-compose.staging.yml"
             
             # Run Prisma migrations
-            docker run --rm ghcr.io/${{ github.repository_owner }}/rent-ready:master \
-              npx prisma migrate deploy --schema prisma/schema.prisma
+            echo "🔄 Running Prisma migrations..."
+            docker run --rm \
+              --network rent-ready-network \
+              -e DATABASE_URL="${{ secrets.STAGING_DATABASE_URL }}" \
+              ghcr.io/${BRANCH_IMAGE} \
+              npx prisma migrate deploy --schema prisma/schema.prisma || true
             
             # Restart services
-            docker-compose -f docker-compose.staging.yml up -d --force-recreate app
+            echo "🚢 Restarting staging services..."
+            docker compose $COMPOSE_FILES up -d --remove-orphans
             
             # Health check
-            sleep 10
-            curl -f https://staging.your-domain.com/api/health || exit 1
+            echo "🏥 Running health check..."
+            STAGING_URL="${{ vars.STAGING_APP_URL }}"
+            MAX_RETRIES=15
+            for i in $(seq 1 $MAX_RETRIES); do
+              if curl -sf "${STAGING_URL}/api/health" > /dev/null 2>&1; then
+                echo "✅ Health check passed on attempt ${i}"
+                exit 0
+              fi
+              echo "⏳ Attempt ${i}/${MAX_RETRIES}..."
+              sleep 5
+            done
+            echo "❌ Health check failed after ${MAX_RETRIES} attempts"
+            docker compose $COMPOSE_FILES logs --tail=50 app
+            exit 1
+
+      - name: Report deployment status
+        if: always()
+        run: |
+          echo "Deployment to staging ${{ github.ref_name }} completed at $(date -u)"
+          echo "Staging URL: ${{ vars.STAGING_APP_URL }}"
+          echo "Image: ${{ needs.build.outputs.image_tag }}"
+
+  # ─────────────────────────────────────────────
+  # Vercel Preview Deployment (for PRs)
+  # ─────────────────────────────────────────────
+  vercel-preview:
+    name: Vercel Preview Deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.preview_url }}
+    outputs:
+      preview_url: ${{ steps.deploy.outputs.preview_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: |
+          vercel build \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --env NEXT_PUBLIC_APP_URL=${{ secrets.VERCEL_APP_URL }} \
+            --env NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.STAGING_STRIPE_KEY }} \
+            --env DATABASE_URL=${{ secrets.STAGING_DATABASE_URL }}
+
+      - name: Deploy to Vercel Preview
+        id: deploy
+        run: |
+          preview_url=$(vercel deploy \
+            --prebuilt \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --yes \
+            --env NEXT_PUBLIC_APP_URL=${{ secrets.VERCEL_APP_URL }} \
+            --env NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.STAGING_STRIPE_KEY }} \
+            --env DATABASE_URL=${{ secrets.STAGING_DATABASE_URL }} \
+            2>&1 | tail -1)
+          echo "preview_url=${preview_url}" >> $GITHUB_OUTPUT
+          echo "✅ Vercel preview deployed: ${preview_url}"
+
+      - name: Health check on preview
+        run: |
+          sleep 10
+          curl -sf "${{ steps.deploy.outputs.preview_url }}/api/health" || \
+            echo "⚠️  Health check failed (preview may not have DB configured)"
 
   # ─────────────────────────────────────────────
   # DB Migration Check (PRs)
