@@ -21,6 +21,9 @@ Sentry.init({
     "AbortError",
     "Non-Error promise rejection captured",
     "TypeError: Failed to fetch",
+    // Auth errors are expected — we handle them via HTTP status codes
+    "AuthenticationError",
+    "AuthorizationError",
   ],
 
   denyUrls: [
@@ -28,6 +31,28 @@ Sentry.init({
     /\/api\/health/,
     /\/_next\/static/,
   ],
+
+  // Add server-side context to every event
+  beforeSend(event) {
+    // Strip internal Next.js noise (redirect / not-found)
+    if (event.exception?.values) {
+      const isNextInternal = event.exception.values.some(
+        (v) =>
+          typeof v.value === "string" &&
+          (v.value.includes("NEXT_REDIRECT") || v.value.includes("NEXT_NOT_FOUND"))
+      );
+      if (isNextInternal) return null;
+    }
+
+    // Tag every server event with the runtime context
+    event.tags = {
+      ...event.tags,
+      runtime: "nodejs",
+      region: process.env.VERCEL_REGION || process.env.AWS_REGION || "local",
+    };
+
+    return event;
+  },
 });
 
 // Export utilities for use in API routes
