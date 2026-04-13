@@ -34,6 +34,83 @@ canonical: "https://www.rentready.fr/pricing",
 },
 };
 
+/* ─── JSON-LD: SoftwareApplication + Offer ─── */
+function PricingJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        name: "Tarifs RentReady",
+        url: "https://www.rentready.fr/pricing",
+        description:
+          "15 €/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire.",
+        isPartOf: {
+          "@type": "WebSite",
+          name: "RentReady",
+          url: "https://www.rentready.fr",
+        },
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "RentReady",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: "https://www.rentready.fr",
+        description:
+          "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France (1 à 10 biens).",
+        offers: [
+          {
+            "@type": "Offer",
+            name: "Essai gratuit",
+            description: "14 jours d'essai gratuit sans carte bancaire",
+            price: "0.00",
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+            url: "https://www.rentready.fr/register",
+          },
+          {
+            "@type": "Offer",
+            name: "Abonnement mensuel",
+            description:
+              "15 €/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire.",
+            price: "15.00",
+            priceCurrency: "EUR",
+            priceValidUntil: "2027-12-31",
+            availability: "https://schema.org/InStock",
+            url: "https://www.rentready.fr/register",
+          },
+          {
+            "@type": "Offer",
+            name: "Abonnement annuel",
+            description: "150 €/an — 2 mois offerts par rapport au tarif mensuel",
+            price: "150.00",
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+            url: "https://www.rentready.fr/register",
+          },
+        ],
+        featureList: [
+          "Quittances de loyer conformes loi 1989",
+          "Détection automatique des loyers via Open Banking DSP2",
+          "Révision IRL connectée à l'INSEE",
+          "Portail locataire avec gestion de la maintenance",
+          "OCR factures artisans par intelligence artificielle",
+          "Conformité Factur-X et e-reporting B2C 2027",
+          "Export comptable",
+          "Relance automatique impayés",
+        ],
+      },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 const includedFeatures = [
 "Jusqu'à 10 biens immobiliers",
 "Locataires illimités",
@@ -93,8 +170,9 @@ competitors: "Email standard",
 ];
 
 export default function PricingPage() {
-return (
-<div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+  return (
+    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+      <PricingJsonLd />
 
 {/* Hero */}
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
