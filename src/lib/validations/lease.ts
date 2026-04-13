@@ -16,3 +16,17 @@ export const leaseSchema = z.object({
 });
 
 export type LeaseFormValues = z.infer<typeof leaseSchema>;
+
+// Relaxed schema for standalone form — allows creating a lease with only property OR only tenant
+export const standaloneLeaseSchema = leaseSchema
+  .omit({ propertyId: true, tenantId: true })
+  .extend({
+    propertyId: z.string().optional(),
+    tenantId: z.string().optional(),
+  })
+  .refine(
+    (data) => data.propertyId || data.tenantId,
+    { message: "Au moins un bien ou un locataire est requis" }
+  );
+
+export type StandaloneLeaseFormValues = z.infer<typeof standaloneLeaseSchema>;

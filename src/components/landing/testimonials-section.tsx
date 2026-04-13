@@ -92,17 +92,50 @@ export function TestimonialsSection() {
 
         {/* Trust badges */}
         <motion.div
-          className="mx-auto mt-12 flex max-w-2xl flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[12px] text-stone-400"
+          className="mx-auto mt-12 flex max-w-2xl flex-wrap items-center justify-center gap-x-6 gap-y-3"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <span>🇪🇺 Hébergement cloud européen conforme RGPD</span>
-          <span className="hidden sm:inline">·</span>
-          <span>🔐 Synchronisation bancaire DSP2 sécurisée</span>
-          <span className="hidden sm:inline">·</span>
-          <span>📜 Quittances conformes loi du 6 juillet 1989</span>
+          {[
+            {
+              icon: (
+                <svg className="size-3.5 text-stone-400 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="8" cy="8" r="6.5" />
+                  <path d="M5.5 8l1.8 1.8L10.5 6.5" />
+                </svg>
+              ),
+              text: "Hébergement cloud européen conforme RGPD",
+            },
+            {
+              icon: (
+                <svg className="size-3.5 text-stone-400 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="7" width="10" height="7" rx="1.5" />
+                  <path d="M5.5 7V5a2.5 2.5 0 015 0v2" />
+                </svg>
+              ),
+              text: "Synchronisation bancaire DSP2 sécurisée",
+            },
+            {
+              icon: (
+                <svg className="size-3.5 text-stone-400 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="2" width="10" height="12" rx="1.5" />
+                  <path d="M6 6h4M6 9h4M6 12h2" />
+                </svg>
+              ),
+              text: "Quittances conformes loi du 6 juillet 1989",
+            },
+          ].map((badge, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-1.5 text-[12px] text-stone-400"
+            >
+              {badge.icon}
+              {badge.text}
+              {i < 2 && <span className="hidden sm:inline ml-2 text-stone-300">·</span>}
+            </span>
+          ))}
         </motion.div>
       </div>
     </section>

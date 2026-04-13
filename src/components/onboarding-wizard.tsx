@@ -336,7 +336,7 @@ function PropertyStep({
         onClick={handleSkip}
         className="w-full text-center text-sm text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
       >
-        Je n&apos;ai pas de bien à ajouter maintenant
+        Je configure plus tard
       </button>
     </form>
   );
@@ -516,7 +516,7 @@ function TenantStep({
         onClick={handleSkip}
         className="w-full text-center text-sm text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
       >
-        Pas de locataire pour le moment
+        Je configure plus tard
       </button>
     </form>
   );
@@ -761,13 +761,84 @@ function SuccessStep({
   onClose: () => void;
   onGenerateReceipt: () => void;
 }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    const colors = ["#6366f1", "#10b981", "#f59e0b", "#ec4899", "#3b82f6"];
+    interface Particle {
+      x: number; y: number; vx: number; vy: number; color: string;
+      rotation: number; rotationSpeed: number; size: number; opacity: number;
+    }
+    const particles: Particle[] = [];
+    const count = 60;
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: canvas.width / 2 + (Math.random() - 0.5) * 40,
+        y: canvas.height / 2,
+        vx: (Math.random() - 0.5) * 8,
+        vy: -(Math.random() * 6 + 3),
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 6 + 3,
+        opacity: 1,
+      });
+    }
+
+    let animId: number;
+    function animate() {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let alive = false;
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.15;
+        p.rotation += p.rotationSpeed;
+        p.opacity -= 0.012;
+        if (p.opacity <= 0) continue;
+        alive = true;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.opacity);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+        ctx.restore();
+      }
+      if (alive) {
+        animId = requestAnimationFrame(animate);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
   return (
     <div className="flex flex-col items-center py-6 text-center space-y-5">
       <div className="relative">
-        <div className="size-16 rounded-full bg-emerald-100 flex items-center justify-center">
+        {/* Confetti canvas */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 pointer-events-none"
+          style={{ width: "6rem", height: "6rem" }}
+        />
+        <div className="size-16 rounded-full bg-emerald-100 flex items-center justify-center relative z-10">
           <CheckCircle2 className="size-8 text-emerald-600" />
         </div>
-        <div className="absolute -top-1 -right-1">
+        <div className="absolute -top-1 -right-1 z-20">
           <PartyPopper className="size-6 text-amber-500" />
         </div>
       </div>
@@ -1098,7 +1169,7 @@ export function OnboardingWizard({
                 onClick={handleClose}
                 className="w-full text-center text-sm text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
               >
-                Plus tard — configurer depuis le tableau de bord
+                Je configure plus tard
               </button>
             </div>
           </>

@@ -12,8 +12,7 @@ function mockRequest(
   if (options.cookieName && options.cookieValue) {
     headers.set("cookie", `${options.cookieName}=${options.cookieValue}`);
   }
-  const { signal: _signal, ...rest } = options;
-  const { headers: _headers, ...opts } = rest;
+  const { signal: _signal, headers: _headers, ...opts } = options;
   return new NextRequest(url, { ...opts, headers } as RequestInit);
 }
 

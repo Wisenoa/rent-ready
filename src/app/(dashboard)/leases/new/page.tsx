@@ -29,7 +29,9 @@ export default async function NewLeasePage() {
     }),
   ]);
 
-  if (properties.length === 0 || tenants.length === 0) {
+  // Only redirect if NEITHER properties NOR tenants exist — we can still create
+  // a partial lease with just one of them
+  if (properties.length === 0 && tenants.length === 0) {
     redirect("/leases");
   }
 

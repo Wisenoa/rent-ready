@@ -122,6 +122,7 @@ model Property {
   taxRef        String?  // Numéro fiscal du bien
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  deletedAt     DateTime? // Soft delete
 
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   leases        Lease[]

@@ -93,12 +93,12 @@ export async function deleteProperty(id: string): Promise<ActionResult> {
   try {
     const userId = await getCurrentUserId();
     
-    const existing = await prisma.property.findUnique({ where: { id } });
-    if (!existing || existing.userId !== userId) {
+    const existing = await prisma.property.findFirst({ where: { id, userId, deletedAt: null } });
+    if (!existing) {
       return { success: false, error: "Bien introuvable ou accès non autorisé." };
     }
 
-    await prisma.property.delete({ where: { id } });
+    await prisma.property.update({ where: { id }, data: { deletedAt: new Date() } });
     revalidatePath("/properties");
     return { success: true };
   } catch (error) {

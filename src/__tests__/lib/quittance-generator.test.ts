@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   determineReceiptType,
   generateReceiptNumber,
-} from "@/lib/quittance-generator";
+} from "@/lib/payment-utils";
 
 describe("determineReceiptType", () => {
   it("returns QUITTANCE when amount covers full rent + charges", () => {

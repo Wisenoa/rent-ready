@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     const [properties, total] = await Promise.all([
       prisma.property.findMany({
-        where: { userId: session.user.id },
+        where: { userId: session.user.id, deletedAt: null },
         include: {
           _count: { select: { leases: true, units: true } },
           leases: {
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         skip,
         take: limit,
       }),
-      prisma.property.count({ where: { userId: session.user.id } }),
+      prisma.property.count({ where: { userId: session.user.id, deletedAt: null } }),
     ]);
 
     return NextResponse.json({

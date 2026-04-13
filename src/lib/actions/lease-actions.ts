@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
-import { leaseSchema } from "@/lib/validations/lease";
+import { leaseSchema, standaloneLeaseSchema } from "@/lib/validations/lease";
 import type { ActionResult } from "./property-actions";
 import { generateAndUploadBailPdf } from "./bail-pdf-server";
 
@@ -12,39 +12,51 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
     const userId = await getCurrentUserId();
 
     const raw = Object.fromEntries(formData.entries());
-    const parsed = leaseSchema.safeParse(raw);
+
+    // Try strict schema first (both propertyId + tenantId required)
+    let parsed = leaseSchema.safeParse(raw);
+
+    // Fall back to relaxed schema (propertyId OR tenantId is fine)
+    if (!parsed.success) {
+      parsed = standaloneLeaseSchema.safeParse(raw) as typeof parsed;
+    }
 
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0]?.message ?? "Données invalides" };
     }
 
-    // Verify property and tenant belong to user
-    const [property, tenant] = await Promise.all([
-      prisma.property.findUnique({ where: { id: parsed.data.propertyId } }),
-      prisma.tenant.findUnique({ where: { id: parsed.data.tenantId } }),
-    ]);
+    const data = parsed.data;
 
-    if (!property || property.userId !== userId) {
-      return { success: false, error: "Bien introuvable ou accès non autorisé." };
+    // Verify property belongs to user (if provided)
+    if (data.propertyId) {
+      const property = await prisma.property.findUnique({ where: { id: data.propertyId } });
+      if (!property || property.userId !== userId) {
+        return { success: false, error: "Bien introuvable ou accès non autorisé." };
+      }
     }
-    if (!tenant || tenant.userId !== userId) {
-      return { success: false, error: "Locataire introuvable ou accès non autorisé." };
+
+    // Verify tenant belongs to user (if provided)
+    if (data.tenantId) {
+      const tenant = await prisma.tenant.findUnique({ where: { id: data.tenantId } });
+      if (!tenant || tenant.userId !== userId) {
+        return { success: false, error: "Locataire introuvable ou accès non autorisé." };
+      }
     }
 
     const leaseData = {
       userId,
-      propertyId: parsed.data.propertyId,
-      tenantId: parsed.data.tenantId,
-      rentAmount: parsed.data.rentAmount,
-      chargesAmount: parsed.data.chargesAmount,
-      depositAmount: parsed.data.depositAmount,
-      startDate: new Date(parsed.data.startDate),
-      endDate: parsed.data.endDate ? new Date(parsed.data.endDate) : null,
-      paymentDay: parsed.data.paymentDay,
-      paymentMethod: parsed.data.paymentMethod,
-      leaseType: parsed.data.leaseType,
-      irlReferenceQuarter: parsed.data.irlReferenceQuarter || null,
-      irlReferenceValue: parsed.data.irlReferenceValue ?? null,
+      propertyId: data.propertyId || null,
+      tenantId: data.tenantId || null,
+      rentAmount: data.rentAmount,
+      chargesAmount: data.chargesAmount,
+      depositAmount: data.depositAmount,
+      startDate: new Date(data.startDate),
+      endDate: data.endDate ? new Date(data.endDate) : null,
+      paymentDay: data.paymentDay,
+      paymentMethod: data.paymentMethod,
+      leaseType: data.leaseType,
+      irlReferenceQuarter: data.irlReferenceQuarter || null,
+      irlReferenceValue: data.irlReferenceValue ?? null,
     };
 
     const lease = await prisma.lease.create({
@@ -52,19 +64,21 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
     });
 
     // Generate and upload bail PDF — best-effort (non-blocking)
-    const documentUrl = await generateAndUploadBailPdf(
-      lease.id,
-      userId,
-      parsed.data.propertyId,
-      parsed.data.tenantId,
-      leaseData
-    );
+    if (data.propertyId && data.tenantId) {
+      const documentUrl = await generateAndUploadBailPdf(
+        lease.id,
+        userId,
+        data.propertyId,
+        data.tenantId,
+        leaseData
+      );
 
-    if (documentUrl) {
-      await prisma.lease.update({
-        where: { id: lease.id },
-        data: { documentUrl },
-      });
+      if (documentUrl) {
+        await prisma.lease.update({
+          where: { id: lease.id },
+          data: { documentUrl },
+        });
+      }
     }
 
     revalidatePath("/properties");

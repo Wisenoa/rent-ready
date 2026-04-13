@@ -84,8 +84,8 @@ export function HeroSection() {
               </span>
             </motion.p>
 
-            {/* CTA */}
-            <motion.div variants={fadeUp} className="mt-10">
+            {/* CTAs */}
+            <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-4">
               <Link href="/register">
                 <motion.span
                   className="inline-flex items-center gap-2.5 rounded-2xl bg-stone-900 px-8 py-4 text-[15px] font-semibold text-white shadow-xl shadow-stone-900/15"
@@ -97,10 +97,20 @@ export function HeroSection() {
                   <ArrowRight className="size-4" />
                 </motion.span>
               </Link>
-              <p className="mt-3 text-[13px] text-stone-400">
-                Sans carte bancaire · Essai gratuit 14 jours
-              </p>
+              <Link href="/demo">
+                <motion.span
+                  className="inline-flex items-center gap-2 rounded-2xl border border-stone-300 bg-white/80 px-6 py-4 text-[15px] font-semibold text-stone-700 shadow-lg shadow-stone-900/5 backdrop-blur-sm"
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={spring.bouncy}
+                >
+                  Voir la démo
+                </motion.span>
+              </Link>
             </motion.div>
+            <p className="mt-4 text-[13px] text-stone-400">
+              Sans carte bancaire · Essai gratuit 14 jours
+            </p>
 
             {/* Trust badges — Gestalt proximity, right below CTA */}
             <motion.div

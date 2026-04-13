@@ -13,6 +13,7 @@ import {
   Home,
   Calendar,
   Wrench,
+  FileText,
 } from "lucide-react";
 import {
   Card,
@@ -302,12 +303,15 @@ export default async function DashboardPage() {
                       </div>
                       <div>
                         <p className="text-sm font-medium">
-                          {tx.lease.tenant.firstName}{" "}
-                          {tx.lease.tenant.lastName}
-                          <span className="text-muted-foreground font-normal">
-                            {" "}
-                            — {tx.lease.property.name}
-                          </span>
+                          {tx.lease.tenant
+                            ? `${tx.lease.tenant.firstName} ${tx.lease.tenant.lastName}`
+                            : "Locataire inconnu"}
+                          {tx.lease.property && (
+                            <span className="text-muted-foreground font-normal">
+                              {" "}
+                              — {tx.lease.property.name}
+                            </span>
+                          )}
                         </p>
                         <p className="text-xs text-muted-foreground">
                           {format(tx.createdAt, "d MMM yyyy", { locale: fr })}
@@ -338,25 +342,25 @@ export default async function DashboardPage() {
         <CardContent>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/properties"
-              className="inline-flex items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
+              href="/properties/new"
+              className="inline-flex items-center justify-center rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-stone-900/20 transition-all hover:bg-stone-800 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Home className="size-4 mr-2" />
               Ajouter un bien
             </Link>
             <Link
-              href="/tenants"
-              className="inline-flex items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
+              href="/tenants/new"
+              className="inline-flex items-center justify-center rounded-xl border border-stone-200 bg-white px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm transition-all hover:bg-stone-50 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Plus className="size-4 mr-2" />
               Ajouter un locataire
             </Link>
             <Link
               href="/billing"
-              className="inline-flex items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
+              className="inline-flex items-center justify-center rounded-xl border border-stone-200 bg-white px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm transition-all hover:bg-stone-50 hover:-translate-y-0.5 active:translate-y-0"
             >
-              <CreditCard className="size-4 mr-2" />
-              Enregistrer un paiement
+              <Receipt className="size-4 mr-2" />
+              Générer une quittance
             </Link>
           </div>
         </CardContent>

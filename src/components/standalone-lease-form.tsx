@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-import { leaseSchema, type LeaseFormValues } from "@/lib/validations/lease";
+import { standaloneLeaseSchema, type StandaloneLeaseFormValues } from "@/lib/validations/lease";
 import { createLease } from "@/lib/actions/lease-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,12 +61,12 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
     watch,
     setValue,
     formState: { errors },
-  } = useForm<LeaseFormValues>({
+  } = useForm<StandaloneLeaseFormValues>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(leaseSchema) as any,
+    resolver: zodResolver(standaloneLeaseSchema) as any,
     defaultValues: {
-      propertyId: "",
-      tenantId: "",
+      propertyId: undefined,
+      tenantId: undefined,
       rentAmount: 0,
       chargesAmount: 0,
       depositAmount: 0,
@@ -84,7 +84,10 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
   const selectedTenantId = watch("tenantId");
   const selectedLeaseType = watch("leaseType");
 
-  function onSubmit(values: LeaseFormValues) {
+  // At least one must be selected to allow submission
+  const canSubmit = !!selectedPropertyId || !!selectedTenantId;
+
+  function onSubmit(values: StandaloneLeaseFormValues) {
     startTransition(async () => {
       const formData = new FormData();
       for (const [key, value] of Object.entries(values)) {
@@ -110,10 +113,10 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
       {/* Property & Tenant selection */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="propertyId">Bien immobilier *</Label>
+          <Label htmlFor="propertyId">Bien immobilier</Label>
           <Select
             value={selectedPropertyId ?? undefined}
-            onValueChange={(val) => setValue("propertyId", val as string, { shouldValidate: true })}
+            onValueChange={(val) => setValue("propertyId", val === "__none__" ? undefined : val as string, { shouldValidate: true })}
           >
             <SelectTrigger id="propertyId">
               <SelectValue placeholder="Sélectionner un bien" />
@@ -124,11 +127,14 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
                   Aucun bien disponible
                 </SelectItem>
               ) : (
-                properties.map((p) => (
-                  <SelectItem key={p.id} value={p.id}>
-                    {p.name} — {p.city}
-                  </SelectItem>
-                ))
+                <>
+                  <SelectItem value="__none__">— Aucun bien —</SelectItem>
+                  {properties.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.name} — {p.city}
+                    </SelectItem>
+                  ))}
+                </>
               )}
             </SelectContent>
           </Select>
@@ -138,10 +144,10 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="tenantId">Locataire *</Label>
+          <Label htmlFor="tenantId">Locataire</Label>
           <Select
             value={selectedTenantId ?? undefined}
-            onValueChange={(val) => setValue("tenantId", val as string, { shouldValidate: true })}
+            onValueChange={(val) => setValue("tenantId", val === "__none__" ? undefined : val as string, { shouldValidate: true })}
           >
             <SelectTrigger id="tenantId">
               <SelectValue placeholder="Sélectionner un locataire" />
@@ -152,11 +158,14 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
                   Aucun locataire disponible
                 </SelectItem>
               ) : (
-                tenants.map((t) => (
-                  <SelectItem key={t.id} value={t.id}>
-                    {t.firstName} {t.lastName}
-                  </SelectItem>
-                ))
+                <>
+                  <SelectItem value="__none__">— Aucun locataire —</SelectItem>
+                  {tenants.map((t) => (
+                    <SelectItem key={t.id} value={t.id}>
+                      {t.firstName} {t.lastName}
+                    </SelectItem>
+                  ))}
+                </>
               )}
             </SelectContent>
           </Select>
@@ -165,6 +174,18 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
           )}
         </div>
       </div>
+
+      {/* Helper text when only one is selected */}
+      {(selectedPropertyId && !selectedTenantId) && (
+        <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
+          Seul le bien est lié pour l&apos;instant. Vous pourrez ajouter un locataire plus tard.
+        </p>
+      )}
+      {(selectedTenantId && !selectedPropertyId) && (
+        <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
+          Seul le locataire est lié pour l&apos;instant. Vous pourrez ajouter un bien plus tard.
+        </p>
+      )}
 
       <Separator />
       {/* Financial terms */}
@@ -245,7 +266,7 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
           <Select
             value={selectedLeaseType}
             onValueChange={(val) =>
-              setValue("leaseType", val as LeaseFormValues["leaseType"], { shouldValidate: true })
+              setValue("leaseType", val as StandaloneLeaseFormValues["leaseType"], { shouldValidate: true })
             }
           >
             <SelectTrigger id="leaseType">
@@ -284,7 +305,7 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
         <Select
           value={watch("paymentMethod")}
           onValueChange={(val) =>
-            setValue("paymentMethod", val as LeaseFormValues["paymentMethod"])
+            setValue("paymentMethod", val as StandaloneLeaseFormValues["paymentMethod"])
           }
         >
           <SelectTrigger id="paymentMethod">
@@ -355,7 +376,11 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
         >
           Annuler
         </Button>
-        <Button type="submit" disabled={isPending || properties.length === 0 || tenants.length === 0}>
+        <Button
+          type="submit"
+          disabled={isPending || !canSubmit}
+          className={!canSubmit ? "opacity-50 cursor-not-allowed" : ""}
+        >
           {isPending && <Loader2 className="size-4 mr-2 animate-spin" />}
           Créer le bail
         </Button>

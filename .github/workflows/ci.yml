@@ -64,6 +64,63 @@ jobs:
         run: npm test -- --passWithNoTests
 
   # ─────────────────────────────────────────────
+  # End-to-End Tests (Playwright)
+  # ─────────────────────────────────────────────
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Only run on PRs against master/main (not on every commit)
+    if: github.event_name == 'pull_request'
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: rent_ready_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Prisma migrations
+        run: |
+          npx prisma migrate deploy --schema prisma/schema.prisma
+        env:
+          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/rent_ready_test
+
+      - name: Seed database
+        run: npx prisma db seed || true
+        env:
+          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/rent_ready_test
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/rent_ready_test
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+
+  # ─────────────────────────────────────────────
   # Build & Docker (only on master/main)
   # ─────────────────────────────────────────────
   build:

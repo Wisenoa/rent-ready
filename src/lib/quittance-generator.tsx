@@ -1,4 +1,10 @@
 import React from "react";
+// Re-export pure utilities so existing imports continue to work
+export { determineReceiptType, generateReceiptNumber } from "@/lib/payment-utils";
+import {
+  determineReceiptType,
+  generateReceiptNumber,
+} from "@/lib/payment-utils";
 import {
   Document,
   Page,
@@ -401,37 +407,4 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
   );
 }
 
-// ─── Validation ───
 
-/**
- * Determines whether a payment qualifies for a Quittance (full receipt)
- * or only a Reçu (partial receipt) per French law.
- *
- * Règle métier stricte (loi du 6 juillet 1989, art. 21):
- * - Paiement >= loyer + charges → "Quittance de loyer"
- * - Paiement < loyer + charges → "Reçu de paiement partiel"
- */
-export function determineReceiptType(
-  amountPaid: number,
-  rentAmount: number,
-  chargesAmount: number
-): "QUITTANCE" | "RECU" {
-  const totalDue = rentAmount + chargesAmount;
-  return amountPaid >= totalDue ? "QUITTANCE" : "RECU";
-}
-
-/**
- * Generate a sequential receipt number
- * Format: QUI-2026-03-0001 or REC-2026-03-0001
- */
-export function generateReceiptNumber(
-  type: "QUITTANCE" | "RECU",
-  date: Date,
-  sequence: number
-): string {
-  const prefix = type === "QUITTANCE" ? "QUI" : "REC";
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const seq = String(sequence).padStart(4, "0");
-  return `${prefix}-${year}-${month}-${seq}`;
-}

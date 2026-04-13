@@ -17,7 +17,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     const { id } = await params;
     const property = await prisma.property.findFirst({
-      where: { id, userId: session.user.id },
+      where: { id, userId: session.user.id, deletedAt: null },
       include: {
         leases: {
           where: { status: "ACTIVE" },
@@ -58,7 +58,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     const { id } = await params;
     const existing = await prisma.property.findFirst({
-      where: { id, userId: session.user.id },
+      where: { id, userId: session.user.id, deletedAt: null },
     });
 
     if (!existing) {
@@ -100,7 +100,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 }
 
 // ============================================================
-// DELETE /api/properties/[id]
+// DELETE /api/properties/[id] — Soft delete
 // ============================================================
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
@@ -111,14 +111,18 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     const { id } = await params;
     const existing = await prisma.property.findFirst({
-      where: { id, userId: session.user.id },
+      where: { id, userId: session.user.id, deletedAt: null },
     });
 
     if (!existing) {
       return NextResponse.json({ error: "Bien introuvable" }, { status: 404 });
     }
 
-    await prisma.property.delete({ where: { id } });
+    // Soft delete — set deletedAt instead of removing the record
+    await prisma.property.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

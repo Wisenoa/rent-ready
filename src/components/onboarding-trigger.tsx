@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { OnboardingWizard } from "@/components/onboarding-wizard";
 
 interface OnboardingTriggerProps {
@@ -27,7 +27,7 @@ function loadState(): WizardState {
   }
 }
 
-export function OnboardingTrigger({ hasProperties }: OnboardingTriggerProps) {
+export function useOnboardingWizard() {
   const [wizardOpen, setWizardOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -35,28 +35,31 @@ export function OnboardingTrigger({ hasProperties }: OnboardingTriggerProps) {
     setMounted(true);
   }, []);
 
+  const startWizard = useCallback(() => {
+    setWizardOpen(true);
+  }, []);
+
   useEffect(() => {
     if (!mounted) return;
-    if (!hasProperties) {
-      const timer = setTimeout(() => {
-        const savedState = loadState();
-        const dismissed = localStorage.getItem(DISMISSAL_KEY);
+    // Auto-show for users with 0 properties on first visit
+    const timer = setTimeout(() => {
+      const savedState = loadState();
+      const dismissed = localStorage.getItem(DISMISSAL_KEY);
 
-        // Show if they have partial progress OR haven't dismissed yet
-        if (
-          savedState.propertyId ||
-          savedState.tenantId ||
-          savedState.propertySkipped ||
-          savedState.tenantSkipped
-        ) {
-          setWizardOpen(true);
-        } else if (!dismissed) {
-          setWizardOpen(true);
-        }
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [mounted, hasProperties]);
+      // Show if they have partial progress OR haven't dismissed yet
+      if (
+        savedState.propertyId ||
+        savedState.tenantId ||
+        savedState.propertySkipped ||
+        savedState.tenantSkipped
+      ) {
+        setWizardOpen(true);
+      } else if (!dismissed) {
+        setWizardOpen(true);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [mounted]);
 
   function handleOpenChange(open: boolean) {
     setWizardOpen(open);
@@ -68,6 +71,12 @@ export function OnboardingTrigger({ hasProperties }: OnboardingTriggerProps) {
       }
     }
   }
+
+  return { wizardOpen, handleOpenChange, startWizard, mounted };
+}
+
+export function OnboardingTrigger({ hasProperties }: OnboardingTriggerProps) {
+  const { wizardOpen, handleOpenChange, mounted } = useOnboardingWizard();
 
   if (!mounted || hasProperties) return null;
 

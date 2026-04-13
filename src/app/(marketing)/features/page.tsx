@@ -134,7 +134,7 @@ const featureGroups = [
       },
       {
         icon: Search,
-        title: "Historique поиска",
+        title: "Historique des quittances",
         detail:
           "Chaque quittance est archivée et retrouvable en 1 clic. Recherchez par locataire, bien ou date.",
       },
