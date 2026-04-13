@@ -39,8 +39,8 @@ const config: NextConfig = {
   // ========================================
   async headers() {
     return [
-      {
-        source: '/(.*)',
+        {
+        source: '/((?!_next/static|_next/image|images|fonts|favicon.ico).)*',
         headers: [
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -50,6 +50,25 @@ const config: NextConfig = {
             key: 'Permissions-Policy', 
             value: 'camera=(), microphone=(), geolocation=()' 
           },
+        ],
+      },
+      // Static assets — aggressive caching
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/images/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+        ],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
         ],
       },
       {

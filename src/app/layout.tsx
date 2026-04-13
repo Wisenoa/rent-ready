@@ -54,7 +54,7 @@ export const metadata: Metadata = {
       "Quittances automatiques, suivi bancaire DSP2, et IA pour les propriétaires bailleurs. À partir de 15 €/mois.",
     images: [
       {
-        url: "https://www.rentready.fr/og-image.png",
+        url: "https://www.rentready.fr/opengraph-image.png",
         width: 1200,
         height: 630,
         alt: "RentReady — Gestion Locative Intelligente",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     description:
       "Quittances automatiques, suivi bancaire DSP2, et IA pour les propriétaires bailleurs. 15 €/mois.",
     site: "@rentready_fr",
-    images: ["https://www.rentready.fr/og-image.png"],
+    images: ["https://www.rentready.fr/opengraph-image.png"],
   },
   alternates: {
     canonical: "https://www.rentready.fr",
