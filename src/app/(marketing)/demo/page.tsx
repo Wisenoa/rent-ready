@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
+import { DemoForm } from "@/components/landing/demo-form";
 
 export const metadata: Metadata = {
   title: "Demandez une démo — RentReady",
@@ -212,86 +213,9 @@ export default function DemoPage() {
                 On vous envoie un lien visio par email.
               </p>
 
-              <form className="mt-8 space-y-5" action="#" method="POST">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-stone-700"
-                  >
-                    Votre nom
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-900 placeholder-stone-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                    placeholder="Jean Dupont"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-stone-700"
-                  >
-                    Email professionnel
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-900 placeholder-stone-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                    placeholder="jean@exemple.fr"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="properties"
-                    className="block text-sm font-medium text-stone-700"
-                  >
-                    Nombre de biens \u00e0 g\u00e9rer
-                  </label>
-                  <select
-                    id="properties"
-                    name="properties"
-                    className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                  >
-                    <option value="1">1 \u00e0 3 biens</option>
-                    <option value="2">4 \u00e0 10 biens</option>
-                    <option value="3">Plus de 10 biens</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-stone-700"
-                  >
-                    Questions ou besoins sp\u00e9cifiques (optionnel)
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={3}
-                    className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-900 placeholder-stone-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                    placeholder="Par exemple : je g\u00e8re une SCI, je veux comprendre comment importer mes baux..."
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full rounded-2xl bg-stone-900 py-4 text-sm font-semibold text-white shadow-lg shadow-stone-900/10 transition-colors hover:bg-stone-800"
-                >
-                  Demander ma d\u00e9mo gratuite
-                </button>
-
-                <p className="text-center text-xs text-stone-400">
-                  Sans engagement \u00b7 R\u00e9ponse sous 24h
-                </p>
-              </form>
+              <div className="mt-8">
+                <DemoForm />
+              </div>
             </div>
           </div>
         </div>
