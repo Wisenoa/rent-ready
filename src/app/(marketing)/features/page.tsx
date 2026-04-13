@@ -61,6 +61,40 @@ export const metadata: Metadata = {
   },
 };
 
+/* ─── FAQ data for schema ─── */
+const featureFaqs = [
+  {
+    question: "RentReady génère-t-il des quittances de loyer conformes à la loi ?",
+    answer:
+      "Oui. Chaque quittance inclut toutes les mentions obligatoires de la loi du 6 juillet 1989 : identité du bailleur et du locataire, adresse du bien, période couverte, montant du loyer charges comprises, date de paiement, mode de paiement, référence du bail, signature et indice IRL INSEE.",
+  },
+  {
+    question: "Comment fonctionne la détection automatique des loyers via Open Banking ?",
+    answer:
+      "Via l'Open Banking DSP2, RentReady lit les mouvements bancaires de votre compte pour identifier automatiquement les virements de loyer. Chaque loyer reçu est catégorisé et archivé sans saisie manuelle.",
+  },
+  {
+    question: "La révision de loyer IRL est-elle automatique ?",
+    answer:
+      "Oui. RentReady se connecte automatiquement à l'INDICE INSEE pour calculer la nouvelle provision de loyer. Vous recevez une notification quand la révision doit être appliquée et le bail est mis à jour automatiquement.",
+  },
+  {
+    question: "Le portail locataire est-il accessible sans mot de passe ?",
+    answer:
+      "Oui. Le locataire accède à son portail via un lien magic link envoyé par email. Aucun mot de passe n'est nécessaire. Il peut consulter ses quittances, soumettre des demandes de maintenance et voir l'historique de ses paiements.",
+  },
+  {
+    question: "RentReady est-il conforme Factur-X pour la facturation ?",
+    answer:
+      "Oui. RentReady génère des factures au format Factur-X, le standard obligatoire pour la facturation électronique en France, et prépare votre entreprise pour l'e-reporting B2C obligatoire à partir de 2027.",
+  },
+  {
+    question: "Combien de biens puis-je gérer avec RentReady ?",
+    answer:
+      "L'abonnement à 15 €/mois permet de gérer jusqu'à 10 biens immobiliers avec locataires illimités. L'abonnement annuel à 150 € vous offre 2 mois gratuits.",
+  },
+];
+
 /* ─── JSON-LD ─── */
 function FeaturesJsonLd() {
   const data = {
@@ -82,11 +116,15 @@ function FeaturesJsonLd() {
         "@type": "SoftwareApplication",
         name: "RentReady",
         applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
         url: "https://www.rentready.fr",
         offers: {
           "@type": "Offer",
           price: "15.00",
           priceCurrency: "EUR",
+          priceValidUntil: "2027-12-31",
+          availability: "https://schema.org/InStock",
+          url: "https://www.rentready.fr/register",
         },
         featureList: [
           "Quittances de loyer conformes loi 1989",
@@ -98,6 +136,18 @@ function FeaturesJsonLd() {
           "Relance automatique impayés",
           "Export comptable",
         ],
+      },
+      {
+        "@type": "FAQPage",
+        name: "FAQ — Fonctionnalités RentReady",
+        mainEntity: featureFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
       },
     ],
   };

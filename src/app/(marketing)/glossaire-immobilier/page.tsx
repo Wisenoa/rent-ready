@@ -2683,20 +2683,44 @@ const alphabetGroups = glossaryTerms.reduce(
 export default function GlossaireImmobilierPage() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Glossaire Immobilier — Définitions Location et Investissement",
-    description:
-      "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
-    url: "https://www.rentready.fr/glossaire-immobilier",
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: glossaryTerms.map((term, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        name: term.term,
-        description: term.definition,
-      })),
-    },
+    "@graph": [
+      {
+        "@type": "WebPage",
+        name: "Glossaire Immobilier — Définitions Location et Investissement",
+        description:
+          "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
+        url: "https://www.rentready.fr/glossaire-immobilier",
+        isPartOf: {
+          "@type": "WebSite",
+          name: "RentReady",
+          url: "https://www.rentready.fr",
+        },
+      },
+      {
+        "@type": "ItemList",
+        name: "Glossaire Immobilier",
+        description:
+          "Liste des définitions immobilières pour propriétaires bailleurs et investisseurs en France.",
+        itemListElement: glossaryTerms.map((term, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: term.term,
+          description: term.definition,
+        })),
+      },
+      {
+        "@type": "FAQPage",
+        name: "FAQ — Glossaire Immobilier RentReady",
+        mainEntity: glossaryTerms.slice(0, 20).map((term) => ({
+          "@type": "Question",
+          name: term.term,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: term.definition,
+          },
+        })),
+      },
+    ],
   };
 
   return (
