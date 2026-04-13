@@ -13,6 +13,8 @@ export default function robots(): MetadataRoute.Robots {
           "/quittances",
           "/maintenance",
           "/pricing",
+          "/features",
+          "/demo",
           "/blog",
           "/glossaire-immobilier",
           "/outils",

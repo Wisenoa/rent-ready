@@ -1,7 +1,17 @@
+import { Suspense } from "react";
 import { GlassNav } from "@/components/landing/glass-nav";
 import { MarketingFooter } from "@/components/landing/marketing-footer";
+import { Analytics } from "@/components/analytics";
 
 export const dynamic = "force-dynamic";
+
+function AnalyticsWrapper() {
+  return (
+    <Suspense fallback={null}>
+      <Analytics />
+    </Suspense>
+  );
+}
 
 export default function MarketingLayout({
   children,
@@ -17,6 +27,9 @@ export default function MarketingLayout({
 
       {/* Main */}
       <main className="flex-1">{children}</main>
+
+      {/* Page view analytics */}
+      <AnalyticsWrapper />
 
       {/* Comprehensive footer */}
       <MarketingFooter />
