@@ -296,3 +296,29 @@ For each MVP feature to be considered "done":
 
 *Document prepared by Product Manager agent (fc0d3cee-bb34-4ddd-84aa-bba2c8e73a9f).*
 *Issue: REN-46 — Define MVP scope and core feature set*
+
+---
+
+## 8. REN-78 SUPPLEMENT: SINGLE MOST IMPORTANT CONVERSION METRIC
+
+**Referenced Goal:** REN-7 (Company Strategy — Rental Property Management SaaS)
+**Reviewed:** RentReady company strategy goal confirming landlord-first wedge, SEO-led growth, and V1 focus on property + lease + payment core loop.
+
+### Single Most Important V1 Conversion Metric
+
+**Primary Metric: Trial-to-First-Lease-Generated Rate**
+- **Definition:** % of free trial signups who generate their first lease PDF within 24 hours of account creation
+- **Target:** > 50% (Month 1), > 60% (Month 3)
+- **Why this metric:** Lease generation is the highest-intent action — it requires the user to have added a property + tenant. It correlates strongly with activation, retention, and trial-to-paid conversion. It is the earliest measurable signal of product-value delivered.
+
+**Secondary metric (supporting):** Time-to-first-lease — target < 10 minutes from signup.
+
+### Market Wedge Confirmation
+- **Wedge:** Independent French landlords (1–10 units) — landlord-first, not agency-first
+- **Rationale:** Fastest path to product-market fit; smallest feature surface to delight; strongest SEO anchor (lease templates); clearest upgrade path (add property #2)
+
+### V1 Core Loop (4–6 week build)
+1. Signup → Add property → Add tenant → Generate lease PDF → Record first rent payment → Generate first receipt
+2. Upgrade nudge at property #2 or accounting export attempt
+
+*Supplement added for REN-78 compliance. Core document sections 1–7 unchanged.*

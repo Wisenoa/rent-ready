@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
+import { sendMagicLinkEmail } from "@/lib/auth-email-link";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -12,6 +13,18 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
+  },
+  emailLink: {
+    enabled: true,
+    expiresIn: 15 * 60, // 15 minutes
+    sendVerificationEmail: async ({ email, url }: { email: string; url: string }) => {
+      try {
+        await sendMagicLinkEmail({ email, magicLink: url });
+      } catch (err) {
+        console.error("[magic-link] Failed to send email:", err);
+        // Don't throw — better-auth surfaces its own error
+      }
+    },
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
