@@ -233,10 +233,10 @@ export default async function BillingPage() {
                         {format(tx.periodStart, "MMM yyyy", { locale: fr })}
                       </TableCell>
                       <TableCell className="text-sm font-medium">
-                        {tx.lease.tenant.firstName} {tx.lease.tenant.lastName}
+                        {tx.lease.tenant?.firstName ?? ''} {tx.lease.tenant?.lastName ?? ''}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">
-                        {tx.lease.property.name}
+                        {tx.lease.property?.name ?? ''}
                       </TableCell>
                       <TableCell className="text-right font-mono text-sm font-semibold">
                         {formatCurrency(tx.amount)}

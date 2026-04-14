@@ -71,7 +71,76 @@ export const articles: Article[] = [
     category: "Gestion",
     date: "2026-04-14",
     readTime: "6 min",
-  },
+    content: `## Qu'est-ce qu'une quittance de loyer ?
+
+Une quittance de loyer est un document signé par le bailleur qui constate le paiement intégral du loyer et des charges par le locataire. Elle est remise sur demande du locataire et constitue une preuve de paiement.
+
+La quittance doit être délivrée gratuitement dans un délai de **4 jours ouvrés** suivant le paiement. Son refus systématique constitue un manquement passible de sanctions.
+
+## Les mentions obligatoires sur une quittance de loyer
+
+Depuis la loi 89-462 du 6 juillet 1989, la quittance doit comporter :
+
+- **Nom et adresse du bailleur**
+- **Nom du locataire**
+- **Adresse du logement**
+- **Période de location concernée** (mois et année)
+- **Montant du loyer principal** versé
+- **Montant des charges** versées (si provisions)
+- **Montant total versé**
+- **Date du paiement**
+- **Signature du bailleur**
+
+En cas de paiement partiel, le bailleur n'est pas tenu de délivrer une quittance. Il peut délivrer un reçu.
+
+## Comment remplir une quittance de loyer conforme : étape par étape
+
+### Étape 1 : Vérifier le montant dû
+
+Avant de délivrer une quittance, vérifiez que le montant payé correspond au loyer exigible. En cas de différence, délivrez la quittance pour le montant effectivement versé.
+
+### Étape 2 : Rédiger l'en-tête
+
+Indiquez vos nom et adresse en qualité de bailleur, ainsi que l'adresse complète du logement.
+
+### Étape 3 : Identifier le locataire
+
+Inscrivez le nom complet du locataire tel qu'il figure sur le bail.
+
+### Étape 4 : Préciser la période de location
+
+La quittance doit couvrir une période précise : le mois et l'année. Vous pouvez cumuler plusieurs mois sur une même quittance si le locataire paie trimestriellement.
+
+### Étape 5 : Ventiler loyer et charges
+
+Séparez bien le montant du loyer principal et le montant des charges (provisions ou forfait). La somme des deux donne le montant total versé.
+
+### Étape 6 : Signer et remettre
+
+La quittance doit être signée. Remettez-la au locataire dans les **4 jours ouvrés** suivant le paiement.
+
+## Quittance de loyer et APL/CAF
+
+Depuis la loi de finances 2020, les bailleurs doivent transmettre mensuellement les données de paiement à la CNAV via le dispositif DAT. La délivrance de quittances régulières facilite cette déclaration.
+
+## Que faut-il éviter ?
+
+- Ne demandez **jamais de paiement** pour la délivrance de la quittance (c'est gratuit)
+- Ne délivrez pas de **fausse quittance** pour un montant supérieur au paiement réel
+- N'omettez pas le **détail des charges** (le locataire y a droit)
+
+## FAQ — Quittance de loyer gratuit
+
+**Une quittance électronique est-elle valable ?**
+Oui, depuis la loi du 24 mars 2014, la quittance peut être délivrée sous forme électronique (email, PDF) si le locataire ne s'y oppose pas.
+
+**Le locataire peut-il exiger une quittance pour chaque paiement ?**
+Oui, le locataire peut demander une quittance à chaque paiement. Le bailleur doit la délivrer dans les 4 jours ouvrés.
+
+**Que faire si le locataire ne paie pas la totalité du loyer ?**
+Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement partiel. Il peut délivrer un reçu.
+
+[CTA : Générez des quittances PDF conformes et automatiques avec RentReady — essai gratuit 14 jours]`,  },
   {
     slug: "lettre-relance-loyer-impaye-modele",
     title: "Lettre de relance pour loyer impayé — Modèle gratuit et conseils juridiques",
@@ -2172,6 +2241,108 @@ RentReady propose un simulateur de rentabilité locative gratuit, qui permet de 
 
 [CTA : Calculez la rentabilité de votre investissement locatif avec RentReady — essayer gratuitement]`,
   },
+{
+  slug: "rediger-contrat-location",
+  title: "Comment rédiger un contrat de location en 2026 : guide complet",
+  excerpt:
+    "Rédaction du bail de location : toutes les clauses obligatoires, facultatives et interdites. Modèle de bail conforme loi 89-462, loi ALUR et loi ELAN.",
+  category: "Juridique",
+  date: "2026-04-14",
+  readTime: "12 min",
+  content: `## Pourquoi rédiger un bail de location est essentiel
+
+Le contrat de location (bail) est le document fondateur de toute relation locative. Il définit les droits et obligations du bailleur et du locataire, fixe le montant du loyer, et encadre les conditions de remise et de restitution du logement. Un bail mal rédigé peut exposer le propriétaire à des litiges, des pénalités ou des nullités de clauses.
+
+Depuis la loi ALUR de 2014 et la loi ELAN de 2018, le bail de location doit respecter un strict formalisme. Certaines clauses sont obligatoires, d'autres interdites, et d'autres encore soumises à des conditions de validité.
+
+## Les mentions obligatoires du bail de location
+
+Le bail doit impérativement contenir les informations suivantes :
+
+### Informations sur les parties
+- Identité et adresse du bailleur (ou du gestionnaire mandate)
+- Identité du locataire et de tous les occupants majeurs
+- Date de début du bail et durée du contrat
+
+### Descriptif du logement
+- Adresse complète du logement
+- Superficie Carrez (obligatoire pour les locations vides)
+- Liste des équipements et services communs
+- Description de l'état des lieux d'entrée
+
+### Conditions financières
+- Montant du loyer et ses modalités de révision (indice IRL)
+- Montant du dépôt de garantie (plafond légal : 1 mois hors charges)
+- Modalités de paiement (date, moyen, périodicité)
+- Montant des charges (provisions ou forfait)
+
+### Clauses et conditions
+- Règles applicables aux animaux domestiques
+- Conditions de révision du loyer
+- Modalités d'assurance habitation du locataire
+- Clause de résiliation et délai de préavis
+
+## Bail vide vs bail meublé : les différences clés
+
+### Le bail de location vide
+
+Le bail de location vide (non meublé) est régi par la loi du 6 juillet 1989. Sa durée est de **3 ans** (6 ans pour les personnes morales). Il se reconduit tacitement sauf résiliation avec un préavis de **3 mois**.
+
+### Le bail de location meublée
+
+Le bail meublé (loi 89-462, article 25-3) est destiné aux locations disposant du mobilier nécessaire. Sa durée est de **1 an** (reconductible) ou de **9 mois minimum** pour les étudiants.
+
+Le bail meublé offre plus de flexibilité (résiliation plus aisée, loyer potentiellement plus élevé) mais exige un niveau d'équipement minimal conforme au décret n° 2015-981.
+
+## Les clauses interdites dans un bail de location
+
+Depuis la loi ALUR, plusieurs clauses sont systématiquement nulles :
+
+1. **Clause de solidarité** entre colocataires (sauf en colocation)
+2. **Clause de pénalité** pour retard de paiement
+3. **Clause interdisant au locataire de sous-louer** sans autorisation
+4. **Clause de visite sans préavis** du logement
+5. **Clause obligeant le locataire à payer les honoraires d'agence** à la relocation
+6. **Clause de dépôt de garantie supérieur au plafond légal**
+
+Le propriétaire qui inclut des clauses interdites s'expose à des sanctions. Le juge peut être saisi à tout moment par le locataire.
+
+## Les clauses facultatives recommandées
+
+### Clause de révision du loyer (IRL)
+Précisez la date de référence de l'IRL utilisée pour les révisions annuelles (date d'anniversaire du bail).
+
+### Clause relative aux animaux domestiques
+Depuis la loi ALUR, interdiction d'interdire globalement la présence d'animaux. Vous pouvez imposer que les animaux soient gardés sous contrôle.
+
+## Les diagnostics obligatoires à annexer au bail
+
+Le dossier de diagnostic technique (DDT) doit être remis au locataire en annexe du bail :
+
+| Diagnostic | Durée de validité |
+|---|---|
+| DPE (Performance Énergétique) | 10 ans |
+| Constat de risque d'exposition au plomb | 1 an si positif, sinon illimitée |
+| État des risques et pollutions (ERP) | 6 mois |
+| Surface Carrez | Tant que non modifié |
+| Diagnostic amiante | 3 ans si positif, sinon illimité |
+
+## Combien de temps garder un bail ?
+
+Conservez votre bail pendant toute la durée de la location et les **5 années suivant la fin du bail**. En cas de litige, le bail est la preuve principale de l'accord contractuel.
+
+## FAQ — Rédaction du contrat de location
+
+**Le bail doit-t-il être enregistré ?**
+Pour les locations vides à usage de résidence principale, le locataire peut demander l'enregistrement dans les 2 mois suivant la signature.
+
+**Peut-on rédiger un bail sans agence ?**
+Oui. Vous pouvez rédiger le bail vous-même à condition de respecter les mentions obligatoires. Des modèles gratuits et conformes sont disponibles en ligne.
+
+**Que faire si une clause du bail est potentiellement illicite ?**
+Toute clause interdite est automatiquement nulle. Le bail reste valide par ailleurs. Le locataire peut saisir la CDC ou le tribunal judiciaire.
+
+[CTA : Créez vos baux de location conformes en 5 minutes avec RentReady — essai gratuit]`,},
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {

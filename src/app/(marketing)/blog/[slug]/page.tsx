@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { articles, getArticleBySlug } from "@/data/articles";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -309,7 +311,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   const article = getArticleBySlug(slug);
   if (!article) notFound();
 
-  const content = articleContent[slug];
+  const reactContent = articleContent[slug];
+  const markdownContent = article?.content;
 
   return (
     <>
@@ -347,7 +350,11 @@ export default async function BlogPostPage({ params }: PageProps) {
         </header>
 
         <div className="prose prose-stone max-w-none">
-          {content}
+          {reactContent ?? (markdownContent ? (
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {markdownContent}
+            </ReactMarkdown>
+          ) : null)}
         </div>
 
         <section className="mt-12 rounded-xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-blue-100/50 p-8 text-center sm:p-10">

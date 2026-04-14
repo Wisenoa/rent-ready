@@ -28,8 +28,8 @@ interface LeaseOption {
   id: string;
   rentAmount: number;
   chargesAmount: number;
-  property: { name: string };
-  tenant: { firstName: string; lastName: string };
+  property: { name: string } | null;
+  tenant: { firstName: string; lastName: string } | null;
 }
 
 const PAYMENT_METHODS = [
@@ -105,7 +105,7 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
               <SelectContent>
                 {leases.map((lease) => (
                   <SelectItem key={lease.id} value={lease.id}>
-                    {lease.tenant.firstName} {lease.tenant.lastName} — {lease.property.name}
+                    {lease.tenant?.firstName ?? ''} {lease.tenant?.lastName ?? ''} — {lease.property?.name ?? ''}
                   </SelectItem>
                 ))}
               </SelectContent>
