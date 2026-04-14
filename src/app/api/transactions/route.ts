@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { transactionSchema } from "@/lib/validations/transaction";
 import { determineReceiptType } from "@/lib/quittance-generator";
+import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 // ============================================================
 // GET /api/transactions — List transactions
@@ -65,12 +66,24 @@ export async function GET(request: NextRequest) {
 
 // ============================================================
 // POST /api/transactions — Record a payment
+// Rate limit: 30 payments per authenticated user per hour
 // ============================================================
 export async function POST(request: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: request.headers });
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate limit on authenticated user ID
+    const result = await rateLimit(session.user.id, { limit: 30, window: 3600 });
+    if (!result.success) {
+      const res = NextResponse.json(
+        { error: "Trop de paiements enregistrés. Veuillez patienter." },
+        { status: 429 }
+      );
+      setRateLimitHeaders(res, result);
+      return res;
     }
 
     const body = await request.json();

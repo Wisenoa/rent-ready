@@ -1,7 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
+import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 5 demo requests per IP per hour (prevent spam/abuse of lead capture)
+  const ip = getClientIp(req.headers);
+  const result = await rateLimit(ip, { limit: 5, window: 3600 });
+
+  if (!result.success) {
+    const res = NextResponse.json(
+      { error: "Trop de requêtes. Veuillez patienter avant de réessayer." },
+      { status: 429 }
+    );
+    setRateLimitHeaders(res, result);
+    return res;
+  }
   try {
     const body = await req.json();
     const { name, email, properties, message, utm_source, utm_medium, utm_campaign } = body;
