@@ -41,11 +41,76 @@ canonical: "https://www.rentready.fr/pricing",
 },
 };
 
-/* ─── JSON-LD: SoftwareApplication + Offer ─── */
+/* ─── JSON-LD: SoftwareApplication + Offer + FAQPage + BreadcrumbList ─── */
 function PricingJsonLd() {
+  const pricingFaqs = [
+    {
+      question: "Combien coûte RentReady et y a-t-il un engagement ?",
+      answer: "RentReady coûte 15 € par mois sans engagement, ou 150 € par an (2 mois offerts). Ce tarif unique inclut la gestion de 10 biens maximum, un nombre illimité de locataires, toutes les fonctionnalités et les mises à jour légales. Essai gratuit 14 jours sans carte bancaire.",
+    },
+    {
+      question: "Que se passe-t-il si je dépasse 10 biens ?",
+      answer: "Si vous dépassez 10 biens, vous pouvez contacter notre équipe pour un abonnement adapté à votre portfolio. Aucun frais caché, aucune commission sur les loyers encaissés.",
+    },
+    {
+      question: "Puis-je résilier à tout moment ?",
+      answer: "Oui, vous pouvez résilier en un clic depuis votre espace, sans préavis ni pénalité. Vous conservez l'accès à vos données pendant 30 jours après la résiliation.",
+    },
+    {
+      question: "Le prix inclut-il les mises à jour légales ?",
+      answer: "Oui, toutes les mises à jour liées aux évolutions légales et réglementaires françaises (Loi Alur, IRL, Factur-X, e-reporting B2C) sont incluses dans votre abonnement, sans frais supplémentaires.",
+    },
+    {
+      question: "Y a-t-il des frais d'installation ou de mise en service ?",
+      answer: "Non, il n'y a aucun frais d'installation. Vous créez votre compte, connectez votre compte bancaire via Open Banking, et votre espace de gestion est opérationnel en quelques minutes.",
+    },
+  ];
+
   const data = {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Tarifs",
+            item: "https://www.rentready.fr/pricing",
+          },
+        ],
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.rentready.fr/#organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://www.rentready.fr/logo.png",
+          width: 512,
+          height: 512,
+        },
+        description:
+          "RentReady est un logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
+        sameAs: [
+          "https://www.linkedin.com/company/rentready",
+          "https://twitter.com/rentready_fr",
+        ],
+        contactPoint: {
+          "@type": "ContactPoint",
+          email: "contact@rentready.fr",
+          contactType: "customer service",
+          availableLanguage: "French",
+        },
+      },
       {
         "@type": "WebPage",
         name: "Tarifs RentReady",
@@ -107,6 +172,18 @@ function PricingJsonLd() {
           "Export comptable",
           "Relance automatique impayés",
         ],
+      },
+      {
+        "@type": "FAQPage",
+        name: "FAQ — Tarifs RentReady",
+        mainEntity: pricingFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
       },
     ],
   };

@@ -30,10 +30,17 @@ height: 630,
 alt: "RentReady — Gestion des locations",
 },
 ],
-},
-alternates: {
-canonical: "https://www.rentready.fr/locations",
-},
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gestion des locations — RentReady",
+    description:
+      "Suivez vos biens, loyers, documents et contrats en un seul logiciel pour propriétaires.",
+    images: ["https://www.rentready.fr/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://www.rentready.fr/locations",
+  },
 };
 
 const features = [

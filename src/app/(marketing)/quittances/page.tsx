@@ -30,10 +30,17 @@ height: 630,
 alt: "RentReady — Quittances de loyer",
 },
 ],
-},
-alternates: {
-canonical: "https://www.rentready.fr/quittances",
-},
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quittances de loyer automatiques — RentReady",
+    description:
+      "Générez des quittances conformes en 1 clic. PDF automatique, mention légale INSEE, envoyée au locataire.",
+    images: ["https://www.rentready.fr/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://www.rentready.fr/quittances",
+  },
 };
 
 const features = [

@@ -23,6 +23,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gestion locative en France — 50 villes | RentReady",
+    description:
+      "Logiciel de gestion locative dans les 50 plus grandes villes de France. Quittances, suivi des loyers, conformité 2026.",
+    images: ["https://www.rentready.fr/og-image.png"],
+  },
   alternates: { canonical: "https://www.rentready.fr/gestion-locative" },
 };
 

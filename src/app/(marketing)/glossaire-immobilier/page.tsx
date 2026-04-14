@@ -4,6 +4,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { GlossarySidebar } from "@/components/seo/blog/GlossarySidebar";
 
 export const metadata: Metadata = {
   title: "Glossaire Immobilier — Définitions Location et Investissement",
@@ -18,6 +19,21 @@ export const metadata: Metadata = {
       "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
     url: "https://www.rentready.fr/glossaire-immobilier",
     type: "website",
+    images: [
+      {
+        url: "https://www.rentready.fr/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Glossaire Immobilier RentReady",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Glossaire Immobilier — Définitions Location et Investissement",
+    description:
+      "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
+    images: ["https://www.rentready.fr/og-image.png"],
   },
 };
 
@@ -2685,6 +2701,24 @@ export default function GlossaireImmobilierPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Glossaire Immobilier",
+            item: "https://www.rentready.fr/glossaire-immobilier",
+          },
+        ],
+      },
+      {
         "@type": "WebPage",
         name: "Glossaire Immobilier — Définitions Location et Investissement",
         description:
@@ -2727,7 +2761,7 @@ export default function GlossaireImmobilierPage() {
     <>
       <SchemaMarkup data={schema} />
 
-      <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-12 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-700">
             <BookOpen className="size-4" />
@@ -2744,76 +2778,84 @@ export default function GlossaireImmobilierPage() {
           </p>
         </header>
 
-        <nav className="mb-8 rounded-xl border border-stone-200/60 bg-white p-4">
-          <div className="flex flex-wrap justify-center gap-2">
-            {Object.keys(alphabetGroups).map((letter) => (
-              <a
-                key={letter}
-                href={`#${letter}`}
-                className="rounded-lg bg-stone-100 px-3 py-1.5 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-200"
-              >
-                {letter}
-              </a>
-            ))}
-          </div>
-        </nav>
-
-        <section className="space-y-12">
-          {Object.entries(alphabetGroups).map(([letter, terms]) => (
-            <div key={letter} id={letter}>
-              <h2 className="mb-6 border-b-2 border-blue-600 pb-2 text-2xl font-bold text-stone-900">
-                {letter}
-              </h2>
-              <dl className="space-y-6">
-                {terms.map((item) => (
-                  <div key={item.term}>
-                    <dt className="mb-2 text-lg font-semibold text-stone-800">
-                      {item.term}
-                    </dt>
-                    <dd className="text-stone-600">
-                      <p className="mb-3">{item.definition}</p>
-                      {item.related && item.related.length > 0 && (
-                        <p className="text-sm text-stone-500">
-                          Voir aussi:{" "}
-                          {item.related.map((rel, i) => (
-                            <span key={rel}>
-                              {i > 0 && " • "}
-                              <Link
-                                href={`#${rel[0]}`}
-                                className="text-blue-600 hover:underline"
-                              >
-                                {rel}
-                              </Link>
-                            </span>
-                          ))}
-                        </p>
-                      )}
-                    </dd>
-                  </div>
+        <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-12">
+          {/* Main column */}
+          <div>
+            <nav className="mb-8 rounded-xl border border-stone-200/60 bg-white p-4">
+              <div className="flex flex-wrap justify-center gap-2">
+                {Object.keys(alphabetGroups).map((letter) => (
+                  <a
+                    key={letter}
+                    href={`#${letter}`}
+                    className="rounded-lg bg-stone-100 px-3 py-1.5 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-200"
+                  >
+                    {letter}
+                  </a>
                 ))}
-              </dl>
-            </div>
-          ))}
-        </section>
+              </div>
+            </nav>
 
-        <section className="mt-16 rounded-xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-blue-100/50 p-8 text-center sm:p-10">
-          <h2 className="mb-3 text-xl font-bold text-stone-900 sm:text-2xl">
-            Simplifiez votre gestion locative
-          </h2>
-          <p className="mx-auto mb-6 max-w-lg text-stone-600">
-            RentReady vous accompagne dans la compréhension et l'application de
-            ces termes: quittances automatiques, calcul IRL, suivi des loyers.
-            Essai gratuit 14 jours.
-          </p>
-          <Link
-            href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-          >
-            Commencer l'essai gratuit
-            <ArrowRight className="size-4" />
-          </Link>
-        </section>
-      </article>
+            <section className="space-y-12">
+              {Object.entries(alphabetGroups).map(([letter, terms]) => (
+                <div key={letter} id={letter}>
+                  <h2 className="mb-6 border-b-2 border-blue-600 pb-2 text-2xl font-bold text-stone-900">
+                    {letter}
+                  </h2>
+                  <dl className="space-y-6">
+                    {terms.map((item) => (
+                      <div key={item.term}>
+                        <dt className="mb-2 text-lg font-semibold text-stone-800">
+                          {item.term}
+                        </dt>
+                        <dd className="text-stone-600">
+                          <p className="mb-3">{item.definition}</p>
+                          {item.related && item.related.length > 0 && (
+                            <p className="text-sm text-stone-500">
+                              Voir aussi:{" "}
+                              {item.related.map((rel, i) => (
+                                <span key={rel}>
+                                  {i > 0 && " • "}
+                                  <a
+                                    href={`#${rel[0].toUpperCase()}`}
+                                    className="text-blue-600 hover:underline"
+                                  >
+                                    {rel}
+                                  </a>
+                                </span>
+                              ))}
+                            </p>
+                          )}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              ))}
+            </section>
+
+            <section className="mt-16 rounded-xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-blue-100/50 p-8 text-center sm:p-10">
+              <h2 className="mb-3 text-xl font-bold text-stone-900 sm:text-2xl">
+                Simplifiez votre gestion locative
+              </h2>
+              <p className="mx-auto mb-6 max-w-lg text-stone-600">
+                RentReady vous accompagne dans la compréhension et l'application de
+                ces termes: quittances automatiques, calcul IRL, suivi des loyers.
+                Essai gratuit 14 jours.
+              </p>
+              <Link
+                href="/register"
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              >
+                Commencer l'essai gratuit
+                <ArrowRight className="size-4" />
+              </Link>
+            </section>
+          </div>
+
+          {/* Sticky sidebar */}
+          <GlossarySidebar />
+        </div>
+      </div>
     </>
   );
 }

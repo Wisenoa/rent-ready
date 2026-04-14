@@ -108,6 +108,48 @@ function FeaturesJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Fonctionnalités",
+            item: "https://www.rentready.fr/features",
+          },
+        ],
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.rentready.fr/#organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://www.rentready.fr/logo.png",
+          width: 512,
+          height: 512,
+        },
+        description:
+          "RentReady est un logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
+        sameAs: [
+          "https://www.linkedin.com/company/rentready",
+          "https://twitter.com/rentready_fr",
+        ],
+        contactPoint: {
+          "@type": "ContactPoint",
+          email: "contact@rentready.fr",
+          contactType: "customer service",
+          availableLanguage: "French",
+        },
+      },
+      {
         "@type": "WebPage",
         name: "Fonctionnalités RentReady",
         url: "https://www.rentready.fr/features",

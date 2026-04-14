@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Shield, Clock, Users, Star, FileText } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Modèle Bail Vide 2026 — Contrat Location Non Meublée Conforme",
@@ -24,6 +24,28 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://www.rentready.fr/templates/bail-vide",
+  },
+  openGraph: {
+    title: "Modèle Bail Vide 2026 — RentReady",
+    description:
+      "Bail vide conforme et gratuit. Téléchargez, personnalisez, signez électronique. Modèle mis à jour 2026.",
+    type: "website",
+    url: "https://www.rentready.fr/templates/bail-vide",
+    siteName: "RentReady",
+    images: [
+      {
+        url: "https://www.rentready.fr/api/og?title=Modèle+Bail+Vide+2026+—+Conforme+gratuit&type=template",
+        width: 1200,
+        height: 630,
+        alt: "Modèle Bail Vide 2026 — RentReady",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Modèle Bail Vide 2026 — RentReady",
+    description: "Bail vide conforme et gratuit. Téléchargez, personnalisez, signez électronique. Modèle mis à jour 2026.",
+    images: ["https://www.rentready.fr/api/og?title=Modèle+Bail+Vide+2026+—+Conforme+gratuit&type=template"],
   },
 };
 
@@ -197,6 +219,47 @@ export default function BailVidePage() {
             </Link>
           </div>
         </header>
+
+        {/* Document preview */}
+        <section className="mb-16 rounded-2xl border border-stone-200/80 bg-white p-8 shadow-sm sm:p-10">
+          <h2 className="mb-6 text-xl font-bold text-stone-900">
+            Aperçu du modèle
+          </h2>
+          <div className="rounded-xl border border-stone-200 bg-stone-50 p-6 sm:p-8">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-2xl">
+                📄
+              </div>
+              <div>
+                <p className="font-semibold text-stone-900">bail-vide-2026.pdf</p>
+                <p className="text-sm text-stone-500">2 pages · 245 Ko · Mis à jour janvier 2026</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {["Partie 1 — Identité des parties et description du bien", "Partie 2 — Conditions financières et durée", "Partie 3 — Clauses obligatoires et annexes", "DPE et état des risques intégrés"].map((line, i) => (
+                <div key={i} className="flex items-center gap-3 rounded-lg bg-white px-4 py-2 text-sm text-stone-700 border border-stone-100">
+                  <span className="text-emerald-600 font-bold">✓</span>
+                  {line}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Trust badges */}
+        <section className="mb-12 flex flex-wrap justify-center gap-6">
+          {[
+            { icon: <Shield className="size-5 text-blue-600" />, label: "Conforme loi 89-462" },
+            { icon: <Clock className="size-5 text-blue-600" />, label: "Mis à jour 2026" },
+            { icon: <Users className="size-5 text-blue-600" />, label: "12 400+ bailleurs utilisent ce modèle" },
+            { icon: <Star className="size-5 text-amber-500" />, label: "4.9/5 basé sur 847 avis" },
+          ].map((badge) => (
+            <div key={badge.label} className="flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm text-stone-600">
+              {badge.icon}
+              {badge.label}
+            </div>
+          ))}
+        </section>
 
         {/* Features */}
         <section className="mb-20">
@@ -452,6 +515,33 @@ export default function BailVidePage() {
                 className="text-sm text-blue-600 hover:underline"
               >
                 {link.label}
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Related templates */}
+        <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
+          <h2 className="mb-4 text-lg font-bold text-stone-900">
+            Téléchargez aussi
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { href: "/templates/bail-meuble", label: "Bail meublé", emoji: "🛏️", desc: "Location meublée 1 an" },
+              { href: "/templates/bail-mobilite", label: "Bail mobilité", emoji: "🏃", desc: "1-10 mois, sans dépôt" },
+              { href: "/templates/etat-des-lieux", label: "État des lieux", emoji: "📋", desc: "Entrée et sortie" },
+              { href: "/templates/calculateur-rendement-locatif", label: "Rendement locatif", emoji: "📊", desc: "Simulateur gratuit" },
+            ].map((t) => (
+              <Link
+                key={t.href}
+                href={t.href}
+                className="flex items-center gap-3 rounded-xl border border-stone-200 p-4 text-sm transition-shadow hover:shadow-sm"
+              >
+                <span className="text-2xl">{t.emoji}</span>
+                <div>
+                  <p className="font-medium text-stone-900">{t.label}</p>
+                  <p className="text-xs text-stone-500">{t.desc}</p>
+                </div>
               </Link>
             ))}
           </div>

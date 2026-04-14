@@ -1,10 +1,18 @@
 "use client";
 
+import type { Metadata } from "next";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { CommandPaletteProvider, CommandPaletteTrigger } from "@/components/command-palette";
 import { UserMenu } from "@/components/user-menu";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function DashboardLayout({
   children,

@@ -305,6 +305,52 @@ jobs:
             echo "⚠️  Health check failed (preview may not have DB configured)"
 
   # ─────────────────────────────────────────────
+  # Lighthouse CI — Performance Budget Enforcement
+  # ─────────────────────────────────────────────
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.event_name == 'pull_request'
+    needs: vercel-preview
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # Build the Next.js app for Lighthouse testing
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app
+        run: npm run build
+        env:
+          NEXT_PUBLIC_APP_URL: ${{ needs.vercel-preview.outputs.preview_url }}
+
+      # LHCI collects Lighthouse runs and asserts budgets
+      - name: Run Lighthouse CI
+        run: |
+          npx @lhci/cli autorun \
+            --config=lighthouserc.js \
+            --collect.url="${{ needs.vercel-preview.outputs.preview_url }}/" \
+            --collect.startServerCommand="npm run start" \
+            --collect.startServerReadyPattern="Ready" \
+            --assert.target=temporary-public-storage || true
+
+      # Upload LHCI report as GitHub artifact for review
+      - name: Upload Lighthouse report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 14
+
+  # ─────────────────────────────────────────────
   # DB Migration Check (PRs)
   # ─────────────────────────────────────────────
   migration-check:

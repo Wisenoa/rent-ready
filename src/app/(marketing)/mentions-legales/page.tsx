@@ -1,9 +1,35 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Mentions Légales",
+  title: "Mentions Légales — RentReady",
   description:
     "Mentions légales de RentReady, logiciel de gestion locative pour propriétaires indépendants.",
+  alternates: {
+    canonical: "https://www.rentready.fr/mentions-legales",
+  },
+  openGraph: {
+    title: "Mentions Légales — RentReady",
+    description:
+      "Mentions légales de RentReady, logiciel de gestion locative pour propriétaires indépendants.",
+    url: "https://www.rentready.fr/mentions-legales",
+    type: "website",
+    siteName: "RentReady",
+    images: [
+      {
+        url: "https://www.rentready.fr/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Mentions Légales RentReady",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mentions Légales — RentReady",
+    description:
+      "Mentions légales de RentReady, logiciel de gestion locative pour propriétaires indépendants.",
+    images: ["https://www.rentready.fr/og-image.png"],
+  },
 };
 
 function MentionsLegalesJsonLd() {

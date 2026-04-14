@@ -30,6 +30,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Suivi des interventions — RentReady",
+    description:
+      "Gérez toutes vos interventions de maintenance locative : déclaration, suivi, résolution. Historique complet pour chaque bien.",
+    images: ["https://www.rentready.fr/og-image.png"],
+  },
   alternates: {
     canonical: "https://www.rentready.fr/maintenance",
   },
