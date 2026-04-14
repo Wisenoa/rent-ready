@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
 import { OrganizationSchema, WebSiteSchema } from "@/components/seo/organization-schema";
 import { Analytics } from "@vercel/analytics/react";
+import { WebVitalsProvider } from "@/components/web-vitals-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -86,8 +87,16 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Resource hints — preconnect to third-party services for lower latency */}
+        <link rel="preconnect" href="https://vitals.vercel-insights.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
+        <link rel="preconnect" href="https://o1.ingest.sentry.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://o1.ingest.sentry.io" />
+      </head>
       <body className="min-h-full flex flex-col">
         <Analytics />
+        <WebVitalsProvider />
         {children}
         <OrganizationSchema />
         <WebSiteSchema />
