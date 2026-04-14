@@ -56,6 +56,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fonctionnalités RentReady — Tout pour gérer vos locations",
+    description:
+      "Quittances légales, Open Banking, révision IRL, portail locataire, maintenance, OCR IA. Un seul outil pour tout gérer.",
+    images: ["https://www.rentready.fr/og-image.png"],
+  },
   alternates: {
     canonical: "https://www.rentready.fr/features",
   },

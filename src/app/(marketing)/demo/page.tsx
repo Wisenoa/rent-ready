@@ -30,6 +30,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Réservez une démo RentReady — 30 min",
+    description:
+      "Découvrez en 30 minutes comment automatiser votre gestion locative. Quittances, détection loyer, révision IRL.",
+    images: ["https://www.rentready.fr/og-image.png"],
+  },
   alternates: {
     canonical: "https://www.rentready.fr/demo",
   },

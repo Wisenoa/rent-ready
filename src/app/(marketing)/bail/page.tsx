@@ -31,6 +31,13 @@ alt: "RentReady — Gestion des baux",
 },
 ],
 },
+twitter: {
+card: "summary_large_image",
+title: "Gestion des baux — RentReady",
+description:
+"Créez, suivez et renouvellez vos contrats de location facilement. Gestion légale et automatisée.",
+images: ["https://www.rentready.fr/og-image.png"],
+},
 alternates: {
 canonical: "https://www.rentready.fr/bail",
 },

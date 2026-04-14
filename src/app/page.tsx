@@ -48,6 +48,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "RentReady — Gestion locative automatisée pour particuliers",
+    description:
+      "Quittances légales, détection des virements, révision IRL. Le pilote automatique des propriétaires bailleurs. 15 €/mois.",
+    images: ["https://www.rentready.fr/og-image.png"],
+  },
   alternates: {
     canonical: "https://www.rentready.fr",
   },

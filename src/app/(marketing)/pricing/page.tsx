@@ -29,6 +29,13 @@ alt: "RentReady Tarifs",
 },
 ],
 },
+twitter: {
+card: "summary_large_image",
+title: "Tarifs RentReady — 15€/mois, zéro surprise",
+description:
+"Gérez jusqu'à 10 biens pour 15€/mois. Quittances conformes, détection automatique, révision IRL, portail locataire. Essai gratuit.",
+images: ["https://www.rentready.fr/og-image.png"],
+},
 alternates: {
 canonical: "https://www.rentready.fr/pricing",
 },

@@ -81,13 +81,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     // Template library
     {
-      url: `${BASE_URL}/templates`,
+      url: `${BASE_URL}/templates/bail-meuble`,
       lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
-      url: `${BASE_URL}/templates/bail-meuble`,
+      url: `${BASE_URL}/templates/bail-vide`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -136,6 +136,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/templates/recu-loyer`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/templates/lease`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/templates/lease/bail-etudiant`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/templates/lease/bail-parking`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/templates/lease/bail-precaire`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/templates/lease/bail-saisonnier`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/templates/lease/acte-caution`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,

@@ -19,6 +19,22 @@ export const metadata: Metadata = {
       "Conseils et guides pour propriétaires bailleurs: gestion locative, quittances, révision IRL, législation immobilière.",
     url: "https://www.rentready.fr/blog",
     type: "website",
+    siteName: "RentReady",
+    images: [
+      {
+        url: "https://www.rentready.fr/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Blog RentReady — Conseils gestion locative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog Immobilier — Conseils Gestion Locative et Investissement",
+    description:
+      "Conseils et guides pour propriétaires bailleurs: gestion locative, quittances, révision IRL, législation immobilière.",
+    images: ["https://www.rentready.fr/og-image.png"],
   },
 };
 
