@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.rentready.fr/blog",
   },
+  other: {
+    "application/rss+xml": [
+      { title: "Blog RentReady — RSS", url: "/api/rss" },
+    ],
+  },
   openGraph: {
     title: "Blog Immobilier — Conseils Gestion Locative et Investissement",
     description:
