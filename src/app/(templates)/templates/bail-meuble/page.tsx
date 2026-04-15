@@ -132,11 +132,51 @@ function BailMeubleJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "Organization",
+        "@id": "https://www.rentready.fr/#organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        logo: "https://www.rentready.fr/logo.png",
+        description:
+          "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
+        sameAs: [
+          "https://twitter.com/rentready_fr",
+          "https://www.linkedin.com/company/rentready",
+        ],
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          email: "contact@rentready.fr",
+          availableLanguage: "French",
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.rentready.fr/#website",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://www.rentready.fr/recherche?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
+        isPartOf: {
+          "@type": "WebSite",
+          name: "RentReady",
+          url: "https://www.rentready.fr",
+        },
+      },
+      {
         "@type": "WebPage",
         name: "Modèle Bail Meublé 2026 — RentReady",
         description:
           "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. Téléchargeable en PDF.",
         url: "https://www.rentready.fr/templates/bail-meuble",
+        isPartOf: {
+          "@type": "WebSite",
+          name: "RentReady",
+          url: "https://www.rentready.fr",
+        },
       },
       {
         "@type": "FAQPage",

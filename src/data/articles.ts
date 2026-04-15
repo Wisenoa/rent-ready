@@ -2343,6 +2343,42 @@ Oui. Vous pouvez rédiger le bail vous-même à condition de respecter les menti
 Toute clause interdite est automatiquement nulle. Le bail reste valide par ailleurs. Le locataire peut saisir la CDC ou le tribunal judiciaire.
 
 [CTA : Créez vos baux de location conformes en 5 minutes avec RentReady — essai gratuit]`,},
+  {
+    slug: "logiciel-gestion-locative-gratuit-vs-payant",
+    title: "Logiciel gestion locative gratuit vs payant : lequel choisir en 2026",
+    excerpt:
+      "Free property management tools have limits. Compare free vs paid solutions for French landlords — features, costs, compliance, and scalability.",
+    category: "Gestion",
+    date: "2026-04-15",
+    readTime: "9 min",
+  },
+  {
+    slug: "comment-gerer-biens-locatifs",
+    title: "Comment gérer ses biens locatifs : guide complet du propriétaire",
+    excerpt:
+      "Gestion locative complète : suivi des loyers, entretien, assurances, obligations légales. Tout pour gérer efficacement vos locations.",
+    category: "Gestion",
+    date: "2026-04-15",
+    readTime: "10 min",
+  },
+  {
+    slug: "augmentation-loyer-regles-et-procedure",
+    title: "Augmentation de loyer : règles et procédure en 2026",
+    excerpt:
+      "IRL, plafonds, zones tendues, révision annuelle : comment augmenter legalmente votre loyer en 2026. Guide complet bailleur.",
+    category: "Calculs",
+    date: "2026-04-15",
+    readTime: "8 min",
+  },
+  {
+    slug: "charges-locatives-recuperables-liste",
+    title: "Charges locatives récupérables : liste complète et réglementation 2026",
+    excerpt:
+      "Quelles charges le propriétaire peut-il récupérer auprès du locataire ? Liste exhaustive, modalités de régularisation et pièges à éviter.",
+    category: "Juridique",
+    date: "2026-04-15",
+    readTime: "7 min",
+  }
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {

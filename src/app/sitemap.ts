@@ -233,15 +233,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  // City/region pages
+  // City/region pages — bail and gestion-locative
   const cityPages: MetadataRoute.Sitemap = (
     cities as Array<{ slug: string }>
-  ).map((city) => ({
-    url: `${BASE_URL}/gestion-locative/${city.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
-  }));
+  ).flatMap((city) => [
+    {
+      url: `${BASE_URL}/gestion-locative/${city.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/bail/${city.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+  ]);
 
   return [...staticPages, ...blogPages, ...cityPages];
 }

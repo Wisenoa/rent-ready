@@ -104,16 +104,54 @@ const faqData = [
   },
 ];
 
+const orgSchema = {
+  "@type": "Organization",
+  "@id": "https://www.rentready.fr/#organization",
+  name: "RentReady",
+  url: "https://www.rentready.fr",
+  logo: "https://www.rentready.fr/logo.png",
+  description:
+    "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
+  sameAs: [
+    "https://twitter.com/rentready_fr",
+    "https://www.linkedin.com/company/rentready",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    email: "contact@rentready.fr",
+    availableLanguage: "French",
+  },
+};
+const webSiteSchema = {
+  "@type": "WebSite",
+  "@id": "https://www.rentready.fr/#website",
+  name: "RentReady",
+  url: "https://www.rentready.fr",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://www.rentready.fr/recherche?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
+};
+
 function BailEtudiantJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@graph": [
+      orgSchema,
+      webSiteSchema,
       {
         "@type": "WebPage",
         name: "Modèle Bail Étudiant 2026 — RentReady",
         description:
           "Modèle de bail meublé pour étudiants. Garantie VISALE, bail conforme loi 1989.",
         url: "https://www.rentready.fr/templates/lease/bail-etudiant",
+        isPartOf: {
+          "@type": "WebSite",
+          name: "RentReady",
+          url: "https://www.rentready.fr",
+        },
       },
       {
         "@type": "FAQPage",
