@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle État des Lieux — Gratuit | RentReady",
@@ -88,6 +89,14 @@ function ETatDesLieuxJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "État des lieux", item: "https://www.rentready.fr/modeles/etat-des-lieux" },
+        ],
+      },
+      {
         "@type": "HowTo",
         name: "Comment réaliser un état des lieux conforme",
         description:
@@ -145,12 +154,7 @@ function ETatDesLieuxJsonLd() {
       },
     ],
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <SchemaMarkup data={data} />;
 }
 
 export default function ETatDesLieuxPage() {

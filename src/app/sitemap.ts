@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const cities = require("../../../data/cities.json") as Array<{ slug: string }>;
+const cities = require("../data/cities.json") as Array<{ slug: string }>;
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { articles } = require("../../../data/articles") as { articles: Array<{ slug: string; date: string; updatedAt?: string }> };
+const { articles } = require("../data/articles") as { articles: Array<{ slug: string; date: string; updatedAt?: string }> };
 
 const BASE_URL = "https://www.rentready.fr";
 
@@ -69,6 +69,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    // Template pages (SEO-optimized downloadable templates)
+    {
+      url: `${BASE_URL}/modeles/quittance-de-loyer`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/contrat-de-location`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/etat-des-lieux`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/relance-loyer-impaye`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/augmentation-de-loyer`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     // Template library
     {

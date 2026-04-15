@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import { ArrowRight, Info, Calculator } from "lucide-react";
-import { SchemaMarkup, webApplicationSchema } from "@/components/seo/schema-markup";
+import { SchemaMarkup, webApplicationSchema, howToSchema } from "@/components/seo/schema-markup";
 import { SecurityDepositCalculator } from "./deposit-calculator";
 
 export const metadata: Metadata = {
@@ -54,12 +54,27 @@ export default function CalculateurDepotGarantiePage() {
   return (
     <>
       <SchemaMarkup
-        data={webApplicationSchema(
-          "Calculateur Dépôt de Garantie",
-          "/outils/calculateur-depot-garantie",
-          "Calculez gratuitement le dépôt de garantie pour votre location selon la loi française (bail vide ou meublé).",
-          faqs
-        )}
+        data={howToSchema({
+          name: "Calculateur Dépôt de Garantie — Caution Location",
+          description:
+            "Calculez gratuitement le dépôt de garantie pour votre location selon la loi française (bail vide ou meublé).",
+          url: "/outils/calculateur-depot-garantie",
+          steps: [
+            {
+              name: "Sélectionnez le type de bail",
+              text: "Choisissez entre bail vide (non meublé) ou bail meublé. Le plafond légal diffère : 1 mois hors charges pour le vide, jusqu'à 2 mois pour le meublé.",
+            },
+            {
+              name: "Saisissez votre loyer",
+              text: "Entrez le montant de votre loyer mensuel hors charges en euros.",
+            },
+            {
+              name: "Obtenez le montant maximal",
+              text: "Le calculateur affiche instantanément le plafond légal du dépôt de garantie selon la loi ALUR 2014.",
+            },
+          ],
+          faqs,
+        })}
       />
 
       <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24">

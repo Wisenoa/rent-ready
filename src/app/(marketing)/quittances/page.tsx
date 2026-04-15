@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FinalCta } from "@/components/landing/final-cta";
+import dynamic from "next/dynamic";
+
+// ISR: revalidate marketing pages at CDN edge every hour
+// Keeps content fresh while serving cached HTML for TTFB < 100ms
+export const revalidate = 3600;
+
+// Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
+// → code-split so it doesn't block initial JS bundle or INP
+const FinalCta = dynamic(
+  () => import("@/components/landing/final-cta"),
+  { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+);
 
 export const metadata: Metadata = {
 title: "Quittances de loyer — Génération automatique et conforme | RentReady",
@@ -122,6 +133,24 @@ function QuittancesJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Quittances de loyer",
+            item: "https://www.rentready.fr/quittances",
+          },
+        ],
+      },
       {
         "@type": "SoftwareApplication",
         name: "RentReady — Quittances de loyer",

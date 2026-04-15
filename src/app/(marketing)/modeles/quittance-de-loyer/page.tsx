@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
+import { SchemaMarkup, breadcrumbSchema } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Quittance de Loyer Gratuit — Conforme Loi 1989 | RentReady",
@@ -79,6 +80,14 @@ function QuittanceLoyerJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "Quittance de loyer", item: "https://www.rentready.fr/modeles/quittance-de-loyer" },
+        ],
+      },
+      {
         "@type": "HowTo",
         name: "Comment créer une quittance de loyer conforme",
         description:
@@ -136,12 +145,7 @@ function QuittanceLoyerJsonLd() {
       },
     ],
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <SchemaMarkup data={data} />;
 }
 
 export default function QuittanceDeLoyerPage() {

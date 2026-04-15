@@ -150,3 +150,81 @@ export function webApplicationSchema(
     "@graph": schemas,
   };
 }
+
+/**
+ * HowTo schema for step-by-step calculator / tool pages.
+ * Use for: IRL calculator, depot-garantie calculator, rent increase simulator, etc.
+ */
+export function howToSchema({
+  name,
+  description,
+  url,
+  steps,
+  faqs,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  steps: Array<{ name: string; text: string }>;
+  faqs?: Array<{ question: string; answer: string }>;
+}) {
+  const schemas: Record<string, unknown>[] = [
+    {
+      "@type": "HowTo",
+      name,
+      description,
+      url: `https://www.rentready.fr${url}`,
+      steps: steps.map((step, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        name: step.name,
+        text: step.text,
+      })),
+      isPartOf: {
+        "@type": "WebSite",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+      },
+    },
+  ];
+
+  if (faqs) {
+    schemas.push({
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": schemas,
+  };
+}
+
+/**
+ * BreadcrumbList schema for inner marketing pages.
+ * Use on: feature pages, template pages, tool pages, city guide pages.
+ */
+export function breadcrumbSchema(
+  items: Array<{ name: string; url: string }>
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: item.url.startsWith("http")
+        ? item.url
+        : `https://www.rentready.fr${item.url}`,
+    })),
+  };
+}

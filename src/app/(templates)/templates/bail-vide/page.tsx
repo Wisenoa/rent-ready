@@ -14,14 +14,6 @@ export const metadata: Metadata = {
     "depot garantie bail vide",
     "bail 3 ans habitation",
   ],
-  openGraph: {
-    title: "Modèle Bail Vide 2026 — RentReady",
-    description:
-      "Bail vide conforme et gratuit. Téléchargez, personnalisez, signez électronique. Modèle mis à jour 2026.",
-    type: "website",
-    url: "https://www.rentready.fr/templates/bail-vide",
-    siteName: "RentReady",
-  },
   alternates: {
     canonical: "https://www.rentready.fr/templates/bail-vide",
   },

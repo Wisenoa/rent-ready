@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import cities from "@/data/cities.json";
 
-export const dynamic = "force-dynamic";
+// ISR: city pages use static city data — revalidate monthly
+export const revalidate = 2592000;
 
 /* ---------- Types ---------- */
 
@@ -196,6 +197,30 @@ function CityJsonLd({ city }: { city: City }) {
   const data = {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Gestion locative",
+            item: "https://www.rentready.fr/gestion-locative",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: city.name,
+            item: `https://www.rentready.fr/gestion-locative/${city.slug}`,
+          },
+        ],
+      },
       {
         "@type": "SoftwareApplication",
         name: "RentReady",

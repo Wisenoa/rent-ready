@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Calculateur de Rendement Locatif Gratuit — Brut & Net | RentReady",
@@ -26,9 +27,64 @@ export const metadata: Metadata = {
   },
 };
 
+/* ─── JSON-LD: HowTo + BreadcrumbList ─── */
+function CalculateurRendementJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "HowTo",
+        name: "Calculateur de Rendement Locatif — RentReady",
+        description:
+          "Estimez le rendement brut et net de votre investissement locatif. Calculez la rentabilité nette de frais et charges.",
+        url: "https://www.rentready.fr/templates/calculateur-rendement-locatif",
+        steps: [
+          {
+            "@type": "HowToStep",
+            name: "Entrez le prix d'achat",
+            text: "Saisissez le prix d'achat du bien immobilier, incluant les frais de notaire.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Indiquez le loyer mensuel",
+            text: "Saisissez le montant du loyer mensuel charges comprises.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Ajoutez les charges et frais",
+            text: "Incluez les charges non récupérables, la gestion, l'assurance, et les intérêts d'emprunt.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Obtenez votre rendement",
+            text: "Le calculateur affiche le rendement brut, le rendement net, et le cash-flow mensuel.",
+          },
+        ],
+      },
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/templates" },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Calculateur de Rendement Locatif",
+            item: "https://www.rentready.fr/templates/calculateur-rendement-locatif",
+          },
+        ],
+      },
+    ],
+  };
+  return <SchemaMarkup data={data} />;
+}
+
 export default function CalculateurRendementPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <>
+      <CalculateurRendementJsonLd />
+      <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
       <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-12 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-amber-100 px-4 py-1.5 text-sm font-medium text-amber-700">
@@ -163,6 +219,7 @@ export default function CalculateurRendementPage() {
           </Link>
         </nav>
       </article>
-    </div>
+      </div>
+    </>
   );
 }

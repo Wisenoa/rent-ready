@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-export const dynamic = "force-dynamic";
+// ISR: blog listing changes infrequently — revalidate weekly
+export const revalidate = 604800;
 
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
@@ -49,15 +50,37 @@ const categories = ["Tous", "Gestion", "Calculs", "Juridique", "Fiscalité"];
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "Blog",
-  name: "Blog RentReady",
-  description: "Conseils et guides pour propriétaires bailleurs",
-  url: "https://www.rentready.fr/blog",
-  publisher: {
-    "@type": "Organization",
-    name: "RentReady",
-    url: "https://www.rentready.fr",
-  },
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      name: "Fil d'Ariane",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Accueil",
+          item: "https://www.rentready.fr",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blog",
+          item: "https://www.rentready.fr/blog",
+        },
+      ],
+    },
+    {
+      "@type": "Blog",
+      name: "Blog RentReady",
+      description: "Conseils et guides pour propriétaires bailleurs",
+      url: "https://www.rentready.fr/blog",
+      publisher: {
+        "@type": "Organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+      },
+    },
+  ],
 };
 
 export default function BlogPage() {

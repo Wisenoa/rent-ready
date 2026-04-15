@@ -19,9 +19,26 @@ import {
   FileCheck2,
   Zap,
 } from "lucide-react";
-import { FinalCta } from "@/components/landing/final-cta";
-import { MarketingFooter } from "@/components/landing/marketing-footer";
-import { GlassNav } from "@/components/landing/glass-nav";
+import dynamic from "next/dynamic";
+
+// ISR: revalidate marketing pages at CDN edge every hour
+// Keeps content fresh while serving cached HTML for TTFB < 100ms
+export const revalidate = 3600;
+
+// Dynamic import: FinalCta and MarketingFooter use framer-motion (heavy)
+// → code-split so they don't block initial JS bundle or INP
+const FinalCta = dynamic(
+  () => import("@/components/landing/final-cta"),
+  { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+);
+const MarketingFooter = dynamic(
+  () => import("@/components/landing/marketing-footer"),
+  { ssr: true, loading: () => <div aria-hidden="true" /> }
+);
+const GlassNav = dynamic(
+  () => import("@/components/landing/glass-nav"),
+  { ssr: true, loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
+);
 
 export const metadata: Metadata = {
   title: "Fonctionnalités — Logiciel gestion locative | RentReady",

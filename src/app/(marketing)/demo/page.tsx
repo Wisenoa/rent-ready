@@ -1,7 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FinalCta } from "@/components/landing/final-cta";
-import { DemoForm } from "@/components/landing/demo-form";
+import dynamic from "next/dynamic";
+
+// ISR: revalidate marketing pages at CDN edge every hour
+export const revalidate = 3600;
+
+// Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
+// → code-split so it doesn't block initial JS bundle or INP
+const FinalCta = dynamic(
+  () => import("@/components/landing/final-cta"),
+  { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+);
+// DemoForm has form state + validation (client-heavy)
+const DemoForm = dynamic(
+  () => import("@/components/landing/demo-form"),
+  { ssr: true, loading: () => <div style={{ minHeight: 300 }} aria-hidden="true" /> }
+);
 
 export const metadata: Metadata = {
   title: "Demandez une démo — RentReady",
@@ -98,6 +112,24 @@ function DemoJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Démo",
+            item: "https://www.rentready.fr/demo",
+          },
+        ],
+      },
       {
         "@type": "SoftwareApplication",
         name: "RentReady — Demande de démo",

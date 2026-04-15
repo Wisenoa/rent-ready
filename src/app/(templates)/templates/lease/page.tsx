@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèles de Bail de Location — Tous nos Contrats Gratuits 2026",
@@ -25,6 +26,43 @@ export const metadata: Metadata = {
     canonical: "https://www.rentready.fr/templates/lease",
   },
 };
+
+
+/* ─── JSON-LD: FAQPage + BreadcrumbList ─── */
+const leaseFaqs = [
+  { question: "Quel bail choisir pour une location vide ?", answer: "Pour une location vide non meublée, le bail Vide (3 ans minimum) est le plus courant. En zone tendue, la durée minimale est de 3 ans. Le dépôt de garantie ne peut pas dépasser 1 mois de loyer hors charges." },
+  { question: "Le bail meublé est-il plus avantageux ?", answer: "Le bail meublé offre plus de flexibilité (1 an minimum) et un loyer généralement plus élevé. Il permet aussi le statut LMNP avec amortissement. Le dépôt de garantie est limité à 2 mois hors charges." },
+  { question: "Le bail mobilité est-il adapté aux étudiants ?", answer: "Le bail mobilité est réservé aux locataires en mutation professionnelle, CDD, stage ou formation. Il dure de 1 à 10 mois et ne peut pas être reconduit automatiquement. Il n'y a pas de dépôt de garantie." },
+];
+
+function LeaseTemplatesJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        name: "Modèles de Bail de Location — FAQ",
+        description: "Questions fréquentes sur les modèles de bail de location gratuits et conformes de RentReady.",
+        url: "https://www.rentready.fr/templates/lease",
+        mainEntity: leaseFaqs.map(faq => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer }
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Tous les Bails", item: "https://www.rentready.fr/templates/lease" },
+        ],
+      },
+    ],
+  };
+  return <SchemaMarkup data={data} />;
+}
 
 const leaseTypes = [
   {
@@ -122,7 +160,9 @@ const colorMap: Record<string, string> = {
 
 export default function LeaseTemplatesPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <>
+      <LeaseTemplatesJsonLd />
+      <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
@@ -240,6 +280,7 @@ export default function LeaseTemplatesPage() {
           </div>
         </section>
       </article>
-    </div>
+      </div>
+    </>
   );
 }

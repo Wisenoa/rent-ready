@@ -41,6 +41,43 @@ jobs:
         run: npx tsc --noEmit
 
   # ─────────────────────────────────────────────
+  # SEO Quality Gates (PR only)
+  # ─────────────────────────────────────────────
+  seo-checks:
+    name: SEO Quality Gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: SEO meta tag validation
+        run: node seo-checks/meta-validator.js
+        continue-on-error: false
+
+      - name: SEO lint checks
+        run: node seo-checks/seo-lint.js
+        continue-on-error: false
+
+      - name: JSON-LD schema validation
+        run: node seo-checks/schema-validator.js
+        continue-on-error: false
+
+      - name: Broken link check
+        run: node seo-checks/link-checker.js --fail-on-internal
+        continue-on-error: false
+
+  # ─────────────────────────────────────────────
   # Unit Tests
   # ─────────────────────────────────────────────
   test:

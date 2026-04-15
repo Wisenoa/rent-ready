@@ -1,9 +1,13 @@
 import { Suspense } from "react";
+
+// ISR: revalidate marketing pages every hour at the CDN edge
+// This dramatically improves TTFB (cache hit at Vercel Edge) while
+// keeping content fresh. Googlebot sees cached HTML = faster crawl budget.
+export const revalidate = 3600;
 import { GlassNav } from "@/components/landing/glass-nav";
 import { MarketingFooter } from "@/components/landing/marketing-footer";
 import { Analytics } from "@/components/analytics";
 
-export const dynamic = "force-dynamic";
 
 function AnalyticsWrapper() {
   return (

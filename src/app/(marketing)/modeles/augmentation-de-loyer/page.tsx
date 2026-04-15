@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Lettre Augmentation de Loyer — Gratuit | RentReady",
@@ -103,6 +104,14 @@ function AugmentationLoyerJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "Augmentation de loyer", item: "https://www.rentready.fr/modeles/augmentation-de-loyer" },
+        ],
+      },
+      {
         "@type": "HowTo",
         name: "Comment rédiger une lettre d'augmentation de loyer",
         description:
@@ -160,12 +169,7 @@ function AugmentationLoyerJsonLd() {
       },
     ],
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <SchemaMarkup data={data} />;
 }
 
 export default function AugmentationDeLoyerPage() {

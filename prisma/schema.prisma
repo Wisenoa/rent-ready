@@ -748,3 +748,31 @@ model AuditLog {
   @@index([entityType, entityId])
   @@index([userId, createdAt])
 }
+
+/// SEO analytics events for tracking template downloads, blog CTAs, and calculator usage.
+model SeoEvent {
+  id          String      @id @default(cuid())
+  /// Event type: template_download, blog_cta_click, calculator_use, page_view
+  eventType   String
+  /// Slug or identifier of the resource (e.g., "bail-vide", "etat-des-lieux")
+  resourceSlug String?
+  /// URL path of the page where the event originated
+  pageUrl     String
+  /// Session or anonymous user identifier
+  sessionId   String?
+  /// Visitor's country (optional)
+  country     String?
+  /// Visitor's referrer
+  referrer    String?
+  /// User agent string
+  userAgent   String?
+  /// IP address (hashed for privacy)
+  ipHash      String?
+  /// Additional metadata as JSON
+  metadata    Json?
+  createdAt   DateTime    @default(now())
+
+  @@index([eventType, createdAt])
+  @@index([resourceSlug, createdAt])
+  @@index([sessionId])
+}

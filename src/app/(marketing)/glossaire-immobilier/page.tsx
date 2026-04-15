@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-export const dynamic = "force-dynamic";
+// ISR: glossary is static reference content — revalidate weekly
+export const revalidate = 604800;
 
 import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";

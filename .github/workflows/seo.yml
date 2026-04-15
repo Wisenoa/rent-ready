@@ -1,0 +1,107 @@
+name: SEO Maintenance
+
+on:
+  # Run after sitemap changes (push to main triggers)
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/app/sitemap.ts'
+      - 'src/app/robots.ts'
+      - 'data/**'
+  # Weekly sitemap ping on Sunday at 6am UTC
+  schedule:
+    - cron: '0 6 * * 0'
+  # Manual trigger
+  workflow_dispatch:
+    inputs:
+      force_ping:
+        description: 'Force Google sitemap ping'
+        required: false
+        default: 'true'
+
+jobs:
+  sitemap-ping:
+    name: Ping Google Search Console
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION || '20' }}
+
+      - name: Ping Google about sitemap update
+        run: |
+          chmod +x scripts/seo/ping-google-search-console.sh
+          ./scripts/seo/ping-google-search-console.sh "https://www.rentready.fr/sitemap.xml"
+        env:
+          GOOGLE_SEARCH_CONSOLE_SITEMAP_URL: 'https://www.rentready.fr/sitemap.xml'
+        continue-on-error: true
+
+      - name: Validate sitemap URL accessibility
+        run: |
+          echo "Checking sitemap is accessible..."
+          HTTP_CODE=$(curl -sf --max-time 10 -o /dev/null -w "%{http_code}" "https://www.rentready.fr/sitemap.xml")
+          echo "Sitemap HTTP status: $HTTP_CODE"
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "✅ Sitemap is accessible"
+          else
+            echo "⚠️  Sitemap returned HTTP $HTTP_CODE (may need Vercel deployment first)"
+          fi
+
+  lighthouse-ci:
+    name: Lighthouse Performance Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION || '20' }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app
+        run: npm run build
+        env:
+          NEXT_PUBLIC_APP_URL: 'http://localhost:3000'
+
+      - name: Run Lighthouse CI against local server
+        run: |
+          npm run start &
+          SERVER_PID=$!
+          # Wait for server to be ready (max 30s)
+          for i in $(seq 1 30); do
+            if curl -sf --max-time 2 http://localhost:3000 > /dev/null 2>&1; then
+              echo "Server is ready"
+              break
+            fi
+            echo "Waiting for server... ($i/30)"
+            sleep 1
+          done
+          npx @lhci/cli autorun \
+            --config=lighthouserc.js \
+            --upload.target='filesystem' \
+            --upload.storageRootPath='.lighthouseci' \
+            || true
+          kill $SERVER_PID 2>/dev/null || true
+
+      - name: Upload Lighthouse report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report-${{ github.sha }}
+          path: .lighthouseci/
+          retention-days: 14

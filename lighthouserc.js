@@ -71,7 +71,7 @@ module.exports = {
         // Core Web Vitals targets
         'first-contentful-paint': ['error', { maxNumericValue: 1_800 }],   // FCP < 1.8s
         'largest-contentful-paint': ['error', { maxNumericValue: 2_500 }],  // LCP < 2.5s
-        ' cumulative-layout-shift': ['error', { maxNumericValue: 0.1 }],    // CLS < 0.1
+        'cumulative-layout-shift': ['error', { maxNumericValue: 0.1 }],    // CLS < 0.1
         'total-blocking-time': ['error', { maxNumericValue: 200 }],         // TBT < 200ms
         'speed-index': ['error', { maxNumericValue: 3_400 }],               // SI < 3.4s
         

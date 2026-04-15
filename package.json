@@ -11,7 +11,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "seo:meta": "node seo-checks/meta-validator.js",
+    "seo:lint": "node seo-checks/seo-lint.js",
+    "seo:schema": "node seo-checks/schema-validator.js",
+    "seo:links": "node seo-checks/link-checker.js",
+    "seo:all": "node seo-checks/meta-validator.js && node seo-checks/seo-lint.js && node seo-checks/schema-validator.js"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.48",

@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Maintenance — RentReady",
   description: "RentReady est temporairement en maintenance.",
+  alternates: {
+    canonical: "https://www.rentready.fr/maintenance",
+  },
 };
 
 export default function MaintenancePage() {

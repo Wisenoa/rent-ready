@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Quittance de Loyer Gratuit 2026 — Format Légal",
@@ -24,6 +25,38 @@ export const metadata: Metadata = {
     canonical: "https://www.rentready.fr/templates/recu-loyer",
   },
 };
+
+
+/* ─── JSON-LD: FAQPage + BreadcrumbList ─── */
+function RecuLoyerJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        name: "Modèle Quittance de Loyer — FAQ",
+        description: "Questions fréquentes sur le modèle de quittance de loyer gratuit et conforme de RentReady.",
+        url: "https://www.rentready.fr/templates/recu-loyer",
+        mainEntity: [
+          { "@type": "Question", name: "La quittance de loyer est-elle obligatoire ?", acceptedAnswer: { "@type": "Answer", text: "Non, la quittance n'est pas obligatoire. Cependant, elle l'est sur demande du locataire (loi du 6 juillet 1989)." } },
+          { "@type": "Question", name: "Que doit contenir une quittance de loyer ?", acceptedAnswer: { "@type": "Answer", text: "Une quittance doit mentionner: le nom du propriétaire, l'identité du locataire, l'adresse du bien, le montant du loyer, la période concernée, et la signature du propriétaire." } },
+          { "@type": "Question", name: "Faut-il payer pour une quittance de loyer ?", acceptedAnswer: { "@type": "Answer", text: "Non. La délivrance d'une quittance de loyer est gratuite. Le propriétaire ne peut pas facturer de frais, même via un logiciel de gestion locative." } },
+          { "@type": "Question", name: "Une quittance protège-t-elle le locataire ?", acceptedAnswer: { "@type": "Answer", text: "Oui. La quittance prouve que le loyer a été payé. En cas de litige, elle constitue une preuve de paiement." } },
+        ],
+      },
+      {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Quittance de Loyer", item: "https://www.rentready.fr/templates/recu-loyer" },
+        ],
+      },
+    ],
+  };
+  return <SchemaMarkup data={data} />;
+}
 
 const faqData = [
   {
@@ -50,7 +83,9 @@ const faqData = [
 
 export default function RecuLoyerPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <>
+      <RecuLoyerJsonLd />
+      <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-16 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700">
@@ -203,6 +238,7 @@ export default function RecuLoyerPage() {
           </Link>
         </nav>
       </article>
-    </div>
+      </div>
+    </>
   );
 }

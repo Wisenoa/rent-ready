@@ -136,6 +136,24 @@ function MaintenanceJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        name: "Fil d'Ariane",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: "https://www.rentready.fr",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Suivi des interventions",
+            item: "https://www.rentready.fr/maintenance",
+          },
+        ],
+      },
+      {
         "@type": "SoftwareApplication",
         name: "RentReady — Suivi des interventions",
         applicationCategory: "BusinessApplication",

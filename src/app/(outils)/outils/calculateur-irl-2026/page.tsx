@@ -4,6 +4,7 @@ import { ArrowRight, Info } from "lucide-react";
 import {
   SchemaMarkup,
   webApplicationSchema,
+  howToSchema,
 } from "@/components/seo/schema-markup";
 import { IrlCalculator } from "./irl-calculator";
 
@@ -74,12 +75,27 @@ export default function CalculateurIrlPage() {
   return (
     <>
       <SchemaMarkup
-        data={webApplicationSchema(
-          "Calculateur IRL 2026",
-          "/outils/calculateur-irl-2026",
-          "Calculez la révision de votre loyer avec la formule IRL légale et les données INSEE officielles.",
-          faqs
-        )}
+        data={howToSchema({
+          name: "Calculateur IRL 2026 — Révision de loyer gratuit",
+          description:
+            "Calculez la révision de votre loyer avec la formule IRL légale et les données INSEE officielles.",
+          url: "/outils/calculateur-irl-2026",
+          steps: [
+            {
+              name: "Saisissez votre loyer actuel",
+              text: "Entrez le montant de votre loyer actuel (hors charges) en euros.",
+            },
+            {
+              name: "Sélectionnez l'IRL de référence",
+              text: "Choisissez l'IRL de votre bail (date de signature ou dernière révision) et le nouvel IRL à appliquer (4e trimestre 2025 = 145,78).",
+            },
+            {
+              name: "Obtenez votre nouveau loyer",
+              text: "Le calculateur applique la formule légale : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL). Le résultat s'affiche instantanément.",
+            },
+          ],
+          faqs,
+        })}
       />
 
       <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24">

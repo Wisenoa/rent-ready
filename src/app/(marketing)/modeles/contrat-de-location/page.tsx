@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Contrat de Location Gratuit — Bail Conforme Loi Alur | RentReady",
@@ -93,6 +94,14 @@ function ContratLocationJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "Contrat de location", item: "https://www.rentready.fr/modeles/contrat-de-location" },
+        ],
+      },
+      {
         "@type": "HowTo",
         name: "Comment rédiger un bail de location conforme",
         description:
@@ -150,12 +159,7 @@ function ContratLocationJsonLd() {
       },
     ],
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <SchemaMarkup data={data} />;
 }
 
 export default function ContratDeLocationPage() {

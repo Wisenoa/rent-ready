@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Relance Loyer Impayé — Gratuit | RentReady",
@@ -100,6 +101,14 @@ function RelanceLoyerJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "Relance loyer impayé", item: "https://www.rentready.fr/modeles/relance-loyer-impaye" },
+        ],
+      },
+      {
         "@type": "HowTo",
         name: "Comment relancer un loyer impayé étape par étape",
         description:
@@ -140,12 +149,7 @@ function RelanceLoyerJsonLd() {
       },
     ],
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <SchemaMarkup data={data} />;
 }
 
 export default function RelanceLoyerImpayePage() {
