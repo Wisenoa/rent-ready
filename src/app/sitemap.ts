@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const cities = require("../../../data/cities.json") as Array<{ slug: string }>;
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { articles } = require("../../../data/articles") as { articles: Array<{ slug: string; date: string }> };
+const { articles } = require("../../../data/articles") as { articles: Array<{ slug: string; date: string; updatedAt?: string }> };
 
 const BASE_URL = "https://www.rentready.fr";
 
@@ -228,7 +228,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Blog posts — use real article data so sitemap stays in sync with content
   const blogPages: MetadataRoute.Sitemap = articles.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
+    lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(post.date),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
