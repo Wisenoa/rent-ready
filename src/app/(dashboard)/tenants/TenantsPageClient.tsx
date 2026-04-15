@@ -66,7 +66,7 @@ interface TenantsPageClientProps {
     emergencyName: string | null;
     emergencyPhone: string | null;
     leases: Array<{
-      property: { name: string };
+      property: { name: string }; rentAmount: number; chargesAmount: number;
       transactions: Array<{
         status: string;
       }>;

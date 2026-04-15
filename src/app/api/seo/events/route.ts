@@ -10,7 +10,8 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
-import { prisma, Prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 const VALID_EVENT_TYPES = [
   "template_download",

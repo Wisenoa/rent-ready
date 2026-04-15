@@ -1,4 +1,3 @@
-"use client";
 
 import type { Metadata } from "next";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";

@@ -31,10 +31,10 @@ export type SerializedTenant = {
   lastName: string;
   email: string | null;
   phone: string | null;
-  addressLine1: string;
+  addressLine1: string | null;
   addressLine2: string | null;
-  city: string;
-  postalCode: string;
+  city: string | null;
+  postalCode: string | null;
   dateOfBirth: string | null;
   placeOfBirth: string | null;
   emergencyName: string | null;
