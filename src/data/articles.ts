@@ -5,6 +5,7 @@ export type Article = {
   category: "Gestion" | "Calculs" | "Juridique" | "Fiscalité";
   date: string;
   readTime: string;
+  updatedAt: string;
   content?: string;
 };
 
@@ -16,6 +17,7 @@ export const articles: Article[] = [
       "Guide complet pour les propriétaires face aux impayés: prévention, procédure de recouvrement, mise en demeure et recours légaux.",
     category: "Gestion",
     date: "2026-01-15",
+    updatedAt: '2026-01-15',
     readTime: "8 min",
   },
   {
@@ -25,6 +27,7 @@ export const articles: Article[] = [
       "Tout savoir sur la révision annuelle des loyers: formule IRL, calcul, date anniversaire et limites de l'augmentation.",
     category: "Calculs",
     date: "2026-01-10",
+    updatedAt: '2026-01-10',
     readTime: "6 min",
   },
   {
@@ -34,6 +37,7 @@ export const articles: Article[] = [
       "Plafonds légaux, restitution, délais et litiges. Tout ce que les propriétaires doivent savoir sur la caution.",
     category: "Juridique",
     date: "2026-01-05",
+    updatedAt: '2026-01-05',
     readTime: "5 min",
   },
   {
@@ -43,6 +47,7 @@ export const articles: Article[] = [
       "Comment réaliser un état des lieux complet et éviter les litiges à la fin du bail. Checklist et conseils pratiques.",
     category: "Juridique",
     date: "2026-02-20",
+    updatedAt: '2026-02-20',
     readTime: "7 min",
   },
   {
@@ -52,6 +57,7 @@ export const articles: Article[] = [
       "Les obligations de la loi ALUR: diagnostics obligatoires, plafonds, zone tendue et encadrement des loyers.",
     category: "Juridique",
     date: "2026-02-15",
+    updatedAt: '2026-02-15',
     readTime: "10 min",
   },
   {
@@ -61,15 +67,17 @@ export const articles: Article[] = [
       "Régime réel, micro-foncier, LMNP: comment choisir le régime fiscal adapté à votre situation locative.",
     category: "Fiscalité",
     date: "2026-03-01",
+    updatedAt: '2026-03-01',
     readTime: "9 min",
   },
   {
-    slug: "modele-quittance-loyer-pdf-gratuit",
+    slug: "quittance-loyer-pdf-gratuit",
     title: "Modèle de quittance de loyer PDF gratuit — Comment remplir une quittance conforme",
     excerpt:
       "Téléchargez notre modèle de quittance de loyer PDF gratuit et découvrez comment remplir chaque mention obligatoire. Quittance conforme loi 89-462 en 5 minutes.",
     category: "Gestion",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "6 min",
     content: `## Qu'est-ce qu'une quittance de loyer ?
 
@@ -148,7 +156,81 @@ Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement part
       "Téléchargez notre modèle de lettre de relance pour loyer impayé. Conseils juridiques, délai légal, étapes de la procédure d'impayé. Gratuit.",
     category: "Gestion",
     date: "2026-04-17",
+    updatedAt: '2026-04-17',
     readTime: "7 min",
+    content: `Un loyer impayé est une situation stressante pour tout bailleur. Avant d'engager une procédure judiciaire, la lettre de relance est une étape obligatoire et indispensable. Découvrez comment la rédiger efficacement.
+
+## Pourquoi envoyer une lettre de relance pour loyer impayé ?
+
+La lettre de relance constitue la première démarche amiable à entreprendre dès le premier jour d'impayé. Elle marque le début de la procédure de recouvrement et permet souvent de résoudre le litige sans passer par les tribunaux.
+
+Selon la loi du 6 juillet 1989, le bailleur peut commencer les démarches de recouvrement dès le premier jour de retard de paiement du loyer. Plus la relance est envoyée tôt, plus la procédure est rapide et moins les intérêts de retard s'accumulent.
+
+## Modèle de lettre de relance pour loyer impayé
+
+**Vos coordonnées :**
+[Votre nom et prénom ou dénomination sociale]
+[Adresse]
+[Téléphone / Email]
+
+**Coordonnées du locataire :**
+[Nom et prénom du locataire]
+[Adresse du bien loué]
+
+**Objet : Relance pour loyer impayé — [numéro du bail]**
+
+Madame, Monsieur,
+
+Par la présente, je me permets de vous contacter concernant le loyer impayé relatif au bail conclu le [date du bail] pour le logement situé au [adresse du bien].
+
+À ce jour, le montant de **[montant en euros] euros**, couvrant la période du [date début] au [date fin], demeure impayé.
+
+Je vous demande de bien vouloir régler cette somme dans un délai de **8 jours** à compter de la réception du présent courrier.
+
+En cas d'absence de paiement dans ce délai, je me verrai dans l'obligation d'engager une **procédure de recouvrement** auprès du tribunal compétent, ainsi que de mettre en œuvre les sanctions prévues au bail.
+
+Je reste à votre disposition pour tout échange visant à résoudre cette situation à l'amiable.
+
+Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+
+[Signature]
+
+## Mise en demeure : l'étape suivante
+
+Si le locataire ne réagit pas à votre lettre de relance dans le délai imparti, la **mise en demeure** est l'étape obligatoire suivante. Elle doit être envoyée en recommandé avec accusé de réception et mentionner explicitement les sommes dues, le délai de paiement, et les conséquences légales du non-paiement.
+
+La mise en demeure ouvre droit à la **procédure de résiliation du bail** pour manquement grave du locataire à ses obligations (article 4 de la loi du 6 juillet 1989).
+
+## Procédure judiciaire en cas d'impayé persistant
+
+Si le locataire reste défaillant malgré la mise en demeure, deux voies sont possibles :
+
+- **Assignation au tribunal judiciaire** : pour obtenir la résiliation du bail et l'expulsion. Le délai de procédure est généralement de 3 à 6 mois.
+- **Procédure simplifiée (référé)** : plus rapide, elle permet d'obtenir une décision de justice en quelques semaines.
+
+## Conseils pratiques pour éviter les loyers impayés
+
+- Vérifiez systématiquement la **solvabilité du locataire** avant la signature du bail (revenus, emploi, historique locatif).
+- Souscrivez une **Garantie Loyer Impayé (GLI)** pour vous protéger financièrement.
+- Utilisez un **modèle de bail conforme** et vérifiez les clauses relatives aux sanctions en cas d'impayé.
+- Envoyez vos lettres de relance **dès le premier jour de retard** pour accélérer la procédure.
+
+## Questions fréquentes
+
+**Quand envoyer une lettre de relance pour loyer impayé ?**
+Dès le premier jour de retard de paiement. Plus la relance est envoyée tôt, plus la procédure de recouvrement est rapide.
+
+**La lettre de relance est-elle obligatoire ?**
+Elle n'est pas strictement obligatoire légalement, mais elle est indispensable pour constituer une trace écrite et engager ensuite la procédure judiciaire.
+
+**Quel délai pour une mise en demeure après une lettre de relance ?**
+En général, un délai de 8 à 15 jours est recommandé entre la lettre de relance et la mise en demeure.
+
+**Le模型e de lettre de relance est-il gratuit ?**
+Oui, notre modèle de lettre de relance pour loyer impayé est entièrement gratuit. Vous pouvez le personnaliser avec vos informations et l'envoyer en recommandé.
+
+Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayés ? [Essayez RentReady gratuitement pendant 14 jours](/pricing).
+`,
   },
   {
     slug: "charges-locatives-decompte-annualise",
@@ -157,6 +239,7 @@ Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement part
       "Charges locatives : comment établir le décompte annualisé, quelles sont les charges récupérables, quand envoyer le relevé au locataire. Guide complet 2026.",
     category: "Gestion",
     date: "2026-04-21",
+    updatedAt: '2026-04-21',
     readTime: "8 min",
   },
   {
@@ -166,6 +249,7 @@ Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement part
       "La Garantie Loyer Impayé (GLI) vous protège contre les impayés, dégradations et frais de procédure. Comparatif des offres et conseils pour bien choisir.",
     category: "Gestion",
     date: "2026-04-24",
+    updatedAt: '2026-04-24',
     readTime: "7 min",
   },
   {
@@ -175,6 +259,7 @@ Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement part
       "Quittance de loyer : toutes les mentions obligatoires selon la loi du 6 juillet 1989. Téléchargez un modèle gratuit et découvrez comment la générer automatiquement.",
     category: "Juridique",
     date: "2026-04-28",
+    updatedAt: '2026-04-28',
     readTime: "5 min",
   },
   {
@@ -184,6 +269,7 @@ Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement part
       "Calculez le rendement locatif brut et net de votre investissement immobilier. Formule, exemple chiffré, et conseils pour maximiser votre rentabilité.",
     category: "Fiscalité",
     date: "2026-05-01",
+    updatedAt: '2026-05-01',
     readTime: "6 min",
   },
   {
@@ -193,6 +279,7 @@ Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement part
       "État des lieux d'entrée et de sortie : modèle gratuit, checklist, et conseils pour protéger votre dépôt de garantie. Conforme décret 2016-382.",
     category: "Juridique",
     date: "2026-05-05",
+    updatedAt: '2026-05-05',
     readTime: "6 min",
   },
   {
@@ -202,6 +289,7 @@ Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement part
       "Bail de colocation : comment rédiger le contrat, quelles clauses ajouter, modèle gratuit. Droits et obligations des colocataires.",
     category: "Juridique",
     date: "2026-05-08",
+    updatedAt: '2026-05-08',
     readTime: "7 min",
   },
   {
@@ -211,6 +299,7 @@ Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement part
       "Bail de location vide en 2026 : tout savoir sur les clauses obligatoires, la durée minimale de 3 ans, le dépôt de garantie, les charges et la révision de loyer.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "11 min",
     content: `## Qu'est-ce qu'un bail de location vide ?
 
@@ -331,6 +420,7 @@ Le bail de location vide en 2026 est un contrat strictement encadré par la loi,
       "Bail de location meublée en 2026 : durée de 1 an renouvelable, liste des meubles obligatoires, régime fiscal avantageux (LMNP/LMP) et règles de résiliation.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "10 min",
     content: `## Location meublée : définition et cadre juridique en 2026
 
@@ -456,6 +546,7 @@ Le locataire doit user du logement et des équipements avec diligence, effectuer
       "Caution et garant en location : différence entre caution simple et solidaire, obligations du garant, procédure en cas de défaillance du locataire, et protection du garant.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "9 min",
     content: `## Caution et garant en location : clarification des termes
 
@@ -569,6 +660,7 @@ Avant de se porter garant, il est essentiel d'évaluer sa capacité à assumer c
       "Congé du locataire : préavis de 3 mois (ou 1 mois sous conditions), lettre recommandée avec accusé de réception, état des lieux de sortie et restitution du dépôt de garantie.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "8 min",
     content: `## Le congé du locataire : un droit fondamental
 
@@ -679,6 +771,7 @@ Avant de quitter le logement, le locataire doit :
       "Préavis de départ en location : délai légal de 3 mois (1 mois sous conditions), calcul du préavis, réduction du délai en cas de mutation, perte d'emploi ou premier logement.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "7 min",
     content: `## Le préavis de départ : une étape obligatoire
 
@@ -793,6 +886,7 @@ Voici les erreurs fréquentes lors d'un départ :
       "Encadrement des loyers à Paris : les plafonds 2026 par zone et par type de logement, les exceptions, les recours en cas de dépassement et les sanctions encourues par le bailleur.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "10 min",
     content: `## L'encadrement des loyers à Paris : un dispositif renforcé
 
@@ -910,6 +1004,7 @@ Les plafonds de loyer sont actualisés chaque année en fonction de l'évolution
       "SCI et location : les avantages fiscaux et patrimoniaux de la gestion locative en SCI, la création, la comptabilité, les obligations déclaratives et les pièges à éviter.",
     category: "Fiscalité",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "11 min",
     content: `## Qu'est-ce qu'une SCI ?
 
@@ -1044,6 +1139,7 @@ Elle l'est moins pour :
       "LMNP 2026 : comparaison du régime micro-BIC et du régime réel simplifié. Quel régime choisir ? Comment déclarer ? Quels avantages ? Guide complet pour les loueurs en meublé.",
     category: "Fiscalité",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "12 min",
     content: `## Le statut LMNP :Loueur en Meublé Non Professionnel
 
@@ -1197,6 +1293,7 @@ En 2026, le LMF permet de bénéficier de certains avantages du LMNP (amortissem
       "Travaux de location : distinction entre petites réparations, entretien courant et grosses réparations. Obligations du locataire et du bailleur. jurisprudence et exemples pratiques.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "9 min",
     content: `## La distinction fondamentale : entretien et réparations
 
@@ -1357,6 +1454,7 @@ La jurisprudence est riche en la matière et fournit de nombreux exemples de dé
       "Assurance habitation locataire : obligation légale de s'assurer, couverture minimale requise, assurance multirisque habitation, montant moyen et sanctions en cas de défaut.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "8 min",
     content: `## L'obligation d'assurance habitation du locataire
 
@@ -1501,6 +1599,7 @@ Le bailleur ne peut pas prélever sur le dépôt de garantie pour couvrir les ri
       "Indexation du loyer en 2026 : comment calculer la révision annuelle avec l'IRL. Formule, exemples pratiques, date d'application, et pièges à éviter pour bailleurs et locataires.",
     category: "Calculs",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "7 min",
     content: `## L'indexation du loyer : principe général
 
@@ -1632,6 +1731,7 @@ Par ailleurs, en cas de relocation, le nouveau loyer ne peut pas dépasser le de
       "Colocation avec bail solidaire : les règles en 2026, différence entre bail commun et baux individuels, obligations des colocataires, clause de solidarité et sortie d'un colocataire.",
     category: "Juridique",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "9 min",
     content: `## La colocation en France : cadre juridique
 
@@ -1760,6 +1860,7 @@ La sous-location d'une partie du logement à un tiers (sans être remplaçant of
       "Gestion locative en ligne vs agence traditionnelle : comparatif des coûts, services, avantages et inconvénients. Quel choix pour votre portefeuille locatif en 2026 ?",
     category: "Gestion",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "10 min",
     content: `## La gestion locative : un marché en mutation
 
@@ -1902,6 +2003,7 @@ Pour choisir une solution de gestion locative en ligne, considérez :
       "Quittance de loyer et aides au logement : mentions obligatoires à faire figurer, obligation de délivrance, modèle gratuit, procédure en cas de non-réponse du bailleur.",
     category: "Gestion",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "7 min",
     content: `## La quittance de loyer : un document obligatoire
 
@@ -2050,6 +2152,7 @@ En location meublée (LMNP/LMP), les quittances peuvent être utilisées comme j
       "Rentabilité locative 2026 : comment calculer le rendement brut, net, net-net. Formule, exemples chiffrés, critères pour évaluer la qualité d'un investissement locatif.",
     category: "Calculs",
     date: "2026-04-14",
+    updatedAt: '2026-04-14',
     readTime: "12 min",
     content: `## L'investissement locatif : pourquoi calculer sa rentabilité ?
 
@@ -2248,6 +2351,7 @@ RentReady propose un simulateur de rentabilité locative gratuit, qui permet de 
     "Rédaction du bail de location : toutes les clauses obligatoires, facultatives et interdites. Modèle de bail conforme loi 89-462, loi ALUR et loi ELAN.",
   category: "Juridique",
   date: "2026-04-14",
+    updatedAt: '2026-04-14',
   readTime: "12 min",
   content: `## Pourquoi rédiger un bail de location est essentiel
 
@@ -2350,6 +2454,7 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
       "Free property management tools have limits. Compare free vs paid solutions for French landlords — features, costs, compliance, and scalability.",
     category: "Gestion",
     date: "2026-04-15",
+    updatedAt: '2026-04-15',
     readTime: "9 min",
   },
   {
@@ -2359,6 +2464,7 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
       "Gestion locative complète : suivi des loyers, entretien, assurances, obligations légales. Tout pour gérer efficacement vos locations.",
     category: "Gestion",
     date: "2026-04-15",
+    updatedAt: '2026-04-15',
     readTime: "10 min",
   },
   {
@@ -2368,6 +2474,7 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
       "IRL, plafonds, zones tendues, révision annuelle : comment augmenter legalmente votre loyer en 2026. Guide complet bailleur.",
     category: "Calculs",
     date: "2026-04-15",
+    updatedAt: '2026-04-15',
     readTime: "8 min",
   },
   {
@@ -2377,6 +2484,7 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
       "Quelles charges le propriétaire peut-il récupérer auprès du locataire ? Liste exhaustive, modalités de régularisation et pièges à éviter.",
     category: "Juridique",
     date: "2026-04-15",
+    updatedAt: '2026-04-15',
     readTime: "7 min",
   }
 ];

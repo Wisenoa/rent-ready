@@ -1,0 +1,431 @@
+[
+  {
+    "slug": "quittance-loyer",
+    "term": "Quittance de loyer",
+    "shortDefinition": "Document officiel remis au locataire confirmant le paiement d'un loyer.",
+    "fullDefinition": "La quittance de loyer est un document comptable que le bailleur remet au locataire pour attester du paiement effectif du loyer et des charges. Depuis la loi du 6 juillet 1989, le bailleur est tenu de fournir une quittance dans le mois suivant la demande du locataire. Elle doit mentionner le montant du loyer, les sommes éventuellement dues au titre des charges, le mode de paiement utilisé, la date du paiement, le nom du locataire, et l'adresse du bien.",
+    "relatedTerms": [
+      "bail",
+      "charges-recuperables",
+      "loyer-nu"
+    ],
+    "seeFurtherLinks": [
+      "/templates/recu-loyer"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "bail-location",
+    "term": "Bail de location",
+    "shortDefinition": "Contrat écrit régissant les relations entre bailleur et locataire.",
+    "fullDefinition": "Le bail de location est le contrat qui lie le propriétaire bailleur au locataire. Il définit les droits et obligations de chaque partie : durée du bail (3 ans minimum pour un bail vide, 1 an pour un meublé), montant du loyer et ses modalités de révision, dépôt de garantie, conditions d'entretien, etc. En France, le bail doit être conforme à la loi du 6 juillet 1989 pour les locations d'habitation principale.",
+    "relatedTerms": [
+      "quittance-loyer",
+      "depot-garantie",
+      "etat-des-lieux"
+    ],
+    "seeFurtherLinks": [
+      "/templates/bail-vide"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "caution-locative",
+    "term": "Caution locative",
+    "shortDefinition": "Personne physique ou morale garantissant le paiement du loyer au bailleur.",
+    "fullDefinition": "La caution est un garant qui s'engage à payer le loyer et les charges en cas de défaillance du locataire. La caution peut être un particulier (parent, ami) ou une garantie locative professionnelle (Visale, Garantme, etc.). Depuis la loi Alur, la caution doit être informée de la situation de paiement du locataire et un état des lieux peut être opposé à la caution pour les dégradations constatées.",
+    "relatedTerms": [
+      "garant",
+      "depot-garantie",
+      "visale"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "garant-loyer",
+    "term": "Garant",
+    "shortDefinition": "Personne qui se porte caution pour un locataire.",
+    "fullDefinition": "Le garant est une personne physique ou morale qui s'engage verbalement ou par écrit à honorer les obligations du locataire en cas de défaillance. Pour être recevable, une caution doit généralement justifier de revenus suffisants (généralement 3 à 4 fois le montant du loyer). Les garants les plus courants sont les parents ou alliés du locataire.",
+    "relatedTerms": [
+      "caution-locative",
+      "visale"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "etat-des-lieux",
+    "term": "État des lieux",
+    "shortDefinition": "Document décrivant l'état d'un bien à l'entrée et à la sortie du locataire.",
+    "fullDefinition": "L'état des lieux est un document descriptif de l'état du bien loué effectué à l'entrée et à la sortie du locataire. Il doit être effectué de manière contradictoire (les deux parties présentes ou averties). L'état des lieux d'entrée est joint au bail et permet de comparer l'état de sortie pour évaluer d'éventuelles dégradations. Depuis la loi du 6 juillet 1989, l'état des lieux doit être établi par écrit et peut être réalisé sur support numérique.",
+    "relatedTerms": [
+      "bail-location",
+      "depot-garantie",
+      "quittance-loyer"
+    ],
+    "seeFurtherLinks": [
+      "/templates/etat-des-lieux"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "irl-indice-reference-loyers",
+    "term": "IRL — Indice de Référence des Loyers",
+    "shortDefinition": "Indice INSEE servant de base à la révision annuelle des loyers.",
+    "fullDefinition": "L'Indice de Référence des Loyers (IRL) est un indicateur économique publié trimestriellement par l'INSEE. Il retrace l'évolution des prix à la consommation hors tabac et hors loyers. Depuis la loi du 6 juillet 1989, le IRL est utilisé comme base pour la révision annuelle des loyers dans les contrats de location. La formule de révision est : nouveau loyer = loyer actuel × (nouvel IRL / IRL de référence du contrat).",
+    "relatedTerms": [
+      "revision-loyer",
+      "loyer-nu"
+    ],
+    "seeFurtherLinks": [
+      "/outils/calculateur-irl-2026"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "loyer-nu",
+    "term": "Loyer nu",
+    "shortDefinition": "Loyer hors charges — le montant de base du loyer sans les charges.",
+    "fullDefinition": "Le loyer nu (ou loyer hors charges) est le montant du loyer demandé par le bailleur pour l'occupation du bien,不包括 les charges. Les charges récupérables (eau, chauffage, ordures ménagères, etc.) sont facturées en supplément. Le loyer nu ne peut pas dépasser le plafond de loyer applicable dans certaines zones tendues (encadrement des loyers).",
+    "relatedTerms": [
+      "charges-recuperables",
+      "encadrement-loyer",
+      "irl-indice-reference-loyers"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "charges-recuperables",
+    "term": "Charges récupérables",
+    "shortDefinition": "Charges de fonctionnement et d'entretien que le locataire rembourse au bailleur.",
+    "fullDefinition": "Les charges récupérables sont les dépenses engagées par le bailleur pour le compte du locataire et qui doivent être remboursées par ce dernier. Elles sont listées par le décret du 26 novembre 1987 et incluent : les charges de gardiennage, d'eau froide, de chauffage, d'ascenseur, d'entretien des parties communes, de除草机等. Le montant des provisions pour charges est régularisé une fois par an.",
+    "relatedTerms": [
+      "loyer-nu",
+      "quittance-loyer"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "conge-location",
+    "term": "Congé (donner congé)",
+    "shortDefinition": "Notification de fin de bail par le bailleur ou le locataire.",
+    "fullDefinition": "Le congé est la notification par laquelle l'une des parties (bailleur ou locataire) met fin au bail de location. Le congé doit respecter un délai de préavisvariable selon les cas : 3 mois pour le locataire en location vide (1 mois en zone tendue), 6 mois pour le bailleur qui reprend le bien, avec des motifs stricts définis par la loi (reprise pour habiter, vente, motif légitime et sérieux).",
+    "relatedTerms": [
+      "bail-location",
+      "preavis",
+      "depot-garantie"
+    ],
+    "seeFurtherLinks": [
+      "/templates/conge-proprietaire"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "preavis-loyer",
+    "term": "Préavis — Délai de rétractation",
+    "shortDefinition": "Délai légal à respecter entre la notification de fin de bail et le départ effectif.",
+    "fullDefinition": "Le préavis est le délai légal que doit respecter une partie pour résilier le bail. Pour le locataire en location vide, le préavis est de 3 mois (réduit à 1 mois pour les biens situés en zone tendue, ou en cas de mutation professionnelle, de perte d'emploi, ou d'obtention d'un premier emploi). Pour le bailleur qui donne congé, le préavis est généralement de 6 mois.",
+    "relatedTerms": [
+      "conge-location",
+      "bail-location"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "depot-garantie",
+    "term": "Dépôt de garantie",
+    "shortDefinition": "Sommes versées par le locataire au bailleur pour garantir l'exécution du bail.",
+    "fullDefinition": "Le dépôt de garantie est une somme d'argent versée par le locataire au bailleur lors de la signature du bail. Son montant maximum est法律规定 : 1 mois de loyer hors charges pour une location vide, 2 mois pour une location meublée. Le dépôt de garantie doit être restitué dans les 2 mois suivant la remise des clés par le locataire, déduction faite des éventuelles dégradations constatées à l'état des lieux de sortie.",
+    "relatedTerms": [
+      "etat-des-lieux",
+      "bail-location"
+    ],
+    "seeFurtherLinks": [
+      "/outils/calculateur-depot-garantie"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "visale",
+    "term": "Visale — Garantie Visale",
+    "shortDefinition": "Garantie locative gratuite portée par l'État pour les locataires.",
+    "fullDefinition": "Visale est une garantie locative gratuite portée par l'État (Action Logement) qui permet aux locataires de bénéficier d'une caution pour leur location sans avoir à fournir de garant personnel. Elle s'adresse aux locataires de 18 à 30 ans, aux salariés de plus de 30 ans sous conditions de ressources, et aux étudiants sous conditions. Elle couvre les impayés de loyer et charges jusqu'à 36 mois.",
+    "relatedTerms": [
+      "garant-loyer",
+      "caution-locative"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "colocation",
+    "term": "Colocation",
+    "shortDefinition": "Location d'un même bien par plusieurs locataires, chacun ayant son propre bail ou un bail commun.",
+    "fullDefinition": "La colocation est une situation dans laquelle plusieurs locataires occupeant un même logement partagent les espaces communs et le loyer. Elle peut être régie par un bail unique avec clause de solidarité (chaque colocataire est responsable de l'intégralité du loyer) ou par des baux individuels (chaque locataire ne gère que sa part). La colocation est encadrée par la loi du 6 juillet 1989 et doit respecter les règles de surface minimale (9m² et 2,20m de hauteur sous plafond).",
+    "relatedTerms": [
+      "bail-location",
+      "clauses-solidarite"
+    ],
+    "seeFurtherLinks": [
+      "/templates/colocation"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "location-vide",
+    "term": "Location vide",
+    "shortDefinition": "Location d'un bien non meublé pour une durée de 3 ans minimum.",
+    "fullDefinition": "Une location vide (ou location nue) est un contrat de location d'un bien immobilier sans mobilier. La durée minimale du bail est de 3 ans pour le bailleur (6 ans si le bailleur est une personne morale). Le loyer d'un vide est généralement inférieur à celui d'un meublé comparable. Le dépôt de garantie maximum est de 1 mois de loyer hors charges.",
+    "relatedTerms": [
+      "bail-location",
+      "location-meuble",
+      "loyer-nu"
+    ],
+    "seeFurtherLinks": [
+      "/templates/bail-vide"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "location-meuble",
+    "term": "Location meublée",
+    "shortDefinition": "Location d'un bien équipé de mobilier conforme à une liste réglementaire.",
+    "fullDefinition": "Une location meublée est un logement équipé de tous les éléments nécessaires à la vie quotidienne du locataire : literie avec couette, plaques de cuisson, réfrigérateur, ustensiles de cuisine, etc. La durée minimale du bail est de 1 an (renouvelable par tacite reconduction). Le loyer d'un meublé peut être supérieur à celui d'un vide comparable. Le dépôt de garantie maximum est de 2 mois de loyer hors charges.",
+    "relatedTerms": [
+      "location-vide",
+      "bail-location",
+      "etat-des-lieux"
+    ],
+    "seeFurtherLinks": [
+      "/templates/bail-meuble"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "bail-mobilite",
+    "term": "Bail de mobilité",
+    "shortDefinition": "Contrat de location meublée de courte durée (1 à 10 mois) pour publics spécifiques.",
+    "fullDefinition": "Le bail de mobilité, créé par la loi Elan de 2018, est un contrat de location meublée réservé aux locataires en situation de mobilité professionnelle ou personnelle : mutation professionnelle, CDD, formation, stage, mission temporaire, etc. Sa durée est de 1 à 10 mois, sans tacite reconduction possible. Le dépôt de garantie est limité à 1 mois de loyer.",
+    "relatedTerms": [
+      "location-meuble",
+      "bail-location"
+    ],
+    "seeFurtherLinks": [
+      "/templates/bail-mobilite"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "encadrement-loyer",
+    "term": "Encadrement des loyers",
+    "shortDefinition": "Réglementation limitant les loyers dans les zones tendues à un montant maximum.",
+    "fullDefinition": "L'encadrement des loyers est une mesure visant à limiter les montants des loyers dans les zones où la demande de logement est très supérieure à l'offre (zones tendues). Initialement expérimenté à Paris, il a été pérennisé et étendu par la loi Climat et Résilience de 2021 à plus de 1 000 communes. Le loyer de relocation ne peut dépasser le loyer de référence majoré de 20%, sous peine de sanctions pour le bailleur.",
+    "relatedTerms": [
+      "loyer-nu",
+      "IRL",
+      "zone-tendue"
+    ],
+    "seeFurtherLinks": [
+      "/outils/simulateur-loi-jeanbrun"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "loyer-ccai",
+    "term": "Loyer charges comprises (CC)",
+    "shortDefinition": "Loyer incluant les charges — le contraire du loyer nu.",
+    "fullDefinition": "Le terme 'charges comprises' (CC) signifie que le montant du loyer affiché inclut à la fois le loyer nu et les provisions pour charges. Le locataire paie un montant global chaque mois, et une régularisation annuelle est effectuée pour ajuster les provisions aux charges réelles. C'est une option qui simplifie la gestion mensuelle mais qui nécessite une bonne estimation des charges.",
+    "relatedTerms": [
+      "loyer-nu",
+      "charges-recuperables"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "revision-loyer",
+    "term": "Révision de loyer",
+    "shortDefinition": "Mise à jour annuelle du montant du loyer en fonction de l'IRL.",
+    "fullDefinition": "La révision de loyer est la procédure par laquelle le montant du loyer est actualisé chaque année en fonction de l'évolution de l'Indice de Référence des Loyers (IRL). La clause de révision doit être prévue dans le bail et préciser la date de référence (généralement la date d'anniversaire du bail). En zone tendue, la révision est en outre encadrée par le mécanisme de plafonnement.",
+    "relatedTerms": [
+      "irl-indice-reference-loyers",
+      "loyer-nu"
+    ],
+    "seeFurtherLinks": [
+      "/outils/calculateur-irl-2026"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "apport-personnel",
+    "term": "Apport personnel",
+    "shortDefinition": "Sommes d'argent dont dispose l'emprunteur sans recourir à l'emprunt.",
+    "fullDefinition": "L'apport personnel désigne les économies ou fonds propres que l'investisseur utilise pour financer une partie de son acquisition immobilière, sans avoir recours à un emprunt bancaire. Plus l'apport personnel est élevé, plus les conditions de prêt seront avantageuses et plus le taux d'endettement sera maîtrisé. On recommande généralement un apport de 10 à 20% du prix d'achat.",
+    "relatedTerms": [
+      "rendement-locatif",
+      "pret-immobilier"
+    ],
+    "seeFurtherLinks": [
+      "/templates/calculateur-rendement-locatif"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "rendement-locatif",
+    "term": "Rendement locatif",
+    "shortDefinition": "Ratio mesurant la rentabilité d'un investissement immobilier locatif.",
+    "fullDefinition": "Le rendement locatif est un indicateur de la rentabilité d'un investissement immobilier. Le rendement brut se calcule en divisant le revenu locatif annuel par le prix d'achat du bien, multiplié par 100. Le rendement net (ou net-net) intègre les frais de gestion, les charges non récupérables, la taxe foncière, et les vacances locatives. En France, un bon rendement locatif se situe entre 5% et 8% net.",
+    "relatedTerms": [
+      "apport-personnel",
+      "vacance-locative"
+    ],
+    "seeFurtherLinks": [
+      "/templates/calculateur-rendement-locatif"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "vacance-locative",
+    "term": "Vacance locative",
+    "shortDefinition": "Période pendant laquelle un bien immobilier reste inoccupé entre deux locataires.",
+    "fullDefinition": "La vacance locative désigne la période durant laquelle un bien immobilier n'est pas loué et ne génère donc pas de revenus. Elle peut survenir entre deux locataires, lors de travaux de rénovation, ou en cas de difficulté à trouver un locataire. La vacance locative est un risque à intégrer dans le calcul du rendement locatif-net. En France, elle représente en moyenne 2 à 3 mois par an selon les régions.",
+    "relatedTerms": [
+      "rendement-locatif",
+      "loyer-nu"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "surface-habitable",
+    "term": "Surface habitable",
+    "shortDefinition": "Surface de plancher construite après déduction des murs, cloisons, marches, gaines.",
+    "fullDefinition": "La surface habitable est définie par l'article R. 156-1 du CCH comme la surface de plancher construite, après déduction des surfaces occupées par les murs, cloisons, marches et cages d'escaliers, gaines, embrasures de portes et fenêtres. Elle doit être au minimum de 9m² et la hauteur sous plafond d'au moins 2,20m pour être considérée comme habitable. C'est cette surface qui est utilisée pour fixer le montant du loyer en zone tendue.",
+    "relatedTerms": [
+      "loi-carrez",
+      "zone-tendue"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "loi-carrez",
+    "term": "Loi Carrez",
+    "shortDefinition": "Loi imposant la mention de la surface privative dans les actes de vente.",
+    "fullDefinition": "La loi Carrez (du nom du député Gilles Carrez) impose la mention obligatoire de la surface privative dans tout contrat de vente d'un lot de copropriété. Cette surface correspond à la surface habitable majorée des annexes (cave, garage, terrasse dans certains cas). La mention de cette surface dans l'acte de vente protège l'acquéreur et peut entraîner l'annulation de la vente en cas d'erreur supérieure à 5%.",
+    "relatedTerms": [
+      "surface-habitable",
+      "copropriete"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "declaration-impot",
+    "term": "Déclaration de revenus fonciers",
+    "shortDefinition": "Déclaration annuelle des revenus tirés de la location d'un bien immobilier.",
+    "fullDefinition": "Tout propriétaire bailleur doit déclarer les revenus fonciers tirés de ses locations dans sa déclaration annuelle de revenus. Les revenus locatifs sont imposés dans la catégorie des revenus fonciers, selon le régime microfoncier (abattement de 30%) ou le régime réel (déduction des charges réelles). Cette déclaration permet également de bénéficier de déficit foncier en cas de travaux importants.",
+    "relatedTerms": [
+      "rendement-locatif",
+      "fiscalite-immobiliere"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "taxe-fonciere",
+    "term": "Taxe foncière",
+    "shortDefinition": "Impôt annuel dû par le propriétaire d'un bien immobilier bâti.",
+    "fullDefinition": "La taxe foncière est un impôt local annuel dû par le propriétaire d'un bien immobilier au 1er janvier de l'année d'imposition. Elle est calculée sur la base de la valeur locative cadastrale du bien, réduite d'un abattement de 50%. Le montant varie considérablement selon les communes. En investissement locatif, la taxe foncière est généralement à la charge du propriétaire bailleur (sauf convention contraire).",
+    "relatedTerms": [
+      "charges-recuperables",
+      "rendement-locatif"
+    ],
+    "seeFurtherLinks": [
+      "/glossaire-immobilier"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "gerance-immobiliere",
+    "term": "Gérance immobilière",
+    "shortDefinition": "Mission confiée à un professionnel pour gérer un bien locatif pour le compte du propriétaire.",
+    "fullDefinition": "La gérance immobilière (ou property management) est la mission confiée par un propriétaire bailleur à une agence ou un gestionnaire de biens pour administrer son bien locatif. La gérance inclut la recherche de locataires, l'établissement des baux, l'encaissement des loyers, le suivi des paiements, l'organisation des états des lieux, le déclenchement des interventions de maintenance, et la régularisation des charges.",
+    "relatedTerms": [
+      "bail-location",
+      "rendement-locatif"
+    ],
+    "seeFurtherLinks": [
+      "/gestion-locative"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "maintenance-locative",
+    "term": "Maintenance locative",
+    "shortDefinition": "Ensemble des interventions d'entretien et de réparation dans un bien loué.",
+    "fullDefinition": "La maintenance locative désigne l'ensemble des interventions techniques nécessaires pour maintenir un bien loué en bon état d'usage et de fonctionnement. Elle inclut les petites réparations (remplacement d'ampoules, joint de robinet), l'entretien courant (chauffage, chaudière), et les réparations lourdes en cas de sinistre. La distinction entre maintenance (à la charge du bailleur) et dégradation (à la charge du locataire) fait souvent l'objet de litiges.",
+    "relatedTerms": [
+      "etat-des-lieux",
+      "charges-recuperables"
+    ],
+    "seeFurtherLinks": [
+      "/maintenance"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "impaye-loyer",
+    "term": "Loyer impayé",
+    "shortDefinition": "Situation où le locataire ne paie pas son loyer aux dates prévues.",
+    "fullDefinition": "Un loyer impayé survient quand le locataire ne s'acquitte pas de son loyer aux dates prévues dans le bail. Après un délai de grâce de quelques jours, le bailleur peut engager une procédure de recouvrement : mise en demeure, puis procédure judiciaire (assignation au tribunal) si nécessaire. En cas de garantie Visale ou autre garantie, c'est le garant qui est sollicité en premier.",
+    "relatedTerms": [
+      "garant-loyer",
+      "relance-loyer"
+    ],
+    "seeFurtherLinks": [
+      "/outils/lettre-relance-loyer"
+    ],
+    "updatedAt": "2026-04-15"
+  },
+  {
+    "slug": "relance-loyer",
+    "term": "Relance pour loyer impayé",
+    "shortDefinition": "Courrier formel adressé au locataire pour l'avertir d'un impayé.",
+    "fullDefinition": "La relance pour loyer impayé est la première étape amiable de la procédure de recouvrement. Elle consiste à envoyer un courrier (idéalement en recommandé avec accusé de réception) au locataire pour l'informer de l'impayé et lui demander de régulariser sa situation dans un délai déterminé. Cette étape est obligatoire avant toute procédure judiciaire et permet souvent de résoudre le problème à l'amiable.",
+    "relatedTerms": [
+      "impaye-loyer",
+      "garant-loyer"
+    ],
+    "seeFurtherLinks": [
+      "/outils/lettre-relance-loyer"
+    ],
+    "updatedAt": "2026-04-15"
+  }
+]
