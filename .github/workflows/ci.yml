@@ -77,6 +77,10 @@ jobs:
         run: node seo-checks/link-checker.js --fail-on-internal
         continue-on-error: false
 
+      - name: Sitemap freshness check
+        run: node seo-checks/sitemap-freshness-check.js
+        continue-on-error: false
+
   # ─────────────────────────────────────────────
   # Unit Tests
   # ─────────────────────────────────────────────

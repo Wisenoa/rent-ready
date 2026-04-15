@@ -99,10 +99,16 @@ function extractMetadata(content) {
   const hasAlternates = /alternates\s*:/.test(metadataText);
   const hasRobots = /robots\s*:/.test(metadataText);
   const hasOpenGraph = /openGraph\s*:/.test(metadataText);
+  // Check for openGraph.images specifically (required for OG image rendering)
+  const hasOgImages = /openGraph\s*:\s*\{[^}]*images\s*:/s.test(metadataText) ||
+                      /openGraph\s*:\s*\{[\s\S]*?images\s*:/s.test(metadataText);
+  // Also handle openGraph.images array shorthand: images: [...]
+  const hasOgImagesArray = /images\s*:\s*\[/.test(metadataText);
 
   if (hasAlternates) meta._hasAlternates = true;
   if (hasRobots) meta._hasRobots = true;
   if (hasOpenGraph) meta._hasOpenGraph = true;
+  if (hasOgImages || hasOgImagesArray) meta._hasOgImages = true;
 
   return { issues, metadata: meta };
 }
@@ -166,6 +172,14 @@ const RULES = [
     id: "og-description",
     check: (meta) => {
       if (!meta._hasOpenGraph) return { ok: false, message: "openGraph object missing" };
+      return { ok: true };
+    },
+  },
+  {
+    id: "og-image",
+    check: (meta) => {
+      if (!meta._hasOpenGraph) return { ok: false, message: "openGraph object missing" };
+      if (!meta._hasOgImages) return { ok: false, message: "openGraph.images is required (og:image)" };
       return { ok: true };
     },
   },
