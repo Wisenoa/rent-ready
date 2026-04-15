@@ -1,13 +1,10 @@
 import type { MetadataRoute } from "next";
-import cities from "@/data/cities.json";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const cities = require("../../../data/cities.json") as Array<{ slug: string }>;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { articles } = require("../../../data/articles") as { articles: Array<{ slug: string; date: string }> };
 
 const BASE_URL = "https://www.rentready.fr";
-
-const blogPosts = [
-  { slug: "comment-gerer-loyers-impayes", date: "2024-01-15" },
-  { slug: "revision-loyer-irl-guide-complet", date: "2024-01-10" },
-  { slug: "depot-garantie-regles-essentielles", date: "2024-01-05" },
-];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -228,8 +225,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Blog posts
-  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+  // Blog posts — use real article data so sitemap stays in sync with content
+  const blogPages: MetadataRoute.Sitemap = articles.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: new Date(post.date),
     changeFrequency: "monthly" as const,
