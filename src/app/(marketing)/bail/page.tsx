@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import React from "react";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -8,8 +9,9 @@ export const revalidate = 3600;
 
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
+// Type assertion needed due to TypeScript inference mismatch with typeof import()
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta"),
+  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
@@ -29,7 +31,7 @@ keywords: [
 openGraph: {
 title: "Gestion des baux — RentReady",
 description:
-"Créez, suivez et renouvellez vos contrats de location facilement. Gestion légale et automatisée.",
+"Créez, suivez et renouvelez vos contrats de location facilement. Gestion légale et automatisée.",
 type: "website",
 url: "https://www.rentready.fr/bail",
 siteName: "RentReady",
@@ -46,7 +48,7 @@ twitter: {
 card: "summary_large_image",
 title: "Gestion des baux — RentReady",
 description:
-"Créez, suivez et renouvellez vos contrats de location facilement. Gestion légale et automatisée.",
+"Créez, suivez et renouvelez vos contrats de location facilement. Gestion légale et automatisée.",
 images: ["https://www.rentready.fr/og-image.png"],
 },
 alternates: {
@@ -76,7 +78,7 @@ icon: "📅",
 {
 title: "Portail locataire",
 description:
-"Votre locataire accède à son bail, signe électroniquement et consulte les documents.",
+"Votre locataire accède à son bail, signe elektroniquement et consulte les documents.",
 icon: "✍️",
 },
 {
@@ -116,7 +118,7 @@ description:
 step: "4",
 title: "Partagez au locataire",
 description:
-"Le locataire consulte et signe électroniquement via son portail.",
+"Le locataire consulte et signe elektroniquement via son portail.",
 },
 ];
 
@@ -359,5 +361,5 @@ Tarifs →
 
 <FinalCta />
 </div>
-);
+  );
 }

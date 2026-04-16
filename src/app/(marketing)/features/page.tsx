@@ -20,6 +20,10 @@ import {
   Zap,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import React from "react";
+
+import { TrustLogos } from "@/components/seo/TrustLogos";
+import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -28,15 +32,15 @@ export const revalidate = 3600;
 // Dynamic import: FinalCta and MarketingFooter use framer-motion (heavy)
 // → code-split so they don't block initial JS bundle or INP
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta"),
+  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>> as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 const MarketingFooter = dynamic(
-  () => import("@/components/landing/marketing-footer"),
+  () => import("@/components/landing/marketing-footer") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div aria-hidden="true" /> }
 );
 const GlassNav = dynamic(
-  () => import("@/components/landing/glass-nav"),
+  () => import("@/components/landing/glass-nav") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
 );
 
@@ -120,107 +124,57 @@ const featureFaqs = [
 ];
 
 /* ─── JSON-LD ─── */
+import {
+  buildOrganizationSchema,
+  buildWebPageSchema,
+  buildSoftwareAppSchema,
+  buildFAQPageSchema,
+  buildBreadcrumbSchema,
+  buildGraphSchema,
+} from "@/lib/seo/structured-data";
+
 function FeaturesJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        name: "Fil d'Ariane",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Accueil",
-            item: "https://www.rentready.fr",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Fonctionnalités",
-            item: "https://www.rentready.fr/features",
-          },
-        ],
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://www.rentready.fr/#organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        logo: {
-          "@type": "ImageObject",
-          url: "https://www.rentready.fr/logo.png",
-          width: 512,
-          height: 512,
-        },
-        description:
-          "RentReady est un logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-        sameAs: [
-          "https://www.linkedin.com/company/rentready",
-          "https://twitter.com/rentready_fr",
-        ],
-        contactPoint: {
-          "@type": "ContactPoint",
-          email: "contact@rentready.fr",
-          contactType: "customer service",
-          availableLanguage: "French",
-        },
-      },
-      {
-        "@type": "WebPage",
-        name: "Fonctionnalités RentReady",
-        url: "https://www.rentready.fr/features",
-        description:
-          "Toutes les fonctionnalités du logiciel de gestion locative RentReady pour propriétaires bailleurs.",
-        isPartOf: {
-          "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
-        },
-      },
-      {
-        "@type": "SoftwareApplication",
-        name: "RentReady",
-        applicationCategory: "BusinessApplication",
-        operatingSystem: "Web",
-        url: "https://www.rentready.fr",
-        offers: {
-          "@type": "Offer",
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Fonctionnalités", url: "https://www.rentready.fr/features" },
+    ]),
+    buildOrganizationSchema({ "@id": "https://www.rentready.fr/#organization" }),
+    buildWebPageSchema({
+      name: "Fonctionnalités RentReady",
+      description:
+        "Toutes les fonctionnalités du logiciel de gestion locative RentReady pour propriétaires bailleurs.",
+      url: "https://www.rentready.fr/features",
+    }),
+    buildSoftwareAppSchema({
+      name: "RentReady",
+      applicationCategory: "BusinessApplication",
+      offers: [
+        {
+          name: "Abonnement mensuel",
+          description: "15 €/mois pour gérer jusqu'à 10 biens",
           price: "15.00",
           priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
         },
-        featureList: [
-          "Quittances de loyer conformes loi 1989",
-          "Détection automatique des virements Open Banking",
-          "Révision IRL connectée INSEE",
-          "Portail locataire avec maintenance",
-          "OCR factures artisans par IA",
-          "Conformité Factur-X",
-          "Relance automatique impayés",
-          "Export comptable",
-        ],
-      },
-      {
-        "@type": "FAQPage",
-        name: "FAQ — Fonctionnalités RentReady",
-        mainEntity: featureFaqs.map((faq) => ({
-          "@type": "Question",
-          name: faq.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.answer,
-          },
-        })),
-      },
-    ],
-  };
+      ],
+      features: [
+        "Quittances de loyer conformes loi 1989",
+        "Détection automatique des virements Open Banking",
+        "Révision IRL connectée INSEE",
+        "Portail locataire avec maintenance",
+        "OCR factures artisans par IA",
+        "Conformité Factur-X",
+        "Relance automatique impayés",
+        "Export comptable",
+      ],
+    }),
+    buildFAQPageSchema(featureFaqs)
+  );
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
@@ -457,9 +411,21 @@ export default function FeaturesPage() {
                 Demander une démo
               </Link>
             </div>
+
+            {/* E-E-A-T: content review badge */}
+            <div className="mt-8 flex justify-center">
+              <ContentReviewBadge updatedAt="2026-04-10" category="article" />
+            </div>
           </div>
         </div>
       </header>
+
+      {/* Trust signals */}
+      <div className="border-y border-stone-200 bg-white/60">
+        <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
+          <TrustLogos variant="full" />
+        </div>
+      </div>
 
       {/* ── Quick feature scan ── */}
       <section className="border-y border-stone-200 bg-white">

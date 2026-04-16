@@ -10,6 +10,7 @@ import { TableOfContents } from "@/components/seo/blog/TableOfContents";
 import { AuthorBio } from "@/components/seo/blog/AuthorBio";
 import { RelatedArticles } from "@/components/seo/blog/RelatedArticles";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -850,6 +851,13 @@ export default async function BlogPostPage({ params }: PageProps) {
                   {article.readTime}
                 </span>
               </div>
+
+              {/* E-E-A-T: content review date — signals freshness to Google & users */}
+              {article.updatedAt && article.updatedAt !== article.date && (
+                <div className="mt-3">
+                  <ContentReviewBadge updatedAt={article.updatedAt} category="article" />
+                </div>
+              )}
 
               <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl leading-tight">
                 {article.title}

@@ -13,6 +13,7 @@
  * - Framer-motion animations are deferred until after first paint.
  */
 import dynamic from "next/dynamic";
+import React from "react";
 import type { Metadata } from "next";
 import { GlassNav } from "@/components/landing/glass-nav";
 import { MarketingFooter } from "@/components/landing/marketing-footer";
@@ -23,31 +24,31 @@ import { FaqSection, FaqJsonLd } from "@/components/landing/faq-section";
 
 /* ─── Below-the-fold: dynamically imported (code-split) ─── */
 const SocialProof = dynamic(
-  () => import("@/components/landing/social-proof"),
+  () => import("@/components/landing/social-proof") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div className="py-16 sm:py-20" style={{ minHeight: 180 }} aria-hidden="true" /> }
 );
 const ProblemSection = dynamic(
-  () => import("@/components/landing/problem-section"),
+  () => import("@/components/landing/problem-section") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
 );
 const BentoBenefits = dynamic(
-  () => import("@/components/landing/bento-benefits"),
+  () => import("@/components/landing/bento-benefits") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 800 }} aria-hidden="true" /> }
 );
 const ComparisonSection = dynamic(
-  () => import("@/components/landing/comparison-section"),
+  () => import("@/components/landing/comparison-section") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 500 }} aria-hidden="true" /> }
 );
 const TestimonialsSection = dynamic(
-  () => import("@/components/landing/testimonials-section"),
+  () => import("@/components/landing/testimonials-section") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 const PricingSection = dynamic(
-  () => import("@/components/landing/pricing-section"),
+  () => import("@/components/landing/pricing-section") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
 );
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta"),
+  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>> as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
@@ -102,47 +103,23 @@ export const metadata: Metadata = {
 };
 
 /* ─── JSON-LD for rich results ─── */
-function HomeJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        logo: "https://www.rentready.fr/logo.png",
-        sameAs: [
-          "https://twitter.com/rentready_fr",
-          "https://www.linkedin.com/company/rentready",
-        ],
-        address: {
-          "@type": "PostalAddress",
-          addressCountry: "FR",
-          addressLocality: "France",
-        },
-        description:
-          "Quittances conformes loi 1989, détection automatique des loyers via Open Banking, révision IRL, portail locataire et conformité Factur-X.",
-      },
-      {
-        "@type": "WebSite",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-      },
-    ],
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-}
+import {
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+  buildGraphSchema,
+} from "@/lib/seo/structured-data";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <HomeJsonLd />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildGraphSchema(buildOrganizationSchema(), buildWebSiteSchema())
+          ),
+        }}
+      />
       <FaqJsonLd />
       <GlassNav />
       <HeroSection />

@@ -57,16 +57,7 @@ export function LeasesEmptyState({ onStartWizard }: LeasesEmptyStateProps) {
           </svg>
           Configurer avec guide
         </Button>
-        <LeaseForm
-          properties={[]}
-          tenants={[]}
-          trigger={
-            <Button variant="outline">
-              <FileText className="size-4 mr-2" />
-              Créer un bail
-            </Button>
-          }
-        />
+        <LeaseForm properties={[]} tenants={[]} />
       </div>
 
       <p className="text-xs text-muted-foreground mt-6">

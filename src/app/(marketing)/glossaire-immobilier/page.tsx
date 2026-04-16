@@ -5,7 +5,15 @@ export const revalidate = 604800;
 import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import {
+  buildBreadcrumbSchema,
+  buildWebPageSchema,
+  buildItemListSchema,
+  buildFAQPageSchema,
+  buildGraphSchema,
+} from "@/lib/seo/structured-data";
 import { GlossarySidebar } from "@/components/seo/blog/GlossarySidebar";
+import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 
 export const metadata: Metadata = {
   title: "Glossaire Immobilier — Définitions Location et Investissement",
@@ -2698,65 +2706,33 @@ const alphabetGroups = glossaryTerms.reduce(
 );
 
 export default function GlossaireImmobilierPage() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        name: "Fil d'Ariane",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Accueil",
-            item: "https://www.rentready.fr",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Glossaire Immobilier",
-            item: "https://www.rentready.fr/glossaire-immobilier",
-          },
-        ],
-      },
-      {
-        "@type": "WebPage",
-        name: "Glossaire Immobilier — Définitions Location et Investissement",
-        description:
-          "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
-        url: "https://www.rentready.fr/glossaire-immobilier",
-        isPartOf: {
-          "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
-        },
-      },
-      {
-        "@type": "ItemList",
-        name: "Glossaire Immobilier",
-        description:
-          "Liste des définitions immobilières pour propriétaires bailleurs et investisseurs en France.",
-        itemListElement: glossaryTerms.map((term, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name: term.term,
-          description: term.definition,
-        })),
-      },
-      {
-        "@type": "FAQPage",
-        name: "FAQ — Glossaire Immobilier RentReady",
-        mainEntity: glossaryTerms.slice(0, 20).map((term) => ({
-          "@type": "Question",
-          name: term.term,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: term.definition,
-          },
-        })),
-      },
-    ],
-  };
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Glossaire Immobilier", url: "https://www.rentready.fr/glossaire-immobilier" },
+    ]),
+    buildWebPageSchema({
+      name: "Glossaire Immobilier — Définitions Location et Investissement",
+      description:
+        "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
+      url: "https://www.rentready.fr/glossaire-immobilier",
+    }),
+    buildItemListSchema({
+      name: "Glossaire Immobilier",
+      description:
+        "Liste des définitions immobilières pour propriétaires bailleurs et investisseurs en France.",
+      items: glossaryTerms.map((term) => ({
+        name: term.term,
+        description: term.definition,
+      })),
+    }),
+    buildFAQPageSchema(
+      glossaryTerms.slice(0, 20).map((term) => ({
+        question: term.term,
+        answer: term.definition,
+      }))
+    )
+  );
 
   return (
     <>
@@ -2777,6 +2753,11 @@ export default function GlossaireImmobilierPage() {
             garantie</strong>, <strong>état des lieux</strong>, et bien plus
             encore.
           </p>
+
+          {/* E-E-A-T: content review date — signals glossary is actively maintained */}
+          <div className="mt-6">
+            <ContentReviewBadge updatedAt="2026-04-01" category="glossary" />
+          </div>
         </header>
 
         <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-12">

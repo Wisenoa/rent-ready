@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import React from "react";
 import { SchemaMarkup, breadcrumbSchema } from "@/components/seo/schema-markup";
+import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
+import { TrustLogos } from "@/components/seo/TrustLogos";
 
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta"),
+  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
@@ -190,7 +193,17 @@ export default function QuittanceDeLoyerPage() {
               Guide sur les charges
             </Link>
           </div>
+
+          {/* E-E-A-T: content review badge — shows template is maintained */}
+          <div className="mt-8">
+            <ContentReviewBadge updatedAt="2026-04-10" category="template" />
+          </div>
         </header>
+
+        {/* Trust signals */}
+        <div className="mb-16">
+          <TrustLogos variant="certifications-only" />
+        </div>
 
         {/* Lead section */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">

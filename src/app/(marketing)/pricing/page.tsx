@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import React from "react";
+
+import { TrustLogos } from "@/components/seo/TrustLogos";
+import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -9,7 +13,7 @@ export const revalidate = 3600;
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta"),
+  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
@@ -52,156 +56,97 @@ canonical: "https://www.rentready.fr/pricing",
 },
 };
 
-/* ─── JSON-LD: SoftwareApplication + Offer + FAQPage + BreadcrumbList ─── */
-function PricingJsonLd() {
-  const pricingFaqs = [
-    {
-      question: "Combien coûte RentReady et y a-t-il un engagement ?",
-      answer: "RentReady coûte 15 € par mois sans engagement, ou 150 € par an (2 mois offerts). Ce tarif unique inclut la gestion de 10 biens maximum, un nombre illimité de locataires, toutes les fonctionnalités et les mises à jour légales. Essai gratuit 14 jours sans carte bancaire.",
-    },
-    {
-      question: "Que se passe-t-il si je dépasse 10 biens ?",
-      answer: "Si vous dépassez 10 biens, vous pouvez contacter notre équipe pour un abonnement adapté à votre portfolio. Aucun frais caché, aucune commission sur les loyers encaissés.",
-    },
-    {
-      question: "Puis-je résilier à tout moment ?",
-      answer: "Oui, vous pouvez résilier en un clic depuis votre espace, sans préavis ni pénalité. Vous conservez l'accès à vos données pendant 30 jours après la résiliation.",
-    },
-    {
-      question: "Le prix inclut-il les mises à jour légales ?",
-      answer: "Oui, toutes les mises à jour liées aux évolutions légales et réglementaires françaises (Loi Alur, IRL, Factur-X, e-reporting B2C) sont incluses dans votre abonnement, sans frais supplémentaires.",
-    },
-    {
-      question: "Y a-t-il des frais d'installation ou de mise en service ?",
-      answer: "Non, il n'y a aucun frais d'installation. Vous créez votre compte, connectez votre compte bancaire via Open Banking, et votre espace de gestion est opérationnel en quelques minutes.",
-    },
-  ];
+/* ─── JSON-LD: BreadcrumbList + Organization + WebPage + SoftwareApplication + FAQPage ─── */
+import {
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+  buildWebPageSchema,
+  buildSoftwareAppSchema,
+  buildFAQPageSchema,
+  buildBreadcrumbSchema,
+  buildGraphSchema,
+} from "@/lib/seo/structured-data";
 
-  const data = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        name: "Fil d'Ariane",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Accueil",
-            item: "https://www.rentready.fr",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tarifs",
-            item: "https://www.rentready.fr/pricing",
-          },
-        ],
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://www.rentready.fr/#organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        logo: {
-          "@type": "ImageObject",
-          url: "https://www.rentready.fr/logo.png",
-          width: 512,
-          height: 512,
+const pricingFaqs = [
+  {
+    question: "Combien coûte RentReady et y a-t-il un engagement ?",
+    answer: "RentReady coûte 15 € par mois sans engagement, ou 150 € par an (2 mois offerts). Ce tarif unique inclut la gestion de 10 biens maximum, un nombre illimité de locataires, toutes les fonctionnalités et les mises à jour légales. Essai gratuit 14 jours sans carte bancaire.",
+  },
+  {
+    question: "Que se passe-t-il si je dépasse 10 biens ?",
+    answer: "Si vous dépassez 10 biens, vous pouvez contacter notre équipe pour un abonnement adapté à votre portfolio. Aucun frais caché, aucune commission sur les loyers encaissés.",
+  },
+  {
+    question: "Puis-je résilier à tout moment ?",
+    answer: "Oui, vous pouvez résilier en un clic depuis votre espace, sans préavis ni pénalité. Vous conservez l'accès à vos données pendant 30 jours après la résiliation.",
+  },
+  {
+    question: "Le prix inclut-il les mises à jour légales ?",
+    answer: "Oui, toutes les mises à jour liées aux évolutions légales et réglementaires françaises (Loi Alur, IRL, Factur-X, e-reporting B2C) sont incluses dans votre abonnement, sans frais supplémentaires.",
+  },
+  {
+    question: "Y a-t-il des frais d'installation ou de mise en service ?",
+    answer: "Non, il n'y a aucun frais d'installation. Vous créez votre compte, connectez votre compte bancaire via Open Banking, et votre espace de gestion est opérationnel en quelques minutes.",
+  },
+];
+
+function PricingJsonLd() {
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Tarifs", url: "https://www.rentready.fr/pricing" },
+    ]),
+    buildOrganizationSchema({ "@id": "https://www.rentready.fr/#organization" }),
+    buildWebPageSchema({
+      name: "Tarifs RentReady",
+      description:
+        "15 €/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire.",
+      url: "https://www.rentready.fr/pricing",
+    }),
+    buildSoftwareAppSchema({
+      name: "RentReady",
+      description:
+        "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France (1 à 10 biens).",
+      applicationCategory: "BusinessApplication",
+      offers: [
+        {
+          name: "Essai gratuit",
+          description: "14 jours d'essai gratuit sans carte bancaire",
+          price: "0.00",
+          priceCurrency: "EUR",
         },
-        description:
-          "RentReady est un logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-        sameAs: [
-          "https://www.linkedin.com/company/rentready",
-          "https://twitter.com/rentready_fr",
-        ],
-        contactPoint: {
-          "@type": "ContactPoint",
-          email: "contact@rentready.fr",
-          contactType: "customer service",
-          availableLanguage: "French",
+        {
+          name: "Abonnement mensuel",
+          description:
+            "15 €/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire.",
+          price: "15.00",
+          priceCurrency: "EUR",
         },
-      },
-      {
-        "@type": "WebPage",
-        name: "Tarifs RentReady",
-        url: "https://www.rentready.fr/pricing",
-        description:
-          "15 €/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire.",
-        isPartOf: {
-          "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+        {
+          name: "Abonnement annuel",
+          description: "150 €/an — 2 mois offerts par rapport au tarif mensuel",
+          price: "150.00",
+          priceCurrency: "EUR",
         },
-      },
-      {
-        "@type": "SoftwareApplication",
-        name: "RentReady",
-        applicationCategory: "BusinessApplication",
-        operatingSystem: "Web",
-        url: "https://www.rentready.fr",
-        description:
-          "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France (1 à 10 biens).",
-        offers: [
-          {
-            "@type": "Offer",
-            name: "Essai gratuit",
-            description: "14 jours d'essai gratuit sans carte bancaire",
-            price: "0.00",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/InStock",
-            url: "https://www.rentready.fr/register",
-          },
-          {
-            "@type": "Offer",
-            name: "Abonnement mensuel",
-            description:
-              "15 €/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire.",
-            price: "15.00",
-            priceCurrency: "EUR",
-            priceValidUntil: "2027-12-31",
-            availability: "https://schema.org/InStock",
-            url: "https://www.rentready.fr/register",
-          },
-          {
-            "@type": "Offer",
-            name: "Abonnement annuel",
-            description: "150 €/an — 2 mois offerts par rapport au tarif mensuel",
-            price: "150.00",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/InStock",
-            url: "https://www.rentready.fr/register",
-          },
-        ],
-        featureList: [
-          "Quittances de loyer conformes loi 1989",
-          "Détection automatique des loyers via Open Banking DSP2",
-          "Révision IRL connectée à l'INSEE",
-          "Portail locataire avec gestion de la maintenance",
-          "OCR factures artisans par intelligence artificielle",
-          "Conformité Factur-X et e-reporting B2C 2027",
-          "Export comptable",
-          "Relance automatique impayés",
-        ],
-      },
-      {
-        "@type": "FAQPage",
-        name: "FAQ — Tarifs RentReady",
-        mainEntity: pricingFaqs.map((faq) => ({
-          "@type": "Question",
-          name: faq.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.answer,
-          },
-        })),
-      },
-    ],
-  };
+      ],
+      features: [
+        "Quittances de loyer conformes loi 1989",
+        "Détection automatique des loyers via Open Banking DSP2",
+        "Révision IRL connectée à l'INSEE",
+        "Portail locataire avec gestion de la maintenance",
+        "OCR factures artisans par intelligence artificielle",
+        "Conformité Factur-X et e-reporting B2C 2027",
+        "Export comptable",
+        "Relance automatique impayés",
+      ],
+    }),
+    buildFAQPageSchema(pricingFaqs)
+  );
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
@@ -281,7 +226,17 @@ Zéro surprise.
 Tout ce dont vous avez besoin pour gérer vos locations, au prix
 d'un café par jour. Essai gratuit, sans engagement.
 </p>
+
+{/* E-E-A-T: content review badge */}
+<div className="mt-6">
+  <ContentReviewBadge updatedAt="2026-04-01" category="article" />
+</div>
 </header>
+
+{/* Trust signals */}
+<div className="mb-12">
+  <TrustLogos variant="full" showMedia={false} />
+</div>
 
 {/* Single pricing card */}
 <div className="mx-auto max-w-md">

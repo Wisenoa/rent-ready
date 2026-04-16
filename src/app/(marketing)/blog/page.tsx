@@ -5,6 +5,7 @@ export const revalidate = 604800;
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { articles } from "@/data/articles";
 
 export const metadata: Metadata = {
@@ -15,9 +16,7 @@ export const metadata: Metadata = {
     canonical: "https://www.rentready.fr/blog",
   },
   other: {
-    "application/rss+xml": [
-      { title: "Blog RentReady — RSS", url: "/api/rss" },
-    ],
+    "application/rss+xml": "/api/rss",
   },
   openGraph: {
     title: "Blog Immobilier — Conseils Gestion Locative et Investissement",
@@ -98,6 +97,11 @@ export default function BlogPage() {
             bailleurs. Optimisez votre gestion locative avec nos articles
             spécialisés.
           </p>
+
+          {/* E-E-A-T: content review badge */}
+          <div className="mt-6">
+            <ContentReviewBadge updatedAt="2026-04-15" category="article" />
+          </div>
         </header>
 
         <nav className="mb-8 flex flex-wrap justify-center gap-2">

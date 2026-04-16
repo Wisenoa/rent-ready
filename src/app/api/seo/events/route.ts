@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
         referrer: body.referrer ?? req.headers.get("referer") ?? null,
         userAgent: req.headers.get("user-agent") ?? null,
         ipHash,
-        metadata: (body.metadata as Record<string, unknown>) ?? Prisma.JsonNull,
+        metadata: body.metadata !== undefined ? JSON.parse(JSON.stringify(body.metadata)) : undefined,
       },
     });
 
