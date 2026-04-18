@@ -25,6 +25,7 @@ export default function robots(): MetadataRoute.Robots {
           "/cgu",
         ],
         disallow: [
+          "/app/*",   // catch-all: /app/* routes are internal tools, not marketing pages
           "/dashboard",
           "/properties",
           "/tenants",
