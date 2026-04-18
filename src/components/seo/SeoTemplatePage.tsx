@@ -20,7 +20,7 @@ export interface SeoTemplatePageProps {
   /** Slug for badge icon variant */
   slug: string;
   /** Breadcrumb items (excluding Home and final item) */
-  breadcrumbs?: { name: string; href?: string }[];
+  breadcrumbs?: { label: string; href: string }[];
   /** Trust signal: how many times downloaded */
   downloadCount?: number;
   /** Trust signal: which law/regulation this template follows */
@@ -44,7 +44,7 @@ export interface SeoTemplatePageProps {
  *   description="Generated compliant rent receipts in seconds..."
  *   updatedAt="2026-04-10"
  *   slug="quittance-de-loyer"
- *   breadcrumbs={[{ name: "Modeles", href: "/modeles" }]}
+ *   breadcrumbs={[{ label: "Modeles", href: "/modeles" }]}
  *   downloadCount={12400}
  *   legalReference="Article 21 de la loi du 6 juillet 1989"
  *   relatedTemplates={[...]}
@@ -89,10 +89,10 @@ export function SeoTemplatePage({
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
-            { name: "Accueil", href: "/" },
-            { name: "Modeles", href: "/modeles" },
+            { label: "Accueil", href: "/" },
+            { label: "Modeles", href: "/modeles" },
             ...breadcrumbs,
-            { name: title },
+            { label: title, href: "#" },
           ]}
         />
 

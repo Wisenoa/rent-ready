@@ -18,7 +18,7 @@ export interface SeoCalculatorPageProps {
   /** Schema.org WebApplication name */
   slug: string;
   /** Breadcrumb items */
-  breadcrumbs?: { name: string; href?: string }[];
+  breadcrumbs?: { label: string; href: string }[];
   /** Trust signal: regulatory compliance */
   complianceBadge?: string;
   /** JSON-LD schema (HowTo + WebApplication) */
@@ -36,7 +36,7 @@ export interface SeoCalculatorPageProps {
  *   description="Calculez automatiquement la revision de votre loyer..."
  *   updatedAt="2026-04-10"
  *   slug="calculateur-irl"
- *   breadcrumbs={[{ name: "Outils" }]}
+ *   breadcrumbs={[{ label: "Outils" }]}
  *   complianceBadge="Conforme INSEE 2026"
  *   jsonLd={irlSchema}
  * >
@@ -74,10 +74,10 @@ export function SeoCalculatorPage({
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
-            { name: "Accueil", href: "/" },
-            { name: "Outils", href: "/outils" },
+            { label: "Accueil", href: "/" },
+            { label: "Outils", href: "/outils" },
             ...breadcrumbs,
-            { name: title },
+            { label: title, href: "#" },
           ]}
         />
 

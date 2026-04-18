@@ -107,6 +107,73 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${BASE_URL}/modeles/bail-meuble`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/bail-vide`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/bail-mobilite`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/bail-colocation`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/bail-commercial`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/bail-professionnel`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/conge-locataire`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/conge-proprietaire`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/repartition-charges`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modeles/protocol-etat-des-lieux`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    // Bail hub page
+    {
+      url: `${BASE_URL}/bail`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     // Template library
     {
       url: `${BASE_URL}/templates/bail-meuble`,
@@ -206,19 +273,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     // Tools / Calculators
     {
-      url: `${BASE_URL}/outils/calculateur-irl-2026`,
+      url: `${BASE_URL}/outils/calculateur-revision-irl`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/outils/modele-quittance-loyer-pdf`,
+      url: `${BASE_URL}/outils/calculateur-rendement`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/outils/simulateur-loi-jeanbrun`,
+      url: `${BASE_URL}/outils/calculateur-caution`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/outils/generateur-quittance`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/outils/calculateur-charges-locatives`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -230,13 +309,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/outils/calculateur-depot-garantie`,
+      url: `${BASE_URL}/outils/lettre-relance-loyer`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/outils/lettre-relance-loyer`,
+      url: `${BASE_URL}/outils/calculateur-charges-locatives`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,

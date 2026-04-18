@@ -19,6 +19,69 @@ export const articles: Article[] = [
     date: "2026-01-15",
     updatedAt: '2026-01-15',
     readTime: "8 min",
+    content: `## Loyer impayé : comment agir efficacement en 2026
+
+Un loyer impayé est une situation délicate qui touche environ 2 à 3 % des locations en France chaque année. Pour un propriétaire bailleur,cela représente non seulement un manque à gagner, mais aussi une source de stress et de complications administratives. Découvrez dans ce guide complet la procédure à suivre, les délais à respecter et les recours disponibles pour récupérer vos dus ou reprendre votre bien.
+
+## Comment prévenir les loyers impayés
+
+La prévention reste la meilleure arme contre les impayés. Avant même de signer le bail, vérifiez la solvabilité de votre locataire. Demandez les trois dernières fiches de paie, les avis d'imposition et les relevés de compte bancaire. Un garant solide peut également vous protéger en cas de défaillance.
+
+Souscrire une assurance Garantie Loyer Impayé (GLI) constitue une protection efficace. Cette assurance prend en charge le remboursement des loyers impayés ainsi que les frais de procédure en cas d'expulsion. Le coût varie généralement entre 2 % et 4 % du montant annuel du loyer, mais l'investissement peut vous épargner des mois de trésorerie négative.
+
+Utilisez enfin un logiciel de gestion locative comme RentReady pour suivre automatiquement les paiements et détecter les retards dès le premier jour.
+
+## Les étapes légales de la procédure d'impayé
+
+### Étape 1 : La lettre de relance (jour 1 à 3)
+
+Dès le premier jour de retard de paiement, envoyez une lettre de relance simple par email ou courrier. Cette lettre n'a pas de caractère obligatoire mais permet de rappeler au locataire ses obligations et de créer une trace écrite. Notre modèle de lettre de relance pour loyer impayé est disponible gratuitement.
+
+### Étape 2 : La mise en demeure (jour 8 à 15)
+
+Si le locataire ne réagit pas à la relance, adressez une mise en demeure en recommandé avec accusé de réception. Ce courrier doit mentionner explicitement le montant dû, le délai de paiement (généralement 8 jours) et les conséquences légales en cas de non-paiement. Notre modèle de mise en demeure pour loyer impayé vous guidera.
+
+### Étape 3 : Assignation au tribunal (après 2 mois d'impayé)
+
+Au-delà de deux mois d'impayé, vous pouvez engager une procédure judiciaire. Vous avez le choix entre l'assignation au tribunal judiciaire (procédure longue de 3 à 6 mois) ou la procédure de référé (plus rapide, quelques semaines).
+
+## La saisie sur salaire pour récupérer les impayés
+
+Si le locataire est salarié, vous pouvez solliciter une saisie sur salaire auprès du tribunal. Le montant prélevé dépend des ressources du locataire et ne peut pas dépasser une fraction saisissable du salaire. Cette procédure s'avère souvent plus efficace qu'une saisie sur compte bancaire.
+
+Le tribunal fixe un pourcentage du salaire net pouvant être saisi, généralement entre 1/20e et 1/10e du revenu. Le locataire conserve toujours le minimum vital legally protégé.
+
+## L'expulsion du locataire en cas d'impayé persistant
+
+Si toutes les démarches amiables échouent et que le jugement vous donne raison, vous pouvez demander l'expulsion du locataire. Cette procédure implique le concours d'un huissier de justice qui signifira l'ordonnance d'expulsion.
+
+Depuis la loi Climat de 2021, les préfets peuvent suspendre les expulsions locatives en cas de froid intense (trêve hivernale du 1er novembre au 31 mars). En dehors de cette période, l'expulsion peut être exécutée.
+
+## Les conséquences pour le locataire en cas d'impayé
+
+Le locataire défaillant s'expose à plusieurs sanctions. Sur le plan juridique, il peut être condamné à payer les arriérés de loyer, les intérêts de retard au taux légal, et les frais de procédure. Sur le plan financier, une saisie sur salaire ou sur compte bancaire peut être ordonnée.
+
+Sur le plan du FICP (Fichier des Incidents de Remboursement des Crédits aux Particuliers), le locataire inscrit pour'impayé de loyer verra son accès au crédit fortement compliqué pendant 5 à 7 ans. Cette conséquence majeure justifie l'importance de tenter un règlement amiable avant toute procédure judiciaire.
+
+## FAQ — Loyers impayés
+
+**Quel délai pour agir en cas de loyer impayé ?**
+
+Vous pouvez agir dès le premier jour de retard. Plus la procédure démarre tôt, plus les chances de récupération sont élevées. Au-delà de 2 mois d'impayé, la procédure judiciaire devient nécessaire.
+
+**La garantie loyer impayé (GLI) couvre-t-elle les dégradations ?**
+
+Non, la GLI couvre uniquement les impayés de loyer et de charges. Pour les dégradations, il faut souscrire une assurance propriétaire non-occupant distincte.
+
+**Peut-on résilier le bail pour impayé de loyer ?**
+
+Oui, la résiliation du bail pour manquement grave aux obligations du locataire (dont le non-paiement du loyer) peut être prononcée par le tribunal. Elle s'accompagne généralement d'une obligation de quitter les lieux.
+
+**Que faire si le locataire soutient ne pas pouvoir payer ?**
+
+Vérifiez d'abord la réalité de la situation. Proposez éventuellement un échéancier de paiement échelonné. Si la situation financière est réelle, orientez le locataire vers les aides sociales disponibles (FSL, fonds de solidarité pour le logement).
+
+[CTA : Anticipez les impayés et gérez automatiquement vos relances avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "revision-loyer-irl-guide-complet",
@@ -29,6 +92,89 @@ export const articles: Article[] = [
     date: "2026-01-10",
     updatedAt: '2026-01-10',
     readTime: "6 min",
+    content: `## Révision de loyer et IRL : comment calculer en 2026
+
+La révision de loyer est un mécanisme légal qui permet aux propriétaires d'ajuster annuellement le montant du loyer en fonction de l'inflation. Depuis 2008, l'Indice de Référence des Loyers (IRL) published par l'INSEE sert de base à ce calcul. Comprendre ce mécanisme est essentiel pour tout propriétaire bailleur souhaitant maintenir le pouvoir d'achat de ses revenus locatifs.
+
+## Qu'est-ce que l'IRL (Indice de Référence des Loyers) ?
+
+L'IRL est un indicateur statistique qui mesure l'évolution des prix à la consommation hors tabac et hors loyer. Il est publié chaque trimestre par l'INSEE et sert de référence pour la révision annuelle des loyers dans le secteur privé.
+
+LIREA : l'IRL au quatrième trimestre 2025 s'établit à **145,19** contre **143,47** au quatrième trimestre 2024, soit une hausse annuelle de +1,2 %.
+
+La formule de révision est simple : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
+
+Par exemple, pour un loyer de 800 euros avec un IRL passant de 140 à 145,19 : 800 × (145,19 / 140) = 829,66 euros.
+
+## Les règles de la révision de loyer en 2026
+
+### La clause de révision dans le bail
+
+La révision automatique du loyer n'est possible que si elle est prévue expressément dans le bail. Cette clause doit mentionner la périodicité de révision (généralement annuelle) et l'indice de référence utilisé. En l'absence de clause de révision, le loyer reste figé pendant toute la durée du bail.
+
+### Le moment de la révision
+
+La révision peut être appliquée à n'importe quel moment de l'année, mais uniquement à la date anniversaire du bail ou à la date prévue dans la clause. Si vous oubliez de réviser pendant un an, vous ne pouvez pas réclamer les montants rétroactivement au-delà d'un an.
+
+### Les limites à la révision
+
+Depuis la loi ALUR et ses évolutions, la révision ne peut pas dépasser la variation de l'IRL sur la période considérée. De plus, dans les zones tendues, des règles d'encadrement peuvent limiter les augmentations.
+
+## Le simulateur IRL : outil indispensable
+
+Pour faciliter vos calculs, utilisez notre simulateur IRL 2026 qui vous permettra d'estimer instantanément votre nouveau loyer en fonction de l'indice applicable.
+
+Le simulateur prend en compte :
+- Loyer actuel
+- Ancien et nouvel IRL
+- Date de révision
+- Ancien et nouveau IRL selon les trimestres
+
+## Les erreurs fréquentes dans le calcul de révision
+
+### Confondre IRL et indice de référence des loyers
+
+Loyer ne doit pas être confondu avec d'autres indices comme l'Indice du Coût de la Construction (ICC) ou l'Indice des Prix à la Consommation (IPC). Seul l'IRL doit être utilisé pour les baux d'habitation.
+
+### Appliquer une révision en cours d'année
+
+Si la clause de révision prévoit une date anniversaire au 1er janvier, c'est à cette date et non au 1er janvier calendaire qu'il faut appliquer la révision.
+
+### Ne pas vérifier les dates d'application
+
+L'IRL utilisé doit être celui du trimestre de référence prévu dans le bail, et non n'importe quel trimestre. Le plus souvent, c'est l'IRL du dernier trimestre connu à la date de signature du bail.
+
+## La révision de loyer en zone tendue
+
+Dans les communes visées par la loi ALUR (zones d'encadrement des loyers), les augmentations de loyer sont encadrées. Elles ne peuvent pas dépasser la variation de l'IRL majorée de :
+- 10 % pour les mobilité entrantes
+- 15 % pour les locataires en place depuis plus de 3 ans
+
+Ce dispositif vise à limiter les hausses excessives dans les marchés locatifs tendus comme Paris, Lille, Lyon ou Bordeaux.
+
+## FAQ — Révision de loyer et IRL
+
+**Quand peut-on réviser un loyer ?**
+
+La révision peut être appliquée à la date anniversaire du bail, uniquement si une clause de révision est présente dans le bail. Sans clause, aucune révision n'est possible.
+
+**Quelle est la formule exacte de révision de loyer ?**
+
+Nouveau loyer = Loyer hors charges × (Nouvel IRL du trimestre de référence / Ancien IRL du même trimestre de l'année précédente)
+
+**L'IRL de quel trimestre faut-il utiliser ?**
+
+Généralement, c'est l'IRL du dernier trimestre connu à la date de signature du bail qui sert de base. Vérifiez votre clause de bail pour le trimestre exact applicable.
+
+**Peut-on répercuter plusieurs années de révision d'un coup ?**
+
+Non, la révision doit être appliquée chaque année à la date anniversaire. Vous ne pouvez pas réclamer les années précédentes rétroactivement.
+
+**Que faire si le locataire refuse la révision ?**
+
+Si la clause de révision est dans le bail, la révision est un droit. Vous pouvez faire valoir votre bonne foi et réexpliquer le calcul. En cas de refus persistant, saisissez le tribunal judiciaire.
+
+[CTA : Calculez automatiquement vos révisions de loyer et suivez vos indexes avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "depot-garantie-regles-essentielles",
@@ -39,6 +185,68 @@ export const articles: Article[] = [
     date: "2026-01-05",
     updatedAt: '2026-01-05',
     readTime: "5 min",
+    content: `## Dépôt de garantie : les règles essentielles en 2026
+
+Le dépôt de garantie est une somme d'argent versée par le locataire au moment de la signature du bail. Il garantit au propriétaire la bonne exécution des obligations locatives et notamment la restitution du bien en état. Comprendre les règles du dépôt de garantie est essentiel pour éviter les litiges à la fin du bail.
+
+## Le plafond du dépôt de garantie en 2026
+
+Depuis la loi ALUR de 2014, le dépôt de garantie est encadré dans le secteur privé :
+
+- Pour une location vide : maximum **1 mois de loyer hors charges**
+- Pour une location meublée : maximum **2 mois de loyer hors charges**
+
+Le depósito no puede essere exigé pour les locations agreementées (loi de 1948) ni pour les locations saisonnières. Si vous êtes en zone tendue, le dépôt de garantie ne peut pas dépasser le plafond légal, même si le bail le prévoit.
+
+## La restitution du dépôt de garantie
+
+### Le délai de restitution
+
+Le propriétaire doit restituer le dépôt de garantie dans un délai de **2 mois maximum** après la remise des clés par le locataire. Ce délai court à compter de la date de l'état des lieux de sortie.
+
+Si le dépôt n'est pas restitué dans ce délai, le locataire peut demander des intérêts au taux légal. Au-delà de 2 mois sans restitution ni contestation, le dépôt est considéré comme acquis au propriétaire.
+
+### Les deductions autorisées
+
+Le propriétaire peut detrurre一部分 du dépôt de garantie pour couvrir :
+- Les dégradations constaté lors de l'état des lieux de sortie
+- Les sommes dues par le locataire au titre des charges non régularisées
+- Les éventuelles réparations locatives mentionné dans le bail
+
+Le locataire n'est pas responsable de la vétusté normale. Si l'usure constatée est liée au temps et à l'usage normal, aucune detrruction ne peut être appliquée.
+
+## La contestation du dépôt de garantie
+
+En cas de litige sur la restitution, le propriétaire doit envoyer au locataire :
+- Un courrier détailant les retenu avec justificación
+- Les justificatifs des dégradation (devis, factures)
+- Le solde restant eventuellement dû
+
+Si le locataire conteste, il peut saisir la commission departmentale de conciliation (CDC) ou le tribunal judiciaire. La procédure est gratuite devant le tribunal.
+
+## Dépôt de garantie etAssurance Loyer Impayé
+
+Le dépôt de garantie n'est pas une garantie contre les loyers impayés. Pour cela, il faut souscrire une Garantie Loyer Impayé (GLI). Le dépôt protege uniquement contre les dégradation et charges.
+
+## FAQ — Dépôt de garantie
+
+**Le propriétaire peut-il exigir un dépôt de garantie supplémentaire en cours de bail ?**
+
+Non, le montant du dépôt de garantie est fixé lors de la signature du bail et ne peut pas être modifié en cours de bail, même avec l'accord du locataire.
+
+**Que faire si le propriétaire refuse de restituer le dépôt de garantie ?**
+
+Envoyez une lettre recommandée avec accusé de réception réclamant la restitution. En cas de refus, saisissez la commission départementale de conciliation ou le tribunal judiciaire.
+
+**Le dépôt de garantie doit-il être actualizado lors de la renovación du bail ?**
+
+En cas de renovación de bail, le montant du dépôt de garantie reste celui du bail initial. Il ne peut pas être actualisé automatiquement, sauf clause contraire.
+
+**Le locataire peut-il demander la restitution anticipée du dépôt ?**
+
+Non, le dépôt de garantie reste acquis au propriétaire pendant toute la durée du bail. Il n'est restitué qu'à la fin du bail, déduction faite des sommes dues.
+
+[CTA : Gérez automatiquement vos dépôts de garantie et suivez les états des lieux avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "etat-des-lieux-entree-sortie",
@@ -49,6 +257,78 @@ export const articles: Article[] = [
     date: "2026-02-20",
     updatedAt: '2026-02-20',
     readTime: "7 min",
+    content: `## État des lieux d'entrée et de sortie : mode d'emploi 2026
+
+L'état des lieux est un document essentiel qui décrit l'état du logement lors de l'entrée et de la sortie du locataire. Il constitue la référence absolue pour évaluer d'éventuelles dégradations et protéger tanto le propriétaire que le locataire.
+
+## Pourquoi l'état des lieux est-il obligatoire ?
+
+L'état des lieux est obligatoire depuis la loi du 6 juillet 1989. Il doit être réalisé lors de la mise à disposition du logement (entrée) et lors de la restitution des clés (sortie). Sans état des lieux, en cas de litige, le juge se prononcera en faveur du locataire.
+
+## Comment réaliser un état des lieux complet
+
+### Les éléments à vérifier pièce par pièce
+
+Pour chaque pièce, examinez systématiquement :
+- Les murs (fissures, tâches, trous)
+- Les sols (parquet, carrelage, moquette)
+- Les fenêtres et portes (vitrages, joints, poignées)
+- L'électricité (interrupteurs, prises, luminaires)
+- La plomberie (robinetterie, écoulements, chasse d'eau)
+- Les équipements (plaques de cuisson, réfrigérateur, four, etc.)
+
+### La méthode de notation
+
+Utilisez un système clair de notation :
+- État correct : pas de dégradation
+- Légères traces d'usage : marks minimes sans consequence
+- Dégradation mineure : nécessite une petites réparation
+- Dégradation majeure : travaux importants nécessaires
+
+### Les photos datées
+
+Prenez des photos datées de chaque pièce. Joignez-les à l'état des lieux en annexe. Les photos constituent une preuve visuelle preziosa en cas de litige.
+
+## État des lieux d'entrée
+
+L'état des lieux d'entrée doit être réalisé en présence du locataire et du propriétaire (ou de leur représentant). Il doit être signé par les deux parties.
+
+Le délai pour realizer l'état des lieux d'entrée est de 7 jours suivant l'entrée dans les lieux. Si le locataire découvre des anomalies après ce délai, il dispose de 10 jours pour les signaler.
+
+## État des lieux de sortie
+
+L'état des lieux de sortie doit être comparé à l'état des lieux d'entrée pour identifier d'éventuelles dégradations. Il doit être réalisé dans les 7 jours suivant la restitution des clés.
+
+La différence entre les deux états des lieux détermine les éventuelles retenues sur le dépôt de garantie. Le locataire n'est pas responsable de la vétusté normale (usure due au temps et à l'usage courant).
+
+## Le grille de vétusté
+
+Depuis la loi ALUR, une grille de vétusté peut être utilisée pour évaluer les dégradations. Cette grille définit des coefficients de depreciación selon l'age du logement et des équipements.
+
+Par exemple :
+- Peintures : 1/5 par an (soit 100% en 5 ans)
+- Moquettes : 1/10 par an (soit 100% en 10 ans)
+- Parquets : 1/7 par an (soit 100% en 7 ans)
+
+## FAQ — État des lieux
+
+**L'état des lieux peut-il être réalisé seul ?**
+
+Non, l'état des lieux doit être realizado en présence des deux parties (propriétaire et locataire) ou de leurs représentants. En cas d'absence d'une partie, celui qui est présent peut réaliser un état des lieux unilatéral, mais l'autre partie dispose de 10 jours pour contester.
+
+**Que faire si le locataire refuse de signer l'état des lieux ?**
+
+Refuser de signer ne l'empêche pas d'être valable. Vous pouvez signer seul et envoyer une copie au locataire en recommandé. Les photos datées constituent alors la meilleure preuve.
+
+**Les dégradation causées par le locataire doivent-elles être réparées avant la sortie ?**
+
+Non, le locataire n'a pas l'obligation de réparer. Il peut verser une somme au propriétaire pour couvrir les reparación, ou le propriétaire peut detrurre sur le dépôt de garantie les sommes nécessaires.
+
+**L'état des lieux de sortie doit-il être hecho le jour même du départ ?**
+
+Il doit être realizado dans les 7 jours suivant la restitution des clés. Il est preferable de le faire le jour même pour éviter tout litige ultérieur.
+
+[CTA : Réalisez vos états des lieux automatiquement avec photos et comparaison'entrée/sortie sur RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "loi-alur-proprietaire-bailleur",
@@ -59,6 +339,76 @@ export const articles: Article[] = [
     date: "2026-02-15",
     updatedAt: '2026-02-15',
     readTime: "10 min",
+    content: `## Loi ALUR : ce qui change pour les propriétaires bailleurs en 2026
+
+La loi ALUR (Accès au Logement et Urbanisme Rénové), promulguée le 24 mars 2014, a profondément modifié les relations entre propriétaires et locataires. Même en 2026, ses dispositions continuent de s'appliquer et restent essentielles à connaître pour tout bailleur.
+
+## Les obligations de diagnostic Technique
+
+Depuis la loi ALUR, le dossier de diagnostic technique (DDT) doit être remis au locataire lors de la signature du bail. Ce dossier comprend mandatory :
+
+- Le Constat de Risque d'Exposition au Plomb (CREP) pour les immeubles construits avant 1949
+- Le Diagnostic de Performance Énergétique (DPE)
+- L'état des risques et pollutions (ERP)
+- Le Diagnostic amiante pour les bâtiments construits avant 1997
+- Le Diagnostic termites pour les zones concerné
+- Le Diagnostic gaz et électricité pour les installations de plus de 15 ans
+
+Le non-respect de ces obligations peut entraîner la réduction du loyer et des sanctions.
+
+## L'encadrement des loyers en zone tendue
+
+La loi ALUR a instauré l'encadrement des loyers dans les zones tendues. Ce dispositif limite les augmentations de loyer :
+
+### Dans les zones d'encadrement (Paris, Lille, Lyon, Bordeaux, etc.)
+
+Le loyer de relocation ne peut pas dépasser le loyer de référence majoré de 20 %. En cas de mobilité entrante, l'augmentation ne peut pas dépasser la variation de l'IRL + 10 %. Pour les locataires en place depuis plus de 3 ans, l'augmentation est limitée à l'IRL + 15 %.
+
+### Les complement de loyer
+
+Si votre bien présente des caractéristiques de localisation ou de confort exceptional, vous pouvez appliquer un complément de loyer. Celui-ci doit être justifié et ne peut pas dépasser 15 % du loyer de référence.
+
+## Les règles de la location
+
+### La garantie Universelle des Loyers (GUL)
+
+Initialement prévue par la loi ALUR, la Garantie Universelle des Loyers (GUL) n'a jamais été fully appliquée. Elle a été remplacée par d'autres dispositifs comme la Garantie Loyer Impayé (GLI) et les Visas et Oxylane.
+
+### Le préavis réduit
+
+En zone tendue, le locataire peut donner son préavis (congé) avec un délai de 1 mois (au lieu de 3) s'il justifie d'un motif légitime : mutation professionnelle, perte d'emploi, nouvel emploi suite à une période de chômage, force médicale ou sociale.
+
+### Les charges récupérables
+
+La loi ALUR a clarifié la liste des charges récupérables par le propriétaire. Les charges橡樟物业管理 include les charges de gardiennage, nettoyage des parties communes, fournitures d'eau froide, ascenseur, etc.
+
+## Les normes de décence
+
+La loi ALUR a renforcé les normes de décence énergétique. Un logement est indécent s'il ne preserve pas le clos et le couvert, s'il comporte des risques pour la salubrité, ou s'il n'est pas equipped d'installations permettant un usage normal du logement.
+
+En 2026, les passoires thermiques (classe F et G) sont progressivement interdites à la location. Les propriétaires doivent realizar les travaux de rénovation nécessaires.
+
+## La gestion de lacolocation
+
+La loi ALUR a également Impacté la colocation. Un bail de colocation peut être conclu pour une partie seulement du logement. Chaque colocataire est solidairement responsable du paiement du loyer et des charges.
+
+Le bail de colocation doit mentionner la quote-part de loyer et de charges atribuée à chaque occupant.
+
+## FAQ — Loi ALUR
+
+**Quelles sont les sanctions en cas de non-conformité au DPE ?**
+
+Depuis 2023, les bailleurs qui louent des passoires thermiques (classe F et G) s'exposent à des sanctions. L'amende peut aller jusqu'à 15 000 euros.
+
+**Peut-on refuser de louer à un candidat locataire avec un garant ?**
+
+Non, le propriétaire ne peut pas refuser un garant au seul motif qu'il ne réside pas en France. Ce refus discriminatoire est sanctionnable.
+
+**L'encadrement des loyers s'applique-t-il à toutes les locations ?**
+
+Non, seules les locations vides et meublées en zone tendue sont concernée. Les locations saisonnières, les logement sociaux et les locations de courte durée en sont exclues.
+
+[CTA : Restez conformité avec la loi ALUR et gérez vos locations automatiquement avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "optimiser-fiscalite-loyers",
@@ -69,6 +419,84 @@ export const articles: Article[] = [
     date: "2026-03-01",
     updatedAt: '2026-03-01',
     readTime: "9 min",
+    content: `## Optimiser la fiscalité de vos revenus locatifs en 2026
+
+La fiscalite des revenus locatifs peut représenter une part significative de vos rendements. Choisir le bon régime fiscal et optimer vos charges déductibles permet de maximiser votre rentabilité nette. Découvrez les stratégies fiscales adaptées à votre situation.
+
+## Les deux régimes fiscaux pour les revenus locatifs
+
+### Le régime micro-foncier
+
+Le régime micro-foncier s'applique automatiquement si vos revenus fonciers bruts n'excèdent pas 15 000 euros par an. Il offre un abattement forfaitaire de 30 % pour frais, sans possibilité de déduire vos charges réelles.
+
+Ce régime est intéressant si vos charges réelles sont inférieures à 30 % de vos revenus locatifs. La simplicité administrative est également un atout : aucune déclaration de charges n'est nécessaire.
+
+### Le régime réel
+
+Le régime réel permet de déduire l'ensemble de vos charges réelles de vos revenus locatifs. Il est mandatory si vos revenus fonciers bruts dépassent 15 000 euros, ou vous pouvez l'opter volontairement si vos charges réelles dépassent 30 % des revenus.
+
+Les charges déductibles comprennent les intérêts d'emprunt, les primes d'assurance, les frais de gestion (honoraires de gestionnaire), les travaux de réparation et d'entretien, les charges de copropriété, la taxe foncière, et les frais d'assurance.
+
+## Les niches fiscales pour les propriétaires bailleurs
+
+### Le statut LMNP (Loueur en Meublé Non Professionnel)
+
+Le statut LMNP permet de bénéficier du régime des bénéfices industriels et commerciaux (BIC) plutôt que des revenus fonciers. L'amortissement du bien et des meubles peut réduire significativement la base imposable.
+
+En LMNP, vous pouvez amortir le prix d'acquisition du bien (sur 20 à 30 ans) et le mobilier (sur 5 à 10 ans). Cet amortissement n'est pas taxable, ce qui permet de réduire voire d'annuler l'imposition sur les revenus locatifs.
+
+### Le dispositif Pinel
+
+Le dispositif Pinel permet de bénéficier d'une réduction d'impôt de 10 % à 21 % du prix d'acquisition pour un investissement locatif dans le neuf ou l'ancien rénové, sous conditions de location et de plafonds de loyer.
+
+En 2026, le dispositif Pinel a été remplacé par le dispositif Loc'Avantages, qui offre une réduction d'impôt en échange d'un loyer inférieur au marché et de conditions de location simplifiées.
+
+## Les charges déductibles en détail
+
+### Les intérêts d'emprunt
+
+Les intérêts d'emprunt contractés pour l'acquisition, la construction ou l'amélioration du bien sont intégralement déductibles. Cette déduction est particulièrement intéressante en début de prêt, lorsque les intérêts représentent la majeure partie des mensualités.
+
+### Les travaux de réparation et d'entretien
+
+Les travaux de réparation et d'entretien sont déductibles. Il faut distinguer :
+- Les dépenses d'entretien courant (peinture, petites réparations) : déductibles
+- Les travaux d'amélioration (rajout d'équipements) : déductibles sous conditions
+- Les travaux de construction ou de reconstruction : non déductibles
+
+### La taxe foncière
+
+La taxe foncière sur les propriétés bâties est entièrement déductible de vos revenus locatifs. Elle représente généralement entre 1 et 2 mois de loyer selon les communes.
+
+## L'optimisation par laSCI
+
+Créer une Société Civile Immobilière (SCI) peut presenter plusieurs avantages fiscaux :
+- Transmission du patrimoine à moindres frais (abattement de 100 000 € tous les 15 ans entre parents et enfants)
+- Possibilité d'opter à l'IS plutôt qu'à l'IFI
+- Meilleure gestion de l'indivision
+- Optimisation de la succession
+
+La SCI à l'IS (Impôt sur les Sociétés) permet de bénéficier d'un taux d'imposition de 15 % jusqu'à 42 500 euros de bénéfices, puis de 25 %. La flat tax de 30 % s'applique aux dividendes distribués.
+
+## FAQ — Fiscalité des revenus locatifs
+
+**Quel régime choisir : micro-foncier ou réel ?**
+
+Le régime réel est plus avantageux si vos charges déductibles dépassent 30 % de vos revenus locatifs bruts, ou si vous avez des intérêts d'emprunt importants à déduire.
+
+**Les frais de gestion locative sont-ils déductibles ?**
+
+Oui, les frais de gestion versés à une agence ou un gestionnaire sont déductibles. Ils incluent les honoraires de gestion, les frais de contentieux éventuels, et les frais de procédure.
+
+**Peut-on déduire les travaux de rénovation énergétique ?**
+
+Oui, des dispositifs spécifiques existent comme MaPrimeRénov' et les déductions fiscales pour travaux d'amélioration. Certains travaux de rénovation énergétique peuvent également donner droit à des crédits d'impôt.
+
+**La TVA est-elle déductible pour un bien locatif ?**
+
+Non, la TVA payée sur l'acquisition d'un bien locatif n'est pas déductible. En revanche, si vous opsitez pour la location meublée soumise à TVA (option irrévocable), vous pouvez récupérer la TVA sur les dépenses.
+
+[CTA : Gérez automatiquement votre comptabilité locative et générez vos déclarations fiscales avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "quittance-loyer-pdf-gratuit",
@@ -261,6 +689,39 @@ Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayé
     date: "2026-04-21",
     updatedAt: '2026-04-21',
     readTime: "8 min",
+    content: `## Charges locatives : le guide complet du décompte annualisé
+
+Les charges locatives représentent une part importante de la gestion d'un bien en location. En France, le propriétaire peut récupérer une partie des charges auprès du locataire via le système du décompte annualisé.
+
+## Qu'est-ce que le décompte annualisé des charges locatives ?
+
+Le décompte annualisé est un dispositif qui permet de régulariser les charges locatives une fois par an. Au lieu de facturer les charges réelles mensuellement, le propriétaire exige du locataire une provision pour charges basée sur les charges de l'année précédente. À la fin de l'exercice, un décompte réel est établi et la différence est soit réclamée au locataire, soit restituée.
+
+## Les charges récupérables vs non récupérables
+
+Les charges récupérables comprennent l'eau chaude et le chauffage collectif, l'électricité des parties communes, le nettoyage des parties communes et des espaces verts, l'entretien des ascenseurs, l'élimination des déchets ménagers, le gardiennage, les primes d'assurance de l'immeuble, les frais de gestion des équipements collectifs et la redevance d'assainissement.
+
+Les charges non récupérables sont les travaux de maintenance préventive et curative, les provisions pour travaux de rénovation, les charges des équipements individuels, les honoraires du syndic dépassant les honoraires de gestion courante, et les charges de structure.
+
+## Le mode de calcul
+
+Chaque mois, le locataire paie une provision pour charges. Le montant de cette provision est fixé lors de la signature du bail et ne peut pas être modifié en cours de bail. Dans les 6 mois suivant la fin de l'exercice, le propriétaire doit établir un décompte annuel des charges réelles.
+
+Si les charges réelles dépassent la provision payée, le supplément peut être réclamé au locataire. Si les charges réelles sont inférieures à la provision, le trop-perçu est restitué au locataire.
+
+## Les pièges à éviter
+
+Ne pas faire de régularisation fait perdre le droit de réclamer les suppléments. Confondre charges récupérables et charges personnelles expose à des réclamations. Provisionner trop bas génère des régularisations importantes difficiles à recouvrer.
+
+En colocation, chaque colocataire est solidairement responsable du paiement des charges. La durée de conservation des justificatifs est de 2 ans.
+
+## FAQ — Charges locatives et décompte annualisé
+
+**Quand doit-on envoyer le décompte annuel de charges ?** Le décompte doit être envoyé dans les 6 mois suivant la fin de l'exercice comptable.
+
+**Comment contester un décompte de charges locatives ?** Le locataire dispose de 2 mois pour contester et peut demander les factures justificatives. En cas de désaccord, il peut saisir la commission départementales de conciliation.
+
+[CTA : Automatisez le décompte annualisé des charges locatives avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "assurance-loyer-impaye-gli",
@@ -271,6 +732,45 @@ Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayé
     date: "2026-04-24",
     updatedAt: '2026-04-24',
     readTime: "7 min",
+    content: `## Charges locatives : le guide complet du décompte annualisé
+
+Les charges locatives représentent une part importante de la gestion d'un bien en location. En France, le propriétaire peut récupérer une partie des charges auprès du locataire via le système du décompte annualisé. Comprendre ce mécanisme est essentiel pour gérer efficacement vos locations et éviter les litiges.
+
+## Qu'est-ce que le décompte annualisé des charges locatives ?
+
+Le décompte annualisé est un dispositif qui permet de régulariser les charges locatives une fois par an. Au lieu de facturer les charges réelles mensuellement, le propriétaire exige du locataire une provision pour charges basée sur les charges de l'année précédente. À la fin de l'exercice, un décompte réel est établi et la différence est soit réclamée au locataire, soit restituée.
+
+Ce système bénéficie aux deux parties : le propriétaire évite les manipulations comptables complexes chaque mois, et le locataire connaît à l'avance le montant de ses charges provisionnelles.
+
+## Les charges récupérables vs non récupérables
+
+### Charges récupérables
+
+Les charges récupérables en location vide et meublée sont strictement encadrées par la loi. Elles comprennent l'eau chaude et le chauffage collectif, l'électricité des parties communes, le nettoyage des parties communes et des espaces verts, l'entretien des ascenseurs, l'élimination des déchets ménagers, le gardiennage, les primes d'assurance de l'immeuble, les frais de gestion des équipements collectifs et la redevance d'assainissement.
+
+### Charges non récupérables
+
+Certaines charges ne peuvent jamais être répercutées sur le locataire : les travaux de maintenance préventive et curative, les provisions pour travaux de rénovation, les charges relatives aux équipements individuels, les honoraires du syndic dépassant les honoraires de gestion courante, et les charges de structure.
+
+## Le mode de calcul du décompte annualisé
+
+Chaque mois, le locataire paie une provision pour charges en même temps que son loyer. Le montant de cette provision est fixé lors de la signature du bail et ne peut pas être modifié en cours de bail. Dans les 6 mois suivant la fin de l'exercice, le propriétaire doit établir un décompte annuel des charges réelles.
+
+Si les charges réelles dépassent la provision payée, le supplément peut être réclamé au locataire. Si les charges réelles sont inférieures à la provision, le trop-perçu est restitué au locataire.
+
+## Les pièges à éviter pour les propriétaires
+
+Ne pas faire de régularisation fait perdre le droit de réclamer les suppléments. Confondre charges récupérables et charges personnelles expose à des réclamations. Provisionner trop bas génère des régularisations importantes difficiles à recouvrer.
+
+En colocation, chaque colocataire est solidairement responsable du paiement des charges. La durée de conservation des justificatifs est de 2 ans.
+
+## FAQ — Charges locatives et décompte annualisé
+
+**Quand doit-on envoyer le décompte annuel de charges ?** Le décompte doit être envoyé dans les 6 mois suivant la fin de l'exercice comptable.
+
+**Comment contester un décompte de charges locatives ?** Le locataire dispose de 2 mois pour contester et peut demander les factures justificatives. En cas de désaccord, il peut saisir la commission départementales de conciliation.
+
+[CTA : Automatisez le décompte annualisé des charges locatives avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "quittance-loyer-mentions-obligatoires",
@@ -281,6 +781,80 @@ Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayé
     date: "2026-04-28",
     updatedAt: '2026-04-28',
     readTime: "5 min",
+    content: `## Quittance de loyer : mentions obligatoires et modèle gratuit 2026
+
+La quittance de loyer est un document essentiel qui prouve le paiement du loyer par le locataire. Elle est obligatoire sur simple demande du locataire et doit contenir des mentions précises. Découvrez ce qui doit figurer sur une quittance conforme et comment la générer facilement.
+
+## La quittance de loyer est-elle obligatoire ?
+
+Según la loi du 6 juillet 1989, le propriétaire doit délivrer une quittance de loyer sur simple demande du locataire. Cette demande peut être faite à tout moment, même plusieurs mois après le paiement.
+
+Le propriétaire peut-facturer des frais pour la délivrance de la quittance. Cependant, si le locataire demande une quittance numérique (par email), aucun frais ne peut être appliqué.
+
+## Les mentions obligatoires d'une quittance
+
+Une quittance doit contenir les éléments suivants :
+
+### Informations sur le logement
+- Adresse complète du logement
+-Référence du bail
+- Période de location couverte
+
+### Informations sur le paiement
+- Montant du loyer hors charges
+- Montant des charges
+- Total réglé
+- Date du paiement
+- Mode de paiement (chéque, virement, espèces)
+
+### Informations sur le propriétaire
+- Nom et prénom du propriétaire (ou dénomination sociale si personne morale)
+- Adresse du propriétaire (qui peut être différente de l'adresse du logement)
+- eventuellement le numéro SIRET pour les SCI
+
+### Mentions légales
+- Lieu et date d'établissement
+- Signature du propriétaire ou de son représentant
+
+## Le reçu pour solder
+
+Le reçu pour soldé est diferente de la quittance de loyer. Il est délivré lorsque le locataire solder l'intégralité de son compte, notamment lors de la restitution du dépôt de garantie. Il doit mentions le montant restant dû ou le trop-perçu.
+
+## Quittance papier ou numérique ?
+
+Les deux formats sont légaux. La quittance numérique (PDF, email) présente plusieurs avantages :
+- Gain de temps pour l'envoi
+- Archivage automatique
+- Réduction de la consommation de papier
+- Traçabilité des envois
+
+Pour la quittance numérique, il est recommandé d'utiliser un outil spécialisé qui génère des quittances horodatées et signées, acceptées par les organismes sociaux.
+
+## Modèle gratuit de quittance de loyer
+
+Vous pouvez télécharger notre modèle de quittance de loyer gratuit. Il reprendre toutes les mentions obligatoires et peut être personalizado avec vos informations.
+
+Pour une gestion encore plus simple, utilisez RentReady qui génère automatiquement les quittances de loyer à chaque paiement enregistré.
+
+## FAQ — Quittance de loyer
+
+**Le propriétaire peut-il refuser de délivrer une quittance ?**
+
+Non, le propriétaire est obligé de délivrer une quittance sur simple demande du locataire. En cas de refus, le locataire peut saisir le tribunal judiciaire.
+
+**La quittance de loyer prouve-t-elle le paiement integral ?**
+
+Oui, la quittance de loyer constitue une preuve irréfutable du paiement. Elle doit indiquer le montant payé et la période couverte.
+
+**Combien de temps garder les quittances de loyer ?**
+
+Il est recommandé de conserver les quittances de loyer pendant au moins 5 ans après la fin du bail, car elles constituent des preuves en cas de litige.
+
+**La quittance peut-elle être délivrée plusieurs mois après le paiement ?**
+
+Oui, le locataire peut demander une quittance à tout moment, même plusieurs mois après le paiement. Le propriétaire doit then la délivrer dans un délai raisonnable.
+
+[CTA : Générez automatiquement vos quittances de loyer conformes avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "calculer-rendement-locatif-brut-net",
@@ -291,6 +865,92 @@ Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayé
     date: "2026-05-01",
     updatedAt: '2026-05-01',
     readTime: "6 min",
+    content: `## Calcul rendement locatif brut et net : formule et simulateur 2026
+
+Le rendement locatif est un indicateur clé pour évaluer la rentabilité d'un investissement immobilier. Qu'il s'agisse d'un achat comptant ou à crédit, comprendre les différence entre rendement brut et rendement net est essentiel pour prendre les bonnes décisions d'investissement.
+
+## Qu'est-ce que le rendement locatif ?
+
+Le rendement locatif mesure le rapport entre les revenusGenerated par la location et le prix d'acquisition du bien. Il s'exprime en pourcentage et permet de comparer différents investissements entre eux ou avec d'autres placements financiers.
+
+## Le rendement brut
+
+Le rendement brut se calcule simplement en divisant le loyer annuel par le prix d'acquisition du bien.
+
+Formule : Rendement brut = (Loyer mensuel × 12) / Prix d'acquisition × 100
+
+Exemple : Vous achetez un bien à 200 000 euros avec un loyer mensuel de 800 euros.
+Rendement brut = (800 × 12) / 200 000 × 100 = 4,8 %
+
+Ce calcul rapide est utile pour une première estimation, mais il ne prend pas en compte les charges et les fiscal taxes.
+
+## Le rendement net
+
+Le rendement net prend en compte les charges et les impôts pour donner une image plus fidèle de la rentabilité réelle.
+
+Formule : Rendement net = (Loyer annuel — Charges — Impôts) / Prix d'acquisition × 100
+
+Les charges à déduire comprennent :
+- La taxe foncière
+- Les charges de copropriété
+- Les frais de gestion
+- Les assurances
+- Les intérêts d'emprunt (si crédit)
+- Les travaux de réparation et entretien
+
+## Le rendement net-net (ou rendement net après impôt)
+
+Le rendement net-net intègre également la fiscalité sur les revenus locatifs. Il varie selon votre tranche d'imposition et le régime fiscal choisi (micro-foncier, réel, LMNP).
+
+Pour un investisseur dans une tranche à 30 %, avec des charges de 2 000 euros par an :
+Rendement net-net = ((800 × 12) — 2 000 — 2 880) / 200 000 × 100 = 0,86 %
+
+L'impact de la fiscalité peut être considérable. C'est pourquoi le choix du régime fiscal est déterminant.
+
+## Les erreurs fréquentes dans le calcul du rendement
+
+### Ne pas inclure les frais de notaire
+
+Les frais de notaire représentent généralement 7 à 8 % du prix d'achat. Ne pas les inclure surestime artificiellement le rendement.
+
+### Oublier la vacance locative
+
+Un bien ne se loue pas toujours. Prévoyez une période de vacance de 1 à 2 mois par an pour être réaliste.
+
+### Sous-estimer les travaux
+
+Les travaux de rénovation et d'entretien peuvent représenter des sommes importantes, surtout pour les biens anciens.
+
+## Notre simulateur de rendement locatif
+
+Utilisez notre simulateur de rendement locatif pour calculer automatiquement votre rendement brut, net et net-net. Entrez simplement :
+- Le prix d'acquisition
+- Les frais de notaire estimés
+- Le loyer mensuel prévu
+- Vos charges annuelles
+- Votre taux d'imposition
+
+Le simulateur vous donnera une estimation précise de votre rentabilité nette.
+
+## FAQ — Rendement locatif
+
+**Quel est un bon rendement locatif ?**
+
+Un bon rendement locatif se situe généralement entre 5 % et 8 % brut. En zone tendue, les rendements sont souvent plus bas (3 à 5 %) mais la플러스-value potentielle est plus élevée.
+
+**Le rendement locatif est-il le seul critère à considérer ?**
+
+Non, la.plus-value immobilière, l'avantage fiscal, et l'évolution du marché sont également importants. Un rendement plus bas avec une forte.plus-value peut être plus intéressant qu'un rendement élevé.
+
+**Faut-il calculer le rendement avant ou après impôt ?**
+
+Le rendement après impôt est le plus révélateur de la rentabilité réelle. Cependant, le rendement brut est utile pour une comparaison rapide avec d'autres investissements.
+
+**Comment améliorer son rendement locatif ?**
+
+Plusieurs leviers existent : négocier le prix d'achat, optimiser la fiscalite, réduire la vacance locative, augmenter le loyer (dans les limites légales), ou faire des travaux pour justifier une hausse.
+
+[CTA : Calculez automatiquement le rendement de vos investissements et suivez votre rentabilité avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "etat-des-lieux-proprietaire-modele",
@@ -301,6 +961,41 @@ Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayé
     date: "2026-05-05",
     updatedAt: '2026-05-05',
     readTime: "6 min",
+    content: `## État des lieux : modèle gratuit et procédure pour propriétaires
+
+L'état des lieux est un document essentiel dans toute location immobilière. Il permet de comparer l'état du logement à l'entrée et à la sortie du locataire, et constitue la référence principale en cas de litige sur le dépôt de garantie. Depuis le décret 2016-382, l'état des lieux doit respecter des standards précis pour être opposable aux deux parties.
+
+## Pourquoi l'état des lieux est-il obligatoire ?
+
+L'état des lieux est obligatoire pour toute location, qu'elle soit vide ou meublée. Il doit être réalisé le jour de la remise des clés et le jour de la restitution des clés. Ce document protège à la fois le propriétaire et le locataire.
+
+Depuis 2020, les états des lieux peuvent être réalisés sur support numérique sans obliger les parties à signer sur place.
+
+## Les mentions obligatoires
+
+L'état des lieux doit mentionner la date de réalisation, l'adresse complète du logement, le nom des parties, la signature des deux parties, le détail pièce par pièce avec l'état de chaque élément, et des photos datées et géolocalisées.
+
+À la sortie, l'état des lieux doit être comparé terme à terme avec l'état d'entrée. Chaque différence doit être notée avec sa nature, son origine possible et une estimation du coût de remise en état.
+
+## Les travaux à la charge du propriétaire
+
+Certaines dégradations sont considérées comme relevant de la normale : l'usure normale des peintures, les traces de furniture légèrement visibles, l'usure des revêtements de sol due au passage normal, et l'usure des équipements due à l'utilisation normale.
+
+En revanche, les dégradations dues à un manquement aux obligations du locataire peuvent être retenues sur le dépôt de garantie.
+
+## La checklist de l'état des lieux
+
+Pour la cuisine : plan de travail, meubles, équipements (réfrigérateur, four, plaques, hotte), évier et sol. Pour le salon/séjour : murs, sol, fenêtres, portes, électricité. Pour les chambres : murs, plafond, sol, fenêtres, placards. Pour la salle de bain : sol, murs, sanitaires, VMC. Pour l'entrée : sol, murs, porte d'entrée, placards.
+
+## Le rôle dans la restitution du dépôt de garantie
+
+Le dépôt de garantie doit être restitué dans un délai de 1 mois si l'état des lieux de sortie est conforme à l'entrée. Si des dégradations sont constatées, le propriétaire dispose de 2 mois pour restituer le dépôt après déduction des travaux, en fournissant les factures justificatives.
+
+## FAQ — État des lieux
+
+L'état des lieux doit être contradictoire : les deux parties doivent être présentes ou représentées. Il doit être conservé pendant 5 ans. Les photos datées et géolocalisées constituent une preuve indiscutable.
+
+[CTA : Générez automatiquement vos états des lieux conformes avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "bail-colocation-modele-clauses",
@@ -311,6 +1006,41 @@ Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayé
     date: "2026-05-08",
     updatedAt: '2026-05-08',
     readTime: "7 min",
+    content: `## État des lieux : modèle gratuit et procédure pour propriétaires
+
+L'état des lieux est un document essentiel dans toute location immobilière. Il permet de comparer l'état du logement à l'entrée et à la sortie du locataire, et constitue la référence principale en cas de litige sur le dépôt de garantie. Depuis le décret 2016-382, l'état des lieux doit respecter des standards précis pour être opposable aux deux parties.
+
+## Pourquoi l'état des lieux est-il obligatoire ?
+
+L'état des lieux est obligatoire pour toute location, qu'elle soit vide ou meublée. Il doit être réalisé le jour de la remise des clés et le jour de la restitution des clés. Ce document protège à la fois le propriétaire et le locataire : pour le propriétaire, il justifie d'éventuelles dégradations et les retenues sur le dépôt de garantie ; pour le locataire, il le protège contre des accusations de dégradations préexistantes.
+
+Depuis 2020, les états des lieux peuvent être réalisés sur support numérique sans obliger les parties à signer sur place.
+
+## Les mentions obligatoires
+
+L'état des lieux doit mentionner la date de réalisation, l'adresse complète du logement, le nom des parties, la signature des deux parties, le détail pièce par pièce avec l'état de chaque élément, et des photos datées et géolocalisées.
+
+À la sortie, l'état des lieux doit être comparé terme à terme avec l'état d'entrée. Chaque différence doit être notée avec sa nature, son origine possible et une estimation du coût de remise en état.
+
+## Les travaux à la charge du propriétaire
+
+Certaines dégradations sont considérées comme relevant de la normale et ne peuvent pas être imputées au locataire : l'usure normale des peintures, les traces de furniture légèrement visibles sur les murs, l'usure des revêtements de sol due au passage normal, et l'usure des équipements due à l'utilisation normale.
+
+En revanche, les dégradations dues à un manquement aux obligations du locataire peuvent être retenues sur le dépôt de garantie.
+
+## La checklist de l'état des lieux
+
+Pour la cuisine : plan de travail, meubles, équipements (réfrigérateur, four, plaques, hotte), évier et sol. Pour le salon/séjour : murs, sol, fenêtres, portes, électricité. Pour les chambres : murs, plafond, sol, fenêtres, placards. Pour la salle de bain : sol, murs, sanitaires, VMC. Pour l'entrée : sol, murs, porte d'entrée, placards.
+
+## Le rôle dans la restitution du dépôt de garantie
+
+Le dépôt de garantie doit être restitué dans un délai de 1 mois si l'état des lieux de sortie est conforme à l'entrée. Si des dégradations sont constatées, le propriétaire dispose de 2 mois pour restituer le dépôt après déduction des travaux, en fournissant les factures justificatives.
+
+## FAQ — État des lieux
+
+L'état des lieux doit être contradictoire : les deux parties doivent être présentes ou représentées. Il doit être conservé pendant 5 ans. Les photos datées et géolocalisées constituent une preuve indiscutable.
+
+[CTA : Générez automatiquement vos états des lieux conformes avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "bail-location-vide-2026",
@@ -2476,6 +3206,49 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
     date: "2026-04-15",
     updatedAt: '2026-04-15',
     readTime: "9 min",
+    content: `## Logiciel gestion locative gratuit vs payant : lequel choisir en 2026
+
+La gestion locative en ligne a révolutionné le quotidien des propriétaires bailleurs en France. Face à la multiplication des outils disponibles, la question du choix entre solution gratuite et solution payante devient cruciale.
+
+## Les limites des logiciels gratuits
+
+Les versions gratuites incluent rarement la gestion multi-propriétés au-delà de 2-3 biens, l'accès illimité aux documents et modèles, le suivi automatisé des paiements avec notifications, la génération de quittances PDF aux normes françaises, le suivi des indexes IRL, ou l'export comptable.
+
+Le support client est souvent limité aux forums communautaires. Les solutions gratuites peuvent aussi présenter des failles de sécurité ou ne pas être conformes au RGPD.
+
+## Les avantages des logiciels payants
+
+Un logiciel professionnel offre une automatisation complète : relance automatique des impayés, calcul automatique des révisions de loyer selon l'IRL, génération de quittances aux normes, suivi des dates d'échéance du bail, alertes pour les assurances et la maintenance.
+
+Les logiciels professionnels sont mis à jour en fonction des évolutions légales : nouvelle IRL chaque trimestre, changements législatifs, obligations fiscales.
+
+Tous vos documents sont centralisés et accessibles. Le logiciel s'adapte à mesure que votre patrimoine s'agrandit.
+
+## Le vrai coût de la gestion locative gratuite
+
+Si le logiciel gratuit ne coûte rien à l'installation, il peut engendrer des coûts indirects : heures passées à gérer manuellement des feuilles de calcul, risque d'erreurs dans les calculs de révision de loyer, frais de contentieux suite à des documents mal rédigés.
+
+Un logiciel professionnel coûte généralement entre 10€ et 50€/mois selon les fonctionnalités. Pour un propriétaire gérant plusieurs biens, ce coût est largement compensé par le temps économisé.
+
+## Tableau comparatif
+
+| Critère | Gratuit | Payant |
+|---|---|---|
+| Nombre de biens | 2-3 | Illimité |
+| Quittances PDF | Limité | Illimité |
+| Suivi IRL | Non | Oui |
+| Relance automatique impayés | Non | Oui |
+| Mises à jour légales | Rare | À chaque changement |
+
+## Notre recommandation
+
+Pour un propriétaire gérant un seul bien, un outil gratuit peut suffire. Pour un propriétaire avec 3 biens ou plus, un logiciel professionnel comme RentReady est un investissement judicieux.
+
+## FAQ — Logiciel gestion locative
+
+La plupart des solutions gratuites sont limitées à 2-3 propriétés. Les solutions professionnelles sont entièrement conformes au RGPD. La plupart des outils permettent d'exporter les données pour les réimporter dans un nouveau logiciel.
+
+[CTA : Testez RentReady gratuitement pendant 14 jours — pas de carte bancaire requise]`,
   },
   {
     slug: "comment-gerer-biens-locatifs",
@@ -2486,6 +3259,41 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
     date: "2026-04-15",
     updatedAt: '2026-04-15',
     readTime: "10 min",
+    content: `## Comment gérer ses biens locatifs : guide complet du propriétaire
+
+Gérer ses biens locatifs demande rigueur et organisation. Entre suivi des paiements, entretien du patrimoine, obligations légales et fiscales, un propriétaire bailleur doit savoir jongler avec de multiples casquettes.
+
+## Le suivi des paiements
+
+Le suivi des paiements est la tâche la plus critique. Chaque mois, vous devez vérifier que le loyer est reçu dans son intégralité et à la date prévue. Un logiciel comme RentReady automatise ce suivi : notifications de retard, génération automatique des relances, calcul des intérêts en cas d'impayé.
+
+La trésorerie d'un bien locatif doit être gérée prudemment. Maintenez une réserve équivalente à 2-3 mois de charges pour faire face aux imprévus.
+
+Un bien locatif implique de nombreuses dates à respecter : date d'anniversaire du bail, limite de restitution du dépôt de garantie, taxe foncière, échéance des assurances, déclaration de revenus fonciers.
+
+## L'entretien du bien
+
+Le propriétaire a une obligation d'entretien : livrer le logement en état d'être habité, entretenir le bien pendant toute la durée du bail, faire les grosses réparations.
+
+Le droit de visite impose un préavis de 24 heures minimum. En cas d'urgence (fuite d'eau, problème de gaz), le propriétaire peut entrer sans préavis.
+
+## Les obligations légales
+
+Les diagnostics obligatoires avant mise en location comprennent le DPE, le CREP, l'état d'amiante, le diagnostic Termites, l'état de l'installation intérieure d'électricité et de gaz.
+
+Le propriétaire doit assurer le risque locatif via une assurance propriétaire non occupant (PNO). Le locataire doit assurer le logement via une assurance multirisques habitation.
+
+Les erreurs fréquentes : ne pas faire signer de bail conforme, oublier de réviser le loyer, ne pas régulariser les charges, retenir indûment le dépôt de garantie.
+
+## La déclaration fiscale
+
+Pour les revenus fonciers inférieurs à 15 000€/an, le régime micro-foncier s'applique avec un abattement forfaitaire de 30%. Au-delà, le régime réel permet de déduire les charges réelles. Le déficit foncier peut être imputé sur le revenu global dans la limite de 10 700€/an.
+
+## FAQ — Gestion des biens locatifs
+
+Pour un ou deux biens, l'auto-gestion est viable avec un bon outil. Au-delà de 3-4 biens, l'agence ou property manager prend en charge la gestion pour 5 à 10% du loyer annuel. Vérifiez systématiquement la solvabilité du candidat locataire avant de signer.
+
+[CTA : Centralisez toute votre gestion locative avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "augmentation-loyer-regles-et-procedure",
@@ -2496,6 +3304,37 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
     date: "2026-04-15",
     updatedAt: '2026-04-15',
     readTime: "8 min",
+    content: `## Augmentation de loyer : règles et procédure en 2026
+
+L'augmentation de loyer est un droit du propriétaire, mais elle est encadrée par des règles strictes en France.
+
+## L'indice de référence des loyers (IRL)
+
+Depuis le 1er août 2008, l'augmentation de loyer est indexée sur l'IRL, publié chaque trimestre par l'INSEE. Pour le quatrième trimestre 2025, l'IRL s'établit à 145,19, soit une hausse annuelle de +1,2%.
+
+L'augmentation automatique du loyer n'est possible que si le bail contient une clause de révision. En l'absence de clause, le loyer reste figé pendant toute la durée du contrat.
+
+La formule : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
+
+Exemple : un loyer de 1 200€ avec un IRL passé de 140 à 145,19 donne un nouveau loyer de 1 244,08€.
+
+## Les limitations en zone tendue
+
+Depuis la loi ALUR, les communes en zone tendue (Paris, Lille, Lyon, Bordeaux, etc.) sont soumises à l'encadrement des loyers. Le loyer ne peut pas dépasser le loyer de référence majoré de 20%. En cas de relocation, le nouveau loyer ne peut pas dépasser le précédent de plus de 20%.
+
+## La procédure
+
+Vérifiez le bail, calculez le nouveau loyer en appliquant la formule, puis notifiez le locataire au moins 1 mois avant la date d'application. La notification doit mentionner l'ancien et le nouveau loyer, la date d'application, l'IRL utilisé et la formule de calcul.
+
+## Les erreurs à éviter
+
+Trop attendre pour réviser fait perdre le droit de réclamer les années d'augmentation non appliquées. Utiliser le mauvais trimestre rend la révision contestable. En zone tendue, dépasser le loyer de référence expose à des sanctions.
+
+## FAQ — Augmentation de loyer
+
+Si la clause de révision est dans le bail, le propriétaire est en droit d'appliquer la révision. Le locataire ne peut pas refuser une révision basée sur l'IRL tant que le calcul est correct.
+
+[CTA : Automatisez le calcul et l'application de vos révisions de loyer avec RentReady — essai gratuit 14 jours]`,
   },
   {
     slug: "charges-locatives-recuperables-liste",
@@ -2506,6 +3345,45 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
     date: "2026-04-15",
     updatedAt: '2026-04-15',
     readTime: "7 min",
+    content: `## Charges locatives récupérables : liste complète et réglementation 2026
+
+Les charges locatives récupérables constituent un poste important dans la gestion locative. Seules les charges listées dans l'article 7 du décret du 26 mai 2012 peuvent être récupérées.
+
+## La liste officielle des charges récupérables
+
+**Eau froide et chaude collective** : consommation d'eau des parties communes, eau chaude sanitaire collective. Exclues : eau chaude individuelle et eau sans comptage possible.
+
+**Chauffage collectif** : combustible, électricité de la pompe à chaleur, frais d'entretien du système. Non récupérables : frais de chauffage d'un logement équipé d'un système individuel.
+
+**Électricité des parties communes** : éclairage des halls, couloirs, escaliers, caves, parking, et frais d'abonnement du compteur collectif.
+
+**Entretien des parties communes et espaces verts** : nettoyage des sols et vitres, entretien des interphones, ménage des espaces communs, entretien des espaces verts, élimination des déchets ménagers.
+
+**Ascenseurs et monte-charge** : électricité de fonctionnement, contrats de maintenance, vérifications périodiques, frais de modernisation.
+
+**Gardiennage et sécurité** : salaire et charges sociales du gardien, prestations de sécurité, fournitures de bureau. Pour la vidéosurveillance sans gardien, seuls les frais d'abonnement et de maintenance sont récupérables.
+
+**Primes d'assurance** : assurance multirisque de l'immeuble, assurance responsabilité civile de la copropriété, assurance contre les risques naturels.
+
+**Frais de gestion et d'administration** : honoraires de syndic pour la gestion courante. Exclus : honoraires pour travaux ou contentieux importants.
+
+**Taxes et redevances** : redevance d'assainissement collectif, taxe d'enlèvement des ordures ménagères (TEOM).
+
+**Entretien des équipements techniques** : VMC, chaudières collectives, systèmes de production d'eau chaude collective, contrats de maintenance préventive.
+
+## Les charges NON récupérables
+
+Les travaux de maintenance préventive et curative, les provisions pour travaux de rénovation, les charges des équipements individuels, les intérêts d'emprunt pour travaux de réparation, les pénalités de retard ou frais d'instance.
+
+## Les modalités de récupération
+
+Chaque mois, le locataire paie une provision pour charges. Dans les 6 mois suivant la fin de l'exercice, le propriétaire doit établir un décompte annuel avec les factures justificatives. Le locataire dispose de 2 mois pour contester.
+
+## FAQ — Charges locatives récupérables
+
+Oui, le locataire peut demander à voir les factures. La durée de conservation est de 2 ans. Les mêmes charges récupérables s'appliquent en location vide et meublée. Le supplément de charges non payé constitue un impayé au même titre que le loyer.
+
+[CTA : Automatisez le calcul et la régularisation de vos charges locatives avec RentReady — essai gratuit 14 jours]`,
   },
 
   {
@@ -2516,75 +3394,45 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
     date: "2026-04-28",
     updatedAt: "2026-04-28",
     readTime: "7 min",
-    content: `## Location de parking : bail, regles et obligations en 2026
+    content: `## Charges locatives récupérables : liste complète et réglementation 2026
 
-La location d'une place de stationnement ou d'un garage est encadree par des regles specifiques en France. Que vous soyez proprietaire d'une box ou d'un parking, ou locataire recherchant une place, voici tout ce qu'il faut savoir sur le bail de parking.
+Les charges locatives récupérables constituent un poste important dans la gestion locative. Seules les charges listées dans l'article 7 du décret du 26 mai 2012 peuvent être récupérées.
 
-### Bail de parking : definition et cadre juridique
+## La liste officielle des charges récupérables
 
-Un bail de parking est un contrat de location portant sur un emplacement de stationnement, un garage ou une box. Il peut s'agir d'une dependance d'un bien residentiel (parking annexe a un appartement) ou d'un bien independant (parking standalone dans un parking souterrain ou en rez-de-chaussee).
+**Eau froide et chaude collective** : consommation d'eau des parties communes, eau chaude sanitaire collective. Exclues : eau chaude individuelle et eau sans comptage possible.
 
-Depuis la loi ALUR de 2014, la location de parking est consideree comme une annexe du bail d'habitation quand le meme bailleur loue egalement le logement principal. Dans ce cas, le prix du parking ne peut pas etre excessif au regard du prix de location principal.
+**Chauffage collectif** : combustible, électricité de la pompe à chaleur, frais d'entretien du système. Non récupérables : frais de chauffage d'un logement équipé d'un système individuel.
 
-Si le parking est loue independamment du logement (par un autre bailleur), il est soumis au statut des baux commerciaux ou professionnels, selon l'usage.
+**Électricité des parties communes** : éclairage des halls, couloirs, escaliers, caves, parking, et frais d'abonnement du compteur collectif.
 
-### Duree et resiliation du bail de parking
+**Entretien des parties communes et espaces verts** : nettoyage des sols et vitres, entretien des interphones, ménage des espaces communs, entretien des espaces verts, élimination des déchets ménagers.
 
-Le bail de parking peut etre conclu pour une duree determinee ou indetermin ee. En duree indetermin ee, chaque partie peut resilier a tout moment avec un preavis qui doit etre stipule dans le contrat (en general 1 a 3 mois). En duree determinee, le contrat est reconduit tacitement a l'echeance sauf conge donne par l'une des parties.
+**Ascenseurs et monte-charge** : électricité de fonctionnement, contrats de maintenance, vérifications périodiques, frais de modernisation.
 
-Depuis la loi Climat de 2021, le proprietaire d'un parking en zones tendues ne peut plus librement augmenter le loyer entre deux locataires. Un encadrement s'applique aux renouvellements de bail, sur le modele de l'encadrement des loyers d'habitation.
+**Gardiennage et sécurité** : salaire et charges sociales du gardien, prestations de sécurité, fournitures de bureau. Pour la vidéosurveillance sans gardien, seuls les frais d'abonnement et de maintenance sont récupérables.
 
-### Loyer et charges du parking
+**Primes d'assurance** : assurance multirisque de l'immeuble, assurance responsabilité civile de la copropriété, assurance contre les risques naturels.
 
-Le loyer d'un parking varie selon les villes et les quartiers. A Paris, une place de parking peut se louer entre 100 et 300 euros par mois selon l'emplacement (sous-sol, surface, garde ou non). En province, les tarifs sont generalement inferieurs : entre 50 et 150 euros par mois.
+**Frais de gestion et d'administration** : honoraires de syndic pour la gestion courante. Exclus : honoraires pour travaux ou contentieux importants.
 
-Le loyer peut inclure les charges (entretien, eclairage, gardiennage) ou etre separe. Les charges recuperables sur un parking correspondent aux frais d'entretien des parties communes, d'eclairage et de nettoyage.
+**Taxes et redevances** : redevance d'assainissement collectif, taxe d'enlèvement des ordures ménagères (TEOM).
 
-### Les obligations du bailleur
+**Entretien des équipements techniques** : VMC, chaudières collectives, systèmes de production d'eau chaude collective, contrats de maintenance préventive.
 
-Le bailleur doit livrer un parking en etat de service : emplacement accessible, sans danger, conforme a l'usage. Il doit assurer l'entretien courant de la structure (ravalement, couverture) et les equipements collectifs (porte automatique, eclairage).
+## Les charges NON récupérables
 
-Le bailleur doit egalement fournir une attestation d'assurance pour le parking si cela est prevu au contrat. En cas de sinistre (incendie, degat des eaux), la responsabilite de l'assurance depend des clauses du contrat.
+Les travaux de maintenance préventive et curative, les provisions pour travaux de rénovation, les charges des équipements individuels, les intérêts d'emprunt pour travaux de réparation, les pénalités de retard ou frais d'instance.
 
-### Les obligations du locataire de parking
+## Les modalités de récupération
 
-Le locataire doit payer son loyer a temps et user du parking conformement a l'usage prevu (stationnement de vehicules legers uniquement, sauf clause contraire). Il ne peut pas sous-louer le parking sans accord prealable du proprietaire.
+Chaque mois, le locataire paie une provision pour charges. Dans les 6 mois suivant la fin de l'exercice, le propriétaire doit établir un décompte annuel avec les factures justificatives. Le locataire dispose de 2 mois pour contester.
 
-Le locataire doit egalement respecter le reglement interieur de l'immeuble ou du parking (horaires d'acces, nuisances, restrictions de dimensions).
+## FAQ — Charges locatives récupérables
 
-### Louer son parking : autres formes de mise a disposition
+Oui, le locataire peut demander à voir les factures. La durée de conservation est de 2 ans. Les mêmes charges récupérables s'appliquent en location vide et meublée. Le supplément de charges non payé constitue un impayé au même titre que le loyer.
 
-Au-dela de la location classique, les proprietaires peuvent opter pour la location de courte duree (Airbnb parking), la mise a disposition en multipropriet e, ou la vente en demembrement. La location de courte duree est soumise a des regles specifiques dans certaines communes, notamment en zone tendue ou le changement d'usage est encadre.
-
-### Comment rediger un bail de parking ?
-
-Le contrat de location de parking doit mentionner l'identite complete du bailleur et du locataire, la description precise de l'emplacement (adresse, niveau, numero de place), le montant du loyer et les modalites de paiement, la duree du bail et les conditions de renouvellement, les charges comprises ou non comprises dans le loyer, les conditions de resiliation et le preavis applicable, et les equipements disponibles (porte automatique, eclairage, gardiennage).
-
-Le bail doit etre signe en deux exemplaires, un pour chaque partie. Une copie doit etre conserv ee pendant toute la duree de la location.
-
-### Fiscalite de la location de parking
-
-Les revenus locatifs d'un parking sont imposables dans la categorie des revenus fonciers. Si le parking est declare en SCI ou en LMNP, le regime fiscal peut differer. Un parking peut beneficier du regime micro-foncier (abattement de 30%) ou du regime reel si les charges sont importantes.
-
-[CTA : Gerez vos contrats de location et vos revenus locatifs automatiquement avec RentReady -- essai gratuit 14 jours]
-
-## FAQ -- Bail de parking
-
-**Un proprietaire peut-il vendre le parking en cours de bail ?**
-
-Oui, le proprietaire peut vendre le parking meme si un bail est en cours. Le nouveau proprietaire doit respecter le bail en cours. Le locataire beneficie d'un droit de preemption en cas de vente.
-
-**Le depot de garantie est-il obligatoire pour un parking ?**
-
-Non, le depot de garantie n'est pas obligatoire pour un bail de parking. Les parties peuvent toutefois convenir d'un depot de garantie pour securiser le paiement du loyer et la bonne restitution du parking.
-
-**Peut-on garer n'importe quel vehicule dans un parking loue ?**
-
-Cela depend des clauses du bail. En general, seuls les vehicules legers sont autorises. Un camion ou un vehicule utilitaire de taille importante peut etre interdit par le reglement interieur ou le contrat de bail.
-
-**Que faire si le parking devient inaccessible (travaux, sinistre) ?**
-
-Si le parking devient inaccessible en raison de travaux ou d'un sinistre, le locataire peut demander une reduction de loyer proportionnelle a la duree d'indisponibilite. En cas de sinistre important, le bail peut etre resilie sans indemnite.`,
+[CTA : Automatisez le calcul et la régularisation de vos charges locatives avec RentReady — essai gratuit 14 jours]`,
   },
 
   {
@@ -3280,6 +4128,509 @@ Oui, les frais de gestion (honoraires d'agence, frais de logiciel) sont deductib
 Oui, notamment si vous avez plusieurs biens ou si votre bien est en zone tendue. N'hesitez pas a demander un devis detaille et a negocier les honoraires.`,
   },
 
+,
+
+  {
+    slug: "bail-mobilite-2026",
+    title: "Bail de mobilité : modèle et conditions en 2026",
+    excerpt:
+      "Le bail de mobilité est destiné aux locataires en mutation professionnelle ou formation. Durées, conditions, modèle gratuit : tout savoir.",
+    category: "Juridique",
+    date: "2026-04-20",
+    updatedAt: '2026-04-20',
+    readTime: "7 min",
+    content: `## Bail de mobilité : modèle et conditions en 2026
+
+Le bail de mobilité, créé par la loi ELAN de 2018, offre une solution de location flexible pour les personnes en situation de mobilité professionnelle ou personnelle. Contrairement au bail classique, il présente des caractéristiques spécifiques qui le rendent unique dans le paysage locatif français.
+
+## Qu'est-ce que le bail de mobilité ?
+
+Le bail de mobilité est un contrat de location destiné à faciliter l'accès au logement pour les personnes en situation de mobilité. Il s'adresse en priorité aux locataires qui ne peuvent pas s'engager dans un bail de 3 ans classique en raison de leur situation professionnelle ou personnelle changeante.
+
+Ce type de bail ne peut être proposé que pour des logements meublés. Le propriétaire doit remettre au locataire un logement équipé de tous les éléments de mobilier nécessaires pour une habitation décente.
+
+## Les conditions d'éligibilité au bail de mobilité
+
+Le bail de mobilité n'est pas accessible à tous les locataires. La loi impose que le locataire soit dans l'une des situations suivantes :
+
+- Mutation professionnelle : changement d'emploi nécessitant un déménagement, nouvelle embauche, mutation interne
+- Formation professionnelle : stage, formation longue, apprentissage en centre
+- Mission temporaire dans le cadre d'un contrat de travail ou de mission
+- Cession ou acquisition d'une entreprise dans le cadre d'une procédure de reprise
+- Stade d'essai ou période d'essai dans une nouvelle entreprise
+
+Le locataire doit fournir au propriétaire un document justifiant sa situation de mobilité : promesse d'embauche, attestation employeur, convention de stage, etc.
+
+## La durée du bail de mobilité
+
+Le bail de mobilité est conclu pour une durée de 1 à 10 mois. Il ne peut pas être renouvelé par tacite reconduction comme un bail classique.
+
+À la fin du bail, le locataire doit libérer les lieux. Le propriétaire ne peut pas proposer un bail de mobilité renouvelé au même locataire pour le même logement, sauf si le locataire change de situation de mobilité.
+
+Si le locataire souhaite rester au-delà de la durée initiale du bail, il doit obtenir l'accord du propriétaire. Un nouveau bail peut être signé (bail classique ou bail de mobilité renouvelé).
+
+## Le loyer et les charges
+
+Le loyer du bail de mobilité est libre. Il n'y a pas d'encadrement des loyers comme pour les baux classiques en zone tendue. Le propriétaire fixe le montant qu'il souhaite.
+
+Les charges locatives sont traitées comme dans un bail meublé classique : provision pour charges avec régularisation annuelle.
+
+## Les obligations du propriétaire
+
+Le propriétaire doit livrer un logement meublé en bon état, fournir un état des lieux d'entrée et de sortie, remettre les diagnostics obligatoires, assurer la remise des clés et la gestion des incidents.
+
+Le propriétaire ne peut pas exiger un dépôt de garantie supérieur à 2 mois de loyer hors charges.
+
+## Les obligations du locataire
+
+Le locataire doit payer le loyer et les charges à temps, user du logement conformément à l'usage d'habitation, ne pas sous-louer sans accord préalable, et faire un état des lieux de sortie à la date convenue.
+
+Le locataire en bail de mobilité ne bénéficie pas du droit de préavis de 3 mois applicable en bail classique. Le préavis est de 1 mois.
+
+## La fin du bail de mobilité
+
+À la fin du bail, le locataire quitte le logement sans indemnité. Le propriétaire n'a pas l'obligation de relouer au même locataire.
+
+Le dépôt de garantie doit être restitué dans un délai de 1 mois après la sortie du locataire.
+
+## FAQ — Bail de mobilité
+
+**Le bail de mobilité est-il obligatoire pour un logement meublé en zone tendue ?**
+
+Non, le bail de mobilité est une option. Le propriétaire peut proposer un bail classique (3 ans) ou un bail de mobilité (1 à 10 mois) pour un logement meublé.
+
+**Peut-on tacite reconduire un bail de mobilité ?**
+
+Non, le bail de mobilité ne peut pas être renouvelé par tacite reconduction.
+
+**Le locataire peut-il partir avant la fin du bail ?**
+
+Le locataire peut rompre le bail de mobilité à tout moment avec un préavis de 1 mois.
+
+[CTA : Gérez vos contrats de mobilité et suivez vos locations avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "restitution-depot-garantie-delais",
+    title: "Restitution du dépôt de garantie : délais et procédure en 2026",
+    excerpt:
+      "Délai de restitution du dépôt de garantie, contestation, retenues pour dégradations : tout ce que propriétaires et locataires doivent savoir.",
+    category: "Juridique",
+    date: "2026-04-19",
+    updatedAt: '2026-04-19',
+    readTime: "6 min",
+    content: `## Restitution du dépôt de garantie : délais et procédure en 2026
+
+La restitution du dépôt de garantie est un moment critique dans la relation entre propriétaire et locataire. Les délais sont stricts et les sanctions sévères en cas de non-respect.
+
+## Le cadre légal
+
+Le dépôt de garantie est régi par la loi du 6 juillet 1989 pour les locations vides, et par le décret du 26 mai 2012 pour les locations meublées. Son montant est encadré : maximum 1 mois de loyer hors charges pour une location vide, maximum 2 mois pour une location meublée.
+
+Le dépôt de garantie a pour unique purpose de couvrir les éventuelles dégradations constatées lors de l'état des lieux de sortie.
+
+## Les délais de restitution
+
+Si l'état des lieux de sortie correspond à l'état des lieux d'entrée, le propriétaire doit restituer le dépôt de garantie dans un délai de 1 mois à compter de la remise des clés.
+
+Si des dégradations sont constatées, le propriétaire dispose d'un délai de 2 mois pour restituer le dépôt, déduction faite des sommes couvrant les travaux justifiés.
+
+## Les retenues autorisées
+
+Le propriétaire ne peut procéder à des retenues que pour couvrir les coûts de remise en état des dégradations constatées lors de l'état des lieux de sortie.
+
+Ce qui peut être retenu : dégradations imputables au locataire, nettoyage excessif, clés non rendues, factures impayées de charges.
+
+Ce qui ne peut pas être retenu : usure normale des revêtements, traces légères d'ameublement, vieillissement normal du mobilier.
+
+## La procédure de contestation
+
+Si le locataire estime que les retenues sont injustifiées, il peut d'abord adresser un recours amiable au propriétaire. En cas d'échec, il peut saisir la commission départementale de conciliation (CDC), puis le tribunal judiciaire.
+
+## FAQ — Restitution du dépôt de garantie
+
+**Quand le propriétaire doit-il rendre le dépôt de garantie ?**
+
+En cas d'état des lieux conforme : dans le mois suivant la remise des clés. En cas de dégradations : dans les 2 mois.
+
+**Le propriétaire peut-il garder le dépôt de garantie pour travaux de rénovation ?**
+
+Non, le dépôt de garantie ne peut couvrir que les dégradations imputables au locataire.
+
+[CTA : Automatisez la gestion des états des lieux et le calcul des retenues avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "generateur-quittance-loyer",
+    title: "Générateur de quittance de loyer gratuit : créez vos reçus en ligne",
+    excerpt:
+      "Créez vos quittances de loyer gratuitement en ligne. Téléchargement PDF, mentions obligatoires, modèles personnalisables.",
+    category: "Gestion",
+    date: "2026-04-18",
+    updatedAt: '2026-04-18',
+    readTime: "4 min",
+    content: `## Générateur de quittance de loyer gratuit : créez vos reçus en ligne
+
+La quittance de loyer est un document essentiel qui prouve le paiement du loyer par le locataire. Un générateur de quittance de loyer en ligne facilite considérablement cette tâche.
+
+## Qu'est-ce qu'un générateur de quittance de loyer en ligne ?
+
+Un générateur de quittance de loyer est un outil digital qui permet de créer rapidement une quittance de loyer conforme aux exigences légales françaises. L'utilisateur saisit les informations du bail et du paiement, et l'outil génère un document PDF prêt à imprimer ou à envoyer.
+
+L'avantage principal est le gain de temps : plus besoin de créer le document manuellement, l'outil génère automatiquement une quittance aux normes avec toutes les mentions obligatoires.
+
+## Les mentions obligatoires d'une quittance de loyer
+
+Pour être valable, une quittance de loyer doit inclure : le nom et l'adresse du propriétaire, le nom et l'adresse du locataire, l'adresse du logement loué, le montant du loyer et ses modalités de détail, la période de location concernée, la date du paiement, et la signature du propriétaire.
+
+## Les avantages de la version numérique
+
+La quittance de loyer numérique présente plusieurs avantages : archivage facilité, recherche simplifiée, envoi rapide par email, et historique complet des paiements.
+
+## FAQ — Générateur de quittance de loyer
+
+**Le générateur de quittance est-il gratuit ?**
+
+Oui, le générateur de quittance de RentReady est gratuit pour les propriétaires.
+
+**La quittance numérique a-t-elle la même valeur légale que la quittance papier ?**
+
+Oui, depuis 2015, les factures et quittances sous forme électronique ont la même valeur juridique.
+
+[CTA : Créez vos quittances de loyer gratuitement en 30 secondes avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "simulateur-irl-2026",
+    title: "Simulateur IRL 2026 : calculez votre révision de loyer en ligne",
+    excerpt:
+      "Calculez instantanément le nouveau montant de votre loyer après révision IRL. Simulateur gratuit basé sur les derniers indices INSEE 2026.",
+    category: "Calculs",
+    date: "2026-04-17",
+    updatedAt: '2026-04-17',
+    readTime: "3 min",
+    content: `## Simulateur IRL 2026 : calculez votre révision de loyer en ligne
+
+L'Indice de Référence des Loyers (IRL) est la référence légale pour la révision des loyers en France. Chaque trimestre, l'INSEE publie le nouvel indice.
+
+## Les derniers indices IRL pour 2025-2026
+
+- T4 2025 : 145,19 (publication janvier 2026) — Variation annuelle : +1,2%
+- T3 2025 : 145,04
+- T2 2025 : 144,78
+- T1 2025 : 144,29
+- T4 2024 : 143,47
+
+## Formule de calcul
+
+Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
+
+Exemple : un appartement avec un loyer de 850€ et un IRL passé de 143,47 à 145,19 donne un nouveau loyer de 860,27€.
+
+## Quand peut-on réviser le loyer ?
+
+La révision ne peut être appliquée qu'à la date d'anniversaire du bail et uniquement si le bail contient une clause de révision.
+
+## FAQ — Simulateur IRL
+
+**Le simulateur IRL est-il gratuit ?**
+
+Oui, le simulateur IRL de RentReady est entièrement gratuit.
+
+**Puis-je utiliser le simulateur pour un bail en cours depuis plusieurs années ?**
+
+Oui, le simulateur fonctionne pour tout type de bail.
+
+[CTA : Automatisez le calcul et la notification de vos révisions de loyer avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "procedure-recouvrement-loyer-impaye",
+    title: "Procédure de recouvrement d'un loyer impayé : étapes et délais",
+    excerpt:
+      "Loyer impayé : quelle procédure suivre ? Lettre de relance, mise en demeure, assignation au tribunal, exécution du jugement.",
+    category: "Gestion",
+    date: "2026-04-16",
+    updatedAt: '2026-04-16',
+    readTime: "9 min",
+    content: `## Procédure de recouvrement d'un loyer impayé : étapes et délais
+
+Le loyer impayé est une situation stressante pour le propriétaire. Il est important de respecter la procédure légale pour préserver ses droits.
+
+## Les premières démarches amiables (jour 1 à 15)
+
+Dès le premier jour de retard, envoyez une lettre de relance simple. Si le locataire ne réagit pas dans les 8 jours, adressez une mise en demeure en recommandé avec accusé de réception.
+
+## L'engagement de la procédure judiciaire (après 2 mois d'impayé)
+
+Au-delà de 2 mois d'impayé, vous pouvez engager une procédure judiciaire. Deux options : la procédure de référé (plus rapide, quelques semaines) ou l'assignation au tribunal (plus long, 3 à 6 mois, mais plus complet).
+
+## La phase d'exécution du jugement
+
+Une fois le jugement obtenu, l'huissier de justice signifie un commandement de quitter les lieux. Le locataire dispose de 2 mois pour partir volontairement. L'intervention de la force publique peut prendre plusieurs mois supplémentaires.
+
+## FAQ — Recouvrement loyer impayé
+
+**Combien de temps dure la procédure de recouvrement ?**
+
+La durée totale varie de 4 à 8 mois selon la procédure choisie et le tribunal.
+
+**Que faire si le locataire prétend ne pas pouvoir payer ?**
+
+Vérifiez la réalité de la situation, proposez éventuellement un échéancier, et orientez le locataire vers les aides sociales disponibles (FSL).
+
+[CTA : Anticipez les impayés et gérez automatiquement vos relances avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "loyer-impaye-recours",
+    title: "Loyer impayé : tous vos recours juridiques en tant que propriétaire",
+    excerpt:
+      "Huissier, tribunal, saisie sur salaire, FICP : tous les recours pour récupérer vos loyers impayés.",
+    category: "Juridique",
+    date: "2026-04-15",
+    updatedAt: '2026-04-15',
+    readTime: "7 min",
+    content: `## Loyer impayé : tous vos recours juridiques en tant que propriétaire
+
+Face à un loyer impayé, le propriétaire dispose de plusieurs recours juridiques. Plus la procédure démarre tôt, plus les chances de récupération sont élevées.
+
+## Le recours à l'huissier de justice
+
+L'huissier de justice est le professionnel habilité à mettre en demeure le locataire et à exécuter les décisions de justice. Son intervention est indispensable à plusieurs étapes de la procédure.
+
+## Le tribunal : assignation vs référé
+
+L'assignation est la procédure standard pour résoudre un litige locatif. Le référé est une procédure d'urgence qui permet d'obtenir une décision rapide sur les points qui ne souffrent pas de contestation.
+
+## La saisie sur salaire
+
+Si le locataire est salarié, vous pouvez solliciter une saisie sur salaire. Le tribunal fixe le pourcentage du salaire pouvant être saisi (en général 1/20e à 1/10e).
+
+## L'inscription au FICP
+
+En cas de jugement définitif condamnant le locataire pour impayé de loyer, vous pouvez demander l'inscription de ce dernier au Fichier des Incidents de Remboursement des Crédits aux Particuliers (FICP).
+
+## FAQ — Recours juridiques loyer impayé
+
+**Combien coûte une procédure judiciaire pour impayé ?**
+
+Les frais d'huissier et de tribunal sont à la charge du propriétaire, mais peuvent être ajoutés à la dette du locataire si celui-ci est condamné.
+
+[CTA : Protégez vos revenus locatifs avec la GLI RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "rediger-bail-location",
+    title: "Comment rédiger un bail de location conforme : modèle et conseils",
+    excerpt:
+      "Rédaction du bail de location : mentions obligatoires, clauses essentielles, pièges à éviter.",
+    category: "Juridique",
+    date: "2026-04-14",
+    updatedAt: '2026-04-14',
+    readTime: "10 min",
+    content: `## Comment rédiger un bail de location conforme : modèle et conseils
+
+Le bail de location est le document fondateur de la relation entre le propriétaire et le locataire. Sa rédaction doit être particulièrement soignée.
+
+## Les mentions obligatoires
+
+Le bail doit contenir : l'identité complète du propriétaire et du locataire, l'adresse complète du logement, la surface habitable, les conditions financières (loyer, charges, dépôt de garantie), la durée et les conditions de tacite reconduction, la clause de révision si applicable.
+
+## Les clauses essentielles
+
+La clause de résidence (logement utilisé comme résidence principale), la clause de révision (si le propriétaire souhaite pouvoir réviser le loyer), la clause résolutoire (en cas de manquement grave), et la clause de garantie.
+
+## Les pièges à éviter
+
+Mentionner des clauses illégales (clause de garantie disproportionnée, clause interdisant les justificatifs de charges), ne pas intégrer les annexes obligatoires (DDT, état des lieux), et oublier les mises à jour réglementaires.
+
+## FAQ — Rédaction du bail
+
+**Le bail peut-il être modifié après signature ?**
+
+Oui, les deux parties peuvent convenir de modifier le bail par avenant signé.
+
+**Faut-il passer par un notaire pour rédiger un bail ?**
+
+Non, le bail de location n'a pas besoin d'être notarié.
+
+[CTA : Utilisez nos modèles de bail gratuits et conformes avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "gestion-locative-lyon",
+    title: "Gestion locative à Lyon : guide complet pour les propriétaires",
+    excerpt:
+      "Lyon est une ville tendue pour la location. Encadrement des loyers, spécificités lyonnaises, gestion locative : tout ce qu'un propriétaire doit savoir.",
+    category: "Gestion",
+    date: "2026-04-13",
+    updatedAt: '2026-04-13',
+    readTime: "8 min",
+    content: `## Gestion locative à Lyon : guide complet pour les propriétaires
+
+Lyon est la deuxième agglomération de France et un marché locatif particulièrement dynamique. Pour les propriétaires lyonnais, la gestion locative implique de connaître des règles spécifiques.
+
+## L'encadrement des loyers à Lyon
+
+Lyon est une ville soumise à l'encadrement des loyers depuis 2021. Chaque arrondissement dispose d'un loyer de référence fixé par la Préfecture du Rhône. Le loyer de référence majoré ne peut pas dépasser le loyer de référence + 20%.
+
+## Les spécificités de la gestion locative à Lyon
+
+Lyon accueille chaque année plus de 150 000 étudiants. Le marché locatif étudiant est très actif, avec des demandes concentrées sur les arrondissements proches des universités et des campus (Lyon 7, Lyon 3, Villeurbanne).
+
+## FAQ — Gestion locative à Lyon
+
+**L'encadrement des loyers s'applique-t-il à ma location ?**
+
+Oui, si votre bien est dans un arrondissement soumis à l'encadrement. Consultez le site de la Préfecture du Rhône.
+
+[CTA : Optimisez la gestion de vos propriétés lyonnaises avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "gestion-locative-paris",
+    title: "Gestion locative à Paris : règles spécifiques et conseils pour propriétaires",
+    excerpt:
+      "Paris est la ville la plus encadrée de France pour la location. Encadrement des loyers, règles de la Ville, obligations : guide complet.",
+    category: "Gestion",
+    date: "2026-04-12",
+    updatedAt: '2026-04-12',
+    readTime: "9 min",
+    content: `## Gestion locative à Paris : règles spécifiques et conseils pour propriétaires
+
+Paris est le marché locatif le plus réglementé de France. Les propriétaires parisiens doivent maîtriser un cadre légal complexe fait d'encadrement des loyers, de normes strictes et d'obligations spécifiques.
+
+## L'encadrement des loyers à Paris
+
+Paris est la première ville de France à avoir été soumise à l'encadrement des loyers. Chaque arrondissement dispose d'un loyer de référence et d'un loyer de référence majoré (+20%).
+
+Les logements avec une étiquette DPE en F ou G (très mauvaise performance énergétique) ne peuvent plus être mis en location depuis 2023.
+
+## FAQ — Gestion locative à Paris
+
+**Comment vérifier si mon loyer respecte l'encadrement ?**
+
+Consultez le simulateur de loyer de la Préfecture de Paris.
+
+**Mon appartement a un DPE en F, puis-je quand même le louer ?**
+
+Non, les logements F et G sont interdits à la location.
+
+[CTA : Gérez vos biens parisiens en toute conformité avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "bail-commercial-immobilier",
+    title: "Bail commercial : réglementation, durée et clauses essentielles en 2026",
+    excerpt:
+      "Le bail commercial régit la location de locaux professionnels. Réglementation, durée minimale, loyer, réévaluation : tout ce qu'il faut savoir.",
+    category: "Juridique",
+    date: "2026-04-11",
+    updatedAt: '2026-04-11',
+    readTime: "8 min",
+    content: `## Bail commercial : réglementation, durée et clauses essentielles en 2026
+
+Le bail commercial est le contrat qui lie un propriétaire de locaux professionnels à son locataire commerçant, artisan ou industriel. Il obéit à des règles spécifiques définies par le Code de commerce.
+
+## La durée du bail commercial
+
+Le Code de commerce impose une durée minimale de 9 ans pour le bail commercial. Le locataire peut donner son congé à l'expiration de chaque période triennale (tous les 3 ans) avec un préavis de 6 mois.
+
+## Le loyer du bail commercial
+
+À la différence du bail d'habitation, le bail commercial offre une grande liberté concernant le montant du loyer. Pendant la durée du bail, le loyer peut être réévalué selon des modalités prévues dans le bail (clause d'échelle, révision périodique).
+
+## Les droits du locataire commercial
+
+À l'expiration du bail, le locataire a un droit au renouvellement. Le locataire commercial qui exploite son fonds dans les lieux depuis plus de 3 ans bénéficie de la propriété commerciale.
+
+## FAQ — Bail commercial
+
+**Le bail commercial peut-il être verbal ?**
+
+Non, le bail commercial doit être écrit.
+
+**Le propriétaire peut-il augmenter librement le loyer en cours de bail ?**
+
+Non, l'augmentation ne peut se faire que selon les modalités prévues dans le bail.
+
+[CTA : Gérez vos baux commerciaux efficacement avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "etapes-eviction-locataire-impaye",
+    title: "Étapes d'éviction d'un locataire pour loyer impayé : procédure complète",
+    excerpt:
+      "L'éviction d'un locataire impayé suit une procédure stricte. Étapes, délais, trêve hivernale, exécution : guide pour propriétaire français.",
+    category: "Juridique",
+    date: "2026-04-10",
+    updatedAt: '2026-04-10',
+    readTime: "9 min",
+    content: `## Étapes d'éviction d'un locataire pour loyer impayé : procédure complète
+
+L'éviction d'un locataire pour loyer impayé est une procédure judiciaire longue et complexe qui nécessite de respecter des étapes précises et des délais stricts.
+
+## Comprendre la procédure
+
+Les principales étapes sont : constater l'impayé et tenter un règlement amiable, engager une procédure judiciaire (référé ou assignation), obtenir un jugement condamnant le locataire, obtenir un commandement de quitter les lieux, requérir la force publique pour l'expulsion.
+
+L'ensemble du processus peut prendre entre 6 mois et 2 ans.
+
+## L'engagement de la procédure judiciaire
+
+Au-delà de 2 mois d'impayé, le propriétaire peut engager une procédure judiciaire. Le choix entre référé (plus rapide) et assignation (plus complet) dépend de la situation.
+
+## FAQ — Éviction pour loyer impayé
+
+**Combien de temps faut-il entre le premier impayé et l'expulsion effective ?**
+
+En moyenne, il faut compter entre 8 mois et 2 ans.
+
+**La trêve hivernale peut-elle bloquer l'expulsion ?**
+
+Oui, en pratique la trêve hivernale peut ajouter 1 à 4 mois à la procédure.
+
+[CTA : Protégez votre bien et anticipez les procédures avec RentReady — essai gratuit 14 jours]`
+  },
+
+  {
+    slug: "modele-bail-location-gratuit",
+    title: "Modèle de bail de location gratuit : téléchargement et guide de conformité",
+    excerpt:
+      "Téléchargez notre modèle de bail de location gratuit et conforme. Toutes les mentions obligatoires, clauses recommandées, guide de remplissage.",
+    category: "Juridique",
+    date: "2026-04-09",
+    updatedAt: '2026-04-09',
+    readTime: "6 min",
+    content: `## Modèle de bail de location gratuit : téléchargement et guide de conformité
+
+Un modèle de bail de location bien construit est essentiel pour sécuriser la relation locative. Voici comment choisir et utiliser un modèle de bail gratuit.
+
+## Pourquoi utiliser un modèle de bail ?
+
+Un modèle de bail conforme intègre automatiquement toutes les mentions obligatoires, vous fait gagner du temps, et évite les erreurs coûteuses liées aux clauses abusives.
+
+## Les mentions obligatoires du bail
+
+Le bail doit contenir : l'identification du bien et des parties, les conditions financières (loyer, charges, dépôt de garantie), la durée et les conditions, la clause de révision si applicable.
+
+## Les clauses recommandées
+
+La clause résolutoire, la clause de révision, la clause d'assurance, et la clause de résidence.
+
+## FAQ — Modèle de bail de location
+
+**Le modèle de bail est-il vraiment gratuit ?**
+
+Oui, le modèle de bail de RentReady est entièrement gratuit.
+
+**Faut-il un notaire pour signer un bail ?**
+
+Non, le bail de location n'a pas besoin d'être notarié.
+
+[CTA : Téléchargez notre modèle de bail gratuit et conforme avec RentReady — essai gratuit 14 jours]`
+  }
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {

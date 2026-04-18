@@ -43,10 +43,9 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
       }
     }
 
-    const leaseData = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const leaseData: any = {
       userId,
-      propertyId: data.propertyId || null,
-      tenantId: data.tenantId || null,
       rentAmount: data.rentAmount,
       chargesAmount: data.chargesAmount,
       depositAmount: data.depositAmount,
@@ -58,6 +57,13 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
       irlReferenceQuarter: data.irlReferenceQuarter || null,
       irlReferenceValue: data.irlReferenceValue ?? null,
     };
+
+    if (data.propertyId) {
+      leaseData.propertyId = data.propertyId;
+    }
+    if (data.tenantId) {
+      leaseData.tenantId = data.tenantId;
+    }
 
     const lease = await prisma.lease.create({
       data: leaseData,

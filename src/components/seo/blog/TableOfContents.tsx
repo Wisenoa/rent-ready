@@ -36,14 +36,14 @@ export function TableOfContents() {
   useEffect(() => {
     // Add IDs to headings in the article
     const article = document.querySelector("article .prose");
-    if (article) {
-      const headings = Array.from(article.querySelectorAll("h2, h3"));
-      headings.forEach((h) => {
-        if (!h.id) {
-          h.id = slugify(h.textContent || "");
-        }
-      });
-    }
+    const headings = article
+      ? Array.from(article.querySelectorAll("h2, h3"))
+      : [];
+    headings.forEach((h) => {
+      if (!h.id) {
+        h.id = slugify(h.textContent || "");
+      }
+    });
 
     const tocItems = extractTocFromArticle();
     setItems(tocItems);

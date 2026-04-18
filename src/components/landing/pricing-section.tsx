@@ -41,6 +41,10 @@ export function PricingSection() {
             transition={spring.gentle}
             whileHover={{ y: -4 }}
           >
+            {/* "Most popular" ribbon */}
+            <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-full bg-blue-600 px-4 py-1 text-[11px] font-semibold text-white shadow-sm">
+              Le plus complet
+            </div>
             {/* Decorative glow */}
             <div
               aria-hidden
@@ -107,6 +111,63 @@ export function PricingSection() {
               <p className="mt-3 text-center text-[12px] text-stone-400">
                 Sans carte bancaire · Annulable en 1 clic
               </p>
+            </div>
+
+            {/* Mini cost comparison table */}
+            <div className="mb-8 rounded-2xl border border-stone-100 bg-stone-50/80 p-5">
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-wide text-stone-400">
+                Comparaison annuelle — 1 bien à 1 000 €/mois
+              </p>
+              <div className="space-y-2.5">
+                {[
+                  { label: "Agence (~7 %)", value: "~840 € / an", accent: false },
+                  { label: "Excel", value: "0 € (mais ~6 h/mois)", accent: false },
+                  { label: "RentReady", value: "180 € / an", accent: true },
+                ].map((row) => (
+                  <div
+                    key={row.label}
+                    className={`flex items-center justify-between rounded-xl px-4 py-2.5 text-[13px] ${
+                      row.accent ? "bg-blue-50/70" : "bg-white/60"
+                    }`}
+                  >
+                    <span className={row.accent ? "font-semibold text-blue-700" : "text-stone-600"}>
+                      {row.label}
+                    </span>
+                    <span className={row.accent ? "font-semibold text-blue-700" : "text-stone-500"}>
+                      {row.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Testimonial pull-quotes */}
+            <div className="mb-8 space-y-4">
+              {[
+                {
+                  text: "J'ai récupéré mes week-ends. La quittance part toute seule.",
+                  name: "Marie-Claire D., 3 appartements LMNP",
+                },
+                {
+                  text: "Pour 15 € par mois, c'est une assurance tranquillité.",
+                  name: "Thomas R., 2 studios meublés",
+                },
+              ].map((t) => (
+                <div
+                  key={t.name}
+                  className="flex gap-3 rounded-2xl border border-stone-100 bg-white/60 p-4"
+                >
+                  <div className="mt-0.5 size-5 shrink-0 text-blue-500">
+                    <svg viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M6.5 1.5h4v4h-4v-4zm-5 9h4v4H1.5v-4zm7-1a3.5 3.5 0 014 4 3.5 3.5 0 01-4 4H8V6.5z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-[13px] italic text-stone-600">"{t.text}"</p>
+                    <p className="mt-1 text-[11px] font-medium text-stone-400">{t.name}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>

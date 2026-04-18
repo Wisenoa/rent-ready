@@ -57,7 +57,7 @@ export function LeasesEmptyState({ onStartWizard }: LeasesEmptyStateProps) {
           </svg>
           Configurer avec guide
         </Button>
-        <LeaseForm properties={[]} tenants={[]} />
+        <LeaseForm properties={[]} tenants={[]}><span /></LeaseForm>
       </div>
 
       <p className="text-xs text-muted-foreground mt-6">

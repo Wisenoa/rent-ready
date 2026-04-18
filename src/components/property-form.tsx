@@ -50,14 +50,14 @@ type PropertyData = {
   name: string;
   type: string;
   addressLine1: string;
-  addressLine2: string | null;
+  addressLine2?: string | null;
   city: string;
   postalCode: string;
-  surface: number | null;
-  rooms: number | null;
-  description: string | null;
-  cadastralRef: string | null;
-  taxRef: string | null;
+  surface?: number | null;
+  rooms?: number | null;
+  description?: string | null;
+  cadastralRef?: string | null;
+  taxRef?: string | null;
 };
 
 interface PropertyFormProps {

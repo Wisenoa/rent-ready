@@ -88,7 +88,7 @@ export function FaqSection() {
           viewport={{ once: true, margin: "-40px" }}
           transition={spring.gentle}
         >
-          <Accordion>
+          <Accordion defaultValue={[0]}>
             {faqs.map((faq, i) => (
               <AccordionItem key={i} value={i}>
                 <AccordionTrigger>{faq.question}</AccordionTrigger>
@@ -97,6 +97,32 @@ export function FaqSection() {
             ))}
           </Accordion>
         </motion.div>
+
+        {/* Still have questions? CTA */}
+        <div className="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-stone-200/40 bg-white/60 px-6 py-6 text-center sm:flex-row sm:justify-between sm:text-left backdrop-blur-sm">
+          <div>
+            <p className="text-[14px] font-semibold text-stone-800">
+              Vous avez une question spécifique ?
+            </p>
+            <p className="mt-0.5 text-[13px] text-stone-500">
+              Notre équipe répond sous 24h ouvrées.
+            </p>
+          </div>
+          <div className="flex shrink-0 gap-3">
+            <a
+              href="mailto:support@rentready.fr"
+              className="inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-[13px] font-semibold text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
+            >
+              Contacter le support
+            </a>
+            <a
+              href="/demo"
+              className="inline-flex items-center gap-2 rounded-xl bg-stone-900 px-4 py-2.5 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-stone-800"
+            >
+              Voir la démo
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

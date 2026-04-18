@@ -57,14 +57,12 @@ export function TenantsEmptyState({ onStartWizard }: TenantsEmptyStateProps) {
           </svg>
           Configurer avec guide
         </Button>
-        <TenantForm
-          trigger={
-            <Button variant="outline">
-              <Plus className="size-4 mr-2" />
-              Ajouter un locataire
-            </Button>
-          }
-        />
+        <TenantForm>
+          <Button variant="outline">
+            <Plus className="size-4 mr-2" />
+            Ajouter un locataire
+          </Button>
+        </TenantForm>
       </div>
 
       <p className="text-xs text-muted-foreground mt-6">

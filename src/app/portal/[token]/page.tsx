@@ -27,6 +27,10 @@ import { TicketList } from "./ticket-list";
 
 export const metadata: Metadata = {
   title: "Espace Locataire — RentReady",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 function formatCurrency(amount: number): string {
