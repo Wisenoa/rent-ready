@@ -215,6 +215,26 @@ Si le locataire reste défaillant malgré la mise en demeure, deux voies sont po
 - Utilisez un **modèle de bail conforme** et vérifiez les clauses relatives aux sanctions en cas d'impayé.
 - Envoyez vos lettres de relance **dès le premier jour de retard** pour accélérer la procédure.
 
+### Le role de l'huissier de justice dans le recouvrement
+
+L'huissier de justice joue un role central dans la procedure de recouvrement de loyer impaye. Il peut etre saisi des la mise en demeure restee sans reponse, et dispose de pouvoirs etendus pour faire executer la decision de justice.
+
+L'huissier peut proceder a la **signification de la mise en demeure** (forme officielle), entamer la procedure de **saisie sur salaire** si le locataire est salarie, mettre en oeuvre une **saisie sur compte bancaire**, ou organiser l'**expulsion du locataire** si le tribunal a prononce la resiliation du bail.
+
+Les frais d'huissier sont a la charge du bailleur, mais ils peuvent etre ajoutes a la dette du locataire. En cas de procedure gagnee, le locataire condamne doit supporter les frais de procedure.
+
+### Les interets de retard en cas d'impaye
+
+En cas de loyer impaye, le bailleur peut reclamer des interets de retard a compter du jour suivant l'echeance du paiement. Le taux d'interet legal s'applique, majore le cas echeant par stipulation dans le bail.
+
+Ces interets s'accumulent jour apres jour et peuvent representer une somme significative si l'impaye traine pendant plusieurs mois. C'est pourquoi une action rapide est essentielle des le premier jour de retard.
+
+### Le FICP : une consequence meconnue pour le locataire
+
+Un locataire faisant l'objet d'une procedure judiciaire pour impaye de loyer risque d'etre inscrit au FICP (Fichier des Incidents de Remboursement des Credits aux Particuliers), gere par la Banque de France. Cette inscription complique fortement l'acces au credit pour le locataire concerne pendant une duree de 5 a 7 ans.
+
+Cette consequence justifie d'elle seule l'importance d'agir rapidement et de tenter un reglement amiable avant d'engager une procedure judiciaire, qui laissera une trace formelle dans la vie du locataire.
+
 ## Questions fréquentes
 
 **Quand envoyer une lettre de relance pour loyer impayé ?**
