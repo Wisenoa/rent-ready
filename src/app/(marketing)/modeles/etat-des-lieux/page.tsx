@@ -11,8 +11,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle État des Lieux — Gratuit | RentReady",
-  description:
-    "Modèle état des lieux gratuit et conforme. État des lieux entrée sortie,checklist complète,下载地址 PDF.适用于所有类型 de location.",
+  description: "Téléchargez notre modèle détat des lieux gratuit et conforme. Document officiel pour inventorier le logement au début et fin de bail.",
   keywords: [
     "modèle état des lieux",
     "état des lieux entrée sortie",
@@ -43,6 +42,8 @@ export const metadata: Metadata = {
       "Modèle d'état des lieux gratuit et conforme. État des lieux entrée et sortie.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/etat-des-lieux",
   },

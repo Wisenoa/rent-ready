@@ -30,6 +30,8 @@ export const metadata: Metadata = {
     siteName: "RentReady",
     images: [{ url: "https://www.rentready.fr/og-image.png", width: 1200, height: 630, alt: "Bail Meublé" }],
   },
+  robots: { index: true, follow: true },
+  
   alternates: { canonical: "https://www.rentready.fr/modeles/bail-meuble" },
 };
 

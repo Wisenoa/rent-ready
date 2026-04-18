@@ -7,8 +7,7 @@ import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
 export const metadata: Metadata = {
   title: "Outils Immobiliers Gratuits — Calculateurs & Générateurs | RentReady",
-  description:
-    "Accédez à nos calculateurs immobiliers gratuits : révision IRL, rendement locatif, caution de loyer, générateur de quittance. Outils SEO-friendly pour propriétaires.",
+  description: "Accédez à nos calculateurs immobiliers gratuits: révision IRL, rendement, caution, charges locatives. Outils professionnels pour propriétaires bailleurs.",
   keywords: [
     "calculateur loyer",
     "calculateur IRL",
@@ -25,6 +24,8 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/outils",
     siteName: "RentReady",
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/outils",
   },
@@ -41,11 +42,20 @@ const TOOLS = [
     badge: "Populaire",
   },
   {
-    title: "Calculateur Rendement Locatif",
+    title: "Calculateur de Loyer",
     description:
-      "Estimez le rendement NET et BRUT de votre investissement. Benchmarks Paris vs Province inclus.",
-    href: "/outils/calculateur-rendement",
+      "Estimez le loyer de votre bien selon la surface et le prix au m². Zones tendues et non tendues.",
+    href: "/outils/calculateur-loyer",
     icon: "🏠",
+    category: "Calculateurs",
+    badge: null,
+  },
+  {
+    title: "Calculateur de Dépôt de Garantie",
+    description:
+      "Calculez le dépôt de garantie maximum selon la zone géographique et le type de bail.",
+    href: "/outils/calculateur-depot-garantie",
+    icon: "🔐",
     category: "Calculateurs",
     badge: null,
   },
@@ -54,8 +64,62 @@ const TOOLS = [
     description:
       "Calculez le dépôt de garantie maximum selon la zone tendue ou non tendue.",
     href: "/outils/calculateur-caution",
-    icon: "🔐",
+    icon: "🛡️",
     category: "Calculateurs",
+    badge: null,
+  },
+  {
+    title: "Calculateur Charges Locatives",
+    description:
+      "Estimez le coût réel de vos charges de propriété et la provision mensuelle à demander au locataire.",
+    href: "/outils/calculateur-charges-locatives",
+    icon: "📊",
+    category: "Calculateurs",
+    badge: null,
+  },
+  {
+    title: "Calculateur Rendement Locatif",
+    description:
+      "Estimez le rendement NET et BRUT de votre investissement. Benchmarks Paris vs Province inclus.",
+    href: "/outils/calculateur-rendement",
+    icon: "💰",
+    category: "Calculateurs",
+    badge: null,
+  },
+  {
+    title: "Calculateur IRL",
+    description:
+      "Consultez l'historique des IRL et la variation annuelle. Outil de reference pour propriétaires et locataires.",
+    href: "/outils/calculateur-irl",
+    icon: "📉",
+    category: "Calculateurs",
+    badge: null,
+  },
+  {
+    title: "Checklist État des Lieux",
+    description:
+      "Checklist complète pour realiser un état des lieux entrada ou sortie conforme. Téléchargement gratuit.",
+    href: "/outils/checklist-etat-lieux",
+    icon: "📋",
+    category: "Checklists",
+    badge: null,
+  },
+  {
+    title: "Calculateur de Préavis Locataire",
+    description:
+      "Calculez la durée de préavis applicable selon votre situation et votre zone géographique.",
+    href: "/outils/calculateur-preavis",
+    icon: "⏱️",
+    category: "Calculateurs",
+    badge: null,
+  },
+  {
+    title: "Lettre de Relance Loyer",
+    description:
+      "Générez une lettre de relance amiable ou une mise en demeure conforme. Prête à copier ou envoyer.",
+    href: "/outils/lettre-relance-loyer",
+    icon: "✉️",
+    category: "Générateurs",
     badge: null,
   },
   {

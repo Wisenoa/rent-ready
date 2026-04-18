@@ -16,8 +16,7 @@ const FinalCta = dynamic(
 
 export const metadata: Metadata = {
 title: "Gestion des locations — Suivi de vos biens locatifs | RentReady",
-description:
-"Gérez tous vos biens locatifs : suivi des loyers, état des lieux, documents, contrats. Logiciel complet pour propriétaires bailleurs. Essai gratuit.",
+description: "Trouvez votre prochaine location avec RentReady. Outils et conseils pour propriétaires et locataires: gestion, bail, quittances et信息房地产.",
 keywords: [
 "gestion locations",
 "suivi biens immobiliers",
@@ -50,6 +49,8 @@ alt: "RentReady — Gestion des locations",
       "Suivez vos biens, loyers, documents et contrats en un seul logiciel pour propriétaires.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/locations",
   },

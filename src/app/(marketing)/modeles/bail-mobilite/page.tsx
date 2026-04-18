@@ -10,8 +10,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Bail Mobilité — Gratuit | RentReady",
-  description:
-    "Modèle bail mobilité gratuit. Location meublée 1-10 mois pour mobilité professionnelle. Téléchargement PDF. Conforme loi Elan 2018.",
+  description: "Téléchargez notre modèle de bail mobilité gratuit. Location meublée de 1 à 10 mois sans possibilité de prolongation ni révision loyer.",
   keywords: [
     "bail mobilité",
     "contrat location meublée",
@@ -27,6 +26,8 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/modeles/bail-mobilite",
     siteName: "RentReady",
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/bail-mobilite",
   },

@@ -11,8 +11,7 @@ const FinalCta = dynamic(
 
 export const metadata: Metadata = {
   title: "Modèle Répartition des Charges Locatives — Calcul et Contrat | RentReady",
-  description:
-    "Téléchargez notre modèle de répartition des charges locatives. Calcul des provisions, régularisation annuelle, justificatifs. Conforme loi ALUR et décret 2024.",
+  description: "Modèle de convention de répartition des charges locatives. Document officiel pour partager les coûts entre propriétaire et locataire de manière claire.",
   keywords: [
     "répartition des charges",
     "charges locatives",
@@ -29,6 +28,8 @@ export const metadata: Metadata = {
     siteName: "RentReady",
     images: [{ url: "https://www.rentready.fr/og-image.png", width: 1200, height: 630, alt: "Répartition Charges" }],
   },
+  robots: { index: true, follow: true },
+  
   alternates: { canonical: "https://www.rentready.fr/modeles/repartition-charges" },
 };
 

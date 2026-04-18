@@ -54,6 +54,8 @@ images: ["https://www.rentready.fr/og-image.png"],
 alternates: {
 canonical: "https://www.rentready.fr/pricing",
 },
+robots: { index: true, follow: true },
+
 };
 
 /* ─── JSON-LD: BreadcrumbList + Organization + WebPage + SoftwareApplication + FAQPage ─── */

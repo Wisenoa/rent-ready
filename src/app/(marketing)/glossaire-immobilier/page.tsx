@@ -16,9 +16,10 @@ import { GlossarySidebar } from "@/components/seo/blog/GlossarySidebar";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 
 export const metadata: Metadata = {
-  title: "Glossaire Immobilier — Définitions Location et Investissement",
-  description:
-    "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier. IRL, DPE, état des lieux, dépôt de garantie...",
+  title: "Glossaire immobilier | Définitions location | RentReady",
+  description: "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, bail, quittance, charges et检修.",
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/glossaire-immobilier",
   },
@@ -45,7 +46,6 @@ export const metadata: Metadata = {
     images: ["https://www.rentready.fr/og-image.png"],
   },
 };
-
 const glossaryTerms = [
   {
     term: "Bail",

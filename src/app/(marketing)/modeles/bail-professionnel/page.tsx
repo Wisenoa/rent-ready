@@ -11,8 +11,7 @@ const FinalCta = dynamic(
 
 export const metadata: Metadata = {
   title: "Modèle Bail Professionnel — Contrat Location Commerciale 2026 | RentReady",
-  description:
-    "Téléchargez notre modèle bail professionnel gratuit. Contrat de location commerciale 3-6 ans, clause de résiliation 3 mois, conformité au statut des baux commerciaux. PDF instantané.",
+  description: "Téléchargez notre modèle de bail professionnel gratuit. Contrat conforme au droit français, clauses essentielles et annexes pour location professionnelle.",
   keywords: [
     "bail professionnel",
     "bail commercial",
@@ -30,6 +29,8 @@ export const metadata: Metadata = {
     siteName: "RentReady",
     images: [{ url: "https://www.rentready.fr/og-image.png", width: 1200, height: 630, alt: "Bail Professionnel" }],
   },
+  robots: { index: true, follow: true },
+  
   alternates: { canonical: "https://www.rentready.fr/modeles/bail-professionnel" },
 };
 

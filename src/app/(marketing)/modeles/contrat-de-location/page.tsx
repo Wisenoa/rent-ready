@@ -11,8 +11,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Contrat de Location Gratuit — Bail Conforme Loi Alur | RentReady",
-  description:
-    "Téléchargez notre modèle contrat de location gratuit et conforme à la loi du 6 juillet 1989 et à la loi Alur. Bail vide ou meublé, clauses obligatoires,下载 rapide.",
+  description: "Téléchargez notre modèle de contrat de location gratuit et conforme au droit français. Bail résidentiel avec clauses obligatoires.",
   keywords: [
     "modèle contrat de location",
     "bail location appartement",
@@ -44,6 +43,8 @@ export const metadata: Metadata = {
       "Modèle de bail de location gratuit et conforme à la loi. Bail vide ou meublé, clauses obligatoires.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/contrat-de-location",
   },

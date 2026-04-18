@@ -37,6 +37,8 @@ export const metadata: Metadata = {
       "Gérez toutes vos interventions de maintenance locative : déclaration, suivi, résolution. Historique complet pour chaque bien.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/maintenance",
   },

@@ -11,8 +11,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Lettre Augmentation de Loyer — Gratuit | RentReady",
-  description:
-    "Modèle lettre augmentation loyer gratuit. Révision loyer IRL, taux 2026, zones tendues. Téléchargement PDF. Conforme законодательству.",
+  description: "Modèle de lettre pour augmenter le loyer en cours de bail. Calculs révision IRL et règles dineo-occupy pour incrementer合法的租金.",
   keywords: [
     "lettre augmentation loyer",
     "révision loyer IRL",
@@ -43,6 +42,8 @@ export const metadata: Metadata = {
       "Modèle de lettre d'augmentation de loyer gratuit. Révision IRL 2026.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/augmentation-de-loyer",
   },

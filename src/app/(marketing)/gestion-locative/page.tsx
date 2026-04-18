@@ -31,6 +31,8 @@ export const metadata: Metadata = {
       "Logiciel de gestion locative dans les 50 plus grandes villes de France. Quittances, suivi des loyers, conformité 2026.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: { canonical: "https://www.rentready.fr/gestion-locative" },
 };
 

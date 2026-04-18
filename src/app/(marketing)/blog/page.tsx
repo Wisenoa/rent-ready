@@ -8,10 +8,14 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { articles } from "@/data/articles";
 
+// blog listing uses the articles data
+const blogPosts = articles;
+
 export const metadata: Metadata = {
-  title: "Blog Immobilier — Conseils Gestion Locative et Investissement",
-  description:
-    "Conseils et guides pour propriétaires bailleurs: gestion locative, quittances, révision IRL, législation immobilière. Toutes les actualités de l'immobilier en France.",
+  title: "Blog location | Conseils gestion locative | RentReady",
+  description: "Conseils et guides pratiques pour propriétaires bailleurs: gestion locative, quittances, révision IRL, entretien, bail et juridique locatif.",
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/blog",
   },
@@ -42,9 +46,6 @@ export const metadata: Metadata = {
     images: ["https://www.rentready.fr/og-image.png"],
   },
 };
-
-const blogPosts = articles;
-
 const categories = ["Tous", "Gestion", "Calculs", "Juridique", "Fiscalité"];
 
 const schema = {

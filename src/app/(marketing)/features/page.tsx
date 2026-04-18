@@ -46,8 +46,7 @@ const GlassNav = dynamic(
 
 export const metadata: Metadata = {
   title: "Fonctionnalités — Logiciel gestion locative | RentReady",
-  description:
-    "Toutes les fonctionnalités de RentReady : quittances conformes, détection bancaire, révision IRL, portail locataire, maintenance, OCR IA, conformité Factur-X. Gérez 10 biens pour 15 €/mois.",
+  description: "Fonctionnalités RentReady: quittances conformes, détection automatique, révision IRL, portail locataire, gestion des baux et financement.",
   keywords: [
     "fonctionnalités gestion locative",
     "logiciel location quitance automatique",
@@ -84,6 +83,8 @@ export const metadata: Metadata = {
       "Quittances légales, Open Banking, révision IRL, portail locataire, maintenance, OCR IA. Un seul outil pour tout gérer.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/features",
   },

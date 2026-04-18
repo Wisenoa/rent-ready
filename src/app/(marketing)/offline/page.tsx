@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Maintenance — RentReady",
-  description: "RentReady est temporairement en maintenance.",
+  description: "RentReady est actuellement en maintenance. Toutes les fonctionnalités seront bientôt de retour. Merci de votre patience.",
   robots: {
     index: false,
     follow: false,

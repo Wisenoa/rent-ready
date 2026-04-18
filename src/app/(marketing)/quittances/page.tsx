@@ -50,6 +50,8 @@ alt: "RentReady — Quittances de loyer",
       "Générez des quittances conformes en 1 clic. PDF automatique, mention légale INSEE, envoyée au locataire.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/quittances",
   },

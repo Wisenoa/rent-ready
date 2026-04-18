@@ -11,8 +11,7 @@ const FinalCta = dynamic(
 
 export const metadata: Metadata = {
   title: "Protocole État des Lieux — Guide Complet et Formulaire | RentReady",
-  description:
-    "Utilisez notre protocole d'état des lieux détaillé. Check-list pièce par pièce, photos commentées, signature électronique. Conforme loi ALUR et décret 2024.",
+  description: "Protocol officiel détat des lieux. Document de référence pour inventorier le logement au démarrage et à la fin de la période de location.",
   keywords: [
     "protocole état des lieux",
     "état des lieux entrée",
@@ -29,6 +28,8 @@ export const metadata: Metadata = {
     siteName: "RentReady",
     images: [{ url: "https://www.rentready.fr/og-image.png", width: 1200, height: 630, alt: "Protocole État des Lieux" }],
   },
+  robots: { index: true, follow: true },
+  
   alternates: { canonical: "https://www.rentready.fr/modeles/protocol-etat-des-lieux" },
 };
 

@@ -11,8 +11,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Relance Loyer Impayé — Gratuit | RentReady",
-  description:
-    "Modèle lettre de relance loyer impayé gratuit. Mise en demeure, modelo officiel, téléchargement PDF.Conforme законодательству.适用于 tous les propriétaires.",
+  description: "Modèle de lettre de relance pour loyer impayé. Étapes légales et نموذج gratuit pour réclamer le paiement du loyer en toute légalité.",
   keywords: [
     "lettre relance loyer impayé",
     "mise en demeure loyer",
@@ -42,6 +41,8 @@ export const metadata: Metadata = {
       "Modèle de lettre de relance loyer impayé gratuit. Mise en demeure conforme.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/relance-loyer-impaye",
   },

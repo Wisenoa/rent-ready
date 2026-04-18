@@ -20,8 +20,7 @@ const DemoForm = dynamic(
 
 export const metadata: Metadata = {
   title: "Demandez une démo — RentReady",
-  description:
-    "Découvrez comment RentReady automatise votre gestion locative : quittances conformes, détection des loyers, révision IRL. Réservez un créneau de 30 min avec notre équipe.",
+  description: "Réservez une démo RentReady de 30 minutes. Découvrez comment automatiser votre gestion locative: quittances, détection loyer, révision IRL.",
   keywords: [
     "demo gestion locative",
     "rdv rentready",
@@ -52,6 +51,8 @@ export const metadata: Metadata = {
       "Découvrez en 30 minutes comment automatiser votre gestion locative. Quittances, détection loyer, révision IRL.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/demo",
   },

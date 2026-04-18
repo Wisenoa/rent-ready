@@ -64,6 +64,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
       url: `https://www.rentready.fr/bail/${city.slug}`,
       siteName: "RentReady",
+      images: [
+        {
+          url: "https://www.rentready.fr/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `Modèle bail de location ${city.name} — RentReady`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: `Modèle de bail gratuit pour ${city.name}. Téléchargez et personnalisez en 10 minutes. Mise à jour 2026.`,
+      images: ["https://www.rentready.fr/og-image.png"],
     },
     alternates: {
       canonical: `https://www.rentready.fr/bail/${city.slug}`,

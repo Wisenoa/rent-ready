@@ -27,6 +27,8 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/modeles/bail-commercial",
     siteName: "RentReady",
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/bail-commercial",
   },

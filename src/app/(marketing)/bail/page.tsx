@@ -54,6 +54,8 @@ images: ["https://www.rentready.fr/og-image.png"],
 alternates: {
 canonical: "https://www.rentready.fr/bail",
 },
+robots: { index: true, follow: true },
+
 };
 
 const features = [

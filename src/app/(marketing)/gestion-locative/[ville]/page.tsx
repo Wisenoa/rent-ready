@@ -49,6 +49,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
       ],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: fullTitle,
+      description,
+      images: ["https://www.rentready.fr/og-image.png"],
+    },
     alternates: {
       canonical: `https://www.rentready.fr/gestion-locative/${city.slug}`,
     },

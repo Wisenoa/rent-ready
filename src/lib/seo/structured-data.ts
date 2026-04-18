@@ -423,6 +423,88 @@ export function buildItemListSchema(input: ItemListSchemaInput) {
 }
 
 /* ─────────────────────────────────────────────
+   buildReviewSchema + buildAggregateRatingSchema
+   Used on: Homepage (testimonials section)
+───────────────────────────────────────────── */
+
+export interface ReviewItem {
+  name: string;
+  reviewBody: string;
+  ratingValue: number;
+  bestRating?: number;
+  worstRating?: number;
+  datePublished?: string;
+  author: {
+    name: string;
+    description?: string;
+  };
+}
+
+export interface AggregateRatingSchemaInput {
+  itemReviewed: {
+    name: string;
+    description?: string;
+  };
+  ratingValue: number;
+  bestRating?: number;
+  worstRating?: number;
+  reviewCount: number;
+}
+
+/**
+ * Individual Review schema for a single testimonial.
+ * Google Rich Results supports Person or Organization as reviewer.
+ */
+export function buildReviewSchema(review: ReviewItem) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: String(review.ratingValue),
+      bestRating: String(review.bestRating ?? 5),
+      worstRating: String(review.worstRating ?? 1),
+    },
+    author: {
+      "@type": "Person",
+      name: review.author.name,
+      description: review.author.description,
+    },
+    reviewBody: review.reviewBody,
+    datePublished: review.datePublished,
+    itemReviewed: {
+      "@type": "SoftwareApplication",
+      name: "RentReady",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: `${BASE_URL}`,
+    },
+  };
+}
+
+/**
+ * AggregateRating schema for the SoftwareApplication.
+ * Shows the overall rating derived from multiple individual reviews.
+ */
+export function buildAggregateRatingSchema(input: AggregateRatingSchemaInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AggregateRating",
+    itemReviewed: {
+      "@type": "SoftwareApplication",
+      name: input.itemReviewed.name,
+      description: input.itemReviewed.description,
+      url: `${BASE_URL}`,
+    },
+    ratingValue: String(input.ratingValue),
+    bestRating: String(input.bestRating ?? 5),
+    worstRating: String(input.worstRating ?? 1),
+    reviewCount: String(input.reviewCount),
+    ratingCount: String(input.reviewCount),
+  };
+}
+
+/* ─────────────────────────────────────────────
    buildGraphSchema
    Combines multiple schemas into a @graph array for a single <script> tag.
    Use for pages that need multiple schema types (e.g., pricing page).

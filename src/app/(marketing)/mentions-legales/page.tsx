@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Mentions Légales — RentReady",
-  description:
-    "Mentions légales de RentReady, logiciel de gestion locative pour propriétaires indépendants.",
+  description: "Mentions légales de RentReady. Logiciel de gestion locative en ligne pour propriétaires bailleurs en France. Éditeur, hébergement et contacts.",
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/mentions-legales",
   },

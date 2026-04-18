@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Conditions Générales d'Utilisation — RentReady",
-  description:
-    "Conditions générales d'utilisation de RentReady, plateforme de gestion locative en ligne.",
+  description: "Conditions générales d'utilisation de RentReady. Informations légales complètes sur l'utilisation de notre plateforme de gestion locative en ligne.",
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/cgu",
   },

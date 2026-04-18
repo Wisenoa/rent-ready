@@ -10,8 +10,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Congé Locataire — Gratuit | RentReady",
-  description:
-    "Modèle congé locataire gratuit. Donner son préavis au propriétaire : délais selon bail,怎么做信,怎么做。 Téléchargement PDF.",
+  description: "Modèle gratuit de congé locataire à donner au propriétaire. Préavis de 1 ou 3 mois selon la situation. Formulaire prêt à utiliser.",
   keywords: [
     "congé locataire",
     "préavis bail",
@@ -27,6 +26,8 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/modeles/conge-locataire",
     siteName: "RentReady",
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/conge-locataire",
   },

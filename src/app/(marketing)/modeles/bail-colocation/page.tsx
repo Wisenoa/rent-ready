@@ -10,8 +10,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Bail Colocation — Gratuit | RentReady",
-  description:
-    "Modèle bail colocation gratuit. Contrat de location pour 2 à plusieurs colocataires. Clauses spécifiques colocation. Téléchargement PDF.",
+  description: "Téléchargez notre modèle de bail de colocation gratuit et conforme. Contrats pour plusieurs locataires avec clauses partagées et individuelles.",
   keywords: [
     "bail colocation",
     "contrat colocation",
@@ -27,6 +26,8 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/modeles/bail-colocation",
     siteName: "RentReady",
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/bail-colocation",
   },

@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Politique de Confidentialité — RentReady",
-  description:
-    "Politique de confidentialité et protection des données personnelles de RentReady, conformément au RGPD.",
+  description: "Politique de confidentialité de RentReady. Comment nous protégeons vos données personnelles, cookies et vos droits RGPD.",
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/politique-confidentialite",
   },

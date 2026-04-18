@@ -15,8 +15,7 @@ const FinalCta = dynamic(
 
 export const metadata: Metadata = {
   title: "Modèle Quittance de Loyer Gratuit — Conforme Loi 1989 | RentReady",
-  description:
-    "Téléchargez notre modèle quittance de loyer gratuit et conforme à la loi du 6 juillet 1989. Mentions obligatoires, mention IRL INSEE, prêt à personnaliser. Générez en 30 secondes.",
+  description: "Téléchargez notre modèle de quittance de loyer gratuit et conforme. Document officiel pour justifier le paiement du loyer et des charges.",
   keywords: [
     "modèle quittance de loyer",
     "quittance loyer gratuit",
@@ -48,6 +47,8 @@ export const metadata: Metadata = {
       "Modèle de quittance de loyer gratuit et conforme à la loi. Mentions obligatoires, mention IRL INSEE. Générez en 30 secondes.",
     images: ["https://www.rentready.fr/og-image.png"],
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/quittance-de-loyer",
   },

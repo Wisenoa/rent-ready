@@ -10,8 +10,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
   title: "Modèle Bail Vide — Gratuit | RentReady",
-  description:
-    "Modèle bail vide gratuit. Location non meublée résidentielle, durée 3 ans, révision IRL, obligations bailleur et locataire. PDF gratuit.",
+  description: "Téléchargez notre modèle de bail vide gratuit et conforme au droit français. Bail résidentiel pour location non meublée avec clauses obligatoires.",
   keywords: [
     "bail vide",
     "location non meublée",
@@ -27,6 +26,8 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/modeles/bail-vide",
     siteName: "RentReady",
   },
+  robots: { index: true, follow: true },
+  
   alternates: {
     canonical: "https://www.rentready.fr/modeles/bail-vide",
   },
