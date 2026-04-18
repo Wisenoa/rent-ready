@@ -94,8 +94,7 @@ jobs:
           npx @lhci/cli autorun \
             --config=lighthouserc.js \
             --upload.target='filesystem' \
-            --upload.storageRootPath='.lighthouseci' \
-            || true
+            --upload.storageRootPath='.lighthouseci'
           kill $SERVER_PID 2>/dev/null || true
 
       - name: Upload Lighthouse report

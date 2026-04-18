@@ -373,23 +373,28 @@ jobs:
           NEXT_PUBLIC_APP_URL: ${{ needs.vercel-preview.outputs.preview_url }}
 
       # LHCI collects Lighthouse runs and asserts budgets
+      # NOTE: exit code 1 from LHCI means assertion failures (budget not met)
+      # We intentionally do NOT use `|| true` — this blocks PR merge when scores drop.
       - name: Run Lighthouse CI
         run: |
+          # Override URLs in lighthouserc.js to point at the Vercel preview URL
+          # so we test the actual deployed preview, not localhost.
           npx @lhci/cli autorun \
             --config=lighthouserc.js \
             --collect.url="${{ needs.vercel-preview.outputs.preview_url }}/" \
             --collect.startServerCommand="npm run start" \
             --collect.startServerReadyPattern="Ready" \
-            --assert.target=temporary-public-storage || true
+            --assert.target=temporary-public-storage
+        continue-on-error: false
 
-      # Upload LHCI report as GitHub artifact for review
+      # Upload LHCI report as GitHub artifact for review (always runs even on failure)
       - name: Upload Lighthouse report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: lighthouse-report
+          name: lighthouse-report-${{ github.sha }}
           path: .lighthouseci/
-          retention-days: 14
+          retention-days: 30
 
   # ─────────────────────────────────────────────
   # DB Migration Check (PRs)
