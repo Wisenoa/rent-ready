@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -10,6 +11,12 @@ import {
   Smartphone,
 } from "lucide-react";
 import { spring, stagger } from "./motion-config";
+
+const CYCLING_NOTIFICATIONS = [
+  { amount: "850 €", tenant: "M. Dupont", time: "il y a 2 min" },
+  { amount: "720 €", tenant: "Mme Martin", time: "il y a 14 min" },
+  { amount: "1 200 €", tenant: "SCI Dupont", time: "il y a 1h" },
+];
 
 const container = {
   hidden: {},
@@ -38,6 +45,17 @@ const scaleIn = {
 };
 
 export function HeroSection() {
+  const [notifIdx, setNotifIdx] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNotifIdx((i) => (i + 1) % CYCLING_NOTIFICATIONS.length);
+    }, 7000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const notif = CYCLING_NOTIFICATIONS[notifIdx];
+
   return (
     <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28 lg:pt-44 lg:pb-36">
       {/* Ambient gradient orbs */}
@@ -126,6 +144,20 @@ export function HeroSection() {
                 Conforme Loi 1989 &amp; Factur-X
               </span>
             </motion.div>
+
+            {/* Press mentions — "As seen in" strip */}
+            <motion.div variants={fadeUp} className="mt-6">
+              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-stone-400">
+                Mentions presse
+              </p>
+              <div className="mt-2 flex flex-wrap items-center gap-6">
+                {["Le Monde", "Les Echos", "Challenges"].map((m) => (
+                  <span key={m} className="text-[14px] font-semibold text-stone-400">
+                    {m}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
           </div>
 
           {/* ─ Phone mockup ─ */}
@@ -155,25 +187,31 @@ export function HeroSection() {
                   <Smartphone className="size-3" />
                 </div>
 
-                {/* Success notification */}
-                <div className="rounded-2xl border border-emerald-100/80 bg-white/90 p-4 shadow-sm backdrop-blur-sm">
+                {/* Success notification — cycles through realistic rent payments */}
+                <motion.div
+                  key={notifIdx}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="rounded-2xl border border-emerald-100/80 bg-white/90 p-4 shadow-sm backdrop-blur-sm"
+                >
                   <div className="flex items-start gap-3">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
                       <Check className="size-5" strokeWidth={2.5} />
                     </div>
                     <div>
                       <p className="text-[13px] font-semibold text-stone-900">
-                        Loyer de 850 € reçu
+                        Loyer de {notif.amount} reçu
                       </p>
                       <p className="mt-0.5 text-[11px] text-stone-500">
-                        Quittance envoyée à M. Dupont
+                        Quittance envoyée à {notif.tenant}
                       </p>
                       <p className="mt-2 text-[10px] text-stone-400">
-                        Il y a 2 min
+                        {notif.time}
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Mini KPIs */}
                 <div className="mt-4 grid grid-cols-2 gap-3">

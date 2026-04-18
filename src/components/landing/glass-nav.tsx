@@ -15,9 +15,13 @@ const NAV_LINKS = [
 export function GlassNav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+      setShowBanner(window.scrollY > window.innerHeight);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -77,9 +81,22 @@ export function GlassNav() {
         </div>
       </nav>
 
+      {/* Sticky CTA banner — appears after scrolling past hero (100vh) */}
+      {showBanner && (
+        <div className="fixed bottom-0 left-0 right-0 z-[60] bg-stone-900 text-white text-center py-2.5 text-[13px] font-medium shadow-[0_-1px_0_rgba(0,0,0,0.15)]">
+          Commencez gratuitement — sans carte bancaire{" "}
+          <Link href="/register" className="ml-1 underline hover:text-blue-300 transition-colors">
+            Créer un compte
+          </Link>
+        </div>
+      )}
+
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="lg:hidden border-t border-stone-200/60 bg-[#f8f7f4]/95 backdrop-blur-md px-5 py-4 space-y-1">
+        <div
+          className="lg:hidden border-t border-stone-200/60 bg-[#f8f7f4]/95 backdrop-blur-md px-5 py-4 space-y-1"
+          onClick={() => setMenuOpen(false)}
+        >
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
