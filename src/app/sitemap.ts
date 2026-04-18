@@ -167,13 +167,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    // Bail hub page
-    {
-      url: `${BASE_URL}/bail`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
     // Template library
     {
       url: `${BASE_URL}/templates/bail-meuble`,
@@ -310,12 +303,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/outils/lettre-relance-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-charges-locatives`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
