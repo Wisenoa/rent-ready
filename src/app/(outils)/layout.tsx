@@ -20,22 +20,34 @@ export default function OutilsLayout({
           </Link>
           <div className="flex items-center gap-4">
             <Link
-              href="/outils/calculateur-irl-2026"
+              href="/outils/calculateur-irl"
               className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
             >
               Calculateur IRL
             </Link>
             <Link
-              href="/outils/modele-quittance-loyer-pdf"
+              href="/outils/calculateur-loyer"
               className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
             >
-              Quittance PDF
+              Calculateur Loyer
             </Link>
             <Link
-              href="/outils/simulateur-loi-jeanbrun"
+              href="/outils/calculateur-charges"
               className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
             >
-              Simulateur Jeanbrun
+              Calculateur Charges
+            </Link>
+            <Link
+              href="/outils/calculateur-depot-garantie"
+              className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
+            >
+              Dépôt Garantie
+            </Link>
+            <Link
+              href="/modeles"
+              className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
+            >
+              Modèles
             </Link>
             <SmartHeaderCta />
           </div>

@@ -54,6 +54,14 @@ const config: NextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-XSS-Protection', value: '1; mode=block' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; frame-src 'self' https://www.youtube.com https://player.vimeo.com; frame-ancestors 'none'; img-src 'self' data: https: blob:; font-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://vitals.vercel-insights.com;",
+          },
           { 
             key: 'Permissions-Policy', 
             value: 'camera=(), microphone=(), geolocation=()' 
@@ -71,6 +79,55 @@ const config: NextConfig = {
         source: '/images/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+        ],
+      },
+      // Marketing pages — SWR caching ( ISR / stale-while-revalidate )
+      {
+        source: '/(marketing)/*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
+        ],
+      },
+      {
+        source: '/blog/*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
+        ],
+      },
+      {
+        source: '/modeles/*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=86400, stale-while-revalidate=604800' },
+        ],
+      },
+      {
+        source: '/templates/*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=86400, stale-while-revalidate=604800' },
+        ],
+      },
+      {
+        source: '/outils/*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=86400, stale-while-revalidate=604800' },
+        ],
+      },
+      {
+        source: '/glossaire-immobilier/*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
+        ],
+      },
+      {
+        source: '/bail/*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
+        ],
+      },
+      {
+        source: '/gestion-locative/*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
         ],
       },
       {
