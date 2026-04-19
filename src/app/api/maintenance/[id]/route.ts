@@ -91,7 +91,7 @@ export async function GET(
       where: { id },
       include: {
         tenant: { select: { id: true, firstName: true, lastName: true, email: true, phone: true } },
-        property: { select: { id: true, name: true, addressLine1: true, city: true } },
+        property: { select: { id: true, name: true, addressLine1: true, city: true, userId: true } },
         unit: { select: { id: true, name: true } },
         attachments: true,
       },
