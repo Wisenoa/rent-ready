@@ -27,6 +27,40 @@ const schema = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "WebSite",
+      name: "RentReady",
+      url: "https://www.rentready.fr",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://www.rentready.fr/recherche?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "Organization",
+      name: "RentReady",
+      alternateName: "RentReady SAS",
+      url: "https://www.rentready.fr",
+      logo: "https://www.rentready.fr/logo.png",
+      description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
+      foundingDate: "2024",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "FR",
+        addressLocality: "Paris",
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer service",
+        email: "contact@rentready.fr",
+        availableLanguage: "French",
+      },
+      sameAs: [
+        "https://twitter.com/rentready_fr",
+        "https://www.linkedin.com/company/rentready",
+      ],
+    },
+    {
       "@type": "BreadcrumbList",
       name: "Fil d'Ariane",
       itemListElement: [

@@ -36,6 +36,16 @@ function PolitiqueConfidentialiteJsonLd() {
         },
       },
       {
+        "@type": "WebSite",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://www.rentready.fr/recherche?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
         "@type": "BreadcrumbList",
         name: "Fil d'Ariane",
         itemListElement: [

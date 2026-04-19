@@ -177,6 +177,27 @@ function buildBailVilleSchema(city: City) {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebSite",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://www.rentready.fr/recherche?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "Organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "contact@rentready.fr",
+          availableLanguage: "French",
+        },
+      },
+      {
         "@type": "BreadcrumbList",
         name: "Fil d'Ariane",
         itemListElement: [

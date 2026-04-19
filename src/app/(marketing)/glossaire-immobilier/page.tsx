@@ -11,6 +11,8 @@ import {
   buildItemListSchema,
   buildFAQPageSchema,
   buildGraphSchema,
+  buildOrganizationSchema,
+  buildWebSiteSchema,
 } from "@/lib/seo/structured-data";
 import { GlossarySidebar } from "@/components/seo/blog/GlossarySidebar";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
@@ -2686,6 +2688,8 @@ const alphabetGroups = glossaryTerms.reduce(
 
 export default function GlossaireImmobilierPage() {
   const schema = buildGraphSchema(
+    buildOrganizationSchema(),
+    buildWebSiteSchema(),
     buildBreadcrumbSchema([
       { name: "Accueil", url: "https://www.rentready.fr" },
       { name: "Glossaire Immobilier", url: "https://www.rentready.fr/glossaire-immobilier" },

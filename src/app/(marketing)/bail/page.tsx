@@ -177,6 +177,17 @@ const BAIL_SCHEMA = {
       },
     },
     {
+      "@type": "WebSite",
+      "@id": "https://www.rentready.fr/#website",
+      name: "RentReady",
+      url: "https://www.rentready.fr",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://www.rentready.fr/recherche?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
       "@type": "FAQPage",
       name: "FAQ — Gestion des baux RentReady",
       mainEntity: faqData.map((item) => ({
