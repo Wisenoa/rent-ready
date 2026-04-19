@@ -26,10 +26,12 @@ Sentry.init({
   // Don't capture from favicon, health checks
   denyUrls: [
     /favicon\.ico/,
-    /\/api\/health/,
     /\/_next\/static/,
   ],
 
   // Release for source map matching
   release: process.env.NEXT_PUBLIC_APP_VERSION || "unknown",
 });
+
+// Required for Sentry router instrumentation
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
