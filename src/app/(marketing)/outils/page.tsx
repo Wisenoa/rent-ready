@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, breadcrumbSchema } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { buildOrganizationSchema, buildWebSiteSchema, buildGraphSchema } from "@/lib/seo/structured-data";
 
 export async function generateMetadata() {
   return baseMetadata({
@@ -141,21 +142,22 @@ const breadcrumbItems = [
   { label: "Outils", href: "/outils" },
 ];
 
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: breadcrumbItems.map((item, i) => ({
-    "@type": "ListItem",
-    position: i + 1,
-    name: item.label,
-    item: `https://www.rentready.fr${item.href}`,
-  })),
-};
+function OutilsJsonLd() {
+  const data = buildGraphSchema(
+    buildOrganizationSchema(),
+    buildWebSiteSchema("Outils Immobiliers Gratuits — RentReady", "/outils"),
+    breadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Outils", url: "https://www.rentready.fr/outils" },
+    ])
+  );
+  return <SchemaMarkup data={data} />;
+}
 
 export default function OutilsPage() {
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
+      <OutilsJsonLd />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-5xl mx-auto px-4 py-12">

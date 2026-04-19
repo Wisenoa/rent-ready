@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { RelatedContent } from "@/components/seo/related-links";
 
 // IRL — latest values from INSEE 2025
 const IRL_DATA = [
@@ -268,6 +269,8 @@ export function IRLCalculatorClient() {
           </div>
 
           <FinalCta />
+
+          <RelatedContent currentUrl="/outils/calculateur-irl" currentCategory="Outils" type="tools" limit={3} />
         </div>
       </div>
     </>
