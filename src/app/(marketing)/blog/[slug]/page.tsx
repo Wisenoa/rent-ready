@@ -27,11 +27,10 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  if (!resolvedParams || !("slug" in resolvedParams)) {
-    return {};
-  }
-  const { slug } = resolvedParams;
+  // Next.js 15 passes params as a resolved object in generateMetadata
+  const resolvedParams = typeof params?.then === 'function' ? await params : params;
+  const slug = (resolvedParams as any)?.slug;
+  if (!slug) return {};
   const article = getArticleBySlug(slug);
   if (!article) return {};
 
@@ -800,11 +799,10 @@ function BlogPostJsonLd({ article, slug }: { article: { title: string; excerpt: 
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-  const resolvedParams = await params;
-  if (!resolvedParams || !("slug" in resolvedParams)) {
-    notFound();
-  }
-  const { slug } = resolvedParams;
+  // Next.js 15 passes params as a resolved object in generateMetadata
+  const resolvedParams = typeof params?.then === 'function' ? await params : params;
+  const slug = (resolvedParams as any)?.slug;
+  if (!slug) notFound();
   const article = getArticleBySlug(slug);
   if (!article) notFound();
 
