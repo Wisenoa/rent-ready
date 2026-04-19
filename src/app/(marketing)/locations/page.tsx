@@ -14,7 +14,7 @@ export const revalidate = 3600;
 // → code-split so it doesn't block initial JS bundle or INP
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta"),
-  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
 export async function generateMetadata() {

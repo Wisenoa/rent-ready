@@ -11,12 +11,12 @@ export const revalidate = 3600;
 // → code-split so it doesn't block initial JS bundle or INP
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>> as unknown as Promise<React.ComponentType<unknown>>,
-  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 // DemoForm has form state + validation (client-heavy)
 const DemoForm = dynamic(
   () => import("@/components/landing/demo-form"),
-  { ssr: false, loading: () => <div style={{ minHeight: 300 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 300 }} aria-hidden="true" /> }
 );
 
 export async function generateMetadata() {

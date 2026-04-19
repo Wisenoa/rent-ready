@@ -26,35 +26,35 @@ import { baseMetadata } from "@/lib/seo/metadata";
 /* ─── Below-the-fold: dynamically imported (code-split, client-only) ─── */
 const SocialProof = dynamic(
   () => import("@/components/landing/social-proof"),
-  { ssr: false, loading: () => <div className="py-16 sm:py-20" style={{ minHeight: 180 }} aria-hidden="true" /> }
+  { loading: () => <div className="py-16 sm:py-20" style={{ minHeight: 180 }} aria-hidden="true" /> }
 );
 const TestimonialStrip = dynamic(
   () => import("@/components/landing/testimonial-strip"),
-  { ssr: false, loading: () => <div style={{ minHeight: 120 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 120 }} aria-hidden="true" /> }
 );
 const ProblemSection = dynamic(
   () => import("@/components/landing/problem-section"),
-  { ssr: false, loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
 );
 const BentoBenefits = dynamic(
   () => import("@/components/landing/bento-benefits"),
-  { ssr: false, loading: () => <div style={{ minHeight: 800 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 800 }} aria-hidden="true" /> }
 );
 const ComparisonSection = dynamic(
   () => import("@/components/landing/comparison-section"),
-  { ssr: false, loading: () => <div style={{ minHeight: 500 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 500 }} aria-hidden="true" /> }
 );
 const TestimonialsSection = dynamic(
   () => import("@/components/landing/testimonials-section"),
-  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 const PricingSection = dynamic(
   () => import("@/components/landing/pricing-section"),
-  { ssr: false, loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
 );
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta"),
-  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
 /* ─── ISR: revalidate at CDN edge every hour ─── */

@@ -7,7 +7,7 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta"),
-  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
 export async function generateMetadata() {

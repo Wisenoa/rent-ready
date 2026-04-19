@@ -15,7 +15,7 @@ export const revalidate = 3600;
 // Type assertion needed due to TypeScript inference mismatch with typeof import()
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta"),
-  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
 export async function generateMetadata() {

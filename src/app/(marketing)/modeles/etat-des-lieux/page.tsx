@@ -5,7 +5,7 @@ import React from "react";
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta"),
-  { ssr: false, loading: () => <div style={{minHeight:400}} aria-hidden="true" /> }
+  { loading: () => <div style={{minHeight:400}} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { baseMetadata } from "@/lib/seo/metadata";
