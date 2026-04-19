@@ -3,7 +3,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
+  () => import("@/components/landing/final-cta"),
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";

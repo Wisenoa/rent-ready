@@ -37,11 +37,11 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 const MarketingFooter = dynamic(
-  () => import("@/components/landing/marketing-footer") as unknown as Promise<React.ComponentType<unknown>>,
+  () => import("@/components/landing/marketing-footer"),
   { ssr: true, loading: () => <div aria-hidden="true" /> }
 );
 const GlassNav = dynamic(
-  () => import("@/components/landing/glass-nav") as unknown as Promise<React.ComponentType<unknown>>,
+  () => import("@/components/landing/glass-nav"),
   { ssr: true, loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
 );
 

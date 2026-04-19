@@ -15,7 +15,7 @@ const FinalCta = dynamic(
 );
 // DemoForm has form state + validation (client-heavy)
 const DemoForm = dynamic(
-  () => import("@/components/landing/demo-form") as unknown as Promise<React.ComponentType<unknown>>,
+  () => import("@/components/landing/demo-form"),
   { ssr: true, loading: () => <div style={{ minHeight: 300 }} aria-hidden="true" /> }
 );
 

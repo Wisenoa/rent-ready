@@ -10,7 +10,7 @@ import { baseMetadata } from "@/lib/seo/metadata";
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
+  () => import("@/components/landing/final-cta"),
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
