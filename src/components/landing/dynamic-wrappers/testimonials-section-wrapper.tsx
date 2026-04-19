@@ -3,10 +3,10 @@
 import dynamic from "next/dynamic";
 
 const TestimonialsSection = dynamic(
-  () => import("@/components/landing/testimonials-section"),
+  () => import("@/components/landing/testimonials-section").then((mod) => mod.TestimonialsSection),
   {
     loading: () => (
-      <div style={{ minHeight: 400 }} aria-hidden="true" />
+      <div style={{ minHeight: 700 }} aria-hidden="true" />
     ),
   }
 );

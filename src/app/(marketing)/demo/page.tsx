@@ -10,12 +10,12 @@ export const revalidate = 3600;
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>> as unknown as Promise<React.ComponentType<unknown>>,
+  () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 // DemoForm has form state + validation (client-heavy)
 const DemoForm = dynamic(
-  () => import("@/components/landing/demo-form"),
+  () => import("@/components/landing/demo-form").then((mod) => mod.DemoForm),
   { loading: () => <div style={{ minHeight: 300 }} aria-hidden="true" /> }
 );
 

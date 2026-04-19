@@ -8,7 +8,7 @@ import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
 const QuittanceGeneratorForm = dynamic(
-  () => import("@/components/landing/quittance-generator-form") as unknown as Promise<React.ComponentType>,
+  () => import("@/components/landing/quittance-generator-form").then((mod) => mod.QuittanceGeneratorForm),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 

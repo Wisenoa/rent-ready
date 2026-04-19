@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 const BentoBenefits = dynamic(
-  () => import("@/components/landing/bento-benefits"),
+  () => import("@/components/landing/bento-benefits").then((mod) => mod.BentoBenefits),
   {
     loading: () => (
       <div style={{ minHeight: 800 }} aria-hidden="true" />

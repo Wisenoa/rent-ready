@@ -33,15 +33,15 @@ export const revalidate = 3600;
 // Dynamic import: FinalCta and MarketingFooter use framer-motion (heavy)
 // → code-split so they don't block initial JS bundle or INP
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>> as unknown as Promise<React.ComponentType<unknown>>,
+  () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 const MarketingFooter = dynamic(
-  () => import("@/components/landing/marketing-footer"),
+  () => import("@/components/landing/marketing-footer").then((mod) => mod.MarketingFooter),
   { loading: () => <div aria-hidden="true" /> }
 );
 const GlassNav = dynamic(
-  () => import("@/components/landing/glass-nav"),
+  () => import("@/components/landing/glass-nav").then((mod) => mod.GlassNav),
   { loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
 );
 

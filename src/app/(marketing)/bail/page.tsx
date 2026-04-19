@@ -14,7 +14,7 @@ export const revalidate = 3600;
 // → code-split so it doesn't block initial JS bundle or INP
 // Type assertion needed due to TypeScript inference mismatch with typeof import()
 const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta"),
+  () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
