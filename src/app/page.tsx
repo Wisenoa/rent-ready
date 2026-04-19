@@ -21,6 +21,7 @@ import { MarketingFooter } from "@/components/landing/marketing-footer";
 /* ─── Above-the-fold: loaded eagerly ─── */
 import { HeroSection } from "@/components/landing/hero-section";
 import { FaqSection, FaqJsonLd } from "@/components/landing/faq-section";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 /* ─── Below-the-fold: dynamically imported (code-split) ─── */
 const SocialProof = dynamic(
@@ -56,51 +57,14 @@ const FinalCta = dynamic(
 export const revalidate = 3600;
 
 /* ─── Page metadata ─── */
-export const metadata: Metadata = {
-  title: "Gestion locative automatisée particuliers | RentReady",
-  description:
-    "Quittances conformes, détection des virements, révision IRL automatique. Le logiciel de gestion locative pour propriétaires bailleurs. Essai gratuit.",
-  keywords: [
-    "logiciel gestion locative",
-    "gestion locative particulier",
-    "quittance de loyer automatique",
-    "indice de référence des loyers IRL",
-    "revision loyer INSEE",
-    "gestion locative en ligne",
-    "logiciel propriétaire bailleur",
-    "Factur-X gestion locative",
-    "e-reporting B2C location",
-    "LMNP gestion",
-    "SCI gestion locative",
-    "open banking DSP2 loyer",
-  ],
-  openGraph: {
-    title: "RentReady — Gestion locative automatisée pour particuliers",
-    description:
-      "Quittances légales, détection des virements, révision IRL. Le pilote automatique des propriétaires bailleurs. 15 €/mois.",
-    type: "website",
-    locale: "fr_FR",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "RentReady — Logiciel de gestion locative automatisée",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "RentReady — Gestion locative automatisée pour particuliers",
-    description:
-      "Quittances légales, détection des virements, révision IRL. Le pilote automatique des propriétaires bailleurs. 15 €/mois.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  alternates: {
-    canonical: "https://www.rentready.fr",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Gestion locative automatisée particuliers | RentReady",
+    description: "Quittances conformes, détection des virements, révision IRL automatique. Le logiciel de gestion locative pour propriétaires bailleurs. Essai gratuit.",
+    url: "",
+    ogType: "default",
+  });
+}
 
 /* ─── JSON-LD for rich results ─── */
 import {

@@ -14,6 +14,39 @@ export const LOCALES = ["fr"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "fr";
 
+/** OG image template types — must match /api/og route switch cases */
+export type OgType =
+  | "default"
+  | "article"
+  | "template"
+  | "feature"
+  | "pricing"
+  | "outil"
+  | "location";
+
+/**
+ * Build a dynamic OG image URL for the /api/og endpoint.
+ * Falls back to the static OG image if no type is specified.
+ *
+ * Usage:
+ *   buildOgImageUrl({ title: "Mon titre", description: "Ma desc", type: "pricing" })
+ */
+export function buildOgImageUrl({
+  title,
+  description,
+  type = "default",
+}: {
+  title: string;
+  description?: string;
+  type?: OgType;
+}): string {
+  const params = new URLSearchParams();
+  params.set("title", title);
+  params.set("type", type);
+  if (description) params.set("description", description);
+  return `/api/og?${params.toString()}`;
+}
+
 /**
  * Build a full title string:
  *   "Page Topic | RentReady"
@@ -27,6 +60,8 @@ export function buildTitle(page: string, city?: string): string {
 /**
  * Default metadata shape for generateMetadata().
  * Override title/description as needed per page.
+ *
+ * Pass ogType to use a dynamic OG image from /api/og instead of the static fallback.
  */
 export function baseMetadata({
   title,
@@ -34,13 +69,23 @@ export function baseMetadata({
   url,
   keywords = [],
   type = "website",
+  ogType,
+  ogDescription,
 }: {
   title: string;
   description: string;
   url: string;
   keywords?: string[];
   type?: "website" | "article";
+  /** Use a dynamic OG image template from /api/og */
+  ogType?: OgType;
+  /** Optional shorter description specifically for the OG image text */
+  ogDescription?: string;
 }) {
+  const ogImageUrl = ogType
+    ? buildOgImageUrl({ title, description: ogDescription ?? description, type: ogType })
+    : DEFAULT_OG_IMAGE;
+
   return {
     title,
     description,
@@ -60,7 +105,7 @@ export function baseMetadata({
       siteName: SITE_NAME,
       images: [
         {
-          url: DEFAULT_OG_IMAGE,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: title,
@@ -71,7 +116,7 @@ export function baseMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [DEFAULT_OG_IMAGE],
+      images: [ogImageUrl],
     },
   };
 }

@@ -74,6 +74,7 @@ module.exports = {
         'cumulative-layout-shift': ['error', { maxNumericValue: 0.1 }],    // CLS < 0.1
         'total-blocking-time': ['error', { maxNumericValue: 200 }],         // TBT < 200ms
         'speed-index': ['error', { maxNumericValue: 3_400 }],               // SI < 3.4s
+        'interaction-to-next-paint': ['error', { maxNumericValue: 200 }],   // INP < 200ms (replaces FID in CWV)
         
         // No console errors on marketing pages
         'no-console-errors': ['error', { minScore: 1 }],

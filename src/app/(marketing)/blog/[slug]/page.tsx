@@ -11,6 +11,7 @@ import { AuthorBio } from "@/components/seo/blog/AuthorBio";
 import { RelatedArticles } from "@/components/seo/blog/RelatedArticles";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -25,35 +26,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const article = getArticleBySlug(slug);
   if (!article) return {};
 
-  return {
+  const base = baseMetadata({
     title: article.title,
     description: article.excerpt,
-    alternates: {
-      canonical: `https://www.rentready.fr/blog/${slug}`,
-    },
+    url: `/blog/${slug}`,
+    ogType: "article",
+  });
+
+  return {
+    ...base,
     openGraph: {
-      title: article.title,
-      description: article.excerpt,
-      url: `https://www.rentready.fr/blog/${slug}`,
+      ...base.openGraph,
       type: "article",
       publishedTime: article.date,
       authors: ["RentReady"],
-      images: [
-        {
-          url: `https://www.rentready.fr/api/og?title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.excerpt)}&type=article`,
-          width: 1200,
-          height: 630,
-          alt: article.title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: article.title,
-      description: article.excerpt,
-      images: [
-        `https://www.rentready.fr/api/og?title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.excerpt)}&type=article`,
-      ],
     },
   };
 }

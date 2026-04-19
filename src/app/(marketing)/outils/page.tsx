@@ -4,32 +4,17 @@ import React from "react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Outils Immobiliers Gratuits — Calculateurs & Générateurs | RentReady",
-  description: "Accédez à nos calculateurs immobiliers gratuits: révision IRL, rendement, caution, charges locatives. Outils professionnels pour propriétaires bailleurs.",
-  keywords: [
-    "calculateur loyer",
-    "calculateur IRL",
-    "calculateur rendement locatif",
-    "générateur quittance",
-    "outils immobiliers gratuits",
-    "calculateur caution",
-  ],
-  openGraph: {
-    title: "Outils Immobiliers Gratuits | RentReady",
-    description:
-      "Calculateurs gratuits pour propriétaires : IRL, rendement, caution. Générez vos documents locatifs en 30 secondes.",
-    type: "website",
-    url: "https://www.rentready.fr/outils",
-    siteName: "RentReady",
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/outils",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Outils Immobiliers Gratuits — Calculateurs & Générateurs | RentReady",
+    description: "Accédez à nos calculateurs immobiliers gratuits: révision IRL, rendement, caution, charges locatives. Outils professionnels pour propriétaires bailleurs.",
+    url: "/outils",
+    ogType: "outil",
+  });
+}
+;
 
 const TOOLS = [
   {

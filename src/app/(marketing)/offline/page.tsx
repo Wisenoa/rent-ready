@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Maintenance — RentReady",
-  description: "RentReady est actuellement en maintenance. Toutes les fonctionnalités seront bientôt de retour. Merci de votre patience.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-  alternates: {
-    canonical: "https://www.rentready.fr/maintenance",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Maintenance — RentReady",
+    description: "RentReady est actuellement en maintenance. Toutes les fonctionnalités seront bientôt de retour. Merci de votre patience.",
+    url: "/maintenance",
+    ogType: "template",
+  });
+}
+;
 
 export default function MaintenancePage() {
   return (

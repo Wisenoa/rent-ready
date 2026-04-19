@@ -3,36 +3,22 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-  title: "Modèle Bail Professionnel — Contrat Location Commerciale 2026 | RentReady",
-  description: "Téléchargez notre modèle de bail professionnel gratuit. Contrat conforme au droit français, clauses essentielles et annexes pour location professionnelle.",
-  keywords: [
-    "bail professionnel",
-    "bail commercial",
-    "location commerciale",
-    "contrat bail professionnel",
-    "bail 3 ans",
-    "loyer commercial",
-  ],
-  openGraph: {
-    title: "Modèle Bail Professionnel — RentReady",
-    description:
-      "Modèle gratuit de bail professionnel. Location commerciale 3-6 ans, révision, résiliation. Conforme statut des baux commerciaux.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/bail-professionnel",
-    siteName: "RentReady",
-    images: [{ url: "https://www.rentready.fr/og-image.png", width: 1200, height: 630, alt: "Bail Professionnel" }],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: { canonical: "https://www.rentready.fr/modeles/bail-professionnel" },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Bail Professionnel — Contrat Location Commerciale 2026 | RentReady",
+    description: "Téléchargez notre modèle de bail professionnel gratuit. Contrat conforme au droit français, clauses essentielles et annexes pour location professionnelle.",
+    url: "/modeles/bail-professionnel",
+    ogType: "template",
+  });
+}
+;
 
 const caracteristiques = [
   {

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import cities from "@/data/cities.json";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // ISR: city pages use static city data — revalidate monthly
 export const revalidate = 2592000;
@@ -55,34 +58,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const city = cities.find((c) => c.slug === ville);
   if (!city) return {};
   const title = `Modèle bail de location à ${city.name} — Gratuit 2026`;
-  return {
+  return baseMetadata({
     title,
     description: `Téléchargez un modèle de bail de location adapté à ${city.name}. Vide, meublé, colocation — tous conformes à la loi 1989 et à la réglementation ${city.name} (${city.department}).`,
-    openGraph: {
-      title,
-      description: `Modèle de bail gratuit pour ${city.name}. Téléchargez et personnalisez en 10 minutes. Mise à jour 2026.`,
-      type: "website",
-      url: `https://www.rentready.fr/bail/${city.slug}`,
-      siteName: "RentReady",
-      images: [
-        {
-          url: "https://www.rentready.fr/og-image.png",
-          width: 1200,
-          height: 630,
-          alt: `Modèle bail de location ${city.name} — RentReady`,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: `Modèle de bail gratuit pour ${city.name}. Téléchargez et personnalisez en 10 minutes. Mise à jour 2026.`,
-      images: ["https://www.rentready.fr/og-image.png"],
-    },
-    alternates: {
-      canonical: `https://www.rentready.fr/bail/${city.slug}`,
-    },
-  };
+    url: `/bail/${city.slug}`,
+    ogType: "template",
+  });
 }
 
 /* ---------- Page content ---------- */
@@ -185,12 +166,14 @@ function getFaqs(city: City) {
 
 /* ---------- Structured data ---------- */
 
-function CityBailJsonLd({ city }: { city: City }) {
+/* ─── Structured Data ─── */
+
+function buildBailVilleSchema(city: City) {
   const faqs = getFaqs(city);
   const bailTypes = getBailTypes(city);
   const ctx = getCityContext(city);
 
-  const data = {
+  return {
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -259,12 +242,6 @@ function CityBailJsonLd({ city }: { city: City }) {
       },
     ],
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
 }
 
 /* ---------- Page ---------- */
@@ -281,7 +258,14 @@ export default async function BailVillePage({ params }: Props) {
 
   return (
     <>
-      <CityBailJsonLd city={city} />
+      <SchemaMarkup data={buildBailVilleSchema(city)} />
+      <Breadcrumb
+        items={[
+          { label: "Accueil", href: "/" },
+          { label: "Bail de location", href: "/bail" },
+          { label: city.name, href: `/bail/${city.slug}`, isCurrentPage: true },
+        ]}
+      />
       <article>
         {/* ── Hero ── */}
         <section className="bg-gradient-to-b from-[#f8f7f4] to-white px-4 py-20 text-center sm:px-6 sm:py-28">

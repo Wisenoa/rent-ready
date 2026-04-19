@@ -5,6 +5,7 @@ import React from "react";
 import { SchemaMarkup, breadcrumbSchema } from "@/components/seo/schema-markup";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { TrustLogos } from "@/components/seo/TrustLogos";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
@@ -13,46 +14,15 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-  title: "Modèle Quittance de Loyer Gratuit — Conforme Loi 1989 | RentReady",
-  description: "Téléchargez notre modèle de quittance de loyer gratuit et conforme. Document officiel pour justifier le paiement du loyer et des charges.",
-  keywords: [
-    "modèle quittance de loyer",
-    "quittance loyer gratuit",
-    "quittance de loyer PDF",
-    "modèle quittance conforme",
-    "reçu loyer",
-    "quittance bail",
-  ],
-  openGraph: {
-    title: "Modèle Quittance de Loyer Gratuit — RentReady",
-    description:
-      "Modèle de quittance de loyer gratuit et conforme à la loi. Mentions obligatoires, mention IRL INSEE. Générez en 30 secondes.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/quittance-de-loyer",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "RentReady — Modèle Quittance de Loyer",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Modèle Quittance de Loyer Gratuit — RentReady",
-    description:
-      "Modèle de quittance de loyer gratuit et conforme à la loi. Mentions obligatoires, mention IRL INSEE. Générez en 30 secondes.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/quittance-de-loyer",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Quittance de Loyer Gratuit — Conforme Loi 1989 | RentReady",
+    description: "Téléchargez notre modèle de quittance de loyer gratuit et conforme. Document officiel pour justifier le paiement du loyer et des charges.",
+    url: "/modeles/quittance-de-loyer",
+    ogType: "template",
+  });
+}
+;
 
 const mentionsObligatoires = [
   "Le nom du bailleur et son adresse",

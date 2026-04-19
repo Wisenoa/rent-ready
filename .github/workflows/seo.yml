@@ -59,7 +59,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     if: github.event_name == 'pull_request'
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -73,11 +72,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Build for Lighthouse testing
+      # SEO maintenance runs on: push/main, schedule, workflow_dispatch — no Vercel preview available.
+      # Uses local build + localhost server (same pattern as original).
       - name: Build Next.js app
         run: npm run build
         env:
           NEXT_PUBLIC_APP_URL: 'http://localhost:3000'
 
+      # Start the server locally, run Lighthouse CI against it.
       - name: Run Lighthouse CI against local server
         run: |
           npm run start &
@@ -96,6 +99,7 @@ jobs:
             --upload.target='filesystem' \
             --upload.storageRootPath='.lighthouseci'
           kill $SERVER_PID 2>/dev/null || true
+        continue-on-error: false
 
       - name: Upload Lighthouse report
         uses: actions/upload-artifact@v4

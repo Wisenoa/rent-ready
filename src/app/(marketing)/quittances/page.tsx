@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -14,48 +17,15 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-title: "Quittances de loyer — Génération automatique et conforme | RentReady",
-description:
-"Générez des quittances de loyer conformes en 1 clic. Quittance PDF automatique, mention légale INSEE, envoyée au locataire. Logiciel pour propriétaires.",
-keywords: [
-"quittance loyer",
-"quittance de loyer PDF",
-"générer quittance",
-"quittance loyer automatique",
-"modèle quittance",
-"quittance conforme loi 1989",
-"reçu loyer",
-],
-openGraph: {
-title: "Quittances de loyer automatiques — RentReady",
-description:
-"Générez des quittances conformes en 1 clic. PDF automatique, mention légale INSEE, envoyée au locataire.",
-type: "website",
-url: "https://www.rentready.fr/quittances",
-siteName: "RentReady",
-images: [
-{
-url: "https://www.rentready.fr/og-image.png",
-width: 1200,
-height: 630,
-alt: "RentReady — Quittances de loyer",
-},
-],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Quittances de loyer automatiques — RentReady",
-    description:
-      "Générez des quittances conformes en 1 clic. PDF automatique, mention légale INSEE, envoyée au locataire.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/quittances",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Quittances de loyer — Génération automatique et conforme | RentReady",
+    description: "Générez des quittances de loyer conformes en 1 clic. Quittance PDF automatique, mention légale INSEE, envoyée au locataire. Logiciel pour propriétaires.",
+    url: "/quittances",
+    ogType: "template",
+  });
+}
+;
 
 const features = [
 {
@@ -132,92 +102,93 @@ const faqData = [
   },
 ];
 
-function QuittancesJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        name: "Fil d'Ariane",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Accueil",
-            item: "https://www.rentready.fr",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Quittances de loyer",
-            item: "https://www.rentready.fr/quittances",
-          },
-        ],
-      },
-      {
-        "@type": "SoftwareApplication",
-        name: "RentReady — Quittances de loyer",
-        applicationCategory: "BusinessApplication",
-        operatingSystem: "Web",
-        url: "https://www.rentready.fr/quittances",
-        description:
-          "Générez des quittances de loyer conformes à la loi du 6 juillet 1989 en 1 clic. PDF automatique, mention IRL INSEE, envoi automatique au locataire.",
-        offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+/* ─── Structured Data ─── */
+
+const QUITTANCES_SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      name: "Fil d'Ariane",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Accueil",
+          item: "https://www.rentready.fr",
         },
-        featureList: [
-          "Génération de quittance en 1 clic",
-          "PDF conforme loi 1989",
-          "Mention IRL INSEE intégrée",
-          "Envoi automatique par email",
-          "Archivage illimité",
-          "Export comptable",
-        ],
-      },
-      {
-        "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "customer support",
-          email: "contact@rentready.fr",
-          availableLanguage: "French",
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Quittances de loyer",
+          item: "https://www.rentready.fr/quittances",
         },
+      ],
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "RentReady — Quittances de loyer",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: "https://www.rentready.fr/quittances",
+      description:
+        "Générez des quittances de loyer conformes à la loi du 6 juillet 1989 en 1 clic. PDF automatique, mention IRL INSEE, envoi automatique au locataire.",
+      offers: {
+        "@type": "Offer",
+        price: "15.00",
+        priceCurrency: "EUR",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+        url: "https://www.rentready.fr/register",
       },
-      {
-        "@type": "FAQPage",
-        name: "FAQ — Quittances de loyer RentReady",
-        mainEntity: faqData.map((item) => ({
-          "@type": "Question",
-          name: item.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: item.answer,
-          },
-        })),
+      featureList: [
+        "Génération de quittance en 1 clic",
+        "PDF conforme loi 1989",
+        "Mention IRL INSEE intégrée",
+        "Envoi automatique par email",
+        "Archivage illimité",
+        "Export comptable",
+      ],
+    },
+    {
+      "@type": "Organization",
+      name: "RentReady",
+      url: "https://www.rentready.fr",
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: "contact@rentready.fr",
+        availableLanguage: "French",
       },
-    ],
-  };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-}
+    },
+    {
+      "@type": "FAQPage",
+      name: "FAQ — Quittances de loyer RentReady",
+      mainEntity: faqData.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+    },
+  ],
+};
 
 export default function QuittancesPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <QuittancesJsonLd />
+      <SchemaMarkup data={QUITTANCES_SCHEMA} />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+{/* Breadcrumb */}
+<Breadcrumb
+  items={[
+    { label: "Accueil", href: "/" },
+    { label: "Quittances de loyer", href: "/quittances", isCurrentPage: true },
+  ]}
+/>
 {/* Hero */}
 <header className="mb-16 text-center">
 <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">

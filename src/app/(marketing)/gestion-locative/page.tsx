@@ -1,40 +1,72 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import cities from "@/data/cities.json";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { baseMetadata } from "@/lib/seo/metadata";
+
+/* ─── Structured Data ─── */
+
+const GESTION_SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
+        { "@type": "ListItem", position: 2, name: "Gestion locative", item: "https://www.rentready.fr/gestion-locative" },
+      ],
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "RentReady — Gestion locative",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: "https://www.rentready.fr/gestion-locative",
+      description:
+        "Logiciel de gestion locative pour propriétaires bailleurs en France. Quittances automatiques, suivi des loyers, conformité légale 2026.",
+      offers: {
+        "@type": "Offer",
+        price: "15.00",
+        priceCurrency: "EUR",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+        url: "https://www.rentready.fr/register",
+      },
+      featureList: [
+        "Quittances de loyer PDF",
+        "Suivi des loyers en temps réel",
+        "Révision IRL automatique",
+        "État des lieux intégré",
+        "Conformité Factur-X",
+      ],
+    },
+    {
+      "@type": "Organization",
+      name: "RentReady",
+      url: "https://www.rentready.fr",
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: "contact@rentready.fr",
+        availableLanguage: "French",
+      },
+    },
+  ],
+};
 
 // ISR: all-cities listing — revalidate monthly
 export const revalidate = 2592000;
 
-export const metadata: Metadata = {
-  title: "Gestion locative en France — 50 villes",
-  description:
-    "Logiciel de gestion locative dans les 50 plus grandes villes de France. Quittances, suivi des loyers, conformité 2026. Essai gratuit →",
-  openGraph: {
-    title: "Gestion locative en France — 50 villes | RentReady",
-    description:
-      "Logiciel de gestion locative dans les 50 plus grandes villes de France. Quittances, suivi des loyers, conformité 2026.",
-    type: "website",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "RentReady — Gestion locative en France",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Gestion locative en France — 50 villes | RentReady",
-    description:
-      "Logiciel de gestion locative dans les 50 plus grandes villes de France. Quittances, suivi des loyers, conformité 2026.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: { canonical: "https://www.rentready.fr/gestion-locative" },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Gestion locative en France — 50 villes",
+    description: "Logiciel de gestion locative dans les 50 plus grandes villes de France. Quittances, suivi des loyers, conformité 2026. Essai gratuit →",
+    url: "/gestion-locative",
+    ogType: "feature",
+  });
+}
+;
 
 type City = (typeof cities)[number];
 
@@ -57,6 +89,15 @@ export default function GestionLocativeIndex() {
 
   return (
     <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+      <SchemaMarkup data={GESTION_SCHEMA} />
+
+      <Breadcrumb
+        items={[
+          { label: "Accueil", href: "/" },
+          { label: "Gestion locative", href: "/gestion-locative", isCurrentPage: true },
+        ]}
+      />
+
       {/* Hero */}
       <header className="mb-16 text-center">
         <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">

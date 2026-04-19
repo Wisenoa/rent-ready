@@ -24,6 +24,7 @@ import React from "react";
 
 import { TrustLogos } from "@/components/seo/TrustLogos";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -44,51 +45,14 @@ const GlassNav = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-  title: "Fonctionnalités — Logiciel gestion locative | RentReady",
-  description: "Fonctionnalités RentReady: quittances conformes, détection automatique, révision IRL, portail locataire, gestion des baux et financement.",
-  keywords: [
-    "fonctionnalités gestion locative",
-    "logiciel location quitance automatique",
-    "open banking detection loyer",
-    "revision IRL automatique",
-    "portail locataire",
-    "gestion maintenance locataire",
-    "ocr facture artisan",
-    "factur-x location",
-    "tableau de bord propriétaire",
-    "relance loyer impaye",
-    "export comptable location",
-  ],
-  openGraph: {
-    title: "Fonctionnalités RentReady — Tout pour gérer vos locations",
-    description:
-      "Quittances légales, Open Banking, révision IRL, portail locataire, maintenance, OCR IA. Un seul outil pour tout gérer.",
-    type: "website",
-    url: "https://www.rentready.fr/features",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Fonctionnalités RentReady — Gestion locative",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Fonctionnalités RentReady — Tout pour gérer vos locations",
-    description:
-      "Quittances légales, Open Banking, révision IRL, portail locataire, maintenance, OCR IA. Un seul outil pour tout gérer.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/features",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Fonctionnalités — Logiciel gestion locative | RentReady",
+    description: "Fonctionnalités RentReady: quittances conformes, détection automatique, révision IRL, portail locataire, gestion des baux et financement.",
+    url: "/features",
+    ogType: "feature",
+  });
+}
 
 /* ─── FAQ data for schema ─── */
 const featureFaqs = [

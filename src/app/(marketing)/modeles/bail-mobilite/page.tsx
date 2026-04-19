@@ -7,31 +7,17 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Modèle Bail Mobilité — Gratuit | RentReady",
-  description: "Téléchargez notre modèle de bail mobilité gratuit. Location meublée de 1 à 10 mois sans possibilité de prolongation ni révision loyer.",
-  keywords: [
-    "bail mobilité",
-    "contrat location meublée",
-    "bail meublé mobilité",
-    "loi Elan mobilité",
-    "location meublée temporaire",
-  ],
-  openGraph: {
-    title: "Modèle Bail Mobilité — RentReady",
-    description:
-      "Modèle de bail mobilité gratuit. Location meublée 1-10 mois, conforme loi Elan 2018. Téléchargement PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/bail-mobilite",
-    siteName: "RentReady",
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/bail-mobilite",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Bail Mobilité — Gratuit | RentReady",
+    description: "Téléchargez notre modèle de bail mobilité gratuit. Location meublée de 1 à 10 mois sans possibilité de prolongation ni révision loyer.",
+    url: "/modeles/bail-mobilite",
+    ogType: "template",
+  });
+}
+;
 
 const caractMobilite = [
   {

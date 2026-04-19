@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -14,47 +17,15 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-title: "Gestion des locations — Suivi de vos biens locatifs | RentReady",
-description: "Trouvez votre prochaine location avec RentReady. Outils et conseils pour propriétaires et locataires: gestion, bail, quittances et信息房地产.",
-keywords: [
-"gestion locations",
-"suivi biens immobiliers",
-"gestion locative",
-"suivi loyers",
-"état des lieux",
-"contrat location",
-"gestion propriétaire",
-],
-openGraph: {
-title: "Gestion des locations — RentReady",
-description:
-"Suivez vos biens, loyers, documents et contrats en un seul logiciel pour propriétaires.",
-type: "website",
-url: "https://www.rentready.fr/locations",
-siteName: "RentReady",
-images: [
-{
-url: "https://www.rentready.fr/og-image.png",
-width: 1200,
-height: 630,
-alt: "RentReady — Gestion des locations",
-},
-],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Gestion des locations — RentReady",
-    description:
-      "Suivez vos biens, loyers, documents et contrats en un seul logiciel pour propriétaires.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/locations",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Gestion des locations — Suivi de vos biens locatifs | RentReady",
+    description: "Trouvez votre prochaine location avec RentReady. Outils et conseils pour propriétaires et locataires: gestion, bail, quittances et信息房地产.",
+    url: "/locations",
+    ogType: "feature",
+  });
+}
+;
 
 const features = [
 {
@@ -118,92 +89,94 @@ const faqData = [
   },
 ];
 
-function LocationsJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        name: "Fil d'Ariane",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Accueil",
-            item: "https://www.rentready.fr",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Gestion des locations",
-            item: "https://www.rentready.fr/locations",
-          },
-        ],
-      },
-      {
-        "@type": "SoftwareApplication",
-        name: "RentReady — Gestion des locations",
-        applicationCategory: "BusinessApplication",
-        operatingSystem: "Web",
-        url: "https://www.rentready.fr/locations",
-        description:
-          "Gérez tous vos biens locatifs : suivi des loyers en temps réel, état des lieux, documents centralisés, portail locataire intégré. Logiciel pour propriétaires bailleurs.",
-        offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+/* ─── Structured Data ─── */
+
+const LOCATIONS_SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      name: "Fil d'Ariane",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Accueil",
+          item: "https://www.rentready.fr",
         },
-        featureList: [
-          "Tableau de bord unifié",
-          "Suivi des loyers en temps réel via Open Banking",
-          "Documents centralisés",
-          "Portail locataire intégré",
-          "Historique complet par bien",
-          "Alertes intelligentes (IRL, fin de bail, assurance)",
-        ],
-      },
-      {
-        "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "customer support",
-          email: "contact@rentready.fr",
-          availableLanguage: "French",
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Gestion des locations",
+          item: "https://www.rentready.fr/locations",
         },
+      ],
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "RentReady — Gestion des locations",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: "https://www.rentready.fr/locations",
+      description:
+        "Gérez tous vos biens locatifs : suivi des loyers en temps réel, état des lieux, documents centralisés, portail locataire intégré. Logiciel pour propriétaires bailleurs.",
+      offers: {
+        "@type": "Offer",
+        price: "15.00",
+        priceCurrency: "EUR",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+        url: "https://www.rentready.fr/register",
       },
-      {
-        "@type": "FAQPage",
-        name: "FAQ — Gestion des locations RentReady",
-        mainEntity: faqData.map((item) => ({
-          "@type": "Question",
-          name: item.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: item.answer,
-          },
-        })),
+      featureList: [
+        "Tableau de bord unifié",
+        "Suivi des loyers en temps réel via Open Banking",
+        "Documents centralisés",
+        "Portail locataire intégré",
+        "Historique complet par bien",
+        "Alertes intelligentes (IRL, fin de bail, assurance)",
+      ],
+    },
+    {
+      "@type": "Organization",
+      name: "RentReady",
+      url: "https://www.rentready.fr",
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: "contact@rentready.fr",
+        availableLanguage: "French",
       },
-    ],
-  };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-}
+    },
+    {
+      "@type": "FAQPage",
+      name: "FAQ — Gestion des locations RentReady",
+      mainEntity: faqData.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+    },
+  ],
+};
 
 export default function LocationsPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <LocationsJsonLd />
+      <SchemaMarkup data={LOCATIONS_SCHEMA} />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+{/* Breadcrumb */}
+<Breadcrumb
+  items={[
+    { label: "Accueil", href: "/" },
+    { label: "Gestion des locations", href: "/locations", isCurrentPage: true },
+  ]}
+/>
+
 {/* Hero */}
 <header className="mb-16 text-center">
 <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">

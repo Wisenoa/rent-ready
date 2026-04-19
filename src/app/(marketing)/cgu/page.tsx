@@ -1,37 +1,15 @@
 import type { Metadata } from "next";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Conditions Générales d'Utilisation — RentReady",
-  description: "Conditions générales d'utilisation de RentReady. Informations légales complètes sur l'utilisation de notre plateforme de gestion locative en ligne.",
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/cgu",
-  },
-  openGraph: {
+export async function generateMetadata() {
+  return baseMetadata({
     title: "Conditions Générales d'Utilisation — RentReady",
-    description:
-      "Conditions générales d'utilisation de RentReady, plateforme de gestion locative en ligne.",
-    url: "https://www.rentready.fr/cgu",
-    type: "website",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "CGU RentReady",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Conditions Générales d'Utilisation — RentReady",
-    description:
-      "Conditions générales d'utilisation de RentReady, plateforme de gestion locative en ligne.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-};
+    description: "Conditions générales d'utilisation de RentReady. Informations légales complètes sur l'utilisation de notre plateforme de gestion locative en ligne.",
+    url: "/cgu",
+    ogType: "template",
+  });
+}
+;
 
 function CguJsonLd() {
   const data = {

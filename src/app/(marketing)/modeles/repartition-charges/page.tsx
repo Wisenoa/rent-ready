@@ -3,35 +3,22 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-  title: "Modèle Répartition des Charges Locatives — Calcul et Contrat | RentReady",
-  description: "Modèle de convention de répartition des charges locatives. Document officiel pour partager les coûts entre propriétaire et locataire de manière claire.",
-  keywords: [
-    "répartition des charges",
-    "charges locatives",
-    "régularisation charges",
-    "provision charges",
-    "charges récupérables",
-  ],
-  openGraph: {
-    title: "Modèle Répartition des Charges — RentReady",
-    description:
-      "Modèle gratuit de répartition des charges locatives. Provisions, régularisation, justificatifs. Conforme loi ALUR.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/repartition-charges",
-    siteName: "RentReady",
-    images: [{ url: "https://www.rentready.fr/og-image.png", width: 1200, height: 630, alt: "Répartition Charges" }],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: { canonical: "https://www.rentready.fr/modeles/repartition-charges" },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Répartition des Charges Locatives — Calcul et Contrat | RentReady",
+    description: "Modèle de convention de répartition des charges locatives. Document officiel pour partager les coûts entre propriétaire et locataire de manière claire.",
+    url: "/modeles/repartition-charges",
+    ogType: "template",
+  });
+}
+;
 
 const typesCharges = [
   {

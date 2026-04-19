@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -15,48 +18,15 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-title: "Gestion des baux — Créer, suivre et renouveler vos contrats | RentReady",
-description:
-"Logiciel de gestion des baux : création de contrats, renouvellement, préavis, documents légaux. Simplifiez la gestion de vos locations. Essai gratuit.",
-keywords: [
-"gestion baux",
-"contrat location",
-"bail location",
-"renouvellement bail",
-"préavis locatif",
-"modèle bail",
-"document location",
-],
-openGraph: {
-title: "Gestion des baux — RentReady",
-description:
-"Créez, suivez et renouvelez vos contrats de location facilement. Gestion légale et automatisée.",
-type: "website",
-url: "https://www.rentready.fr/bail",
-siteName: "RentReady",
-images: [
-{
-url: "https://www.rentready.fr/og-image.png",
-width: 1200,
-height: 630,
-alt: "RentReady — Gestion des baux",
-},
-],
-},
-twitter: {
-card: "summary_large_image",
-title: "Gestion des baux — RentReady",
-description:
-"Créez, suivez et renouvelez vos contrats de location facilement. Gestion légale et automatisée.",
-images: ["https://www.rentready.fr/og-image.png"],
-},
-alternates: {
-canonical: "https://www.rentready.fr/bail",
-},
-robots: { index: true, follow: true },
-
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Gestion des baux — Créer, suivre et renouveler vos contrats | RentReady",
+    description: "Logiciel de gestion des baux : création de contrats, renouvellement, préavis, documents légaux. Simplifiez la gestion de vos locations. Essai gratuit.",
+    url: "/bail",
+    ogType: "template",
+  });
+}
+;
 
 const features = [
 {
@@ -147,92 +117,94 @@ const faqData = [
   },
 ];
 
-function BailJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        name: "Fil d'Ariane",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Accueil",
-            item: "https://www.rentready.fr",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Bail de location",
-            item: "https://www.rentready.fr/bail",
-          },
-        ],
-      },
-      {
-        "@type": "SoftwareApplication",
-        name: "RentReady — Gestion des baux",
-        applicationCategory: "BusinessApplication",
-        operatingSystem: "Web",
-        url: "https://www.rentready.fr/bail",
-        description:
-          "Créez, suivez et renouvelez vos contrats de location facilement. Modèles de baux conformes loi Alur et ÉLAN, assistant guidée, signature électronique.",
-        offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+/* ─── Structured Data ─── */
+
+const BAIL_SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      name: "Fil d'Ariane",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Accueil",
+          item: "https://www.rentready.fr",
         },
-        featureList: [
-          "Création de bail guidée conforme loi 1989",
-          "Suivi automatique des échéances",
-          "Signature électronique locataire",
-          "Export PDF légal",
-          "Archivage sécurisé",
-          "Alertes renouvellement",
-        ],
-      },
-      {
-        "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "customer support",
-          email: "contact@rentready.fr",
-          availableLanguage: "French",
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Bail de location",
+          item: "https://www.rentready.fr/bail",
         },
+      ],
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "RentReady — Gestion des baux",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: "https://www.rentready.fr/bail",
+      description:
+        "Créez, suivez et renouvelez vos contrats de location facilement. Modèles de baux conformes loi Alur et ÉLAN, assistant guidée, signature électronique.",
+      offers: {
+        "@type": "Offer",
+        price: "15.00",
+        priceCurrency: "EUR",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+        url: "https://www.rentready.fr/register",
       },
-      {
-        "@type": "FAQPage",
-        name: "FAQ — Gestion des baux RentReady",
-        mainEntity: faqData.map((item) => ({
-          "@type": "Question",
-          name: item.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: item.answer,
-          },
-        })),
+      featureList: [
+        "Création de bail guidée conforme loi 1989",
+        "Suivi automatique des échéances",
+        "Signature électronique locataire",
+        "Export PDF légal",
+        "Archivage sécurisé",
+        "Alertes renouvellement",
+      ],
+    },
+    {
+      "@type": "Organization",
+      name: "RentReady",
+      url: "https://www.rentready.fr",
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: "contact@rentready.fr",
+        availableLanguage: "French",
       },
-    ],
-  };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-}
+    },
+    {
+      "@type": "FAQPage",
+      name: "FAQ — Gestion des baux RentReady",
+      mainEntity: faqData.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+    },
+  ],
+};
 
 export default function BailPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <BailJsonLd />
+      <SchemaMarkup data={BAIL_SCHEMA} />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+{/* Breadcrumb */}
+<Breadcrumb
+  items={[
+    { label: "Accueil", href: "/" },
+    { label: "Bail de location", href: "/bail", isCurrentPage: true },
+  ]}
+/>
+
 {/* Hero */}
 <header className="mb-16 text-center">
 <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import cities from "@/data/cities.json";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // ISR: city pages use static city data — revalidate monthly
 export const revalidate = 2592000;
@@ -28,37 +31,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!city) return {};
 
   const title = `Gestion locative à ${city.name} (${city.department})`;
-  const fullTitle = `${title} | RentReady`;
   const description = `Gérez vos locations à ${city.name} sans effort : quittances légales, détection des loyers, révision IRL. Essai gratuit 14 jours, sans carte bancaire.`;
 
-  return {
+  return baseMetadata({
     title,
     description,
-    openGraph: {
-      title: fullTitle,
-      description,
-      type: "website",
-      url: `https://www.rentready.fr/gestion-locative/${city.slug}`,
-      siteName: "RentReady",
-      images: [
-        {
-          url: "https://www.rentready.fr/og-image.png",
-          width: 1200,
-          height: 630,
-          alt: `Gestion locative à ${city.name} — RentReady`,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: fullTitle,
-      description,
-      images: ["https://www.rentready.fr/og-image.png"],
-    },
-    alternates: {
-      canonical: `https://www.rentready.fr/gestion-locative/${city.slug}`,
-    },
-  };
+    url: `/gestion-locative/${city.slug}`,
+    ogType: "location",
+  });
 }
 
 /* ---------- Helpers ---------- */
@@ -196,11 +176,13 @@ function getLocalParagraphs(city: City) {
 
 /* ---------- Structured data ---------- */
 
-function CityJsonLd({ city }: { city: City }) {
+/* ─── Structured Data ─── */
+
+function buildGestionLocativeVilleSchema(city: City) {
   const ctx = getCityContext(city);
   const faqs = getFaqs(city);
 
-  const data = {
+  return {
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -259,32 +241,22 @@ function CityJsonLd({ city }: { city: City }) {
             },
           ],
         },
+        featureList: getFeatures(city).map((f) => f.title),
       },
       {
-        "@type": "Service",
-        name: `Gestion locative à ${city.name}`,
-        serviceType: "Property Management Software",
-        provider: {
-          "@type": "Organization",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
-        },
-        areaServed: {
-          "@type": "City",
-          name: city.name,
-          containedInPlace: {
-            "@type": "AdministrativeArea",
-            name: city.region,
-          },
-        },
-        offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
+        "@type": "Organization",
+        name: "RentReady",
+        url: "https://www.rentready.fr",
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "contact@rentready.fr",
+          availableLanguage: "French",
         },
       },
       {
         "@type": "FAQPage",
+        name: `FAQ — Gestion locative ${city.name} 2026`,
         mainEntity: faqs.map((faq) => ({
           "@type": "Question",
           name: faq.question,
@@ -296,13 +268,6 @@ function CityJsonLd({ city }: { city: City }) {
       },
     ],
   };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
 }
 
 /* ---------- Page ---------- */
@@ -318,7 +283,14 @@ export default async function GestionLocativeVille({ params }: Props) {
 
   return (
     <>
-      <CityJsonLd city={city} />
+      <SchemaMarkup data={buildGestionLocativeVilleSchema(city)} />
+      <Breadcrumb
+        items={[
+          { label: "Accueil", href: "/" },
+          { label: "Gestion locative", href: "/gestion-locative" },
+          { label: city.name, href: `/gestion-locative/${city.slug}`, isCurrentPage: true },
+        ]}
+      />
 
       <article>
         {/* ── Hero ── */}

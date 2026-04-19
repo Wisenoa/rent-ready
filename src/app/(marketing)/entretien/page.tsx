@@ -1,48 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Suivi des interventions — Gérez les réparations et maintenances | RentReady",
-  description:
-    "Déclarez, suivez et résolvez les interventions de maintenance de vos locations. Historique complet, photos,priorités. Simplifiez la gestion locative.",
-  keywords: [
-    "maintenance location",
-    "intervention réparation",
-    "demande maintenance",
-    "suivi travaux",
-    "dépannage locataire",
-    "gestion incidents",
-  ],
-  openGraph: {
-    title: "Suivi des interventions — RentReady",
-    description:
-      "Gérez toutes vos interventions de maintenance locative : déclaration, suivi, résolution. Historique complet pour chaque bien.",
-    type: "website",
-    url: "https://www.rentready.fr/maintenance",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "RentReady — Suivi des interventions",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Suivi des interventions — RentReady",
-    description:
-      "Gérez toutes vos interventions de maintenance locative : déclaration, suivi, résolution. Historique complet pour chaque bien.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/maintenance",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Suivi des interventions — Gérez les réparations et maintenances | RentReady",
+    description: "Déclarez, suivez et résolvez les interventions de maintenance de vos locations. Historique complet, photos,priorités. Simplifiez la gestion locative.",
+    url: "/maintenance",
+    ogType: "template",
+  });
+}
+;
 
 const features = [
   {

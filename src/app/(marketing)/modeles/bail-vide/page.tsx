@@ -7,31 +7,17 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Modèle Bail Vide — Gratuit | RentReady",
-  description: "Téléchargez notre modèle de bail vide gratuit et conforme au droit français. Bail résidentiel pour location non meublée avec clauses obligatoires.",
-  keywords: [
-    "bail vide",
-    "location non meublée",
-    "contrat bail vide",
-    "bail résidentiel",
-    "location 3 ans",
-  ],
-  openGraph: {
-    title: "Modèle Bail Vide — RentReady",
-    description:
-      "Modèle gratuit de bail vide (non meublé). Location résidentielle 3 ans, révision IRL, obligations. PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/bail-vide",
-    siteName: "RentReady",
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/bail-vide",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Bail Vide — Gratuit | RentReady",
+    description: "Téléchargez notre modèle de bail vide gratuit et conforme au droit français. Bail résidentiel pour location non meublée avec clauses obligatoires.",
+    url: "/modeles/bail-vide",
+    ogType: "template",
+  });
+}
+;
 
 const caracteristiquesBailVide = [
   {

@@ -1,37 +1,15 @@
 import type { Metadata } from "next";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Politique de Confidentialité — RentReady",
-  description: "Politique de confidentialité de RentReady. Comment nous protégeons vos données personnelles, cookies et vos droits RGPD.",
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/politique-confidentialite",
-  },
-  openGraph: {
+export async function generateMetadata() {
+  return baseMetadata({
     title: "Politique de Confidentialité — RentReady",
-    description:
-      "Politique de confidentialité et protection des données personnelles de RentReady, conformément au RGPD.",
-    url: "https://www.rentready.fr/politique-confidentialite",
-    type: "website",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Politique de Confidentialité RentReady",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Politique de Confidentialité — RentReady",
-    description:
-      "Politique de confidentialité et protection des données personnelles de RentReady, conformément au RGPD.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-};
+    description: "Politique de confidentialité de RentReady. Comment nous protégeons vos données personnelles, cookies et vos droits RGPD.",
+    url: "/politique-confidentialite",
+    ogType: "template",
+  });
+}
+;
 
 function PolitiqueConfidentialiteJsonLd() {
   const data = {

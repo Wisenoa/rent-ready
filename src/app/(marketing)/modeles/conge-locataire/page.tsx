@@ -7,31 +7,17 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Modèle Congé Locataire — Gratuit | RentReady",
-  description: "Modèle gratuit de congé locataire à donner au propriétaire. Préavis de 1 ou 3 mois selon la situation. Formulaire prêt à utiliser.",
-  keywords: [
-    "congé locataire",
-    "préavis bail",
-    "donner son préavis",
-    "lettre départ locataire",
-    "fin de location",
-  ],
-  openGraph: {
-    title: "Modèle Congé Locataire — RentReady",
-    description:
-      "Modèle gratuit de congé (préavis) du locataire. Délais selon type de bail, modèle de lettre recommandée. PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/conge-locataire",
-    siteName: "RentReady",
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/conge-locataire",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Congé Locataire — Gratuit | RentReady",
+    description: "Modèle gratuit de congé locataire à donner au propriétaire. Préavis de 1 ou 3 mois selon la situation. Formulaire prêt à utiliser.",
+    url: "/modeles/conge-locataire",
+    ogType: "template",
+  });
+}
+;
 
 const delaisParBail = [
   { type: "Bail vide (nu)", duree: "3 mois", precision: "En zone NON tendue. Délai légal national." },

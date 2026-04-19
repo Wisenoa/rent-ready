@@ -8,46 +8,17 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{minHeight:400}} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Modèle Lettre Augmentation de Loyer — Gratuit | RentReady",
-  description: "Modèle de lettre pour augmenter le loyer en cours de bail. Calculs révision IRL et règles dineo-occupy pour incrementer合法的租金.",
-  keywords: [
-    "lettre augmentation loyer",
-    "révision loyer IRL",
-    "augmentation loyer 2026",
-    "IRL indice référence",
-    "encadrement loyer",
-  ],
-  openGraph: {
-    title: "Modèle Lettre Augmentation de Loyer — RentReady",
-    description:
-      "Modèle de lettre d'augmentation de loyer gratuit. Révision IRL 2026, zones tendues, téléchargement PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/augmentation-de-loyer",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "RentReady — Modèle Lettre Augmentation de Loyer",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Modèle Lettre Augmentation de Loyer — RentReady",
-    description:
-      "Modèle de lettre d'augmentation de loyer gratuit. Révision IRL 2026.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/augmentation-de-loyer",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Lettre Augmentation de Loyer — Gratuit | RentReady",
+    description: "Modèle de lettre pour augmenter le loyer en cours de bail. Calculs révision IRL et règles dineo-occupy pour incrementer合法的租金.",
+    url: "/modeles/augmentation-de-loyer",
+    ogType: "template",
+  });
+}
+;
 
 const conditionsAugmentation = [
   {

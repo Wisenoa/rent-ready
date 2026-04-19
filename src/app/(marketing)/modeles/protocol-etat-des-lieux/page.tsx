@@ -3,35 +3,22 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-  title: "Protocole État des Lieux — Guide Complet et Formulaire | RentReady",
-  description: "Protocol officiel détat des lieux. Document de référence pour inventorier le logement au démarrage et à la fin de la période de location.",
-  keywords: [
-    "protocole état des lieux",
-    "état des lieux entrée",
-    "état des lieux sortie",
-    "check-list état des lieux",
-    "protocole inspection",
-  ],
-  openGraph: {
-    title: "Protocole État des Lieux — RentReady",
-    description:
-      "Modèle gratuit de protocole d'état des lieux. Check-list complète, photos commentées, signature électronique. Conforme loi ALUR.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/protocol-etat-des-lieux",
-    siteName: "RentReady",
-    images: [{ url: "https://www.rentready.fr/og-image.png", width: 1200, height: 630, alt: "Protocole État des Lieux" }],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: { canonical: "https://www.rentready.fr/modeles/protocol-etat-des-lieux" },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Protocole État des Lieux — Guide Complet et Formulaire | RentReady",
+    description: "Protocol officiel détat des lieux. Document de référence pour inventorier le logement au démarrage et à la fin de la période de location.",
+    url: "/modeles/protocol-etat-des-lieux",
+    ogType: "template",
+  });
+}
+;
 
 const etapesProtocole = [
   {

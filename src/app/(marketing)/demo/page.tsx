@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 export const revalidate = 3600;
@@ -18,45 +19,15 @@ const DemoForm = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 300 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-  title: "Demandez une démo — RentReady",
-  description: "Réservez une démo RentReady de 30 minutes. Découvrez comment automatiser votre gestion locative: quittances, détection loyer, révision IRL.",
-  keywords: [
-    "demo gestion locative",
-    "rdv rentready",
-    "demonstration logiciel locatif",
-    "visio gestion locative",
-    "prise de rdv bailleur",
-  ],
-  openGraph: {
-    title: "Réservez une démo RentReady — 30 min",
-    description:
-      "Découvrez en 30 minutes comment automatiser votre gestion locative. Quittances, détection loyer, révision IRL.",
-    type: "website",
-    url: "https://www.rentready.fr/demo",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Réserver une démo RentReady",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Réservez une démo RentReady — 30 min",
-    description:
-      "Découvrez en 30 minutes comment automatiser votre gestion locative. Quittances, détection loyer, révision IRL.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/demo",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Demandez une démo — RentReady",
+    description: "Réservez une démo RentReady de 30 minutes. Découvrez comment automatiser votre gestion locative: quittances, détection loyer, révision IRL.",
+    url: "/demo",
+    ogType: "template",
+  });
+}
+;
 
 const benefits = [
   {

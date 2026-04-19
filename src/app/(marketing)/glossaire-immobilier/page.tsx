@@ -14,38 +14,17 @@ import {
 } from "@/lib/seo/structured-data";
 import { GlossarySidebar } from "@/components/seo/blog/GlossarySidebar";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Glossaire immobilier | Définitions location | RentReady",
-  description: "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, bail, quittance, charges et检修.",
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/glossaire-immobilier",
-  },
-  openGraph: {
-    title: "Glossaire Immobilier — Définitions Location et Investissement",
-    description:
-      "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
-    url: "https://www.rentready.fr/glossaire-immobilier",
-    type: "website",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Glossaire Immobilier RentReady",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Glossaire Immobilier — Définitions Location et Investissement",
-    description:
-      "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Glossaire immobilier | Définitions location | RentReady",
+    description: "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, bail, quittance, charges et检修.",
+    url: "/glossaire-immobilier",
+    ogType: "template",
+  });
+}
+;
 const glossaryTerms = [
   {
     term: "Bail",

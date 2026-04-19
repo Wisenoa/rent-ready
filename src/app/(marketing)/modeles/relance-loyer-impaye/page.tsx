@@ -8,45 +8,17 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{minHeight:400}} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Modèle Relance Loyer Impayé — Gratuit | RentReady",
-  description: "Modèle de lettre de relance pour loyer impayé. Étapes légales et نموذج gratuit pour réclamer le paiement du loyer en toute légalité.",
-  keywords: [
-    "lettre relance loyer impayé",
-    "mise en demeure loyer",
-    "relance loyer impayé modèle",
-    "modèle lettre impayé",
-  ],
-  openGraph: {
-    title: "Modèle Relance Loyer Impayé — RentReady",
-    description:
-      "Modèle de lettre de relance loyer impayé gratuit. Mise en demeure conforme, téléchargement PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/relance-loyer-impaye",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "RentReady — Modèle Relance Loyer Impayé",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Modèle Relance Loyer Impayé — RentReady",
-    description:
-      "Modèle de lettre de relance loyer impayé gratuit. Mise en demeure conforme.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/relance-loyer-impaye",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Relance Loyer Impayé — Gratuit | RentReady",
+    description: "Modèle de lettre de relance pour loyer impayé. Étapes légales et نموذج gratuit pour réclamer le paiement du loyer en toute légalité.",
+    url: "/modeles/relance-loyer-impaye",
+    ogType: "template",
+  });
+}
+;
 
 const etapesRelance = [
   {

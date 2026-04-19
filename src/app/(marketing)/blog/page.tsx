@@ -7,45 +7,20 @@ import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { articles } from "@/data/articles";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // blog listing uses the articles data
 const blogPosts = articles;
 
-export const metadata: Metadata = {
-  title: "Blog location | Conseils gestion locative | RentReady",
-  description: "Conseils et guides pratiques pour propriétaires bailleurs: gestion locative, quittances, révision IRL, entretien, bail et juridique locatif.",
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/blog",
-  },
-  other: {
-    "application/rss+xml": "/api/rss",
-  },
-  openGraph: {
-    title: "Blog Immobilier — Conseils Gestion Locative et Investissement",
-    description:
-      "Conseils et guides pour propriétaires bailleurs: gestion locative, quittances, révision IRL, législation immobilière.",
-    url: "https://www.rentready.fr/blog",
-    type: "website",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Blog RentReady — Conseils gestion locative",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog Immobilier — Conseils Gestion Locative et Investissement",
-    description:
-      "Conseils et guides pour propriétaires bailleurs: gestion locative, quittances, révision IRL, législation immobilière.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Blog location | Conseils gestion locative | RentReady",
+    description: "Conseils et guides pratiques pour propriétaires bailleurs: gestion locative, quittances, révision IRL, entretien, bail et juridique locatif.",
+    url: "/blog",
+    ogType: "article",
+  });
+}
+;
 const categories = ["Tous", "Gestion", "Calculs", "Juridique", "Fiscalité"];
 
 const schema = {

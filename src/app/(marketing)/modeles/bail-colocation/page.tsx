@@ -7,31 +7,17 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Modèle Bail Colocation — Gratuit | RentReady",
-  description: "Téléchargez notre modèle de bail de colocation gratuit et conforme. Contrats pour plusieurs locataires avec clauses partagées et individuelles.",
-  keywords: [
-    "bail colocation",
-    "contrat colocation",
-    "location plusieurs locataires",
-    "bail commun colocation",
-    "chaque colocataire bail",
-  ],
-  openGraph: {
-    title: "Modèle Bail Colocation — RentReady",
-    description:
-      "Modèle gratuit de bail colocation. Contrat pour 2+ colocataires, clauses-solidarité, partage des charges. PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/bail-colocation",
-    siteName: "RentReady",
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/bail-colocation",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Bail Colocation — Gratuit | RentReady",
+    description: "Téléchargez notre modèle de bail de colocation gratuit et conforme. Contrats pour plusieurs locataires avec clauses partagées et individuelles.",
+    url: "/modeles/bail-colocation",
+    ogType: "template",
+  });
+}
+;
 
 const typesColoc = [
   {

@@ -8,46 +8,17 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{minHeight:400}} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Modèle État des Lieux — Gratuit | RentReady",
-  description: "Téléchargez notre modèle détat des lieux gratuit et conforme. Document officiel pour inventorier le logement au début et fin de bail.",
-  keywords: [
-    "modèle état des lieux",
-    "état des lieux entrée sortie",
-    "état des lieux PDF gratuit",
-    "checklist état des lieux",
-    "modèle EDL",
-  ],
-  openGraph: {
-    title: "Modèle État des Lieux Gratuit — RentReady",
-    description:
-      "Modèle d'état des lieux gratuit et conforme. État des lieux entrée et sortie, checklist complète. Téléchargement PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/etat-des-lieux",
-    siteName: "RentReady",
-    images: [
-      {
-        url: "https://www.rentready.fr/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "RentReady — Modèle État des Lieux",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Modèle État des Lieux Gratuit — RentReady",
-    description:
-      "Modèle d'état des lieux gratuit et conforme. État des lieux entrée et sortie.",
-    images: ["https://www.rentready.fr/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/etat-des-lieux",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle État des Lieux — Gratuit | RentReady",
+    description: "Téléchargez notre modèle détat des lieux gratuit et conforme. Document officiel pour inventorier le logement au début et fin de bail.",
+    url: "/modeles/etat-des-lieux",
+    ogType: "template",
+  });
+}
+;
 
 const contenuObligatoire = [
   "Date de réalisation (entrée ou sortie)",

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 const FOOTER_LINKS = {
   Produit: [
@@ -30,8 +33,57 @@ const FOOTER_LINKS = {
 };
 
 export function MarketingFooter() {
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    // TODO: wire to email provider (Mailchimp / Brevo)
+    setSubmitted(true);
+  };
+
   return (
     <footer className="border-t border-stone-200/60 bg-[#f8f7f4]">
+      {/* Newsletter strip */}
+      <div className="border-b border-stone-200/60 bg-stone-900 py-8">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div>
+            <p className="text-[13px] font-semibold text-stone-300 uppercase tracking-wider mb-1">
+              Newsletter
+            </p>
+            <p className="text-[14px] text-stone-400 max-w-sm">
+              Conseils, modèle de lettres, actualités locatives — chaque semaine.
+            </p>
+          </div>
+          {submitted ? (
+            <p className="text-[14px] text-blue-400 font-medium">
+              Merci ! Vous êtes inscrit.
+            </p>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="flex w-full sm:w-auto gap-2 shrink-0"
+            >
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="votre@email.fr"
+                required
+                className="w-full sm:w-64 px-3 py-2 rounded-lg text-[13px] bg-stone-800 border border-stone-700 text-stone-100 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              />
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-lg text-[13px] font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-colors shrink-0"
+              >
+                S&apos;inscrire
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+
       <div className="mx-auto max-w-6xl px-5 sm:px-8 py-14">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
           {/* Brand column */}

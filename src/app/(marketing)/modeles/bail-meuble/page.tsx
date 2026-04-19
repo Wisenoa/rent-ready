@@ -3,37 +3,22 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-  title: "Modèle Bail Meublé — Contrat Location Meublée 2026 | RentReady",
-  description:
-    "Téléchargez notre modèle bail meublé gratuit. Location meublée résidence principale, durée 1 an renouvelable, inventaire mobilier intégré. PDF instantané.",
-  keywords: [
-    "bail meublé",
-    "location meublée",
-    "contrat bail meublé",
-    "bail 1 an",
-    "inventaire mobilier",
-    "location meublée résidence principale",
-  ],
-  openGraph: {
-    title: "Modèle Bail Meublé — RentReady",
-    description:
-      "Modèle gratuit de bail meublé. Location meublée résidence principale, durée 1 an, inventaire du mobilier. PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/bail-meuble",
-    siteName: "RentReady",
-    images: [{ url: "https://www.rentready.fr/og-image.png", width: 1200, height: 630, alt: "Bail Meublé" }],
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: { canonical: "https://www.rentready.fr/modeles/bail-meuble" },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Bail Meublé — Contrat Location Meublée 2026 | RentReady",
+    description: "Téléchargez notre modèle bail meublé gratuit. Location meublée résidence principale, durée 1 an renouvelable, inventaire mobilier intégré. PDF instantané.",
+    url: "/modeles/bail-meuble",
+    ogType: "template",
+  });
+}
+;
 
 const caracteristiques = [
   {

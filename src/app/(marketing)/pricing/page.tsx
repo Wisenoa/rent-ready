@@ -5,6 +5,7 @@ import React from "react";
 
 import { TrustLogos } from "@/components/seo/TrustLogos";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
+import { baseMetadata } from "@/lib/seo/metadata";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -17,46 +18,14 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-export const metadata: Metadata = {
-title: "Tarifs — Logiciel gestion locative 15€/mois | RentReady",
-description:
-"15€/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire. Essai gratuit 14 jours, sans engagement.",
-keywords: [
-"tarif gestion locative",
-"prix logiciel locatif",
-"abonnement gestion locative",
-"gestion locative pas cher",
-"essai gratuit gestion locative",
-],
-openGraph: {
-title: "Tarifs RentReady — 15€/mois, zéro surprise",
-description:
-"Gérez jusqu'à 10 biens pour 15€/mois. Quittances conformes, détection automatique, révision IRL, portail locataire. Essai gratuit.",
-type: "website",
-url: "https://www.rentready.fr/pricing",
-siteName: "RentReady",
-images: [
-{
-url: "https://www.rentready.fr/og-image.png",
-width: 1200,
-height: 630,
-alt: "RentReady Tarifs",
-},
-],
-},
-twitter: {
-card: "summary_large_image",
-title: "Tarifs RentReady — 15€/mois, zéro surprise",
-description:
-"Gérez jusqu'à 10 biens pour 15€/mois. Quittances conformes, détection automatique, révision IRL, portail locataire. Essai gratuit.",
-images: ["https://www.rentready.fr/og-image.png"],
-},
-alternates: {
-canonical: "https://www.rentready.fr/pricing",
-},
-robots: { index: true, follow: true },
-
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Tarifs — Logiciel gestion locative 15€/mois | RentReady",
+    description: "15€/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire. Essai gratuit 14 jours, sans engagement.",
+    url: "/pricing",
+    ogType: "pricing",
+  });
+}
 
 /* ─── JSON-LD: BreadcrumbList + Organization + WebPage + SoftwareApplication + FAQPage ─── */
 import {

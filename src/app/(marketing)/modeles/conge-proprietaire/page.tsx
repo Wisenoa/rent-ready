@@ -7,31 +7,17 @@ const FinalCta = dynamic(
   { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { baseMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Modèle Congé Propriétaire — Gratuit | RentReady",
-  description: "Modèle gratuit de congé donné par le propriétaire au locataire. Préavis de 2 à 6 mois selon le motif. Formulaire prêt à utiliser.",
-  keywords: [
-    "congé propriétaire",
-    "donner congé locataire",
-    "fin de bail propriétaire",
-    "préavis propriétaire",
-    "congé bail",
-  ],
-  openGraph: {
-    title: "Modèle Congé Propriétaire — RentReady",
-    description:
-      "Modèle gratuit de congé donné par le propriétaire. Motifs légaux, délais, envoi recommandé AR. PDF instantané.",
-    type: "website",
-    url: "https://www.rentready.fr/modeles/conge-proprietaire",
-    siteName: "RentReady",
-  },
-  robots: { index: true, follow: true },
-  
-  alternates: {
-    canonical: "https://www.rentready.fr/modeles/conge-proprietaire",
-  },
-};
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle Congé Propriétaire — Gratuit | RentReady",
+    description: "Modèle gratuit de congé donné par le propriétaire au locataire. Préavis de 2 à 6 mois selon le motif. Formulaire prêt à utiliser.",
+    url: "/modeles/conge-proprietaire",
+    ogType: "template",
+  });
+}
+;
 
 const motifsProprietaire = [
   {

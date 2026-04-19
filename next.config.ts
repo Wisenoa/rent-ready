@@ -82,50 +82,46 @@ const config: NextConfig = {
         ],
       },
       // Marketing pages — SWR caching ( ISR / stale-while-revalidate )
+      // Note: route groups like (marketing) are not URL paths
+      // Use /:path* syntax (not /*) since path-to-regexp requires modifier on param
       {
-        source: '/(marketing)/*',
+        source: '/blog/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
         ],
       },
       {
-        source: '/blog/*',
-        headers: [
-          { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
-        ],
-      },
-      {
-        source: '/modeles/*',
+        source: '/modeles/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, s-maxage=86400, stale-while-revalidate=604800' },
         ],
       },
       {
-        source: '/templates/*',
+        source: '/templates/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, s-maxage=86400, stale-while-revalidate=604800' },
         ],
       },
       {
-        source: '/outils/*',
+        source: '/outils/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, s-maxage=86400, stale-while-revalidate=604800' },
         ],
       },
       {
-        source: '/glossaire-immobilier/*',
+        source: '/glossaire-immobilier/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
         ],
       },
       {
-        source: '/bail/*',
+        source: '/bail/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
         ],
       },
       {
-        source: '/gestion-locative/*',
+        source: '/gestion-locative/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
         ],
@@ -137,14 +133,14 @@ const config: NextConfig = {
         ],
       },
       {
-        source: '/api/(.*)',
+        source: '/api/:path*',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: process.env.NEXT_PUBLIC_APP_URL || '*' },
           { key: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,DELETE,PATCH,OPTIONS' },
-          { 
-            key: 'Access-Control-Allow-Headers', 
-            value: 'Content-Type, Authorization, X-Requested-With, X-Tenant-ID, X-Request-ID' 
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization, X-Requested-With, X-Tenant-ID, X-Request-ID'
           },
         ],
       },
