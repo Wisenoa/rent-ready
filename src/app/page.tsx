@@ -3,16 +3,16 @@
  *
  * Performance decisions:
  * - Only HeroSection and GlassNav are above-the-fold — loaded eagerly.
- * - All below-the-fold sections (social-proof, benefits, comparisons, etc.)
- *   use Next.js dynamic() for code splitting. Each section ships its JS
- *   separately so the initial bundle stays lean and INP stays low.
+ * - All below-the-fold sections use a Client Component wrapper that calls
+ *   next/dynamic internally. This avoids the "only plain objects can be passed
+ *   to Client Components" error that occurs when next/dynamic is used directly
+ *   in a Server Component in Next.js 15 App Router.
  * - ISR with revalidate=3600: Vercel Edge serves cached HTML, TTFB < 100ms
  *   for returning visitors. Googlebot gets fresh cached HTML on every crawl.
  * - All "use client" components are code-split — they never block the main thread
  *   during initial load.
  * - Framer-motion animations are deferred until after first paint.
  */
-import dynamic from "next/dynamic";
 import React from "react";
 import type { Metadata } from "next";
 import { GlassNav } from "@/components/landing/glass-nav";
@@ -23,39 +23,17 @@ import { HeroSection } from "@/components/landing/hero-section";
 import { FaqSection, FaqJsonLd } from "@/components/landing/faq-section";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-/* ─── Below-the-fold: dynamically imported (code-split, client-only) ─── */
-const SocialProof = dynamic(
-  () => import("@/components/landing/social-proof"),
-  { loading: () => <div className="py-16 sm:py-20" style={{ minHeight: 180 }} aria-hidden="true" /> }
-);
-const TestimonialStrip = dynamic(
-  () => import("@/components/landing/testimonial-strip"),
-  { loading: () => <div style={{ minHeight: 120 }} aria-hidden="true" /> }
-);
-const ProblemSection = dynamic(
-  () => import("@/components/landing/problem-section"),
-  { loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
-);
-const BentoBenefits = dynamic(
-  () => import("@/components/landing/bento-benefits"),
-  { loading: () => <div style={{ minHeight: 800 }} aria-hidden="true" /> }
-);
-const ComparisonSection = dynamic(
-  () => import("@/components/landing/comparison-section"),
-  { loading: () => <div style={{ minHeight: 500 }} aria-hidden="true" /> }
-);
-const TestimonialsSection = dynamic(
-  () => import("@/components/landing/testimonials-section"),
-  { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
-);
-const PricingSection = dynamic(
-  () => import("@/components/landing/pricing-section"),
-  { loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
-);
-const FinalCta = dynamic(
-  () => import("@/components/landing/final-cta"),
-  { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
-);
+/* ─── Below-the-fold: Client Component wrappers (next/dynamic called inside each wrapper) ─── */
+import {
+  SocialProofWrapper,
+  TestimonialStripWrapper,
+  ProblemSectionWrapper,
+  BentoBenefitsWrapper,
+  ComparisonSectionWrapper,
+  TestimonialsSectionWrapper,
+  PricingSectionWrapper,
+  FinalCtaWrapper,
+} from "@/components/landing/dynamic-wrappers";
 
 /* ─── ISR: revalidate at CDN edge every hour ─── */
 export const revalidate = 3600;
@@ -142,15 +120,15 @@ export default function HomePage() {
       <TestimonialsJsonLd />
       <GlassNav />
       <HeroSection />
-      <SocialProof />
-      <TestimonialStrip />
-      <ProblemSection />
-      <BentoBenefits />
-      <ComparisonSection />
-      <TestimonialsSection />
-      <PricingSection />
+      <SocialProofWrapper />
+      <TestimonialStripWrapper />
+      <ProblemSectionWrapper />
+      <BentoBenefitsWrapper />
+      <ComparisonSectionWrapper />
+      <TestimonialsSectionWrapper />
+      <PricingSectionWrapper />
       <FaqSection />
-      <FinalCta />
+      <FinalCtaWrapper />
       <MarketingFooter />
     </div>
   );
