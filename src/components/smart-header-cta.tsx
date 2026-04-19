@@ -33,13 +33,13 @@ export function SmartHeaderCta() {
       <>
         <Link
           href="/login"
-          className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-900"
+          className="hidden sm:block text-sm font-medium text-stone-600 transition-colors hover:text-stone-900"
         >
           Connexion
         </Link>
         <Link
           href="/register"
-          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
+          className="rounded-xl bg-indigo-600 hover:bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
         >
           Essai gratuit
         </Link>
@@ -51,9 +51,9 @@ export function SmartHeaderCta() {
     return (
       <Link
         href="/dashboard"
-        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
+        className="rounded-xl bg-indigo-600 hover:bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
       >
-        Accéder auDashboard
+        Accéder au Dashboard
       </Link>
     );
   }
@@ -62,13 +62,13 @@ export function SmartHeaderCta() {
     <>
       <Link
         href="/login"
-        className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-900"
+        className="hidden sm:block text-sm font-medium text-stone-600 transition-colors hover:text-stone-900"
       >
         Connexion
       </Link>
       <Link
         href="/register"
-        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
+        className="rounded-xl bg-indigo-600 hover:bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
       >
         Essai gratuit
       </Link>

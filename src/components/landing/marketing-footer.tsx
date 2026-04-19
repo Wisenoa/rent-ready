@@ -12,10 +12,18 @@ const FOOTER_LINKS = {
     { href: "/maintenance", label: "Maintenance" },
     { href: "/pricing", label: "Tarifs" },
   ],
+  "Pour bien commencer": [
+    { href: "/guides/modele-bail", label: "Modèle de bail gratuit" },
+    { href: "/guides/quittance-loyer", label: "Comment faire une quittance" },
+    { href: "/guides/depot-garantie", label: "Dépôt de garantie" },
+    { href: "/guides/irl-2026", label: "Révision IRL 2026" },
+    { href: "/guides/relance-loyer", label: "Lettre de relance" },
+  ],
   Ressources: [
     { href: "/blog", label: "Blog" },
     { href: "/glossaire-immobilier", label: "Glossaire" },
-    { href: "/outils", label: "Outils gratuits" },
+    { href: "/guides", label: "Guides pratiques" },
+    { href: "/templates", label: "Modèles gratuits" },
     { href: "/demo", label: "Démo" },
   ],
   Outils: [
@@ -29,6 +37,7 @@ const FOOTER_LINKS = {
     { href: "/mentions-legales", label: "Mentions légales" },
     { href: "/politique-confidentialite", label: "Confidentialité" },
     { href: "/cgu", label: "CGU" },
+    { href: "/politique-cookies", label: "Cookies" },
   ],
 };
 
@@ -87,7 +96,7 @@ export function MarketingFooter() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8 py-14">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
           {/* Brand column */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
+          <div className="col-span-2 sm:col-span-1 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-4">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-stone-900 font-bold text-sm text-white">
                 R

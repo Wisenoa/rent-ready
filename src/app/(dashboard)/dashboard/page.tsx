@@ -84,6 +84,8 @@ export default async function DashboardPage() {
           ? "Aucun bien enregistré"
           : `${stats.properties.withActiveLease} avec bail actif`,
       icon: Building2,
+      accentColor: "text-indigo-600",
+      bgColor: "bg-indigo-50",
     },
     {
       title: "Locataires actifs",
@@ -93,12 +95,16 @@ export default async function DashboardPage() {
           ? "Aucun locataire actif"
           : `${stats.tenants.active} bail${stats.tenants.active > 1 ? "s" : ""} en cours`,
       icon: Users,
+      accentColor: "text-blue-600",
+      bgColor: "bg-blue-50",
     },
     {
       title: "Revenus du mois",
       value: formatCurrency(stats.revenue.currentMonth),
       description: format(now, "MMMM yyyy", { locale: fr }),
       icon: CreditCard,
+      accentColor: "text-emerald-600",
+      bgColor: "bg-emerald-50",
     },
     {
       title: "Taux d'occupation",
@@ -110,6 +116,8 @@ export default async function DashboardPage() {
             ? "Aucun bien occupé"
             : `${stats.properties.vacant} bien${stats.properties.vacant > 1 ? "s" : ""} vacant${stats.properties.vacant > 1 ? "s" : ""}`,
       icon: TrendingUp,
+      accentColor: "text-amber-600",
+      bgColor: "bg-amber-50",
     },
   ];
 
@@ -134,7 +142,9 @@ export default async function DashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {kpi.title}
               </CardTitle>
-              <kpi.icon className="size-4 text-muted-foreground/70" />
+              <div className={`flex h-8 w-8 items-center justify-center rounded-xl ${kpi.bgColor ?? "bg-stone-50"}`}>
+                <kpi.icon className={`size-4 ${kpi.accentColor ?? "text-muted-foreground/70"}`} />
+              </div>
             </CardHeader>
             <CardContent>
               <span className="text-2xl font-bold tracking-tight">

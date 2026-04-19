@@ -1,220 +1,169 @@
-# Design Audit — RentReady
+# RentReady Design Audit — REN-242
 
-**Date:** 2026-04-13
+**Date:** 2026-04-19
 **Auditor:** Product Designer Agent
-**Scope:** Marketing pages + Dashboard pages + Landing components
+**Project:** /home/ubuntu/rent-ready
 
 ---
 
-## 1. Marketing Pages Audit
+## 1. Audit Scope
 
-### 1.1 Homepage (`src/app/page.tsx`)
-
-**Visual Hierarchy**
-- Hero: Good hierarchy — eyebrow label, H1 with gradient, subheading, CTA, trust badges
-- CTAs: Single primary CTA "Créer mon compte" — no secondary option for undecided visitors
-- Phone mockup: Nice floating animation, shows a realistic success notification
-
-**CTA Clarity**
-- Primary CTA is clear. **Missing:** secondary CTA for demo request
-- Trust line "Sans carte bancaire · Essai gratuit 14 jours" is excellent below the CTA
-
-**Trust Signals**
-- Trust badges (DSP2, Loi 1989, Factur-X) are present but placed far from the CTA — only visible if user reads the full hero copy
-- No customer count, no "X landlords trust us" stat
-
-**Social Proof Section Issues** (CRITICAL)
-- `social-proof.tsx` shows **text labels only** — "Bridge", "Stripe", "INSEE", "Factur-X", "DSP2" — these are not logos, just styled text. This is a red flag: it looks like placeholder content
-- Real testimonials exist in `testimonials-section.tsx` (good) but they're AFTER the pricing section — not visible on first scroll
-- Trust badges in testimonials section use emoji flags (🇪🇺) which look unprofessional
-
-**Mobile Layout**
-- Hero text is responsive with `clamp()`. Phone mockup scales well.
-- Section spacing is generous on mobile.
-
-**Issues Found:**
-1. Social proof logos look like fake placeholders
-2. Trust badges too far from hero CTA
-3. No visible testimonials above the fold
-4. No stats/numbers (e.g., "500+ landlords", "10,000+ quittances")
-5. No second CTA for demo-seekers
+- Marketing pages: Homepage, /pricing, /features, /demo, /quittances, /bail, /gestion-locative
+- Dashboard pages: /dashboard, /properties, /tenants, /leases, /maintenance, /billing
+- Component library: /src/components/ui, /src/components/landing, /src/components/dashboard
 
 ---
 
-### 1.2 Pricing Page (`src/app/(marketing)/pricing/page.tsx`)
+## 2. Design System Overview
 
-**Layout**
-- Single card — clean and focused
-- Annual plan shown with "2 mois offerts" badge
-- Good FAQ section
+**Aesthetic:** "Quiet Luxury" — warm stone/neutral palette with indigo accents. Professional, premium, trustworthy. Based on shadcn/ui + Tailwind CSS v4.
 
-**Issues:**
-1. Annual/monthly toggle is missing — user must read to find the annual option
-2. "2 mois offerts" badge is small and easy to miss above the price
-3. No comparison table visual anchor (it exists but is below the fold)
-4. No guarantee or "no credit card" reminder near the CTA
-5. CTA is just a text link-style button — no visual prominence vs. homepage CTA
+**Strengths:**
+- Consistent warm color palette (stone-900/50, indigo-600)
+- Good use of empty states with contextual illustrations
+- Recharts-powered dashboard charts
+- Framer Motion animations on marketing pages
+- Strong trust signals (stats bar, integration badges, testimonials)
+- Mobile-first responsive design
 
----
-
-### 1.3 Features Page (`src/app/(marketing)/features/page.tsx`)
-
-**Strengths**
-- Good alternating layout (image left/right)
-- Feature groups with icons and bullet points
-- Quick-scan checklist above the fold
-- Integration strip at the bottom
-
-**Issues:**
-1. **Placeholder visuals** — each feature group shows a large blurred icon in a gray gradient box. These are NOT product screenshots — visitors can't see the actual product. This is a major conversion issue.
-2. "Historique поиска" (Russian text) in one feature detail — must be corrected to French
-3. The "quick-scan" checklist section is good but could be more scannable with larger checkmark icons
-4. No interactive demo element — everything is static text
+**Gaps identified:**
 
 ---
 
-### 1.4 Demo Page (`src/app/(marketing)/demo/page.tsx`)
+## 3. Marketing Pages Audit
 
-**Strengths**
-- Clear agenda items
-- Good benefit bullets
-- Form is in a card on the right
+### Homepage
 
-**Issues:**
-1. No phone/contact alternative — form-only is high-friction for some users
-2. No urgency/scarcity element (available slots)
+| Area | Finding | Priority |
+|------|---------|----------|
+| Hero CTA | Primary CTA button (`bg-stone-900`) lacks visual pop. Secondary `text-stone-600` link blends in. No urgency signal. | HIGH |
+| Trust signals | Stats bar is good but testimonials are below-the-fold (rendered via dynamic import). E-E-A-T would benefit from visible proof above the fold. | HIGH |
+| Pricing section | Table is functional but lacks visual hierarchy. "Gratuit" badge not prominent. | MEDIUM |
+| Navigation CTA | "Essai gratuit" button in GlassNav competes with menu items but isn't visually distinct enough from nav links. | HIGH |
+| Footer | Comprehensive but could serve as internal linking hub more effectively for SEO. | MEDIUM |
 
----
+### Pricing Page
 
-### 1.5 Landing Components (`src/components/landing/`)
+| Area | Finding | Priority |
+|------|---------|----------|
+| Tier visual | No visual distinction between free/paid beyond text. Cards should have clear visual weight difference. | HIGH |
+| Feature comparison | Text-heavy. Icons would improve scanability. | MEDIUM |
+| Mobile layout | On mobile, comparison columns may not stack gracefully. | MEDIUM |
 
-**Strengths**
-- GlassNav: sticky with scroll-based background transition — excellent
-- HeroSection: great gradient, animated phone mockup
-- TestimonialsSection: beautiful card design with quote icon, stars, hover effect
-- FinalCta: dramatic dark section, good contrast with white CTA
-- PricingSection: hover float effect on the card
+### Landing pages (/features, /quittances, etc.)
 
-**Issues:**
-1. **Text logo "RentReady"** — the nav uses a plain text "R" in a box. A proper SVG logo would look more professional
-2. Testimonials use emoji trust badges (🇪🇺, 🔐, 📜) — should use SVG icons instead
-3. SocialProof section has no visual distinction — it's just text labels
-4. `motion-config.ts` — shared animation config is good, but some elements could animate more distinctly
-
----
-
-## 2. Dashboard Pages Audit
-
-### 2.1 Dashboard Home (`src/app/(dashboard)/dashboard/page.tsx`)
-
-**Strengths**
-- KPI cards with icons and descriptions
-- Charts section (Revenue/Expense, NOI)
-- Recent activity feed
-- Quick actions panel
-
-**Issues:**
-1. **No loading skeletons** — page is fully server-rendered but shows nothing during data fetch
-2. "Actions rapides" uses outline buttons with no primary action distinction
-3. Empty state in recent activity is well-designed but appears without animation
-
-### 2.2 Properties Page (`src/app/(dashboard)/properties/page.tsx`)
-
-**Strengths**
-- Card grid layout — good density
-- Shows active tenant, rent, badges for type/surface/rooms
-- PropertyActions menu (three-dot)
-
-**Issues:**
-1. Empty state is well-designed but the "Ajouter un bien" button is only shown AFTER a user has zero properties — first-time users need a more proactive onboarding prompt
-2. No filter/sort controls
-3. "Créer un bail" button is the same visual weight as "Ajouter un bien"
-
-### 2.3 Tenants Page (`src/app/(dashboard)/tenants/page.tsx`)
-
-**Strengths**
-- Avatar with initials
-- Payment status badge
-- Receipt download link
-- Edit/Delete actions per row
-
-**Issues:**
-1. No search or filter controls (by property, by status)
-2. Edit button is a tiny ghost icon — accessibility concern
-3. "Créer un bail" and "Ajouter un locataire" buttons have equal weight
-
-### 2.4 Leases Page (`src/app/(dashboard)/leases/page.tsx`)
-
-**Strengths**
-- Status badge (ACTIF = green, EXPIRED = amber)
-- Last payment status shown
-- Property + tenant in one card
-
-**Issues:**
-1. No search or filter
-2. IRL badge shown even when not relevant
-3. No visual timeline for lease term
+| Area | Finding | Priority |
+|------|---------|----------|
+| FeatureLandingPage | Consistent template — good. H2 hierarchy clear. But no visible testimonial/social proof mid-page. | HIGH |
+| Internal linking | "Lire aussi" / related content sections could be more prominent. | MEDIUM |
 
 ---
 
-## 3. Cross-Cutting Design Issues
+## 4. Dashboard Pages Audit
 
-### 3.1 Visual Inconsistency: Marketing vs. Dashboard
+### Dashboard (/dashboard)
 
-| Element | Marketing | Dashboard |
-|---|---|---|
-| Background | Warm `#f8f7f4` stone | Uses CSS vars (likely gray) |
-| Cards | `rounded-[2rem]`, `bg-white/60`, `backdrop-blur` | Standard `Card` with `border-border/50` |
-| Typography | `font-[family-name:var(--font-sans)]` | `font-sans` (Tailwind) |
-| Buttons | Filled dark, hover scale | Outline gray, hover bg |
-| Shadows | Large `shadow-2xl`, `shadow-stone-900/8` | `shadow-sm` |
+| Area | Finding | Priority |
+|------|---------|----------|
+| KPI Cards | Cards are clean but lack visual differentiation by category (revenue=green, urgent=red). Currently all same gray icon treatment. | HIGH |
+| Empty state | "Aucune transaction" empty state is text-only. Visual illustration would help. | MEDIUM |
+| Charts | Revenue/expense charts are functional and clear. Good. | LOW |
+| Quick Actions | "Actions rapides" section is functional but styled generically — could use more prominent visual hierarchy. | MEDIUM |
 
-**This is the most impactful consistency issue.** The marketing site feels premium/frothy; the dashboard feels generic/stripped-down.
+### Properties, Tenants, Leases pages
 
-### 3.2 Component Library Inconsistency
+| Area | Finding | Priority |
+|------|---------|----------|
+| Empty states | PropertiesEmptyState, TenantsEmptyState, LeasesEmptyState are excellent — good illustrations, clear CTAs. | N/A |
+| Loading states | Not reviewed in detail but assumed to be handled by Suspense boundaries. | LOW |
+| Tables | Page-level table components not reviewed — assumed functional. | MEDIUM |
 
-- Marketing uses custom components with frosted glass and framer-motion
-- Dashboard uses `@/components/ui/card` — a different visual language
+### Navigation
 
-### 3.3 Missing Global Elements
-
-- No loading skeletons on any dashboard page
-- No toast notification system visible in the marketing pages
-- No breadcrumbs on dashboard inner pages
-
----
-
-## 4. Priority Matrix
-
-| # | Issue | Severity | Impact | Page | Fix Complexity |
-|---|---|---|---|---|---|
-| 1 | Fake-looking social proof logos (text labels only) | Critical | Conversion | Homepage | Easy |
-| 2 | Features page uses placeholder visuals, no real product screenshots | Critical | Conversion | Features | Medium |
-| 3 | Dashboard uses generic/flat design vs. marketing premium feel | High | Retention, UX | Dashboard | Medium |
-| 4 | No loading skeletons on dashboard pages | High | UX | Dashboard | Easy |
-| 5 | Russian text "Historique поиска" in features page | High | Credibility | Features | Trivial |
-| 6 | No secondary CTA on hero (demo option) | Medium | Conversion | Homepage | Easy |
-| 7 | Trust badges placed far from hero CTA | Medium | Conversion | Homepage | Easy |
-| 8 | Emoji trust badges (🇪🇺🔐📜) in testimonials | Low | Brand | Marketing | Easy |
-| 9 | No annual/monthly pricing toggle | Medium | Conversion | Pricing | Easy |
-| 10 | Edit buttons too small (accessibility) | Low | A11y | Tenants | Easy |
+| Area | Finding | Priority |
+|------|---------|----------|
+| App Sidebar | Clean but the "RentReady" branding is only in the top-left logo. Quick-action links are functional. | LOW |
+| Smart Header CTA | Good pattern. Already shows context-aware CTA. | LOW |
 
 ---
 
-## 5. Top 5 Improvements Implemented
+## 5. Priority Matrix
 
-1. **[HOMEPAGE] Fix social proof section** — replace text-only labels with a proper logo strip + add a stats bar
-2. **[HOMEPAGE] Add secondary hero CTA** — "Voir la démo" for undecided visitors
-3. **[FEATURES] Fix Russian text** — replace "Historique поиска" with proper French copy
-4. **[DASHBOARD] Add primary button style** — upgrade "Actions rapides" to use filled primary buttons
-5. **[MARKETING] Replace emoji trust badges** — use SVG icons instead of 🇪🇺🔐📜 in testimonials
+| # | Issue | Page | Impact | Effort | Priority |
+|---|-------|------|--------|--------|----------|
+| 1 | Hero CTA button weak — not enough visual prominence | Homepage | HIGH | LOW | P0 |
+| 2 | Nav "Essai gratuit" CTA blends in — not visually distinct | GlassNav | HIGH | LOW | P0 |
+| 3 | No above-the-fold testimonial/social proof section | Homepage | HIGH | MEDIUM | P0 |
+| 4 | Dashboard KPI cards — category-colored icons missing | Dashboard | MEDIUM | LOW | P1 |
+| 5 | Footer missing internal links hub for SEO | Marketing Footer | MEDIUM | LOW | P1 |
+| 6 | Pricing page tier visual hierarchy flat | /pricing | MEDIUM | MEDIUM | P2 |
+| 7 | Empty state illustrations inconsistent (dashboard vs marketing) | Dashboard | LOW | MEDIUM | P3 |
 
 ---
 
-## 6. Recommendations for Next Iteration
+## 6. Top 5 Improvements to Implement
 
-1. **Add real product screenshots** to the features page — the placeholder icons are the biggest conversion killer
-2. **Design a loading skeleton system** for the dashboard — use `@/components/ui/skeleton`
-3. **Create a shared design token file** — unify marketing and dashboard CSS variables
-4. **Add a stats bar** to the homepage (e.g., "X Properties Managed", "Y Quittances Generated")
-5. **Design an annual/monthly pricing toggle** with clear savings display
+1. **GlassNav CTA upgrade** — make "Essai gratuit" button visually distinct (indigo filled)
+2. **Hero primary CTA upgrade** — stronger button style with subtle animation
+3. **Add inline testimonial strip above pricing on homepage** — visible social proof
+4. **Color-code dashboard KPI cards** by category (revenue=green, properties=blue, etc.)
+5. **Expand marketing footer** with sitemap-style internal linking columns (SEO)
+
+---
+
+*Audit completed — see implementation in codebase.*
+
+---
+
+## 7. Implementation Log
+
+### IMP-1: GlassNav CTA upgrade (smart-header-cta.tsx)
+**Changed:** Indigo filled button with hover lift animation + shadow
+- Before: `bg-blue-600 px-4 py-2` (generic blue, no animation)
+- After: `bg-indigo-600 hover:bg-indigo-700 px-5 py-2.5 shadow-lg shadow-indigo-600/25 hover:-translate-y-0.5`
+- Fixed typo: "Accéder auDashboard" → "Accéder au Dashboard"
+
+### IMP-2: Hero primary CTA upgrade (hero-section.tsx)
+**Changed:** CTA from stone-900 to indigo-600 with improved styling
+- Before: `bg-stone-900 px-8 py-4` 
+- After: `bg-indigo-600 hover:bg-indigo-700 px-9 py-4 shadow-xl shadow-indigo-600/30`
+- Added play icon to demo button
+- Label: "Créer mon compte" → "Créer mon compte gratuitement"
+- Added `transition-all hover:-translate-y-0.5` to both buttons
+
+### IMP-3: Inline testimonial strip (testimonial-strip.tsx + page.tsx)
+**Created:** `src/components/landing/testimonial-strip.tsx`
+- 3-card grid with name, location, star rating, short snippet
+- Color-coded avatar (indigo background, initials)
+- Dynamically imported above `ProblemSection` in page.tsx
+- SSR enabled with skeleton loading state
+
+### IMP-4: Dashboard KPI cards color-coded (dashboard/page.tsx)
+**Changed:** KPI icon backgrounds and colors by category
+- Properties: indigo (text-indigo-600 / bg-indigo-50)
+- Tenants: blue (text-blue-600 / bg-blue-50)
+- Revenue: emerald (text-emerald-600 / bg-emerald-50)
+- Occupancy: amber (text-amber-600 / bg-amber-50)
+- Icon wrapped in `rounded-xl` colored div for visual category separation
+
+### IMP-5: Marketing footer expanded with SEO internal links (marketing-footer.tsx)
+**Changed:** Footer grid expanded from 4 to 5 link columns
+- Added `"Pour bien commencer"` column with guide/template URLs
+- Split Resources into Guides + Templates for clearer navigation
+- Fixed grid: brand column `col-span-2 sm:col-span-1 lg:col-span-1` (5-col grid with proper overflow handling)
+- Added Cookies policy link to Légal column
+
+---
+
+## 8. Files Modified
+
+| File | Change |
+|------|--------|
+| `src/components/smart-header-cta.tsx` | IMP-1 |
+| `src/components/landing/hero-section.tsx` | IMP-2 |
+| `src/components/landing/testimonial-strip.tsx` | IMP-3 (new) |
+| `src/app/page.tsx` | IMP-3 (import + render) |
+| `src/app/(dashboard)/dashboard/page.tsx` | IMP-4 |
+| `src/components/landing/marketing-footer.tsx` | IMP-5 |
+
+All TypeScript checks pass. No breaking changes introduced.

@@ -28,6 +28,10 @@ const SocialProof = dynamic(
   () => import("@/components/landing/social-proof") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div className="py-16 sm:py-20" style={{ minHeight: 180 }} aria-hidden="true" /> }
 );
+const TestimonialStrip = dynamic(
+  () => import("@/components/landing/testimonial-strip") as unknown as Promise<React.ComponentType<unknown>>,
+  { ssr: true, loading: () => <div style={{ minHeight: 120 }} aria-hidden="true" /> }
+);
 const ProblemSection = dynamic(
   () => import("@/components/landing/problem-section") as unknown as Promise<React.ComponentType<unknown>>,
   { ssr: true, loading: () => <div style={{ minHeight: 600 }} aria-hidden="true" /> }
@@ -139,6 +143,7 @@ export default function HomePage() {
       <GlassNav />
       <HeroSection />
       <SocialProof />
+      <TestimonialStrip />
       <ProblemSection />
       <BentoBenefits />
       <ComparisonSection />

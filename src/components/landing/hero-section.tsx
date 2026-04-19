@@ -106,22 +106,26 @@ export function HeroSection() {
             <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-4">
               <Link href="/register">
                 <motion.span
-                  className="inline-flex items-center gap-2.5 rounded-2xl bg-stone-900 px-8 py-4 text-[15px] font-semibold text-white shadow-xl shadow-stone-900/15"
+                  className="inline-flex items-center gap-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 px-9 py-4 text-[15px] font-semibold text-white shadow-xl shadow-indigo-600/30 transition-all hover:-translate-y-0.5 active:translate-y-0"
                   whileHover={{ scale: 1.03, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   transition={spring.bouncy}
                 >
-                  Créer mon compte
+                  Créer mon compte gratuitement
                   <ArrowRight className="size-4" />
                 </motion.span>
               </Link>
               <Link href="/demo">
                 <motion.span
-                  className="inline-flex items-center gap-2 rounded-2xl border border-stone-300 bg-white/80 px-6 py-4 text-[15px] font-semibold text-stone-700 shadow-lg shadow-stone-900/5 backdrop-blur-sm"
+                  className="inline-flex items-center gap-2 rounded-2xl border border-stone-300 bg-white/80 px-6 py-4 text-[15px] font-semibold text-stone-700 shadow-lg shadow-stone-900/5 backdrop-blur-sm transition-all hover:-translate-y-0.5 active:translate-y-0"
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   transition={spring.bouncy}
                 >
+                  <svg className="size-4 text-stone-500" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75">
+                    <circle cx="8" cy="8" r="6" />
+                    <path d="M6.5 5.5L11 8l-4.5 2.5V5.5z" fill="currentColor" stroke="none" />
+                  </svg>
                   Voir la démo
                 </motion.span>
               </Link>

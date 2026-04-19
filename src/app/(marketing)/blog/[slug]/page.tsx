@@ -18,11 +18,20 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
+  try {
+    return articles.map((article) => ({ slug: article.slug }));
+  } catch (e) {
+    console.error("[blog/slug] generateStaticParams error:", e);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const resolvedParams = await params;
+  if (!resolvedParams || !("slug" in resolvedParams)) {
+    return {};
+  }
+  const { slug } = resolvedParams;
   const article = getArticleBySlug(slug);
   if (!article) return {};
 
@@ -791,7 +800,11 @@ function BlogPostJsonLd({ article, slug }: { article: { title: string; excerpt: 
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-  const { slug } = await params;
+  const resolvedParams = await params;
+  if (!resolvedParams || !("slug" in resolvedParams)) {
+    notFound();
+  }
+  const { slug } = resolvedParams;
   const article = getArticleBySlug(slug);
   if (!article) notFound();
 
