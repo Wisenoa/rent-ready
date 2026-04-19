@@ -9,7 +9,7 @@ import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
 const QuittanceGeneratorForm = dynamic(
   () => import("@/components/landing/quittance-generator-form") as unknown as Promise<React.ComponentType>,
-  { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
 const breadcrumbItems = [

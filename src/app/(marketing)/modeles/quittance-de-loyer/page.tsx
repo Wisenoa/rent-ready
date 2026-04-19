@@ -11,7 +11,7 @@ import { baseMetadata } from "@/lib/seo/metadata";
 // → code-split so it doesn't block initial JS bundle or INP
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta"),
-  { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
 export async function generateMetadata() {

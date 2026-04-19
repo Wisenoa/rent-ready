@@ -34,15 +34,15 @@ export const revalidate = 3600;
 // → code-split so they don't block initial JS bundle or INP
 const FinalCta = dynamic(
   () => import("@/components/landing/final-cta") as unknown as Promise<React.ComponentType<unknown>> as unknown as Promise<React.ComponentType<unknown>>,
-  { ssr: true, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
+  { ssr: false, loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 const MarketingFooter = dynamic(
   () => import("@/components/landing/marketing-footer"),
-  { ssr: true, loading: () => <div aria-hidden="true" /> }
+  { ssr: false, loading: () => <div aria-hidden="true" /> }
 );
 const GlassNav = dynamic(
   () => import("@/components/landing/glass-nav"),
-  { ssr: true, loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
+  { ssr: false, loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
 );
 
 export async function generateMetadata() {
