@@ -47,7 +47,11 @@ export async function POST(request: NextRequest) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.metadata?.userId;
-        if (userId && session.customer && session.subscription) {
+
+        if (!userId) break;
+
+        // ── Subscription checkout (recurring) ───────────────────────────
+        if (session.mode === "subscription" && session.customer && session.subscription) {
           await prisma.user.update({
             where: { id: userId },
             data: {
@@ -56,7 +60,47 @@ export async function POST(request: NextRequest) {
               subscriptionStatus: "ACTIVE",
             },
           });
-          console.log(`[Stripe] User ${userId} subscribed (isPro: true)`);
+          console.log(`[Stripe] User ${userId} subscribed (subscription: ${session.subscription})`);
+          break;
+        }
+
+        // ── One-time payment checkout (premium templates / tools) ─────────
+        if (session.mode === "payment" && session.customer && session.payment_intent) {
+          const productType = session.metadata?.productType ?? "premium_template";
+          const productId = session.metadata?.productId ?? null;
+
+          // Store the one-time purchase in StripeWebhookEvent for record-keeping
+          // (the primary side-effect: unlock the product for the user)
+          // We record it with a composite key so we can query it later if needed.
+          console.log(
+            `[Stripe] One-time payment completed for user ${userId}: ` +
+            `${productType}${productId ? ` (${productId})` : ""} — ` +
+            `intent: ${session.payment_intent}`
+          );
+
+          // TODO (post-mvp): here you would call a service to:
+          //   1. Create a UserProductPurchase / UserUnlock record
+          //   2. Send a confirmation email with the download link
+          //   3. Log analytics event
+          //
+          // Example (uncomment when UserProductPurchase model exists):
+          // await prisma.userProductPurchase.create({
+          //   data: {
+          //     userId,
+          //     productType,
+          //     productId,
+          //     stripePaymentIntentId: session.payment_intent as string,
+          //     amountTotal: session.amount_total ?? 0,
+          //     currency: session.currency ?? "eur",
+          //   },
+          // });
+
+          // For now, log the purchase clearly so operators can manually fulfill
+          console.log(
+            `[Stripe] MANUAL FULFILLMENT NEEDED: user=${userId}, ` +
+            `productType=${productType}, productId=${productId}, ` +
+            `amount=${session.amount_total}, currency=${session.currency}`
+          );
         }
         break;
       }

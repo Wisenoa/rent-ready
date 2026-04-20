@@ -34,7 +34,7 @@ export async function createSubscriptionCheckout(): Promise<ActionResult & { dat
   try {
     const user = await getCurrentUser();
 
-    if (!process.env.STRIPE_PRICE_ID) {
+    if (!process.env.STRIPE_PRICE_ID_MONTHLY && !process.env.STRIPE_PRICE_ID) {
       return { success: false, error: "Configuration Stripe incomplète." };
     }
 
@@ -43,7 +43,7 @@ export async function createSubscriptionCheckout(): Promise<ActionResult & { dat
     const session = await createCheckoutSession({
       customerId: user.stripeCustomerId ?? undefined,
       customerEmail: user.stripeCustomerId ? undefined : user.email,
-      priceId: process.env.STRIPE_PRICE_ID,
+      priceId: process.env.STRIPE_PRICE_ID_MONTHLY ?? process.env.STRIPE_PRICE_ID!,
       successUrl: `${appUrl}/billing?success=true`,
       cancelUrl: `${appUrl}/billing?cancelled=true`,
       userId: user.id,
@@ -57,6 +57,50 @@ export async function createSubscriptionCheckout(): Promise<ActionResult & { dat
   } catch (error) {
     console.error("createSubscriptionCheckout error:", error);
     return { success: false, error: "Erreur lors de la création du paiement." };
+  }
+}
+
+/**
+ * Create a Stripe Checkout session for a one-time premium product purchase.
+ * Used for: premium templates, premium tools, etc.
+ */
+export async function createPremiumTemplateCheckout({
+  productId,
+  productType,
+  productName,
+  productDescription,
+}: {
+  productId: string;
+  productType: string;
+  productName: string;
+  productDescription?: string;
+}): Promise<ActionResult & { data?: { url: string } }> {
+  try {
+    const user = await getCurrentUser();
+
+    if (!process.env.STRIPE_PRICE_ID_PREMIUM_TEMPLATE) {
+      return { success: false, error: "Configuration Stripe incomplète." };
+    }
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+    const session = await createCheckoutSession({
+      customerId: user.stripeCustomerId ?? undefined,
+      customerEmail: user.stripeCustomerId ? undefined : user.email,
+      priceId: process.env.STRIPE_PRICE_ID_PREMIUM_TEMPLATE!,
+      successUrl: `${appUrl}/dashboard?purchase_success=true&productType=${productType}`,
+      cancelUrl: `${appUrl}/dashboard?purchase_cancelled=true`,
+      userId: user.id,
+    });
+
+    if (!session.url) {
+      return { success: false, error: "Impossible de créer la session de paiement." };
+    }
+
+    return { success: true, data: { url: session.url } };
+  } catch (error) {
+    console.error("createPremiumTemplateCheckout error:", error);
+    return { success: false, error: "Erreur lors du paiement." };
   }
 }
 

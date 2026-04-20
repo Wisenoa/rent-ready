@@ -21,7 +21,7 @@ export const stripe = new Proxy({} as Stripe, {
   },
 });
 
-// ─── Subscription Plans ───
+// ─── Subscription Plans ────────────────────────────────────────────────────────
 
 export const PLANS = {
   MONTHLY: {
@@ -40,6 +40,35 @@ export const PLANS = {
     ],
   },
 } as const;
+
+// ─── One-Time Payment Products ─────────────────────────────────────────────────
+// These correspond to Stripe Products with pricing type = "one-time".
+// Add price IDs to .env when created in the Stripe Dashboard.
+
+export const PREMIUM_PRODUCTS = {
+  QUITTANCE: {
+    name: "Quittance de loyer Premium",
+    priceIdEnv: "STRIPE_PRICE_ID_QUITTANCE",
+    description: "Accès illimité aux quittances de loyer PDF conformes",
+    // priceAmount is read from env at runtime via getPremiumProductPrice()
+  },
+  BAIL_TEMPLATE: {
+    name: "Modèle de bail premium",
+    priceIdEnv: "STRIPE_PRICE_ID_BAIL_TEMPLATE",
+    description: "Accès à tous les modèles de bail avanzada avec annotations",
+  },
+  PREMIUM_TEMPLATE: {
+    name: "Pack templates premium",
+    priceIdEnv: "STRIPE_PRICE_ID_PREMIUM_TEMPLATE",
+    description: "Accès au pack complet de templates contractuels premium",
+  },
+} as const;
+
+/** Price IDs for one-time products — read from env at runtime */
+export function getPremiumProductPriceId(productKey: keyof typeof PREMIUM_PRODUCTS): string | null {
+  const envVar = PREMIUM_PRODUCTS[productKey].priceIdEnv;
+  return process.env[envVar] ?? null;
+}
 
 // ─── Helper Functions ───
 
