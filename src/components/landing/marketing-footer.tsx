@@ -6,10 +6,11 @@ import { useState } from "react";
 const FOOTER_LINKS = {
   Produit: [
     { href: "/gestion-locative", label: "Fonctionnalités" },
+    { href: "/features", label: "Fonctionnalités détaillées" },
     { href: "/locations", label: "Gestion locative" },
     { href: "/bail", label: "Baux" },
     { href: "/quittances", label: "Quittances" },
-    { href: "/maintenance", label: "Maintenance" },
+    { href: "/entretien", label: "Entretien" },
     { href: "/pricing", label: "Tarifs" },
   ],
   "Pour bien commencer": [
@@ -24,20 +25,22 @@ const FOOTER_LINKS = {
     { href: "/glossaire-immobilier", label: "Glossaire" },
     { href: "/guides", label: "Guides pratiques" },
     { href: "/templates", label: "Modèles gratuits" },
+    { href: "/outils", label: "Outils et calculateurs" },
     { href: "/demo", label: "Démo" },
   ],
   Outils: [
-    { href: "/outils/modele-bail-location", label: "Modèle bail" },
+    { href: "/outils/calculateur-irl-2026", label: "Calculateur IRL 2026" },
+    { href: "/outils/calculateur-loyer", label: "Calculateur de loyer" },
+    { href: "/outils/calculateur-depot-garantie", label: "Dépôt de garantie" },
+    { href: "/outils/calculateur-rendement", label: "Rendement locatif" },
+    { href: "/outils/lettre-relance-loyer", label: "Lettre de relance" },
+    { href: "/outils/modele-bail-location", label: "Modèle bail PDF" },
     { href: "/outils/modele-quittance-loyer-pdf", label: "Quittance PDF" },
-    { href: "/outils/lettre-relance-loyer", label: "Lettre relance" },
-    { href: "/outils/calculateur-irl-2026", label: "Calculateur IRL" },
-    { href: "/outils/calculateur-depot-garantie", label: "Dépôt garantie" },
   ],
   Légal: [
     { href: "/mentions-legales", label: "Mentions légales" },
     { href: "/politique-confidentialite", label: "Confidentialité" },
     { href: "/cgu", label: "CGU" },
-    { href: "/politique-cookies", label: "Cookies" },
   ],
 };
 

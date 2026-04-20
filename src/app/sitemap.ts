@@ -76,96 +76,56 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    // Template pages (SEO-optimized downloadable templates)
-    {
-      url: `${BASE_URL}/modeles/quittance-de-loyer`,
+    // Glossary term pages (30 terms — rich internal linking hub)
+    ...(["quittance-loyer","bail-location","caution-locative","garant-loyer","etat-des-lieux","irl-indice-reference-loyers","loyer-nu","charges-recuperables","conge-location","preavis-loyer","depot-garantie","visale","colocation","location-vide","location-meuble","bail-mobilite","encadrement-loyer","loyer-ccai","revision-loyer","apport-personnel","rendement-locatif","vacance-locative","surface-habitable","loi-carrez","declaration-impot","taxe-fonciere","gerance-immobiliere","maintenance-locative","impaye-loyer","relance-loyer"] as const).map((slug) => ({
+      url: `${BASE_URL}/glossaire-immobilier/${slug}`,
       lastModified: now,
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+    // Template library listing page
+    {
+      url: `${BASE_URL}/templates`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    // Guides listing + individual guide pages
+    {
+      url: `${BASE_URL}/guides`,
+      lastModified: now,
+      changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/modeles/contrat-de-location`,
+      url: `${BASE_URL}/guides/modele-bail`,
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.7,
     },
     {
-      url: `${BASE_URL}/modeles/etat-des-lieux`,
+      url: `${BASE_URL}/guides/quittance-loyer`,
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.7,
     },
     {
-      url: `${BASE_URL}/modeles/relance-loyer-impaye`,
+      url: `${BASE_URL}/guides/depot-garantie`,
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.7,
     },
     {
-      url: `${BASE_URL}/modeles/augmentation-de-loyer`,
+      url: `${BASE_URL}/guides/irl-2026`,
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.7,
     },
     {
-      url: `${BASE_URL}/modeles/bail-meuble`,
+      url: `${BASE_URL}/guides/relance-loyer`,
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-vide`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-mobilite`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-colocation`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-commercial`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-professionnel`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/conge-locataire`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/conge-proprietaire`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/repartition-charges`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/protocol-etat-des-lieux`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.7,
     },
     // Template library
     {
@@ -336,6 +296,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/outils/calculateur-plus-value`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/outils/calculateur-surface-habitable`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/outils/generateur-conge-vente`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/outils/simulateur-fiscalite-lmnp`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/outils/simulateur-pret-immobilier`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     // Legal pages
     {

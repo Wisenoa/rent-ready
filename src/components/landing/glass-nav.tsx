@@ -107,6 +107,34 @@ export function GlassNav() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/templates"
+            className="block rounded-md px-3 py-2.5 text-[15px] font-medium text-stone-700 hover:bg-stone-100 transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Modèles gratuits
+          </Link>
+          <Link
+            href="/guides"
+            className="block rounded-md px-3 py-2.5 text-[15px] font-medium text-stone-700 hover:bg-stone-100 transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Guides pratiques
+          </Link>
+          <Link
+            href="/glossaire-immobilier"
+            className="block rounded-md px-3 py-2.5 text-[15px] font-medium text-stone-700 hover:bg-stone-100 transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Glossaire immobilier
+          </Link>
+          <Link
+            href="/blog"
+            className="block rounded-md px-3 py-2.5 text-[15px] font-medium text-stone-700 hover:bg-stone-100 transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Blog
+          </Link>
           <div className="pt-3 border-t border-stone-200/60 mt-3">
             <Link
               href="/login"
