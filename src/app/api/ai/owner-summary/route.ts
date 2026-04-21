@@ -3,6 +3,7 @@ import { getAuthenticatedUserId } from "@/lib/auth";
 import { generateOwnerMonthlySummary } from "@/lib/ai/owner-monthly-summary";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 const requestSchema = z.object({
   propertyId: z.string().optional(), // If not provided, uses all properties
@@ -15,13 +16,28 @@ const requestSchema = z.object({
  * Generate AI-powered monthly summary for property owner
  */
 export async function POST(request: NextRequest) {
+  // Rate limit: 20 req/min per IP for unauthenticated, 1000 for authenticated
+  const ip = getClientIp(request.headers);
+  const userId = await getAuthenticatedUserId().catch(() => null);
+  const limit = userId ? 1000 : 20;
+  const result = await rateLimit(ip, { limit, window: 60 });
+
+  if (!result.success) {
+    const res = NextResponse.json(
+      { error: "Trop de requêtes. Veuillez patienter avant de réessayer." },
+      { status: 429 }
+    );
+    setRateLimitHeaders(res, result);
+    return res;
+  }
+
   try {
-    const userId = await getAuthenticatedUserId();
+    const authUserId = await getAuthenticatedUserId();
     const body = await request.json();
     const { propertyId, month, year } = requestSchema.parse(body);
 
     // Build property filter
-    const propertyFilter: Record<string, unknown> = { userId };
+    const propertyFilter: Record<string, unknown> = { userId: authUserId };
     if (propertyId) {
       propertyFilter.id = propertyId;
     }
@@ -58,7 +74,7 @@ export async function POST(request: NextRequest) {
     // Fetch expenses
     const expenses = await prisma.expense.findMany({
       where: {
-        userId,
+        userId: authUserId,
         date: {
           gte: new Date(year, month - 1, 1),
           lt: new Date(year, month, 1),

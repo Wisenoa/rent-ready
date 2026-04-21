@@ -2,9 +2,33 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import { Calendar, Clock, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, BookOpen } from "lucide-react";
 import { articles } from "@/data/articles";
 import { baseMetadata } from "@/lib/seo/metadata";
+import glossaryData from "@/data/glossary.json";
+
+/** Slugs of glossary terms that appear in each blog article */
+const ARTICLE_GLOSSARY_MAP: Record<string, string[]> = {
+  "comment-gerer-loyers-impayes": ["quittance-loyer", "loyer-nu", "charges-recuperables", "impaye-loyer", "relance-loyer", "garant-loyer", "depot-garantie"],
+  "revision-loyer-irl-guide-complet": ["irl-indice-reference-loyers", "loyer-nu", "revision-loyer", "encadrement-loyer"],
+  "depot-garantie-regles-essentielles": ["depot-garantie", "bail-location", "etat-des-lieux", "charges-recuperables", "quittance-loyer"],
+  "etat-des-lieux-entree-sortie": ["etat-des-lieux", "bail-location", "depot-garantie", "quittance-loyer"],
+  "loi-alur-proprietaire-bailleur": ["bail-location", "loyer-nu", "encadrement-loyer", "charges-recuperables", "etat-des-lieux", "preavis-loyer"],
+  "optimiser-fiscalite-loyers": ["loyer-nu", "rendement-locatif", "taxe-fonciere", "location-meuble", "declaration-impot", "preavis-loyer"],
+  "quittance-loyer-pdf-gratuit": ["quittance-loyer", "bail-location", "charges-recuperables", "loyer-nu"],
+  "lettre-relance-loyer-impaye-modele": ["relance-loyer", "impaye-loyer", "quittance-loyer"],
+  "charges-locatives-decompte-annualise": ["charges-recuperables", "loyer-ccai", "quittance-loyer", "bail-location"],
+  "assurance-loyer-impaye-gli": ["impaye-loyer", "garant-loyer", "caution-locative", "depot-garantie"],
+  "quittance-loyer-mentions-obligatoires": ["quittance-loyer", "bail-location", "charges-recuperables", "loyer-nu"],
+  "calculer-rendement-locatif-brut-net": ["rendement-locatif", "loyer-nu", "taxe-fonciere", "vacance-locative"],
+  "etat-des-lieux-proprietaire-modele": ["etat-des-lieux", "bail-location", "depot-garantie", "quittance-loyer"],
+  "bail-colocation-modele-clauses": ["colocation", "bail-location", "charges-recuperables", "depot-garantie"],
+  "bail-location-vide-2026": ["bail-location", "loyer-nu", "etat-des-lieux", "depot-garantie", "charges-recuperables", "preavis-loyer", "encadrement-loyer"],
+  "bail-location-meuble-2026": ["location-meuble", "bail-location", "loyer-nu", "bail-mobilite", "depot-garantie"],
+  "garant-caution-solidaire": ["garant-loyer", "caution-locative", "depot-garantie", "visale"],
+  "notice-conge-locataire": ["conge-location", "preavis-loyer", "bail-location"],
+  "preavis-depart-locataire": ["preavis-loyer", "conge-location", "bail-location", "loyer-nu"],
+};
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -31,6 +55,27 @@ export default async function BlogPostPage({ params }: PageProps) {
   const relatedArticles = articles
     .filter((a) => a.slug !== slug && a.category === article.category)
     .slice(0, 3);
+
+  // Extract h2/h3 headings from content for "In This Article" sidebar
+  const tocItems: { id: string; text: string; level: number }[] = [];
+  if (article.content) {
+    const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+    let match;
+    while ((match = headingRegex.exec(article.content)) !== null) {
+      const text = match[2].replace(/\*\*/g, "");
+      const id = text
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-");
+      tocItems.push({ id, text, level: match[1].length });
+    }
+  }
+
+  // Glossary terms for this article
+  const glossaryTerms = (ARTICLE_GLOSSARY_MAP[slug] ?? [])
+    .map((gSlug) => glossaryData.find((g) => g.slug === gSlug))
+    .filter(Boolean)
+    .slice(0, 6) as (typeof glossaryData)[number][];
 
   const schema = {
     "@context": "https://schema.org",
@@ -109,25 +154,82 @@ export default async function BlogPostPage({ params }: PageProps) {
           </div>
         </header>
 
-        {/* Article content */}
-        {article.content ? (
-          <div className="prose prose-stone prose-lg max-w-none
-            prose-headings:text-stone-900 prose-headings:font-bold
-            prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
-            prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-            prose-p:text-stone-700 prose-p:leading-relaxed
-            prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-700
-            prose-ul:text-stone-700 prose-li:marker:text-stone-400
-            prose-strong:text-stone-900
-            prose-blockquote:border-l-blue-500 prose-blockquote:text-stone-600
-            prose-code:text-blue-700 prose-code:bg-stone-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
-            prose-pre:bg-stone-900 prose-pre:text-stone-100
-          ">
-            <ReactMarkdown>{article.content}</ReactMarkdown>
+        {/* Two-column layout: content + sidebar */}
+        <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
+          {/* Article content */}
+          <div className="flex-1 min-w-0">
+            {/* Article content */}
+            {article.content ? (
+              <div className="prose prose-stone prose-lg max-w-none
+                prose-headings:text-stone-900 prose-headings:font-bold
+                prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:scroll-mt-24
+                prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:scroll-mt-24
+                prose-p:text-stone-700 prose-p:leading-relaxed
+                prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-700
+                prose-ul:text-stone-700 prose-li:marker:text-stone-400
+                prose-strong:text-stone-900
+                prose-blockquote:border-l-blue-500 prose-blockquote:text-stone-600
+                prose-code:text-blue-700 prose-code:bg-stone-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                prose-pre:bg-stone-900 prose-pre:text-stone-100
+              ">
+                <ReactMarkdown>{article.content}</ReactMarkdown>
+              </div>
+            ) : (
+              <p className="text-stone-500">Contenu en cours de rédaction.</p>
+            )}
+
+            {/* Glossary terms section */}
+            {glossaryTerms.length > 0 && (
+              <div className="mt-12 rounded-xl border border-blue-100 bg-blue-50 p-6">
+                <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-blue-900">
+                  <BookOpen className="size-5 text-blue-600" />
+                  Termes du glossaire utilisés dans cet article
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {glossaryTerms.map((term) => (
+                    <Link
+                      key={term.slug}
+                      href={`/glossaire-immobilier/${term.slug}`}
+                      className="rounded-lg border border-blue-200 bg-white px-3 py-1.5 text-sm font-medium text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-100"
+                    >
+                      {term.term}
+                    </Link>
+                  ))}
+                </div>
+                <p className="mt-3 text-xs text-blue-700">
+                  <Link href="/glossaire-immobilier" className="underline hover:text-blue-900">
+                    Voir le glossaire complet
+                  </Link>
+                  {" "}— définitions des termes immobiliers
+                </p>
+              </div>
+            )}
           </div>
-        ) : (
-          <p className="text-stone-500">Contenu en cours de rédaction.</p>
-        )}
+
+          {/* Sidebar: In This Article */}
+          <aside className="lg:w-56 lg:shrink-0">
+            {tocItems.length > 0 && (
+              <div className="sticky top-8 rounded-xl border border-stone-200 bg-stone-50 p-4">
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-500">
+                  Dans cet article
+                </h3>
+                <nav className="space-y-1">
+                  {tocItems.map((item) => (
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      className={`block text-sm text-stone-600 hover:text-blue-600 transition-colors ${
+                        item.level === 3 ? "pl-4 text-xs" : ""
+                      }`}
+                    >
+                      {item.text}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            )}
+          </aside>
+        </div>
 
         {/* CTA */}
         <div className="mt-16 rounded-2xl bg-stone-900 px-8 py-10 text-center">

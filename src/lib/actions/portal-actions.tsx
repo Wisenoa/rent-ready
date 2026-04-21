@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { nanoid } from "nanoid";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
+import { stripe } from "@/lib/stripe";
 import type { ActionResult } from "./property-actions";
 
 // ─── Portal Token Management ───
@@ -419,6 +420,231 @@ export async function getMaintenanceTickets(tenantId: string) {
       fileSize: a.fileSize,
     })),
   }));
+}
+
+// ─── Tenant Payments ───
+
+export async function getPendingPayments(tenantId: string) {
+  const hasAccess = await verifyPortalAccess(tenantId);
+  if (!hasAccess) return [];
+
+  const transactions = await prisma.transaction.findMany({
+    where: {
+      lease: { tenantId },
+      status: { in: ["PENDING", "LATE"] },
+    },
+    include: {
+      lease: {
+        include: { property: true },
+      },
+    },
+    orderBy: { dueDate: "asc" },
+  });
+
+  return transactions.map((tx) => ({
+    id: tx.id,
+    amount: tx.amount,
+    rentPortion: tx.rentPortion,
+    chargesPortion: tx.chargesPortion,
+    dueDate: tx.dueDate.toISOString(),
+    periodStart: tx.periodStart.toISOString(),
+    periodEnd: tx.periodEnd.toISOString(),
+    status: tx.status,
+    propertyName: tx.lease.property.name,
+  }));
+}
+
+export async function initiatePayment(
+  transactionId: string,
+  tenantId: string
+): Promise<ActionResult & { data?: { url: string } }> {
+  try {
+    const hasAccess = await verifyPortalAccess(tenantId);
+    if (!hasAccess) {
+      return { success: false, error: "Accès non autorisé." };
+    }
+
+    const tx = await prisma.transaction.findFirst({
+      where: { id: transactionId, lease: { tenantId } },
+      include: {
+        lease: {
+          include: { tenant: true, property: true, user: true },
+        },
+      },
+    });
+
+    if (!tx) {
+      return { success: false, error: "Paiement introuvable." };
+    }
+
+    if (tx.status === "PAID") {
+      return { success: false, error: "Ce paiement a déjà été effectué." };
+    }
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+    // Create a Stripe Checkout session for this specific payment amount
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      line_items: [
+        {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: `Loyer ${tx.periodStart.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })} — ${tx.lease.property.name}`,
+              description: `Paiement du loyer et charges pour ${tx.lease.property.name}`,
+            },
+            unit_amount: Math.round(tx.amount * 100), // convert to cents
+          },
+          quantity: 1,
+        },
+      ],
+      customer_email: tx.lease.tenant.email ?? undefined,
+      metadata: {
+        transactionId: tx.id,
+        tenantId,
+        type: "rent_payment",
+      },
+      success_url: `${appUrl}/portal/payment-success?session_id={CHECKOUT_SESSION_ID}&tx=${tx.id}`,
+      cancel_url: `${appUrl}/portal/${await getPortalTokenForTenant(tenantId)}`,
+    });
+
+    if (!session.url) {
+      return { success: false, error: "Impossible de créer la session de paiement." };
+    }
+
+    return { success: true, data: { url: session.url } };
+  } catch (error) {
+    console.error("initiatePayment error:", error);
+    return { success: false, error: "Erreur lors de l'initiation du paiement." };
+  }
+}
+
+async function getPortalTokenForTenant(tenantId: string): Promise<string> {
+  const token = await prisma.tenantAccessToken.findFirst({
+    where: {
+      tenantId,
+      OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+    },
+    orderBy: { createdAt: "desc" },
+  });
+  return token?.token ?? "";
+}
+
+// ─── Tenant-Landlord Messages ───
+
+export async function getOrCreateConversation(tenantId: string) {
+  const hasAccess = await verifyPortalAccess(tenantId);
+  if (!hasAccess) return null;
+
+  const lease = await prisma.lease.findFirst({
+    where: { tenantId, status: "ACTIVE" },
+    select: { id: true, userId: true },
+  });
+
+  if (!lease) return null;
+
+  let conversation = await prisma.conversation.findUnique({
+    where: { leaseId: lease.id },
+    include: {
+      messages: {
+        orderBy: { createdAt: "asc" },
+        include: {
+          tenant: { select: { firstName: true, lastName: true } },
+          user: { select: { firstName: true, lastName: true } },
+        },
+      },
+    },
+  });
+
+  if (!conversation) {
+    conversation = await prisma.conversation.create({
+      data: { leaseId: lease.id, tenantId, userId: lease.userId },
+      include: {
+        messages: {
+          orderBy: { createdAt: "asc" },
+          include: {
+            tenant: { select: { firstName: true, lastName: true } },
+            user: { select: { firstName: true, lastName: true } },
+          },
+        },
+      },
+    });
+  }
+
+  // Mark landlord messages as read
+  await prisma.message.updateMany({
+    where: { conversationId: conversation.id, senderType: "LANDLORD", isRead: false },
+    data: { isRead: true },
+  });
+
+  return {
+    id: conversation.id,
+    messages: conversation.messages.map((m) => ({
+      id: m.id,
+      content: m.content,
+      senderType: m.senderType,
+      senderName:
+        m.senderType === "TENANT"
+          ? `${m.tenant?.firstName ?? ""} ${m.tenant?.lastName ?? ""}`.trim()
+          : `${m.user?.firstName ?? ""} ${m.user?.lastName ?? ""}`.trim(),
+      isRead: m.isRead,
+      createdAt: m.createdAt.toISOString(),
+    })),
+    unreadCount: conversation.messages.filter((m) => !m.isRead && m.senderType === "LANDLORD").length,
+  };
+}
+
+export async function sendMessage(
+  tenantId: string,
+  content: string
+): Promise<ActionResult> {
+  try {
+    const hasAccess = await verifyPortalAccess(tenantId);
+    if (!hasAccess) return { success: false, error: "Accès non autorisé." };
+
+    if (!content.trim()) {
+      return { success: false, error: "Le message ne peut pas être vide." };
+    }
+
+    const lease = await prisma.lease.findFirst({
+      where: { tenantId, status: "ACTIVE" },
+      select: { id: true, userId: true },
+    });
+
+    if (!lease) return { success: false, error: "Aucun bail actif trouvé." };
+
+    // Get or create conversation
+    let conversation = await prisma.conversation.findUnique({
+      where: { leaseId: lease.id },
+    });
+
+    if (!conversation) {
+      conversation = await prisma.conversation.create({
+        data: { leaseId: lease.id, tenantId, userId: lease.userId },
+      });
+    }
+
+    await prisma.message.create({
+      data: {
+        conversationId: conversation.id,
+        tenantId,
+        senderType: "TENANT",
+        content: content.trim(),
+      },
+    });
+
+    await prisma.conversation.update({
+      where: { id: conversation.id },
+      data: { lastMessageAt: new Date() },
+    });
+
+    revalidatePath("/portal");
+    return { success: true };
+  } catch (error) {
+    console.error("sendMessage error:", error);
+    return { success: false, error: "Impossible d'envoyer le message." };
+  }
 }
 
 // ─── Landlord: Update Ticket Status ───

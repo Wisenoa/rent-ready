@@ -14,6 +14,7 @@ import {
   Wrench,
   Calculator,
   FileSignature,
+  Eye,
 } from "lucide-react";
 import {
   Sidebar,
@@ -30,6 +31,7 @@ import {
 
 const mainNav = [
   { title: "Tableau de bord", href: "/dashboard", icon: LayoutDashboard },
+  { title: "Espace Propriétaire", href: "/dashboard/owner", icon: Eye },
   { title: "Biens", href: "/properties", icon: Building2 },
   { title: "Locataires", href: "/tenants", icon: Users },
   { title: "Baux", href: "/leases", icon: FileSignature },

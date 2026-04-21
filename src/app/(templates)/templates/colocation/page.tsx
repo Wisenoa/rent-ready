@@ -69,7 +69,7 @@ const faqData = [
   {
     question: "Qu'est-ce que la clause de solidarité dans une colocation ?",
     answer:
-      "La clause de solidarité signifie que chaque colocataire est tenu responsable de la totalité du loyer et des charges, pas seulement de sa part. Si un colocataire ne paie pas, le propriétaire peut réclamer l'intégralité des sommes dues à n'importe lequel des colocataires. La durée de la solidarité peut être limitée à 18 mois (loi Elan).",
+      "La clause de solidarité signifie que chaque colocataire est tenu responsable de la totalité du loyer et des charges, pas seulement de sa part. Si un colocataire ne paie pas, le propriétaire peut réclamer l'intégralité des sommes dues à n'importe lequel des colocataires. La durée de la solidarité peut être limitée à 18 mois (loi Elan). Pour une alternative, consultez notre <a href=\"/templates/bail-meuble\" className=\"text-blue-600 hover:underline\">modèle de bail meublé</a>.",
   },
   {
     question: "Peut-on avoir des loyers différents dans une colocation ?",
@@ -89,7 +89,7 @@ const faqData = [
   {
     question: "Comment ajouter ou retirer un colocataire en cours de bail ?",
     answer:
-      "L'ajout d'un nouveau colocataire nécessite un avenant au bail signé par toutes les parties. Le retrait d'un colocataire peut se faire par simple notification au propriétaire, en particulier si le bail inclut une clause de changement de colocataire. Sans clause spécifique, le départ nécessite l'accord du propriétaire et des autres colocataires.",
+      "L'ajout d'un nouveau colocataire nécessite un avenant au bail signé par toutes les parties. Le retrait d'un colocataire peut se faire par simple notification au propriétaire, en particulier si le bail inclut une clause de changement de colocataire. Sans clause spécifique, le départ nécessite l'accord du propriétaire et des autres colocataires. Pensez à realizar un <a href=\"/templates/etat-des-lieux\" className=\"text-blue-600 hover:underline\">nouvel état des lieux</a> lors des changements.",
   },
 ];
 

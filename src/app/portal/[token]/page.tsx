@@ -6,6 +6,7 @@ import {
   CalendarDays,
   Euro,
   ShieldAlert,
+  MessageSquare,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -20,10 +21,14 @@ import {
   verifyPortalToken,
   getPortalQuittances,
   getMaintenanceTickets,
+  getPendingPayments,
+  getOrCreateConversation,
 } from "@/lib/actions/portal-actions";
 import { PortalQuittances } from "./quittances";
 import { MaintenanceForm } from "./maintenance-form";
 import { TicketList } from "./ticket-list";
+import { PortalPayments } from "./payments";
+import { PortalMessages } from "./messages";
 
 export const metadata: Metadata = {
   title: "Espace Locataire — RentReady",
@@ -74,9 +79,11 @@ export default async function PortalPage({
 
   const { tenant, lease, property, landlord } = data;
 
-  const [quittances, tickets] = await Promise.all([
+  const [quittances, tickets, payments, conversation] = await Promise.all([
     getPortalQuittances(tenant.id),
     getMaintenanceTickets(tenant.id),
+    getPendingPayments(tenant.id),
+    getOrCreateConversation(tenant.id),
   ]);
 
   return (
@@ -159,17 +166,27 @@ export default async function PortalPage({
 
         {/* Tabs */}
         <Tabs defaultValue="quittances">
-          <TabsList className="w-full">
+          <TabsList className="w-full grid grid-cols-4">
             <TabsTrigger value="quittances" className="flex-1">
               Mes Quittances
             </TabsTrigger>
+            <TabsTrigger value="paiements" className="flex-1">
+              Paiements
+            </TabsTrigger>
             <TabsTrigger value="maintenance" className="flex-1">
               Maintenance
+            </TabsTrigger>
+            <TabsTrigger value="messages" className="flex-1">
+              Messages
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="quittances" className="mt-4">
             <PortalQuittances quittances={quittances} />
+          </TabsContent>
+
+          <TabsContent value="paiements" className="mt-4">
+            <PortalPayments payments={payments} tenantId={tenant.id} />
           </TabsContent>
 
           <TabsContent value="maintenance" className="mt-4 space-y-6">
@@ -178,6 +195,23 @@ export default async function PortalPage({
               <h3 className="text-sm font-medium mb-3">Mes demandes</h3>
               <TicketList tickets={tickets} />
             </div>
+          </TabsContent>
+
+          <TabsContent value="messages" className="mt-4">
+            <Card className="shadow-sm border-border/50">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <MessageSquare className="size-4 text-muted-foreground" />
+                  Messagerie avec mon propriétaire
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <PortalMessages
+                  conversation={conversation}
+                  tenantId={tenant.id}
+                />
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </main>

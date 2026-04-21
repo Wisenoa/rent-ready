@@ -18,6 +18,19 @@ const FinalCta = dynamic(
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
+// Dynamic import: SubscribeButton uses useSession (client-only)
+// → code-split to avoid SSR issues
+const SubscribeButton = dynamic(
+  () => import("@/components/subscribe-button").then((mod) => mod.SubscribeButton),
+  { loading: () => <div style={{ height: 56 }} aria-hidden="true" /> }
+);
+
+// Dynamic import: AnnualSubscribeButton uses useSession (client-only)
+const AnnualSubscribeButton = dynamic(
+  () => import("@/components/annual-subscribe-button").then((mod) => mod.AnnualSubscribeButton),
+  { loading: () => <div style={{ height: 80 }} aria-hidden="true" /> }
+);
+
 export async function generateMetadata() {
   return baseMetadata({
     title: "Tarifs — Logiciel gestion locative 15€/mois | RentReady",
@@ -95,8 +108,8 @@ function PricingJsonLd() {
         },
         {
           name: "Abonnement annuel",
-          description: "150 €/an — 2 mois offerts par rapport au tarif mensuel",
-          price: "150.00",
+          description: "144 €/an — 2 mois offerts par rapport au tarif mensuel",
+          price: "144.00",
           priceCurrency: "EUR",
         },
       ],
@@ -209,47 +222,38 @@ d'un café par jour. Essai gratuit, sans engagement.
   <TrustLogos variant="full" showMedia={false} />
 </div>
 
-{/* Single pricing card */}
-<div className="mx-auto max-w-md">
+{/* Two-column pricing cards: Monthly | Annual */}
+<div className="mx-auto max-w-4xl">
+<div className="grid gap-6 md:grid-cols-2">
+
+{/* ── Monthly plan ──────────────────────────────────────────── */}
 <div className="relative overflow-hidden rounded-[2rem] border border-stone-200/30 bg-white/60 shadow-2xl shadow-stone-900/[0.04] backdrop-blur-xl">
 {/* Decorative glow */}
-<div
-aria-hidden
-className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-blue-100/30 blur-3xl"
-/>
-<div
-aria-hidden
-className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-teal-100/20 blur-3xl"
-/>
+<div aria-hidden className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-blue-100/30 blur-3xl"/>
+<div aria-hidden className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-teal-100/20 blur-3xl"/>
 
 <div className="relative p-8 sm:p-10">
+{/* Badge */}
+<div className="mb-6 flex items-center gap-2">
+<span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+Le plus populaire
+</span>
+</div>
+
 {/* Price */}
-<div className="mb-10 text-center">
+<div className="mb-8 text-center">
 <div className="flex items-baseline justify-center">
-<span className="text-6xl font-extrabold tracking-tighter text-stone-900">
-15
-</span>
-<span className="ml-1 text-xl font-semibold text-stone-400">
-€
-</span>
+<span className="text-6xl font-extrabold tracking-tighter text-stone-900">15</span>
+<span className="ml-1 text-xl font-semibold text-stone-400">€</span>
 <span className="ml-1.5 text-base text-stone-400">/mois</span>
 </div>
-<p className="mt-3 text-sm text-stone-500">
-ou{" "}
-<strong className="text-stone-700">150&nbsp;€/an</strong>{" "}
-<span className="ml-1 inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700">
-2 mois offerts
-</span>
-</p>
+<p className="mt-2 text-sm text-stone-500">Sans engagement · Résiliez quand vous voulez</p>
 </div>
 
 {/* Features */}
-<ul className="mb-10 space-y-3">
+<ul className="mb-8 space-y-3">
 {includedFeatures.map((feature) => (
-<li
-key={feature}
-className="flex items-start gap-3 text-sm text-stone-600"
->
+<li key={feature} className="flex items-start gap-3 text-sm text-stone-600">
 <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
 ✓
 </span>
@@ -259,16 +263,62 @@ className="flex items-start gap-3 text-sm text-stone-600"
 </ul>
 
 {/* CTA */}
-<Link
-href="/register"
-className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-stone-900 py-4 text-sm font-semibold text-white shadow-lg shadow-stone-900/10 transition-colors hover:bg-stone-800"
->
-Essai gratuit — 14 jours
-</Link>
+<SubscribeButton />
 <p className="mt-3 text-center text-xs text-stone-400">
 Sans carte bancaire · Annulable en 1 clic
 </p>
 </div>
+</div>
+
+{/* ── Annual plan ───────────────────────────────────────────── */}
+<div className="relative overflow-hidden rounded-[2rem] border-2 border-emerald-200/50 bg-gradient-to-br from-emerald-50/60 to-white/60 shadow-2xl shadow-emerald-900/[0.06] backdrop-blur-xl">
+{/* Decorative glow */}
+<div aria-hidden className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-emerald-100/30 blur-3xl"/>
+<div aria-hidden className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-teal-100/20 blur-3xl"/>
+
+<div className="relative p-8 sm:p-10">
+{/* Savings badge */}
+<div className="mb-6 flex items-center gap-2">
+<span className="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+✨ 2 mois gratuits
+</span>
+</div>
+
+{/* Price */}
+<div className="mb-8 text-center">
+<div className="flex items-baseline justify-center">
+<span className="text-6xl font-extrabold tracking-tighter text-emerald-700">144</span>
+<span className="ml-1 text-xl font-semibold text-stone-400">€</span>
+<span className="ml-1.5 text-base text-stone-400">/an</span>
+</div>
+<p className="mt-2 text-sm text-emerald-600 font-medium">
+Soit 12 €/mois · Économie de 36 €/an
+</p>
+</div>
+
+{/* Features */}
+<ul className="mb-8 space-y-3">
+{includedFeatures.map((feature) => (
+<li key={feature} className="flex items-start gap-3 text-sm text-stone-600">
+<span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+✓
+</span>
+<span>{feature}</span>
+</li>
+))}
+</ul>
+
+{/* CTA */}
+<AnnualSubscribeButton
+  annualPriceLabel="S'abonner — 144 €/an"
+  badgeLabel="2 mois gratuits"
+/>
+<p className="mt-3 text-center text-xs text-stone-400">
+Essai 14 jours inclus · Résiliez quand vous voulez
+</p>
+</div>
+</div>
+
 </div>
 </div>
 

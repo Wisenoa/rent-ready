@@ -67,17 +67,17 @@ const faqData = [
   {
     question: "Que doit contenir une quittance de loyer ?",
     answer:
-      "Une quittance doit mentionner: le nom du propriétaire, l'identité du locataire, l'adresse du bien, le montant du loyer, la période concerné, et la signature du propriétaire. Elle peut aussi mentionner le solde de tout compte.",
+      "Une quittance doit mentionner: le nom du propriétaire, l'identité du locataire, l'adresse du bien, le montant du loyer, la période concerné, et la signature du propriétaire. Elle peut aussi mentionner le solde de tout compte. Téléchargez notre modèle gratuit pour être sûr de ne rien oublier.",
   },
   {
     question: "Faut-il payer pour une quittance de loyer ?",
     answer:
-      "Non. La délivrance d'une quittance de loyer est gratuite. Le propriétaire ne peut pas facturer de frais pour la produire, même via un logiciel de gestion locative.",
+      "Non. La délivrance d'une quittance de loyer est gratuite. Le propriétaire ne peut pas facturer de frais pour la produire, même via un logiciel de gestion locative. Notre modèle de quittance est lui aussi 100% gratuit.",
   },
   {
     question: "Une quittance de loyer protège-t-elle le locataire ?",
     answer:
-      "Oui. La quittance prouve que le loyer a été payé. En cas de litige, elle constitue une preuve de paiement. Elle permet aussi au locataire de justifier de ses charges auprès des administrations (CAF, impôts).",
+      "Oui. La quittance prouve que le loyer a été payé. En cas de litige, elle constitue une preuve de paiement. Elle permet aussi au locataire de justifier de ses charges locatives auprès des administrations (CAF, impôts).",
   },
 ];
 
@@ -222,6 +222,28 @@ export default function RecuLoyerPage() {
                   {item.answer}
                 </div>
               </details>
+            ))}
+          </div>
+        </section>
+
+        {/* Related content */}
+        <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
+          <h2 className="mb-4 text-lg font-bold text-stone-900">
+            Ressources complémentaires
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              { href: "/guides/quittance-loyer", label: "Guide : quittance de loyer →" },
+              { href: "/blog/gestion-locative-debutant-guide", label: "Guide de la gestion locative pour débutants →" },
+              { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                {link.label}
+              </Link>
             ))}
           </div>
         </section>

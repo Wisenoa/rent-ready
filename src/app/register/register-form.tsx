@@ -7,7 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod/v4";
 import { Loader2, Mail, Lock, User } from "lucide-react";
 import { toast } from "sonner";
-import { signUp } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
+import { registerWithStripeCustomer } from "@/lib/actions/register-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -40,17 +41,31 @@ export function RegisterForm() {
   async function onSubmit(data: RegisterValues) {
     setIsLoading(true);
     try {
-      const result = await signUp.email({
-        name: `${data.firstName} ${data.lastName}`,
-        email: data.email,
-        password: data.password,
+      // 1. Create user + Stripe customer via server action
+      const registerResult = await registerWithStripeCustomer({
         firstName: data.firstName,
         lastName: data.lastName,
+        email: data.email,
+        password: data.password,
       });
-      if (result.error) {
-        toast.error(result.error.message ?? "Erreur lors de l'inscription");
+
+      if (!registerResult.success) {
+        toast.error(registerResult.error ?? "Erreur lors de l'inscription");
         return;
       }
+
+      // 2. Sign in immediately after registration
+      const signInResult = await signIn.email({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (signInResult.error) {
+        toast.error("Compte créé mais connexion automatique impossible. Veuillez vous connecter.");
+        router.push("/login");
+        return;
+      }
+
       toast.success("Compte créé avec succès !");
       router.push("/dashboard");
       router.refresh();

@@ -99,7 +99,7 @@ export function PricingSection() {
               {/* CTA */}
               <Link href="/register">
                 <motion.span
-                  className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-stone-900 py-4 text-[15px] font-semibold text-white shadow-lg shadow-stone-900/10"
+                  className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-stone-900 py-4 text-[15px] font-semibold text-white shadow-lg shadow-stone-900/10 transition-all hover:-translate-y-0.5 hover:bg-stone-800"
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   transition={spring.bouncy}
@@ -108,9 +108,28 @@ export function PricingSection() {
                   <ArrowRight className="size-4" />
                 </motion.span>
               </Link>
+              {/* Trust micro-strip */}
               <p className="mt-3 text-center text-[12px] text-stone-400">
-                Sans carte bancaire · Annulable en 1 clic
+                Sans carte bancaire · Annulation libre · Sans engagement
               </p>
+              {/* Trust badges row */}
+              <div className="mt-3 flex items-center justify-center gap-x-4 gap-y-1">
+                {[
+                  "Hébergement RGPD France",
+                  "DSP2 sécurisé",
+                  "Conforme loi 1989",
+                ].map((label, i) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center gap-1 text-[11px] text-stone-400"
+                  >
+                    <svg className="size-3 text-emerald-500 shrink-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 6l2.5 2.5L10 3.5" />
+                    </svg>
+                    {label}
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Mini cost comparison table */}

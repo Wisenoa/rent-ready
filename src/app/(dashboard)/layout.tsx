@@ -5,6 +5,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { CommandPaletteProvider, CommandPaletteTrigger } from "@/components/command-palette";
 import { UserMenu } from "@/components/user-menu";
+import { SubscriptionGate } from "@/components/subscription-gate";
 
 export const metadata: Metadata = {
   robots: {
@@ -13,11 +14,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Block expired / cancelled / past-due users from all dashboard routes.
+  // TRIAL users are blocked only after their trial expires.
+  await SubscriptionGate();
+
   return (
     <SidebarProvider>
       <AppSidebar />

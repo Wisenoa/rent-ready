@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
 import { sendMagicLinkEmail } from "@/lib/auth-email-link";
+import { emailService } from "@/lib/email/service";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -17,7 +18,7 @@ export const auth = betterAuth({
   emailLink: {
     enabled: true,
     expiresIn: 15 * 60, // 15 minutes
-    sendVerificationEmail: async ({ email, url }: { email: string; url: string }) => {
+    sendMagicLink: async ({ email, url }: { email: string; url: string }) => {
       try {
         await sendMagicLinkEmail({ email, magicLink: url });
       } catch (err) {
@@ -26,6 +27,10 @@ export const auth = betterAuth({
       }
     },
   },
+  /** Fires after a magic-link sign-in/sign-up is verified.
+   *  Send a welcome email to newly created users.
+   */
+  hooks: {},
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // refresh every 24h

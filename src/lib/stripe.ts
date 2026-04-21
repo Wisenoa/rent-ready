@@ -29,7 +29,26 @@ export const PLANS = {
     price: 1500, // 15.00 € in cents
     currency: "eur",
     interval: "month" as const,
+    priceIdEnv: "STRIPE_PRO_MONTHLY_PRICE_ID",
     description: "Gestion locative complète pour les propriétaires bailleurs",
+    features: [
+      "Jusqu'à 10 biens",
+      "Quittances automatiques illimitées",
+      "Assistant IA pour extraction de baux",
+      "Calcul automatique des révisions IRL",
+      "Export comptable",
+      "Support prioritaire",
+    ],
+  },
+  ANNUAL: {
+    name: "RentReady Pro Annuel",
+    price: 14400, // 144.00 € in cents — 2 months free vs 12 × 15
+    currency: "eur",
+    interval: "year" as const,
+    priceIdEnv: "STRIPE_PRO_ANNUAL_PRICE_ID",
+    description: "Gestion locative complète — facturé annuellement, 2 mois offerts",
+    pricePerMonth: 1200, // effective monthly cost in cents (14400/12)
+    savings: "2 mois gratuits",
     features: [
       "Jusqu'à 10 biens",
       "Quittances automatiques illimitées",

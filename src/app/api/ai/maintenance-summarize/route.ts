@@ -3,6 +3,7 @@ import { getAuthenticatedUserId } from "@/lib/auth";
 import { summarizeMaintenanceTicket } from "@/lib/ai/maintenance-summarizer";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 const requestSchema = z.object({
   ticketId: z.string().optional(),
@@ -16,8 +17,25 @@ const requestSchema = z.object({
  * Use AI to summarize and categorize a maintenance ticket
  */
 export async function POST(request: NextRequest) {
+  // Rate limit: 20 req/min per IP (AI routes are expensive)
+  const ip = getClientIp(request.headers);
+  const userId = await getAuthenticatedUserId().catch(() => null);
+  const limit = userId ? 1000 : 20; // Authenticated users get higher limit
+  const result = await rateLimit(ip, { limit, window: 60 });
+
+  if (!result.success) {
+    const res = NextResponse.json(
+      { error: "Trop de requêtes. Veuillez patienter avant de réessayer." },
+      { status: 429 }
+    );
+    setRateLimitHeaders(res, result);
+    return res;
+  }
+
+  // Re-authenticate inside try block (throws AuthenticationError if not logged in)
+  const authUserId = await getAuthenticatedUserId();
+
   try {
-    const userId = await getAuthenticatedUserId();
     const body = await request.json();
     const { ticketId, title, description, propertyId } = requestSchema.parse(body);
 

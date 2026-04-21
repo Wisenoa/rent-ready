@@ -5,6 +5,9 @@
  * Body: { eventType, resourceSlug?, pageUrl, sessionId?, metadata? }
  * Valid eventTypes: template_download | blog_cta_click | calculator_use | page_view
  *
+ * Rate limited: 30 req/min per IP (public endpoint — DDoS protection).
+ * Authenticated users also tracked per user ID to prevent abuse.
+ *
  * This endpoint is called from the server-side when a user
  * triggers a key SEO conversion event.
  */
@@ -12,6 +15,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 const VALID_EVENT_TYPES = [
   "template_download",
@@ -42,6 +46,19 @@ function getCountryFromHeaders(req: NextRequest): string | undefined {
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit: 30 req/min per IP (public endpoint — DDoS protection)
+    const ip = getClientIp(req.headers);
+    const result = await rateLimit(ip, { limit: 30, window: 60 });
+
+    if (!result.success) {
+      const res = NextResponse.json(
+        { error: "Too many requests. Please slow down." },
+        { status: 429 }
+      );
+      setRateLimitHeaders(res, result);
+      return res;
+    }
+
     const body: SeoEventBody = await req.json();
 
     if (!body.eventType || !body.pageUrl) {
@@ -76,7 +93,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ ok: true, id: event.id }, { status: 201 });
+    const res = NextResponse.json({ ok: true, id: event.id }, { status: 201 });
+    setRateLimitHeaders(res, result);
+    return res;
   } catch (error) {
     console.error("[seo/events] Error logging event:", error);
     return NextResponse.json(

@@ -113,7 +113,7 @@ const faqData = [
   {
     question: "Le bail meublé doit-il contenir un état des lieux ?",
     answer:
-      "Oui. L'état des lieux est obligatoire (loi du 6 juillet 1989) et doit être annexé au bail. Il décrit l'état du logement et du mobilier à l'entrée et à la sortie du locataire. Pour le mobilier, chaque élément doit être décrit avec son état de fonctionnement.",
+      "Oui. L'état des lieux est obligatoire (loi du 6 juillet 1989) et doit être annexé au bail. Il décrit l'état du logement et du mobilier à l'entrée et à la sortie du locataire. Pour le mobilier, chaque élément doit être décrit avec son état de fonctionnement. Utilisez notre <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">modèle d'état des lieux</Link> pour facilite vos démarches.",
   },
   {
     question: "Comment savoir si mon bail est aux normes ?",
@@ -123,7 +123,7 @@ const faqData = [
   {
     question: "Quel équipement minimum pour un bail meublé ?",
     answer:
-      "Le décret n°2015-1370 définit le mobilier minimum obligatoire : literie avec sommier et matelas, plaques de cuisson, réfrigérateur, ustensiles de cuisine, vaisselier, table et chaises, étagères de rangement, luminaires, matériel d'entretien ménager. Sans ces éléments, le bail peut être requalifié en bail vide.",
+      "Le décret n°2015-1370 définit le mobilier minimum obligatoire : literie avec sommier et matelas, plaques de cuisson, réfrigérateur, ustensiles de cuisine, vaisselier, table et chaises, étagères de rangement, luminaires, matériel d'entretien ménager. Sans ces éléments, le bail peut être requalifié en bail vide. Completez votre dossier avec notre <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">etat des lieux</Link> et notre <Link href="/templates/bail-mobilite" className="text-blue-600 hover:underline">bail mobilite</Link> si vous avez besoin d'un bail plus court.",
   },
 ];
 
@@ -482,10 +482,10 @@ export default function BailMeublePage() {
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
+              { href: "/guides/modele-bail", label: "Guide : modèle de bail de location →" },
               { href: "/blog/difference-bail-meuble-bail-vide", label: "Bail meublé vs bail vide : que choisir ? →" },
               { href: "/blog/equipement-minimum-bail-meuble", label: "Équipement minimum pour un bail meublé →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
-              { href: "/templates/etat-des-lieux", label: "Modèle d'état des lieux →" },
             ].map((link) => (
               <Link
                 key={link.href}

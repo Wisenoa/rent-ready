@@ -100,6 +100,42 @@ const TOOLS = [
     badge: null,
   },
   {
+    title: "Simulateur de Prêt Immobilier",
+    description:
+      "Calculez votre mensualité de prêt immobilier avec tableau d'amortissement. simulateur gratuit pour investisseurs.",
+    href: "/outils/simulateur-pret-immobilier",
+    icon: "🏦",
+    category: "Calculateurs",
+    badge: "Nouveau",
+  },
+  {
+    title: "Calculateur de Plus-Value Immobilière",
+    description:
+      "Estimez votre plus-value et l'impôt à payer lors de la vente d'un bien. Tous les abattements légaux inclus.",
+    href: "/outils/calculateur-plus-value",
+    icon: "📊",
+    category: "Calculateurs",
+    badge: "Nouveau",
+  },
+  {
+    title: "Calculateur de Surface Habitable",
+    description:
+      "Calculez la surface habitable selon la loi Boutin. Vérifiez la surface exacte avant de signer un bail.",
+    href: "/outils/calculateur-surface-habitable",
+    icon: "📐",
+    category: "Calculateurs",
+    badge: "Nouveau",
+  },
+  {
+    title: "Simulateur Fiscal LMNP",
+    description:
+      "Comparez micro-BIC vs régime réel pour votre location meublée. Calculez amortissements et déficit imputable.",
+    href: "/outils/simulateur-fiscalite-lmnp",
+    icon: "🏠",
+    category: "Calculateurs",
+    badge: "Nouveau",
+  },
+  {
     title: "Lettre de Relance Loyer",
     description:
       "Générez une lettre de relance amiable ou une mise en demeure conforme. Prête à copier ou envoyer.",
@@ -114,6 +150,15 @@ const TOOLS = [
       "Générez une quittance de loyer PDF conforme à la loi du 6 juillet 1989. Téléchargement instantané.",
     href: "/outils/generateur-quittance",
     icon: "🧾",
+    category: "Générateurs",
+    badge: "Nouveau",
+  },
+  {
+    title: "Générateur de Congé pour Vente",
+    description:
+      "Générez un congé pour vente conforme. Document gratuit avec lettre type à envoyer en recommandée.",
+    href: "/outils/generateur-conge-vente",
+    icon: "📄",
     category: "Générateurs",
     badge: "Nouveau",
   },

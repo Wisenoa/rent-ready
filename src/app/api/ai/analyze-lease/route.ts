@@ -3,6 +3,7 @@ import { getAuthenticatedUserId } from "@/lib/auth";
 import { analyzeLeaseClauses } from "@/lib/ai/lease-analyzer";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 const requestSchema = z.object({
   documentId: z.string().optional(),
@@ -10,8 +11,23 @@ const requestSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 20 req/min per IP for unauthenticated, 1000 for authenticated
+  const ip = getClientIp(request.headers);
+  const userId = await getAuthenticatedUserId().catch(() => null);
+  const limit = userId ? 1000 : 20;
+  const result = await rateLimit(ip, { limit, window: 60 });
+
+  if (!result.success) {
+    const res = NextResponse.json(
+      { error: "Trop de requêtes. Veuillez patienter avant de réessayer." },
+      { status: 429 }
+    );
+    setRateLimitHeaders(res, result);
+    return res;
+  }
+
   try {
-    const userId = await getAuthenticatedUserId();
+    const authUserId = await getAuthenticatedUserId();
     const body = await request.json();
     const { documentId, leaseText } = requestSchema.parse(body);
 
@@ -19,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     if (documentId && !leaseText) {
       const document = await prisma.document.findFirst({
-        where: { id: documentId, userId },
+        where: { id: documentId, userId: authUserId },
         select: { extractedData: true },
       });
 

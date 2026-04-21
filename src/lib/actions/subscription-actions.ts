@@ -1,7 +1,7 @@
 "use server";
 
 import { getCurrentUser } from "@/lib/auth";
-import { createCheckoutSession, createPortalSession } from "@/lib/stripe";
+import { PLANS, createCheckoutSession, createPortalSession } from "@/lib/stripe";
 import type { ActionResult } from "./property-actions";
 
 /**
@@ -29,12 +29,17 @@ export async function checkSubscriptionStatus(): Promise<{
 
 /**
  * Create a Stripe Checkout session for subscription.
+ * @param interval "month" | "year" — defaults to "month"
  */
-export async function createSubscriptionCheckout(): Promise<ActionResult & { data?: { url: string } }> {
+export async function createSubscriptionCheckout(
+  interval: "month" | "year" = "month"
+): Promise<ActionResult & { data?: { url: string } }> {
   try {
     const user = await getCurrentUser();
+    const plan = interval === "year" ? PLANS.ANNUAL : PLANS.MONTHLY;
+    const priceId = process.env[plan.priceIdEnv];
 
-    if (!process.env.STRIPE_PRICE_ID_MONTHLY && !process.env.STRIPE_PRICE_ID) {
+    if (!priceId) {
       return { success: false, error: "Configuration Stripe incomplète." };
     }
 
@@ -43,7 +48,7 @@ export async function createSubscriptionCheckout(): Promise<ActionResult & { dat
     const session = await createCheckoutSession({
       customerId: user.stripeCustomerId ?? undefined,
       customerEmail: user.stripeCustomerId ? undefined : user.email,
-      priceId: process.env.STRIPE_PRICE_ID_MONTHLY ?? process.env.STRIPE_PRICE_ID!,
+      priceId,
       successUrl: `${appUrl}/billing?success=true`,
       cancelUrl: `${appUrl}/billing?cancelled=true`,
       userId: user.id,

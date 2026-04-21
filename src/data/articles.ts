@@ -35,11 +35,11 @@ Utilisez enfin un logiciel de gestion locative comme RentReady pour suivre autom
 
 ### Étape 1 : La lettre de relance (jour 1 à 3)
 
-Dès le premier jour de retard de paiement, envoyez une lettre de relance simple par email ou courrier. Cette lettre n'a pas de caractère obligatoire mais permet de rappeler au locataire ses obligations et de créer une trace écrite. Notre modèle de lettre de relance pour loyer impayé est disponible gratuitement.
+Dès le premier jour de retard de paiement, envoyez une lettre de relance simple par email ou courrier. Cette lettre n'a pas de caractère obligatoire mais permet de rappeler au locataire ses obligations et de créer une trace écrite. [Notre modèle de lettre de relance](/outils/lettre-relance-loyer) est disponible gratuitement.
 
 ### Étape 2 : La mise en demeure (jour 8 à 15)
 
-Si le locataire ne réagit pas à la relance, adressez une mise en demeure en recommandé avec accusé de réception. Ce courrier doit mentionner explicitement le montant dû, le délai de paiement (généralement 8 jours) et les conséquences légales en cas de non-paiement. Notre modèle de mise en demeure pour loyer impayé vous guidera.
+Si le locataire ne réagit pas à la relance, adressez une mise en demeure en recommandé avec accusé de réception. Ce courrier doit mentionner explicitement le montant dû, le délai de paiement (généralement 8 jours) et les conséquences légales en cas de non-paiement. [Consultez notre guide des relances pour impayés](/guides/relance-loyer) pour les modèles et la procédure complète.
 
 ### Étape 3 : Assignation au tribunal (après 2 mois d'impayé)
 
@@ -122,13 +122,15 @@ Depuis la loi ALUR et ses évolutions, la révision ne peut pas dépasser la var
 
 ## Le simulateur IRL : outil indispensable
 
-Pour faciliter vos calculs, utilisez notre simulateur IRL 2026 qui vous permettra d'estimer instantanément votre nouveau loyer en fonction de l'indice applicable.
+Pour faciliter vos calculs, utilisez [notre simulateur IRL 2026](/outils/calculateur-irl-2026) qui vous permettra d'estimer instantanément votre nouveau loyer en fonction de l'indice applicable.
 
 Le simulateur prend en compte :
 - Loyer actuel
 - Ancien et nouvel IRL
 - Date de révision
 - Ancien et nouveau IRL selon les trimestres
+
+[Consultez notre guide complet sur l'IRL 2026](/guides/irl-2026) pour comprendre tous les détails de la révision.
 
 ## Les erreurs fréquentes dans le calcul de révision
 
@@ -187,7 +189,7 @@ Si la clause de révision est dans le bail, la révision est un droit. Vous pouv
     readTime: "5 min",
     content: `## Dépôt de garantie : les règles essentielles en 2026
 
-Le dépôt de garantie est une somme d'argent versée par le locataire au moment de la signature du bail. Il garantit au propriétaire la bonne exécution des obligations locatives et notamment la restitution du bien en état. Comprendre les règles du dépôt de garantie est essentiel pour éviter les litiges à la fin du bail.
+Le dépôt de garantie est une somme d'argent versée par le locataire au moment de la signature du bail. Il garantit au propriétaire la bonne exécution des obligations locatives et notamment la restitution du bien en état. [Consultez notre guide complet sur le dépôt de garantie](/guides/depot-garantie) pour éviter les litiges à la fin du bail.
 
 ## Le plafond du dépôt de garantie en 2026
 
@@ -512,6 +514,8 @@ Non, la TVA payée sur l'acquisition d'un bien locatif n'est pas déductible. En
 Une quittance de loyer est un document signé par le bailleur qui constate le paiement intégral du loyer et des charges par le locataire. Elle est remise sur demande du locataire et constitue une preuve de paiement.
 
 La quittance doit être délivrée gratuitement dans un délai de **4 jours ouvrés** suivant le paiement. Son refus systématique constitue un manquement passible de sanctions.
+
+[Consultez notre guide complet sur la quittance de loyer](/guides/quittance-loyer) pour comprendre toutes les mentions obligatoires et la procédure de délivrance.
 
 ## Les mentions obligatoires sur une quittance de loyer
 
@@ -1053,7 +1057,7 @@ L'état des lieux doit être contradictoire : les deux parties doivent être pr�
     readTime: "11 min",
     content: `## Qu'est-ce qu'un bail de location vide ?
 
-Le bail de location vide, aussi appelé bail non meublé, est le contrat de location le plus courant en France. Il régit les rapports entre un propriétaire bailleur et son locataire dans le cadre d'une location d'un logement sans mobilier. Ce type de bail est encadrée par la loi du 6 juillet 1989, qui fixe les règles impératives que les deux parties doivent respecter.
+Le bail de location vide, aussi appelé bail non meublé, est le contrat de location le plus courant en France. [Consultez notre guide complet du modèle de bail](/guides/modele-bail) pour connaître toutes les clauses obligatoires et éviter les erreurs fréquentes.
 
 Contrairement à la location meublée, le bail vide offre moins de flexibilité au propriétaire mais davantage de sécurité juridique. La durée minimale est de 3 ans (6 ans si le bailleur est une personne morale), ce qui constitue une garantie de stabilité pour le locataire tout en assurant au propriétaire une période d'occupation longue.
 
@@ -1174,7 +1178,7 @@ Le bail de location vide en 2026 est un contrat strictement encadré par la loi,
     readTime: "10 min",
     content: `## Location meublée : définition et cadre juridique en 2026
 
-La location meublée constitue une alternative attractive à la location vide pour les propriétaires qui souhaitent bénéficier d'une plus grande flexibilité. Elle se caractérise par la mise à disposition d'un logement équipé de mobilier suffisant pour permettre au locataire de dormir, manger et vivre normalement.
+La location meublée constitue une alternative attractive à la location vide pour les propriétaires qui souhaitent bénéficier d'une plus grande flexibilité. [Consultez notre guide du modèle de bail](/guides/modele-bail) pour connaître les clauses spécifiques à la location meublée.
 
 Le cadre juridique de la location meublée repose sur la loi du 6 juillet 1989 pour les résidences principales, et sur le Code civil pour les locations saisonnières et la location meublée de tourism. En 2026, les règles ont été renforcées par les lois successives visant à limiter les abus et à mieux encadrer les loyers dans les zones tendues.
 
@@ -8941,8 +8945,1768 @@ Les logiciels de gestion locative en ligne nécessitent une connexion internet. 
 La mise en place initiale prend généralement entre 30 minutes et 2 heures selon le nombre de biens et la complexité de votre situation. L'import des données existantes (baux, locataires) peut prendre un peu plus de temps.
 
 [CTA : Gérez votre patrimoine locatif efficacement avec RentReady — logiciel tout-en-un, essai gratuit 30 jours — découvrez toutes les fonctionnalités]`
-  }
-] as Article[];
+  },
+
+  {
+    slug: "plus-value-immobiliere-location",
+    title: "Plus-value immobilière en location : calculs, exonérations et fiscalite 2026",
+    category: "Fiscalité",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "9 min",
+    content: `## Plus-value immobilière en location : ce qu'il faut savoir en 2026
+
+Lorsqu'un propriétaire bailleur vend un bien immobilier ayant été loué, laplus-value réalisée est susceptible d'être imposée. Toutefois, des exonérations et des stratégies d'optimisation existent. Ce guide détaille le mécanisme de laplus-value en location, les conditions d'exonération et les calculs à effectuer.
+
+## Qu'est-ce que laplus-value immobilière en location ?
+
+La plus-value immobilière correspond à la différence entre le prix de vente d'un bien et son prix d'acquisition. Si le bien a été vôtre en pleine propriété (sans nue-propriété/scroquer l'usufruit), laplus-value brute se calcule simplement. Dans le cas d'une location, certains éléments peuvent affecter le calcul final.
+
+### Plus-value brute vs nette
+
+La plus-value brute est le prix de vente minoré des frais d'acquisition et des travaux真正的. La plus-value nette prend en compte l'abattement pour durée de détention, qui varie selon que le bien est revenu au domicile familial ou loué.
+
+## Les règles d'imposition en 2026
+
+Depuis 2013, laplus-value immobilière est soumise à deux prélèvements : l'impôt sur le revenu au taux de 19 % et les prélèvements sociaux au taux de 17,2 %. Des abattements s'appliquent en fonction de la durée de détention.
+
+### Barème d'abattement pour durée de détention
+
+Pour une location, la durée de détention compte différemment selon les années :
+- De 0 à 5 ans : aucun abattement supplémentaire
+- De 6 à 15 ans : 1,65 % par an
+- De 16 à 21 ans : 1,75 % par an
+- À partir de 22 ans : abattement de 21 ans+ sur l'assiette de l'abattement
+
+## Les cas d'exonération
+
+Plusieurs situations permettent d'être totally exonéré de laplus-value :
+
+### Exonération pour résidence principale
+
+Si le bien vendu était votre résidence principale, laplus-value est totalement exonérée, quelle que soit sa durée de détention. La notion de résidence principale est celle où le propriétaire réside habituellement et effectivement.
+
+### Exonération après 30 ans de détention
+
+Au-delà de 30 ans de détention, laplus-value est totalmente exonérée d'impôt sur le revenu. Les prélèvements sociaux sont également totalement exonérés après 30 ans.
+
+### Exonération pour titulaire d'une pension de retraite
+
+Les propriétaires titulaires d'une pension de retraite (ou assimilés) peuvent bénéficier d'une exonération deplus-value sous conditions de revenus. Cette exonération s'applique si le revenu fiscal de référence ne dépasse pas certains plafonds.
+
+## Comment déclarer laplus-value ?
+
+Laplus-value doit être déclarée lors de la vente mediante le formulaire 2048 IMM. La déclaration est généralement effectuée par le notaire chargé de la transaction, qui calcule également le montant de l'imposition due.
+
+## Optimiser laplus-value en location
+
+### Documentation des travaux
+
+Conservez tous les facture de travaux réalisés pendant la durée de location. Les travaux d'amélioration, de construction ou d'agrandissement peuvent majorer le prix d'acquisition et réduire laplus-value.
+
+### Duration de mise en location
+
+Si votre objectif est de revendre avec une faible taxation, la durée de détention reste le facteur le plus important. Après 30 ans, l'exonération est totale.
+
+### SCI vs indivision
+
+La création d'une SCI peut permettre d'optimiser la transmission et la gestion du patrimoine locatif. Les règles deplus-value restent similaires mais la SCI offre plus de flexibilité successorale.
+
+## FAQ — Plus-value immobilière en location
+
+**Dois-je payer des impôts sur laplus-value si je vends un bien loué ?**
+
+Oui, sauf si vous répondez à l'un des cas d'exonération (résidence principale, 30 ans de détention, retraite bajo revenus). Laplus-value imposable est réduite des abattements pour durée de détention.
+
+**Les travaux de rénovation comptent-ils dans le calcul de laplus-value ?**
+
+Oui, les travaux de construction, reconstruction, amélioration et addition decapitalisation peuvent être ajoutés au prix d'acquisition. Attention : les travaux d'entretien normal ne comptent pas.
+
+**Laplus-value est-elle la même pour une location meublée ?**
+
+Oui, les règles deplus-value sont identiques. Cependant, le régime fiscal de la location meublée (LMNP/LMP) peut permettre d'amortir le bien et de réduire laplus-value effectively.
+
+[CTA : Gérez votre bien locatif et suivez vos obligations fiscales avec RentReady — essai gratuit 14 jours]`
+  },
+  {
+    slug: "travaux-deductibles-impot-location",
+    title: "Travaux deductibles des revenus fonciers : liste complete 2026",
+    category: "Fiscalité",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "8 min",
+    content: `## Travaux deductibles des revenus fonciers : la liste complete 2026
+
+Les travaux réalisés sur un bien mis en location peuvent être déduits des revenus fonciers, réduisant ainsi l'imposition. Encore faut-il connaître précisément哪些 travaux sont déductibles et dans quelles conditions. Ce guide passe en revue la liste exhaustive des dépenses admises par l'administration fiscale.
+
+## Les categories de travaux deductibles
+
+Les dépenses déductibles des revenus fonciers se divisent en plusieurs catégories : charges de réparation, d'entretien, d'amélioration et d'acquisition.
+
+### Charges de réparation et d'entretien
+
+Ces dépenses visent à maintenir le bien en bon état ou à le remettre en état :
+- Réfection de la peinture intérieure et extérieure
+- Remplacement de moquettes et sols dégradés
+- Réparation des volets et fenêtres
+- Entretien de la chaudière et du système de chauffage
+- Remplacement de la plomberie défectueuse
+- Réparation de la toiture (mais pas sa réfection complète)
+
+### Travaux d'amélioration
+
+Ces travaux visent à améliorer le confort ou la qualité du bien :
+- Installation d'une salle de bain moderne
+- Création d'une cuisine équipée
+- Isolation thermique et phonique
+- Installation d'un système de chauffage plus performant
+- Mise en conformité électrique
+- Installation d'un interphone ou digicode
+
+### Travaux de construction et d'agrandissement
+
+Ces dépenses s'ajoutent au prix d'acquisition du bien :
+- Extension de la surface habitable
+- Création d'une pièce supplémentaire
+- Construction d'un garage ou d'une annexe
+- Surélévation du bâtiment
+
+## Les conditions de deduction
+
+Pour être déductibles, les travaux doivent répondre à plusieurs critères.
+
+### Critère de propriety
+
+Les dépenses doivent concerner un bien dont le propriétaire est directly responsible. Les travaux realizadas sur des parties communes d'une copropriété sont déductibles au prorata des tantièmes.
+
+### Critère de location effective
+
+Les travaux doivent être realizados alors que le bien est effectivement loué. Les dépenses réalisées sur un bien vacant ne sont généralement pas déductibles, sauf exceptions.
+
+### Critère de justification
+
+Toutes les dépenses doivent être justifiées par des factures. Conservez précieusement les justificatifs pendant au moins 6 ans.
+
+## Les travaux non deductibles
+
+Certaines dépenses ne peuvent pas être déduites :
+
+### Améliorations de standing
+
+Les travaux purement décoratifs ou visant à augmenter le standing du bien au-delà du standard local ne sont pas entièrement déductibles. Seule la fraction correspondant à un entretien normal peut être admise.
+
+### Travaux antérieurs à la location
+
+Les dépenses réalisées avant que le bien ne soit proposé à la location ne sont pas déductibles des revenus fonciers.
+
+### Travaux de construction neuve
+
+La construction d'un bâtiment neuf n'est pas une dépense déductible au titre des revenus fonciers. Elle fait partie du prix d'acquisition.
+
+## Les frais de gestion locative déductibles
+
+En complément des travaux, de nombreuses charges de gestion sont déductibles :
+- Frais versés à une agence immobilière (honoraires de gestion)
+- Cotisations d'assurances (GLI, PNO)
+- Frais de procédure en cas d'impayé
+- Cotisations sociales (pour les propriétaires en CIR)
+- Frais de comptabilité et d'expertise-comptable
+
+## Déclaration et imputation
+
+Les travaux déductibles se déclarent sur le formulaire 2044 (déclaration des revenus fonciers). Ils s'imputent sur les revenus fonciers bruts. Si les charges dépassent les revenus, le déficit s'impute sur le revenu global dans la limite de 10 700 € par an.
+
+## FAQ — Travaux deductibles
+
+**Puis-je déduire les travaux realizados avant de mettre en location ?**
+
+Non, seules les dépenses réalisées alors que le bien est effectivement donné en location sont déductibles. Les travaux de préparation du bien doivent être intégrés au prix d'acquisition.
+
+**Les travaux de rénovation énergétique sont-ils déductibles ?**
+
+Oui, les travaux d'amélioration de la performance énergétique sont déductibles. De plus, des crédits d'impôt spécifiques existent pour la transition énergétique (CITE, MaPrimeRénov').
+
+**Comment prouver mes dépenses en cas de contrôle ?**
+
+Conservez toutes les factures avec mention claire de la nature des travaux, du montant et de la date. Les paiements par chèque ou virement sont preferables aux paiements en especes.
+
+[CTA : Suivez automatiquement vos charges déductibles et générez vos déclarations avec RentReady — essai gratuit 14 jours]`
+  },
+  {
+    slug: "frais-gestion-locative-deductibles",
+    title: "Frais de gestion locative deductibles : agences, comptable, assurance",
+    category: "Fiscalité",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "6 min",
+    content: `## Frais de gestion locative deductibles : guide complet 2026
+
+Les propriétaires bailleurs peuvent déduire de leurs revenus fonciers l'ensemble des frais liés à la gestion de leur patrimoine locatif. Ces dépenses, souvent négligées, représentent pourtant un poste significatif. Découvrez la liste complète des frais déductibles et les conditions à respecter.
+
+## Les honoraires d'agence immobilière
+
+Lorsque vous confiez la gestion de votre bien à une agence, les honoraires de gestion sont déductibles. Ces frais couvrent généralement :
+- La recherche et la sélection des locataires
+- L'établissement du bail et des états des lieux
+- Le suivi des paiements et les relances
+- La gestion des travaux et interventions techniques
+- La comptabilité et la reddition de comptes
+
+### Taux généralement pratiqué
+
+Les honoraires d'agence se situent généralement entre 5 % et 10 % du montant annuel des loyers hors charges. Ce pourcentage est déductible intégralement des revenus fonciers.
+
+## Les frais comptables et fiscaux
+
+Les dépenses liées à la tenue de votre comptabilité locative sont déductibles :
+- Honoraires de l'expert-comptable pour la comptabilité propre à la location
+- Frais de déclaration de revenus fonciers
+- Cotisations ordinales (pour les会计 professionnels)
+- Logiciels de gestion locative (comme RentReady)
+
+### Déduction des logiciels de gestion
+
+Depuis la doctrine fiscale récente, les abonnements aux logiciels de gestion locative sont déductibles au titre des frais de gestion. Conservéz la facture comme justificatif.
+
+## Les cotisations d'assurance
+
+Plusieurs cotisations d'assurance sont déductibles :
+
+### Assurance Garantie Loyer Impayé (GLI)
+
+Les primes d'assurance contre les impayés de loyer sont intégralement déductibles. Elles constituent une charge de gestion locative.
+
+### Assurance Propriétaire Non-Occupant (PNO)
+
+Cette assurance, obligatoire pour certains prêts, est déductible. Elle couvre la responsabilité du propriétaire et les dégradations.
+
+### Assurance-Vie (non)
+
+Les versements sur une assurance-vie ne sont pas déductibles au titre des revenus fonciers, même si le contrat est lié au bien immobilier.
+
+## Les frais de procédure
+
+En cas de litige avec un locataire, les frais de procédure sont déductibles :
+- Honoraires d'avocat
+- Frais d'huissier
+- Frais de tribunal
+- Droits d'enregistrement
+
+Ces dépenses s'imputent l'année où elles sont réellement supportées.
+
+## Les frais de déplacement
+
+Les déplacements professionnels liés à la gestion du patrimoine locatif sont déductibles :
+- Kilométrage au taux officiel (0,35 €/km en 2026)
+- Péages et stationnement
+- Hébergement si déplacement lointain
+
+## Les autres charges déductibles
+
+### Comptes bancaires séparés
+
+Les frais de tenue du compte bancaire dédié à la gestion locative sont déductibles. Certains frais bancaires sont spécifiques à l'activité de bailleur.
+
+### Adhésions et cotisations
+
+Les cotisations versées à des organisations de propriétaires bailleurs (UNPI, fédérations) sont déductibles lorsqu'elles sont liées à la gestion du patrimoine.
+
+## Conditions de deduction
+
+Pour être déductibles, ces frais doivent :
+1. Correspondre à une charge réelle et effective
+2. Être justifiés par des pièces justificatives
+3. Concerniner le bien donné en location
+4. Être encourus pendant la période de location effective
+
+## FAQ — Frais de gestion deductibles
+
+**Puis-je déduire les frais de gestion si je fais tout seul ?**
+
+Si vous gérez vous-même, vous ne pouvez pas déduire des honoraires d'agence inexistants. En revanche, vous pouvez déduire les frais réels que vous engagez (logiciel, assurance, déplacement).
+
+**Les frais de gestión peuvent-ils créer un déficit ?**
+
+Oui, si vos charges dépassent vos revenus fonciers, le déficit s'impute sur votre revenu global dans la limite de 10 700 € par an. L'excédent reporte sur les années suivantes.
+
+**Dois-je avoir un compte bancaire dédié ?**
+
+La loi ne l'exige pas, mais c'est fortement recommandé pour une bonne gestion et pour justifier vos dépenses en cas de contrôle fiscal.
+
+[CTA : Automatisez votre comptabilité locative et deducterez vos frais facilement avec RentReady — essai gratuit 14 jours]`
+  },
+  {
+    slug: "deficit-foncier-impot-2026",
+    title: "Déficit foncier et impot : comment le defalquer en 2026",
+    category: "Fiscalité",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "7 min",
+    content: `## Déficit foncier et impot : guide complet pour les propriétaires bailleurs 2026
+
+Le déficit foncier permet de réduire votre imposition globale lorsque vos charges locatives dépassent vos revenus. Une optimisation fiscale puissante mais encadrée. Ce guide détaille le mécanisme, les conditions et les limites du déficit foncier.
+
+## Qu'est-ce que le déficit foncier ?
+
+Le déficit foncier naît lorsque les charges liées à un bien donné en location excèdent les revenus bruts qu'il génère. Ce déficit peut être imputé sur votre revenu global, réduisant ainsi votre imposition totale.
+
+### Exemple concret
+
+Un bien génère 12 000 € de loyers annuels. Les charges (intérêts d'emprunt, travaux, taxes, assurances) s'élèvent à 18 000 €. Le déficit foncier est de 6 000 €.
+
+## Les trois catégories de charges
+
+### Charges déductibles du revenu brut
+
+Certaines charges se déduisent du revenu brut pour obtenir le revenu foncier net :
+- Frais de gestion (agence, comptabilité)
+- Assurances (GLI, PNO)
+- Taxes foncières et taxes d'enlèvement des ordures
+- Frais de procédure
+- Petites réparations (moins de 10 % de la valeur du terrain)
+
+### Charges déductibles du revenu global
+
+D'autres charges s'imputent directement sur le revenu global :
+- Travaux de réparation, entretien, amélioration
+- Intérêts d'emprunt
+- Primes d'assurance (PNO)
+
+### Charges non déductibles
+
+Certaines dépenses ne créent pas de déficit foncier :
+- Amortissement du bien
+- Contributions obligatoires des locataires
+- Travaux de construction ou d'agrandissement
+
+## Les limites du déficit foncier
+
+### Plafond d'imputation sur le revenu global
+
+Depuis 1997, le déficit foncier (hors intérêts d'emprunt) s'impute sur le revenu global dans la limite de 10 700 € par an. Cette limite s'applique par foyer fiscal.
+
+### Report du déficit excédent
+
+L'excédent de déficit foncier non imputé reporte sur les 10 années suivantes. Il s'impute d'abord sur les revenus fonciers des années suivantes.
+
+### Intérêts d'emprunt
+
+Les intérêts d'emprunt ne s'imputent pas sur le revenu global. Ils se déduisent du revenu foncier net (avant imputation du déficit) et l'excédent reporte sur les revenus fonciers des 10 années suivantes.
+
+## Stratégies d'optimisation
+
+### Concentration des travaux
+
+Regrouper les travaux sur une même année peut permettre de créer un déficit foncier important et de bénéficier du plafond de 10 700 €.
+
+### Location nue vs meublée
+
+Le régime foncier (location nue) permet le déficit foncier imputable sur le revenu global. Le régime LMNP (meublé) utilise l'amortissement et ne génère pas de déficit imputable sur le revenu global.
+
+### Prêt in fine vs amortissable
+
+Pour maximiser les intérêts déductibles, le prêt in fine (intérêts constants, capital constant) peut être préféré au prêt amortissable.
+
+## Conditions pour bénéficier du déficit
+
+### Louer le bien
+
+Le bien doit être donné en location effective. La vacance temporaire n'interrompt pas le déficit, mais le bien ne doit pas être durablement vacant.
+
+### Respecter la durée
+
+Le bien doit être loué pendant au moins 3 ans après la réalisation des travaux déductibles. En cas de vente, le déficit peut être maintenu sous conditions.
+
+### Justifier les dépenses
+
+Toutes les charges doivent être justifiées par des factures et des pièces comptables. Conservez les justificatifs pendant au moins 6 ans.
+
+## FAQ — Déficit foncier
+
+**Puis-je cumuler déficit foncier et déficit dans d'autres catégories ?**
+
+Oui, le déficit foncier (hors intérêts) s'impute sur le revenu global après imputation des déficits des autres catégories (BIC, benefits). La order d'imputation est réglementée.
+
+**Le déficit foncier fonctionne-t-il en LMNP ?**
+
+Non, le régime LMNP utilise l'amortissement, pas le déficit foncier. Le déficit LMNP (résultant de l'amortissement) ne s'impute pas sur le revenu global mais reporte sur les bénéfices des années suivantes.
+
+**Puis-je déduire les travaux de rénovation énergétique en déficit foncier ?**
+
+Oui, les travaux d'amélioration énergétique sont déductibles et peuvent créer un déficit foncier. De plus, des crédits d'impôt spécifiques peuvent s'y ajouter.
+
+[CTA : Calculez automatiquement votre déficit foncier et optimisez votre imposition avec RentReady — essai gratuit 14 jours]`
+  },
+  {
+    slug: "amenagement-local-pro-impot",
+    title: "Amortissement et travaux d'amenagement LMNP : guide fiscal 2026",
+    category: "Fiscalité",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "8 min",
+    content: `## Amortissement LMNP : guide fiscal complet pour la location meublée 2026
+
+Le statut LMNP (Loueur en Meublé Non Professionnel) permet de bénéficier de l'amortissement du bien et de ses équipements. Contrairement au régime foncier, l'amortissement crée un déficit qui ne s'impute pas sur le revenu global mais reporte sur les bénéfices futurs. Ce guide explique le mécanisme de l'amortissement en LMNP.
+
+## Le principe de l'amortissement en LMNP
+
+L'amortissement représente la perte de valeur du bien et de ses équipements due à l'usure et au temps. En LMNP, cette perte de valeur est déductible des revenus locatifs, créant un déficit reportable.
+
+### Biens amortissables
+
+Les immobilisations suivantes sont amortissables :
+- Construction (durée : 25 à 40 ans selon le type)
+- Équipements et mobiliers (durée : 5 à 10 ans)
+- Travaux d'aménagement (durée : 10 à 20 ans)
+- Frais d'acquisition (durée : 5 ans)
+
+### Fraction non amortissable
+
+Le terrain (environ 20 % de la valeur) n'est pas amortissable car il ne se déprécie pas. Seule la part bâtie est amortie.
+
+## Calcul de l'amortissement
+
+### Taux d'amortissement linéaire
+
+L'amortissement se calcule sur le prix d'acquisition hors taxes (ou valeur vénale pour les apports) :
+- Immobilier : taux de 2 % à 5 % selon l'âge de la construction
+- Mobilier : taux de 10 % à 20 %
+- Équipements : taux de 5 % à 10 %
+
+### Amortissement fiscal vs comptable
+
+L'amortissement fiscal LMNP suit des barèmes administratifs. En cas deopt-out, l'amortissement fiscal est utilisé. Enopt-in, une approche comologique peut être employée.
+
+## Les travaux d'aménagement déductibles
+
+En LMNP, les travaux d'aménagement sont traités différemment selon leur nature :
+
+### Travaux de reconstruction ou d'agrandissement
+
+Ces travaux s'amortissent comme l'immobilier, sur 25 à 40 ans. Ils augmentent la valeur du bien.
+
+### Travaux d'amélioration
+
+Les travaux d'amélioration peuvent être amortis sur 10 à 20 ans ou déduits immédiatement selon leur nature et leur montant.
+
+### Travaux d'entretien normal
+
+Ces travaux sont déductibles immédiatement, comme en location nue.
+
+## Report du déficit LMNP
+
+### Principe du report
+
+Le déficit LMNP (résultant de l'amortissement) ne s'impute pas sur le revenu global. Il reporte sur les bénéfices LMNP des années suivantes, indéfiniment.
+
+### Utilisation du déficit reporté
+
+Le déficit reporté s'utilise d'abord sur les bénéfices LMNP des années suivantes. Il ne s'annule jamais mais peut mettre des décennies à s'utiliser.
+
+### Conversion en loss en cas de vente
+
+En cas de vente, le déficit reporté peut être utilisé pour réduire l'éventuelle plus-value.
+
+## Choisir entre LMNP et LMP
+
+### Seuils de passage en LMP
+
+Vous devenez professionnel (LMP) si :
+- Vos recettes dépassent 23 000 € par an
+- ET ces recettes représentent plus de la moitié de vos revenus
+
+### Conséquences du passage en LMP
+
+En LMP, l'amortissement s'impute sur le revenu global (comme le déficit foncier), ce qui peut être plus avantageux. De plus, lesplus-values sont imposées en BIC, pas enPV.
+
+## FAQ — Amortissement LMNP
+
+**L'amortissement s'applique-t-il dès la première année ?**
+
+Oui, l'amortissement commence à courir dès la date de mise en location meublée. Pour un bien acquis en cours d'année, l'amortissement est proratisé.
+
+**Peut-on amortir les travaux de rénovation énergétique ?**
+
+Oui, les travaux d'amélioration énergétique peuvent être amortis comme les autres travaux d'aménagement. Ils peuvent aussi donner lieu à des crédits d'impôt spécifiques.
+
+**Le déficit LMNP peut-il s'imputer sur le revenu global ?**
+
+Non, le déficit LMNP (amortissement) reporte uniquement sur les bénéfices LMNP des années suivantes. Seule la fraction correspondant aux charges réelles (hors amortissement) peut, sous conditions, s'imputer sur le revenu global.
+
+[CTA : Gérez votre LMNP efficacement avec RentReady — suivi des amortissements et comptabilité integrée — essai gratuit 14 jours]`
+  },
+  {
+    slug: "recours-locataire-procedure",
+    title: "Recours locataire : procedure, tribunal et mediation en cas de litige",
+    category: "Juridique",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "7 min",
+    content: `## Recours locataire : procedure complete et solutions en cas de litige bailleur
+
+Un locataire qui rencontre un problème avec son bailleur dispose de plusieurs voies de recours. Ce guide détaille les procédures amiables et judiciaires à la disposition du locataire, depuis la réclamation jusqu'au tribunal.
+
+## Les recours amiables en premier
+
+Avant toute procédure judiciaire, le locataire doit tenter une résolution amiable du conflit.
+
+### La réclamation écrite
+
+Écrivez à votre bailleur par lettre recommandée avec accusé de réception décrivant précisément le problème. Conservez une copie de chaque courrier. Cette étape crée une trace écrite indispensable en cas de procédure.
+
+### La médiation et la conciliation
+
+De nombreux litiges se résolvent par la médiation :
+- Les maisons de la justice et du droit (MJD)
+- Les conciliateurs de justice (service gratuit)
+- Les mediators spécialisés en copropriété
+
+### L'aide du fonds de solidarité pour le logement (FSL)
+
+Le FSL peut aider les locataires en difficulté à maintenir leur bail ou à régler des dettes locatives. Il propose des aides financières et un accompagnement social.
+
+## Les recours administratifs
+
+### La commission de médiation
+
+Pour les problèmes de logement indigne ou de non-respect des obligations du bailleur, la commission de médiation peut être saisie. Elle peut obliger le bailleur à realizar les travaux nécessaires.
+
+### Le signalement à l'agence nationale de l'habitat (ANLH)
+
+L'ANLH peut être alertée en cas de logement ne respectant pas les normes de décence. Des aides à la rénovation peuvent être proposées.
+
+## Les recours judiciaires
+
+### Le tribunal judiciaire
+
+Pour un litige locatif, le tribunal judiciaire (anciennement tribunal d'instance) est compétent. La procédure peut être initiates parassignation ou par requête.
+
+#### Assignation au tribunal
+
+L'assignation est un acte d'huissier qui saisit le tribunal. Elle doit contenir les faits, les motifs et les pièces justificatives. Le délai d'audience est généralement de quelques semaines.
+
+#### Requête gracieuse
+
+La requête permet de saisine le juge sans passer par un huissier. Elle est adaptée aux litiges de faible valeur ou aux demandes non contestées.
+
+### Les procédures accélérées
+
+#### L'injonction de faire
+
+Si le bailleur ne réalise pas des travaux obligatoires, le locataire peut demander au juge une injonction de faire. Le juge fixe un délai et des sanctions en cas de non-respect.
+
+#### Le référé
+
+En cas d'urgence (insalubrité, danger), le locataire peut saisir le juge des référés pour obtenir des mesures provisoires en quelques jours.
+
+## Les recours specifiques
+
+### Pour non-respect du bailleur
+
+Le locataire peut demander la résolution du bail et des dommages-intérêts si le bailleur ne respecte pas ses obligations :
+- Non-respect de la décence du logement
+- Absence de travaux d'entretien
+- Trouble de jouissance
+
+### Pour习itude et harassment
+
+En cas de习itude ou de harassment avéré, le locataire peut :
+- Demander la résolution du bail
+- Obtenir des dommages-intérêts
+- Signaler les faits au procureur de la République
+
+## Les aides juridiques pour le locataire
+
+### L'aide juridictionnelle
+
+Si vos ressources sont limitées, l'aide juridictionnelle prend en charge tout ou partie des frais de procédure. Elle peut couvrir les honoraires d'avocat, les frais d'huissier et les frais de tribunal.
+
+### Les associations de locataires
+
+Des associations comme la CNL ou la CGL peuvent accompagner le locataire dans ses démarches :
+- Aide à la rédaction de courriers
+- Information sur les droits
+- Assistance lors des audiences
+
+## FAQ — Recours locataire
+
+**Combien coûte une procédure au tribunal pour un litige locatif ?**
+
+Les frais de tribunal varient selon la procédure. L'aide juridictionnelle peut couvrir ces frais si vos ressources sont limitées. Un avocat n'est pas obligatoire mais est recommandé.
+
+**En combien de temps une procédure est-elle tranchée ?**
+
+Cela dépend du tribunal et de la complexité de l'affaire. Un référé peut être tranché en quelques semaines. Une procédure au fond peut prendre plusieurs mois à un an.
+
+**Le locataire peut-il être condamné à verser des dommages-intérêts au bailleur ?**
+
+Oui, si le tribunal estime que le locataire a manqué à ses obligations (par exemple, dégradations confirmées), il peut être condamné à indemniser le bailleur.
+
+[CTA : Protégez vos droits de locataire et gérez vos documents locatifs avec RentReady — essais gratuits 14 jours]`
+  },
+  {
+    slug: "locataire-pertes-handicap",
+    title: "Recours du locataire handicape : allocations et protections speciales 2026",
+    category: "Juridique",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "7 min",
+    content: `## Locataire handicape : allocations et protections speciales en 2026
+
+Les locataires en situation de handicap disposent de droits spécifiques et d'aides financières particulières pour les accompagner dans leur logement. Ce guide détaille les allocations disponibles, les protections légales et les recours en cas de difficulté.
+
+## Les allocations logement pour les personnes handicapees
+
+### L'allocation de logement familiale (ALF)
+
+L'ALF peut être attribuée aux personnes handicacées sous conditions :
+- Être hébergé dans un logement indépendant
+- Avoir une incapacité permanente d'au moins 80 %
+- OU être reconnu inapte au travail
+
+### L'allocation de logement sociale (ALS)
+
+L'ALS peut être accordée aux personnes handicacées qui ne cumpriment pas les conditions de l'ALF :
+- Condition d'âge (moins de 65 ans)
+- Condition de ressources
+- Condition de statut du logement
+
+### La majoration pour le vie autonome (MVA)
+
+Les personnes percevant l'AAH peuvent bénéficier de la MVA si elles cumplan certaines conditions de logement autonome.
+
+## Les aides de la caisse d'allocations familiales
+
+### L'aide auloga
+
+L'aide auloga est une subvention qui peut être accordée pour financer des travaux d'adaptation du logement :
+- Installation de rampe d'accès
+- Modification de la salle de bain
+- Aménagement de la cuisine
+- Largeur des portes
+
+### L'aide à l'amélioration du logement
+
+Des aides spécifiques peuvent être octroyées pour les travaux permettant le maintien à domicile des personnes handicacées.
+
+## Les protections legales spécifiques
+
+### Le droit à une aide humaine
+
+La MDPH peut attribuer une aide humaine pour accompagner les actes de la vie quotidienne, y compris ceux liés au logement.
+
+### L'accès prioritaire au logement social
+
+Les personnes handicacées ont un accès prioritaire aux logements sociaux. Elles peuvent déposer un dossier DALO (Droit au Logement Opposable) en cas de refus.
+
+### La protection contre l'expulsion
+
+Les locataires en situation de handicap bénéficient d'une protection renforcée contre les expulsions, notamment pendant la trêve hivernale.
+
+## L'adaptation du logement
+
+### Les travaux d'accessibilité
+
+Même en location, le locataire peut demander l'autorisation de réaliser des travaux d'accessibilité. Le bailleur ne peut原则上 pas refuser si les travaux sont rendus nécessaires par le handicap.
+
+### Le départ pour motif de santé
+
+Le locataire peut donner son préavis (congé) pour motif de santé sans pénalité si son état de santé nécessite un changement de logement. Ce motif doit être justifié par un certificat médical.
+
+## Les recours en cas de discrimination
+
+### La commission départementale de recours
+
+En cas de discrimination à l'accès au logement, la commission départementle de recours peut être saisie. Elle peut ordonner l'attribution du logement ou des dommages-intérêts.
+
+### Le défenseur des droits
+
+Le亲身 des droits peut être saisi gratuitement en cas de discrimination. Il peut engager une procédure et représenter la victime.
+
+## FAQ — Locataire handicape
+
+**Le bailleur peut-il refuser un candidat locataire handicape ?**
+
+Non, refuser un candidat uniquement en raison de son handicap constitue une discrimination ilegal. Le bailleur ne peut évaluer que la capacité à payer et les références.
+
+**Le locataire handicape peut-il réalizer des travaux sans accord du bailleur ?**
+
+Si les travaux sont nécessaires en raison du handicap et rendus obligatoires par la loi, le locataire peut les réalizer avec un simple accord de principe. Le bailleur ne peut pas s'y opposer sans motif légitime.
+
+**Quelles sont les aides pour payer le deposit de garantie ?**
+
+La Caf peut accorder une avance locative pour le dépôt de garantie. Certaines collectivités territoriales proposent aussi des prêts ou des subventions d'honneur.
+
+[CTA : Gérez votre dossier locatif en ligne avec RentReady — stockage securise de tous vos documents — essai gratuit 14 jours]`
+  },
+  {
+    slug: "trouble-voisinage-recours-locataire",
+    title: "Trouble de voisinage en location : recours du locataire et du proprietaire",
+    category: "Juridique",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "7 min",
+    content: `## Trouble de voisinage en location : procedures et recours en 2026
+
+Les troubles de voisinage sont une source fréquente de conflits entre locataires et parfois entre propriétaires. Qu'il s'agisse de bruits, de nuisances olfactives ou de dégradations, chaque partie dispose de recours. Ce guide détaille les démarches amiables et judiciaires disponibles.
+
+## Les différents types de troubles de voisinage
+
+### Les bruits et nuisances sonores
+
+Les bruits peuvent être :
+- Bruits de comportement (cloisons, télévision, instruments de musique)
+- Bruits d'activités professionnelles ou commerciales
+- Bruits de voisinage (tal, aboiements,机器)
+
+### Les autres nuisance
+
+- Nuisances olfactives (odeurs de cuisson, produits chimiques)
+- Dégradations des parties communes
+- Stationnement abusif
+- Travaux excesifs en horaires inadaptés
+
+## Les recours amiables
+
+### Le dialogue avec le voisin
+
+La première démarche consiste à discuter directement avec le voisin concerné. Beaucoup de conflits se résolvent ainsi, surtout quand la cause est temporaire.
+
+### La lettre simple ou recommandée
+
+Si le dialogue échoue, envoyez un courrier décrivant précisément les nuisances et leur fréquence. La lettre recommandée crée une trace écrite utile pour la suite.
+
+### Le réglement de copropriété
+
+Consultez le réglement de copropriété : il définit souvent les règles de vie commune et peut already prévoir des sanctions pour troubles.
+
+## La médiation et la conciliation
+
+### Le syndic de copropriété
+
+En cas de troubles dans une copropriété, le syndic peut intervenir en jouant le rôle de médiateur. Il peut aussi évoquer les sanctions prevues par le réglement.
+
+### Le conciliateur de justice
+
+Ce magistrat honorifique peut être saidé gratuitement pour proponer une solution amiable. Sa compétence se limite aux litiges de faible importance (moins de 5 000 €).
+
+### La médiation大专
+
+Des organismes spécialisés proposent des médiations payantes mais efficaces pour les conflits plus complexes.
+
+## Les recours administratifs
+
+### Le maire et la police municipale
+
+En cas de tapage nocturne ou de nuisances régulières, le maire peut être saisi. La police municipale peut dresser des procès-verbaux en cas de non-respect des reglements.
+
+### La préfecture
+
+Pour les installations classées ou les activités commerciales causant des nuisances, la préfecture est compétente.
+
+## Les recours judiciaires
+
+### Le tribunal judiciaire
+
+Pour un trouble de voisinage, le tribunal judiciaire est compétent. La procédure peut être longue (plusieurs mois) mais offre des solutions durables.
+
+### L'injonction de faire
+
+Si le voisin refuse de cessiner les nuisances, le juge peut ordonner une injonction de faire. En cas de non-respect, des sanctions financières peuvent être appliquées.
+
+### Le référé
+
+En cas d'urgence (danger, nuisance intolérable), le juge des référés peut intervenir rapidement (quelques jours).
+
+## Les responsabilité du propriétaire bailleur
+
+### Responsabilité du fait des choses
+
+Le propriétaire peut être tenu responsable des troubles causés par son locataire si ceux-ci affectent le fonds voisin. Le voisin peut agir contre le propriétaire.
+
+### Assurance du proprietaire
+
+L'assurance habitation du propriétaire couvre généralement sa responsabilité civile. Elle peut indemniser les victimes d'un trouble causé par son locataire.
+
+## FAQ — Trouble de voisinage
+
+**Comment prouver un trouble de voisinage ?**
+
+Conservez un calendrier des nuisances avec dates, heures et descriptions précises. Des enregistrements audio ou vidéo peuvent servir de preuve. Des temoignages de tiers sont aussi acceptables.
+
+**Le proprietaire peut-il expulser un locataire perturbateur ?**
+
+Oui, si le locataire cause des troubles de voisinage caractérisés, le bailleur peut engager une procédure d'expulsion pour manquement aux obligations du bail.
+
+**Quel délai pour agir en justice ?**
+
+L'action en justice se prescribe par 5 ans à compter de la cessation du trouble. Pour les troubles continus, le délai court à partir de la fin du trouble.
+
+[CTA : Protégez votre patrimoine locatif des troubles de voisinage avec RentReady — gestion des sinistres et documentation integrée — essai gratuit 14 jours]`
+  },
+  {
+    slug: "assurance-proprietaire-non-occupant-obligations",
+    title: "Assurance proprietaire non-occupant (PNO) : obligations et couverture 2026",
+    category: "Juridique",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "6 min",
+    content: `## Assurance proprietaire non-occupant (PNO) : ce qu'il faut savoir en 2026
+
+L'assurance Propriétaire Non-Occupant (PNO) est souvent mal connue des bailleurs. Elle est pourtant devenue incontournable, voire obligatoire dans certains cas. Ce guide détaille les obligations, les couvertures et les conseils pour bien choisir votre assurance PNO.
+
+## Qu'est-ce que l'assurance PNO ?
+
+L'assurance PNO protège le propriétaire contre les risques liés à sa qualité de bailleur. Contrairement à l'assurance habitation classique (qui couvre l'occupant), la PNO couvre le proprietaire en tant que propriétaire du bien.
+
+### Différence avec l'assuranceGLI
+
+La GLI (Garantie Loyer Impayé) couvre les impayés de loyer. La PNO couvre les risques liés au bien (sinistres, responsabilité civile). Les deux sont complémentaires et souvent souscritées ensemble.
+
+## L'assurance PNO est-elle obligatoire ?
+
+### Pour les banques
+
+Si vous avez souscrit un prêt immobilier pour acquérir le bien, la banque exige généralement une assurance PNO. Elle se substitue à l'assurance habitation classique qui ne couvre pas le propriétaire non-occupant.
+
+### En copropriété
+
+Le réglement de copropriété peut imposer une assurance PNO au propriétaire. En cas de sinistre dans votre logement, votre responsabilité pourrait être engagée vis-à-vis des autres copropriétaires.
+
+### Pour les investors en direct
+
+Même sans crédit et sans copropriété, l'assurance PNO est fortement recommandée. Elle couvre des risques que ni l'assurance du locataire ni aucune autre assurance ne prend en charge.
+
+## Les garanties de base
+
+### La garantie Responsabilité Civile Propriétaire
+
+Cette garantie couvre les dommages causés aux tiers par le bien ou par le propietario :
+- Dommages causés à un voisin (inondation, incendie)
+- Dommages causés à un locataire ou à ses visiteurs
+- Dommages dans les parties communes
+
+### La garantie Protection Juridique
+
+Elle prend en charge les frais de procédure en cas de litige :
+- Honoraires d'avocat
+- Frais de tribunal
+- Frais d'huissier
+
+## Les garanties optionnelles
+
+### La garantie Loyers Impayés
+
+Certaines assurances PNO proposent une couverture des impayés en complément ou en alternative à la GLI dédiée.
+
+### La garantie Vacance Locative
+
+Elle compense la perte de revenus en cas de vacance prolongée entre deux locataires.
+
+### La garantie Dégradations
+
+Elle couvre les coûts de remise en état du bien en cas de dégradations causées par le locataire.
+
+## Comment choisir son assurance PNO ?
+
+### Critères de comparaison
+
+- Niveau de couverture (plafonds, franchises)
+- Exclusion de garantie
+- Plafond de la garantie Responsabilité Civile
+- Montant de la prime annuelle
+- Délai de carence
+
+### Les pièges à éviter
+
+Méfiez-vous des offres trop bon marché qui présentent souvent :
+- Des exclusions nombreuses
+- Des plafonds de remboursement faibles
+- Des franchises élevées
+- Un délai de carence long
+
+## Les franchises et délais
+
+### La franchise
+
+C'est le montant qui reste à votre charge en cas de sinistre. Une franchise de 100 à 300 € est habituelle.
+
+### Le délai de carence
+
+Période pendant laquelle certaines garanties ne s'appliquent pas encore. Il varie de 30 à 90 jours selon les contrats.
+
+## FAQ — Assurance PNO
+
+**L'assurance PNO couvre-t-elle les impayés de loyer ?**
+
+Non, la PNO couvre la responsabilité civile et les risques liés au bien. Pour les impayés, il faut souscription une assurance GLI dédiée.
+
+**Le locataire peut-il vérifier que je suis assuré ?**
+
+Oui, le locataire peut demander une attestation d'assurance PNO. En cas de défaut d'assurance, le locataire peut sousopter une assurance pour le compte du propriétaire, à ses frais.
+
+**Combien coûte une assurance PNO ?**
+
+Les tarifs varient de 100 à 400 € par an selon la valeur du bien, sa localisation et les garanties choisies. C'est un investissement modeste au regard des risques couverts.
+
+[CTA : Gérez vos assurances et votre patrimoine locatif en ligne avec RentReady — suivi des contrats et alertes — essai gratuit 14 jours]`
+  },
+  {
+    slug: "assurance-proprietaire-bailleur-protection",
+    title: "Protection du bailleur : quelle assurance contre les risques en 2026",
+    category: "Gestion",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "6 min",
+    content: `## Protection du bailleur : guide des assurances pour proprietaires bailleurs 2026
+
+Un propriétaire bailleur faces à de nombreux risques : impayés, dégradations, litiges, sinistres. Ce guide passe en revue les différentes assurances et protections disponibles pour sécuriser votre investissement locatif.
+
+## Les risques majeurs du propriétaire bailleur
+
+### Les impayés de loyer
+
+C'est le risque le plus redouté. Un impayé peut durer des mois, voire des années, avant最终 resolution. GLI et protection juridique sont les outils de mitigation.
+
+### Les dégradations
+
+Un locataire peut causer des dégradations supérieures au dépôt de garantie. Sans assurance adaptée, le propriétaire asume la différence.
+
+### Les litiges juridiques
+
+Procédures d'expulsion, contestations de préavis, litiges sur l'état des lieux... Les frais juridiques peuvent s'accumuler rapidement.
+
+### Les sinistres
+
+Incendie, inondation, vol... Le bien peut subir des sinistres même en l'absence de occupant.
+
+## Les assurances essentielles
+
+### La GLI (Garantie Loyer Impayé)
+
+L'assurance GLI rembourse les loyers et charges non réglés par le locataire :
+- Plafond : généralement 90 jours d'impayés
+- Franchise : 30 à 60 jours généralement
+- Coverage : loyer + charges + dégradations (selon contrat)
+
+### L'assurance PNO (Propriétaire Non-Occupant)
+
+Elle couvre la responsabilité civile du propriétaire :
+- Dommages causés aux tiers
+- Dommages causés aux locataires
+- Frais de justice
+
+### L'assurance propriétaire non-occupant spécialisée
+
+Certaines assurances proposent des couvertures plus larges incluant :
+- Vacance locative
+- Dégradations
+- Contentieux juridique
+
+## Les assurances complémentaires
+
+### L'assurance homo
+
+Elle protège le prêt immobilier en cas d'aléas de la vie (décès, invalidité, chômage). Elle protege aussi la capacité du propriétaire à continuer à assumer son crédit.
+
+### L'assurance invalidité
+
+Elle maintient les revenus locatifs en cas de perte d'autonomie du propriétaire.
+
+## La protection par la selection locataire
+
+### Vérification des references
+
+Avant de选定位, vérifiez systématiquement :
+- Fiches de paie (3 derniers mois)
+- Avis d'imposition
+- Relevés de compte bancaire
+- Attestation employeur
+- Historique locatif (appel aux anciens bailleurs)
+
+### Le garant
+
+Un garant solide (caution solidaire) constitue une première protection efficace. Il peut être-actionné directement en cas de défaillance.
+
+## Les outils de prevention
+
+### Logiciel de gestion locative
+
+Un outil comme RentReady permet de :
+- Suivre automatiquement les paiements
+- Détecter les retards dès le 1er jour
+- Générer les lettres de relance
+- Archiver les échanges
+
+### L'accompagnement professionnel
+
+Une agence de gestion locative assure un suivi régulier et une intervención rapide en cas de problème.
+
+## FAQ — Protection du bailleur
+
+**Quelle est la meilleure protection contre les impayés ?**
+
+La combination GLI + sélection rigoureuse du locataire + caution solide offre la protection la plus complète. Aucun dispositif ne garantit une protection totale.
+
+**Le dépôt de garantie suffit-il ?**
+
+Non, le dépôt de garantie (1 à 2 mois de loyer) ne couvre généralement pas les dégradations importantes ni les mois d'impayés. Il doit être complété par d'autres protections.
+
+**Faut-il passer par une agence pour être mieux protégé ?**
+
+L'agence assure un suivi professionnel et une intervención rapide. En contrepartie, elle prélève des honoraires (5 à 10 % des loyers). Le choix dépend de votre temps disponible et de la taille de votre patrimoine.
+
+[CTA : Anticipez les risques et protégez votre patrimoine avec RentReady — gestion locative complete — essai gratuit 14 jours]`
+  },
+  {
+    slug: "assurance-gli-vs-protection-juridique",
+    title: "GLI ou protection juridique : quelle assurance pour le proprietaire bailleur",
+    category: "Gestion",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "5 min",
+    content: `## GLI ou protection juridique : guide comparatif pour le proprietaire bailleur
+
+Garantie Loyer Impayé (GLI) et protection juridique sont deux assurances distinctes que les propriétaires bailleurs doivent souvent choisir entre elles. Ce guide compare ces deux protections pour vous aider à faire le bon choix.
+
+## Qu'est-ce que la GLI ?
+
+La Garantie Loyer Impayé rembourse les loyers et charges non réglés par le locataire. C'est la protection la plus demandée par les bailleurs.
+
+### Ce que couvre la GLI
+
+- Loyers impayés (dans la limite du plafond)
+- Charges impayées
+- Frais de dégradations (selon contrat)
+- Frais de procédure en cas d'impayé
+
+### Ce que ne couvre pas la GLI
+
+- Litiges sur l'état des lieux
+- Contreparties de préavis
+- Litiges sur la restitution du dépôt de garantie
+- Troubles de voisinage
+
+## Qu'est-ce que la protection juridique ?
+
+La protection juridique prend en charge les frais de procédure en cas de litige. Elle intervient dans tous types de conflits liés à la location.
+
+### Ce que couvre la protection juridique
+
+- Honoraires d'avocat
+- Frais de tribunal
+- Frais d'huissier
+- Frais de médiation
+
+### Ce que ne couvre pas la protection juridique
+
+- Les montants des loyers impayés (elle ne rembourse pas l'impayé lui-même)
+- Les dégradations
+
+## Comparatif GLI vs Protection Juridique
+
+| Critere | GLI | Protection Juridique |
+|---------|-----|-----|
+| Couvre les impayés | Oui | Non |
+| Couvre les dégradations | Selon contrat | Non |
+| Couvre les frais juridiques | Selon contrat | Oui |
+| Coût annuel | 2-4% du loyer annuel | 50-200€/an |
+| Franchise | 30-90 jours | Variable |
+
+## Quelle assurance choisir ?
+
+### Priorité à la GLI si
+
+- Vous n'avez pas de protection juridique via une autre assurance
+- Vous voulez une protection globale contre les impayés
+- Votre priorité est de sécuriser vos revenus locatifs
+
+### Priorité à la protection juridique si
+
+- Vous avez déjà une GLI via votre prêt
+- Vous avez un patrimoine important nécessitant une gestion rigoureuse
+- Vous souhaitez être accompagné en cas de litige complexe
+
+### Les deux sont complémentaires
+
+La solution idéale combine généralement :
+- GLI pour couvrir les impayés
+- Protection juridique pour couvrir les litiges non financiers
+
+## FAQ — GLI vs Protection Juridique
+
+**La GLI couvre-t-elle aussi les frais de procédure ?**
+
+Oui, partiellement. La GLI rembourse souvent les frais de procédure liés à l'impayé (assignation, expulsion). Pour les litiges non liés aux impayés, une protection juridique distincte est nécessaire.
+
+**Peut-on avoir les deux assurances ?**
+
+Oui, les deux assurances sont complémentaires. Elles couvrent des risques différents et peuvent être souscrites ensemble.
+
+**La protection juridique est-elle deductible des revenus fonciers ?**
+
+Oui, les cotisations de protection juridique sont déductibles des revenus fonciers au titre des frais de gestion.
+
+[CTA : Configurez la protection adaptée à votre patrimoine avec RentReady — gestion locative securisee — essai gratuit 14 jours]`
+  },
+  {
+    slug: "investissement-locatif-2026",
+    title: "Investissement locatif en 2026 : guide complet pour debuter",
+    category: "Gestion",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "9 min",
+    content: `## Investissement locatif en 2026 : guide complet pour debuter
+
+L'investissement locatif reste l'un des placements préférés des Français. En 2026, avec la remontée des taux et les évolutions fiscales, il est essentiel de bien comprendre les mécaniques avant de se lancer. Ce guide couvre les bases essentielles pour investir intelligemment.
+
+## Pourquoi investir dans l'immobilier locatif ?
+
+### La constitution d'un patrimoine
+
+L'immobilier permet de constituer un patrimoine durable et tangible. Contrairement aux actifs financiers, le bien immobilier physical existe et prend généralement de la valeur sur le long terme.
+
+### Les revenus complémentaires
+
+Un bien loué génère des revenus réguliers qui peuvent compléter la retraite, fournir un revenu d'appoint ou rembourser un crédit.
+
+### La building de la retraite
+
+Les revenus locatifs peuvent constituer un complément de retraite significatif. Un bien payé offrira des revenus nets d'emprunt pendant les années de retraite.
+
+## Les etapes pour debuter
+
+### Étape 1 : Definir ses objectifs
+
+Avant de chercher un bien, définissez clairement :
+- Objectif : revenus complémentaires ou building patrimonial ?
+- Horizon de temps : court terme (5-10 ans) ou long terme (20-30 ans) ?
+- Niveau d implication souhaité : gestion déléguée ou personnelle ?
+
+### Étape 2 : Etablir son budget
+
+Calculez votre capacité d'emprunt et votre apport :
+- Taux d'endettement maximal (35 % en théorie)
+- Frais de notaires (7 à 8 % du prix du bien)
+- Travaux éventuels
+- Charges de copropriété
+- Vacance locative potentielle
+
+### Étape 3 : Choisir le regime fiscal
+
+Plusieurs régimes s'offrent à vous :
+- Location nue (revenus fonciers, déficit foncier)
+- Location meublée LMNP (amortissement, récupération de TVA)
+- SCI à l'IS (pour les investisseurs importants)
+
+### Étape 4 : Trouver le bon bien
+
+Critères de sélection :
+- Emplacement (critérium le plus important)
+- État du bien et travaux nécessaires
+- Potentiel locatif (loyer annuel / prix d'achat)
+- Facilité de gestion future
+
+## Les pièges à éviter
+
+### Le coup de cœur
+
+Ne laissez pas l'émotion guider votre décision. Un bel appartement mal situé ou difficile à louer sera source de frustrations.
+
+### Négliger la solvabilité du locataire type
+
+Anticipez le profil des locataires potentiels. Un studio près d'une université aura des locataire étudiants ; un T3 familial devra être proche des écoles.
+
+### Sous-estimer les charges
+
+Intégérez toujours :
+- Taxe foncière (1 à 2 mois de loyer)
+- Charges de copropriété
+- Assurance PNO
+- Frais de gestion (si agence)
+- Vacance locative (1 à 2 mois par an)
+
+### Louer sans dispositif fiscal
+
+Si vous n'avez pas de缘际 pour investir sans avantages fiscaux, l'investissement doit se défendre seul sur la base du rendement brut.
+
+## Les etudes à realizar
+
+### Le rendement locatif
+
+**Rendement brut** = (Loyer mensuel × 12) / Prix du bien × 100
+
+**Rendement net** = (Loyer mensuel × 12 - Charges - Impôts) / Prix du bien × 100
+
+Un bon rendement net se situe entre 4 % et 7 % selon les villes.
+
+### La vacance locative
+
+Étudiez le marché local :
+- Taux d'occupation des biens similaires
+- Durée moyenne de relocation
+- Loyer moyen du marché
+
+### La demande locative
+
+Assurez-vous qu'il y a une demande réelle :
+- Proximité des transports et commodités
+- Dynamisme économique local
+- Population étudiante ou jeune active
+
+## Les aides à l'investissement
+
+### Le dispositif Pinel
+
+Le Pinel permet une réduction d'impôt en échange d'un engagement de location. Il est réservé aux zones tendues et soumise à des plafonds de loyer et de ressources.
+
+### Les prêts aidés
+
+Le PTZ (Prêt à Taux Zéro) peut compléter un prêt classique pour l'acquisition de la résidence principale, libérant ainsi l'apport pour l'investissement.
+
+### Les avantages LMNP
+
+En meublé, l'amortissement permet de réduire significativement l'imposition, voire de générer un déficit reportable.
+
+## FAQ — Investissement locatif
+
+**Faut-il investir seul ou en SCI ?**
+
+La SCI offre plus de flexibilité pour la gestion et la transmission. Pour un premier investissement simple, l'achat en direct suffit. La SCI devient interessante pour un patrimoine de 2-3 biens ou plus.
+
+**Combien de temps faut-il pour rentabiliser un investissement ?**
+
+La rentabilisation dépend du rendement net et des avantages fiscaux. En général, un investissement bien choisi commence à être positif (cash-flow positif) entre 5 et 10 ans.
+
+**Faut-il passer par une agence ?**
+
+Pour un premier investissement, l'agence apporte son expertise du marché. La gestion en direct permet d'économiser les honoraires (5-10 % des loyers) mais demande du temps.
+
+[CTA : Préparez votre investissement locatif avec RentReady — simulateurs et outils de pilotage — essai gratuit 14 jours]`
+  },
+  {
+    slug: "rentabilite-locative-nette-brut",
+    title: "Rentabilite locative nette vs brute : comment la calculer en 2026",
+    category: "Calculs",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "6 min",
+    content: `## Rentabilite locative nette vs brute : guide de calcul 2026
+
+Avant d'investir dans l'immobilier locatif, il est essentiel de savoir calculer correctement la rentabilité. Beaucoup d'investisseurs novices se contentent du rendement brut, mais le rendement net offre une image bien plus réaliste. Ce guide explique tout.
+
+## Le rendement locatif brut
+
+### Comment le calculer
+
+**Rendement brut = (Loyer mensuel × 12) / Prix d'achat × 100**
+
+Exemple : Un appartement à 200 000 € loué 800 €/mois :
+(800 × 12) / 200 000 × 100 = 4,8 %
+
+### Ce que le rendement brut montre
+
+Le rendement brut permet une première comparaison entre biens. Il est facile à calculer mais ne reflète pas la réalité économique de l'investissement.
+
+### Limites du rendement brut
+
+Il ne prend pas en compte :
+- Les charges de copropriété
+- La taxe foncière
+- Les frais de gestion
+- Les assurances
+- Les impôts sur les revenus locatifs
+- La vacance locative
+
+## Le rendement locatif net
+
+### Comment le calculer
+
+**Rendement net = (Loyer annuel - Charges annuelles) / Prix d'achat × 100**
+
+Les charges à déduire :
+- Charges de copropriété
+- Taxe foncière
+- Assurance PNO
+- Frais de gestion (si applicable)
+- Travaux d'entretien
+- Honoraires comptable
+
+Exemple avec les mêmes chiffres :
+Loyer annuel : 9 600 €
+Charges : 2 400 € (copro : 1 200 €, taxe foncière : 800 €, assurance : 200 €, gestion : 200 €)
+Rendement net = (9 600 - 2 400) / 200 000 × 100 = 3,6 %
+
+## Le rendement net-net (ou net avant impôt)
+
+### Integration des prélèvements fiscaux
+
+Pour avoir une image complète, il faut intégrer l'imposition :
+- Revenu foncier (location nue)
+- Bénéfices LMNP (location meublée)
+
+L'imposition dépend de votre tranche marginale d'imposition et du régime choisi.
+
+## La rentabilite nette-du-brut
+
+### Principe du calcul
+
+La rentabilité nette de tous frais (net-net) intégre :
+- Les intérêts d'emprunt
+- L'amortissement (LMNP)
+- Les avantages fiscaux (Pinel, etc.)
+
+C'est l'indicateur le plus complet pour comparer des investissements.
+
+## Les indicateurs complements
+
+### Le cash-flow
+
+Le cash-flow = Revenus locatifs - Tous les expenses (y compris mensualité de crédit)
+
+Un cash-flow positif signifie que l'investissement s'autofinance. C'est l'objectif de nombreux investisseurs.
+
+### Le TRI (Taux de Rentabilité Interne)
+
+Le TRI prend en compte :
+- Les flux de trésorerie annuels
+- La valeur du bien à la revente
+- La durée de détention
+
+C'est l'indicateur le plus sophistiqué pour comparer des investissements sur des horizons différents.
+
+## Exemple comparatif
+
+| Bien | Prix | Loyer | Brut | Charges | Net | Net-net* |
+|------|------|-------|------|---------|-----|----------|
+| A | 150 000 | 600 € | 4,8 % | 1 800 € | 3 % | 1,5 % |
+| B | 200 000 | 800 € | 4,8 % | 2 400 € | 3,6 % | 2 % |
+| C | 250 000 | 1 100 € | 5,3 % | 3 000 € | 3,8 % | 2,5 % |
+
+*Net-net = après intérêts d'emprunt et impôts (tranche 30 %)
+
+## FAQ — Rentabilité locative
+
+**Quel est un bon rendement locatif net ?**
+
+En 2026, un rendement net de 4 à 7 % est considéré comme correct selon les villes. Paris affiche souvent 3-4 % net, tandis que des villes comme Lille, Lyon ou Marseille peuvent offrir 5-6 %.
+
+**Faut-il viser le cash-flow positif ?**
+
+Oui, si possible. Un cash-flow positif signifie que l'investissement ne vous coûte pas d'argent chaque mois. Attention toutefois à ne pas surévaluer les loyer ou sous-estimer les charges.
+
+**Le rendement est-il le seul critère ?**
+
+Non. La appreciation potentielle du bien, les avantages fiscaux et la qualité de l'emplacement sont tout aussi importants. Un rendement plus faible avec une forte appreciation peut être preferable.
+
+[CTA : Calculez automatiquement la rentabilité de vos investissements avec RentReady — simulateurs integres — essai gratuit 14 jours]`
+  },
+  {
+    slug: "investissement-immobilier-neuf-ancien",
+    title: "Immobilier neuf vs ancien : avantages et inconvenients pour investir",
+    category: "Gestion",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "7 min",
+    content: `## Immobilier neuf vs ancien : guide comparatif pour l'investissement locatif
+
+Faut-il privilégier le neuf ou l'ancien pour un investissement locatif ? Cette question se pose à tout investisseur. Chaque option présente des avantages et des inconvénients. Ce guide compare les deux pour vous aider à décider.
+
+## L'investissement dans le neuf
+
+### Les avantages du neuf
+
+**Garanties constructeur**
+- Garantie décennale (10 ans)
+- Garantie biennale (2 ans)
+- Garantie de parfait achèvement
+
+**Frais de notaires reduits**
+Les frais de notaires pour un logement neuf sont d'environ 2 à 3 % contre 7 à 8 % pour l'ancien.
+
+**Performance energetique**
+Les logements neufs respectent les dernières normes (RE 2020) et offrent une performance énergétique optimale. Ce qui se traduit par des factures réduites pour le locataire.
+
+**Pas de travaux a prevoir**
+Le bien est livré clef en main. Aucune surprise ni frais de rénovation à prévoir dans les prochaines années.
+
+### Les inconvenient du neuf
+
+**Prix d'achat plus elevé**
+Le neuf coûte généralement 10 à 20 % plus cher que l'ancien équivalent. Cette prime se répercute sur le rendement.
+
+**Mitoyennete et vis-a-vis**
+Les programmes neufs sont souvent construits en barre ou en résidence avec de nombreux lots. La mitoyenneté peut être forte.
+
+**Livraison differee**
+L'achat sur plan (VEFA) implique un délai de construction de 1 à 3 ans. Pendant cette période, vous paierez le crédit sans percevoir de loyer.
+
+## L'investissement dans l'ancien
+
+### Les avantages de l'ancien
+
+**Prix d'achat plus accessible**
+L'ancien est généralement moins cher au m². Le rendement brut peut être plus élevé.
+
+**Emplacements varies**
+Les centres-villes et quartiers établis sont surtout composés d'ancien. Les meilleurs emplacements sont souvent en ancien.
+
+**Possibilité de négociation**
+Les prix de vente sont négociables, surtout en cas de滞留 importante. Des réductions de 5 à 15 % sont courantes.
+
+**Personnalisation possible**
+Vous pouvez réaliser des travaux de rénovation selon vos goûts et les attentes du marché local.
+
+### Les inconvenient de l'ancien
+
+**Frais de renovation**
+Des travaux peuvent être nécessaires. Ils représentent un budget à anticiper (et à négocier dans le prix d'achat).
+
+**Garanties limitées**
+L'ancien n'offre pas les garanties du neuf. L'assurance DOMMAC est souvent souscrite par precaution.
+
+**Performances energetiques**
+Les biens anciens sont souvent moins bien isolés. Ce qui peut augmenter les charges pour le locataire et compliquer la location.
+
+## La comparaison financière
+
+### Exemple concret
+
+| Critere | Neuf | Ancien |
+|---------|------|--------|
+| Prix d'achat | 250 000 € | 200 000 € |
+| Frais de notaires | 7 500 € | 16 000 € |
+| Travaux | 0 € | 20 000 € |
+| Total investissement | 257 500 € | 236 000 € |
+| Loyer mensuel | 900 € | 800 € |
+| Rendement brut | 4,2 % | 4,8 % |
+
+### L'impact des avantages fiscaux
+
+Le neuf peut bénéficier de la loi Pinel (réduction d'impôt). L'ancien peut donner lieu à des travaux déductibles. Les deux approches peuvent s'équilibrer.
+
+## Le choix selon l'objectif
+
+### Pour maximiser le rendement
+
+L'ancien avec travaux offre généralement un meilleur rendement brut. La négociation et les travaux permettent d'acquérir à prix réduit.
+
+### Pour minimiser la gestion
+
+Le neuf nécessite moins d'intervention dans les premières années. Moins de travaux, moins de dégradation, garanties constructeur.
+
+### Pour la defiscalisation
+
+Le Pinel en neuf offre une réduction d'impôt significative (jusqu'à 14 % du prix). L'ancien peut génèrer du déficit foncier déductible.
+
+## Les strategies combinees
+
+### L'ancien à rénover
+
+Acheter un bien ancien à rénover permet de créer de la valeur. Un bien rénové se loue plus facilement et à meilleur prix.
+
+### Le LMNP en neuf
+
+La location meublée en neuf permet de bénéficier de l'amortissement et de la TVA récupérée sur le mobilier.
+
+## FAQ — Neuf vs Ancien
+
+**L'ancien est-il toujours meilleur marché ?**
+
+Oui, en général l'ancien coûte moins cher au m². Cependant, il faut intégrer les frais de rénovation et le risque de travaux non anticipés.
+
+**Le neuf donne-t-il toujours droit à Pinel ?**
+
+Non, le Pinel est réservé aux logements neufs ou en état futur d'achèvement dans des zones géographiques spécifiques. Vérifiez l'éligibilité avant d'acheter.
+
+**Quel type de bien est le plus facile à louer ?**
+
+Tout dépend de l'emplacement. En zone tendue, les deux se louent facilement. En zone détendue, l'ancien avec un bon rendement sera plus attractif.
+
+[CTA : Comparez les scénarios d'investissement avec RentReady — simulateurs financiers integres — essai gratuit 14 jours]`
+  },
+  {
+    slug: "location-etudiante-guide-complet",
+    title: "Location etudiante : guide complet du bailleur en 2026",
+    category: "Juridique",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "7 min",
+    content: `## Location etudiante : guide complet du bailleur en 2026
+
+Louer à un étudiant présente des spécificités : garanties adaptées, profils variés, gestion particulière. Ce guide couvre tout ce qu'un bailleur doit savoir pour réussir sa location étudiante.
+
+## Le profil du locataire etudiant
+
+### Avantages
+
+- Loyer généralement inferior à celui d'un actif
+- Profil jeune et adaptable
+- Mobilité réduite (durée des études)
+- Sensibilisation aux nouvelles technologies
+
+### Points de vigilance
+
+- Revenus limités (boursier, jobs étudiants)
+- Garants nécessaires dans la mayoría des cas
+- Déco habitation parfois mouvementée
+- Études pouvant être interrompues
+
+## Les types de bail pour un etudiant
+
+### Bail mobilité (depuis 2019)
+
+Le bail mobilité est spécialement adapté aux étudiants :
+- Durée : 1 à 10 mois (non renouvelable)
+- Sans depot de garantie
+- Sansgarantie obligatoire
+- Ideal pour les stages ou études courtes
+
+### Bail classique (vide ou meuble)
+
+Le bail classique reste la norme :
+- Bail nu : 3 ans (personne physique) ou 6 ans (personne morale)
+- Bail meuble : 1 an (renouvelable)
+- Dépôt de garantie : 1 mois (nu) ou 2 mois (meublé)
+- Garantie Visale possible
+
+## La garantie Visale
+
+### Principe
+
+La garantie Visale est un dispositif gratuit porté par Action Logement. Elle se porte garant pour le locataire en cas d'impayés.
+
+### Conditions d'eligibilité
+
+- Locataire de moins de 30 ans
+- Locataire en formation ou en emploi
+- Loyer inférieur aux plafonds (variable par zone)
+
+### Avantages pour le bailleur
+
+- Garantie gratuite
+- Couverture des impayés jusqu'à 36 mois
+- Paiement direct au bailleur
+
+## Les diagnostics obligatoires
+
+Pour une location étudiante, les mêmes diagnostics que pour toute location sont requis :
+- DPE (Diagnostic de Performance Énergétique)
+- Constat de risque d'exposition au plomb (CREP)
+- État des risques et pollutions
+- Diagnostic amiante (si applicable)
+- Surface habitable (loi Boutin)
+
+## Aménagements spécifiques pour l'étudiant
+
+### Le bail meublé
+
+Un logement meublé attire davantage d'étudiants et justifie un loyer plus élevé. La liste des équipements obligatoires est définie par décret :
+- Literie avec couette ou couverture
+- Plaques de cuisson
+- Réfrigérateur
+- Four ou micro-ondes
+- Vaisselle
+- Table et chaises
+- Étagères de rangement
+- Luminaires
+
+### La colocation
+
+La colocation est très répandue chez les étudiants :
+- Bail unique avec tous les colocataires
+- Solidarité sur les impayés
+- Charges partagées
+- Gestion simplifiée via un bail unique
+
+## La selection du locataire etudiant
+
+### Dossier à demander
+
+- Carte d'identité ou passeport
+- 3 dernières fiches de paie (ou attestation jobs)
+- Avis d'imposition
+- Relevés de compte bancaire
+- Attestation d'inscription universitaire
+- Attestation de bursier (si applicable)
+
+### Les garants
+
+Le garant est presque toujours nécessaire :
+- Parents (solution la plus courante)
+- Garant Visale (gratuit)
+- Caution bancaire
+- Organisme de garantie payant
+
+## La gestion locative
+
+### Suivi des paiements
+
+Un suivi rigoureux est essentiel :
+- Vérification mensuelle des paiements
+- Relance rapide en cas de retard
+- Utilisation d'un logiciel de gestion (RentReady)
+
+### L'état des lieux
+
+L'état des lieux d'entrée doit être très détaillé :
+- Photos datées de chaque pièce
+- Description précise de l'état des murs, sols, équipements
+- Relevé des compteurs
+
+## FAQ — Location etudiante
+
+**Puis-je exiger une assurance habitation pour mon locataire étudiant ?**
+
+Oui, l'assurance multirisque habitation est obligatoire pour le locataire. Vous pouvez l'exiger chaque année et refuser le renouvellement du bail sans attestation.
+
+**Le locataire étudiant peut-il donner son préavis à tout moment ?**
+
+Oui, le locataire peut donner son congé à tout moment en respectant un préavis de 1 mois (meublé) ou 3 mois (nu). Aucune justification n'est nécessaire.
+
+**Comment gérer le turn-over annuel ?**
+
+Anticipez la remise en état entre deux locataires. Profitez des périodes de vacances (juillet-août) pour réaliser les éventuels travaux. Un bon état des lieux d'entrée et de sortie facilite les choses.
+
+[CTA : Gérez vos locations etudiantes facilement avec RentReady — suivi des paiements et documentation — essai gratuit 14 jours]`
+  },
+  {
+    slug: "resiliation-bail-location",
+    title: "Resiliation du bail de location : motifs, délais et procedure 2026",
+    category: "Juridique",
+    date: "2026-04-20",
+    updatedAt: "2026-04-20",
+    readTime: "6 min",
+    content: `## Resiliation du bail de location : motifs, délais et procedure 2026
+
+La résiliation du bail de location peut survenir à l'initiative du locataire ou du bailleur. Chaque situation obéit à des règles précises. Ce guide détaille les différentes formes de résiliation, les délais à respecter et les procédures à suivre.
+
+## Les differentes formes de fin de bail
+
+### Le terme du bail
+
+Le bail arrive naturellement à son terme :
+- Bail de 3 ans (personne physique) : reconduction tacite ou congé donné 6 mois avant
+- Bail de 6 ans (personne morale) : reconduction tacite ou congé donné 6 mois avant
+- Bail meublé de 1 an : reconduction tacite ou congé donné 3 mois avant
+
+### La résiliation anticipée
+
+Elle intervient avant le terme pour des motifs légitimes :
+- Décès du locataire
+- Perte d'emploi (clause spécifique)
+- Expropriation
+- Force majeure
+
+### Le congé
+
+Le congé est la manifestation de volonté d'une partie de ne pas renouvelle le bail.
+
+## Le congé donne par le locataire
+
+### Motifs possibles
+
+Le locataire peut donner son congé à tout moment, sans justifier d'un motif :
+- Pour un autre logement
+- Pour acheter
+- Pour des raisons personnelles
+
+### Delais de preavis
+
+- Bail meublé : 1 mois
+- Bail nu : 3 mois
+- Bail mobilité : pas de préavis (durée maximale du bail)
+
+### Motifs de reduction du preavis
+
+Le locataire peut bénéficier d'un préavis réduit (1 mois) dans certains cas :
+- Perte d'emploi involontaire
+- Mutation professionnelle
+- nouvel emploi ( CDI )
+- Obtention d'un premier emploi
+- état de santé nécessitant un changement de logement (sur justification)
+
+### Forme du preavis
+
+Le congé doit être adressé :
+- Par lettre recommandée avec accusé de réception
+- Par acte d'huissier
+- Par déclaration au greffe du tribunal (en cas de justice)
+
+La date de réception fait courir le délai.
+
+## Le congé donne par le bailleur
+
+### Motifs de refus de renouvellement
+
+Le bailleur peut donner congé à l'échéance :
+- Pour habiter le logement (résidence principale)
+- Pour vendre le logement
+- Pour un motif légitime et sérieux (non-paiement, troubles de voisinage, etc.)
+
+### Delais à respecter
+
+- 6 mois avant le terme pour un congé pour habiter ou vendre
+- 3 mois avant le terme pour un congé pour motif légitime (impayés, etc.)
+
+### Indemnité de vacated
+
+Si le bailleur donne congé pour vendre ou habiter, il doit verser une indemnité au locataire :
+- 1 mois de loyer si le logement est en zone tendue
+- Pas d'indemnité si le congé est pour motif légitime
+
+## La procedure d'expulsion
+
+### En cas d'inexecution des obligations
+
+Si le locataire ne respecte pas ses obligations, le bailleur peut engager une procédure :
+1. Relance écrite (courrier simple)
+2. Mise en demeure (lettre recommandée)
+3. Assignation au tribunal judiciaire
+4. Jugement
+5. Commandement de quitter les lieux
+6. Expulsion par huissier
+
+### Les protections du locataire
+
+Certaines protections s'appliquent :
+- Trêve hivernale (1er novembre au 31 mars) : suspension des expulsions
+- Logement decent : condition préalable à toute procédure
+- Respect de la procédure : tout vice de procédure peut entraîner la nullité
+
+## La restitution du depot de garantie
+
+### Delai de restitution
+
+Le dépôt de garantie doit être restitué dans les 2 mois suivant l'état des lieux de sortie.
+
+### Les deductions autorisees
+
+Le bailleur peut déduire du dépôt :
+- Impayés de loyer ou de charges
+- Travaux de remise en état (au-delà de l'usure normale)
+- Travaux non réalisés par le locataire
+
+### En cas de litige
+
+En cas de contestation, le dépôt est consigné auprès de la CDC (Caisse des Dépôts et Consignations) dans l'attente d'un accord ou d'une décision de justice.
+
+## FAQ — Resiliation du bail
+
+**Le locataire peut-il partir avant la fin du préavis ?**
+
+Oui, mais il reste redevable du loyer jusqu'à la fin du préavis, sauf accord du bailleur pour le libérer plus tôt.
+
+**Le bailleur peut-il refuser de renouveler le bail ?**
+
+Oui, le bailleur peut donner congé à l'échéance sans motif (sauf clause contraire dans certains cas). En zone tendue, le congé pour vendre ou habiter doit être notifié 6 mois avant.
+
+**Que se passe-t-il si le locataire ne libère pas le logement ?**
+
+Le bailleur doit engager une procédure d'expulsion judiciaire. L'expulsion effective nécessite un commandement de quitter les lieux et l'intervention d'un huissier.
+
+[CTA : Gérez les fins de bail et la restitution des dépôts avec RentReady — automatisation et conformité — essai gratuit 14 jours]`
+  },] as Article[];
 
 export function getArticleBySlug(slug: string): Article | undefined {
   return articles.find((a) => a.slug === slug);

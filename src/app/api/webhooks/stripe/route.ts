@@ -69,45 +69,80 @@ export async function POST(request: NextRequest) {
           const productType = session.metadata?.productType ?? "premium_template";
           const productId = session.metadata?.productId ?? null;
 
-          // Store the one-time purchase in StripeWebhookEvent for record-keeping
-          // (the primary side-effect: unlock the product for the user)
-          // We record it with a composite key so we can query it later if needed.
-          console.log(
-            `[Stripe] One-time payment completed for user ${userId}: ` +
-            `${productType}${productId ? ` (${productId})` : ""} — ` +
-            `intent: ${session.payment_intent}`
-          );
+          // ── Rent payment from tenant portal ─────────────────────────────
+          if (session.metadata?.type === "rent_payment" && session.metadata?.transactionId) {
+            const transactionId = session.metadata.transactionId;
+            const tenantId = session.metadata.tenantId;
 
-          // TODO (post-mvp): here you would call a service to:
-          //   1. Create a UserProductPurchase / UserUnlock record
-          //   2. Send a confirmation email with the download link
-          //   3. Log analytics event
-          //
-          // Example (uncomment when UserProductPurchase model exists):
-          // await prisma.userProductPurchase.create({
-          //   data: {
-          //     userId,
-          //     productType,
-          //     productId,
-          //     stripePaymentIntentId: session.payment_intent as string,
-          //     amountTotal: session.amount_total ?? 0,
-          //     currency: session.currency ?? "eur",
-          //   },
-          // });
+            try {
+              const tx = await prisma.transaction.findUnique({ where: { id: transactionId } });
+              if (tx && tx.status !== "PAID") {
+                await prisma.transaction.update({
+                  where: { id: transactionId },
+                  data: {
+                    status: "PAID",
+                    paidAt: new Date(),
+                    receiptType: "QUITTANCE",
+                    receiptNumber: `Q-${Date.now().toString(36).toUpperCase()}`,
+                  },
+                });
 
-          // For now, log the purchase clearly so operators can manually fulfill
-          console.log(
-            `[Stripe] MANUAL FULFILLMENT NEEDED: user=${userId}, ` +
-            `productType=${productType}, productId=${productId}, ` +
-            `amount=${session.amount_total}, currency=${session.currency}`
-          );
+                // Create receipt number shorthand
+                await prisma.transaction.update({
+                  where: { id: transactionId },
+                  data: {
+                    receiptNumber: `Q-${tx.id.slice(-6).toUpperCase()}`,
+                  },
+                });
+
+                console.log(
+                  `[Stripe] Rent payment recorded: tx=${transactionId}, ` +
+                    `tenant=${tenantId}, intent=${session.payment_intent}`
+                );
+              }
+            } catch (err) {
+              console.error("[Stripe] Failed to record rent payment:", err);
+            }
+            break;
+          }
+
+          try {
+            await prisma.userProductPurchase.upsert({
+              where: { stripePaymentIntentId: session.payment_intent as string },
+              create: {
+                userId,
+                productType,
+                productId,
+                stripePaymentIntentId: session.payment_intent as string,
+                stripeCheckoutSessionId: session.id,
+                amountTotal: session.amount_total ?? 0,
+                currency: session.currency ?? "eur",
+              },
+              update: {},
+            });
+            console.log(
+              `[Stripe] One-time purchase recorded for user ${userId}: ` +
+                `${productType}${productId ? ` (${productId})` : ""} — ` +
+                `intent: ${session.payment_intent}`
+            );
+          } catch (err) {
+            console.error("[Stripe] Failed to record UserProductPurchase:", err);
+          }
         }
         break;
       }
 
       case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
-        const userId = subscription.metadata?.userId;
+        // Primary: userId stored in subscription metadata
+        let userId = subscription.metadata?.userId;
+        // Fallback: look up user by stripeSubscriptionId in case metadata was not set
+        if (!userId) {
+          const user = await prisma.user.findFirst({
+            where: { stripeSubscriptionId: subscription.id },
+          });
+          userId = user?.id;
+        }
         if (userId) {
           const statusMap: Record<string, "ACTIVE" | "PAST_DUE" | "CANCELLED" | "TRIAL" | "EXPIRED"> = {
             active: "ACTIVE",
@@ -122,6 +157,11 @@ export async function POST(request: NextRequest) {
           const newStatus = statusMap[subscription.status] ?? "ACTIVE";
           await prisma.user.update({
             where: { id: userId },
+            data: { subscriptionStatus: newStatus },
+          });
+          // Sync organization-level subscription status for org-owned resources
+          await prisma.organization.updateMany({
+            where: { ownerId: userId },
             data: { subscriptionStatus: newStatus },
           });
           console.log(`[Stripe] User ${userId} subscription → ${newStatus}`);

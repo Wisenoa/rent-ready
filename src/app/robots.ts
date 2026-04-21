@@ -22,6 +22,7 @@ export default function robots(): MetadataRoute.Robots {
           "/outils",
           "/mentions-legales",
           "/politique-confidentialite",
+          "/politique-cookies",
           "/cgu",
         ],
         disallow: [

@@ -354,10 +354,10 @@ export default function CongeProprietairePage() {
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
+              { href: "/guides/relance-loyer", label: "Guide : relancer un locataire pour impayés →" },
               { href: "/blog/preavis-location-delais-etapes", label: "Préavis de location : délais et étapes à suivre →" },
               { href: "/blog/droit-preemption-locataire", label: "Droit de préemption du locataire : mode d'emploi →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
-              { href: "/templates/conge-locataire", label: "Congé donné par le locataire →" },
             ].map((link) => (
               <Link
                 key={link.href}
@@ -370,10 +370,32 @@ export default function CongeProprietairePage() {
           </div>
         </section>
 
+        {/* Related templates */}
+        <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
+          <h2 className="mb-4 text-lg font-bold text-stone-900">
+            Téléchargez aussi
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { href: "/templates/conge-locataire", label: "Congé locataire", emoji: "📄", desc: "Donner son congé" },
+              { href: "/templates/etat-des-lieux", label: "État des lieux", emoji: "📋", desc: "Entrée et sortie" },
+            ].map((t) => (
+              <Link
+                key={t.href}
+                href={t.href}
+                className="flex items-center gap-3 rounded-xl border border-stone-200 p-4 text-sm transition-shadow hover:shadow-sm"
+              >
+                <span className="text-2xl">{t.emoji}</span>
+                <div>
+                  <p className="font-medium text-stone-900">{t.label}</p>
+                  <p className="text-xs text-stone-500">{t.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/conge-locataire" className="text-blue-600 hover:underline">
-            Congé locataire →
-          </Link>
           <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">
             État des lieux →
           </Link>

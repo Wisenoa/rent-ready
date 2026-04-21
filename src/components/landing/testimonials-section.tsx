@@ -33,15 +33,45 @@ const testimonials: Testimonial[] = [
   },
 ];
 
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
+}
+
+// Deterministic color from name string
+function getAvatarColor(name: string): string {
+  const colors = [
+    "bg-indigo-100 text-indigo-700",
+    "bg-emerald-100 text-emerald-700",
+    "bg-blue-100 text-blue-700",
+    "bg-amber-100 text-amber-700",
+    "bg-teal-100 text-teal-700",
+    "bg-purple-100 text-purple-700",
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return colors[Math.abs(hash) % colors.length];
+}
+
 function Stars({ count }: { count: number }) {
   return (
-    <div className="flex gap-0.5">
+    <div className="flex items-center gap-1.5">
       {Array.from({ length: count }).map((_, i) => (
         <Star
           key={i}
           className="size-3.5 fill-amber-400 text-amber-400"
         />
       ))}
+      <span className="ml-0.5 text-[12px] font-semibold text-amber-600">
+        {count}/5
+      </span>
     </div>
   );
 }
@@ -79,11 +109,20 @@ export function TestimonialsSection() {
                 <p className="mt-4 text-[15px] leading-relaxed text-stone-600">
                   {t.text}
                 </p>
-                <footer className="mt-5 border-t border-stone-100/60 pt-4">
-                  <p className="text-[14px] font-semibold text-stone-900">
-                    {t.name}
-                  </p>
-                  <p className="text-[13px] text-stone-400">{t.role}</p>
+                <footer className="mt-5 flex items-center gap-3 border-t border-stone-100/60 pt-4">
+                  {/* Avatar */}
+                  <div
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[13px] font-bold ${getAvatarColor(t.name)}`}
+                    aria-hidden="true"
+                  >
+                    {getInitials(t.name)}
+                  </div>
+                  <div>
+                    <p className="text-[14px] font-semibold text-stone-900">
+                      {t.name}
+                    </p>
+                    <p className="text-[12px] text-stone-400">{t.role}</p>
+                  </div>
                 </footer>
               </div>
             </motion.blockquote>

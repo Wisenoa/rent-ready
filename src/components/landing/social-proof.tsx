@@ -11,10 +11,46 @@ const stats = [
 ];
 
 const integrations = [
-  { label: "Open Banking DSP2", sub: "Lecture sécurisée des comptes" },
-  { label: "INSEE", sub: "Indice IRL en temps réel" },
-  { label: "Factur-X", sub: "Conformité e-reporting B2C" },
-  { label: "RGPD", sub: "Données hébergées en France" },
+  {
+    label: "Open Banking DSP2",
+    sub: "Lecture sécurisée des comptes",
+    icon: (
+      <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="7" width="10" height="7" rx="1.5" />
+        <path d="M5.5 7V5a2.5 2.5 0 015 0v2" />
+      </svg>
+    ),
+  },
+  {
+    label: "INSEE",
+    sub: "Indice IRL en temps réel",
+    icon: (
+      <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 1L2 4v4.5c0 3.1 2.6 6 6 6s6-2.9 6-6V4L8 1z" />
+        <path d="M5.5 8l1.8 1.8L10.5 6.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Factur-X",
+    sub: "Conformité e-reporting B2C",
+    icon: (
+      <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="2" width="10" height="12" rx="1.5" />
+        <path d="M6 6h4M6 9h4M6 12h2" />
+      </svg>
+    ),
+  },
+  {
+    label: "RGPD",
+    sub: "Données hébergées en France",
+    icon: (
+      <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="8" cy="8" r="6.5" />
+        <path d="M5.5 8l1.8 1.8L10.5 6.5" />
+      </svg>
+    ),
+  },
 ];
 
 export function SocialProof() {
@@ -46,33 +82,21 @@ export function SocialProof() {
         <h2 className="mb-6 text-center text-[12px] font-medium uppercase tracking-[0.2em] text-stone-400">
           Intégrations &amp; conformité
         </h2>
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           {integrations.map((item, i) => (
             <motion.div
               key={item.label}
-              className="flex items-center gap-2.5 rounded-full border border-stone-200/60 bg-white/60 px-4 py-2 backdrop-blur-sm"
+              className="flex items-center gap-2.5 rounded-full border border-stone-200/60 bg-white/70 px-4 py-2 backdrop-blur-sm shadow-sm"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: i * 0.08, duration: 0.4 }}
               viewport={{ once: true }}
             >
-              {/* Shield check icon */}
-              <svg
-                className="size-4 text-blue-600 shrink-0"
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M8 1L2 4v4.5c0 3.1 2.6 6 6 6s6-2.9 6-6V4L8 1z" />
-                <path d="M5.5 8l1.8 1.8L10.5 6.5" />
-              </svg>
+              {item.icon}
               <span className="text-[13px] font-semibold text-stone-700">
                 {item.label}
               </span>
-              <span className="hidden text-[11px] text-stone-400 sm:block">
+              <span className="hidden sm:block text-[11px] text-stone-400">
                 {item.sub}
               </span>
             </motion.div>

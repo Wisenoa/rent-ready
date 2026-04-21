@@ -7,6 +7,9 @@ import {
   FileCheck,
   FileText,
   Receipt,
+  Crown,
+  CreditCard,
+  ShieldCheck,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
@@ -23,6 +26,7 @@ import {
 import { TransactionForm } from "@/components/transaction-form";
 import { QuittanceButton } from "@/components/quittance-button";
 import { MarkPaidButton } from "./mark-paid-button";
+import { SubscriptionBanner } from "./subscription-banner";
 
 export const metadata: Metadata = {
   title: "Paiements",
@@ -72,6 +76,11 @@ function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
+function isTrialExpired(trialEndsAt: Date | null): boolean {
+  if (!trialEndsAt) return false;
+  return trialEndsAt < new Date();
+}
+
 export default async function BillingPage() {
   const userId = await getAuthenticatedUserId();
 
@@ -81,8 +90,17 @@ export default async function BillingPage() {
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 
   // Run all queries in parallel
-  const [transactions, totalPaid, totalPending, quittanceCount, recuCount, activeLeases] =
+  const [user, transactions, totalPaid, totalPending, quittanceCount, recuCount, activeLeases] =
     await Promise.all([
+      prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          stripeCustomerId: true,
+          stripeSubscriptionId: true,
+          subscriptionStatus: true,
+          trialEndsAt: true,
+        },
+      }),
       prisma.transaction.findMany({
         where: { userId },
         include: {
@@ -126,8 +144,22 @@ export default async function BillingPage() {
   const totalPendingAmount = totalPending._sum.amount ?? 0;
   const hasTransactions = transactions.length > 0;
 
+  const subscriptionStatus = user?.subscriptionStatus ?? "TRIAL";
+  const trialEndsAt = user?.trialEndsAt;
+  const trialExpired = isTrialExpired(trialEndsAt);
+  const isActive = subscriptionStatus === "ACTIVE" || (subscriptionStatus === "TRIAL" && !trialExpired);
+  const isTrial = subscriptionStatus === "TRIAL";
+  const isPastDue = subscriptionStatus === "PAST_DUE";
+
   return (
     <div className="space-y-8">
+      {/* Subscription Banner */}
+      <SubscriptionBanner
+        status={subscriptionStatus}
+        trialEndsAt={trialEndsAt}
+        stripeCustomerId={user?.stripeCustomerId ?? null}
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

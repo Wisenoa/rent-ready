@@ -106,18 +106,26 @@ export function HeroSection() {
             <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-4">
               <Link href="/register">
                 <motion.span
-                  className="inline-flex items-center gap-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 px-9 py-4 text-[15px] font-semibold text-white shadow-xl shadow-indigo-600/30 transition-all hover:-translate-y-0.5 active:translate-y-0"
+                  className="group relative inline-flex items-center gap-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 px-9 py-4 text-[15px] font-semibold text-white shadow-xl shadow-indigo-600/30 transition-all hover:-translate-y-0.5 active:translate-y-0"
                   whileHover={{ scale: 1.03, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   transition={spring.bouncy}
                 >
+                  {/* Subtle shine sweep on hover */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{
+                      background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%)',
+                    }}
+                  />
                   Créer mon compte gratuitement
-                  <ArrowRight className="size-4" />
+                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
                 </motion.span>
               </Link>
               <Link href="/demo">
                 <motion.span
-                  className="inline-flex items-center gap-2 rounded-2xl border border-stone-300 bg-white/80 px-6 py-4 text-[15px] font-semibold text-stone-700 shadow-lg shadow-stone-900/5 backdrop-blur-sm transition-all hover:-translate-y-0.5 active:translate-y-0"
+                  className="inline-flex items-center gap-2 rounded-2xl border border-stone-200 bg-white/80 px-6 py-4 text-[15px] font-semibold text-stone-700 shadow-lg shadow-stone-900/5 backdrop-blur-sm transition-all hover:-translate-y-0.5 active:translate-y-0 hover:border-stone-300 hover:shadow-xl"
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   transition={spring.bouncy}
@@ -131,7 +139,7 @@ export function HeroSection() {
               </Link>
             </motion.div>
             <p className="mt-4 text-[13px] text-stone-400">
-              Sans carte bancaire · Essai gratuit 14 jours
+              Sans carte bancaire · Essai gratuit 14 jours · Annulation libre
             </p>
 
             {/* Trust badges — Gestalt proximity, right below CTA */}

@@ -122,12 +122,12 @@ const faqData = [
   {
     question: "Quel dépôt de garantie pour un bail vide ?",
     answer:
-      "Le dépôt de garantie est limité à 1 mois de loyer hors charges (contre 2 mois pour un bail meublé). Il doit être restitué dans les 2 mois suivant la remise des clés, déduction faite des sommes dues.",
+      "Le dépôt de garantie est limité à 1 mois de loyer hors charges (contre 2 mois pour un bail meublé). Il doit être restitué dans les 2 mois suivant la remise des clés, déduction faite des sommes dues. Voir notre modèle d'état des lieux pour évaluer les retenues posibles.",
   },
   {
     question: "Le bail vide doit-il contenir un état des lieux ?",
     answer:
-      "Oui. L'état des lieux est obligatoire (loi du 6 juillet 1989) et doit être annexé au bail. Il décrit l'état du logement à l'entrée et à la sortie du locataire.",
+      "Oui. L'état des lieux est obligatoire (loi du 6 juillet 1989) et doit être annexé au bail. Il décrit l'état du logement à l'entrée et à la sortie du locataire. Téléchargez notre modèle gratuit.",
   },
   {
     question: "Comment savoir si mon bail est aux normes ?",
@@ -531,10 +531,10 @@ export default function BailVidePage() {
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
+              { href: "/guides/modele-bail", label: "Guide : modèle de bail de location →" },
               { href: "/blog/difference-bail-meuble-bail-vide", label: "Bail meublé vs bail vide : que choisir ? →" },
               { href: "/blog/gestion-locative-debutant-guide", label: "Guide de la gestion locative pour débutants →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
-              { href: "/templates/bail-meuble", label: "Modèle de bail meublé →" },
             ].map((link) => (
               <Link
                 key={link.href}

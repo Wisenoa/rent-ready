@@ -277,6 +277,27 @@ export default function BailCommercialPage() {
           </div>
         </section>
 
+        {/* Related content */}
+        <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
+          <h2 className="mb-4 text-lg font-bold text-stone-900">
+            Ressources complémentaires
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              { href: "/guides/modele-bail", label: "Guide : modèle de bail de location →" },
+              { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </section>
+
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
           <Link href="/templates/bail-meuble" className="text-blue-600 hover:underline">
             Bail meublé →

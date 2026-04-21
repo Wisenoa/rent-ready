@@ -29,13 +29,13 @@ const FOOTER_LINKS = {
     { href: "/demo", label: "Démo" },
   ],
   Outils: [
-    { href: "/outils/calculateur-irl-2026", label: "Calculateur IRL 2026" },
+    { href: "/guides/irl-2026", label: "Révision IRL 2026" },
     { href: "/outils/calculateur-loyer", label: "Calculateur de loyer" },
     { href: "/outils/calculateur-depot-garantie", label: "Dépôt de garantie" },
     { href: "/outils/calculateur-rendement", label: "Rendement locatif" },
     { href: "/outils/lettre-relance-loyer", label: "Lettre de relance" },
-    { href: "/outils/modele-bail-location", label: "Modèle bail PDF" },
-    { href: "/outils/modele-quittance-loyer-pdf", label: "Quittance PDF" },
+    { href: "/modeles/bail-vide", label: "Modèle bail PDF" },
+    { href: "/modeles/quittance-de-loyer", label: "Quittance PDF" },
   ],
   Légal: [
     { href: "/mentions-legales", label: "Mentions légales" },

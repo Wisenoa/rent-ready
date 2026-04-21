@@ -101,17 +101,52 @@ export default function middleware(req: NextRequest) {
     return NextResponse.redirect(noSlashUrl, 308);
   }
 
-  // ── 4. x-robots-tag: noindex for private app routes ─────────────
+  // ── 5. DDoS & security headers on all responses ──────────────────
+  // These headers help protect against various attack vectors:
+  // - X-Content-Type-Options: prevent MIME type sniffing
+  // - X-Frame-Options: prevent clickjacking
+  // - X-XSS-Protection: legacy XSS filter (modern browsers use CSP)
+  // - Referrer-Policy: control referrer information leakage
+  // - Permissions-Policy: disable browser features not needed
+  // - Strict-Transport-Security: enforce HTTPS (HSTS)
+  // - Content-Security-Policy: mitigate XSS and injection attacks
+  // - X-Request-Id: useful for request tracing and log correlation
+  const response = NextResponse.next();
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-XSS-Protection", "1; mode=block");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(), payment=()"
+  );
+  response.headers.set(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains; preload"
+  );
+  response.headers.set(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://js.stripe.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data: blob: https:",
+      "connect-src 'self' https://api.stripe.com https://api.openai.com",
+      "frame-src 'self' https://js.stripe.com",
+      "frame-ancestors 'none'",
+    ].join("; ")
+  );
+  response.headers.set("X-Request-Id", crypto.randomUUID());
+
+  // ── 6. x-robots-tag: noindex for private app routes ─────────────
   // The /portal/* routes are the authenticated app area.
   // They must never be indexed by search engines.
-  const response = NextResponse.next();
-
   if (pathname.startsWith("/portal") || pathname.startsWith("/dashboard")) {
     response.headers.set("x-robots-tag", "noindex, nofollow");
-    return response;
   }
 
-  // ── 5. Graceful 404 handling ────────────────────────────────────
+  // ── 7. Graceful 404 handling ────────────────────────────────────
   // If we reach here for an unknown path, let Next.js handle the 404
   // via not-found.tsx — we don't need to add anything special.
 
