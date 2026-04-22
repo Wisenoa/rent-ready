@@ -15,8 +15,53 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Comment réviser un loyer avec l'IRL 2026",
+  description:
+    "Guide complet pour calculer et appliquer la révision de loyer annuelle avec l'Indice de Référence des Loyers 2026.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Comprendre l'IRL et son rôle",
+      text: "L'Indice de Référence des Loyers (IRL) est un indice publié par l'INSEE chaque trimestre. Il sert de base pour la révision des loyers des baux d'habitation principale en France.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Appliquer la formule de révision",
+      text: "Multipliez le loyer actuel par le rapport entre le nouvel IRL et l'ancien IRL : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 × (146,44 / 138,61) = 845,20 €.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Respecter le délai de révision annuelle",
+      text: "La révision ne peut intervenir qu'une fois par an, à la date anniversaire du bail. Elle n'est jamais rétroactive. Informez le locataire par LRAR avec le détail du calcul.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Baisser le loyer si l'IRL diminue",
+      text: "Si l'IRL a baissé depuis la dernière révision, le loyer doit diminuer proportionnellement. Le locataire peut exiger la baisse et le remboursement des trop-perçus.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Consulter les valeurs officielles de l'IRL",
+      text: "Les valeurs de l'IRL sont disponibles gratuitement sur www.insee.fr, par trimestre et par année depuis 2008. Q4 2025 : 146,44 (+0,09 % sur un an).",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Respecter l'encadrement des loyers en zone tendue",
+      text: "Dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier...), le loyer ne peut pas dépasser le loyer de référence majoré de 20 % lors d'une relocation ou révision.",
+    },
+  ],
+};
+
 export default function IRL2026GuidePage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
         <nav className="mb-6 text-sm text-stone-500">
@@ -162,5 +207,6 @@ export default function IRL2026GuidePage() {
         </div>
       </div>
     </article>
+    </>
   );
 }

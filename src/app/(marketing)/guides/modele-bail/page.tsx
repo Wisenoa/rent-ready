@@ -15,8 +15,48 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Comment rédiger un bail de location conforme en 2026",
+  description:
+    "Guide complet pour choisir le bon type de bail, inclure les mentions obligatoires, joindre les documents requis, et réviser le loyer en cours de bail.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Choisir le type de bail adapté au logement",
+      text: "Bail vide : 3 ans, dépôt max 1 mois hors charges. Bail meublé : 1 an minimum, dépôt max 2 mois. Bail mobilité : 1 à 10 mois, sans dépôt. Bail colocation : 3 ans, avec ou sans solidarité entre colocataires. Un bail mal adapté peut être déclaré nul.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Inclure toutes les mentions obligatoires",
+      text: "Le bail doit contenir : identité et adresse du bailleur, situation du bien, destination (habitation principale), date de début et durée, montant du loyer et modalités de révision, dépôt de garantie, superficie habitable (loi Alur), clause de résiliation, inventaire mobilier (meublé), et attestation d'assurance RC habitation du locataire.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Joindre les documents obligatoires",
+      text: "Remettez à la signature : état des lieux (entrée et sortie), dossier de diagnostic technique (DDT : DPE, ERNMT, superficie Carrez/Boutin), attestation d'assurance risques locatifs du locataire, charges récupérables avec répartition, et extraits de la grille de loyer en zone tendue.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Respecter les règles de révision du loyer",
+      text: "Le loyer ne peut être révisé qu'une fois par an, à la date anniversaire du bail, en utilisant l'IRL INSEE. Informez le locataire par LRAR. Toute clause de révision automatique doit préciser la date de prise en compte et l'indice de référence.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Utiliser un modèle de bail gratuit et conforme",
+      text: "Utilisez un modèle préparé par des juristes spécialisés incluant toutes les clauses obligatoires, les clauses interdites à éviter, et une notice explicative pour chaque section. Personnalisez les champs indiqués, puis imprimez.",
+    },
+  ],
+};
+
 export default function ModeleBailGuidePage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
         <nav className="mb-6 text-sm text-stone-500">
@@ -174,5 +214,6 @@ export default function ModeleBailGuidePage() {
         </div>
       </div>
     </article>
+    </>
   );
 }

@@ -15,8 +15,48 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Comment recouvrer un loyer impayé étape par étape",
+  description:
+    "Procédure légale complète pour recouvrer un loyer impayé : relance, mise en demeure, délai, preuves à conserver et assignation au tribunal.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Constater l'impayé et envoyer une relance simple",
+      text: "Le lendemain de la date d'échéance, vérifiez si le virement a bien été effectué. N'attendez pas au-delà du 5 du mois. Envoyez un email ou un courrier simple rappelant l'échéance et les coordonnées pour effectuer le réglement.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Envoyer une mise en demeure par LRAR",
+      text: "Entre J+8 et J+15, envoyez une lettre de mise en demeure en recommandé avec accusé de réception. Mentionnez le montant dû, le délai de réglement (8 jours) et les conséquences (procédure judiciaire, expulsion).",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Rédiger une lettre de relance complète",
+      text: "La lettre doit contenir : identification du bailleur et du locataire, références du bail (date, durée, montant), montant total dû avec détail (loyer + charges), période concernée, délai de réglement, et mention des conséquences juridiques.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Constituer un dossier de preuves",
+      text: "Conservez les relevés bancaires montrant l'absence de virement, les échanges d'emails ou SMS avec le locataire, la copie de la lettre de relance avec l'accusé de réception, et les attestations écrites si le locataire reconnaît l'impayé.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Assigner le locataire au tribunal si l'impayé persiste",
+      text: "Si l'impayé persiste après 2 mois, vous pouvez assigner le locataire devant le tribunal judiciaire. Si le tribunal vous donne raison, faites signifier un commandement de quitter les lieux par un huissier.",
+    },
+  ],
+};
+
 export default function RelanceLoyerGuidePage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
         <nav className="mb-6 text-sm text-stone-500">
@@ -149,5 +189,6 @@ export default function RelanceLoyerGuidePage() {
         </div>
       </div>
     </article>
+    </>
   );
 }

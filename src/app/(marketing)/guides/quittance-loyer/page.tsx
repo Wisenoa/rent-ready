@@ -15,8 +15,48 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Comment rédiger et délivrer une quittance de loyer",
+  description:
+    "Guide complet : mentions obligatoires d'une quittance de loyer, obligation légale, timing de délivrance, provisions vs forfait charges, et automatisation.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Comprendre l'obligation légale de délivrer une quittance",
+      text: "Depuis la loi du 6 juillet 1989, le bailleur est tenu de délivrer une quittance de loyer dans le mois suivant la demande écrite du locataire — gratuitement. La quittance prouve le paiement et protège locataire et bailleur.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Inclure toutes les mentions obligatoires",
+      text: "Une quittance doit contenir : nom et adresse du bailleur, nom et adresse du locataire, adresse du bien loué, période de location, montant du loyer principal et date de réglement, montant des charges et mode de réglement, mode de paiement utilisé, et signature du bailleur.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Délivrer la quittance à chaque paiement intégral",
+      text: "La quittance doit être délivrée à chaque paiement intégral du loyer et des charges. En cas de paiement partiel, délivrez un reçu mentionnant le montant payé et le solde restant dû plutôt qu'une quittance.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Choisir entre provisions et forfait pour les charges",
+      text: "Provisions pour charges : acompte mensuel régularisé annuellement selon les dépenses réelles. Forfait de charges : montant fixe non régularisable, possible uniquement si le bail le prévoit expressément pour certains types de logement.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Automatiser la génération des quittances",
+      text: "Utilisez un outil de gestion locative pour générer automatiquement les quittances à chaque paiement enregistré. Envoyez-les directement par email au locataire ou téléchargez-les en PDF. Évitez les erreurs de calcul et les oublis.",
+    },
+  ],
+};
+
 export default function QuittanceLoyerGuidePage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
         <nav className="mb-6 text-sm text-stone-500">
@@ -145,5 +185,6 @@ export default function QuittanceLoyerGuidePage() {
         </div>
       </div>
     </article>
+    </>
   );
 }

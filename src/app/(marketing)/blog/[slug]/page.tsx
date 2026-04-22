@@ -7,6 +7,28 @@ import { articles } from "@/data/articles";
 import { baseMetadata } from "@/lib/seo/metadata";
 import glossaryData from "@/data/glossary.json";
 
+/** Extract Q&A pairs from a FAQ section in article markdown */
+function extractFAQ(content: string): { question: string; answer: string }[] {
+  const faqSection = content.match(/## FAQ —[\s\S]+?(?=\n## [^F]|\n\n\/\\*\\*|\n\[CTA)/);
+  if (!faqSection) return [];
+
+  const section = faqSection[0];
+  const qaPairs: { question: string; answer: string }[] = [];
+
+  // Match **bold** question OR ### h3 question, followed by answer paragraphs
+  const matches = section.matchAll(
+    /(?:^###\s+(.+?)\n\n|(?:^)\*\*([^*]+)\*\*\n\n)([\s\S]+?)(?=^###\s|\n\*\*|\n\[CTA]|$)/gm
+  );
+  for (const match of matches) {
+    const question = (match[1] || match[2]).trim();
+    const answer = match[3].replace(/\n\n+/g, " ").trim();
+    if (question && answer) {
+      qaPairs.push({ question, answer });
+    }
+  }
+  return qaPairs;
+}
+
 /** Slugs of glossary terms that appear in each blog article */
 const ARTICLE_GLOSSARY_MAP: Record<string, string[]> = {
   "comment-gerer-loyers-impayes": ["quittance-loyer", "loyer-nu", "charges-recuperables", "impaye-loyer", "relance-loyer", "garant-loyer", "depot-garantie"],
@@ -77,6 +99,44 @@ export default async function BlogPostPage({ params }: PageProps) {
     .filter(Boolean)
     .slice(0, 6) as (typeof glossaryData)[number][];
 
+  // Extract FAQ Q&A pairs from article content
+  const faqPairs = article.content ? extractFAQ(article.content) : [];
+
+  const articleAuthor = article.author ?? "RentReady";
+
+  // BreadcrumbList schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Accueil",
+        item: "https://www.rentready.fr",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://www.rentready.fr/blog",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: article.category,
+        item: `https://www.rentready.fr/blog?category=${encodeURIComponent(article.category)}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: article.title,
+        item: `https://www.rentready.fr/blog/${slug}`,
+      },
+    ],
+  };
+
+  // Article schema with enhanced author (Organization with sameAs)
   const schema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -86,13 +146,23 @@ export default async function BlogPostPage({ params }: PageProps) {
     dateModified: article.updatedAt,
     author: {
       "@type": "Organization",
-      name: "RentReady",
+      name: articleAuthor,
       url: "https://www.rentready.fr",
+      sameAs: [
+        "https://www.linkedin.com/company/rentready",
+        "https://twitter.com/rentready_fr",
+        "https://www.facebook.com/rentready.fr",
+      ],
     },
     publisher: {
       "@type": "Organization",
       name: "RentReady",
       url: "https://www.rentready.fr",
+      sameAs: [
+        "https://www.linkedin.com/company/rentready",
+        "https://twitter.com/rentready_fr",
+        "https://www.facebook.com/rentready.fr",
+      ],
     },
     url: `https://www.rentready.fr/blog/${slug}`,
     mainEntityOfPage: {
@@ -101,12 +171,36 @@ export default async function BlogPostPage({ params }: PageProps) {
     },
   };
 
+  // FAQPage schema — only included when article has FAQ content
+  const faqSchema = faqPairs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqPairs.map((qa) => ({
+      "@type": "Question",
+      name: qa.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: qa.answer,
+      },
+    })),
+  } : null;
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Breadcrumb */}

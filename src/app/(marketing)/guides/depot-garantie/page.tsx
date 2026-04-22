@@ -15,8 +15,48 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Gérer le dépôt de garantie d'une location",
+  description:
+    "Guide complet : montant maximum du dépôt de garantie, délais de restitution, cas de retenue et dégradations en fin de bail.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Vérifier le montant maximum autorisé",
+      text: "En location vide, le dépôt ne peut pas dépasser 1 mois de loyer hors charges. En location meublée, le maximum est de 2 mois. Le bail mobilité interdit tout dépôt de garantie. Une clause excédant ces plafonds est nulle.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Restituer le dépôt dans les 2 mois",
+      text: "Le dépôt doit être restitué au locataire dans les 2 mois suivant la remise des clés. En cas de retenue, le bailleur doit justifier chaque montant avec l'état des lieux comparatif et des factures. Passé le délai, des intérêts s'appliquent.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Évaluer les dégradations à l'état des lieux de sortie",
+      text: "Le dépôt couvre les sommes dues : loyers/charges impayés, dégradations au-delà de l'usure normale, violations du bail non régularisées. L'usure normale (traces légères, usure des sols) n'est pas imputable au locataire.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Souscrire une assurance GLI en complément",
+      text: "La Garantie Loyers Impayés (GLI) ne remplace pas le dépôt de garantie — les deux sont complémentaires. La GLI couvre les impayés de loyer tandis que le dépôt couvre les dégradations et les sommes dues en fin de bail.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Respecter le tableau récapitulatif légal",
+      text: "Location vide : 1 mois max, restitution 2 mois. Location meublée : 2 mois max, restitution 2 mois. Bail mobilité : dépôt interdit. Toute clause supérieure est nulle et le locataire peut demander remboursement.",
+    },
+  ],
+};
+
 export default function DepotGarantieGuidePage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
         <nav className="mb-6 text-sm text-stone-500">
@@ -136,5 +176,6 @@ export default function DepotGarantieGuidePage() {
         </Link>
       </div>
     </article>
+    </>
   );
 }
