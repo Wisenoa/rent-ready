@@ -28,6 +28,11 @@ const FOOTER_LINKS = {
     { href: "/outils", label: "Outils et calculateurs" },
     { href: "/demo", label: "Démo" },
   ],
+  Développeurs: [
+    { href: "https://github.com/Wisenoa/rent-ready", label: "GitHub Repo" },
+    { href: "https://github.com/Wisenoa/rent-ready#readme", label: "Documentation" },
+    { href: "https://github.com/Wisenoa/rent-ready/blob/master/docs/API_OPENAPI_SPEC.yaml", label: "API Spec" },
+  ],
   Outils: [
     { href: "/guides/irl-2026", label: "Révision IRL 2026" },
     { href: "/outils/calculateur-loyer", label: "Calculateur de loyer" },
@@ -97,7 +102,7 @@ export function MarketingFooter() {
       </div>
 
       <div className="mx-auto max-w-6xl px-5 sm:px-8 py-14">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-6">
           {/* Brand column */}
           <div className="col-span-2 sm:col-span-1 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-4">
@@ -149,6 +154,7 @@ export function MarketingFooter() {
                     <Link
                       href={link.href}
                       className="text-[13px] text-stone-500 hover:text-stone-700 transition-colors"
+                      {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     >
                       {link.label}
                     </Link>
