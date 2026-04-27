@@ -83,9 +83,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
-    // Template library listing page
+    // Template library listing page (tool pages with interactive forms)
     {
       url: `${BASE_URL}/templates`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    // Modeles library listing page (static reference documents)
+    {
+      url: `${BASE_URL}/modeles`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
