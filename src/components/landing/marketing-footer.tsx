@@ -39,12 +39,13 @@ const FOOTER_LINKS = {
     { href: "/outils/calculateur-depot-garantie", label: "Dépôt de garantie" },
     { href: "/outils/calculateur-rendement", label: "Rendement locatif" },
     { href: "/outils/lettre-relance-loyer", label: "Lettre de relance" },
-    { href: "/modeles/bail-vide", label: "Modèle bail PDF" },
-    { href: "/modeles/quittance-de-loyer", label: "Quittance PDF" },
+    { href: "/templates/bail-vide", label: "Modèle bail PDF" },
+    { href: "/templates/quittance-de-loyer", label: "Quittance PDF" },
   ],
   Légal: [
     { href: "/mentions-legales", label: "Mentions légales" },
     { href: "/politique-confidentialite", label: "Confidentialité" },
+    { href: "/politique-cookies", label: "Politique de cookies" },
     { href: "/cgu", label: "CGU" },
   ],
 };

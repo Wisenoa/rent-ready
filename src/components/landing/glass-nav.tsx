@@ -9,6 +9,10 @@ const NAV_LINKS = [
   { href: "/locations", label: "Gestion locative" },
   { href: "/bail", label: "Baux" },
   { href: "/quittances", label: "Quittances" },
+  { href: "/templates", label: "Modèles" },
+  { href: "/guides", label: "Guides" },
+  { href: "/blog", label: "Blog" },
+  { href: "/glossaire-immobilier", label: "Glossaire" },
   { href: "/pricing", label: "Tarifs" },
 ];
 
