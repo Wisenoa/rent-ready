@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Bail Meublé Gratuit 2026 — Contrat Conforme Loi 1989",
@@ -22,9 +24,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/bail-meuble",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/bail-meuble",
-  },
+  alternates: buildHreflang("/templates/bail-meuble"),
 };
 
 const features = [
@@ -160,6 +160,68 @@ function BailMeubleJsonLd() {
           target: "https://www.rentready.fr/recherche?q={search_term_string}",
           "query-input": "required name=search_term_string",
         },
+        isPartOf: {
+          "@type": "WebSite",
+          name: "RentReady",
+          url: "https://www.rentready.fr",
+        },
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://www.rentready.fr/#software",
+        name: "RentReady - Générateur de Bail Meublé",
+        description: "Application web de génération de contrats de location meublée conformes à la loi française.",
+        url: "https://www.rentready.fr/templates/bail-meuble",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "EUR",
+          description: "Accès gratuit au modèle de bail meublé",
+        },
+        provider: {
+          "@id": "https://www.rentready.fr/#organization",
+        },
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://www.rentready.fr/#howto-bail-meuble",
+        name: "Comment créer un bail meublé conforme",
+        description: "Guide étape par étape pour rédiger un bail meublé conforme à la législation française.",
+        url: "https://www.rentready.fr/templates/bail-meuble",
+        step: [
+          {
+            "@type": "HowToStep",
+            name: "Vérifier l'éligibilité du bien",
+            text: "S'assurer que le bien dispose de tous les équipements obligatoires selon le décret n°2015-1370.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Télécharger le modèle",
+            text: "Obtenir le modèle de bail meublé en PDF mis à jour pour 2026.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Remplir les informations",
+            text: "Indiquer les coordonnées du propriétaire et du locataire, l'adresse du bien, le montant du loyer, les charges et le dépôt de garantie.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Compléter l'inventaire mobilier",
+            text: "Lister chaque meuble et équipement avec son état de fonctionnement.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Joindre les annexes",
+            text: "Annexer le DPE, l'état des risques, l'état des lieux d'entrée et les diagnostics obligatoires.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Faire signer et archiver",
+            text: "Faire signer le bail par les deux parties et archiver pendant toute la durée plus 5 ans.",
+          },
+        ],
         isPartOf: {
           "@type": "WebSite",
           name: "RentReady",

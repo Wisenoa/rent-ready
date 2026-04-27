@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Bail Mobilité Gratuit 2026 — Sans Garantie Loyer",
@@ -21,9 +23,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/bail-mobilite",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/bail-mobilite",
-  },
+  alternates: buildHreflang("/templates/bail-mobilite"),
 };
 
 const features = [
@@ -125,6 +125,43 @@ function BailMobiliteJsonLd() {
     "@graph": [
       orgSchema,
       webSiteSchema,
+      {
+        "@type": "SoftwareApplication",
+        name: "RentReady - Modèle Bail Mobilité",
+        description: "Générateur de bail mobilité gratuit pour location de courte durée (1-10 mois) sans garantie loyer.",
+        url: "https://www.rentready.fr/templates/bail-mobilite",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "EUR",
+          availability: "https://schema.org/InStock",
+        },
+      },
+      {
+        "@type": "HowTo",
+        name: "Comment utiliser le modèle de bail mobilité",
+        description: "Guide étapes par étapes pour télécharger, personnaliser et signer un bail mobilité.",
+        url: "https://www.rentready.fr/templates/bail-mobilite",
+        step: [
+          {
+            "@type": "HowToStep",
+            name: "Téléchargez le modèle",
+            text: "Accédez à la page du modèle et cliquez sur le bouton de téléchargement.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Personnalisez le document",
+            text: "Remplissez les informations spécifiques à votre location (coordonnées, loyer, durée).",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Signez etdating",
+            text: "Signez le bail avec votre locataire et datez le document.",
+          },
+        ],
+      },
       {
         "@type": "WebPage",
         name: "Modèle Bail Mobilité 2026 — RentReady",

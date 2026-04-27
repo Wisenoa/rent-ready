@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèles de Bail de Location — Tous nos Contrats Gratuits 2026",
@@ -22,9 +24,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/lease",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/lease",
-  },
+  alternates: buildHreflang("/templates/lease"),
 };
 
 

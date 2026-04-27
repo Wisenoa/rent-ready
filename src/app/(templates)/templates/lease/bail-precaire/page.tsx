@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Bail Précaire 2026 — Location Temporaire avec Préavis Court",
@@ -22,9 +24,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/lease/bail-precaire",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/lease/bail-precaire",
-  },
+  alternates: buildHreflang("/templates/lease/bail-precaire"),
 };
 
 const features = [

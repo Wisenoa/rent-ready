@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Bail Étudiant Gratuit 2026 — Location Meublée Étudiant",
@@ -22,9 +24,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/lease/bail-etudiant",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/lease/bail-etudiant",
-  },
+  alternates: buildHreflang("/templates/lease/bail-etudiant"),
 };
 
 const features = [

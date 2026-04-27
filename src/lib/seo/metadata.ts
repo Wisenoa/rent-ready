@@ -9,14 +9,15 @@ export const BASE_URL = "https://www.rentready.fr";
 export const SITE_NAME = "RentReady";
 export const DEFAULT_OG_IMAGE = "https://www.rentready.fr/og-image.png";
 
-/** Supported locales */
-export const LOCALES = ["fr"] as const;
+/** Supported locales — IETF BCP 47 format (required for hreflang) */
+export const LOCALES = ["fr", "fr-FR"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "fr";
 
 /** OG image template types — must match /api/og route switch cases */
 export type OgType =
   | "default"
+  | "website"
   | "article"
   | "template"
   | "feature"
@@ -92,10 +93,9 @@ export function baseMetadata({
     keywords,
     alternates: {
       canonical: `${BASE_URL}${url}`,
-      languages: {
-        // Self-referencing hreflang — every page declares its own language version
-        [DEFAULT_LOCALE]: `${BASE_URL}${url}`,
-      },
+      languages: Object.fromEntries(
+        LOCALES.map((locale) => [locale, `${BASE_URL}${url}`])
+      ),
     },
     openGraph: {
       title,

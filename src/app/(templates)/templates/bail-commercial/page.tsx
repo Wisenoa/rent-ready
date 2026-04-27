@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Bail Commercial Gratuit 2026 — Bail Précaire Conforme",
@@ -21,9 +23,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/bail-commercial",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/bail-commercial",
-  },
+  alternates: buildHreflang("/templates/bail-commercial"),
 };
 
 const features = [

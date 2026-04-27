@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check, Shield, Clock, Users, Star, FileText } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Bail Vide 2026 — Contrat Location Non Meublée Conforme",
@@ -14,9 +16,7 @@ export const metadata: Metadata = {
     "depot garantie bail vide",
     "bail 3 ans habitation",
   ],
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/bail-vide",
-  },
+  alternates: buildHreflang("/templates/bail-vide"),
   openGraph: {
     title: "Modèle Bail Vide 2026 — RentReady",
     description:
@@ -174,6 +174,49 @@ function BailVideJsonLd() {
           target: "https://www.rentready.fr/recherche?q={search_term_string}",
           "query-input": "required name=search_term_string",
         },
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Modèle Bail Vide — RentReady",
+        description:
+          "Générez votre bail vide conforme à la loi du 6 juillet 1989. Téléchargement PDF gratuit.",
+        url: "https://www.rentready.fr/templates/bail-vide",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "EUR",
+        },
+      },
+      {
+        "@type": "HowTo",
+        name: "Comment utiliser le modèle de bail vide",
+        description:
+          "Créez et personnalisez votre bail vide en 4 étapes simples avec RentReady.",
+        url: "https://www.rentready.fr/templates/bail-vide",
+        step: [
+          {
+            "@type": "HowToStep",
+            name: "Remplissez les informations du bien",
+            text: "Saisissez l'adresse complète, la surface, le nombre de pièces et les équipements du logement.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Ajoutez les informations du locataire",
+            text: "Indiquez le nom, la date de naissance et les coordonnées du locataire.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Personnalisez les clauses",
+            text: "Ajoutez ou modifiez les clauses particulières : animaux, travaux, révision de loyer.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Téléchargez et signez",
+            text: "Exportez le bail en PDF, faites-le signer et annexez l'état des lieux.",
+          },
+        ],
       },
       {
         "@type": "WebPage",

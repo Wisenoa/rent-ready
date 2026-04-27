@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle État des Lieux Gratuit 2026 — Checklist Conforme Décret 2015",
@@ -21,9 +23,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/etat-des-lieux",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/etat-des-lieux",
-  },
+  alternates: buildHreflang("/templates/etat-des-lieux"),
 };
 
 const rooms = [

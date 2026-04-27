@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Quittance de Loyer Gratuit 2026 — Format Légal",
@@ -21,9 +23,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/recu-loyer",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/recu-loyer",
-  },
+  alternates: buildHreflang("/templates/recu-loyer"),
 };
 
 

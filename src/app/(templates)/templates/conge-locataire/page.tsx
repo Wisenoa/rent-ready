@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Congé Locataire Gratuit 2026 — Délai & Motif Obligatoire",
@@ -20,9 +22,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/conge-locataire",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/conge-locataire",
-  },
+  alternates: buildHreflang("/templates/conge-locataire"),
 };
 
 const faqData = [

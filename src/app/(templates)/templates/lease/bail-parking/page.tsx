@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Bail Parking Gratuit 2026 — Garage, Box, Place de Parking",
@@ -22,9 +24,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/lease/bail-parking",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/lease/bail-parking",
-  },
+  alternates: buildHreflang("/templates/lease/bail-parking"),
 };
 
 const features = [

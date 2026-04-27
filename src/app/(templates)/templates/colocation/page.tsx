@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Modèle Bail Colocation Gratuit 2026 — Clause de Solidarité",
@@ -21,9 +23,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/colocation",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/colocation",
-  },
+  alternates: buildHreflang("/templates/colocation"),
 };
 
 const features = [
@@ -130,6 +130,51 @@ function ColocationJsonLd() {
     "@graph": [
       orgSchema,
       webSiteSchema,
+      {
+        "@type": "SoftwareApplication",
+        name: "RentReady",
+        operatingSystem: "Web Application",
+        applicationCategory: "BusinessApplication",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "EUR",
+          description: "Free trial available",
+        },
+      },
+      {
+        "@type": "HowTo",
+        name: "Comment utiliser ce modèle de bail colocation",
+        description:
+          "Guide étape par étape pour remplir et signer un bail de colocation avec clause de solidarité.",
+        step: [
+          {
+            "@type": "HowToStep",
+            name: "Choisissez la structure juridique",
+            text: "Décidez si vous souhaitez une clause de solidarité (tous responsables) ou individuelle (chaque locataire ne paie que sa part).",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Définissez la répartition des loyers",
+            text: "Attribuez un montant à chaque chambre et établissez une clé de répartition claire pour les charges.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Remplissez les informations",
+            text: "Indiquez les coordonnées de chaque colocataire, la description du bien, le montant total du loyer et sa répartition.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Personnalisez les clauses",
+            text: "Ajoutez la clause de changement de colocataire, les conditions de sortie anticipée, et la clause de répartition des charges.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Faites signer par toutes les parties",
+            text: "Chaque colocataire doit signer le bail. Joignez l'état des lieux et les annexes (DPE, diagnostics).",
+          },
+        ],
+      },
       {
         "@type": "WebPage",
         name: "Modèle Bail Colocation 2026 — RentReady",

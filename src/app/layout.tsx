@@ -20,6 +20,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
   metadataBase: new URL("https://www.rentready.fr"),
   title: {
     default: "RentReady — Gestion Locative Intelligente",
@@ -73,6 +78,14 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://www.rentready.fr",
+    languages: {
+      // Self-referencing hreflang for French locale (RentReady is FR-only)
+      fr: "https://www.rentready.fr",
+      "fr-FR": "https://www.rentready.fr",
+      // x-default: same as primary locale for single-locale sites
+      // Update this when expanding to additional locales (en, es, de)
+      "x-default": "https://www.rentready.fr",
+    },
   },
 };
 
@@ -94,7 +107,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://o1.ingest.sentry.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://o1.ingest.sentry.io" />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-x-hidden">
         <Analytics />
         <WebVitalsProvider />
         {children}

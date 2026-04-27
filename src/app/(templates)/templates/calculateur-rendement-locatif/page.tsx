@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { buildHreflang } from "@/lib/seo/metadata";
+
 
 export const metadata: Metadata = {
   title: "Calculateur de Rendement Locatif Gratuit — Brut & Net | RentReady",
@@ -22,9 +24,7 @@ export const metadata: Metadata = {
     url: "https://www.rentready.fr/templates/calculateur-rendement-locatif",
     siteName: "RentReady",
   },
-  alternates: {
-    canonical: "https://www.rentready.fr/templates/calculateur-rendement-locatif",
-  },
+  alternates: buildHreflang("/templates/calculateur-rendement-locatif"),
 };
 
 /* ─── JSON-LD: HowTo + BreadcrumbList ─── */
