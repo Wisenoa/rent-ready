@@ -5,7 +5,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
+        // Allow all public marketing pages
         allow: [
+          // Core marketing pages
           "/",
           "/gestion-locative",
           "/locations",
@@ -16,32 +18,62 @@ export default function robots(): MetadataRoute.Robots {
           "/pricing",
           "/features",
           "/demo",
+          "/comparatif",
+          // Blog
           "/blog",
+          "/blog/**",
+          // Glossary
           "/glossaire-immobilier",
+          "/glossaire-immobilier/**",
+          // Templates & Models
+          "/templates",
+          "/templates/**",
           "/modeles",
+          "/modeles/**",
+          // Outils (calculators, generators, simulators)
           "/outils",
+          "/outils/**",
+          // Guides
+          "/guides",
+          "/guides/**",
+          // Legal pages
           "/mentions-legales",
           "/politique-confidentialite",
-          "/politique-cookies",
           "/cgu",
+          // City/region programmatic pages
+          "/gestion-locative/**",
+          "/bail/**",
         ],
+        // Block all internal/app routes — must never be indexed
         disallow: [
-          "/app/*",   // catch-all: /app/* routes are internal tools, not marketing pages
-          "/dashboard",
+          // Private app routes
+          "/portal/**",
+          "/dashboard/**",
+          "/account/**",
+          // Auth routes — no SEO value, must not be indexed
+          "/login/**",
+          "/register/**",
+          // Internal API — never expose to crawlers
+          "/api/**",
+          // Admin
+          "/admin/**",
+          // Billing/payments (internal)
+          "/billing/**",
+          "/expenses/**",
+          "/fiscal/**",
+          // Properties, tenants (internal management)
+          "/properties/**",
+          "/tenants/**",
+          // Internal tools
           "/properties",
           "/tenants",
           "/billing",
           "/expenses",
           "/fiscal",
-          "/portal",
-          "/api",
-          "/login",
-          "/register",
-          "/admin",
-          "/account",
         ],
       },
     ],
+    // Sitemap must be declared so search engines discover all public URLs
     sitemap: "https://www.rentready.fr/sitemap.xml",
     host: "https://www.rentready.fr",
   };
