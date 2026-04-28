@@ -108,7 +108,7 @@ function TestimonialsJsonLd() {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <main id="main-content" className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -131,6 +131,6 @@ export default function HomePage() {
       <FaqSection />
       <FinalCtaWrapper />
       <MarketingFooter />
-    </div>
+    </main>
   );
 }

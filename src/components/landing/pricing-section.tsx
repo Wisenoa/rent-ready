@@ -62,10 +62,10 @@ export function PricingSection() {
                   <span className="text-6xl font-extrabold tracking-tighter text-stone-900">
                     15
                   </span>
-                  <span className="ml-1 text-xl font-semibold text-stone-400">
+                  <span className="ml-1 text-xl font-semibold text-stone-500">
                     €
                   </span>
-                  <span className="ml-1.5 text-base text-stone-400">/mois</span>
+                  <span className="ml-1.5 text-base text-stone-500">/mois</span>
                 </div>
                 <p className="mt-3 text-sm text-stone-500">
                   ou{" "}
@@ -90,6 +90,7 @@ export function PricingSection() {
                     <Check
                       className="mt-0.5 size-4 shrink-0 text-blue-600"
                       strokeWidth={2.5}
+                      aria-hidden="true"
                     />
                     <span>{feature}</span>
                   </motion.li>
@@ -109,7 +110,7 @@ export function PricingSection() {
                 </motion.span>
               </Link>
               {/* Trust micro-strip */}
-              <p className="mt-3 text-center text-[12px] text-stone-400">
+              <p className="mt-3 text-center text-[12px] text-stone-500">
                 Sans carte bancaire · Annulation libre · Sans engagement
               </p>
               {/* Trust badges row */}
@@ -121,9 +122,9 @@ export function PricingSection() {
                 ].map((label, i) => (
                   <span
                     key={label}
-                    className="inline-flex items-center gap-1 text-[11px] text-stone-400"
+                    className="inline-flex items-center gap-1 text-[11px] text-stone-500"
                   >
-                    <svg className="size-3 text-emerald-500 shrink-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="size-3 text-emerald-600 shrink-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M2 6l2.5 2.5L10 3.5" />
                     </svg>
                     {label}
@@ -134,7 +135,7 @@ export function PricingSection() {
 
             {/* Mini cost comparison table */}
             <div className="mb-8 rounded-2xl border border-stone-100 bg-stone-50/80 p-5">
-              <p className="mb-3 text-[11px] font-semibold uppercase tracking-wide text-stone-400">
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-wide text-stone-500">
                 Comparaison annuelle — 1 bien à 1 000 €/mois
               </p>
               <div className="space-y-2.5">
@@ -183,7 +184,7 @@ export function PricingSection() {
                   </div>
                   <div>
                     <p className="text-[13px] italic text-stone-600">"{t.text}"</p>
-                    <p className="mt-1 text-[11px] font-medium text-stone-400">{t.name}</p>
+                    <p className="mt-1 text-[11px] font-medium text-stone-500">{t.name}</p>
                   </div>
                 </div>
               ))}

@@ -60,12 +60,14 @@ export function CookieConsent() {
             <div className="mt-4 flex gap-3 sm:mt-0 sm:shrink-0">
               <button
                 onClick={reject}
+                aria-label="Refuser tous les cookies optionnels"
                 className="rounded-xl px-5 py-2.5 text-[13px] font-medium text-stone-600 transition-colors hover:bg-stone-100"
               >
                 Refuser
               </button>
               <button
                 onClick={accept}
+                aria-label="Accepter tous les cookies"
                 className="rounded-xl bg-stone-900 px-5 py-2.5 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-stone-800"
               >
                 Accepter

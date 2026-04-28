@@ -62,7 +62,7 @@ export function DemoForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-8 text-center">
+      <div role="status" aria-live="polite" className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-8 text-center">
         <p className="text-lg font-semibold text-emerald-800">
           Demande envoyée !
         </p>
@@ -137,7 +137,9 @@ export function DemoForm() {
       </div>
 
       {error && (
-        <p className="text-sm text-red-600">{error}</p>
+        <div role="alert" aria-live="polite">
+          <p className="text-sm text-red-600">{error}</p>
+        </div>
       )}
 
       <button
@@ -148,7 +150,7 @@ export function DemoForm() {
         {loading ? "Envoi en cours..." : "Demander ma démo gratuite"}
       </button>
 
-      <p className="text-center text-xs text-stone-400">
+      <p className="text-center text-xs text-stone-500">
         Sans engagement · Réponse sous 24h
       </p>
     </form>

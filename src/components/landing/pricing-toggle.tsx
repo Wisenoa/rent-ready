@@ -21,6 +21,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
       <button
         role="switch"
         aria-checked={isAnnual}
+        aria-label="Choisir un abonnement annuel ou mensuel"
         onClick={() => onToggle(!isAnnual)}
         className="relative inline-flex h-7 w-13 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent bg-stone-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         style={{ width: 52, height: 28 }}

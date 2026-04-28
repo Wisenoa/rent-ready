@@ -384,11 +384,11 @@ function PropertyStepV2({
           </div>
         </div>
 
-        <div className="bg-muted/50 rounded-lg p-3 flex items-start gap-2">
-          <Clock className="size-4 text-muted-foreground mt-0.5 shrink-0" />
-          <p className="text-xs text-muted-foreground">
-            <span className="font-medium text-foreground">Temps restant :</span> environ 3 minutes pour configurer votre bien complètement.
-            Vous pouvez sauter cette étape et configurer plus tard.
+        <div className="bg-indigo-50 rounded-lg p-3 flex items-start gap-2">
+          <Sparkles className="size-4 text-indigo-600 mt-0.5 shrink-0" />
+          <p className="text-xs text-indigo-900">
+            <span className="font-medium">En 2 minutes</span>, votre bien est enregistré et vous pouvez commencer à suivre vos loyers.
+            Vous pouvez remplir les détails plus tard.
           </p>
         </div>
 

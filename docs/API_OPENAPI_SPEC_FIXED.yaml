@@ -1,0 +1,3284 @@
+openapi: 3.0.3
+info:
+  title: RentReady API
+  description: |
+    Backend API for RentReady — rental property management SaaS.
+    
+    ## Base URL
+    `http://localhost:3000/api` (local) · Production URL configured via `NEXT_PUBLIC_APP_URL`
+    
+    ## Authentication
+    All endpoints (except `/auth/*`) require a session cookie set by the Better Auth flow.
+    Use `POST /auth/sign-in` to obtain a session.
+    
+    ## Content-Type
+    All request/response bodies use `application/json`.
+    
+    ## Errors
+    Standard error shape: `{ "error": string }` with appropriate HTTP status code.
+  version: 1.0.0
+  contact:
+    name: RentReady API Support
+    email: api@rentready.fr
+
+servers:
+  - url: http://localhost:3000
+    description: Local development
+
+tags:
+  - name: Auth
+    description: Authentication and session management
+  - name: Properties
+    description: Property CRUD operations
+  - name: Tenants
+    description: Tenant CRUD operations
+  - name: Leases
+    description: Lease lifecycle management
+  - name: Transactions
+    description: Payment recording and tracking
+  - name: Documents
+    description: Document upload and retrieval for leases
+  - name: Bank Accounts
+    description: Stripe Financial Connections for bank account linking
+  - name: Units
+    description: Multi-unit building support — manage individual units within a property
+  - name: Guarantors
+    description: Guarantor management for lease financial backing
+
+
+paths:
+  /fiscal/prepare:
+    get:
+      tags: [Fiscal]
+      summary: Prepare 2577 declaration data for a tax year
+      operationId: prepareFiscalDeclaration
+      description: |
+        Groups revenue and expenses by property for the French tax form 2577
+        (déclaration des revenus fonciers). Returns rent + charges received
+        per property for the specified year.
+      parameters:
+        - name: year
+          in: query
+          schema:
+            type: integer
+          description: Tax year (default: previous calendar year)
+          example: 2025
+      responses:
+        "200":
+          description: Fiscal declaration data per property
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        propertyId:
+                          type: string
+                        propertyName:
+                          type: string
+                        address:
+                          type: string
+                        totalRent:
+                          type: number
+                        totalCharges:
+                          type: number
+                        transactions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              amount:
+                                type: number
+                              paidAt:
+                                type: string
+                                format: date-time
+                              periodStart:
+                                type: string
+                                format: date
+                              tenantName:
+                                type: string
+                  year:
+                    type: integer
+        "401":
+          description: Unauthorized
+        "400":
+          description: Invalid year parameter
+
+  # ─── Webhooks ─────────────────────────────────────────────────────────────
+  /webhooks/bank:
+    post:
+      tags: [Webhooks]
+      summary: Open Banking webhook handler (Bridge API / Powens)
+      operationId: handleBankWebhook
+      description: |
+        Receives `transaction.created` events from Bridge API (DSP2 bank scraping).
+        On incoming rent payment: matches to a pending transaction and auto-
+        reconciles it, generating a quittance PDF.
+      security:
+        - hmacSignature: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_type:
+                  type: string
+                item_id:
+                  type: string
+                account_id:
+                  type: string
+                transaction:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    amount:
+                      type: number
+                    currency_code:
+                      type: string
+                    description:
+                      type: string
+                    date:
+                      type: string
+      responses:
+        "200":
+          description: Webhook processed successfully
+        "400":
+          description: Invalid payload
+        "401":
+          description: Invalid HMAC signature
+
+  /webhooks/stripe:
+    post:
+      tags: [Webhooks]
+      summary: Stripe webhook handler
+      operationId: handleStripeWebhook
+      description: |
+        Handles Stripe events: subscription lifecycle, customer updates,
+        payment failures, and Financial Connections account refreshes.
+      security:
+        - stripeSignature: []
+      responses:
+        "200":
+          description: Webhook processed successfully
+        "400":
+          description: Invalid Stripe signature or payload
+
+  # ─── Transactions (update) ──────────────────────────────────────────────
+  /transactions/{transactionId}:
+    get:
+      tags: [Transactions]
+      summary: Get a transaction by ID
+      operationId: getTransaction
+      parameters:
+        - $ref: "#/components/parameters/TransactionId"
+      responses:
+        "200":
+          description: Transaction detail
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Transaction"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transaction not found
+    patch:
+      tags: [Transactions]
+      summary: Update a transaction (mark paid, change status)
+      operationId: updateTransaction
+      description: |
+        Update payment status, payment method, or notes on an existing transaction.
+        Used to manually reconcile or adjust a transaction.
+      parameters:
+        - $ref: "#/components/parameters/TransactionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [PENDING, PAID, PARTIAL, WAIVED]
+                paymentMethod:
+                  type: string
+                  enum: [BANK_TRANSFER, CHECK, CASH, ONLINE, OTHER]
+                paidAt:
+                  type: string
+                  format: date-time
+                  nullable: true
+                notes:
+                  type: string
+                  nullable: true
+      responses:
+        "200":
+          description: Transaction updated
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transaction not found
+  /transactions/{id}/receipt:
+    get:
+      tags: [Transactions]
+      summary: Obtenir un reçu JSON pour une transaction
+      operationId: getTransactionReceipt
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Reçu JSON
+        "401":
+          description: Non autorisé
+        "404":
+          description: Transaction introuvable
+    post:
+      tags: [Transactions]
+      summary: Générer un PDF quittance pour une transaction
+      operationId: generateTransactionReceiptPdf
+      description: Produit un PDF de quittance via react-pdf.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: PDF quittance (application/pdf)
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Non autorisé
+        "404":
+          description: Transaction introuvable
+
+  /auth/{path}:
+    get:
+      tags: [Auth]
+      summary: Auth proxy (Better Auth routes)
+      operationId: authGet
+      parameters:
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Auth response
+        "401":
+          description: Non autorisé
+    post:
+      tags: [Auth]
+      summary: Auth action (sign-in, sign-up, sign-out, reset...)
+      operationId: authPost
+      parameters:
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Auth action response
+        "400":
+          description: Données invalides
+        "401":
+          description: Non autorisé
+        "429":
+          description: Rate limit
+
+  # ─── Auth ───────────────────────────────────────────────────────────────────
+  /auth/sign-in:
+    post:
+      tags: [Auth]
+      summary: Sign in with email and password
+      operationId: signIn
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: marie.dupont@email.fr
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                  example: MonMotDePasse123!
+      responses:
+        "200":
+          description: Session established
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/User"
+        "401":
+          description: Invalid credentials
+
+  /auth/sign-in/email-link:
+    post:
+      tags: [Auth]
+      summary: Send a magic link for password-free sign-in
+      operationId: sendMagicLink
+      description: |
+        Sends a one-time magic link to the provided email address.
+        The link expires in 15 minutes and can only be used once.
+        Clicking the link completes the sign-in flow automatically.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: marie.dupont@email.fr
+      responses:
+        "200":
+          description: Magic link sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Magic link sent — check your inbox"
+        "400":
+          description: Invalid email address
+        "500":
+          description: Failed to send email
+
+  /auth/sign-up:
+    post:
+      tags: [Auth]
+      summary: Create a new account
+      operationId: signUp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 8
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+      responses:
+        "200":
+          description: Account created and session established
+        "400":
+          description: Validation error or email already exists
+
+  /auth/sign-out:
+    post:
+      tags: [Auth]
+      summary: Sign out and destroy session
+      operationId: signOut
+      responses:
+        "200":
+          description: Signed out successfully
+
+  /auth/get-session:
+    get:
+      tags: [Auth]
+      summary: Get current session
+      operationId: getSession
+      responses:
+        "200":
+          description: Current session user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/User"
+        "401":
+          description: No active session
+
+  # ─── Properties ───────────────────────────────────────────────────────────
+  /properties:
+    get:
+      tags: [Properties]
+      summary: List all properties
+      operationId: listProperties
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Paginated list of properties
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Property"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          description: Unauthorized
+    post:
+      tags: [Properties]
+      summary: Create a property
+      operationId: createProperty
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PropertyInput"
+      responses:
+        "201":
+          description: Property created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Property"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+
+  /properties/{propertyId}:
+    get:
+      tags: [Properties]
+      summary: Get a property by ID
+      operationId: getProperty
+      parameters:
+        - $ref: "#/components/parameters/PropertyId"
+      responses:
+        "200":
+          description: Property with active leases, units, and ticket counts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/PropertyDetail"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Property not found
+    patch:
+      tags: [Properties]
+      summary: Update a property
+      operationId: updateProperty
+      parameters:
+        - $ref: "#/components/parameters/PropertyId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PropertyInput"
+      responses:
+        "200":
+          description: Property updated
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Property not found
+    delete:
+      tags: [Properties]
+      summary: Delete a property
+      operationId: deleteProperty
+      parameters:
+        - $ref: "#/components/parameters/PropertyId"
+      responses:
+        "200":
+          description: Property deleted
+        "401":
+          description: Unauthorized
+        "404":
+          description: Property not found
+
+  # ─── Tenants ──────────────────────────────────────────────────────────────
+  /tenants:
+    get:
+      tags: [Tenants]
+      summary: List all tenants
+      operationId: listTenants
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Paginated list of tenants
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Tenant"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          description: Unauthorized
+    post:
+      tags: [Tenants]
+      summary: Create a tenant
+      operationId: createTenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TenantInput"
+      responses:
+        "201":
+          description: Tenant created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Tenant"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+
+  /tenants/{tenantId}:
+    get:
+      tags: [Tenants]
+      summary: Get a tenant by ID
+      operationId: getTenant
+      parameters:
+        - $ref: "#/components/parameters/TenantId"
+      responses:
+        "200":
+          description: Tenant detail
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/TenantDetail"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Tenant not found
+    patch:
+      tags: [Tenants]
+      summary: Update a tenant
+      operationId: updateTenant
+      parameters:
+        - $ref: "#/components/parameters/TenantId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TenantInput"
+      responses:
+        "200":
+          description: Tenant updated
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Tenant not found
+    delete:
+      tags: [Tenants]
+      summary: Delete a tenant
+      operationId: deleteTenant
+      parameters:
+        - $ref: "#/components/parameters/TenantId"
+      responses:
+        "200":
+          description: Tenant deleted
+        "401":
+          description: Unauthorized
+        "404":
+          description: Tenant not found
+
+  # ─── Leases ────────────────────────────────────────────────────────────────
+  /leases:
+    get:
+      tags: [Leases]
+      summary: List all leases
+      operationId: listLeases
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [ACTIVE, TERMINATED, DRAFT, EXPIRED]
+          description: Filter by lease status
+        - name: propertyId
+          in: query
+          schema:
+            type: string
+          description: Filter by property
+        - name: tenantId
+          in: query
+          schema:
+            type: string
+          description: Filter by tenant
+      responses:
+        "200":
+          description: Paginated list of leases
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/LeaseListItem"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          description: Unauthorized
+    post:
+      tags: [Leases]
+      summary: Create a lease (generates bail PDF)
+      operationId: createLease
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaseInput"
+      responses:
+        "201":
+          description: Lease created with bail PDF generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/LeaseDetail"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Property or tenant not found
+
+  /leases/{leaseId}:
+    get:
+      tags: [Leases]
+      summary: Get a lease by ID
+      operationId: getLease
+      parameters:
+        - $ref: "#/components/parameters/LeaseId"
+      responses:
+        "200":
+          description: Lease detail with related records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/LeaseDetail"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Lease not found
+    patch:
+      tags: [Leases]
+      summary: Update a lease
+      operationId: updateLease
+      parameters:
+        - $ref: "#/components/parameters/LeaseId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaseInput"
+      responses:
+        "200":
+          description: Lease updated
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Lease not found
+
+  # ─── Transactions ────────────────────────────────────────────────────────────
+  /transactions:
+    get:
+      tags: [Transactions]
+      summary: List transactions
+      operationId: listTransactions
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PENDING, PAID, PARTIAL, WAIVED]
+          description: Filter by payment status
+        - name: leaseId
+          in: query
+          schema:
+            type: string
+          description: Filter by lease
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter due dates from this date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter due dates up to this date
+      responses:
+        "200":
+          description: Paginated list of transactions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Transaction"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          description: Unauthorized
+    post:
+      tags: [Transactions]
+      summary: Record a payment (generates quittance/recu PDF)
+      operationId: createTransaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionInput"
+      responses:
+        "201":
+          description: Payment recorded and receipt generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Lease not found
+
+
+  # ─── Documents ───────────────────────────────────────────────────────────────
+  /documents/{documentId}:
+    get:
+      tags: [Documents]
+      summary: Get a document by ID (presigned URL or redirect)
+      operationId: getDocument
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Document ID
+      responses:
+        "200":
+          description: Document metadata or presigned download URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Document"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Document not found
+    delete:
+      tags: [Documents]
+      summary: Delete a document by ID
+      operationId: deleteDocument
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Document ID
+      responses:
+        "200":
+          description: Document deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Document not found
+
+  # ─── Bank Accounts (Stripe Financial Connections) ──────────────────────────
+  /bank-accounts/link-token:
+    post:
+      tags: [Bank Accounts]
+      summary: Create a Stripe Financial Connections link token
+      operationId: createBankLinkToken
+      description: |
+        Creates a Link token for Stripe Financial Connections, allowing users
+        to securely connect their bank account for balance checks and payment parsing.
+        Requires active Stripe subscription.
+      responses:
+        "200":
+          description: Link token created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      linkToken:
+                        type: string
+                      url:
+                        type: string
+                        description: URL to redirect the user to for bank linking flow
+        "401":
+          description: Unauthorized
+        "403":
+          description: Stripe subscription required
+        "500":
+          description: Stripe API error
+
+  /bank-accounts/sessions:
+    post:
+      tags: [Bank Accounts]
+      summary: Create a Stripe Financial Connections account session
+      operationId: createBankAccountSession
+      description: |
+        Creates a Session for Financial Connections to retrieve data from an
+        already-linked external account (balance, transactions).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [externalAccountId]
+              properties:
+                externalAccountId:
+                  type: string
+                  description: Stripe External Account ID from a linked bank account
+      responses:
+        "200":
+          description: Account session created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      session:
+                        type: object
+                        description: Stripe FinancialConnections.Session object
+        "401":
+          description: Unauthorized
+        "400":
+          description: Invalid external account ID
+        "500":
+          description: Stripe API error
+
+  /bank-accounts:
+    get:
+      tags: [Bank Accounts]
+      summary: List user's linked bank accounts
+      operationId: listBankAccounts
+      description: Returns all Stripe Financial Connections linked accounts for the user.
+      responses:
+        "200":
+          description: List of linked bank accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/BankAccount"
+        "401":
+          description: Unauthorized
+
+  /units:
+    get:
+      tags: [Units]
+      summary: List all units
+      operationId: listUnits
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - name: propertyId
+          in: query
+          description: Filter by property ID
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          description: Filter by status
+          schema:
+            type: string
+            enum: [VACANT, RENTED, DRAFT]
+      responses:
+        "200":
+          description: Paginated list of units
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Unit"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          description: Unauthorized
+
+    post:
+      tags: [Units]
+      summary: Create a new unit
+      operationId: createUnit
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnitCreate"
+      responses:
+        "201":
+          description: Unit created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Unit"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Property not found
+
+  /units/{unitId}:
+    get:
+      tags: [Units]
+      summary: Get a unit by ID
+      operationId: getUnit
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UnitId"
+      responses:
+        "200":
+          description: Unit details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Unit"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Unit not found
+
+    patch:
+      tags: [Units]
+      summary: Update a unit
+      operationId: updateUnit
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UnitId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnitCreate"
+      responses:
+        "200":
+          description: Unit updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Unit"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Unit not found
+
+    delete:
+      tags: [Units]
+      summary: Delete a unit
+      operationId: deleteUnit
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UnitId"
+      responses:
+        "200":
+          description: Unit deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "401":
+          description: Unauthorized
+        "404":
+          description: Unit not found
+
+  # ─── Guarantors ──────────────────────────────────────────────────────────────
+  /guarantors:
+    get:
+      tags: [Guarantors]
+      summary: List guarantors for a lease
+      operationId: listGuarantors
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: leaseId
+          in: query
+          required: true
+          description: Lease ID to filter guarantors
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: List of guarantors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Guarantor"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "400":
+          description: leaseId required
+        "401":
+          description: Unauthorized
+
+    post:
+      tags: [Guarantors]
+      summary: Create a guarantor for a lease
+      operationId: createGuarantor
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GuarantorCreate"
+      responses:
+        "201":
+          description: Guarantor created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Guarantor"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Lease not found
+        "409":
+          description: Guarantor already exists for this lease
+
+  /guarantors/{guarantorId}:
+    get:
+      tags: [Guarantors]
+      summary: Get a guarantor by ID
+      operationId: getGuarantor
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: guarantorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Guarantor details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Guarantor"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Guarantor not found
+
+    patch:
+      tags: [Guarantors]
+      summary: Update a guarantor
+      operationId: updateGuarantor
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: guarantorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GuarantorCreate"
+      responses:
+        "200":
+          description: Guarantor updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Guarantor"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Guarantor not found
+
+    delete:
+      tags: [Guarantors]
+      summary: Delete a guarantor
+      operationId: deleteGuarantor
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: guarantorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Guarantor deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "401":
+          description: Unauthorized
+        "404":
+          description: Guarantor not found
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # AI — Lease analysis and drafting
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /ai/analyze-lease:
+    post:
+      tags: [AI]
+      summary: Analyze a lease contract for clauses and risks
+      operationId: analyzeLease
+      description: |
+        Uses AI to analyze lease text (provided directly or extracted from a PDF via
+        `documentId`) and return a structured risk analysis. Rate limited: 20 req/min
+        for unauthenticated, 1000 req/min for authenticated users.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [documentId]
+              properties:
+                documentId:
+                  type: string
+                  description: Document ID whose extracted OCR text to analyze
+                leaseText:
+                  type: string
+                  description: Raw lease text to analyze (alternative to documentId)
+              example:
+                documentId: "doc_abc123"
+      responses:
+        "200":
+          description: Analysis result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analysis:
+                    type: object
+                    description: AI-generated lease clause analysis
+        "400":
+          description: No lease text provided or found
+        "401":
+          description: Unauthorized
+        "404":
+          description: Document not found
+        "429":
+          description: Rate limit exceeded
+
+  /ai/follow-up-draft:
+    post:
+      tags: [AI]
+      summary: Generate a rent follow-up email draft
+      operationId: generateFollowUpDraft
+      description: |
+        Generates a rent payment follow-up email draft (friendly, formal, or legal tone)
+        for a specific lease and overdue transaction. Rate limited: 20 req/min for
+        unauthenticated, 1000 req/min for authenticated.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [leaseId]
+              properties:
+                leaseId:
+                  type: string
+                  format: uuid
+                tone:
+                  type: string
+                  enum: [friendly, formal, legal]
+                  default: formal
+              example:
+                leaseId: "123e4567-e89b-12d3-a456-426614174000"
+                tone: "formal"
+      responses:
+        "200":
+          description: Generated email draft
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  draft:
+                    type: string
+                    description: AI-generated email draft text
+        "400":
+          description: No overdue transactions found for this lease
+        "401":
+          description: Unauthorized
+        "404":
+          description: Lease not found
+        "429":
+          description: Rate limit exceeded
+
+  /ai/maintenance-summarize:
+    post:
+      tags: [AI]
+      summary: Summarize a maintenance ticket description
+      operationId: summarizeMaintenance
+      description: Uses AI to summarize a maintenance ticket description into a concise title/summary.
+      security:
+        - cookieAuth: []
+      responses:
+        "401":
+          description: Unauthorized
+
+  /ai/owner-summary:
+    post:
+      tags: [AI]
+      summary: Generate a property owner summary
+      operationId: generateOwnerSummary
+      description: Generates a narrative summary of a property owner's portfolio and activity.
+      security:
+        - cookieAuth: []
+      responses:
+        "401":
+          description: Unauthorized
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Analytics
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /analytics/page-view:
+    post:
+      tags: [Analytics]
+      summary: Record a page view event
+      operationId: recordPageView
+      description: Records an anonymous page view event for internal traffic analytics.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [path]
+              properties:
+                path:
+                  type: string
+                  description: Page path viewed
+                referrer:
+                  type: string
+                utm_source:
+                  type: string
+                utm_medium:
+                  type: string
+                utm_campaign:
+                  type: string
+      responses:
+        "200":
+          description: Event recorded
+        "500":
+          description: Internal error
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Charges — Recoverable charge tracking
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /charges:
+    get:
+      tags: [Charges]
+      summary: List recoverable charges
+      operationId: listCharges
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - name: leaseId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filter by lease
+        - name: isRecovered
+          in: query
+          schema:
+            type: boolean
+          description: Filter by recovery status
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filter by charge category
+      responses:
+        "200":
+          description: Paginated list of charges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Charge"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          description: Unauthorized
+    post:
+      tags: [Charges]
+      summary: Create a recoverable charge
+      operationId: createCharge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChargeInput"
+      responses:
+        "201":
+          description: Charge created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Charge"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Lease not found
+
+  /charges/{id}:
+    get:
+      tags: [Charges]
+      summary: Get a charge by ID
+      operationId: getCharge
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Charge detail
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Charge"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Charge not found
+    patch:
+      tags: [Charges]
+      summary: Update a charge
+      operationId: updateCharge
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChargeInput"
+      responses:
+        "200":
+          description: Charge updated
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Charge not found
+    delete:
+      tags: [Charges]
+      summary: Delete a charge
+      operationId: deleteCharge
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Charge deleted
+        "401":
+          description: Unauthorized
+        "404":
+          description: Charge not found
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Dashboard — Portfolio summary
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /dashboard/summary:
+    get:
+      tags: [Dashboard]
+      summary: Get portfolio summary
+      operationId: getDashboardSummary
+      description: |
+        Returns high-level metrics for the authenticated user's rental portfolio:
+        total properties, tenants, outstanding rent, collection rate, and monthly
+        collected totals.
+      responses:
+        "200":
+          description: Portfolio summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total_properties:
+                        type: integer
+                      total_properties_rented:
+                        type: integer
+                      total_tenants:
+                        type: integer
+                      total_active_leases:
+                        type: integer
+                      total_outstanding:
+                        type: number
+                        format: double
+                      collection_rate:
+                        type: number
+                        format: double
+                      total_collected_this_month:
+                        type: number
+                        format: double
+                      currency:
+                        type: string
+                        enum: [EUR]
+                      period:
+                        type: object
+                        properties:
+                          month:
+                            type: string
+                          generated_at:
+                            type: string
+                            format: date-time
+        "401":
+          description: Unauthorized
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # E-Reporting — French B2C fiscal reporting
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /e-reporting/export:
+    get:
+      tags: [E-Reporting]
+      summary: Export monthly rent report for French B2C fiscal declaration
+      operationId: exportEReporting
+      description: |
+        Generates a monthly rent collection report for French fiscal declarations.
+        Returns detailed transaction data and per-tenant aggregations.
+      parameters:
+        - name: month
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}-(0[1-9]|1[0-2])$"
+          description: "Month in YYYY-MM format (e.g. 2025-06)"
+          example: "2025-06"
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [json, csv]
+            default: json
+      responses:
+        "200":
+          description: E-reporting export
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EReportingExport"
+            text/csv:
+              schema:
+                type: string
+        "400":
+          description: Invalid month format or missing parameter
+        "401":
+          description: Unauthorized
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Email — Transactional email dispatch
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /email/send-welcome:
+    post:
+      tags: [Email]
+      summary: Send welcome email to newly registered user
+      operationId: sendWelcomeEmail
+      description: Triggers the welcome email for the currently authenticated user.
+      responses:
+        "200":
+          description: Email sent successfully
+        "401":
+          description: Unauthorized
+        "500":
+          description: Failed to send email
+
+  /email/send-rent-reminder:
+    post:
+      tags: [Email]
+      summary: Send rent payment reminder to tenant
+      operationId: sendRentReminder
+      description: |
+        Sends a rent payment reminder email to the tenant associated with a given
+        transaction. Tone can be friendly, formal, or legal.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transactionId]
+              properties:
+                transactionId:
+                  type: string
+                  format: uuid
+                tone:
+                  type: string
+                  enum: [friendly, formal, legal]
+                  default: friendly
+              example:
+                transactionId: "123e4567-e89b-12d3-a456-426614174000"
+                tone: "formal"
+      responses:
+        "200":
+          description: Reminder sent
+        "401":
+          description: Unauthorized
+        "422":
+          description: Invalid request body
+        "500":
+          description: Failed to send email
+
+  /email/send-lease-expiry:
+    post:
+      tags: [Email]
+      summary: Send lease expiry warning to landlord
+      operationId: sendLeaseExpiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [leaseId]
+              properties:
+                leaseId:
+                  type: string
+                  format: uuid
+      responses:
+        "200":
+          description: Email sent
+        "401":
+          description: Unauthorized
+        "422":
+          description: Invalid request body
+        "500":
+          description: Failed to send email
+
+  /email/send-password-reset:
+    post:
+      tags: [Email]
+      summary: Send password reset email
+      operationId: sendPasswordReset
+      responses:
+        "401":
+          description: Unauthorized
+        "500":
+          description: Failed to send email
+
+  /email/send-tenant-invitation:
+    post:
+      tags: [Email]
+      summary: Send tenant portal invitation
+      operationId: sendTenantInvitation
+      responses:
+        "401":
+          description: Unauthorized
+        "500":
+          description: Failed to send email
+
+  /email/cron-dispatch:
+    get:
+      tags: [Email]
+      summary: List supported cron email dispatch types
+      operationId: listCronEmailTypes
+      responses:
+        "200":
+          description: Supported email dispatch types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  supportedTypes:
+                    type: array
+                    items:
+                      type: object
+    post:
+      tags: [Email]
+      summary: Dispatch a transactional email (cron endpoint)
+      operationId: dispatchCronEmail
+      description: |
+        Batch/automated email dispatch endpoint called by external cron jobs.
+        Requires `Authorization: Bearer <CRON_SECRET>` if `CRON_SECRET` env var is set.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type]
+              properties:
+                type:
+                  type: string
+                  enum: [rent-reminder, lease-expiry]
+                transactionId:
+                  type: string
+                  format: uuid
+                  description: Required for rent-reminder type
+                leaseId:
+                  type: string
+                  format: uuid
+                  description: Required for lease-expiry type
+                tone:
+                  type: string
+                  enum: [friendly, formal, legal]
+                  default: friendly
+      responses:
+        "200":
+          description: Email sent
+        "401":
+          description: Unauthorized (invalid or missing CRON_SECRET)
+        "422":
+          description: Invalid request body
+        "500":
+          description: Failed to send email
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Glossary — Static SEO glossary
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /glossary:
+    get:
+      tags: [Glossary]
+      summary: List all glossary terms
+      operationId: listGlossary
+      description: |
+        Returns all real estate glossary terms for the SEO glossary page.
+        Publicly cached: `public, max-age=3600, stale-while-revalidate=86400`.
+      responses:
+        "200":
+          description: List of glossary terms
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  terms:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        slug:
+                          type: string
+                        term:
+                          type: string
+                        shortDefinition:
+                          type: string
+                  total:
+                    type: integer
+                  updatedAt:
+                    type: string
+                    format: date-time
+
+  /glossary/{slug}:
+    get:
+      tags: [Glossary]
+      summary: Get a single glossary term
+      operationId: getGlossaryTerm
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Glossary term detail
+        "404":
+          description: Term not found
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Health — Service health check
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check
+      operationId: healthCheck
+      description: |
+        Returns service health status. Public callers receive minimal info
+        (`status`, `timestamp`, `version`). Authenticated or internal callers
+        also receive database, Redis, and storage health checks.
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy]
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+        "503":
+          description: Service is unhealthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, unhealthy]
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                  environment:
+                    type: string
+                  checks:
+                    type: object
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Lead — Demo request capture
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /lead/demo:
+    post:
+      tags: [Lead]
+      summary: Submit a demo request
+      operationId: submitDemoRequest
+      description: Captures demo request leads from the marketing site. Rate limited: 5 req/IP/hour.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email]
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                email:
+                  type: string
+                  format: email
+                properties:
+                  type: string
+                message:
+                  type: string
+                utm_source:
+                  type: string
+                utm_medium:
+                  type: string
+                utm_campaign:
+                  type: string
+      responses:
+        "200":
+          description: Demo request captured
+        "401":
+          description: Unauthorized
+        "422":
+          description: Invalid request body
+        "429":
+          description: Rate limit exceeded
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Maintenance — Ticket tracking
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /maintenance:
+    get:
+      tags: [Maintenance]
+      summary: List maintenance tickets
+      operationId: listMaintenance
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: Filter by status (OPEN, IN_PROGRESS, RESOLVED, CLOSED)
+        - name: propertyId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: priority
+          in: query
+          schema:
+            type: string
+            enum: [LOW, MEDIUM, HIGH, URGENT]
+      responses:
+        "200":
+          description: Paginated list of maintenance tickets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MaintenanceTicket"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          description: Unauthorized
+    post:
+      tags: [Maintenance]
+      summary: Create a maintenance ticket (owner)
+      operationId: createMaintenanceTicket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MaintenanceTicketInput"
+      responses:
+        "201":
+          description: Ticket created
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+
+  /maintenance/{id}:
+    get:
+      tags: [Maintenance]
+      summary: Get a maintenance ticket by ID
+      operationId: getMaintenanceTicket
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Maintenance ticket detail
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden — ticket belongs to another user
+        "404":
+          description: Ticket not found
+    patch:
+      tags: [Maintenance]
+      summary: Update a maintenance ticket
+      operationId: updateMaintenanceTicket
+      description: Automatically sets `resolvedAt` when status transitions to RESOLVED.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MaintenanceTicketInput"
+      responses:
+        "200":
+          description: Ticket updated
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Ticket not found
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Metrics — Prometheus-compatible metrics endpoint
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /metrics:
+    get:
+      tags: [Metrics]
+      summary: Prometheus-compatible metrics endpoint
+      operationId: getMetrics
+      description: Returns application metrics in Prometheus text format.
+      responses:
+        "200":
+          description: Prometheus metrics
+          content:
+            text/plain; charset=utf-8:
+              schema:
+                type: string
+        "500":
+          description: Failed to collect metrics
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Onboarding — Wizard analytics tracking
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /onboarding/track:
+    post:
+      tags: [Onboarding]
+      summary: Track onboarding wizard events
+      operationId: trackOnboardingEvent
+      description: |
+        Records onboarding step completions, skips, and drop-offs.
+        Events: onboarding_started, onboarding_step_1_completed, onboarding_step_1_skipped,
+        onboarding_step_2_completed, onboarding_step_2_skipped, onboarding_lease_completed,
+        onboarding_completed, onboarding_abandoned.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [event]
+              properties:
+                event:
+                  type: string
+                  description: Onboarding event name
+                metadata:
+                  type: object
+                  description: Additional event metadata (propertyId, tenantId, step)
+      responses:
+        "200":
+          description: Event tracked
+        "400":
+          description: Missing or invalid event
+        "401":
+          description: Unauthorized
+        "500":
+          description: Failed to track event
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Payments — Stripe payment intents
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /payments:
+    get:
+      tags: [Payments]
+      summary: List payments
+      operationId: listPayments
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Paginated list of payments
+        "401":
+          description: Unauthorized
+    post:
+      tags: [Payments]
+      summary: Create a payment intent
+      operationId: createPayment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount, currency]
+              properties:
+                amount:
+                  type: integer
+                  description: Amount in smallest currency unit (cents)
+                currency:
+                  type: string
+                  default: eur
+                metadata:
+                  type: object
+      responses:
+        "201":
+          description: Payment intent created
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+
+  /payments/{id}:
+    get:
+      tags: [Payments]
+      summary: Get a payment by ID
+      operationId: getPayment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Payment detail
+        "401":
+          description: Unauthorized
+        "404":
+          description: Payment not found
+    patch:
+      tags: [Payments]
+      summary: Update a payment
+      operationId: updatePayment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Payment updated
+        "401":
+          description: Unauthorized
+        "404":
+          description: Payment not found
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Property Types — Static SEO data
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /property-types:
+    get:
+      tags: [Property Types]
+      summary: List all property types
+      operationId: listPropertyTypes
+      description: |
+        Returns all property type guides for SEO content pages.
+        Publicly cached: `public, max-age=3600, stale-while-revalidate=86400`.
+      responses:
+        "200":
+          description: List of property types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  types:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        slug:
+                          type: string
+                        name:
+                          type: string
+                        shortDescription:
+                          type: string
+                  total:
+                    type: integer
+                  updatedAt:
+                    type: string
+                    format: date-time
+    post:
+      tags: [Property Types]
+      summary: Create a property type
+      operationId: createPropertyType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug:
+                  type: string
+                name:
+                  type: string
+                shortDescription:
+                  type: string
+      responses:
+        "201":
+          description: Property type created
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+
+  /property-types/{slug}:
+    get:
+      tags: [Property Types]
+      summary: Get a property type by slug
+      operationId: getPropertyType
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Property type detail
+        "404":
+          description: Property type not found
+    patch:
+      tags: [Property Types]
+      summary: Update a property type
+      operationId: updatePropertyType
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Property type updated
+        "401":
+          description: Unauthorized
+        "404":
+          description: Property type not found
+    delete:
+      tags: [Property Types]
+      summary: Delete a property type
+      operationId: deletePropertyType
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Property type deleted
+        "401":
+          description: Unauthorized
+        "404":
+          description: Property type not found
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Reminders — Task and deadline reminders
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /reminders:
+    get:
+      tags: [Reminders]
+      summary: List reminders
+      operationId: listReminders
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PENDING, COMPLETED, SNOOZED, CANCELLED]
+        - name: type
+          in: query
+          schema:
+            type: string
+        - name: priority
+          in: query
+          schema:
+            type: string
+        - name: leaseId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: propertyId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: overdue
+          in: query
+          schema:
+            type: string
+          description: Set to "true" to return only overdue reminders
+      responses:
+        "200":
+          description: Paginated list of reminders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Reminder"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          description: Unauthorized
+    post:
+      tags: [Reminders]
+      summary: Create a reminder
+      operationId: createReminder
+      description: Creates a one-time or recurring reminder. Computes `nextDueDate` for recurring.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReminderInput"
+      responses:
+        "201":
+          description: Reminder created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Reminder"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Associated lease, property, or tenant not found
+
+  /reminders/{id}:
+    get:
+      tags: [Reminders]
+      summary: Get a reminder by ID
+      operationId: getReminder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Reminder detail
+        "401":
+          description: Unauthorized
+        "404":
+          description: Reminder not found
+    patch:
+      tags: [Reminders]
+      summary: Update or transition a reminder
+      operationId: updateReminder
+      description: |
+        Supports status-only transitions (`{"status": "COMPLETED"}`) and full updates.
+        For recurring reminders marked COMPLETED, automatically computes nextDueDate.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/ReminderStatusTransition"
+                - $ref: "#/components/schemas/ReminderInput"
+      responses:
+        "200":
+          description: Reminder updated
+        "400":
+          description: Invalid status or validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Reminder not found
+    delete:
+      tags: [Reminders]
+      summary: Delete a reminder
+      operationId: deleteReminder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Reminder deleted
+        "401":
+          description: Unauthorized
+        "404":
+          description: Reminder not found
+
+  /reminders/send:
+    post:
+      tags: [Reminders]
+      summary: Manually trigger a reminder email
+      operationId: sendReminder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reminderId]
+              properties:
+                reminderId:
+                  type: string
+                  format: uuid
+      responses:
+        "200":
+          description: Reminder sent
+        "401":
+          description: Unauthorized
+        "404":
+          description: Reminder not found
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # RSS — Blog feed
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /rss:
+    get:
+      tags: [RSS]
+      summary: Get RSS feed for blog posts
+      operationId: getRSSFeed
+      description: Returns an RSS 2.0 feed of published blog articles. Publicly cached.
+      responses:
+        "200":
+          description: RSS feed XML
+          content:
+            application/rss+xml:
+              schema:
+                type: string
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # SEO — Structured data and content APIs
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /seo/blog:
+    get:
+      tags: [SEO]
+      summary: Get blog listing schema.org JSON-LD
+      operationId: getBlogListingSchema
+      description: Returns WebSite, ItemList, and Organization schema.org JSON-LD for the blog listing page.
+      responses:
+        "200":
+          description: Blog listing schemas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+                  meta:
+                    type: object
+                    properties:
+                      totalArticles:
+                        type: integer
+
+  /seo/blog/{slug}:
+    get:
+      tags: [SEO]
+      summary: Get blog post schema.org JSON-LD
+      operationId: getBlogPostSchema
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Blog article slug
+      responses:
+        "200":
+          description: Blog post schema
+        "404":
+          description: Article not found
+
+  /seo/faq:
+    get:
+      tags: [SEO]
+      summary: Get FAQPage schema.org JSON-LD
+      operationId: getFAQSchema
+      description: Returns FAQPage schema.org JSON-LD. Use `slug` query param for a specific group.
+      parameters:
+        - name: slug
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: FAQ schema or group listing
+        "404":
+          description: FAQ group not found
+
+  /seo/faq/{slug}:
+    get:
+      tags: [SEO]
+      summary: Get FAQPage schema for a specific FAQ group
+      operationId: getFAQGroupSchema
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: FAQ schema
+        "404":
+          description: FAQ group not found
+
+  /seo/glossary:
+    get:
+      tags: [SEO]
+      summary: Get glossary SEO schema
+      operationId: getGlossarySEO
+      responses:
+        "200":
+          description: Glossary SEO data
+
+  /seo/glossary/{slug}:
+    get:
+      tags: [SEO]
+      summary: Get single glossary term SEO schema
+      operationId: getGlossaryTermSEO
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Glossary term SEO data
+        "404":
+          description: Term not found
+
+  /seo/homepage:
+    get:
+      tags: [SEO]
+      summary: Get homepage schema.org JSON-LD
+      operationId: getHomepageSchema
+      responses:
+        "200":
+          description: Homepage SEO schema
+    post:
+      tags: [SEO]
+      summary: Update homepage SEO data
+      operationId: updateHomepageSEO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Homepage SEO updated
+        "401":
+          description: Unauthorized
+
+  /seo/organization:
+    get:
+      tags: [SEO]
+      summary: Get Organization schema.org JSON-LD
+      operationId: getOrganizationSchema
+      responses:
+        "200":
+          description: Organization schema
+    post:
+      tags: [SEO]
+      summary: Update Organization schema
+      operationId: updateOrganizationSEO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Organization SEO updated
+        "401":
+          description: Unauthorized
+
+  /seo/calculator/{slug}:
+    get:
+      tags: [SEO]
+      summary: Get calculator tool SEO schema
+      operationId: getCalculatorSEO
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Calculator SEO schema
+        "404":
+          description: Calculator not found
+
+  /seo/calculator/{slug}/schema:
+    get:
+      tags: [SEO]
+      summary: Get calculator schema.org JSON-LD
+      operationId: getCalculatorSchema
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Calculator JSON-LD schema
+        "404":
+          description: Calculator not found
+
+  /seo/events:
+    get:
+      tags: [SEO]
+      summary: List SEO events
+      operationId: listSEOEvents
+      responses:
+        "200":
+          description: SEO events list
+        "401":
+          description: Unauthorized
+    post:
+      tags: [SEO]
+      summary: Create an SEO event
+      operationId: createSEOEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "201":
+          description: SEO event created
+        "401":
+          description: Unauthorized
+
+  /seo/template/{slug}:
+    get:
+      tags: [SEO]
+      summary: Get template page SEO schema
+      operationId: getTemplateSEO
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Template SEO schema
+        "404":
+          description: Template not found
+
+  /seo/template/{slug}/schema:
+    get:
+      tags: [SEO]
+      summary: Get template schema.org JSON-LD
+      operationId: getTemplateSchema
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Template JSON-LD
+        "404":
+          description: Template not found
+
+  /seo/tools/{slug}:
+    get:
+      tags: [SEO]
+      summary: Get tools page SEO schema
+      operationId: getToolSEO
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Tool SEO schema
+        "404":
+          description: Tool not found
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Stripe — Billing and payments
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /stripe/checkout:
+    post:
+      tags: [Stripe]
+      summary: Create a Stripe Checkout session
+      operationId: createStripeCheckout
+      description: |
+        Creates a Stripe Checkout session for one-time payments (premium templates, tools, etc.).
+        Rate limited: 20 checkout sessions/min per authenticated user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [priceId, productName]
+              properties:
+                priceId:
+                  type: string
+                productName:
+                  type: string
+                productDescription:
+                  type: string
+                metadata:
+                  type: object
+                  additionalProperties:
+                    type: string
+      responses:
+        "200":
+          description: Checkout session URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+        "400":
+          description: priceId and productName are required
+        "401":
+          description: Unauthorized
+        "429":
+          description: Rate limit exceeded
+        "500":
+          description: Stripe API error
+
+  /stripe/plans:
+    get:
+      tags: [Stripe]
+      summary: Get subscription plans
+      operationId: getStripePlans
+      description: Returns available RentReady Pro subscription plans (monthly and annual) from Stripe.
+      responses:
+        "200":
+          description: Available plans
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+                  plans:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        label:
+                          type: string
+                        interval:
+                          type: string
+                          enum: [month, year]
+                        priceId:
+                          type: string
+                        amount:
+                          type: integer
+                        currency:
+                          type: string
+                        trialDays:
+                          type: integer
+                        pricePerMonth:
+                          type: integer
+                        total:
+                          type: integer
+                        annualEquivalent:
+                          type: integer
+                          nullable: true
+        "500":
+          description: Stripe not configured or error fetching plans
+
+  /stripe/portal:
+    post:
+      tags: [Stripe]
+      summary: Create a Stripe billing portal session
+      operationId: createStripePortal
+      description: Creates a Stripe billing portal session for managing subscriptions. Rate limited: 10 sessions/min.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                returnUrl:
+                  type: string
+                  format: uri
+                  description: URL to redirect after exiting the portal
+      responses:
+        "200":
+          description: Portal session URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+        "400":
+          description: No Stripe customer found
+        "401":
+          description: Unauthorized
+        "429":
+          description: Rate limit exceeded
+        "500":
+          description: Stripe API error
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Tenant Portal — Token-authenticated tenant-facing API
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /tenant/lease:
+    get:
+      tags: [Tenant Portal]
+      summary: Get tenant's current active lease
+      operationId: getTenantLease
+      description: |
+        Returns the tenant's current active lease details. Supports two auth modes:
+        (1) `?token=<tenantAccessToken>` for token-based tenant portal access,
+        (2) authenticated owner session for the landlord viewing tenant data.
+      parameters:
+        - name: token
+          in: query
+          schema:
+            type: string
+          description: Tenant access token (alternative to session auth)
+      responses:
+        "200":
+          description: Tenant lease details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lease:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      property:
+                        type: object
+                      tenant:
+                        type: object
+                      financials:
+                        type: object
+                      dates:
+                        type: object
+                      leaseType:
+                        type: string
+                      irl:
+                        type: object
+                      documentUrl:
+                        type: string
+                        nullable: true
+        "400":
+          description: Token required for tenant portal access
+        "401":
+          description: Invalid or expired access token
+        "404":
+          description: No active lease found
+
+  /tenant/maintenance:
+    get:
+      tags: [Tenant Portal]
+      summary: List tenant's maintenance tickets
+      operationId: listTenantMaintenance
+      description: Returns maintenance tickets submitted by the tenant via the portal.
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of maintenance tickets
+        "401":
+          description: Invalid or expired access token
+    post:
+      tags: [Tenant Portal]
+      summary: Submit a maintenance ticket (tenant)
+      operationId: submitTenantMaintenance
+      description: |
+        Allows a tenant to submit a maintenance ticket from the tenant portal.
+        Authenticated via `?token=<tenantAccessToken>` in the request body.
+        Creates a ticket linked to the tenant's active lease and property.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, title, description]
+              properties:
+                token:
+                  type: string
+                  description: Tenant access token
+                title:
+                  type: string
+                  minLength: 5
+                description:
+                  type: string
+                  minLength: 10
+                priority:
+                  type: string
+                  enum: [LOW, MEDIUM, HIGH, URGENT]
+                  default: MEDIUM
+                attachments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      fileName:
+                        type: string
+                      fileUrl:
+                        type: string
+                        format: uri
+                      fileType:
+                        type: string
+                      fileSize:
+                        type: integer
+      responses:
+        "201":
+          description: Ticket submitted
+        "400":
+          description: Validation error
+        "401":
+          description: Invalid or expired access token
+        "404":
+          description: No active lease found for tenant
+
+  /tenant/quittances:
+    get:
+      tags: [Tenant Portal]
+      summary: Get tenant's payment receipts (quittances)
+      operationId: getTenantQuittances
+      description: |
+        Returns payment receipts for the tenant's active lease.
+        Authenticated via `?token=<tenantAccessToken>`. Results grouped by month.
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: query
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+          description: Filter by year (e.g. "2025")
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PAID, PENDING, LATE]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+      responses:
+        "200":
+          description: Quittances grouped by month
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quittances:
+                    type: object
+                    additionalProperties:
+                      type: array
+                      items:
+                        type: object
+                  summary:
+                    type: object
+                    properties:
+                      totalPaid:
+                        type: number
+                      totalPending:
+                        type: number
+                      totalLate:
+                        type: number
+                      count:
+                        type: object
+                  pagination:
+                    type: object
+        "400":
+          description: Token required
+        "401":
+          description: Invalid or expired access token
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Transactions — Additional sub-routes
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  /transactions/dashboard:
+    get:
+      tags: [Transactions]
+      summary: Get transaction dashboard with monthly breakdown
+      operationId: getTransactionDashboard
+      description: |
+        Returns a detailed payment dashboard with monthly breakdown (by-property
+        and aggregate), grand totals, collection rates, and recent transactions.
+      parameters:
+        - name: months
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 24
+            default: 12
+          description: Number of months to include
+        - name: year
+          in: query
+          schema:
+            type: integer
+          description: Filter to specific year
+      responses:
+        "200":
+          description: Transaction dashboard
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      summary:
+                        type: object
+                      monthlyBreakdown:
+                        type: array
+                        items:
+                          type: object
+                      byProperty:
+                        type: array
+                        items:
+                          type: object
+                      recentTransactions:
+                        type: array
+                        items:
+                          type: object
+        "401":
+          description: Unauthorized
+
+  /transactions/unpaid:
+    get:
+      tags: [Transactions]
+      summary: List unpaid transactions
+      operationId: listUnpaidTransactions
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: List of unpaid transactions
+        "401":
+          description: Unauthorized
+
+  /transactions/{id}/receipt:
+    get:
+      tags: [Transactions]
+      summary: Get a transaction receipt
+      operationId: getTransactionReceipt
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Transaction receipt
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transaction not found
+    post:
+      tags: [Transactions]
+      summary: Generate a transaction receipt PDF
+      operationId: generateTransactionReceipt
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "201":
+          description: Receipt generated
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transaction not found

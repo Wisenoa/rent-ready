@@ -231,29 +231,396 @@ tags:
           description: Unauthorized
         "404":
           description: Transaction not found
-    /transactions/{transactionId}/receipt:
-      get:
-        tags: [Transactions]
-        summary: Get a transaction receipt
-        operationId: getTransactionReceipt
-        parameters:
-          - $ref: "#/components/parameters/TransactionId"
-        responses:
-          "200":
-            description: Receipt document
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    data:
-                      $ref: "#/components/schemas/Receipt"
-          "401":
-            description: Unauthorized
-          "404":
-            description: Transaction not found
+  /transactions/{id}/receipt:
+    get:
+      tags: [Transactions]
+      summary: Obtenir un reçu JSON pour une transaction
+      operationId: getTransactionReceipt
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Reçu JSON
+        "401":
+          description: Non autorisé
+        "404":
+          description: Transaction introuvable
+    post:
+      tags: [Transactions]
+      summary: Générer un PDF quittance pour une transaction
+      operationId: generateTransactionReceiptPdf
+      description: Produit un PDF de quittance via react-pdf.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: PDF quittance (application/pdf)
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Non autorisé
+        "404":
+          description: Transaction introuvable
 
-paths:
+  /auth/{path}:
+    get:
+      tags: [Auth]
+      summary: Auth proxy (Better Auth routes)
+      operationId: authGet
+      parameters:
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Auth response
+        "401":
+          description: Non autorisé
+    post:
+      tags: [Auth]
+      summary: Auth action (sign-in, sign-up, sign-out, reset...)
+      operationId: authPost
+      parameters:
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Auth action response
+        "400":
+          description: Données invalides
+        "401":
+          description: Non autorisé
+        "429":
+          description: Rate limit
+
+  /e-reporting/export:
+    post:
+      tags: [E-Reporting]
+      summary: Exporter les données pour la déclaration 2072 (SCI)
+      operationId: exportReporting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [year]
+              properties:
+                year:
+                  type: integer
+                  description: Année fiscale (ex: 2025)
+                propertyIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                format:
+                  type: string
+                  enum: [json, csv]
+                  default: json
+      responses:
+        "200":
+          description: Export généré
+        "400":
+          description: Données invalides
+        "401":
+          description: Non autorisé
+
+  /email/send-welcome:
+    post:
+      tags: [Email]
+      summary: Envoyer l'email de bienvenue
+      operationId: sendWelcomeEmail
+      responses:
+        "200":
+          description: Email envoyé
+        "401":
+          description: Non autorisé
+        "429":
+          description: Rate limit
+
+  /email/send-rent-reminder:
+    post:
+      tags: [Email]
+      summary: Envoyer un rappel de loyer
+      operationId: sendRentReminder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transactionId]
+              properties:
+                transactionId:
+                  type: string
+                  format: uuid
+                tone:
+                  type: string
+                  enum: [friendly, formal, legal]
+                  default: friendly
+      responses:
+        "200":
+          description: Email envoyé
+        "400":
+          description: Données invalides
+        "401":
+          description: Non autorisé
+        "404":
+          description: Transaction introuvable
+        "429":
+          description: Rate limit
+
+  /email/send-tenant-invitation:
+    post:
+      tags: [Email]
+      summary: Envoyer une invitation locataire
+      operationId: sendTenantInvitation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [tenantId]
+              properties:
+                tenantId:
+                  type: string
+                  format: uuid
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          description: Invitation envoyée
+        "400":
+          description: Données invalides
+        "401":
+          description: Non autorisé
+        "404":
+          description: Locataire introuvable
+        "429":
+          description: Rate limit
+
+  /email/send-password-reset:
+    post:
+      tags: [Email]
+      summary: Envoyer un email de réinitialisation de mot de passe
+      operationId: sendPasswordReset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          description: Email envoyé si l'adresse existe
+        "400":
+          description: Données invalides
+        "429":
+          description: Rate limit
+
+  /email/send-lease-expiry:
+    post:
+      tags: [Email]
+      summary: Envoyer un email d'expiration de bail
+      operationId: sendLeaseExpiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [leaseId]
+              properties:
+                leaseId:
+                  type: string
+                  format: uuid
+                daysNotice:
+                  type: integer
+                  default: 30
+      responses:
+        "200":
+          description: Email envoyé
+        "400":
+          description: Données invalides
+        "401":
+          description: Non autorisé
+        "404":
+          description: Bail introuvable
+        "429":
+          description: Rate limit
+
+  /email/cron-dispatch:
+    post:
+      tags: [Email]
+      summary: Dispatch automatique des emails batch (cron)
+      operationId: cronDispatch
+      responses:
+        "200":
+          description: Emails dispatchés
+        "401":
+          description: Non autorisé
+        "403":
+          description: Secret cron manquant
+
+  /onboarding/track:
+    post:
+      tags: [Onboarding]
+      summary: Suivre les étapes d'onboarding
+      operationId: trackOnboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [step]
+              properties:
+                step:
+                  type: string
+                  enum: [first_property, first_tenant, first_lease, first_payment, completed]
+      responses:
+        "200":
+          description: Étape enregistrée
+        "400":
+          description: Étape invalide
+        "401":
+          description: Non autorisé
+
+  /og:
+    get:
+      tags: [OG]
+      summary: Générer une image OG dynamique
+      operationId: getOgImage
+      parameters:
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [tool, template, blog, home]
+      responses:
+        "200":
+          description: Image PNG (image/png)
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Paramètres invalides
+
+  /api-docs:
+    get:
+      tags: [Docs]
+      summary: Documentation interactive de l'API (Scalar)
+      operationId: getApiDocs
+      responses:
+        "200":
+          description: Page HTML (text/html)
+
+  /openapi.json:
+    get:
+      tags: [Docs]
+      summary: Spécification OpenAPI 3.1 en JSON
+      operationId: getOpenApiSpec
+      responses:
+        "200":
+          description: Document OpenAPI 3.1
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /cron/revision-check:
+    get:
+      tags: [Cron]
+      summary: Vérifier les révisions de loyer (IRL) à venir
+      operationId: revisionCheck
+      parameters:
+        - name: daysAhead
+          in: query
+          schema:
+            type: integer
+            default: 30
+      responses:
+        "200":
+          description: Résultat du check
+        "401":
+          description: Non autorisé
+        "403":
+          description: Secret cron manquant
+
+  /reminders/letter:
+    get:
+      tags: [Reminders]
+      summary: Générer un PDF de lettre de relance
+      operationId: getReminderLetterPdf
+      parameters:
+        - name: transactionId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: tone
+          in: query
+          schema:
+            type: string
+            enum: [friendly, formal, legal]
+            default: friendly
+      responses:
+        "200":
+          description: PDF lettre (application/pdf)
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Non autorisé
+        "404":
+          description: Transaction introuvable
+
   # ─── Auth ───────────────────────────────────────────────────────────────────
   /auth/sign-in:
     post:

@@ -71,7 +71,7 @@ export function FaqSection() {
     <section className="py-24 sm:py-32 lg:py-40">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <ScrollReveal className="mb-16 text-center sm:mb-20">
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-400">
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-500">
             Questions fréquentes
           </p>
           <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">

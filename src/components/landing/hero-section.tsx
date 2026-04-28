@@ -138,33 +138,33 @@ export function HeroSection() {
                 </motion.span>
               </Link>
             </motion.div>
-            <p className="mt-4 text-[13px] text-stone-400">
+            <p className="mt-4 text-[13px] text-stone-500">
               Sans carte bancaire · Essai gratuit 14 jours · Annulation libre
             </p>
 
             {/* Trust badges — Gestalt proximity, right below CTA */}
             <motion.div
               variants={fadeUp}
-              className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-stone-400"
+              className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-stone-500"
             >
               <span className="inline-flex items-center gap-1.5">
-                <Lock className="size-3.5 text-stone-400" />
+                <Lock className="size-3.5 text-stone-500" />
                 Connexion bancaire DSP2
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <ScrollText className="size-3.5 text-stone-400" />
+                <ScrollText className="size-3.5 text-stone-500" />
                 Conforme Loi 1989 &amp; Factur-X
               </span>
             </motion.div>
 
             {/* Press mentions — "As seen in" strip */}
             <motion.div variants={fadeUp} className="mt-6">
-              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-stone-400">
+              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-stone-500">
                 Mentions presse
               </p>
               <div className="mt-2 flex flex-wrap items-center gap-6">
                 {["Le Monde", "Les Echos", "Challenges"].map((m) => (
-                  <span key={m} className="text-[14px] font-semibold text-stone-400">
+                  <span key={m} className="text-[14px] font-semibold text-stone-500">
                     {m}
                   </span>
                 ))}
@@ -194,7 +194,7 @@ export function HeroSection() {
             >
               <div className="rounded-[2.25rem] bg-[#f8f7f4] p-5">
                 {/* Status bar */}
-                <div className="flex items-center justify-between text-[10px] text-stone-400 mb-6">
+                <div className="flex items-center justify-between text-[10px] text-stone-500 mb-6">
                   <span className="font-medium">9:41</span>
                   <Smartphone className="size-3" />
                 </div>
@@ -218,7 +218,7 @@ export function HeroSection() {
                       <p className="mt-0.5 text-[11px] text-stone-500">
                         Quittance envoyée à {notif.tenant}
                       </p>
-                      <p className="mt-2 text-[10px] text-stone-400">
+                      <p className="mt-2 text-[10px] text-stone-500">
                         {notif.time}
                       </p>
                     </div>
@@ -228,7 +228,7 @@ export function HeroSection() {
                 {/* Mini KPIs */}
                 <div className="mt-4 grid grid-cols-2 gap-3">
                   <div className="rounded-xl bg-white/80 p-3.5 shadow-sm backdrop-blur-sm">
-                    <p className="text-[9px] font-medium uppercase tracking-wider text-stone-400">
+                    <p className="text-[9px] font-medium uppercase tracking-wider text-stone-500">
                       Encaissé
                     </p>
                     <p className="mt-1 text-xl font-bold tracking-tight text-stone-900">
@@ -236,7 +236,7 @@ export function HeroSection() {
                     </p>
                   </div>
                   <div className="rounded-xl bg-white/80 p-3.5 shadow-sm backdrop-blur-sm">
-                    <p className="text-[9px] font-medium uppercase tracking-wider text-stone-400">
+                    <p className="text-[9px] font-medium uppercase tracking-wider text-stone-500">
                       Occupation
                     </p>
                     <p className="mt-1 text-xl font-bold tracking-tight text-emerald-600">

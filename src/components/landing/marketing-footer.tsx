@@ -70,7 +70,7 @@ export function MarketingFooter() {
             <p className="text-[13px] font-semibold text-stone-300 uppercase tracking-wider mb-1">
               Newsletter
             </p>
-            <p className="text-[14px] text-stone-400 max-w-sm">
+            <p className="text-[14px] text-stone-300 max-w-sm">
               Conseils, modèle de lettres, actualités locatives — chaque semaine.
             </p>
           </div>
@@ -89,10 +89,12 @@ export function MarketingFooter() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="votre@email.fr"
                 required
-                className="w-full sm:w-64 px-3 py-2 rounded-lg text-[13px] bg-stone-800 border border-stone-700 text-stone-100 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                aria-label="Adresse email pour la newsletter"
+                className="w-full sm:w-64 px-3 py-2 rounded-lg text-[13px] bg-stone-800 border border-stone-700 text-stone-100 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
               />
               <button
                 type="submit"
+                aria-label="S'inscrire à la newsletter"
                 className="px-4 py-2 rounded-lg text-[13px] font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-colors shrink-0"
               >
                 S&apos;inscrire
@@ -122,10 +124,10 @@ export function MarketingFooter() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-400 hover:text-stone-600 transition-colors"
+                className="text-stone-500 hover:text-stone-300 transition-colors"
                 aria-label="Twitter"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
@@ -133,7 +135,7 @@ export function MarketingFooter() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-400 hover:text-stone-600 transition-colors"
+                className="text-stone-500 hover:text-stone-300 transition-colors"
                 aria-label="LinkedIn"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -146,9 +148,9 @@ export function MarketingFooter() {
           {/* Link columns */}
           {Object.entries(FOOTER_LINKS).map(([category, links]) => (
             <div key={category}>
-              <h3 className="text-[12px] font-semibold uppercase tracking-wider text-stone-900 mb-4">
+              <h2 className="text-[12px] font-semibold uppercase tracking-wider text-stone-900 mb-4">
                 {category}
-              </h3>
+              </h2>
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.href}>
@@ -168,10 +170,10 @@ export function MarketingFooter() {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-stone-200/60 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[12px] text-stone-400">
-            &copy; {new Date().getFullYear()} RentReady. Tous droits réservés.
+          <p className="text-[12px] text-stone-500">
+            © {new Date().getFullYear()} RentReady. Tous droits réservés.
           </p>
-          <p className="text-[12px] text-stone-400">
+          <p className="text-[12px] text-stone-500">
             Conçu en France &middot; Données hébergées en Europe
           </p>
         </div>
