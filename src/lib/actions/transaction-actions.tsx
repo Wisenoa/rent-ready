@@ -11,6 +11,8 @@ import { resend, fromEmail } from "@/lib/email";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { ActionResult } from "./property-actions";
+import { toNumber, round2, toDecimal } from "@/lib/decimal";
+import Decimal from "decimal.js";
 
 export async function createTransaction(formData: FormData): Promise<ActionResult> {
   try {
@@ -30,17 +32,21 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
     }
 
     // Determine receipt type based on payment amount vs expected
-    const totalDue = lease.rentAmount + lease.chargesAmount;
-    const isFullPayment = parsed.data.amount >= totalDue;
-    const receiptType = determineReceiptType(parsed.data.amount, lease.rentAmount, lease.chargesAmount);
+    // Use Decimal.js for precise financial arithmetic
+    const rentNum = toNumber(lease.rentAmount);
+    const chargesNum = toNumber(lease.chargesAmount);
+    const amountNum = parsed.data.amount; // already a number from z.coerce
+    const totalDue = new Decimal(rentNum).plus(chargesNum);
+    const isFullPayment = amountNum >= totalDue.toNumber();
+    const receiptType = determineReceiptType(amountNum, rentNum, chargesNum);
 
-    // Calculate rent/charges portions proportionally
-    const rentPortion = isFullPayment
-      ? lease.rentAmount
-      : Math.round((parsed.data.amount * lease.rentAmount / totalDue) * 100) / 100;
-    const chargesPortion = isFullPayment
-      ? lease.chargesAmount
-      : Math.round((parsed.data.amount - rentPortion) * 100) / 100;
+    // Calculate rent/charges portions proportionally using Decimal.js
+    const rentPortionDecimal = isFullPayment
+      ? new Decimal(rentNum)
+      : new Decimal(amountNum).times(rentNum).dividedBy(totalDue).toDecimalPlaces(2);
+    const chargesPortionDecimal = isFullPayment
+      ? new Decimal(chargesNum)
+      : new Decimal(amountNum).minus(rentPortionDecimal).toDecimalPlaces(2);
 
     const status = isFullPayment ? "PAID" : "PARTIAL";
 
@@ -48,9 +54,9 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
       data: {
         userId,
         leaseId: parsed.data.leaseId,
-        amount: parsed.data.amount,
-        rentPortion,
-        chargesPortion,
+        amount: toDecimal(parsed.data.amount),
+        rentPortion: rentPortionDecimal,
+        chargesPortion: chargesPortionDecimal,
         periodStart: new Date(parsed.data.periodStart),
         periodEnd: new Date(parsed.data.periodEnd),
         dueDate: new Date(parsed.data.dueDate),
@@ -90,23 +96,25 @@ export async function markTransactionPaid(
     }
 
     const lease = transaction.lease;
-    const totalDue = lease.rentAmount + lease.chargesAmount;
-    const isFullPayment = amount >= totalDue;
-    const receiptType = determineReceiptType(amount, lease.rentAmount, lease.chargesAmount);
+    const rentNum = toNumber(lease.rentAmount);
+    const chargesNum = toNumber(lease.chargesAmount);
+    const totalDue = new Decimal(rentNum).plus(chargesNum);
+    const isFullPayment = amount >= totalDue.toNumber();
+    const receiptType = determineReceiptType(amount, rentNum, chargesNum);
 
-    const rentPortion = isFullPayment
-      ? lease.rentAmount
-      : Math.round((amount * lease.rentAmount / totalDue) * 100) / 100;
-    const chargesPortion = isFullPayment
-      ? lease.chargesAmount
-      : Math.round((amount - rentPortion) * 100) / 100;
+    const rentPortionDecimal = isFullPayment
+      ? new Decimal(rentNum)
+      : new Decimal(amount).times(rentNum).dividedBy(totalDue).toDecimalPlaces(2);
+    const chargesPortionDecimal = isFullPayment
+      ? new Decimal(chargesNum)
+      : new Decimal(amount).minus(rentPortionDecimal).toDecimalPlaces(2);
 
     await prisma.transaction.update({
       where: { id },
       data: {
-        amount,
-        rentPortion,
-        chargesPortion,
+        amount: toDecimal(amount),
+        rentPortion: rentPortionDecimal,
+        chargesPortion: chargesPortionDecimal,
         status: isFullPayment ? "PAID" : "PARTIAL",
         isFullPayment,
         receiptType,
@@ -182,7 +190,7 @@ export async function sendPaymentReminder(
       const draft = await generateRentFollowUpDraft(
         `${tenant.firstName} ${tenant.lastName}`,
         `${property.addressLine1}, ${property.postalCode} ${property.city}`,
-        transaction.amount,
+        toNumber(transaction.amount),
         dueDateFormatted,
         daysLate,
         previousAttempts,
@@ -209,7 +217,7 @@ export async function sendPaymentReminder(
         landlordFirstName={user.firstName}
         landlordLastName={user.lastName}
         propertyAddress={`${property.addressLine1}, ${property.postalCode} ${property.city}`}
-        amountDue={transaction.amount}
+        amountDue={toNumber(transaction.amount)}
         dueDate={transaction.dueDate}
         daysLate={daysLate}
         tone={tone}
@@ -246,7 +254,7 @@ export async function sendPaymentReminder(
             : tone === "formal"
               ? "Relance formelle envoyée"
               : "Rappel envoyé",
-        body: `Relance ${tone} envoyée à ${tenant.firstName} ${tenant.lastName} pour ${transaction.amount} €`,
+        body: `Relance ${tone} envoyée à ${tenant.firstName} ${tenant.lastName} pour ${toNumber(transaction.amount)} €`,
       },
     });
 
@@ -298,7 +306,7 @@ export async function getOverdueTransactions(): Promise<
 
   return transactions.map((tx) => ({
     id: tx.id,
-    amount: tx.amount,
+    amount: toNumber(tx.amount),
     daysLate: Math.floor((now.getTime() - tx.dueDate.getTime()) / (1000 * 60 * 60 * 24)),
     status: tx.status,
     tenant: { ...tx.lease.tenant, email: tx.lease.tenant.email ?? "" },

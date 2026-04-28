@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
+import Decimal from "decimal.js";
 
 const DEFAULT_GRACE_PERIOD_DAYS = 5;
 
@@ -16,6 +17,8 @@ const DEFAULT_GRACE_PERIOD_DAYS = 5;
 //   gracePeriodDays  number   (optional, default: 5)
 //   propertyId       string   (optional filter)
 //   tenantId         string   (optional filter)
+//   page             number   (optional, default: 1)
+//   limit            number   (optional, default: 50, max: 100)
 // ============================================================
 export async function GET(request: NextRequest) {
   try {
@@ -31,12 +34,15 @@ export async function GET(request: NextRequest) {
     );
     const propertyId = searchParams.get("propertyId");
     const tenantId = searchParams.get("tenantId");
+    const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") ?? "50", 10)));
+    const skip = (page - 1) * limit;
 
     // Build cutoff: today - grace period
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - gracePeriodDays);
 
-    // Get all active leases for the user
+    // Build lease filter conditions
     const leaseWhere: Record<string, unknown> = {
       userId: session.user.id,
       status: "ACTIVE",
@@ -44,22 +50,28 @@ export async function GET(request: NextRequest) {
     if (propertyId) leaseWhere.propertyId = propertyId;
     if (tenantId) leaseWhere.tenantId = tenantId;
 
-    const leases = await prisma.lease.findMany({
-      where: leaseWhere,
-      include: {
-        property: {
-          select: { id: true, name: true, addressLine1: true, postalCode: true, city: true },
+    // Fetch paginated leases + total count
+    const [leases, total] = await Promise.all([
+      prisma.lease.findMany({
+        where: leaseWhere,
+        include: {
+          property: {
+            select: { id: true, name: true, addressLine1: true, postalCode: true, city: true },
+          },
+          tenant: {
+            select: { id: true, firstName: true, lastName: true, email: true },
+          },
+          transactions: {
+            where: { status: { in: ["PAID", "PARTIAL"] } },
+            orderBy: { paidAt: "desc" },
+          },
         },
-        tenant: {
-          select: { id: true, firstName: true, lastName: true, email: true },
-        },
-        transactions: {
-          where: { status: { in: ["PAID", "PARTIAL"] } },
-          orderBy: { paidAt: "desc" },
-        },
-      },
-      orderBy: { property: { name: "asc" } },
-    });
+        orderBy: { property: { name: "asc" } },
+        skip,
+        take: limit,
+      }),
+      prisma.lease.count({ where: leaseWhere }),
+    ]);
 
     const now = new Date();
     const currentYear = now.getFullYear();
@@ -87,7 +99,7 @@ export async function GET(request: NextRequest) {
     }> = [];
 
     for (const lease of leases) {
-      const expectedAmount = lease.rentAmount + lease.chargesAmount;
+      const expectedAmount = new Decimal(lease.rentAmount).plus(lease.chargesAmount).toNumber();
 
       // Find the most recent PAID/PARTIAL transaction for the current period
       const lastPaid = lease.transactions.find((tx) => {
@@ -205,6 +217,7 @@ export async function GET(request: NextRequest) {
           periodLabel: `${expectedPeriodStart.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}`,
         },
       },
+      pagination: { page, limit, total, pages: Math.ceil(total / limit) },
     });
   } catch (error) {
     console.error("GET /api/transactions/unpaid error:", error);

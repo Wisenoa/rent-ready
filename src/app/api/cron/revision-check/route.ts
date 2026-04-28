@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
 import {
   calculateRentRevision,
@@ -24,13 +25,17 @@ export async function GET(request: NextRequest) {
   const daysAhead = parseInt(url.searchParams.get("daysAhead") || "30", 10);
   const dryRun = url.searchParams.get("dryRun") === "true";
 
-  // Basic security: in production, verify a CRON_SECRET header
+  // CRON_SECRET is required in production — refuse to run without it
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
-    const authHeader = request.headers.get("authorization");
-    if (authHeader !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!cronSecret) {
+    return NextResponse.json(
+      { error: "Cron endpoint not configured — set CRON_SECRET env var" },
+      { status: 500 }
+    );
+  }
+  const authHeader = request.headers.get("authorization");
+  if (!authHeader || authHeader !== `Bearer ${cronSecret}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
@@ -173,8 +178,11 @@ export async function GET(request: NextRequest) {
         // Calculate legal cap
         const revisionCap = 0.05;
         const isCapped = revision.percentageChange > revisionCap * 100;
+        const rentAmountNum = Decimal.isDecimal(lease.rentAmount)
+          ? lease.rentAmount.toNumber()
+          : lease.rentAmount;
         const cappedNewRent = isCapped
-          ? Math.round(lease.rentAmount * (1 + revisionCap) * 100) / 100
+          ? new Decimal(rentAmountNum).times(1 + revisionCap).toDecimalPlaces(2).toNumber()
           : revision.newRent;
 
         // Build notification body
@@ -182,7 +190,7 @@ export async function GET(request: NextRequest) {
           (lease.revisionDate!.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
         );
 
-        const rentChange = revision.newRent > lease.rentAmount ? "hausse" : "baisse";
+        const rentChange = revision.newRent > rentAmountNum ? "hausse" : "baisse";
         const body = `Votre loyer pour le bien "${lease.property.name}" (locataire : ${lease.tenant.firstName} ${lease.tenant.lastName}) sera révisé le ${lease.revisionDate!.toLocaleDateString("fr-FR")} (dans ${daysUntil} jour${daysUntil > 1 ? "s" : ""}). ` +
           `Loyer actuel : ${revision.currentRent.toFixed(2)} € → Nouveau loyer : ${cappedNewRent.toFixed(2)} € ` +
           `(${rentChange} de ${Math.abs(revision.percentageChange).toFixed(2)}%). ` +
@@ -205,7 +213,7 @@ export async function GET(request: NextRequest) {
               revisionDate: lease.revisionDate!.toISOString(),
               currentRent: lease.rentAmount,
               newRent: cappedNewRent,
-              difference: Math.round((cappedNewRent - lease.rentAmount) * 100) / 100,
+              difference: new Decimal(cappedNewRent).minus(rentAmountNum).toDecimalPlaces(2).toNumber(),
               percentageChange: revision.percentageChange,
               referenceIrl: lease.irlReferenceQuarter,
               newIrl: latestIrl.quarter,

@@ -26,24 +26,34 @@ services:
       - rent-ready-network
 
   # ========================================
-  # Redis for Session & Caching
+  # Redis — Local development (OPTIONAL)
   # ========================================
-  redis:
-    image: redis:7-alpine
-    container_name: rent-ready-redis
-    restart: unless-stopped
-    ports:
-      - "${REDIS_PORT:-6379}:6379"
-    volumes:
-      - redis_data:/data
-    command: redis-server --appendonly yes
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - rent-ready-network
+  # NOTE: @upstash/redis uses HTTP REST, not Redis RESP protocol.
+  # For local dev, the rate limiter falls back to an in-memory store
+  # (see src/lib/rate-limit.ts). This is fine for single-instance dev.
+  #
+  # If you need Redis for local multi-instance testing:
+  # 1. Install Upstash Redis locally: https://github.com/upstash/redis
+  # 2. OR use a custom REST-to-RESP proxy (not included here)
+  # 3. Then set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in .env
+  #
+  # Uncomment below to run a plain Redis (no REST API — won't work with @upstash/redis):
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: rent-ready-redis
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${REDIS_PORT:-6379}:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   command: ["redis-server", "--port", "6379"]
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "redis-cli ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - rent-ready-network
 
   # ========================================
   # MinIO (S3-compatible storage for files)
@@ -82,7 +92,10 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       DATABASE_URL: postgresql://${POSTGRES_USER:-rentready}:${POSTGRES_PASSWORD:-rentready_dev_2026}@postgres:5432/${POSTGRES_DB:-rentready}
-      REDIS_URL: redis://redis:6379
+      # Rate limiting: both vars must be set to use Upstash Redis.
+      # Without them, the in-memory fallback is used (fine for local dev).
+      UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}
+      UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN:-}
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
@@ -103,14 +116,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      redis:
-        condition: service_healthy
-    networks:
-      - rent-ready-network
 
 volumes:
   postgres_data:
-  redis_data:
   minio_data:
 
 networks:

@@ -130,7 +130,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={<span />}>{children}</DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
+      <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>Créer un bail</DialogTitle>
           <DialogDescription>
@@ -140,7 +140,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Property & Tenant selection */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="propertyId">Bien immobilier *</Label>
               <Select
@@ -203,7 +203,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
           {/* Financial terms */}
           <div>
             <p className="text-sm font-medium mb-3">Conditions financières</p>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid gap-4 sm:grid-cols-3">
               <div className="space-y-2">
                 <Label htmlFor="rentAmount">Loyer hors charges (€) *</Label>
                 <Input
@@ -254,7 +254,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
           {/* Dates */}
           <div>
             <p className="text-sm font-medium mb-3">Dates</p>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="startDate">Date de début *</Label>
                 <Input id="startDate" type="date" {...register("startDate")} />
@@ -273,7 +273,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
           <Separator />
 
           {/* Lease type and payment */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="leaseType">Type de bail *</Label>
               <Select
@@ -346,7 +346,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
                 L&apos;Indice de Référence des Loyers (INSEE) est utilisé pour la révision
                 annuelle du loyer. Ces champs sont facultatifs.
               </p>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="irlReferenceQuarter">Trimestre de référence</Label>
                   <Select

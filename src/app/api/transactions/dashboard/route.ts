@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
+import Decimal from "decimal.js";
 import { startOfMonth, endOfMonth, subMonths } from "date-fns";
 
 // ============================================================
@@ -48,20 +49,35 @@ export async function GET(request: NextRequest) {
       dueDate: { gte: rangeStart, lte: rangeEnd },
     };
 
-    const transactions = await prisma.transaction.findMany({
-      where,
-      include: {
-        lease: {
-          select: {
-            id: true,
-            rentAmount: true,
-            chargesAmount: true,
-            property: { select: { id: true, name: true } },
+    // ── Parallelize independent queries ───────────────────────
+    // Transaction fetch and active leases fetch run simultaneously.
+    // By-property summary is computed from already-joined transaction data
+    // (no extra query needed — property info is available via lease relation).
+    const [transactions, activeLeases] = await Promise.all([
+      prisma.transaction.findMany({
+        where,
+        include: {
+          lease: {
+            select: {
+              id: true,
+              rentAmount: true,
+              chargesAmount: true,
+              property: { select: { id: true, name: true } },
+            },
           },
         },
-      },
-      orderBy: { dueDate: "asc" },
-    });
+        orderBy: { dueDate: "asc" },
+      }),
+      prisma.lease.findMany({
+        where: { userId: session.user.id, status: "ACTIVE" },
+        select: {
+          id: true,
+          property: { select: { id: true, name: true } },
+          rentAmount: true,
+          chargesAmount: true,
+        },
+      }),
+    ]);
 
     // ── Monthly breakdown ──────────────────────────────────
     const monthlyData: Record<
@@ -73,7 +89,7 @@ export async function GET(request: NextRequest) {
         totalCollected: number;
         totalExpected: number;
         totalOutstanding: number;
-        collectionRate: number; // percentage 0-100
+        collectionRate: number;
         paidCount: number;
         partialCount: number;
         pendingCount: number;
@@ -105,7 +121,7 @@ export async function GET(request: NextRequest) {
       });
       if (!monthlyData[periodKey]) continue;
 
-      const expected = tx.lease.rentAmount + tx.lease.chargesAmount;
+      const expected = new Decimal(tx.lease.rentAmount).plus(tx.lease.chargesAmount).toNumber();
 
       if (tx.status === "PAID" || tx.status === "PARTIAL") {
         monthlyData[periodKey].totalCollected += tx.amount;
@@ -156,6 +172,7 @@ export async function GET(request: NextRequest) {
         : 0;
 
     // ── By-property summary ────────────────────────────────
+    // Uses the already-fetched activeLeases — no additional DB query needed.
     const propertyMap: Record<
       string,
       {
@@ -166,16 +183,6 @@ export async function GET(request: NextRequest) {
         activeLeases: number;
       }
     > = {};
-
-    const activeLeases = await prisma.lease.findMany({
-      where: { userId: session.user.id, status: "ACTIVE" },
-      select: {
-        id: true,
-        property: { select: { id: true, name: true } },
-        rentAmount: true,
-        chargesAmount: true,
-      },
-    });
 
     for (const lease of activeLeases) {
       const pid = lease.property.id;

@@ -82,7 +82,7 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
         <Plus className="size-4 mr-2" />
         Enregistrer un paiement
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="w-[95vw] sm:w-full sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Enregistrer un paiement</DialogTitle>
           <DialogDescription>
@@ -124,20 +124,20 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
               required
               defaultValue={
                 selectedLease
-                  ? (selectedLease.rentAmount + selectedLease.chargesAmount).toFixed(2)
+                  ? (Number(selectedLease.rentAmount) + Number(selectedLease.chargesAmount)).toFixed(2)
                   : ""
               }
               key={selectedLeaseId}
             />
             {selectedLease && (
               <p className="text-xs text-muted-foreground">
-                Loyer : {selectedLease.rentAmount.toFixed(2)} € + Charges : {selectedLease.chargesAmount.toFixed(2)} €
+                Loyer : {Number(selectedLease.rentAmount).toFixed(2)} € + Charges : {Number(selectedLease.chargesAmount).toFixed(2)} €
               </p>
             )}
           </div>
 
           {/* Period */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="periodStart">Début de période</Label>
               <Input

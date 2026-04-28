@@ -16,13 +16,14 @@ const FinalCta = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Quittance de Loyer Gratuit — Conforme Loi 1989 | RentReady",
-    description: "Téléchargez notre modèle de quittance de loyer gratuit et conforme. Document officiel pour justifier le paiement du loyer et des charges.",
+    title:
+      "Modèle Quittance de Loyer 2026 — Gratuit, Conforme & PDF Instantané | RentReady",
+    description:
+      "Téléchargez le modèle de quittance de loyer gratuit et conforme à la loi de 1989. Mentions obligatoires, calcul charges, solde de tout compte. PDF instantané — sans inscription.",
     url: "/modeles/quittance-de-loyer",
     ogType: "template",
   });
 }
-;
 
 const mentionsObligatoires = [
   "Le nom du bailleur et son adresse",

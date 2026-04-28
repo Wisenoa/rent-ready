@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { OnboardingWizard } from "@/components/onboarding-wizard";
+import { OnboardingWizardV2 } from "@/components/onboarding-wizard-v2";
 
 interface OnboardingTriggerProps {
   hasProperties: boolean;
@@ -9,13 +10,10 @@ interface OnboardingTriggerProps {
 
 const STORAGE_KEY = "onboarding_wizard_state";
 const DISMISSAL_KEY = "onboarding_wizard_dismissed";
+const VARIANT_KEY = "onboarding_variant";
 
-interface WizardState {
-  propertyId?: string;
-  tenantId?: string;
-  propertySkipped?: boolean;
-  tenantSkipped?: boolean;
-}
+// 'C' = original 3-step, 'A' = micro-progress, 'B' = outcome-first
+export type OnboardingVariant = "A" | "B" | "C";
 
 function loadState(): WizardState {
   if (typeof window === "undefined") return {};
@@ -27,12 +25,37 @@ function loadState(): WizardState {
   }
 }
 
+interface WizardState {
+  propertyId?: string;
+  tenantId?: string;
+  propertySkipped?: boolean;
+  tenantSkipped?: boolean;
+}
+
+function getOrAssignVariant(): OnboardingVariant {
+  if (typeof window === "undefined") return "C";
+  try {
+    const stored = localStorage.getItem(VARIANT_KEY);
+    if (stored === "A" || stored === "B" || stored === "C") {
+      return stored;
+    }
+    // Default to C for now — switch to A/B/C split when ready
+    const variant: OnboardingVariant = "C";
+    localStorage.setItem(VARIANT_KEY, variant);
+    return variant;
+  } catch {
+    return "C";
+  }
+}
+
 export function useOnboardingWizard() {
   const [wizardOpen, setWizardOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [variant, setVariant] = useState<OnboardingVariant>("C");
 
   useEffect(() => {
     setMounted(true);
+    setVariant(getOrAssignVariant());
   }, []);
 
   const startWizard = useCallback(() => {
@@ -72,15 +95,21 @@ export function useOnboardingWizard() {
     }
   }
 
-  return { wizardOpen, handleOpenChange, startWizard, mounted };
+  return { wizardOpen, handleOpenChange, startWizard, mounted, variant };
 }
 
 export function OnboardingTrigger({ hasProperties }: OnboardingTriggerProps) {
-  const { wizardOpen, handleOpenChange, mounted } = useOnboardingWizard();
+  const { wizardOpen, handleOpenChange, mounted, variant } = useOnboardingWizard();
 
   if (!mounted || hasProperties) return null;
 
+  // Use V2 wizard for all variants for now (redesigned flow)
+  // The variant prop can be passed to switch between flows
   return (
-    <OnboardingWizard open={wizardOpen} onOpenChange={handleOpenChange} />
+    <OnboardingWizardV2
+      open={wizardOpen}
+      onOpenChange={handleOpenChange}
+      variant={variant}
+    />
   );
 }

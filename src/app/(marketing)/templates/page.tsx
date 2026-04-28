@@ -5,11 +5,17 @@ export const revalidate = 604800;
 import Link from "next/link";
 import { ArrowRight, FileText, Check } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
+import {
+  buildGraphSchema,
+  buildBreadcrumbSchema,
+  buildItemListSchema,
+} from "@/lib/seo/structured-data";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Modèles gratuits de location | Contrats, quittances, courriers | RentReady",
+      "Modèles Gratuits de Location 2026 | Bail, Quittance, Courrier | RentReady",
     description:
       "Téléchargez gratuitement nos modèles de bail, quittances de loyer, lettres de relance et plus. Documents conformes loi 1989, personnalisables et gratuits.",
     url: "/templates",
@@ -56,12 +62,37 @@ const templateCategories = [
   },
 ];
 
+function TemplatesPageJsonLd() {
+  const allItems = templateCategories.flatMap((cat) =>
+    cat.templates.map((t) => ({
+      name: t.title,
+      description: t.desc,
+      url: `https://www.rentready.fr/modeles/${t.slug}`,
+    }))
+  );
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Modèles", url: "https://www.rentready.fr/modeles" },
+    ]),
+    buildItemListSchema({
+      name: "Modèles gratuits de location",
+      description:
+        "Modèles de bail, quittances, lettres de relance et documents pour propriétaires — tous gratuits et conformes au droit français.",
+      url: "https://www.rentready.fr/templates",
+      items: allItems,
+    })
+  );
+  return <SchemaMarkup data={schema} />;
+}
+
 export default function TemplatesPage() {
   return (
     <>
+      <TemplatesPageJsonLd />
       <article className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-16 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-5xl text-balance">
             Modèles gratuits de location
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-600">

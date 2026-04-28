@@ -1,7 +1,14 @@
 /**
  * Pure payment utility functions — no React/JSX dependencies.
  * Importable from both Node (tests) and Edge/server environments.
+ *
+ * All monetary arithmetic uses Decimal.js for precision.
+ * Prisma Decimal fields are returned as Decimal objects — convert with
+ * toNumber() before using JavaScript arithmetic, or use the Decimal
+ * arithmetic methods directly.
  */
+
+import Decimal from "decimal.js";
 
 /**
  * Determine receipt type based on amount paid.
@@ -11,12 +18,12 @@
  * - Paiement < loyer + charges → "Reçu de paiement partiel"
  */
 export function determineReceiptType(
-  amountPaid: number,
-  rentAmount: number,
-  chargesAmount: number
+  amountPaid: number | Decimal,
+  rentAmount: number | Decimal,
+  chargesAmount: number | Decimal
 ): "QUITTANCE" | "RECU" {
-  const totalDue = rentAmount + chargesAmount;
-  return amountPaid >= totalDue ? "QUITTANCE" : "RECU";
+  const totalDue = new Decimal(rentAmount).plus(chargesAmount);
+  return new Decimal(amountPaid).gte(totalDue) ? "QUITTANCE" : "RECU";
 }
 
 /**
@@ -38,29 +45,32 @@ export function generateReceiptNumber(
 /**
  * Compute proportional rent / charges split for a partial payment.
  *
- * rentPortion  = amount × (rentAmount / totalDue)
+ * rentPortion    = amount × (rentAmount / totalDue)
  * chargesPortion = amount - rentPortion
  *
- * Returns rounded values (2 decimal places).
+ * Returns rounded values (2 decimal places) as numbers.
  */
 export function computePaymentSplit(
-  amount: number,
-  rentAmount: number,
-  chargesAmount: number
+  amount: number | Decimal,
+  rentAmount: number | Decimal,
+  chargesAmount: number | Decimal
 ): {
   rentPortion: number;
   chargesPortion: number;
   isFullPayment: boolean;
 } {
-  const totalDue = rentAmount + chargesAmount;
-  const isFullPayment = amount >= totalDue;
+  const a = new Decimal(amount);
+  const r = new Decimal(rentAmount);
+  const c = new Decimal(chargesAmount);
+  const totalDue = r.plus(c);
+  const isFullPayment = a.gte(totalDue);
 
   if (isFullPayment) {
-    return { rentPortion: rentAmount, chargesPortion: chargesAmount, isFullPayment: true };
+    return { rentPortion: r.toNumber(), chargesPortion: c.toNumber(), isFullPayment: true };
   }
 
-  const rentPortion = Math.round((amount * rentAmount) / totalDue * 100) / 100;
-  const chargesPortion = Math.round((amount - rentPortion) * 100) / 100;
+  const rentPortion = a.times(r).dividedBy(totalDue).toDecimalPlaces(2).toNumber();
+  const chargesPortion = a.minus(rentPortion).toDecimalPlaces(2).toNumber();
   return { rentPortion, chargesPortion, isFullPayment: false };
 }
 

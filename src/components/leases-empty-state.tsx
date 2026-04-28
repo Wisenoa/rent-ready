@@ -3,6 +3,7 @@
 import { Plus, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LeaseForm } from "@/components/lease-form";
+import { SampleDataButton } from "@/components/sample-data-button";
 
 interface LeasesEmptyStateProps {
   onStartWizard: () => void;
@@ -63,6 +64,9 @@ export function LeasesEmptyState({ onStartWizard }: LeasesEmptyStateProps) {
       <p className="text-xs text-muted-foreground mt-6">
         Le guide création vous accompagne étape par étape.
       </p>
+      <div className="mt-3">
+        <SampleDataButton />
+      </div>
     </div>
   );
 }

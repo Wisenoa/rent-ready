@@ -2,9 +2,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import React from "react";
+import cities from "@/data/cities.json";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+
+type City = (typeof cities)[number];
+
+function groupByRegion(data: City[]): Record<string, City[]> {
+  const groups: Record<string, City[]> = {};
+  for (const city of data) {
+    (groups[city.region] ??= []).push(city);
+  }
+  return Object.fromEntries(
+    Object.entries(groups).sort(([a], [b]) => a.localeCompare(b, "fr")),
+  );
+}
+
+function formatPopulation(n: number) {
+  return new Intl.NumberFormat("fr-FR").format(n);
+}
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -20,13 +37,14 @@ const FinalCta = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Gestion des baux — Créer, suivre et renouveler vos contrats | RentReady",
-    description: "Logiciel de gestion des baux : création de contrats, renouvellement, préavis, documents légaux. Simplifiez la gestion de vos locations. Essai gratuit.",
+    title:
+      "Gestion des Baux 2026 — Créer, Suivre & Renouveler | RentReady",
+    description:
+      "Logiciel gestion des baux 2026 : création contrats, renouvellement, préavis, documents légaux. Simplifiez la gestion de vos locations. Essai gratuit.",
     url: "/bail",
-    ogType: "template",
+    ogType: "feature",
   });
 }
-;
 
 const features = [
 {
@@ -305,23 +323,61 @@ dépôt de garantie, etc.).
 </ul>
 </section>
 
-{/* CTA */}
-<section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-<h2 className="text-2xl font-bold sm:text-3xl">
-Créez votre premier bail en 10 minutes
-</h2>
-<p className="mx-auto mt-3 max-w-xl text-stone-300">
-Modèle prêt à remplir, assistant guidé, signature électronique incluse.
-</p>
-<Link
-href="/register"
-className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
->
-Essai gratuit 14 jours
-</Link>
-</section>
+      {/* City listing */}
+      <section className="mb-20">
+        <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          Modèles de bail par ville
+        </h2>
+        <p className="mb-8 text-stone-600">
+          Choisissez votre ville pour accéder au modèle de bail adapté à votre marché locatif.
+        </p>
+        <div className="space-y-10">
+          {Object.entries(groupByRegion(cities)).map(([region, regionCities]) => (
+            <div key={region}>
+              <h3 className="mb-3 border-b border-stone-200 pb-2 text-base font-semibold text-stone-700">
+                {region}
+              </h3>
+              <ul className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {regionCities
+                  .sort((a, b) => b.population - a.population)
+                  .map((city) => (
+                    <li key={city.slug}>
+                      <Link
+                        href={`/bail/${city.slug}`}
+                        className="group flex items-center justify-between rounded-lg border border-stone-200/80 bg-white px-3 py-2 shadow-sm transition-all hover:border-blue-300 hover:shadow-sm"
+                      >
+                        <span className="text-sm font-medium text-stone-700 group-hover:text-blue-700">
+                          {city.name}
+                        </span>
+                        <span className="text-xs text-stone-400">
+                          {formatPopulation(city.population)} hab.
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
 
-{/* Internal links */}
+      {/* CTA */}
+      <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <h2 className="text-2xl font-bold sm:text-3xl">
+          Créez votre premier bail en 10 minutes
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          Modèle prêt à remplir, assistant guidé, signature électronique incluse.
+        </p>
+        <Link
+          href="/register"
+          className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+        >
+          Essai gratuit 14 jours
+        </Link>
+      </section>
+
+      {/* Internal links */}
 <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
 <Link
 href="/locations"

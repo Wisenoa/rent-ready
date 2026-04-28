@@ -13,7 +13,7 @@ export async function generateMetadata() {
   return baseMetadata({
     title: "Calculateur de Préavis Locataire — Gratuit | RentReady",
     description:
-      "Calculez la durée de préavis légale pour votre départ de location selon la zone géographique, le type de bail, et votre situation. Outil gratuit — base légale 2025.",
+      "Calculez la durée de préavis légale pour votre départ de location selon la zone géographique, le type de bail, et votre situation. Outil gratuit — base légale 2026.",
     url: "/outils/calculateur-preavis",
     ogType: "outil",
   });

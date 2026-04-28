@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { transactionSchema } from "@/lib/validations/transaction";
-import { determineReceiptType } from "@/lib/quittance-generator";
+import { computePaymentSplit, determineReceiptType } from "@/lib/payment-utils";
 import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 // ============================================================
@@ -102,16 +102,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Bail introuvable ou accès non autorisé" }, { status: 404 });
     }
 
-    const totalDue = lease.rentAmount + lease.chargesAmount;
-    const isFullPayment = parsed.data.amount >= totalDue;
+    const { rentPortion, chargesPortion, isFullPayment } = computePaymentSplit(
+      parsed.data.amount,
+      lease.rentAmount,
+      lease.chargesAmount,
+    );
     const receiptType = determineReceiptType(parsed.data.amount, lease.rentAmount, lease.chargesAmount);
-
-    const rentPortion = isFullPayment
-      ? lease.rentAmount
-      : Math.round((parsed.data.amount * lease.rentAmount / totalDue) * 100) / 100;
-    const chargesPortion = isFullPayment
-      ? lease.chargesAmount
-      : Math.round((parsed.data.amount - rentPortion) * 100) / 100;
 
     const status = isFullPayment ? "PAID" : "PARTIAL";
 

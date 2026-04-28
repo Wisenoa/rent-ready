@@ -135,6 +135,8 @@ model Property {
   reminders     Reminder[]
   notifications Notification[]
 
+  // (userId, deletedAt) — property list queries with soft-delete filter
+  @@index([userId, deletedAt])
   @@index([userId])
 }
 
@@ -247,14 +249,14 @@ model Lease {
   tenantId        String
   unitId          String?
   // Financial
-  rentAmount      Float     // Loyer hors charges (€)
-  chargesAmount   Float     // Provision pour charges (€)
-  depositAmount   Float     // Dépôt de garantie (€)
+  rentAmount      Decimal   // Loyer hors charges (€)
+  chargesAmount   Decimal   // Provision pour charges (€)
+  depositAmount   Decimal   // Dépôt de garantie (€)
   // Dates
   startDate       DateTime
   endDate         DateTime?
   // IRL revision
-  irlReferenceValue Float?  // IRL at signature
+  irlReferenceValue Decimal? // IRL at signature
   irlReferenceQuarter String? // e.g. "T4-2025"
   revisionDate    DateTime? // Date anniversaire de révision
   // Payment
@@ -275,7 +277,10 @@ model Lease {
   guarantor       Guarantor?
   transactions    Transaction[]
   conversation    Conversation?
+  charges         Charge[]
 
+  // (userId, status) — active leases query for dashboard/unpaid detection
+  @@index([userId, status])
   @@index([userId])
   @@index([propertyId])
   @@index([tenantId])
@@ -310,9 +315,9 @@ model Transaction {
   userId          String
   leaseId         String
   // Financial
-  amount          Float     // Total amount received
-  rentPortion     Float     // Part loyer
-  chargesPortion  Float     // Part charges
+  amount          Decimal   // Total amount received
+  rentPortion     Decimal   // Part loyer
+  chargesPortion  Decimal   // Part charges
   // Period
   periodStart     DateTime  // Start of rental period
   periodEnd       DateTime  // End of rental period
@@ -339,6 +344,13 @@ model Transaction {
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   lease           Lease     @relation(fields: [leaseId], references: [id], onDelete: Cascade)
 
+  // Composite indexes for common query patterns
+  // (userId, status, paidAt) — dashboard collection queries
+  // (userId, status, dueDate) — overdue/payment timeline queries
+  // (userId, leaseId, dueDate) — lease payment history
+  @@index([userId, status, paidAt])
+  @@index([userId, status, dueDate])
+  @@index([userId, leaseId, dueDate])
   @@index([userId])
   @@index([leaseId])
   @@index([status])
@@ -385,6 +397,10 @@ enum DocumentType {
   LEASE_SCAN        // Uploaded lease for OCR
   QUITTANCE_PDF     // Generated rent receipt
   RECU_PDF          // Generated partial receipt
+  UNPAID_NOTICE     // Legal notice for unpaid rent
+  DEPOSIT_RETURN    // Deposit return / settlement form
+  CHECKLIST_IN      // Move-in checklist
+  CHECKLIST_OUT     // Move-out checklist
   OTHER
 }
 
@@ -482,7 +498,7 @@ model IrlIndex {
   quarter   String   @unique // e.g. "T4-2025"
   year      Int
   trimester Int      // 1-4
-  value     Float    // e.g. 145.78
+  value     Decimal   // e.g. 145.78
   publishedAt DateTime?
   createdAt DateTime @default(now())
 
@@ -549,7 +565,7 @@ model Expense {
   propertyId  String?
   vendorName  String
   description String?
-  amount      Float
+  amount      Decimal
   category    ExpenseCategory
   date        DateTime
   invoiceUrl  String?         // Uploaded invoice file
@@ -563,6 +579,56 @@ model Expense {
   @@index([userId])
   @@index([propertyId])
   @@index([category])
+}
+
+// ─── Charges (Charges locatives récupérables) ──────────────────────────────
+// Recurring recoverable charges associated with a lease.
+// Examples: condominium fees, shared utilities, property tax (taxe foncière).
+// These are distinct from Transaction.chargesPortion (one-time payment split).
+model Charge {
+  id             String        @id @default(cuid())
+  userId         String        // denormalized from Lease for efficient per-user queries
+  leaseId        String
+  // Label & category
+  label          String        // e.g. "Taxe foncière", "Charges de copropriété"
+  category       ChargeCategory
+  // Amount (annual or monthly, depends on billing cycle)
+  amount         Decimal
+  billingCycle  BillingCycle  @default(MONTHLY)
+  // Period covered
+  periodStart    DateTime
+  periodEnd      DateTime?
+  // Invoice/document reference
+  invoiceUrl     String?
+  // Recovery status
+  isRecovered    Boolean       @default(false)  // passed to tenant
+  recoveredAt    DateTime?
+  // Metadata
+  notes          String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  lease          Lease         @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRecovered])
+  @@index([leaseId])
+}
+
+enum ChargeCategory {
+  CONDO_FEES         // Charges de copropriété
+  PROPERTY_TAX        // Taxe foncière
+  SHARED_UTILITIES   // Charges communes (eau, ordures…)
+  INSURANCE          // Assurance propriété
+  MAINTENANCE        // Entretien / petites réparations
+  MANAGEMENT_FEES    // Frais de gestion
+  OTHER              // Autre
+}
+
+enum BillingCycle {
+  MONTHLY
+  QUARTERLY
+  ANNUAL
+  ONE_TIME
 }
 
 enum ExpenseCategory {

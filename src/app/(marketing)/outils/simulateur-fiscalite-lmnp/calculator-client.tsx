@@ -44,7 +44,7 @@ export function SimulateurLmnpClient() {
     const rent = parseFloat(monthlyRent) || 0;
     const charges = parseFloat(annualCharges) || 0;
     const tax = parseFloat(propertyTax) || 0;
-    const insurance = parseFloat(insurance) || 0;
+    const insuranceAmount = parseFloat(insurance) || 0;
     const management = parseFloat(managementFees) || 0;
     const interest = parseFloat(interestPayments) || 0;
     const price = parseFloat(purchasePrice) || 0;
@@ -58,7 +58,7 @@ export function SimulateurLmnpClient() {
     const microTax = microTaxableIncome * bracket + microTaxableIncome * 0.172; // IR + PS
 
     // Real regime
-    const totalCharges = charges + tax + insurance + management + interest;
+    const totalCharges = charges + tax + insuranceAmount + management + interest;
     // Amortization: building is ~80-85% of price, amortized over 25 years
     const buildingValue = price * 0.85;
     const yearlyAmortization = buildingValue / 25;
@@ -248,7 +248,7 @@ export function SimulateurLmnpClient() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-stone-600">Abattement forfaitaire (50%)</span>
-                    <span className="text-red-600">-{result.grossRent * 0.50.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
+                    <span className="text-red-600">-{(result.grossRent * 0.50).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
                   </div>
                   <div className="flex justify-between border-t border-stone-200 pt-2">
                     <span className="text-stone-600">Revenu imposable</span>

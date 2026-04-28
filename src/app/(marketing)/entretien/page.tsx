@@ -5,8 +5,10 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Suivi des interventions — Gérez les réparations et maintenances | RentReady",
-    description: "Déclarez, suivez et résolvez les interventions de maintenance de vos locations. Historique complet, photos,priorités. Simplifiez la gestion locative.",
+    title:
+      "Suivi Maintenance 2026 — Déclarez et résolvez les interventions | RentReady",
+    description:
+      "Déclarez, suivez et résolvez les interventions de maintenance. Historique complet, photos, priorisation. Simplifiez la gestion locative 2026.",
     url: "/maintenance",
     ogType: "template",
   });

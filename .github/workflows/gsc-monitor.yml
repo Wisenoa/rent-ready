@@ -1,0 +1,170 @@
+# ========================================
+# Google Search Console — Ranking & Traffic Monitor
+# ========================================
+# Pulls search analytics from GSC API weekly:
+#   - Top 20 queries by impressions
+#   - Ranking changes week-over-week
+#   - Pages with most clicks
+#   - Pages needing SEO attention
+#   - Significant ranking drops alert (>10 positions)
+#
+# Required GitHub Secrets:
+#   GOOGLE_SERVICE_ACCOUNT_JSON  — GSC service account JSON (stringified)
+#   SLACK_WEBHOOK_URL            — Slack webhook for weekly reports + drop alerts
+#
+# Optional:
+#   GSC_SITE_URL                 — GSC property URL (defaults to sc-domain:rentready.fr)
+#   RANKING_DROP_THRESHOLD        — Position drop to trigger alert (default: 10)
+#   SKIP_GSC=1                   — Skip this job (e.g., during freeze periods)
+# ========================================
+
+name: SEO — Google Search Console Monitor
+
+on:
+  schedule:
+    # Run every Monday at 9am UTC — CEO weekly report
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+    # Manual trigger for on-demand checks
+    inputs:
+      site_url:
+        description: "GSC site URL (e.g. sc-domain:rentready.fr)"
+        required: false
+        type: string
+        default: ""
+      slack_alert:
+        description: "Send Slack alert on significant ranking drops"
+        required: false
+        type: boolean
+        default: true
+
+env:
+  NODE_VERSION: "20"
+  PNPM_VERSION: "10.33.0"
+
+jobs:
+  # ========================================
+  # GSC Search Analytics Query
+  # ========================================
+  gsc-monitor:
+    name: GSC Monitor
+    runs-on: ubuntu-latest
+    if: env.SKIP_GSC != '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter rent-ready
+
+      - name: Run GSC monitor
+        id: gsc-results
+        run: |
+          SITE_URL="${{ inputs.site_url || env.GSC_SITE_URL || '' }}"
+          SLACK_FLAG=""
+          if [ "${{ inputs.slack_alert }}" == "true" ]; then
+            SLACK_FLAG="--alert-slack"
+          fi
+
+          node scripts/monitor-gsc.mjs $SLACK_FLAG --site="$SITE_URL" || true
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GSC_SITE_URL: ${{ inputs.site_url || env.GSC_SITE_URL || '' }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          RANKING_DROP_THRESHOLD: ${{ env.RANKING_DROP_THRESHOLD || '10' }}
+          CI: "true"
+        continue-on-error: true
+
+      - name: Parse GSC results
+        id: parse-results
+        run: |
+          EXIT_CODE=$?
+          echo "GSC monitor exit code: $EXIT_CODE"
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+
+          if [ $EXIT_CODE -eq 1 ]; then
+            echo "result=ranking_drops" >> $GITHUB_OUTPUT
+            echo "summary::warning::Significant ranking drops detected — see logs" >> $GITHUB_OUTPUT
+          elif [ $EXIT_CODE -eq 2 ]; then
+            echo "result=auth_error" >> $GITHUB_OUTPUT
+            echo "summary::warning::GSC authentication error — check GOOGLE_SERVICE_ACCOUNT_JSON secret" >> $GITHUB_OUTPUT
+          else
+            echo "result=pass" >> $GITHUB_OUTPUT
+            echo "summary::All clear — no significant ranking drops" >> $GITHUB_OUTPUT
+          fi
+
+  # ========================================
+  # Slack weekly report (always on schedule, even if no drops)
+  # ========================================
+  slack-weekly-report:
+    name: Slack Weekly Report
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    needs: gsc-monitor
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter rent-ready
+
+      - name: Send weekly Slack report
+        if: secrets.SLACK_WEBHOOK_URL != ''
+        run: node scripts/monitor-gsc.mjs --alert-slack || true
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          CI: "true"
+
+  # ========================================
+  # Slack alert on significant ranking drops
+  # ========================================
+  slack-alert-on-drops:
+    name: Ranking Drop Alert
+    runs-on: ubuntu-latest
+    if: needs.gsc-monitor.outputs.result == 'ranking_drops'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter rent-ready
+
+      - name: Send drop alert to Slack
+        run: node scripts/monitor-gsc.mjs --alert-slack || true
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          CI: "true"
+
+      - name: Create GitHub issue on critical drops
+        if: needs.gsc-monitor.outputs.exit_code == '1'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Only create issue if we have significant drops
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `⚠️ SEO Ranking Drops Detected — ${new Date().toLocaleDateString('fr-FR')}`,
+              body: `Significant ranking drops (>10 positions WoW) detected via GSC automated monitoring.\n\n**Action required:** Review the <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|GitHub Actions run> for full details.\n\nCheck:\n1. Recent content or technical changes that may have caused the drop\n2. GSC Search Console for manual diagnosis\n3. Index coverage report for any crawl issues`,
+              labels: ['seo', 'ranking-drop'],
+            });

@@ -11,8 +11,10 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Bail Vide — Gratuit | RentReady",
-    description: "Téléchargez notre modèle de bail vide gratuit et conforme au droit français. Bail résidentiel pour location non meublée avec clauses obligatoires.",
+    title:
+      "Modèle Bail Vide 2026 — Gratuit & Conforme Loi 1989 | RentReady",
+    description:
+      "Téléchargez le modèle de bail vide gratuit et conforme à la loi du 6 juillet 1989. Clauses obligatoires, dépôt de garantie, révision IRL — prêt à personnaliser en 2 minutes.",
     url: "/modeles/bail-vide",
     ogType: "template",
   });
@@ -114,7 +116,7 @@ function BailVideJsonLd() {
       {
         "@type": "HowTo",
         name: "Comment rédiger un bail vide",
-        description: "Modèle gratuit de bail vide (non meublé). Location résidentielle 3 ans, révision IRL, obligations,congés.",
+        description: "Modèle gratuit de bail vide (non meublé). Location résidentielle 3 ans, révision IRL, obligations, congés.",
         step: [
           { "@type": "HowToStep", name: "Préparer le Dossier DDT", text: "Rassemblez le DPE, diagnostic électrique, gaz, ERP, et état des risques. Tous obligatoires avant signature." },
           { "@type": "HowToStep", name: "Vérifier les conditions", text: "Confirmez que le logement est conforme : surface minimum 9m², décence énergétique, installations aux normes." },

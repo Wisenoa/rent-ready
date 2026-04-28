@@ -591,6 +591,89 @@ export default async function BailVillePage({ params }: Props) {
               ))}
             </div>
 
+            {/* ── Neighborhoods: Paris ── */}
+            {city.slug === "paris" && (
+              <div className="mt-10">
+                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                  Quartiers parisiens — ce qu'un bailleur doit savoir
+                </h3>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {[
+                    { name: "Le Marais (4e)", detail: "Zones PSLA, Encadrement actif", zone: "Zone modérée" },
+                    { name: "11e arrondissement", detail: "Loyers élevés, encadrement strict", zone: "Zone tendue" },
+                    { name: "18e (Montmartre)", detail: "Encadrement loyers 2025", zone: "Zone tendue" },
+                    { name: "12e (Bercy)", detail: "Familial, marché moins tendu", zone: "Zone modérée" },
+                    { name: "10e (Canal)", detail: "Très tendu, plafonds bas", zone: "Zone tendue" },
+                    { name: "15e (Vaugirard)", detail: "Grand arrondissement, moins tendu", zone: "Zone modérée" },
+                  ].map((q) => (
+                    <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="font-semibold text-stone-900">{q.name}</p>
+                          <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
+                        </div>
+                        <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
+                          q.zone === "Zone tendue"
+                            ? "bg-amber-100 text-amber-800"
+                            : "bg-green-100 text-green-800"
+                        }`}>
+                          {q.zone}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Neighborhoods: Lyon ── */}
+            {city.slug === "lyon" && (
+              <div className="mt-10">
+                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                  Quartiers lyonnais — bail et loyer de référence
+                </h3>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {[
+                    { name: "Presqu'île", detail: "Centre, loyer de référence élevé" },
+                    { name: "Croix-Rousse", detail: "Authentique, marché actif" },
+                    { name: "Part-Dieu", detail: "Affaires, forte demande" },
+                    { name: "Vaise", detail: "En développement, attractif" },
+                    { name: "Brotteaux", detail: "Prisé, loyer premium" },
+                    { name: "Gerland", detail: "En hausse, biotech/tertiaire" },
+                  ].map((q) => (
+                    <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
+                      <p className="font-semibold text-stone-900">{q.name}</p>
+                      <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Neighborhoods: Marseille ── */}
+            {city.slug === "marseille" && (
+              <div className="mt-10">
+                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                  Quartiers marseillais — marché locatif local
+                </h3>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {[
+                    { name: "Le Prado", detail: "Familial, loyer modéré" },
+                    { name: "Noailles / Centre", detail: "Central, très diversifié" },
+                    { name: "Vieux-Port", detail: "Premium, saisonnier" },
+                    { name: "Saint-Giniez", detail: "Bourgeois, stable" },
+                    { name: "La Plaine / Cours Julien", detail: "Jeune, en hausse" },
+                    { name: "Castellane", detail: "Commerçant, accessible" },
+                  ].map((q) => (
+                    <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
+                      <p className="font-semibold text-stone-900">{q.name}</p>
+                      <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Related links */}
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/quittances" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">

@@ -12,13 +12,14 @@ const FinalCta = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Bail Professionnel — Contrat Location Commerciale 2026 | RentReady",
-    description: "Téléchargez notre modèle de bail professionnel gratuit. Contrat conforme au droit français, clauses essentielles et annexes pour location professionnelle.",
+    title:
+      "Modèle Bail Professionnel 2026 — Gratuit & Conforme | RentReady",
+    description:
+      "Téléchargez le modèle bail professionnel gratuit. Location de bureaux et locaux commerciaux, clauses essentielles et annexes. PDF instantané, prêt à utiliser.",
     url: "/modeles/bail-professionnel",
     ogType: "template",
   });
 }
-;
 
 const caracteristiques = [
   {

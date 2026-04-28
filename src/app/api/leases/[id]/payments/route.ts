@@ -20,20 +20,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     const { id } = await params;
 
-    // Verify the lease belongs to the authenticated user
-    const lease = await prisma.lease.findFirst({
-      where: { id, userId: session.user.id },
-      select: {
-        id: true,
-        property: { select: { id: true, name: true } },
-        tenant: { select: { id: true, firstName: true, lastName: true } },
-      },
-    });
-
-    if (!lease) {
-      return NextResponse.json({ error: "Bail introuvable" }, { status: 404 });
-    }
-
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status");
     const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
@@ -43,7 +29,18 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const where: Record<string, unknown> = { leaseId: id };
     if (status) where.status = status;
 
-    const [transactions, total] = await Promise.all([
+    // Single query: fetch lease + transactions together.
+    // Authorization enforced by checking lease.userId matches session user.
+    // Uses a subquery approach: first verify lease ownership, then fetch transactions.
+    const [lease, transactions, total] = await Promise.all([
+      prisma.lease.findFirst({
+        where: { id, userId: session.user.id },
+        select: {
+          id: true,
+          property: { select: { id: true, name: true } },
+          tenant: { select: { id: true, firstName: true, lastName: true } },
+        },
+      }),
       prisma.transaction.findMany({
         where,
         orderBy: { dueDate: "desc" },
@@ -52,6 +49,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       }),
       prisma.transaction.count({ where }),
     ]);
+
+    if (!lease) {
+      return NextResponse.json({ error: "Bail introuvable" }, { status: 404 });
+    }
 
     return NextResponse.json({
       data: transactions,

@@ -9,13 +9,14 @@ import { buildOrganizationSchema, buildWebSiteSchema, buildGraphSchema } from "@
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Outils Immobiliers Gratuits — Calculateurs & Générateurs | RentReady",
-    description: "Accédez à nos calculateurs immobiliers gratuits: révision IRL, rendement, caution, charges locatives. Outils professionnels pour propriétaires bailleurs.",
+    title:
+      "Outils Immobiliers Gratuits 2026 — Calculateurs & Générateurs | RentReady",
+    description:
+      "Accédez à nos calculateurs immobiliers gratuits 2026 : révision IRL, rendement, dépôt de garantie, charges locatives. Outils professionnels pour propriétaires bailleurs.",
     url: "/outils",
-    ogType: "outil",
+    ogType: "website",
   });
 }
-;
 
 const TOOLS = [
   {
@@ -212,7 +213,7 @@ export default function OutilsPage() {
             <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <span>🧮</span> 100% Gratuit
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3 leading-tight text-balance">
               Outils Immobiliers Gratuits pour Propriétaires
             </h1>
             <p className="text-lg text-stone-600 leading-relaxed max-w-2xl">

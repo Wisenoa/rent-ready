@@ -107,7 +107,7 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={<span />}>{children}</DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
             {isEdit ? "Modifier le locataire" : "Ajouter un locataire"}
@@ -121,7 +121,7 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Identité */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="firstName">Prénom *</Label>
               <Input id="firstName" {...register("firstName")} />
@@ -143,7 +143,7 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
           </div>
 
           {/* Contact */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" {...register("email")} />
@@ -180,7 +180,7 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
             <Input id="addressLine2" {...register("addressLine2")} />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="city">Ville *</Label>
               <Input id="city" {...register("city")} />
@@ -209,7 +209,7 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
               Informations complémentaires
             </p>
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="dateOfBirth">Date de naissance</Label>
                   <Input
@@ -224,7 +224,7 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="emergencyName">Contact d&apos;urgence</Label>
                   <Input id="emergencyName" {...register("emergencyName")} />

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import Decimal from "decimal.js";
 
 /**
  * GET /api/tenant/quittances
@@ -47,6 +48,9 @@ export async function GET(request: NextRequest) {
     // Get query parameters for filtering
     const year = url.searchParams.get("year");
     const status = url.searchParams.get("status"); // PAID, PENDING, LATE
+    const page = Math.max(1, parseInt(url.searchParams.get("page") ?? "1", 10));
+    const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") ?? "20", 10)));
+    const skip = (page - 1) * limit;
 
     // Build filter conditions
     const whereConditions: Record<string, unknown> = {
@@ -70,28 +74,33 @@ export async function GET(request: NextRequest) {
       whereConditions.status = status;
     }
 
-    // Fetch transactions (quittances)
-    const transactions = await prisma.transaction.findMany({
-      where: whereConditions,
-      include: {
-        lease: {
-          include: {
-            property: {
-              select: {
-                id: true,
-                name: true,
-                addressLine1: true,
-                city: true,
-                postalCode: true,
+    // Fetch transactions (quittances) with pagination
+    const [transactions, total] = await Promise.all([
+      prisma.transaction.findMany({
+        where: whereConditions,
+        include: {
+          lease: {
+            include: {
+              property: {
+                select: {
+                  id: true,
+                  name: true,
+                  addressLine1: true,
+                  city: true,
+                  postalCode: true,
+                },
               },
             },
           },
         },
-      },
-      orderBy: {
-        periodStart: "desc",
-      },
-    });
+        orderBy: {
+          periodStart: "desc",
+        },
+        skip,
+        take: limit,
+      }),
+      prisma.transaction.count({ where: whereConditions }),
+    ]);
 
     // Group by month for easier display
     const groupedByMonth: Record<string, Array<{
@@ -138,13 +147,13 @@ export async function GET(request: NextRequest) {
     const summary = {
       totalPaid: transactions
         .filter((t) => t.status === "PAID")
-        .reduce((sum, t) => sum + t.amount, 0),
+        .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       totalPending: transactions
         .filter((t) => t.status === "PENDING")
-        .reduce((sum, t) => sum + t.amount, 0),
+        .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       totalLate: transactions
         .filter((t) => t.status === "LATE")
-        .reduce((sum, t) => sum + t.amount, 0),
+        .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       count: {
         paid: transactions.filter((t) => t.status === "PAID").length,
         pending: transactions.filter((t) => t.status === "PENDING").length,
@@ -155,7 +164,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       quittances: groupedByMonth,
       summary,
-      total: transactions.length,
+      pagination: { page, limit, total, pages: Math.ceil(total / limit) },
     });
   } catch (error) {
     console.error("Tenant quittances fetch error:", error);

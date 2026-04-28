@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import Decimal from "decimal.js";
 
 /**
  * GET /api/tenant/lease
@@ -108,7 +109,7 @@ export async function GET(request: NextRequest) {
       financials: {
         rentAmount: lease.rentAmount,
         chargesAmount: lease.chargesAmount,
-        totalRent: lease.rentAmount + lease.chargesAmount,
+        totalRent: new Decimal(lease.rentAmount).plus(lease.chargesAmount).toNumber(),
         depositAmount: lease.depositAmount,
         paymentDay: lease.paymentDay,
         paymentMethod: lease.paymentMethod,

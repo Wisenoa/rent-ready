@@ -11067,4 +11067,787 @@ Le bailleur doit engager une procédure d'expulsion judiciaire. L'expulsion effe
 
 export function getArticleBySlug(slug: string): Article | undefined {
   return articles.find((a) => a.slug === slug);
-}
+}  },
+  {
+    slug: "comment-rediger-bail-location-guide-complet",
+    title: "Comment Rédiger un Bail de Location : Guide Complet 2026",
+    excerpt:
+      "Découvrez comment rédiger un bail de location conforme à la loi Alur : clauses obligatoires, clauses interdites, modèle gratuit et conseils pour sécuriser votre contrat.",
+    category: "Juridique",
+    date: "2026-05-06",
+    updatedAt: "2026-05-06",
+    readTime: "10 min",
+    content: `## Comment Rédiger un Bail de Location : Guide Complet 2026
+
+Rédiger un bail de location conforme représente une étape fondamentale pour tout propriétaire bailleur. Un contrat mal rédigé expose à des litiges coûteux, à des sanctions administratives et à des risques juridiques importants.
+
+## Pourquoi un bail bien rédiger est essentiel
+
+Le bail de location constitue le socle juridique de toute relation entre bailleur et locataire. En France, il doit respecter des dispositions impératives définies par la loi du 6 juillet 1989. Un bail incomplet ou non conforme peut être contesté par le locataire, voire annulé par un tribunal.
+
+## Les mentions obligatoires du bail
+
+### Identification des parties
+
+Le bail doit identifier précisément le bailleur et le locataire. Pour le bailleur, mentionnez le nom complet et l'adresse du domicile. Pour le locataire, indiquez le nom, la date et le lieu de naissance.
+
+### Description du bien loué
+
+Le bail doit décrire le bien avec précision : adresse complète, surface habitable, nombre de pièces, destination et équipements.
+
+### Durée et date d'effet
+
+Pour une location à usage de résidence principale, la durée minimale est de 3 ans si le bailleur est une personne physique et 6 ans si le bailleur est une personne morale. Pour une location meublée, la durée minimale est d'un an, réduite à 9 mois pour un étudiant.
+
+### Montant du loyer et charges
+
+Le bail indique clairement le montant du loyer mensuel, ses modalités de paiement et la date de versement. En zone tendue, le bail précise le montant du loyer de référence.
+
+## Les clauses interdites par la loi
+
+Certaines clauses sont expressément prohibées par l'article 4 de la loi du 6 juillet 1989. Leur insertion rend le bail nul.
+
+### Clause de paiement anticipé
+
+Vous ne pouvez pas exiger le paiement du loyer pour plus d'un trimestre à l'avance.
+
+### Clause d'exclusion de responsabilité
+
+Toute clause qui exonère le bailleur de sa responsabilité en cas de défauts cachés est nulle.
+
+## FAQ — Bail de location
+
+### Peut-on rédiger un bail sans passer par un avocat ?
+
+Oui, un particulier peut rédiger un bail lui-même. Vous trouverez des modèles gratuits sur service-public.fr ou sur notre page de modèles de bail.
+
+### Le bailleur peut-il modifier le bail en cours de location ?
+
+Non, les clauses du bail ne peuvent pas être modifiées unilatéralement pendant la durée du bail.
+
+[CTA : Créez votre bail de location conforme et gratuit avec RentReady — modèles aux normes 2026 — essai gratuit]`
+  },
+  {
+    slug: "bail-meuble-vs-bail-vide-difference",
+    title: "Bail Meublé vs Bail Vide : Quelle Différence Choisir ?",
+    excerpt:
+      "Bail meublé ou bail vide : comparez les différences de durée, loyer, préavis, fiscalité et charges pour choisir le statut le plus adapté.",
+    category: "Juridique",
+    date: "2026-05-06",
+    updatedAt: "2026-05-06",
+    readTime: "8 min",
+    content: `## Bail Meublé vs Bail Vide : Quelle Différence Choisir ?
+
+Le choix entre bail meublé et bail vide impacte directement votre rentabilité, vos obligations fiscales et la relation avec votre locataire.
+
+## Cadre légal des deux types de bail
+
+### Le bail vide
+
+Le bail vide concerne la location d'un logement sans meuble. La durée minimale est de 3 ans pour les bailleurs personnes physiques et 6 ans pour les personnes morales.
+
+### Le bail meublé
+
+Le bail meublé concerne la location d'un logement équipé. Depuis la loi ALUR, le bail meublé doit avoir une durée minimale d'un an, réduite à 9 mois pour les locataires étudiants.
+
+## Tableau comparatif
+
+| Critère | Bail Vide | Bail Meublé |
+|---------|-----------|-------------|
+| Durée minimale | 3 ans | 1 an |
+| Préavis locataire | 1 à 3 mois | 1 mois |
+| Fiscalité | Revenus fonciers | LMNP possible |
+| Dépôt de garantie | Max 1 mois | Max 1 mois |
+
+## Rentabilité et fiscalité
+
+En zone tendue, les loyers des meublés sont généralement supérieurs de 10 % à 30 %. Le statut LMNP permet de bénéficier de l'amortissement du bien et du mobilier.
+
+## FAQ — Bail meublé ou bail vide
+
+### Peut-on transformer un bail vide en meublé en cours de bail ?
+
+Non, la nature du bail est définie à la signature et ne peut pas être modifiée unilatéralement.
+
+### Quel type de bail choisir pour optimiser sa fiscalité ?
+
+Le bail meublé sous statut LMNP offre généralement une meilleure optimisation fiscale grâce à l'amortissement. Chaque situation est différente.
+
+[CTA : Comparez les meilleurs logiciels de gestion locative pour gérer vos baux meublés et vides — essai gratuit RentReady 14 jours]`
+  },
+  {
+    slug: "donner-conge-locataire-bailleur",
+    title: "Congé Bailleur : Comment Donner Congé à Son Locataire en 2026",
+    excerpt:
+      "Congé donné par le bailleur : motifs légaux, délais de préavis, procédure administrative et recours du locataire. Guide complet pour résilier un bail dans les règles.",
+    category: "Juridique",
+    date: "2026-05-13",
+    updatedAt: "2026-05-13",
+    readTime: "9 min",
+    content: `## Congé Bailleur : Comment Donner Congé à Son Locataire en 2026
+
+Donner congé à un locataire représente une décision importante qui doit respecter des règles strictes.
+
+## Les motifs légaux de congé
+
+La loi distingue trois motifs légaux : congé pour vendre, congé pour habiter, congé pour motif légitime et sérieux.
+
+### Congé pour vendre
+
+Le congé pour vendre permet au bailleur de reprendre son bien pour le vendre. Il doit être notifié au moins 6 mois avant la fin du bail.
+
+### Congé pour habiter
+
+Le congé pour habiter permet au bailleur de reprendre le logement pour l'occuper personnellement.
+
+### Congé pour motif légitime et sérieux
+
+Ce motif couvre les situations où le locataire a manqué à ses obligations : impayés répétés, troubles de voisinage, non-respect des obligations d'entretien.
+
+## Les délais de préavis
+
+En zone tendue, le délai de préavis est de 6 mois pour le congé donné par le bailleur. Pour le locataire, le délai est toujours réduit.
+
+## FAQ — Congé donné par le bailleur
+
+### Le locataire peut-il partir avant la fin du préavis ?
+
+Oui, le locataire peut librement donner son propre préavis sans justification.
+
+### Que se passe-t-il si le locataire ne part pas ?
+
+Le bailleur doit engager une procédure d'expulsion auprès du tribunal.
+
+[CTA : Automatisez la gestion de vos congés et le suivi des délais légaux avec RentReady — essai gratuit 14 jours]`
+  },
+  {
+    slug: "sous-location-regles-et-limites",
+    title: "Sous-location : Est-ce Autorisé et Comment la Mettre en Place ?",
+    excerpt:
+      "Sous-location : règles légales, autorisation obligatoire du bailleur, clause dans le bail, risques et sanctions.",
+    category: "Juridique",
+    date: "2026-05-20",
+    updatedAt: "2026-05-20",
+    readTime: "7 min",
+    content: `## Sous-location : Est-ce Autorisé et Comment la Mettre en Place ?
+
+La sous-location est une pratique fréquente mais mal connue. Elle peut représenter une opportunité ou un risque selon les cas.
+
+## Le cadre légal de la sous-location
+
+En droit français, la sous-location est interdite par défaut. L'article 8 de la loi du 6 juillet 1989 dispose que le locataire ne peut pas sous-louer son logement sans l'accord écrit du bailleur.
+
+## Les conditions pour sous-louer légalement
+
+Le locataire doit obtenir l'autorisation écrite du bailleur avant toute sous-location. Le montant du loyer de sous-location ne peut pas dépasser celui du bail principal.
+
+## Les risques en cas de sous-location non autorisée
+
+La sous-location sans accord expose le locataire à des sanctions sévères : résiliation du bail, obligation de payer les loyers impayés du sous-locataire, dommages et intérêts.
+
+## FAQ — Sous-location
+
+### Le bailleur peut-il refuser la sous-location ?
+
+Oui, le bailleur est libre de refuser sans avoir à justifier.
+
+### La sous-location est-elle possible en location meublée ?
+
+Oui, les mêmes règles s'appliquent.
+
+[CTA : Gérez vos contrats de location et sous-location en toute conformité avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "droits-et-obligations-locataire-guide-complet",
+    title: "Droits et Obligations du Locataire : Guide Complet 2026",
+    excerpt:
+      "Connaissez tous vos droits et obligations en tant que locataire : paiement du loyer, entretien, assurance, préavis, garanties et recours.",
+    category: "Juridique",
+    date: "2026-05-06",
+    updatedAt: "2026-05-06",
+    readTime: "10 min",
+    content: `## Droits et Obligations du Locataire : Guide Complet 2026
+
+En tant que locataire, vous disposez de droits protégés par la loi et d'obligations à respecter.
+
+## Le droit à la jouissance paisible
+
+L'article 7 de la loi du 6 juillet 1989 garantit au locataire le droit d'utiliser librement le logement comme résidence principale.
+
+## Les obligations du locataire
+
+### Paiement du loyer et des charges
+
+Le paiement du loyer constitue l'obligation principale du locataire. En cas de retard, des intérêts peuvent être appliqués.
+
+### L'assurance multirisque habitation
+
+Le locataire est obligé de s'assurer contre les risques locatifs et doit fournir une attestation d'assurance au bailleur chaque année.
+
+### Entretien courant du logement
+
+Le locataire assure l'entretien du logement : ménage, entretien de la chaudière, remplacement des petites pièces d'usure.
+
+## Le préavis et la fin du bail
+
+En zone tendue, le délai de préavis est de 3 mois. En zone non tendue, il est de 1 mois.
+
+## FAQ — Droits et obligations du locataire
+
+### Le bailleur peut-il entrer dans le logement sans autorisation ?
+
+Non, sauf cas d'urgence, le bailleur doit respecter un préavis de 48 heures minimum.
+
+[CTA : Utilisez RentReady pour gérer vos démarches locatives — essai gratuit 14 jours]`
+  },
+  {
+    slug: "droits-et-obligations-bailleur-guide-complet",
+    title: "Droits et Obligations du Bailleur : Ce Que la Loi Impose en 2026",
+    excerpt:
+      "Tout ce que le bailleur doit savoir : délivrer un logement décent, entretien, assurance, garantie, sanctions.",
+    category: "Juridique",
+    date: "2026-05-06",
+    updatedAt: "2026-05-06",
+    readTime: "10 min",
+    content: `## Droits et Obligations du Bailleur : Ce Que la Loi Impose en 2026
+
+Le bailleur en France bénéficie de droits protégés mais est soumis à des obligations nombreuses et précises.
+
+## Les droits fondamentaux du bailleur
+
+### Perception du loyer
+
+Le droit de percevoir un loyer en contrepartie de la mise à disposition du bien constitue le droit fondamental du bailleur.
+
+### Reprise du logement
+
+Le bailleur peut reprendre son bien dans des cas précis : vente, habitation personnelle, motif légitime et sérieux.
+
+## Les obligations légales du bailleur
+
+### Délivrance d'un logement décent
+
+L'obligation de délivrance d'un logement décent figure à l'article 6 de la loi du 6 juillet 1989. Un logement décent doit garantir des conditions minimales de vie.
+
+### Garantie contre les défauts cachés
+
+Le bailleur doit garantir le locataire contre les défauts cachés qui rendent le logement impropre à sa destination.
+
+## FAQ — Droits et obligations du bailleur
+
+### Le bailleur peut-il être tenu responsable des dégradations causées par le locataire ?
+
+Oui, le dépôt de garantie peut être conservé pour couvrir les travaux de remise en état.
+
+### Le bailleur peut-il s'opposer à la sous-location ?
+
+Oui, sans avoir à justifier.
+
+[CTA : Simplifiez la gestion locative et le suivi de vos obligations avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "travaux-renovation-location-qui-paye",
+    title: "Travaux de Rénovation : Qui Paye Quoi Entre Locataire et Propriétaire ?",
+    excerpt:
+      "Travaux de rénovation locative : distinction entre entretien courant et grosses réparations, obligations respectives, déductibilité fiscale.",
+    category: "Juridique",
+    date: "2026-05-13",
+    updatedAt: "2026-05-13",
+    readTime: "9 min",
+    content: `## Travaux de Rénovation : Qui Paye Quoi ?
+
+La question des travaux en location est une source majeure de litiges. Voici la frontière claire entre les responsabilités.
+
+## Entretien courant vs grosses réparations
+
+### Entretien courant (à la charge du locataire)
+
+Le remplacement des ampoules, joints de robinets, débouchage de canalisations, entretien de la chaudière, remplacement des revêtements muraux dégradés.
+
+### Grosses réparations (à la charge du bailleur)
+
+Murs et voûtes, toitures, canalisations, chauffage central, remise aux normes de l'électricité.
+
+## La procédure en cas de désaccord
+
+Le locataire doit signaler les défauts par écrit. En cas de refus du bailleur, le tribunal peut être saisi.
+
+## FAQ — Travaux de rénovation
+
+### Le locataire peut-il faire des travaux sans accord ?
+
+Les travaux d'aménagement léger sont tolérés sans accord préalable. Les travaux importants nécessitent l'accord du bailleur.
+
+[CTA : Anticipez les travaux de vos biens avec RentReady — suivi des interventions — essai gratuit]`
+  },
+  {
+    slug: "charges-locatives-recuperables-liste-2026",
+    title: "Charges Locatives : Liste Complète et Récupérables en 2026",
+    excerpt:
+      "Liste complète des charges récupérables : eau, chauffage, entretien, taxes. Calcul, régularisation et litiges.",
+    category: "Gestion",
+    date: "2026-05-13",
+    updatedAt: "2026-05-13",
+    readTime: "9 min",
+    content: `## Charges Locatives : Liste Complète et Récupérables en 2026
+
+Les charges locatives récupérables sont définies par le décret du 26 août 1987 modifié.
+
+## Liste des charges récupérables
+
+### Eau froide et eau chaude
+
+L'eau froide et l'eau chaude constituent des charges récupérables avec compteur individuel ou répartition par tantièmes.
+
+### Chauffage et énergie
+
+Combustible, électricité pour le chauffage collectif, frais d'abonnement au réseau de chaleur.
+
+### Entretien des parties communes
+
+Nettoyage des couloirs, entretien des ascenseurs, éclairage des parties communes, salaire des gardiens.
+
+### Assurances et taxes
+
+Taxe d'enlèvement des ordures ménagères, taxe de balayage, redevance d'assainissement.
+
+## Modalités de récupération
+
+Provision sur charges chaque mois, régularisation annuelle dans les 6 mois.
+
+## FAQ — Charges locatives
+
+### Les charges de gardien sont-elles récupérables ?
+
+Oui, les salaires et charges sociales du gardien sont récupérables au tantième.
+
+[CTA : Automatisez la gestion de vos charges locatives avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "comment-faire-etat-des-lieux-modele",
+    title: "Comment Faire un État des Lieux : Modèle et Procédure en 2026",
+    excerpt:
+      "État des lieux d'entrée et de sortie : procédure complète, modèle imprimable, points essentiels à vérifier.",
+    category: "Juridique",
+    date: "2026-05-13",
+    updatedAt: "2026-05-13",
+    readTime: "10 min",
+    content: `## Comment Faire un État des Lieux : Modèle et Procédure en 2026
+
+L'état des lieux permet de comparer l'état du logement à l'entrée et à la sortie du locataire.
+
+## Quand réaliser l'état des lieux
+
+L'état des lieux doit être établi lors de la mise à disposition et lors de la restitution.
+
+## Les points à vérifier
+
+Cuisine (équipements, électroménager), salon et chambres (murs, sols, fenêtres), salle de bain (baignoire, lavabo, WC).
+
+## Erreurs à éviter
+
+Mentions trop vagues, oubli des annexes (cave, garage), absence de photos datées.
+
+## FAQ — État des lieux
+
+### Qui peut réaliser l'état des lieux ?
+
+Les deux parties ensemble ou un huissier en cas de désaccord.
+
+[CTA : Générez des états des lieux conformes avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "cout-gestion-locative-prix-2026",
+    title: "Gestion Locative : Combien Ça Coûte en 2026 ?",
+    excerpt:
+      "Prix de la gestion locative : honoraires de syndic, frais de gestion, tarif des logiciels en ligne.",
+    category: "Gestion",
+    date: "2026-05-20",
+    updatedAt: "2026-05-20",
+    readTime: "8 min",
+    content: `## Gestion Locative : Combien Ça Coûte en 2026 ?
+
+Les honoraires de gestion varient généralement entre 5 % et 10 % du montant annuel des loyers hors charges.
+
+## Frais en gestion déléguée traditionnelle
+
+Appartement standard : 6 à 8 % du loyer annuel. Maison : 5 à 7 %. Gestion complète : 10 à 15 %.
+
+## Frais en gestion en ligne
+
+Les plateformes comme RentReady proposent des tarifs de 9 € à 30 €/mois, sans frais de mise en location.
+
+## FAQ — Coût de la gestion locative
+
+### Les frais de gestion sont-ils déductibles ?
+
+Oui, entièrement déductibles des revenus fonciers.
+
+[CTA : Testez RentReady à petit prix — 14 jours gratuits]`
+  },
+  {
+    slug: "loyer-impaye-que-faire-guide",
+    title: "Loyer Impayé : Que Faire et Comment Agir Rapidement ?",
+    excerpt:
+      "Loyer impayé : procédure complète, mise en demeure, recouvrement judiciaire, expulsion.",
+    category: "Gestion",
+    date: "2026-05-20",
+    updatedAt: "2026-05-20",
+    readTime: "10 min",
+    content: `## Loyer Impayé : Que Faire et Comment Agir Rapidement ?
+
+Plus la réaction est rapide, plus les chances de recouvrement sont élevées.
+
+## Les premiers jours : la relance simple
+
+Jour 1-3 : premier rappel poli. Jour 5-7 : lettre de relance formelle. Jour 10 : évaluation de la situation par téléphone.
+
+## La mise en demeure
+
+La mise en demeure en recommandée avec accusé de réception marque le début officiel de la procédure de recouvrement.
+
+## La procédure judiciaire
+
+Au-delà de deux mois d'impayé, saisine du tribunal. En dernier recours, procédure d'expulsion avec trêve hivernale.
+
+## FAQ — Loyer impayé
+
+### Peut-on réclamer des intérêts de retard ?
+
+Oui, au taux légal de 5 % en 2026.
+
+[CTA : Protégez-vous contre les loyers impayés avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "interets-retard-loyer-impaye-calcul",
+    title: "Comment Calculer les Intérêts de Retard sur Loyer Impayé",
+    excerpt:
+      "Calcul des intérêts de retard : taux légal, formule, dates d'exigibilité.",
+    category: "Calculs",
+    date: "2026-05-27",
+    updatedAt: "2026-05-27",
+    readTime: "6 min",
+    content: `## Comment Calculer les Intérêts de Retard sur Loyer Impayé
+
+Les intérêts de retard courent à partir de la mise en demeure. Le taux applicable est de 5 % en 2026.
+
+## Formule
+
+Intérêts = Montant de la dette × (Taux / 365) × Nombre de jours de retard.
+
+## Exemple
+
+Pour un loyer de 800 € impayé pendant 30 jours : 800 × (5 % / 365) × 30 = 3,29 €.
+
+## FAQ — Intérêts de retard
+
+### Peut-on réclamer des intérêts sans mise en demeure ?
+
+Non, sans courrier formalisant la demande, le locataire n'est pas en tort.
+
+[CTA : Automatisez le suivi des loyers impayés avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "dossier-location-complet-pieces-fournir",
+    title: "Dossier de Location : Que Doit Contenir un Dossier Complet ?",
+    excerpt:
+      "Pièces à fournir pour un dossier de location : documents obligatoires, justificatifs, garanties.",
+    category: "Gestion",
+    date: "2026-05-27",
+    updatedAt: "2026-05-27",
+    readTime: "7 min",
+    content: `## Dossier de Location : Que Doit Contenir un Dossier Complet ?
+
+Un dossier complet protège le bailleur et permet une sélection éclairée du locataire.
+
+## Documents obligatoires
+
+Pièce d'identité, justificatifs de domicile (3 dernières quittances), justificatifs d'activité (contrat de travail, bulletins de salaire).
+
+## Les garanties
+
+Garantie classique (personne physique), caution bancaire, garantie Visale (gratuite pour les moins de 30 ans).
+
+## FAQ — Dossier de location
+
+### Les frais de dossier sont-ils légaux ?
+
+Non, les frais de dossier réclamés au locataire sont interdits depuis la loi ALUR de 2014.
+
+[CTA : Constituez vos dossiers de location avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "statut-lmnp-2026-guide-complet",
+    title: "LMNP 2026 : Guide Complet du Statut Loueur Meublé Non Professionnel",
+    excerpt:
+      "LMNP 2026 : conditions d'accès, régimes fiscaux (micro-BIC, réel), amortissement, obligations déclaratives.",
+    category: "Fiscalité",
+    date: "2026-06-03",
+    updatedAt: "2026-06-03",
+    readTime: "11 min",
+    content: `## LMNP 2026 : Guide Complet du Statut Loueur Meublé Non Professionnel
+
+Le statut LMNP offre un régime fiscal attractif pour les propriétaires qui louent des biens équipés.
+
+## Conditions d'accès
+
+Le logement doit être équipé de manière suffisante. Les recettes locatives doivent être inférieures à 23 000 € par an.
+
+## Régimes fiscaux
+
+### Micro-BIC
+
+Abattement forfaitaire de 50 % sur les recettes.
+
+### Régime réel
+
+Déduction des charges réelles et amortissement du bien et du mobilier.
+
+## Amortissement
+
+Immeuble neuf : 2 à 3 % par an. Mobilier : 10 à 20 % par an. Durée : 30-40 ans pour l'immeuble, 5-10 ans pour le mobilier.
+
+## FAQ — Statut LMNP
+
+### Peut-on être au LMNP et au micro-foncier ?
+
+Oui, pour des biens différents.
+
+[CTA : Gérez votre comptabilité LMNP avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "declaration-revenus-locatifs-2026",
+    title: "Comment Déclarer ses Revenus Locatifs aux Impôts en 2026",
+    excerpt:
+      "Déclaration de revenus locatifs : formulaires 2044, 2031, régimes micro-foncier et réel, dates limites.",
+    category: "Fiscalité",
+    date: "2026-06-03",
+    updatedAt: "2026-06-03",
+    readTime: "9 min",
+    content: `## Comment Déclarer ses Revenus Locatifs en 2026
+
+La déclaration conditionne le montant de l'impôt et des prélèvements sociaux.
+
+## Régime micro-foncier
+
+Abattement forfaitaire de 30 %. Revenus nets = Revenus bruts - 30 %.
+
+## Régime réel
+
+Déduction des charges réelles : intérêts d'emprunt, taxes foncières, primes d'assurance, travaux de réparation.
+
+## Formulaires
+
+Formulaire 2044 pour le résultat foncier, formulaire 2031 pour le LMNP micro-BIC, formulaire 2042-C-PRO pour la déclaration globale.
+
+## FAQ — Déclaration de revenus locatifs
+
+### Peut-on corriger une déclaration ?
+
+Oui, dans un délai de 3 mois après la date limite.
+
+[CTA : Automatisez votre comptabilité locative avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "micro-foncier-ou-reel-comparaison-2026",
+    title: "Régime Micro-Foncier vs Réel : Quelle Option Choisir en 2026 ?",
+    excerpt:
+      "Micro-foncier ou régime réel : comparaison, abattement, charges déductibles, déficit.",
+    category: "Fiscalité",
+    date: "2026-06-03",
+    updatedAt: "2026-06-03",
+    readTime: "8 min",
+    content: `## Régime Micro-Foncier vs Réel : Quelle Option Choisir ?
+
+Le choix du régime fiscal peut réduire significativement votre imposition.
+
+## Micro-foncier
+
+Abattement fixe de 30 %. Simple, pas de déficit reportable. Adapté aux faibles charges.
+
+## Régime réel
+
+Déduction de toutes les charges réelles. Possibilité de déficit reportable 10 ans. Adapté aux forts besoins de financement ou travaux.
+
+## Comment choisir
+
+Comparez vos charges réelles annuelles à 30 % de vos loyers bruts. Si charges réelles > 30 % : régime réel preferable.
+
+## FAQ — Micro-foncier vs réel
+
+### Le choix est-il irréversible ?
+
+Non, vous pouvez changer chaque année avant le 1er février.
+
+[CTA : Calculez votre régime optimal avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "garantie-visale-fonctionnement-eligibilite",
+    title: "Garantie Visale : Comment Fonctionne et Qui Peut en Bénéficier ?",
+    excerpt:
+      "VisaLogement (Visale) : conditions d'éligibilité, montant couvert, procédure de demande, avantages pour le bailleur.",
+    category: "Juridique",
+    date: "2026-06-03",
+    updatedAt: "2026-06-03",
+    readTime: "8 min",
+    content: `## Garantie Visale : Comment Fonctionne et Qui Peut en Bénéficier ?
+
+Visale est une garantie gratuite qui couvre les bailleurs contre les loyers impayés et les dégradations.
+
+## Conditions d'éligibilité
+
+Locataire de moins de 30 ans ou en CDD de moins de 6 mois. Loyer charges comprises jusqu'à 1 500 € en Île-de-France ou 1 300 € en province.
+
+## Ce qui est couvert
+
+Loyers et charges impayés jusqu'à 36 mois, dégradations (limite 2 mois de loyer), frais de procédure.
+
+## Procédure
+
+Vérifier éligibilité sur visale.fr, demande en ligne, signature du bail, enregistrement, déclaration d'impayé si nécessaire.
+
+## FAQ — Garantie Visale
+
+### Peut-on cumuler Visale avec une assurance GLI ?
+
+Non, les deux dispositifs ne peuvent pas se cumuler sur un même bail.
+
+[CTA : Gérez vos locations avec garantie Visale avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "assurance-proprietaire-non-occupant-guide-2026",
+    title: "Assurance Propriétaire Non Occupant : Guide Complet 2026",
+    excerpt:
+      "Assurance PNO : obligations légales, garanties essentielles, risques couverts, coût moyen.",
+    category: "Juridique",
+    date: "2026-06-10",
+    updatedAt: "2026-06-10",
+    readTime: "8 min",
+    content: `## Assurance Propriétaire Non Occupant : Guide Complet 2026
+
+L'assurance PNO protège le bailleur contre les risques liés à sa qualité de propriétaire bailleur.
+
+## Garanties essentielles
+
+Responsabilité civile (dommages causés aux tiers), garantie contre les dégradations, protection juridique.
+
+## Risques couverts
+
+Incendie, explosion, dégât des eaux, catastrophes naturelles et technologiques.
+
+## Coût
+
+Studio/T1 : 100 à 200 €/an. T2/T3 : 150 à 300 €/an. Maison : 200 à 500 €/an.
+
+## FAQ — Assurance PNO
+
+### La PNO couvre-t-elle les impayés de loyer ?
+
+Non, pour cela il faut une assurance GLI ou le dispositif Visale.
+
+[CTA : Anticipez les risques locatifs avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "investir-immobilier-locatif-guide-debutant-2026",
+    title: "Comment Investir dans l'Immobilier Locatif : Guide Débutant 2026",
+    excerpt:
+      "Investissement locatif : étapes clés, financement, choix du bien, rentabilité, fiscalité.",
+    category: "Fiscalité",
+    date: "2026-06-10",
+    updatedAt: "2026-06-10",
+    readTime: "11 min",
+    content: `## Comment Investir dans l'Immobilier Locatif : Guide Débutant 2026
+
+L'investissement locatif combine constitution d'un patrimoine et revenus complémentaires.
+
+## Stratégie d'investissement
+
+Location nue (fiscalité foncière) ou location meublée (LMNP). Résidence principale, location temporaire ou saisonnière.
+
+## Financement
+
+Capacité d'emprunt : taux d'endettement maximum 35 % des revenus nets. Prêt in fine possible pour optimiser la trésorerie.
+
+## Choisir le bon bien
+
+Emplacement, demande locative, état du bien, surface, copropriété. Zones tendues : Paris, Lyon, Marseille, Bordeaux, Nantes, Lille.
+
+## Rentabilité
+
+Rentabilité brute = (Loyer annuel / Prix d'achat) × 100. Comptez 1 à 2 % de la valeur du bien par an pour les travaux.
+
+## FAQ — Investissement locatif
+
+### Faut-il créer une SCI ?
+
+Pas obligatoire mais peut présenter des avantages en termes de transmission patrimoniale.
+
+[CTA : Planifiez votre investissement locatif avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "plus-value-immobiliere-location-calcul-exoneration",
+    title: "Plus-Value Immobilière en Location : Calcul et Exonération",
+    excerpt:
+      "Plus-value immobilière : calcul, taux d'imposition, abattements, conditions d'exonération.",
+    category: "Fiscalité",
+    date: "2026-06-10",
+    updatedAt: "2026-06-10",
+    readTime: "9 min",
+    content: `## Plus-Value Immobilière en Location : Calcul et Exonération
+
+La plus-value est la différence entre le prix de vente et le prix d'achat d'un bien.
+
+## Calcul de la plus-value
+
+Prix de vente - Prix d'achat (frais et travaux inclus) = Plus-value brute. Après abattements = Plus-value nette.
+
+## Abattements
+
+Pour l'impôt sur le revenu : exonération totale après 22 ans. Pour les prélèvements sociaux : exonération totale après 30 ans.
+
+## Cas d'exonération
+
+Résidence principale, détention de plus de 30 ans, prix de vente réinvesti dans la résidence principale.
+
+## FAQ — Plus-value immobilière
+
+### Faut-il déclarer la plus-value même si exonérée ?
+
+Oui, la plus-value doit être déclarée même si totalement exonérée.
+
+[CTA : Anticipez la fiscalité de votre patrimoine avec RentReady — essai gratuit]`
+  },
+  {
+    slug: "bail-meuble-ou-vide-que-choisir-investisseur",
+    title: "Bail Meublé vs Bail Vide pour Investisseur : Le Guide Comparatif",
+    excerpt:
+      "Investisseur : bail meublé ou bail vide ? Comparaison détaillée, simulation financière.",
+    category: "Fiscalité",
+    date: "2026-06-10",
+    updatedAt: "2026-06-10",
+    readTime: "8 min",
+    content: `## Bail Meublé vs Bail Vide pour Investisseur
+
+Le choix impacte rentabilité, fiscalité et gestion quotidienne.
+
+## Comparaison de la rentabilité
+
+Loyer meublé supérieur de 10 à 30 %. Coût d'équipement d'un T2 : 3 500 à 7 500 €. Retour sur investissement en 2 à 4 ans.
+
+## Comparaison fiscale
+
+Bail vide : revenus fonciers (micro 30 %, réel). Bail meublé : LMNP (micro-BIC 50 %, réel avec amortissement).
+
+## Quel choix pour quel profil ?
+
+Meublé recommandé : zones étudiantes, petite surface, optimisation fiscale. Vide recommandé : simplicité, location longue durée, zone non tendue.
+
+## FAQ — Bail meublé vs vide pour investisseur
+
+### Le bail meublé est-il toujours plus rentable ?
+
+Pas nécessairement. Analysez le coût réel de l'équipement et la rotation attendue.
+
+[CTA : Comparez la rentabilité de vos investissements avec RentReady — essai gratuit]`
+  },
+] as Article[];

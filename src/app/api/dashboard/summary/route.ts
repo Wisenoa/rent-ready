@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
+import Decimal from "decimal.js";
 
 // ============================================================
 // GET /api/dashboard/summary
@@ -27,24 +28,21 @@ export async function GET(request: NextRequest) {
     const userId = session.user.id;
 
     // ── Counts ────────────────────────────────────────────
-    const [totalProperties, totalTenants, activeLeases, allProperties] =
-      await Promise.all([
-        prisma.property.count({ where: { userId, deletedAt: null } }),
-        prisma.tenant.count({ where: { userId } }),
-        prisma.lease.findMany({
-          where: { userId, status: "ACTIVE" },
-          select: {
-            id: true,
-            rentAmount: true,
-            chargesAmount: true,
-            propertyId: true,
-          },
-        }),
-        prisma.property.findMany({
-          where: { userId, deletedAt: null },
-          select: { id: true },
-        }),
-      ]);
+    // NOTE: activeLeases includes propertyId — derive rentedPropertyIds from it directly
+    // to avoid a redundant property query.
+    const [totalProperties, totalTenants, activeLeases] = await Promise.all([
+      prisma.property.count({ where: { userId, deletedAt: null } }),
+      prisma.tenant.count({ where: { userId } }),
+      prisma.lease.findMany({
+        where: { userId, status: "ACTIVE" },
+        select: {
+          id: true,
+          rentAmount: true,
+          chargesAmount: true,
+          propertyId: true,
+        },
+      }),
+    ]);
 
     const totalActiveLeases = activeLeases.length;
     const rentedPropertyIds = new Set(activeLeases.map((l) => l.propertyId));
@@ -65,14 +63,17 @@ export async function GET(request: NextRequest) {
     });
 
     const totalCollectedThisMonth = paidThisMonth.reduce(
-      (sum, tx) => sum + tx.amount,
+      (sum, tx) => new Decimal(sum).plus(tx.amount).toNumber(),
       0
     );
 
     // ── Outstanding ───────────────────────────────────────
     // Sum expected rent for active leases minus what was paid this month
     const expectedThisMonth = activeLeases.reduce(
-      (sum, l) => sum + l.rentAmount + l.chargesAmount,
+      (sum, l) =>
+        new Decimal(new Decimal(sum).plus(l.rentAmount).toNumber())
+          .plus(l.chargesAmount)
+          .toNumber(),
       0
     );
     const totalOutstanding = Math.max(

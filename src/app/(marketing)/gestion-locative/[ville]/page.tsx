@@ -567,6 +567,89 @@ export default async function GestionLocativeVille({ params }: Props) {
               ))}
             </div>
 
+            {/* ── Neighborhoods: Paris ── */}
+            {city.slug === "paris" && (
+              <div className="mt-10">
+                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                  Quartiers populaires pour la location à Paris
+                </h3>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {[
+                    { name: "Le Marais (4e)", detail: "Typique, Loft, 20-30 €/m²", zone: "Zone modérée" },
+                    { name: "11e arrondissement", detail: "Dynamique, T2/T3, 22-28 €/m²", zone: "Zone modérée" },
+                    { name: "18e (Montmartre)", detail: "Charme, Petits studios, 18-24 €/m²", zone: "Zone tendue" },
+                    { name: "12e (Bercy)", detail: "Familial, Grand, 20-26 €/m²", zone: "Zone modérée" },
+                    { name: "10e (Canal)", detail: "Jeune, Mixte, 22-30 €/m²", zone: "Zone tendue" },
+                    { name: "15e (Vaugirard)", detail: "Résidentiel, Grand, 18-24 €/m²", zone: "Zone modérée" },
+                  ].map((q) => (
+                    <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="font-semibold text-stone-900">{q.name}</p>
+                          <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
+                        </div>
+                        <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
+                          q.zone === "Zone tendue"
+                            ? "bg-amber-100 text-amber-800"
+                            : "bg-green-100 text-green-800"
+                        }`}>
+                          {q.zone}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Neighborhoods: Lyon ── */}
+            {city.slug === "lyon" && (
+              <div className="mt-10">
+                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                  Quartiers populaires pour la location à Lyon
+                </h3>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {[
+                    { name: "Presqu'île", detail: "Centre, T2/T3, 15-20 €/m²" },
+                    { name: "Croix-Rousse", detail: "Authentique, T1/T2, 13-18 €/m²" },
+                    { name: "Part-Dieu", detail: "Affaires, Studio/T1, 14-18 €/m²" },
+                    { name: "Vaise", detail: "En hausse, T2/T3, 12-16 €/m²" },
+                    { name: "Brotteaux", detail: "Bourgeois, Grand, 15-19 €/m²" },
+                    { name: "Gerland", detail: "Dynamique, Mixte, 13-17 €/m²" },
+                  ].map((q) => (
+                    <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
+                      <p className="font-semibold text-stone-900">{q.name}</p>
+                      <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Neighborhoods: Marseille ── */}
+            {city.slug === "marseille" && (
+              <div className="mt-10">
+                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                  Quartiers populaires pour la location à Marseille
+                </h3>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {[
+                    { name: "Le Prado", detail: "Familial, T3/T4, 12-16 €/m²" },
+                    { name: "Noailles / Centre", detail: "Central, Studio/T1, 10-15 €/m²" },
+                    { name: "Vieux-Port", detail: "Touristique, T2/T3, 16-22 €/m²" },
+                    { name: "Saint-Giniez", detail: "Bourgeois, Grand, 13-17 €/m²" },
+                    { name: "La Plaine / Cours Julien", detail: "Jeune, T1/T2, 11-15 €/m²" },
+                    { name: "Castellane", detail: "Commerçant, T2, 12-16 €/m²" },
+                  ].map((q) => (
+                    <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
+                      <p className="font-semibold text-stone-900">{q.name}</p>
+                      <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Related resources */}
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/quittances" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">

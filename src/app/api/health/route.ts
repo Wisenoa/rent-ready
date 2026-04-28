@@ -1,25 +1,37 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // ========================================
 // Health Check Endpoint
 // ========================================
 
-export async function GET() {
-  const health = {
+export async function GET(request: NextRequest) {
+  // Only expose full health details to authenticated requests or same-host callers.
+  // Public health checks get a minimal response to avoid leaking infrastructure details.
+  const authHeader = request.headers.get('authorization');
+  const host = request.headers.get('host') ?? '';
+  const isInternal = host.includes('localhost') || host.includes('127.0.0.1') || host.includes('0.0.0.0');
+  const isAuthenticated = !!authHeader && authHeader.startsWith('Bearer ');
+
+  const isExtended = isInternal || isAuthenticated;
+
+  const health: Record<string, unknown> = {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     version: process.env.npm_package_version || '0.1.0',
-    environment: process.env.NODE_ENV || 'development',
-    checks: {
+  };
+
+  if (isExtended) {
+    health.environment = process.env.NODE_ENV || 'development';
+    health.checks = {
       database: await checkDatabase(),
       redis: await checkRedis(),
       storage: await checkStorage(),
-    },
-  };
+    };
+  }
 
-  const isHealthy = Object.values(health.checks).every(c => c.status === 'healthy');
-  const statusCode = isHealthy ? 200 : 503;
+  const checksHealthy = !health.checks || Object.values((health.checks as Record<string, {status: string}>)).every(c => c.status === 'healthy');
+  const statusCode = checksHealthy ? 200 : 503;
 
   return NextResponse.json(health, { status: statusCode });
 }
@@ -44,7 +56,10 @@ async function checkDatabase(): Promise<{ status: string; latency?: number; erro
 }
 
 async function checkRedis(): Promise<{ status: string; latency?: number; error?: string }> {
-  if (!process.env.REDIS_URL) {
+  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!upstashUrl || !upstashToken) {
     return { status: 'not_configured' };
   }
 
@@ -52,19 +67,17 @@ async function checkRedis(): Promise<{ status: string; latency?: number; error?:
     const start = Date.now();
 
     // Dynamically import to avoid build errors if package not installed
-    const { createClient } = await import("redis");
-    const client = createClient({ url: process.env.REDIS_URL });
-    
-    await client.connect();
+    const { Redis } = await import("@upstash/redis");
+    const client = new Redis({ url: upstashUrl, token: upstashToken });
+
     await client.ping();
-    await client.disconnect();
-    
+
     const latency = Date.now() - start;
     return { status: 'healthy', latency };
   } catch (error) {
-    return { 
-      status: 'unhealthy', 
-      error: error instanceof Error ? error.message : 'Redis package not installed' 
+    return {
+      status: 'unhealthy',
+      error: error instanceof Error ? error.message : 'Upstash Redis unreachable'
     };
   }
 }

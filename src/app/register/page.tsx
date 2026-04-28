@@ -1,10 +1,13 @@
 import { Metadata } from "next";
 import { RegisterForm } from "./register-form";
 
-export const metadata: Metadata = {
-  title: "Inscription",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Créer un compte — RentReady",
+    description: "Créez votre compte RentReady en 2 minutes. Gérez vos biens locatifs, générez des quittances conformes et suivez vos loyers. Essai gratuit.",
+    robots: { index: false, follow: false },
+  };
+}
 
 export default function RegisterPage() {
   return (

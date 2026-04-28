@@ -108,9 +108,9 @@ export default async function FiscalPreparePage({
     const activeLease = property.leases[0];
     const txList = activeLease?.transactions ?? [];
 
-    const totalRentReceived = txList.reduce((sum, tx) => sum + tx.rentPortion, 0);
+    const totalRentReceived = txList.reduce((sum, tx) => sum + Number(tx.rentPortion), 0);
     const totalChargesReceived = txList.reduce(
-      (sum, tx) => sum + tx.chargesPortion,
+      (sum, tx) => sum + Number(tx.chargesPortion),
       0
     );
     const totalReceived = totalRentReceived + totalChargesReceived;
@@ -118,7 +118,7 @@ export default async function FiscalPreparePage({
     const expensesByCategory: Record<string, number> = {};
     for (const exp of property.expenses) {
       expensesByCategory[exp.category] =
-        (expensesByCategory[exp.category] ?? 0) + exp.amount;
+        (expensesByCategory[exp.category] ?? 0) + Number(exp.amount);
     }
     const totalExpenses = Object.values(expensesByCategory).reduce(
       (s, v) => s + v,
@@ -397,13 +397,13 @@ export default async function FiscalPreparePage({
                                 )}
                               </TableCell>
                               <TableCell className="font-mono text-sm">
-                                {formatCurrency(tx.rentPortion)}
+                                {formatCurrency(Number(tx.rentPortion))}
                               </TableCell>
                               <TableCell className="font-mono text-sm text-muted-foreground">
-                                {formatCurrency(tx.chargesPortion)}
+                                {formatCurrency(Number(tx.chargesPortion))}
                               </TableCell>
                               <TableCell className="font-mono text-sm font-medium">
-                                {formatCurrency(tx.amount)}
+                                {formatCurrency(Number(tx.amount))}
                               </TableCell>
                               <TableCell className="text-sm text-muted-foreground">
                                 {tx.paidAt

@@ -11,13 +11,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Bail Mobilité — Gratuit | RentReady",
-    description: "Téléchargez notre modèle de bail mobilité gratuit. Location meublée de 1 à 10 mois sans possibilité de prolongation ni révision loyer.",
+    title:
+      "Modèle Bail Mobilité 2026 — Gratuit & Conforme | RentReady",
+    description:
+      "Téléchargez le modèle bail mobilité gratuit. Location meublée 1-10 mois, sans dépôt de garantie ni révision loyer. PDF instantané, prêt à faire signer.",
     url: "/modeles/bail-mobilite",
     ogType: "template",
   });
 }
-;
 
 const caractMobilite = [
   {

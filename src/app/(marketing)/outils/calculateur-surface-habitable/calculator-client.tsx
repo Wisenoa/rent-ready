@@ -227,7 +227,7 @@ export function SurfaceHabitableClient() {
         <h3 className="font-bold text-red-700 mt-4 mb-2">❌ Ce qui est EXCLU de la surface habitable</h3>
         <ul className="text-sm text-red-700 space-y-1">
           <li>❌ Murs, cloisons, marches et gaines</li>
-          <li>❌ Parties de hauteur < 1.80m (sous combles,mansardes)</li>
+          <li>❌ Parties de hauteur &lt; 1.80m (sous combles, mansardes)</li>
           <li>❌ Balcons, terrasses, loggias</li>
           <li>❌ Caves, garages, parkings, greniers non aménagés</li>
         </ul>

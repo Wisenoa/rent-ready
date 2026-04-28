@@ -12,13 +12,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Lettre Augmentation de Loyer — Gratuit | RentReady",
-    description: "Modèle de lettre pour augmenter le loyer en cours de bail. Calculs révision IRL et règles dineo-occupy pour incrementer合法的租金.",
+    title:
+      "Modèle Lettre Augmentation de Loyer 2026 — Gratuit & PDF Instantané | RentReady",
+    description:
+      "Modèle lettre augmentation loyer 2026 gratuit. Révision IRL avec l'Indice de Référence des Loyers INSEE. PDF instantané, conforme loi Alur.",
     url: "/modeles/augmentation-de-loyer",
     ogType: "template",
   });
 }
-;
 
 const conditionsAugmentation = [
   {

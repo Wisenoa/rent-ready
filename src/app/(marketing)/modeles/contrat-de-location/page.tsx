@@ -12,13 +12,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Contrat de Location Gratuit — Bail Conforme Loi Alur | RentReady",
-    description: "Téléchargez notre modèle de contrat de location gratuit et conforme au droit français. Bail résidentiel avec clauses obligatoires.",
+    title:
+      "Modèle Contrat de Location 2026 — Gratuit, Conforme & PDF | RentReady",
+    description:
+      "Modèle contrat de location gratuit 2026. Bail résidentiel conforme loi Alur avec toutes les clauses obligatoires. PDF instantané, personnalisable en 2 min.",
     url: "/modeles/contrat-de-location",
     ogType: "template",
   });
 }
-;
 
 const clausesObligatoires = [
   "Identité des parties (bailleur et locataire)",

@@ -16,11 +16,11 @@ export function AnnualSubscribeButton({
   annualPriceLabel = "S'abonner — 144 €/an",
   badgeLabel = "2 mois gratuits",
 }: AnnualSubscribeButtonProps) {
-  const { data: session, isLoading } = useSession();
-  const [isPending, startTransition] = useTransition();
+  const { data: session, isPending: sessionPending } = useSession();
+  const [transitionPending, startTransition] = useTransition();
   const [showLoading, setShowLoading] = useState(false);
 
-  if (isLoading) {
+  if (sessionPending) {
     return (
       <Button
         disabled
@@ -60,10 +60,10 @@ export function AnnualSubscribeButton({
                 }
               });
             }}
-            disabled={showLoading || isPending}
+            disabled={showLoading || transitionPending}
             className="w-full items-center gap-2.5 rounded-2xl bg-primary py-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-colors hover:bg-primary/90"
           >
-            {showLoading || isPending ? (
+            {showLoading || transitionPending ? (
               <>
                 <Loader2 className="size-4 animate-spin" />
                 Redirection…

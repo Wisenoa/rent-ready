@@ -163,12 +163,12 @@ export default async function GlossaryTermPage({ params }: Props) {
     .slice(0, 3) as typeof articles;
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://www.rentready.fr" },
+    { label: "Accueil", href: "https://www.rentready.fr" },
     {
-      name: "Glossaire Immobilier",
-      url: "https://www.rentready.fr/glossaire-immobilier",
+      label: "Glossaire Immobilier",
+      href: "https://www.rentready.fr/glossaire-immobilier",
     },
-    { name: entry.term, url: `https://www.rentready.fr/glossaire-immobilier/${entry.slug}` },
+    { label: entry.term, href: `https://www.rentready.fr/glossaire-immobilier/${entry.slug}` },
   ];
 
   return (

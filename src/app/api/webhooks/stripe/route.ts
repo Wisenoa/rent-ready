@@ -160,10 +160,18 @@ export async function POST(request: NextRequest) {
             data: { subscriptionStatus: newStatus },
           });
           // Sync organization-level subscription status for org-owned resources
-          await prisma.organization.updateMany({
-            where: { ownerId: userId },
-            data: { subscriptionStatus: newStatus },
+          // Find all organizations where this user is a member and update their status
+          const orgMemberships = await prisma.organizationMember.findMany({
+            where: { userId },
+            select: { organizationId: true },
           });
+          const orgIds = orgMemberships.map((m) => m.organizationId);
+          if (orgIds.length > 0) {
+            await prisma.organization.updateMany({
+              where: { id: { in: orgIds } },
+              data: { subscriptionStatus: newStatus },
+            });
+          }
           console.log(`[Stripe] User ${userId} subscription → ${newStatus}`);
         }
         break;

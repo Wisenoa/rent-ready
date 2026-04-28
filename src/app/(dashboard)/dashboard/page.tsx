@@ -330,7 +330,7 @@ export default async function DashboardPage() {
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-mono font-medium">
-                        {formatCurrency(tx.amount)}
+                        {formatCurrency(Number(tx.amount))}
                       </span>
                       <Badge variant={config.variant} className="text-xs">
                         {config.label}

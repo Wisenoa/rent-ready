@@ -110,14 +110,14 @@ export default async function LeaseDetailPage({ params }: Props) {
   }
 
   const statusCfg = LEASE_STATUS_CONFIG[lease.status] ?? LEASE_STATUS_CONFIG.DRAFT;
-  const totalMonthly = lease.rentAmount + lease.chargesAmount;
+  const totalMonthly = Number(lease.rentAmount) + Number(lease.chargesAmount);
 
   // Compute payment stats
   const totalPaid = lease.transactions
     .filter((tx) => tx.status === "PAID" || tx.status === "PARTIAL")
-    .reduce((sum, tx) => sum + tx.amount, 0);
+    .reduce((sum, tx) => sum + Number(tx.amount), 0);
 
-  const totalDue = lease.transactions.reduce((sum, tx) => sum + tx.amount, 0);
+  const totalDue = lease.transactions.reduce((sum, tx) => sum + Number(tx.amount), 0);
   const lateCount = lease.transactions.filter((tx) => tx.status === "LATE").length;
 
   return (
@@ -164,7 +164,21 @@ export default async function LeaseDetailPage({ params }: Props) {
               Réviser le bail
             </Link>
           )}
-          <LeaseEditDialog lease={lease} />
+          <LeaseEditDialog lease={{
+            id: lease.id,
+            propertyId: lease.propertyId,
+            tenantId: lease.tenantId,
+            rentAmount: Number(lease.rentAmount),
+            chargesAmount: Number(lease.chargesAmount),
+            depositAmount: Number(lease.depositAmount),
+            startDate: lease.startDate,
+            endDate: lease.endDate,
+            paymentDay: lease.paymentDay,
+            paymentMethod: lease.paymentMethod,
+            leaseType: lease.leaseType,
+            irlReferenceQuarter: lease.irlReferenceQuarter,
+            irlReferenceValue: lease.irlReferenceValue ? Number(lease.irlReferenceValue) : null,
+          }} />
         </div>
       </div>
 
@@ -178,7 +192,7 @@ export default async function LeaseDetailPage({ params }: Props) {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Loyer HC</p>
-                <p className="text-sm font-semibold font-mono">{formatCurrency(lease.rentAmount)}<span className="text-xs font-normal text-muted-foreground">/mois</span></p>
+                <p className="text-sm font-semibold font-mono">{formatCurrency(Number(lease.rentAmount))}<span className="text-xs font-normal text-muted-foreground">/mois</span></p>
               </div>
             </div>
           </CardContent>
@@ -191,7 +205,7 @@ export default async function LeaseDetailPage({ params }: Props) {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Charges</p>
-                <p className="text-sm font-semibold font-mono">{formatCurrency(lease.chargesAmount)}<span className="text-xs font-normal text-muted-foreground">/mois</span></p>
+                <p className="text-sm font-semibold font-mono">{formatCurrency(Number(lease.chargesAmount))}<span className="text-xs font-normal text-muted-foreground">/mois</span></p>
               </div>
             </div>
           </CardContent>
@@ -204,7 +218,7 @@ export default async function LeaseDetailPage({ params }: Props) {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Dépôt de garantie</p>
-                <p className="text-sm font-semibold font-mono">{formatCurrency(lease.depositAmount)}</p>
+                <p className="text-sm font-semibold font-mono">{formatCurrency(Number(lease.depositAmount))}</p>
               </div>
             </div>
           </CardContent>
@@ -393,7 +407,7 @@ export default async function LeaseDetailPage({ params }: Props) {
                 )}
                 <div>
                   <p className="text-xs text-muted-foreground">Dépôt de garantie</p>
-                  <p className="text-sm font-medium">{formatCurrency(lease.depositAmount)}</p>
+                  <p className="text-sm font-medium">{formatCurrency(Number(lease.depositAmount))}</p>
                 </div>
               </div>
 
@@ -466,7 +480,7 @@ export default async function LeaseDetailPage({ params }: Props) {
                             {format(new Date(tx.periodStart), "MMM yyyy", { locale: fr })}
                           </TableCell>
                           <TableCell className="font-mono text-sm font-medium">
-                            {formatCurrency(tx.amount)}
+                            {formatCurrency(Number(tx.amount))}
                           </TableCell>
                           <TableCell>
                             <Badge variant="secondary" className={txStatus.className}>

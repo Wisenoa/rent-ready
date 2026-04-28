@@ -9,6 +9,9 @@
  * Reference: Article 17-1 de la loi n°89-462 du 6 juillet 1989
  */
 
+import Decimal from "decimal.js";
+import { toDecimal } from "@/lib/decimal";
+
 export interface IrlIndexEntry {
   quarter: string; // e.g. "T4-2025"
   year: number;
@@ -88,24 +91,29 @@ export function calculateRentRevision(
     throw new Error("La valeur de l'IRL de référence ne peut pas être zéro.");
   }
 
-  const newRent =
-    Math.round(
-      input.currentRent * (newIrl.value / referenceIrl.value) * 100
-    ) / 100;
+  // Use Decimal.js for precise monetary arithmetic
+  const currentRent = toDecimal(input.currentRent);
+  const newRentRaw = currentRent
+    .times(newIrl.value)
+    .dividedBy(referenceIrl.value);
+  const newRent = newRentRaw.toDecimalPlaces(2).toNumber();
 
-  const difference = Math.round((newRent - input.currentRent) * 100) / 100;
-  const percentageChange =
-    Math.round(((newRent - input.currentRent) / input.currentRent) * 10000) /
-    100;
+  const difference = newRentRaw.minus(currentRent).toDecimalPlaces(2).toNumber();
+  const percentageChange = newRentRaw
+    .minus(currentRent)
+    .dividedBy(currentRent)
+    .times(100)
+    .toDecimalPlaces(2)
+    .toNumber();
 
   return {
-    currentRent: input.currentRent,
+    currentRent: currentRent.toNumber(),
     newRent,
     difference,
     percentageChange,
     referenceIrl,
     newIrl,
-    formula: `${input.currentRent} € × (${newIrl.value} / ${referenceIrl.value}) = ${newRent} €`,
+    formula: `${currentRent.toNumber()} € × (${newIrl.value} / ${referenceIrl.value}) = ${newRent} €`,
   };
 }
 

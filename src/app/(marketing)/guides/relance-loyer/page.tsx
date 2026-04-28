@@ -7,7 +7,8 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Lettre de relance pour loyer impayé | Modèle gratuit 2026",
+    title:
+      "Lettre Relance Loyer Impayé 2026 — Modèle Gratuit & Guide | RentReady",
     description:
       "Modèle de lettre de relance pour loyers impayés à télécharger. Modèle gratuit, personnalisable, à envoyer en recommandé. Procédure et délais.",
     url: "/guides/relance-loyer",
@@ -50,12 +51,71 @@ const howToSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Combien de temps après la date d'échéance peut-on relancer un loyer impayé ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "La relance simple (email ou courrier) peut être envoyée dès le lendemain de la date d'échéance. Il est recommandé de ne pas attendre au-delà du 5 du mois. Entre J+8 et J+15, envoyez une mise en demeure en recommandé avec accusé de réception (LRAR).",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Que doit contenir une lettre de mise en demeure pour loyer impayé ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "La lettre doit mentionner : l'identification complète du bailleur et du locataire, les références du bail (date, durée, montant du loyer), le montant total dû avec le détail (loyer HT, charges, taxes), la période concernée, le délai de réglement imparti (généralement 8 jours), et les conséquences juridiques en cas de non-paiement (procédure judiciaire, expulsion).",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Peut-on expulser un locataire pour un seul mois de loyer impayé ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Oui, un seul mois de loyer impayé suffit pour engager une procédure d'expulsion. Toutefois, la procédure est longue (plusieurs mois) et nécessite une décision de justice. Il est essentiel de constituer un dossier de preuves solide et de respecter chaque étape légale.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Quelles preuves conserver en cas d'impayé ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Conservez absolument : les relevés bancaires attestant de l'absence de virement, tous les échanges d'emails ou SMS avec le locataire, la copie de la lettre de relance avec l'accusé de réception, et toute attestation écrite où le locataire reconnaîtrait l'impayé.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "La Garantie Loyers Impayés (GLI) est-elle obligatoire ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Non, la GLI n'est pas obligatoire mais elle est fortement recommandée. Elle rembourse les loyers impayés (dans la limite du plafond contractuel) et peut prendre en charge les frais de procédure. Le coût varie entre 2 % et 4 % du montant annuel du loyer charges comprises.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Que se passe-t-il si le tribunal donne raison au bailleur ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Si le tribunal judiciaire donne raison au bailleur, il peut soit résilier le bail et ordonner l'expulsion, soit simplement condamner le locataire à payer les sommes dues. En cas de résiliation, un commandement de quitter les lieux doit être signifié par un huissier avant toute expulsion.",
+      },
+    },
+  ],
+};
+
 export default function RelanceLoyerGuidePage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
@@ -162,6 +222,53 @@ export default function RelanceLoyerGuidePage() {
           entre 2 % et 4 % du montant annuel du loyer.
         </p>
       </div>
+
+      {/* FAQ Section */}
+      <section className="mt-16 rounded-2xl border border-stone-200/60 bg-white p-8">
+        <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes sur la relance de loyer impayé</h2>
+        <div className="space-y-4">
+          {[
+            {
+              q: "Combien de temps après la date d'échéance peut-on relancer un loyer impayé ?",
+              a: "La relance simple (email ou courrier) peut être envoyée dès le lendemain de la date d'échéance. Il est recommandé de ne pas attendre au-delà du 5 du mois. Entre J+8 et J+15, envoyez une mise en demeure en LRAR.",
+            },
+            {
+              q: "Que doit contenir une lettre de mise en demeure pour loyer impayé ?",
+              a: "La lettre doit mentionner : identification complète du bailleur et du locataire, références du bail, montant total dû avec le détail, période concernée, délai de réglement (8 jours), et conséquences juridiques en cas de non-paiement.",
+            },
+            {
+              q: "Peut-on expulser un locataire pour un seul mois de loyer impayé ?",
+              a: "Oui, un seul mois de loyer impayé suffit pour engager une procédure d'expulsion. La procédure est toutefois longue (plusieurs mois) et nécessite une décision de justice.",
+            },
+            {
+              q: "Quelles preuves conserver en cas d'impayé ?",
+              a: "Conservez : relevés bancaires attestant de l'absence de virement, échanges d'emails ou SMS avec le locataire, copie de la lettre de relance avec accusé de réception, et toute attestation écrite reconnaissant l'impayé.",
+            },
+            {
+              q: "La Garantie Loyers Impayés (GLI) est-elle obligatoire ?",
+              a: "Non, la GLI n'est pas obligatoire mais elle est fortement recommandée. Elle rembourse les loyers impayés et peut prendre en charge les frais de procédure. Le coût varie entre 2 % et 4 % du montant annuel du loyer.",
+            },
+            {
+              q: "Que se passe-t-il si le tribunal donne raison au bailleur ?",
+              a: "Le tribunal peut résilier le bail et ordonner l'expulsion, ou simplement condamner le locataire à payer. En cas de résiliation, un commandement de quitter les lieux doit être signifié par un huissier avant toute expulsion.",
+            },
+          ].map((item, i) => (
+            <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-stone-900 hover:text-red-600">
+                {item.q}
+                <span className="shrink-0 text-stone-400 transition-transform group-open:rotate-180">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </span>
+              </summary>
+              <div className="border-t border-stone-200 p-4 text-stone-600">
+                {item.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <div className="mt-12 rounded-xl border border-stone-200/60 bg-stone-50 p-8 text-center">
         <h2 className="mb-3 text-xl font-bold text-stone-900">

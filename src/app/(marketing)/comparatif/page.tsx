@@ -1,14 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { baseMetadata } from "@/lib/seo/metadata";
+import {
+  buildGraphSchema,
+  buildBreadcrumbSchema,
+  buildItemListSchema,
+} from "@/lib/seo/structured-data";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const revalidate = 86400;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Comparatifs location — RentReady",
+    title:
+      "Comparatif Gestion Locative 2026 — Logiciels, Outils & Prix | RentReady",
     description:
-      "Comparez les solutions de gestion locative, quittances de loyer, assurances et outils pour propriétaires bailleurs. Faites le bon choix en toute connaissance de cause.",
+      "Comparez les meilleurs logiciels de gestion locative, outils et services pour propriétaires bailleurs en 2026. Tarifs, fonctionnalités, avis — faites le bon choix.",
     url: "/comparatif",
     ogType: "website",
   });
@@ -22,6 +29,30 @@ const comparatifs = [
     href: "/comparatif/logiciel-gestion-locative",
     badge: "Populaire",
     badgeColor: "bg-blue-100 text-blue-700",
+  },
+  {
+    title: "RentReady vs Gerclegeo",
+    description:
+      "Comparatif détaillé : tarifs, fonctionnalités, conformité loi Alur. Quel logiciel choisir pour votre parc locatif ?",
+    href: "/comparatif/rentready-vs-gerclegeo",
+    badge: "Nouveau",
+    badgeColor: "bg-red-100 text-red-700",
+  },
+  {
+    title: "RentReady vs Immotop",
+    description:
+      "Comparez RentReady et Immotop : détection paiements, quittances automatiques, révision IRL, tarifs réels.",
+    href: "/comparatif/rentready-vs-immotop",
+    badge: "Nouveau",
+    badgeColor: "bg-red-100 text-red-700",
+  },
+  {
+    title: "RentReady vs LegalPlace",
+    description:
+      "Gestion locative vs services juridiques : comment utiliser les deux ensemble pour vos locations.",
+    href: "/comparatif/rentready-vs-legalplace",
+    badge: "Nouveau",
+    badgeColor: "bg-red-100 text-red-700",
   },
   {
     title: "Quittance de loyer vs attestation de paiement",
@@ -49,9 +80,32 @@ const comparatifs = [
   },
 ];
 
+function ComparatifIndexJsonLd() {
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Comparatifs", url: "https://www.rentready.fr/comparatif" },
+    ]),
+    buildItemListSchema({
+      name: "Comparatifs pour propriétaires bailleurs",
+      description:
+        "Guides comparatifs pour analyser les solutions de gestion locative, quittances, assurances et outils.",
+      url: "https://www.rentready.fr/comparatif",
+      items: comparatifs.map((comp) => ({
+        name: comp.title,
+        description: comp.description,
+        url: `https://www.rentready.fr${comp.href}`,
+      })),
+    })
+  );
+  return <SchemaMarkup data={schema} />;
+}
+
 export default function ComparatifIndex() {
   return (
-    <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+    <>
+      <ComparatifIndexJsonLd />
+      <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12 text-center">
         <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
           Guides comparatifs
@@ -99,5 +153,6 @@ export default function ComparatifIndex() {
         </p>
       </div>
     </main>
+    </>
   );
 }

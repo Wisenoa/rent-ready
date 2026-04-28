@@ -19,8 +19,10 @@ const FinalCta = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Quittances de loyer — Génération automatique et conforme | RentReady",
-    description: "Générez des quittances de loyer conformes en 1 clic. Quittance PDF automatique, mention légale INSEE, envoyée au locataire. Logiciel pour propriétaires.",
+    title:
+      "Quittances de Loyer 2026 — Génération Automatique PDF Conforme | RentReady",
+    description:
+      "Générez des quittances de loyer conformes en 1 clic. PDF automatique avec mention légale INSEE, envoi direct au locataire. Essai gratuit sans engagement.",
     url: "/quittances",
     ogType: "template",
   });

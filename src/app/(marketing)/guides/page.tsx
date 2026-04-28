@@ -5,12 +5,19 @@ export const revalidate = 604800;
 import Link from "next/link";
 import { ArrowRight, FileText, BookOpen, Download } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
+import {
+  buildGraphSchema,
+  buildBreadcrumbSchema,
+  buildItemListSchema,
+} from "@/lib/seo/structured-data";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Guides pratiques propriétaire | RentReady",
+    title:
+      "Guides Propriétaire Bailleur — Modèles gratuits,IRL, Bail 2026 | RentReady",
     description:
-      "Guides gratuits pour propriétaires bailleurs : modèle de bail, quittance de loyer, dépôt de garantie, révision IRL, lettre de relance. Documents gratuits à télécharger.",
+      "Guides gratuits pour propriétaires : modèle de bail, quittance, dépôt de garantie, révision IRL, lettre de relance. Téléchargez et utilisez immédiatement — sans inscription.",
     url: "/guides",
     ogType: "website",
   });
@@ -64,12 +71,34 @@ const guides = [
   },
 ];
 
+function GuidesPageJsonLd() {
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Guides", url: "https://www.rentready.fr/guides" },
+    ]),
+    buildItemListSchema({
+      name: "Guides pratiques pour propriétaire bailleur",
+      description:
+        "Guides gratuits pour propriétaires bailleurs : modèle de bail, quittance de loyer, dépôt de garantie, révision IRL, lettre de relance.",
+      url: "https://www.rentready.fr/guides",
+      items: guides.map((guide) => ({
+        name: guide.title,
+        description: guide.excerpt,
+        url: `https://www.rentready.fr${guide.href}`,
+      })),
+    })
+  );
+  return <SchemaMarkup data={schema} />;
+}
+
 export default function GuidesPage() {
   return (
     <>
+      <GuidesPageJsonLd />
       <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-12 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl text-balance">
             Guides pratiques — Propriétaire Bailleur
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">

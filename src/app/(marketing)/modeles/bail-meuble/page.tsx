@@ -12,13 +12,14 @@ const FinalCta = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Bail Meublé — Contrat Location Meublée 2026 | RentReady",
-    description: "Téléchargez notre modèle bail meublé gratuit. Location meublée résidence principale, durée 1 an renouvelable, inventaire mobilier intégré. PDF instantané.",
+    title:
+      "Modèle Bail Meublé 2026 — Gratuit & Conforme Loi 1989 | RentReady",
+    description:
+      "Téléchargez le modèle bail meublé gratuit et conforme à la loi de 1989. Bail 1 an résidence principale, inventaire mobilier intégré, dépôt de garantie. PDF instantané.",
     url: "/modeles/bail-meuble",
     ogType: "template",
   });
 }
-;
 
 const caracteristiques = [
   {

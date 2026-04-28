@@ -5,11 +5,19 @@ export const revalidate = 604800;
 import Link from "next/link";
 import { ArrowRight, FileText, Download, CheckCircle } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
+import {
+  buildGraphSchema,
+  buildBreadcrumbSchema,
+  buildItemListSchema,
+  buildWebPageSchema,
+  buildOrganizationSchema,
+} from "@/lib/seo/structured-data";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Modèles de location gratuits | Bail, quittance, courrier | RentReady",
+      "Modèles de Location Gratuits 2026 | Bail, Quittance, Courrier | RentReady",
     description:
       "Téléchargez gratuitement nos modèles de bail, quittances, lettres et contrats de location. Documents conformes droit français, personnalisables et gratuits.",
     url: "/modeles",
@@ -63,9 +71,44 @@ const modeleCategories = [
   },
 ];
 
+/* ─── JSON-LD ─── */
+function ModelesPageJsonLd() {
+  const allItems = modeleCategories.flatMap((cat) =>
+    cat.templates.map((t) => ({
+      name: t.title,
+      description: t.desc,
+      url: `https://www.rentready.fr/modeles/${t.slug}`,
+    }))
+  );
+
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Modèles", url: "https://www.rentready.fr/modeles" },
+    ]),
+    buildWebPageSchema({
+      name: "Modèles gratuits de location — RentReady",
+      description:
+        "Téléchargez gratuitement nos modèles de bail, quittances, lettres et contrats de location. Documents conformes droit français, personnalisables et gratuits.",
+      url: "https://www.rentready.fr/modeles",
+    }),
+    buildItemListSchema({
+      name: "Modèles gratuits de location",
+      description:
+        "Modèles de bail, quittances, lettres de relance et documents pour propriétaires — tous gratuits et conformes au droit français.",
+      url: "https://www.rentready.fr/modeles",
+      items: allItems,
+    }),
+    buildOrganizationSchema()
+  );
+
+  return <SchemaMarkup data={schema} />;
+}
+
 export default function ModelesPage() {
   return (
     <>
+      <ModelesPageJsonLd />
       <article className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-12 text-center">
           <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-5xl">

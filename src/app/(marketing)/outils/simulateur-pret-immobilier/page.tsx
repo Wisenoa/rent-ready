@@ -4,10 +4,16 @@ import { baseMetadata } from "@/lib/seo/metadata";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import {
+  buildGraphSchema,
+  buildBreadcrumbSchema,
+  buildWebApplicationSchema,
+  buildHowToSchema,
+} from "@/lib/seo/structured-data";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Simulateur de Prêt Immobilier — Calcul Mensualité en Ligne | RentReady",
+    title: "Simulateur Prêt Immobilier 2026 — Calcul Mensualité en Ligne | RentReady",
     description: "Calculez votre mensualité de prêt immobilier en ligne. Simulateur gratuit avec tableau d'amortissement, taux d'intérêt et durée personnalisables.",
     url: "/outils/simulateur-pret-immobilier",
     ogType: "outil",
@@ -20,18 +26,51 @@ const breadcrumbItems = [
   { label: "Simulateur Prêt Immobilier", href: "/outils/simulateur-pret-immobilier" },
 ];
 
+function SimulateurPretJsonLd() {
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Outils", url: "https://www.rentready.fr/outils" },
+      { name: "Simulateur Prêt Immobilier", url: "https://www.rentready.fr/outils/simulateur-pret-immobilier" },
+    ]),
+    buildWebApplicationSchema({
+      name: "Simulateur de Prêt Immobilier",
+      description:
+        "Calculez votre mensualité de prêt immobilier en ligne. Simulateur gratuit avec tableau d'amortissement, taux d'intérêt et durée personnalisables.",
+      url: "/outils/simulateur-pret-immobilier",
+    }),
+    buildHowToSchema({
+      name: "Comment calculer sa mensualité de prêt immobilier",
+      description:
+        "Calculez la mensualité de votre emprunt immobilier et visualisez le tableau d'amortissement complet pour planifier votre investissement.",
+      url: "/outils/simulateur-pret-immobilier",
+      steps: [
+        {
+          name: "Saisissez le montant emprunté",
+          text: "Indiquez le montant total que vous souhaitez emprunter pour financer votre projet immobilier.",
+        },
+        {
+          name: "Définissez le taux d'intérêt",
+          text: "Précisez le taux d'intérêt annuel proposé par votre banque ou négocié pour ce prêt.",
+        },
+        {
+          name: "Choisissez la durée de emprunt",
+          text: "Sélectionnez la durée de remboursement souhaitée, généralement entre 10 et 25 ans.",
+        },
+        {
+          name: "Visualisez le tableau d'amortissement",
+          text: "Consultez la répartition de chaque mensualité entre intérêts et capital amorti sur toute la durée du prêt.",
+        },
+      ],
+    })
+  );
+  return <SchemaMarkup data={schema} />;
+}
+
 export default function SimulateurPretPage() {
   return (
     <>
-      <SchemaMarkup data={{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        name: "Simulateur de Prêt Immobilier",
-        description: "Calculez votre mensualité de prêt immobilier avec tableau d'amortissement. Simulateur gratuit pour investisseurs locatifs.",
-        url: "https://www.rentready.fr/outils/simulateur-pret-immobilier",
-        applicationCategory: "FinancialApplication",
-        operatingSystem: "Web",
-      }} />
+      <SimulateurPretJsonLd />
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-3xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />

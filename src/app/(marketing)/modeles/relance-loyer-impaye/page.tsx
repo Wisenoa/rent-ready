@@ -12,13 +12,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Relance Loyer Impayé — Gratuit | RentReady",
-    description: "Modèle de lettre de relance pour loyer impayé. Étapes légales et نموذج gratuit pour réclamer le paiement du loyer en toute légalité.",
+    title:
+      "Modèle Relance Loyer Impayé 2026 — Gratuit & Téléchargement PDF | RentReady",
+    description:
+      "Modèle de lettre de relance pour loyer impayé, prêt à envoyer en recommandé. Téléchargez gratuitement, personnalisez en 2 minutes. Procédure et délais 2026 inclus.",
     url: "/modeles/relance-loyer-impaye",
     ogType: "template",
   });
 }
-;
 
 const etapesRelance = [
   {

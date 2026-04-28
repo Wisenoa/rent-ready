@@ -15,9 +15,13 @@ services:
 
   # ========================================
   # Staging Redis
+  # Same note as production: @upstash/redis requires Upstash Serverless Redis (HTTP REST).
+  # For staging, use in-memory fallback (no multi-instance in staging typically).
+  # Provision Upstash for staging at: https://console.upstash.com/
   # ========================================
-  redis:
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
+  # redis:
+  #   image: redis:7-alpine
+  #   command: ["redis-server", "--port", "6379", "--requirepass", "${REDIS_PASSWORD:-}"]
 
   # ========================================
   # Staging App

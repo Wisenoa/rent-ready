@@ -140,12 +140,12 @@ export default async function BillingPage() {
       }),
     ]);
 
-  const totalPaidAmount = totalPaid._sum.amount ?? 0;
-  const totalPendingAmount = totalPending._sum.amount ?? 0;
+  const totalPaidAmount = Number(totalPaid._sum.amount ?? 0);
+  const totalPendingAmount = Number(totalPending._sum.amount ?? 0);
   const hasTransactions = transactions.length > 0;
 
   const subscriptionStatus = user?.subscriptionStatus ?? "TRIAL";
-  const trialEndsAt = user?.trialEndsAt;
+  const trialEndsAt = user?.trialEndsAt ?? null;
   const trialExpired = isTrialExpired(trialEndsAt);
   const isActive = subscriptionStatus === "ACTIVE" || (subscriptionStatus === "TRIAL" && !trialExpired);
   const isTrial = subscriptionStatus === "TRIAL";
@@ -168,7 +168,7 @@ export default async function BillingPage() {
             Suivi des loyers et génération de quittances
           </p>
         </div>
-        <TransactionForm leases={activeLeases} />
+        <TransactionForm leases={activeLeases.map(l => ({ ...l, rentAmount: Number(l.rentAmount), chargesAmount: Number(l.chargesAmount) }))} />
       </div>
 
       {/* Summary cards */}
@@ -271,7 +271,7 @@ export default async function BillingPage() {
                         {tx.lease.property?.name ?? ''}
                       </TableCell>
                       <TableCell className="text-right font-mono text-sm font-semibold">
-                        {formatCurrency(tx.amount)}
+                        {formatCurrency(Number(tx.amount))}
                       </TableCell>
                       <TableCell>
                         <Badge variant="secondary" className={status.className}>
@@ -310,7 +310,7 @@ export default async function BillingPage() {
                           {tx.status === "PENDING" && (
                             <MarkPaidButton
                               transactionId={tx.id}
-                              defaultAmount={tx.lease.rentAmount + tx.lease.chargesAmount}
+                              defaultAmount={Number(tx.lease.rentAmount) + Number(tx.lease.chargesAmount)}
                             />
                           )}
                           {(tx.status === "PAID" || tx.status === "PARTIAL") && tx.receiptType && (
@@ -333,7 +333,7 @@ export default async function BillingPage() {
             <p className="text-muted-foreground text-sm mb-6">
               Commencez par enregistrer votre premier paiement.
             </p>
-            <TransactionForm leases={activeLeases} />
+            <TransactionForm leases={activeLeases.map(l => ({ ...l, rentAmount: Number(l.rentAmount), chargesAmount: Number(l.chargesAmount) }))} />
           </CardContent>
         </Card>
       )}

@@ -14,8 +14,9 @@ const blogPosts = articles;
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Blog location | Conseils gestion locative | RentReady",
-    description: "Conseils et guides pratiques pour propriétaires bailleurs: gestion locative, quittances, révision IRL, entretien, bail et juridique locatif.",
+    title: "Blog Gestion Locative — Conseils propriétaires bailleurs | RentReady",
+    description:
+      "Blog propriété : guides gestion locative, modèles gratuits, révision IRL, quittances, bail et entretien. Conseils d'experts et mises à jour légales 2026.",
     url: "/blog",
     ogType: "article",
   });

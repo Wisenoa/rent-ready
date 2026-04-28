@@ -11,13 +11,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Bail Colocation — Gratuit | RentReady",
-    description: "Téléchargez notre modèle de bail de colocation gratuit et conforme. Contrats pour plusieurs locataires avec clauses partagées et individuelles.",
+    title:
+      "Modèle Bail Colocation 2026 — Gratuit & Conforme Loi 1989 | RentReady",
+    description:
+      "Téléchargez le modèle bail colocation gratuit et conforme. Clauses solidarité, Quote-part, garant. PDF instantané pour 2 à 5 colocataires.",
     url: "/modeles/bail-colocation",
     ogType: "template",
   });
 }
-;
 
 const typesColoc = [
   {

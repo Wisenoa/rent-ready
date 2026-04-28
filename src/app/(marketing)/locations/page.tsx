@@ -19,8 +19,10 @@ const FinalCta = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Gestion des locations — Suivi de vos biens locatifs | RentReady",
-    description: "Trouvez votre prochaine location avec RentReady. Outils et conseils pour propriétaires et locataires: gestion, bail, quittances et信息房地产.",
+    title:
+      "Gestion Locations 2026 — Tableau de bord unifié | RentReady",
+    description:
+      "Gérez tous vos biens locatifs avec RentReady : tableau de bord temps réel, suivi loyers, portail locataire et documents centralisés. Essai gratuit 2026.",
     url: "/locations",
     ogType: "feature",
   });

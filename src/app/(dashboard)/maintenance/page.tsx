@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TicketStatusButton } from "@/components/ticket-status-button";
+import { MaintenanceEmptyState } from "@/components/maintenance-empty-state";
 
 export const metadata: Metadata = {
   title: "Maintenance",
@@ -44,7 +45,7 @@ const PRIORITY_CONFIG: Record<string, { label: string; className: string }> = {
 export default async function MaintenancePage() {
   const userId = await getAuthenticatedUserId();
 
-  const [tickets, properties] = await Promise.all([
+  const [tickets, properties, tenants] = await Promise.all([
     prisma.maintenanceTicket.findMany({
       where: {
         property: { userId },
@@ -60,6 +61,10 @@ export default async function MaintenancePage() {
       where: { userId },
       select: { id: true, name: true },
       orderBy: { name: "asc" },
+    }),
+    prisma.tenant.findMany({
+      where: { userId },
+      select: { id: true },
     }),
   ]);
 
@@ -213,17 +218,7 @@ export default async function MaintenancePage() {
           </CardContent>
         </Card>
       ) : (
-        <Card className="shadow-sm border-border/50">
-          <CardContent className="flex flex-col items-center justify-center py-16">
-            <Wrench className="size-12 text-muted-foreground/50 mb-4" />
-            <h3 className="text-lg font-semibold mb-1">
-              Aucune demande de maintenance
-            </h3>
-            <p className="text-muted-foreground text-sm">
-              Les demandes de vos locataires apparaîtront ici.
-            </p>
-          </CardContent>
-        </Card>
+        <MaintenanceEmptyState hasProperties={properties.length > 0} hasTenants={tenants.length > 0} />
       )}
     </div>
   );

@@ -16,7 +16,11 @@
     "seo:lint": "node seo-checks/seo-lint.js",
     "seo:schema": "node seo-checks/schema-validator.js",
     "seo:links": "node seo-checks/link-checker.js",
-    "seo:all": "node seo-checks/meta-validator.js && node seo-checks/seo-lint.js && node seo-checks/schema-validator.js"
+    "seo:all": "node seo-checks/meta-validator.js && node seo-checks/seo-lint.js && node seo-checks/schema-validator.js",
+    "cwuv:monitor": "node scripts/monitor-cwuv.mjs",
+    "cwuv:monitor:slack": "node scripts/monitor-cwuv.mjs --alert-slack",
+    "gsc:monitor": "node scripts/monitor-gsc.mjs",
+    "gsc:monitor:slack": "node scripts/monitor-gsc.mjs --alert-slack"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.48",
@@ -37,7 +41,9 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
+    "decimal.js": "^10.6.0",
     "framer-motion": "^12.38.0",
+    "googleapis": "^144.0.0",
     "lucide-react": "^1.7.0",
     "minio": "^8.0.7",
     "nanoid": "^5.1.7",

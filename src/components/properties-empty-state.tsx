@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PropertyForm } from "@/components/property-form";
+import { SampleDataButton } from "@/components/sample-data-button";
 
 interface EmptyStateCTAProps {
   onStartWizard: () => void;
@@ -74,6 +74,9 @@ export function PropertiesEmptyState({
       <p className="text-xs text-muted-foreground mt-6">
         Vous pouvez importer vos biens plus tard depuis n'importe quelle page.
       </p>
+      <div className="mt-3">
+        <SampleDataButton />
+      </div>
     </div>
   );
 }

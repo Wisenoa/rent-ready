@@ -235,29 +235,44 @@ async function verifyPortalAccess(tenantId: string): Promise<boolean> {
 
 // ─── Quittances ───
 
-export async function getPortalQuittances(tenantId: string) {
+export async function getPortalQuittances(
+  tenantId: string,
+  opts: { page?: number; limit?: number } = {}
+) {
   const hasAccess = await verifyPortalAccess(tenantId);
-  if (!hasAccess) return [];
+  if (!hasAccess) return { quittances: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
-  const transactions = await prisma.transaction.findMany({
-    where: {
-      lease: { tenantId },
-      status: "PAID",
-      receiptType: { not: null },
-    },
-    include: {
-      lease: {
-        include: {
-          property: true,
-          tenant: true,
+  const page = Math.max(1, opts.page ?? 1);
+  const limit = Math.min(100, Math.max(1, opts.limit ?? 20));
+  const skip = (page - 1) * limit;
+
+  const where = {
+    lease: { tenantId },
+    status: "PAID",
+    receiptType: { not: null },
+  };
+
+  const [transactions, total] = await Promise.all([
+    prisma.transaction.findMany({
+      where,
+      include: {
+        lease: {
+          include: {
+            property: true,
+            tenant: true,
+          },
         },
+        user: true,
       },
-      user: true,
-    },
-    orderBy: { periodStart: "desc" },
-  });
+      orderBy: { periodStart: "desc" },
+      skip,
+      take: limit,
+    }),
+    prisma.transaction.count({ where }),
+  ]);
 
-  return transactions.map((tx) => ({
+  return {
+    quittances: transactions.map((tx) => ({
     id: tx.id,
     amount: tx.amount,
     rentAmount: tx.lease.rentAmount,
@@ -291,7 +306,9 @@ export async function getPortalQuittances(tenantId: string) {
     ]
       .filter(Boolean)
       .join(", "),
-  }));
+  })),
+    pagination: { page, limit, total, pages: Math.ceil(total / limit) },
+  };
 }
 
 // ─── Maintenance Tickets ───
@@ -389,59 +406,91 @@ export async function createMaintenanceTicket(
   }
 }
 
-export async function getMaintenanceTickets(tenantId: string) {
+export async function getMaintenanceTickets(
+  tenantId: string,
+  opts: { page?: number; limit?: number } = {}
+) {
   const hasAccess = await verifyPortalAccess(tenantId);
-  if (!hasAccess) return [];
+  if (!hasAccess) return { tickets: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
-  const tickets = await prisma.maintenanceTicket.findMany({
-    where: { tenantId },
-    include: {
-      attachments: true,
-      property: { select: { name: true } },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const page = Math.max(1, opts.page ?? 1);
+  const limit = Math.min(100, Math.max(1, opts.limit ?? 20));
+  const skip = (page - 1) * limit;
 
-  return tickets.map((t) => ({
-    id: t.id,
-    title: t.title,
-    description: t.description,
-    status: t.status,
-    priority: t.priority,
-    propertyName: t.property.name,
-    createdAt: t.createdAt.toISOString(),
-    updatedAt: t.updatedAt.toISOString(),
-    resolvedAt: t.resolvedAt?.toISOString() ?? null,
-    attachments: t.attachments.map((a) => ({
-      id: a.id,
-      fileName: a.fileName,
-      fileType: a.fileType,
-      fileUrl: a.fileUrl,
-      fileSize: a.fileSize,
+  const where = { tenantId };
+
+  const [tickets, total] = await Promise.all([
+    prisma.maintenanceTicket.findMany({
+      where,
+      include: {
+        attachments: true,
+        property: { select: { name: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
+    }),
+    prisma.maintenanceTicket.count({ where }),
+  ]);
+
+  return {
+    tickets: tickets.map((t) => ({
+      id: t.id,
+      title: t.title,
+      description: t.description,
+      status: t.status,
+      priority: t.priority,
+      propertyName: t.property.name,
+      createdAt: t.createdAt.toISOString(),
+      updatedAt: t.updatedAt.toISOString(),
+      resolvedAt: t.resolvedAt?.toISOString() ?? null,
+      attachments: t.attachments.map((a) => ({
+        id: a.id,
+        fileName: a.fileName,
+        fileType: a.fileType,
+        fileUrl: a.fileUrl,
+        fileSize: a.fileSize,
+      })),
     })),
-  }));
+    pagination: { page, limit, total, pages: Math.ceil(total / limit) },
+  };
 }
 
 // ─── Tenant Payments ───
 
-export async function getPendingPayments(tenantId: string) {
+export async function getPendingPayments(
+  tenantId: string,
+  opts: { page?: number; limit?: number } = {}
+) {
   const hasAccess = await verifyPortalAccess(tenantId);
-  if (!hasAccess) return [];
+  if (!hasAccess) return { payments: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
-  const transactions = await prisma.transaction.findMany({
-    where: {
-      lease: { tenantId },
-      status: { in: ["PENDING", "LATE"] },
-    },
-    include: {
-      lease: {
-        include: { property: true },
+  const page = Math.max(1, opts.page ?? 1);
+  const limit = Math.min(100, Math.max(1, opts.limit ?? 20));
+  const skip = (page - 1) * limit;
+
+  const where = {
+    lease: { tenantId },
+    status: { in: ["PENDING", "LATE"] },
+  };
+
+  const [transactions, total] = await Promise.all([
+    prisma.transaction.findMany({
+      where,
+      include: {
+        lease: {
+          include: { property: true },
+        },
       },
-    },
-    orderBy: { dueDate: "asc" },
-  });
+      orderBy: { dueDate: "asc" },
+      skip,
+      take: limit,
+    }),
+    prisma.transaction.count({ where }),
+  ]);
 
-  return transactions.map((tx) => ({
+  return {
+    payments: transactions.map((tx) => ({
     id: tx.id,
     amount: tx.amount,
     rentPortion: tx.rentPortion,
@@ -451,7 +500,9 @@ export async function getPendingPayments(tenantId: string) {
     periodEnd: tx.periodEnd.toISOString(),
     status: tx.status,
     propertyName: tx.lease.property.name,
-  }));
+  })),
+    pagination: { page, limit, total, pages: Math.ceil(total / limit) },
+  };
 }
 
 export async function initiatePayment(

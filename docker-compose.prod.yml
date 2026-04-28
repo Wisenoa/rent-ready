@@ -22,15 +22,28 @@ services:
           memory: 2G
 
   # ========================================
-  # Production Redis with Persistence
+  # Redis — Production
   # ========================================
-  redis:
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
+  # OPTION A (Recommended): Use Upstash Serverless Redis (managed HTTP REST).
+  #   1. Create a database at https://console.upstash.com/
+  #   2. Copy the REST URL and token into your deployment env vars:
+  #      UPSTASH_REDIS_REST_URL=https://your-instance.upstash.io
+  #      UPSTASH_REDIS_REST_TOKEN=your_rest_token
+  #   3. Do NOT include the redis service below (Upstash is cloud-hosted).
+  #
+  # OPTION B (Self-hosted): Use a REST-to-RESP bridge in front of Redis.
+  #   - @upstash/redis requires HTTP REST, not plain Redis RESP protocol.
+  #   - For self-hosted, add a Redis + REST bridge proxy container.
+  #   - Or use Upstash's self-hosted option: https://github.com/upstash/redis
+  #
+  # redis:
+  #   image: redis:7-alpine
+  #   command: ["redis-server", "--port", "6379", "--requirepass", "${REDIS_PASSWORD:-}"]
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '0.5'
+  #         memory: 512M
 
   # ========================================
   # Production App
@@ -40,6 +53,10 @@ services:
       NODE_ENV: production
       LOG_LEVEL: warn
       MINIO_USE_SSL: "true"
+      # Rate limiting: set both to activate Upstash Redis (see above).
+      # Without these, the app uses the in-memory fallback (not recommended for multi-instance prod).
+      UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL}
+      UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN}
     deploy:
       replicas: 3
       resources:

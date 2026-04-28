@@ -79,12 +79,16 @@ export default async function PortalPage({
 
   const { tenant, lease, property, landlord } = data;
 
-  const [quittances, tickets, payments, conversation] = await Promise.all([
+  const [quittancesResult, ticketsResult, paymentsResult, conversation] = await Promise.all([
     getPortalQuittances(tenant.id),
     getMaintenanceTickets(tenant.id),
     getPendingPayments(tenant.id),
     getOrCreateConversation(tenant.id),
   ]);
+
+  const { quittances, pagination: quittancesPagination } = quittancesResult;
+  const { tickets, pagination: ticketsPagination } = ticketsResult;
+  const { payments, pagination: paymentsPagination } = paymentsResult;
 
   return (
     <div className="min-h-screen bg-background">
@@ -131,7 +135,7 @@ export default async function PortalPage({
                   <div>
                     <p className="text-xs text-muted-foreground">Loyer + charges</p>
                     <p className="font-semibold font-mono">
-                      {formatCurrency(lease.rentAmount + lease.chargesAmount)}
+                      {formatCurrency(Number(lease.rentAmount) + Number(lease.chargesAmount))}
                       <span className="text-muted-foreground font-normal">
                         /mois
                       </span>

@@ -7,7 +7,8 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Dépôt de garantie location 2026 : règles, montant, restitution",
+    title:
+      "Dépôt de Garantie Location 2026 — Règles, Montant & Restitution | RentReady",
     description:
       "Dépôt de garantie location : montant maximum (1 ou 2 mois), modalités de restitution, déductibilité des dégradations. Guide complet pour le propriétaire bailleur.",
     url: "/guides/depot-garantie",

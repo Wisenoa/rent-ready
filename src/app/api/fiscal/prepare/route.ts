@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
+import Decimal from "decimal.js";
 
 /**
  * GET /api/fiscal/prepare
@@ -72,9 +73,12 @@ export async function GET(request: NextRequest) {
     const txList = activeLease?.transactions ?? [];
 
     // Revenue
-    const totalRentReceived = txList.reduce((sum, tx) => sum + tx.rentPortion, 0);
+    const totalRentReceived = txList.reduce(
+      (sum, tx) => new Decimal(sum).plus(tx.rentPortion).toNumber(),
+      0
+    );
     const totalChargesReceived = txList.reduce(
-      (sum, tx) => sum + tx.chargesPortion,
+      (sum, tx) => new Decimal(sum).plus(tx.chargesPortion).toNumber(),
       0
     );
     const totalReceived = totalRentReceived + totalChargesReceived;
@@ -82,8 +86,11 @@ export async function GET(request: NextRequest) {
     // Expenses by category
     const expensesByCategory: Record<string, number> = {};
     for (const exp of property.expenses) {
-      expensesByCategory[exp.category] =
-        (expensesByCategory[exp.category] ?? 0) + exp.amount;
+      expensesByCategory[exp.category] = new Decimal(
+        expensesByCategory[exp.category] ?? 0
+      )
+        .plus(exp.amount)
+        .toNumber();
     }
     const totalExpenses = Object.values(expensesByCategory).reduce(
       (s, v) => s + v,

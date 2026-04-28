@@ -11,7 +11,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Générateur de Lettre de Relance Loyer — Mise en Demeure | RentReady",
+    title: "Générateur Lettre Relance Loyer 2026 — Mise en Demeure | RentReady",
     description:
       "Modèle de lettre de relance pour loyer impayé. Document gratuit pour réclamer le paiement du loyer avec instructions légales et modèles gratuits.",
     url: "/outils/lettre-relance-loyer",

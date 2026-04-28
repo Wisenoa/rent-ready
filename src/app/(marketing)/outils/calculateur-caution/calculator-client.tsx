@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
@@ -53,37 +52,6 @@ const breadcrumbItems = [
   { label: "Outils", href: "/outils" },
   { label: "Calculateur Caution", href: "/outils/calculateur-caution" },
 ];
-
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Calculateur Caution de Loyer",
-      description: "Calculez le dépôt de garantie maximum légal pour votre location en zone tendue ou non tendue",
-      url: "https://www.rentready.fr/outils/calculateur-caution",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://www.rentready.fr${item.href}`,
-      })),
-    },
-  ],
-};
 
 function DepositCalculatorInner() {
   const [monthlyRent, setMonthlyRent] = useState("");
@@ -237,10 +205,7 @@ function DepositCalculatorInner() {
 
 export function DepositCalculatorClient() {
   return (
-    <>
-      <SchemaMarkup data={jsonLdData} />
-
-      <div className="min-h-screen bg-[#f8f7f4]">
+    <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-3xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
@@ -318,6 +283,5 @@ export function DepositCalculatorClient() {
           <FinalCta />
         </div>
       </div>
-    </>
   );
 }

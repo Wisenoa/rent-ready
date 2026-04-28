@@ -7,7 +7,8 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Comment faire une quittance de loyer | Modèle gratuit 2026",
+    title:
+      "Comment Faire une Quittance de Loyer 2026 — Guide & Modèle Gratuit | RentReady",
     description:
       "Guide complet : comment faire une quittance de loyer, mentions obligatoires, modèle gratuit à télécharger. Obligatoire sur simple demande du locataire.",
     url: "/guides/quittance-loyer",
@@ -50,12 +51,71 @@ const howToSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "La quittance de loyer est-elle obligatoire ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Oui, depuis la loi du 6 juillet 1989, le bailleur est tenu de délivrer une quittance de loyer dans le mois suivant la demande écrite du locataire — gratuitement. La quittance doit être délivrée à chaque paiement intégral du loyer et des charges.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Quelles sont les mentions obligatoires sur une quittance de loyer ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Une quittance doit contenir : nom et adresse du bailleur, nom et adresse du locataire, adresse du bien loué, période de location couverte, montant du loyer principal et date de réglement, montant des charges et mode de réglement, mode de paiement utilisé (virement, chèque, espèces...), et signature du bailleur.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Peut-on facturer des frais pour délivrer une quittance ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Non, la délivrance d'une quittance de loyer est gratuite. Le bailleur ne peut pas facturer de frais pour la'édition ou l'envoi de la quittance, que ce soit sur papier ou par email.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Quittance ou reçu : quelle différence ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "La quittance est délivrée lors d'un paiement intégral du loyer et des charges. Le reçu est remis en cas de paiement partiel : il mentionne le montant réellement payé et le solde restant dû. Les deux documents ont valeur probante.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Provisions pour charges ou forfait de charges : que choisir ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Les provisions pour charges (acompte mensuel régularisé annuellement) sont le régime le plus courant. Le forfait de charges (montant fixe non régularisable) n'est possible que si le bail le prévoit expressément et concerne certains types de logement.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Comment envoyer une quittance de loyer ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "La quittance peut être envoyée par email (avec accord du locataire) ou remise sur papier. Il est recommandé de la transmettre par email car elle est instantanément accessible et archivable. Conservez toujours une copie de la quittance envoyée.",
+      },
+    },
+  ],
+};
+
 export default function QuittanceLoyerGuidePage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
@@ -151,13 +211,60 @@ export default function QuittanceLoyerGuidePage() {
           <li><strong>Forfait de charges</strong> — un montant fixe, non subjectable à régularisation. Possible uniquement si le bail le prévoit expressément et pour certains types de logement (petites surfaces, charges non individualisables).</li>
         </ul>
 
-        <h2>数字多余 — comment Automatiser</h2>
+        <h2>Comment automatiser</h2>
         <p>
           With RentReady, les quittances sont générées automatiquement à chaque paiement
           enregistré. Vous pouvez les envoyer directement au locataire par email ou les
           télécharger en PDF. Fini les erreurs de calcul et les oublis.
         </p>
       </div>
+
+      {/* FAQ Section */}
+      <section className="mt-16 rounded-2xl border border-stone-200/60 bg-white p-8">
+        <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes sur la quittance de loyer</h2>
+        <div className="space-y-4">
+          {[
+            {
+              q: "La quittance de loyer est-elle obligatoire ?",
+              a: "Oui, depuis la loi du 6 juillet 1989, le bailleur est tenu de délivrer une quittance de loyer dans le mois suivant la demande écrite du locataire — gratuitement. La quittance doit être délivrée à chaque paiement intégral du loyer et des charges.",
+            },
+            {
+              q: "Quelles sont les mentions obligatoires sur une quittance de loyer ?",
+              a: "Une quittance doit contenir : nom et adresse du bailleur, nom et adresse du locataire, adresse du bien loué, période de location couverte, montant du loyer principal et date de réglement, montant des charges et mode de réglement, mode de paiement utilisé, et signature du bailleur.",
+            },
+            {
+              q: "Peut-on facturer des frais pour délivrer une quittance ?",
+              a: "Non, la délivrance d'une quittance de loyer est gratuite. Le bailleur ne peut pas facturer de frais pour l'édition ou l'envoi de la quittance, que ce soit sur papier ou par email.",
+            },
+            {
+              q: "Quittance ou reçu : quelle différence ?",
+              a: "La quittance est délivrée lors d'un paiement intégral du loyer et des charges. Le reçu est remis en cas de paiement partiel : il mentionne le montant réellement payé et le solde restant dû. Les deux documents ont valeur probante.",
+            },
+            {
+              q: "Provisions pour charges ou forfait de charges : que choisir ?",
+              a: "Les provisions pour charges (acompte mensuel régularisé annuellement) sont le régime le plus courant. Le forfait de charges (montant fixe non régularisable) n'est possible que si le bail le prévoit expressément et concerne certains types de logement.",
+            },
+            {
+              q: "Comment envoyer une quittance de loyer ?",
+              a: "La quittance peut être envoyée par email (avec accord du locataire) ou remise sur papier. Il est recommandé de la transmettre par email car elle est instantanément accessible et archivable. Conservez toujours une copie.",
+            },
+          ].map((item, i) => (
+            <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-stone-900 hover:text-blue-600">
+                {item.q}
+                <span className="shrink-0 text-stone-400 transition-transform group-open:rotate-180">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </span>
+              </summary>
+              <div className="border-t border-stone-200 p-4 text-stone-600">
+                {item.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <div className="mt-12 rounded-xl border border-stone-200/60 bg-stone-50 p-8 text-center">
         <h2 className="mb-3 text-xl font-bold text-stone-900">

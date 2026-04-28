@@ -11,9 +11,9 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur IRL 2025 — Indice de Référence des Loyers | RentReady",
+    title: "Calculateur IRL 2026 — Indice de Référence des Loyers | RentReady",
     description:
-      "Consultez l'historique des IRL et la variation annuelle. Outil gratuit pour propriétaires et locataires. Mis à jour Avril 2025 — Source INSEE.",
+      "Calculez la révision de loyer avec l'IRL 2026. Historique des indices INSEE, formule officielle et simulateur gratuit pour propriétaires et locataires.",
     url: "/outils/calculateur-irl",
     ogType: "outil",
   });

@@ -21,13 +21,13 @@ const DemoForm = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Demandez une démo — RentReady",
-    description: "Réservez une démo RentReady de 30 minutes. Découvrez comment automatiser votre gestion locative: quittances, détection loyer, révision IRL.",
+    title: "Démo RentReady — Découvrez la gestion locative en 30 min | Gratuit",
+    description:
+      "Réservez votre démo RentReady gratuite de 30 minutes. Voir en live : quittances auto, détection loyer DSP2, IRL, portail locataire. Sans engagement.",
     url: "/demo",
     ogType: "template",
   });
 }
-;
 
 const benefits = [
   {

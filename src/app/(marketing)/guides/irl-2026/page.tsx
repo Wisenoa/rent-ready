@@ -7,7 +7,8 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "IRL 2026 : Indice de Référence des Loyers et révision de loyer",
+    title:
+      "IRL 2026 — Indice de Référence des Loyers & Révision de Loyer | RentReady",
     description:
       "Indice de Référence des Loyers (IRL) 2026 : dernière valeur officielle INSEE, comment calculer la révision de loyer annuelle, délai et méthode correcte.",
     url: "/guides/irl-2026",
@@ -55,12 +56,71 @@ const howToSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Quelle est la valeur de l'IRL en 2026 ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "L'IRL applicable pour les révisions de loyer en 2026 est de 146,44 au titre du quatrième trimestre 2025, publié par l'INSEE en janvier 2026. La variation annuelle est de +0,09 %.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Comment calculer une révision de loyer avec l'IRL ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 € × (146,44 / 138,61) = 845,20 €. Le résultat ne doit pas dépasser l'encadrement des loyers en zone tendue.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Peut-on réviser le loyer rétroactivement ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Non, la révision de loyer n'est jamais rétroactive. Si le bailleur omet de réviser à la date anniversaire du bail, il ne peut pas rattraper les mois passés. La révision prend effet à la date anniversaire.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Que faire si l'IRL a baissé ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Si l'IRL a diminué depuis la dernière révision, le loyer doit diminuer proportionnellement. Le locataire peut exiger la baisse et le remboursement des trop-perçus des mois précédents.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "L'encadrement des loyers limite-t-il la révision IRL ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Oui, dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer révisé ne peut pas dépasser le loyer de référence majoré de 20 %. En cas de relocation, le loyer ne peut pas excéder le précédent loyer majoré de 20 %.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Comment informer le locataire de la révision ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Le bailleur doit informer le locataire de la révision par lettre recommandée avec accusé de réception (LRAR), en joignant un tableau détaillé montrant le calcul effectué (ancien loyer, ancien IRL, nouvel IRL, nouveau loyer).",
+      },
+    },
+  ],
+};
+
 export default function IRL2026GuidePage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
@@ -74,7 +134,7 @@ export default function IRL2026GuidePage() {
         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
           Mis à jour avril 2026
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl text-balance">
           Indice de Référence des Loyers (IRL) 2026
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-stone-600">
@@ -180,6 +240,53 @@ export default function IRL2026GuidePage() {
           référence majoré de 20 %.
         </p>
       </div>
+
+      {/* FAQ Section */}
+      <section className="mt-16 rounded-2xl border border-stone-200/60 bg-white p-8">
+        <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes sur l'IRL 2026</h2>
+        <div className="space-y-4">
+          {[
+            {
+              q: "Quelle est la valeur de l'IRL en 2026 ?",
+              a: "L'IRL applicable pour les révisions de loyer en 2026 est de 146,44 au titre du quatrième trimestre 2025, publié par l'INSEE en janvier 2026. La variation annuelle est de +0,09 %.",
+            },
+            {
+              q: "Comment calculer une révision de loyer avec l'IRL ?",
+              a: "La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 € × (146,44 / 138,61) = 845,20 €. Le résultat ne doit pas dépasser l'encadrement des loyers en zone tendue.",
+            },
+            {
+              q: "Peut-on réviser le loyer rétroactivement ?",
+              a: "Non, la révision de loyer n'est jamais rétroactive. Si le bailleur omet de réviser à la date anniversaire du bail, il ne peut pas rattraper les mois passés.",
+            },
+            {
+              q: "Que faire si l'IRL a baissé ?",
+              a: "Si l'IRL a diminué depuis la dernière révision, le loyer doit diminuer proportionnellement. Le locataire peut exiger la baisse et le remboursement des trop-perçus des mois précédents.",
+            },
+            {
+              q: "L'encadrement des loyers limite-t-il la révision IRL ?",
+              a: "Oui, dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer révisé ne peut pas dépasser le loyer de référence majoré de 20 %.",
+            },
+            {
+              q: "Comment informer le locataire de la révision ?",
+              a: "Le bailleur doit informer le locataire de la révision par LRAR, en joignant un tableau détaillé du calcul (ancien loyer, ancien IRL, nouvel IRL, nouveau loyer).",
+            },
+          ].map((item, i) => (
+            <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-stone-900 hover:text-blue-600">
+                {item.q}
+                <span className="shrink-0 text-stone-400 transition-transform group-open:rotate-180">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </span>
+              </summary>
+              <div className="border-t border-stone-200 p-4 text-stone-600">
+                {item.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <div className="mt-12 rounded-xl border border-stone-200/60 bg-stone-50 p-8 text-center">
         <h2 className="mb-3 text-xl font-bold text-stone-900">

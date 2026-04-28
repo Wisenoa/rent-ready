@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { toNumber } from "@/lib/decimal";
 import {
   calculateRentRevision,
   findIrlIndex,
@@ -115,8 +116,8 @@ export async function GET(
     // Determine if revision is even allowed (legal caps apply)
     const revisionCap = 0.05; // 5% annual cap per Article 17-1
     const cappedPercentage = Math.min(revision.percentageChange, revisionCap * 100);
-    const cappedNewRent =
-      Math.round(lease.rentAmount * (1 + cappedPercentage / 100) * 100) / 100;
+    const rentAmountNum = toNumber(lease.rentAmount);
+    const cappedNewRent = Math.round(rentAmountNum * (1 + cappedPercentage / 100) * 100) / 100;
     const isCapped = revision.percentageChange > revisionCap * 100;
 
     // Determine the next revision date
@@ -170,7 +171,7 @@ export async function GET(
         applied: isCapped,
         capPercentage: revisionCap * 100,
         cappedNewRent,
-        cappedDifference: Math.round((cappedNewRent - lease.rentAmount) * 100) / 100,
+        cappedDifference: Math.round((cappedNewRent - rentAmountNum) * 100) / 100,
         explanation:
           "According to Article 17-1 of the 1989 law, annual rent increases cannot exceed 5% in mainland France. " +
           (isCapped

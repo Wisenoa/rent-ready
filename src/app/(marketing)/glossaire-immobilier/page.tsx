@@ -20,13 +20,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Glossaire immobilier | Définitions location | RentReady",
-    description: "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, bail, quittance, charges et检修.",
+    title:
+      "Glossaire Immobilier 2026 — Définitions Location & Gestion | RentReady",
+    description:
+      "Glossaire immobilier complet 2026 : tous les termes de location, gestion locative, bail, quittance, charges et entretien. Définitions claires pour propriétaires.",
     url: "/glossaire-immobilier",
-    ogType: "template",
+    ogType: "website",
   });
 }
-;
 const glossaryTerms = [
   {
     term: "Bail",

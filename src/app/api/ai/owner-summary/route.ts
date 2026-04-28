@@ -19,7 +19,10 @@ export async function POST(request: NextRequest) {
   // Rate limit: 20 req/min per IP for unauthenticated, 1000 for authenticated
   const ip = getClientIp(request.headers);
   const userId = await getAuthenticatedUserId().catch(() => null);
-  const limit = userId ? 1000 : 20;
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const limit = 1000;
   const result = await rateLimit(ip, { limit, window: 60 });
 
   if (!result.success) {

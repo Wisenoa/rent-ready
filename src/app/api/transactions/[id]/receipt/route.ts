@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { generateQuittance } from "@/lib/actions/quittance-actions";
+import Decimal from "decimal.js";
 
 type RouteParams = Promise<{ id: string }>;
 
@@ -83,10 +84,10 @@ export async function GET(request: NextRequest, { params }: { params: RouteParam
     const formatPeriod = (d: Date) =>
       d.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
 
-    const expectedTotal = transaction.lease.rentAmount + transaction.lease.chargesAmount;
+    const expectedTotal = new Decimal(transaction.lease.rentAmount.toString()).plus(new Decimal(transaction.lease.chargesAmount.toString())).toNumber();
     const remainingAmount = isFullPayment
       ? 0
-      : Math.round((expectedTotal - transaction.amount) * 100) / 100;
+      : new Decimal(expectedTotal).minus(new Decimal(transaction.amount.toString())).abs().toDecimalPlaces(2).toNumber();
 
     const receipt = {
       receipt: {

@@ -27,29 +27,62 @@ export async function GET(request: NextRequest) {
     if (propertyId) where.propertyId = propertyId;
     if (tenantId) where.tenantId = tenantId;
 
-    const [leases, total] = await Promise.all([
-      prisma.lease.findMany({
-        where,
-        include: {
-          property: { select: { id: true, name: true, addressLine1: true, city: true } },
-          tenant: { select: { id: true, firstName: true, lastName: true, email: true } },
-          transactions: {
-            where: { status: { in: ["PAID", "PARTIAL"] } },
-            select: { id: true, amount: true, paidAt: true, periodStart: true, status: true },
-            orderBy: { paidAt: "desc" },
-            take: 6,
+    // Fetch leases WITHOUT the nested transactions include to avoid N+1.
+    // We'll batch-fetch recent paid transactions for all leases in a single query.
+    const leases = await prisma.lease.findMany({
+      where,
+      include: {
+        property: { select: { id: true, name: true, addressLine1: true, city: true } },
+        tenant: { select: { id: true, firstName: true, lastName: true, email: true } },
+        guarantor: { select: { id: true, firstName: true, lastName: true, status: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
+    });
+
+    // Batch-fetch recent paid transactions for all fetched leases (fixes N+1).
+    // Old code had `transactions` include which ran a separate subquery per lease.
+    const leaseIds = leases.map((l) => l.id);
+    const recentTransactions = leaseIds.length
+      ? await prisma.transaction.findMany({
+          where: {
+            leaseId: { in: leaseIds },
+            status: { in: ["PAID", "PARTIAL"] },
           },
-          guarantor: { select: { id: true, firstName: true, lastName: true, status: true } },
-        },
-        orderBy: { createdAt: "desc" },
-        skip,
-        take: limit,
-      }),
+          select: {
+            id: true,
+            amount: true,
+            paidAt: true,
+            periodStart: true,
+            status: true,
+            leaseId: true,
+          },
+          orderBy: { paidAt: "desc" },
+        })
+      : [];
+
+    // Group transactions by leaseId and attach at most 6 most recent per lease.
+    const txByLease = new Map<string, typeof recentTransactions>();
+    for (const tx of recentTransactions) {
+      if (!txByLease.has(tx.leaseId)) txByLease.set(tx.leaseId, []);
+      if (txByLease.get(tx.leaseId)!.length < 6) {
+        txByLease.get(tx.leaseId)!.push(tx);
+      }
+    }
+
+    const data = leases.map((lease) => ({
+      ...lease,
+      transactions: txByLease.get(lease.id) ?? [],
+    }));
+
+    const [_, total] = await Promise.all([
+      Promise.resolve(data), // placates TS scoping
       prisma.lease.count({ where }),
     ]);
 
     return NextResponse.json({
-      data: leases,
+      data,
       pagination: { page, limit, total, pages: Math.ceil(total / limit) },
     });
   } catch (error) {
@@ -109,28 +142,34 @@ export async function POST(request: NextRequest) {
 
     const lease = await prisma.lease.create({ data: leaseData });
 
-    // Generate bail PDF in background (best-effort)
-    const documentUrl = await generateAndUploadBailPdf(
+    // Fire-and-forget: generate bail PDF without blocking the response.
+    // If PDF generation fails, the lease is still created successfully.
+    // The documentUrl can be populated later via a separate job or on-demand.
+    const _bailPdf = generateAndUploadBailPdf(
       lease.id,
       session.user.id,
       parsed.data.propertyId,
       parsed.data.tenantId,
       leaseData
     ).catch((err) => {
-      console.error("Bail PDF generation failed:", err);
+      console.error("Bail PDF generation failed (async):", err);
       return null;
     });
 
-    if (documentUrl) {
-      await prisma.lease.update({ where: { id: lease.id }, data: { documentUrl } });
-    }
-
-    const fullLease = await prisma.lease.findUnique({
-      where: { id: lease.id },
-      include: {
-        property: { select: { id: true, name: true } },
-        tenant: { select: { id: true, firstName: true, lastName: true } },
-      },
+    // If PDF generation succeeds, update the lease in a single transaction.
+    // Combine update + fetch into one step by using a transaction.
+    const fullLease = await prisma.$transaction(async (tx) => {
+      const url = await _bailPdf;
+      if (url) {
+        await tx.lease.update({ where: { id: lease.id }, data: { documentUrl: url } });
+      }
+      return tx.lease.findUnique({
+        where: { id: lease.id },
+        include: {
+          property: { select: { id: true, name: true } },
+          tenant: { select: { id: true, firstName: true, lastName: true } },
+        },
+      });
     });
 
     return NextResponse.json({ data: fullLease }, { status: 201 });

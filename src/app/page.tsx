@@ -41,8 +41,9 @@ export const revalidate = 3600;
 /* ─── Page metadata ─── */
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Gestion locative automatisée particuliers | RentReady",
-    description: "Quittances conformes, détection des virements, révision IRL automatique. Le logiciel de gestion locative pour propriétaires bailleurs. Essai gratuit.",
+    title: "RentReady — Logiciel gestion locative pour propriétaires | Essai gratuit",
+    description:
+      "Automatisez vos quittances, détectez les loyers automatiquement et réviséz l'IRL en 1 clic. 127 propriétaires nous font confiance. Essai gratuit 14 jours, sans carte bancaire.",
     url: "",
     ogType: "default",
   });

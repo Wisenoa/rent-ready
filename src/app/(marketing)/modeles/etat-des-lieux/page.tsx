@@ -12,13 +12,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle État des Lieux — Gratuit | RentReady",
-    description: "Téléchargez notre modèle détat des lieux gratuit et conforme. Document officiel pour inventorier le logement au début et fin de bail.",
+    title:
+      "Modèle État des Lieux 2026 — Gratuit & Conforme Loi 1989 | RentReady",
+    description:
+      "Checklist état des lieux entrée/sortie conforme à la loi du 6 juillet 1989. Grille de dégradation, photos, signature. Téléchargement gratuit et PDF instantané.",
     url: "/modeles/etat-des-lieux",
     ogType: "template",
   });
 }
-;
 
 const contenuObligatoire = [
   "Date de réalisation (entrée ou sortie)",

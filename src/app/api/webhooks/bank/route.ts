@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "node:crypto";
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
 import { generateReceiptNumber } from "@/lib/quittance-generator";
+import { computePaymentSplit } from "@/lib/payment-utils";
+
+const toNum = (v: Decimal.Value) =>
+  Decimal.isDecimal(v) ? v.toNumber() : (typeof v === "number" ? v : parseFloat(String(v)));
 
 /**
  * Open Banking Webhook Handler — Bridge API / Powens (DSP2)
@@ -100,7 +105,7 @@ export async function POST(request: NextRequest) {
         connectionId: connection?.id ?? null,
         provider: "bridge",
         eventType: payload.event_type,
-        payload: JSON.parse(JSON.stringify(payload)),
+        payload: payload as unknown as Record<string, unknown>,
       },
     });
   } catch (err) {
@@ -152,19 +157,17 @@ export async function POST(request: NextRequest) {
           break;
         }
 
-        const expectedTotal =
-          matchingTransaction.lease.rentAmount + matchingTransaction.lease.chargesAmount;
+        const lease = matchingTransaction.lease;
+        const expectedTotal = toNum(lease.rentAmount) + toNum(lease.chargesAmount);
+        const totalDue = expectedTotal;
 
         // Only auto-match if amount is within ±1 cent of expected OR is a recognizable partial
         if (Math.abs(incomingAmount - expectedTotal) > 0.01 && incomingAmount > expectedTotal) {
           console.log(
-            `[Bank] Amount ${incomingAmount}€ doesn't match expected ${expectedTotal}€ for lease ${matchingTransaction.lease.id} — skipping`
+            `[Bank] Amount ${incomingAmount}€ doesn't match expected ${expectedTotal}€ for lease ${lease.id} — skipping`
           );
           break;
         }
-
-        const lease = matchingTransaction.lease;
-        const totalDue = lease.rentAmount + lease.chargesAmount;
 
         // Check amount match with tolerance
         if (Math.abs(incomingAmount - totalDue) > 0.01 && incomingAmount < totalDue) {
@@ -174,13 +177,18 @@ export async function POST(request: NextRequest) {
             where: { userId: bankConn.userId, receiptNumber: { not: null } },
           });
           const receiptNumber = generateReceiptNumber(receiptType, new Date(), receiptCount + 1);
+          const { rentPortion, chargesPortion } = computePaymentSplit(
+            incomingAmount,
+            lease.rentAmount,
+            lease.chargesAmount,
+          );
 
           await prisma.transaction.update({
             where: { id: matchingTransaction.id },
             data: {
               amount: incomingAmount,
-              rentPortion: Math.round((incomingAmount * lease.rentAmount / totalDue) * 100) / 100,
-              chargesPortion: Math.round((incomingAmount * lease.chargesAmount / totalDue) * 100) / 100,
+              rentPortion,
+              chargesPortion,
               status: "PARTIAL",
               isFullPayment: false,
               receiptType,
@@ -188,7 +196,7 @@ export async function POST(request: NextRequest) {
               paidAt: new Date(tx.date),
               bankTransactionId: tx.id,
               bankMatchedAt: new Date(),
-              bankRawData: JSON.parse(JSON.stringify(tx)),
+              bankRawData: tx as unknown as Record<string, unknown>,
             },
           });
           console.log(`[Bank] Partial payment matched: ${incomingAmount}€ for lease ${lease.id}`);
@@ -213,7 +221,7 @@ export async function POST(request: NextRequest) {
               paidAt: new Date(tx.date),
               bankTransactionId: tx.id,
               bankMatchedAt: new Date(),
-              bankRawData: JSON.parse(JSON.stringify(tx)),
+              bankRawData: tx as unknown as Record<string, unknown>,
             },
           });
           console.log(`[Bank] Full payment matched: ${incomingAmount}€ → Quittance for lease ${lease.id}`);

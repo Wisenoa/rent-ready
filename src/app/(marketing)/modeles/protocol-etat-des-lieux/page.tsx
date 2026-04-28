@@ -12,13 +12,14 @@ const FinalCta = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Protocole État des Lieux — Guide Complet et Formulaire | RentReady",
-    description: "Protocol officiel détat des lieux. Document de référence pour inventorier le logement au démarrage et à la fin de la période de location.",
+    title:
+      "Protocole État des Lieux 2026 — Guide Complet & Formulaire PDF | RentReady",
+    description:
+      "Protocole officiel état des lieux 2026. Document de référence avec checklist complète pour inventorier le logement à l'entrée et sortie. PDF gratuit.",
     url: "/modeles/protocol-etat-des-lieux",
     ogType: "template",
   });
 }
-;
 
 const etapesProtocole = [
   {

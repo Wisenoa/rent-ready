@@ -2,10 +2,13 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { LoginForm } from "./login-form";
 
-export const metadata: Metadata = {
-  title: "Connexion",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Connexion — RentReady",
+    description: "Connectez-vous à votre compte RentReady pour gérer vos biens locatifs, quittances et suivi des loyers.",
+    robots: { index: false, follow: false },
+  };
+}
 
 export default function LoginPage() {
   return (

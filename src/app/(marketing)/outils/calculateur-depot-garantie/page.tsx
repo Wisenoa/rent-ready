@@ -11,9 +11,9 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur de Dépôt de Garantie — Gratuit | RentReady",
+    title: "Calculateur Dépôt de Garantie 2026 — Gratuit | RentReady",
     description:
-      "Calculez le dépôt de garantie maximum légal pour votre location selon la zone géographique (tendue ou non) et le type de bail. Outil gratuit — base légale mise à jour 2025.",
+      "Calculez le dépôt de garantie maximum légal pour votre location selon la zone géographique (tendue ou non) et le type de bail. Outil gratuit — base légale mise à jour 2026.",
     url: "/outils/calculateur-depot-garantie",
     ogType: "outil",
   });

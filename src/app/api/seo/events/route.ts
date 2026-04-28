@@ -89,7 +89,8 @@ export async function POST(req: NextRequest) {
         referrer: body.referrer ?? req.headers.get("referer") ?? null,
         userAgent: req.headers.get("user-agent") ?? null,
         ipHash,
-        metadata: body.metadata !== undefined ? JSON.parse(JSON.stringify(body.metadata)) : undefined,
+        // Safely serialize metadata — body.metadata is already validated as Record<string, unknown>
+        metadata: body.metadata !== undefined ? JSON.stringify(body.metadata) : undefined,
       },
     });
 
@@ -123,7 +124,9 @@ export async function GET(req: NextRequest) {
     const resourceSlug = searchParams.get("resourceSlug") ?? undefined;
     const from = searchParams.get("from") ? new Date(searchParams.get("from")!) : undefined;
     const to = searchParams.get("to") ? new Date(searchParams.get("to")!) : undefined;
-    const limit = Math.min(Number(searchParams.get("limit") ?? 100), 1000);
+    const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
+    const limit = Math.min(1000, Math.max(1, parseInt(searchParams.get("limit") ?? "100", 10)));
+    const skip = (page - 1) * limit;
 
     // Basic auth check via API key header
     const apiKey = req.headers.get("x-seo-api-key");
@@ -144,24 +147,28 @@ export async function GET(req: NextRequest) {
         : {}),
     };
 
-    const events = await prisma.seoEvent.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-      take: limit,
-      select: {
-        id: true,
-        eventType: true,
-        resourceSlug: true,
-        pageUrl: true,
-        country: true,
-        referrer: true,
-        createdAt: true,
-        metadata: true,
-        ipHash: true,
-      },
-    });
+    const [events, total] = await Promise.all([
+      prisma.seoEvent.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+        select: {
+          id: true,
+          eventType: true,
+          resourceSlug: true,
+          pageUrl: true,
+          country: true,
+          referrer: true,
+          createdAt: true,
+          metadata: true,
+          ipHash: true,
+        },
+      }),
+      prisma.seoEvent.count({ where }),
+    ]);
 
-    return NextResponse.json({ events, total: events.length });
+    return NextResponse.json({ events, total, pagination: { page, limit, total, pages: Math.ceil(total / limit) } });
   } catch (error) {
     console.error("[seo/events GET] Error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

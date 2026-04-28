@@ -11,13 +11,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Congé Locataire — Gratuit | RentReady",
-    description: "Modèle gratuit de congé locataire à donner au propriétaire. Préavis de 1 ou 3 mois selon la situation. Formulaire prêt à utiliser.",
+    title:
+      "Modèle Congé Locataire 2026 — Gratuit & Téléchargement PDF | RentReady",
+    description:
+      "Modèle congé locataire à envoyer au propriétaire : préavis 1-3 mois selon zone et type de bail. Téléchargez gratuitement, personnalisez et envoyez en recommandé.",
     url: "/modeles/conge-locataire",
     ogType: "template",
   });
 }
-;
 
 const delaisParBail = [
   { type: "Bail vide (nu)", duree: "3 mois", precision: "En zone NON tendue. Délai légal national." },

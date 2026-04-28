@@ -1,17 +1,28 @@
 import { NextResponse } from "next/server";
-import { getRequiredServerEnvVar } from "@/lib/config/env";
 import Stripe from "stripe";
-
-const stripe = new Stripe(getRequiredServerEnvVar("STRIPE_SECRET_KEY"), {
-  apiVersion: "2025-04-30.basil",
-});
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const monthlyPriceId = getRequiredServerEnvVar("STRIPE_PRO_MONTHLY_PRICE_ID");
-    const annualPriceId = getRequiredServerEnvVar("STRIPE_PRO_ANNUAL_PRICE_ID");
+    const secretKey = process.env.STRIPE_SECRET_KEY;
+    const monthlyPriceId = process.env.STRIPE_PRO_MONTHLY_PRICE_ID;
+    const annualPriceId = process.env.STRIPE_PRO_ANNUAL_PRICE_ID;
+
+    if (!secretKey) {
+      return NextResponse.json(
+        { error: "STRIPE_SECRET_KEY is not configured." },
+        { status: 500 }
+      );
+    }
+    if (!monthlyPriceId || !annualPriceId) {
+      return NextResponse.json(
+        { error: "STRIPE_PRO_MONTHLY_PRICE_ID or STRIPE_PRO_ANNUAL_PRICE_ID is not configured." },
+        { status: 500 }
+      );
+    }
+
+    const stripe = new Stripe(secretKey);
 
     const [monthlyPrice, annualPrice] = await Promise.all([
       stripe.prices.retrieve(monthlyPriceId, {
@@ -48,7 +59,9 @@ export async function GET() {
         pricePerMonth: Math.round((annualPrice.unit_amount ?? 0) / 12),
         total: annualPrice.unit_amount ?? 0,
         annualEquivalent: monthlyPrice.unit_amount
-          ? Math.round(((annualPrice.unit_amount ?? 0) / 12 / (monthlyPrice.unit_amount ?? 1)) * 100 - 100)
+          ? Math.round(
+              ((annualPrice.unit_amount ?? 0) / 12 / (monthlyPrice.unit_amount ?? 1)) * 100 - 100
+            )
           : null,
       },
     ];

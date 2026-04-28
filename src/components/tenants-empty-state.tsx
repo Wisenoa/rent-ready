@@ -3,6 +3,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TenantForm } from "@/components/tenant-form";
+import { SampleDataButton } from "@/components/sample-data-button";
 
 interface TenantsEmptyStateProps {
   onStartWizard: () => void;
@@ -68,6 +69,9 @@ export function TenantsEmptyState({ onStartWizard }: TenantsEmptyStateProps) {
       <p className="text-xs text-muted-foreground mt-6">
         Le guide vous aidera à configurer bien + locataire + bail d'un seul coup.
       </p>
+      <div className="mt-3">
+        <SampleDataButton />
+      </div>
     </div>
   );
 }

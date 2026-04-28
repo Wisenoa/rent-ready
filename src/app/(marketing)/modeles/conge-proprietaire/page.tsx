@@ -11,13 +11,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Congé Propriétaire — Gratuit | RentReady",
-    description: "Modèle gratuit de congé donné par le propriétaire au locataire. Préavis de 2 à 6 mois selon le motif. Formulaire prêt à utiliser.",
+    title:
+      "Modèle Congé Propriétaire 2026 — Gratuit & Téléchargement PDF | RentReady",
+    description:
+      "Modèle congé donné par le propriétaire : motifs légaux, préavis 2-6 mois, envoi en recommandé. Téléchargez gratuitement, personnalisez en 2 minutes.",
     url: "/modeles/conge-proprietaire",
     ogType: "template",
   });
 }
-;
 
 const motifsProprietaire = [
   {

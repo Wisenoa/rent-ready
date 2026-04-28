@@ -72,21 +72,21 @@ export default async function LeaseRevisionPage({
     const revisionCap = 0.05;
     try {
       const raw = calculateRentRevision({
-        currentRent: lease.rentAmount,
+        currentRent: Number(lease.rentAmount),
         referenceIrlQuarter: lease.irlReferenceQuarter,
         newIrlQuarter: latestIrl.quarter,
       });
 
       const isCapped = raw.percentageChange > revisionCap * 100;
       const cappedNewRent = isCapped
-        ? Math.round(lease.rentAmount * (1 + revisionCap) * 100) / 100
+        ? Math.round(Number(lease.rentAmount) * (1 + revisionCap) * 100) / 100
         : raw.newRent;
 
       revision = {
         ...raw,
         isCapped,
         cappedNewRent,
-        cappedDifference: Math.round((cappedNewRent - lease.rentAmount) * 100) / 100,
+        cappedDifference: Math.round((cappedNewRent - Number(lease.rentAmount)) * 100) / 100,
         cappedPercentage: isCapped ? revisionCap * 100 : raw.percentageChange,
       };
     } catch (e) {
@@ -137,7 +137,7 @@ export default async function LeaseRevisionPage({
             <div>
               <p className="text-muted-foreground">Loyer HC</p>
               <p className="font-semibold text-lg">
-                {lease.rentAmount.toLocaleString("fr-FR", {
+                {Number(lease.rentAmount).toLocaleString("fr-FR", {
                   style: "currency",
                   currency: "EUR",
                 })}
@@ -146,7 +146,7 @@ export default async function LeaseRevisionPage({
             <div>
               <p className="text-muted-foreground">Charges</p>
               <p className="font-semibold text-lg">
-                {lease.chargesAmount.toLocaleString("fr-FR", {
+                {Number(lease.chargesAmount).toLocaleString("fr-FR", {
                   style: "currency",
                   currency: "EUR",
                 })}

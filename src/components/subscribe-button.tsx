@@ -8,11 +8,11 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function SubscribeButton() {
-  const { data: session, isLoading } = useSession();
-  const [isPending, startTransition] = useTransition();
+  const { data: session, isPending: sessionPending } = useSession();
+  const [transitionPending, startTransition] = useTransition();
   const [showLoading, setShowLoading] = useState(false);
 
-  if (isLoading) {
+  if (sessionPending) {
     return (
       <Button
         disabled
@@ -47,10 +47,10 @@ export function SubscribeButton() {
               }
             });
           }}
-          disabled={showLoading || isPending}
+          disabled={showLoading || transitionPending}
           className="w-full items-center gap-2.5 rounded-2xl bg-stone-900 py-4 text-sm font-semibold text-white shadow-lg shadow-stone-900/10 transition-colors hover:bg-stone-800"
         >
-          {showLoading || isPending ? (
+          {showLoading || transitionPending ? (
             <>
               <Loader2 className="size-4 animate-spin" />
               Redirection…

@@ -11,13 +11,14 @@ import { baseMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Bail Commercial — Gratuit | RentReady",
-    description: "Modèle bail commercial gratuit. Location professionnelle, bail 3-6-9 ans, clause résolution, charges locatives. Téléchargement PDF.",
+    title:
+      "Modèle Bail Commercial 2026 — Gratuit & Prêt à Utiliser | RentReady",
+    description:
+      "Téléchargez le modèle bail commercial gratuit. Bail 3-6-9 ans, clause résolution, charges locatives. PDF professionnel pour locaux professionnels et commerciaux.",
     url: "/modeles/bail-commercial",
     ogType: "template",
   });
 }
-;
 
 const typesBailCommercial = [
   {

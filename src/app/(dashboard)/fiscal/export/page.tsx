@@ -58,8 +58,8 @@ export default async function FiscalExportPage() {
   );
   const monthlyExpenses = expenses.filter((e) => e.date >= monthStart);
 
-  const totalRevenue = monthlyTransactions.reduce((sum, t) => sum + t.amount, 0);
-  const totalExpenses = monthlyExpenses.reduce((sum, e) => sum + e.amount, 0);
+  const totalRevenue = monthlyTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  const totalExpenses = monthlyExpenses.reduce((sum, e) => sum + Number(e.amount), 0);
 
   return (
     <div className="space-y-8">

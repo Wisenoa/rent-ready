@@ -69,7 +69,7 @@ export function PropertiesPageClient({ properties, tenants }: PropertiesPageClie
             Gérez votre patrimoine immobilier
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <LeaseForm properties={propertiesForLeaseForm} tenants={tenants}>
             <Button variant="outline">
               <FileText className="size-4 mr-2" />

@@ -3,10 +3,16 @@ import { PlusValueClient } from "./calculator-client";
 import { baseMetadata } from "@/lib/seo/metadata";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import {
+  buildGraphSchema,
+  buildBreadcrumbSchema,
+  buildWebApplicationSchema,
+  buildHowToSchema,
+} from "@/lib/seo/structured-data";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur de Plus-Value Immobilière — Plus-Value 2025 | RentReady",
+    title: "Calculateur Plus-Value Immobilière 2026 — Gratuit | RentReady",
     description: "Estimez votre plus-value immobilière et l'impôt à payer lors de la vente d'un bien. Outil gratuit avec tous les abattements légaux applicables.",
     url: "/outils/calculateur-plus-value",
     ogType: "outil",
@@ -19,18 +25,51 @@ const breadcrumbItems = [
   { label: "Calculateur Plus-Value", href: "/outils/calculateur-plus-value" },
 ];
 
+function PlusValueJsonLd() {
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://www.rentready.fr" },
+      { name: "Outils", url: "https://www.rentready.fr/outils" },
+      { name: "Calculateur Plus-Value", url: "https://www.rentready.fr/outils/calculateur-plus-value" },
+    ]),
+    buildWebApplicationSchema({
+      name: "Calculateur de Plus-Value Immobilière",
+      description:
+        "Estimez votre plus-value immobilière et l'impôt à payer lors de la vente d'un bien. Outil gratuit avec abattements pour résidence principale, durée de détention, et travaux.",
+      url: "/outils/calculateur-plus-value",
+    }),
+    buildHowToSchema({
+      name: "Comment calculer la plus-value immobilière",
+      description:
+        "Estimez votre plus-value immobilière nette d'impôt en tenant compte des abattements légaux selon la durée de détention.",
+      url: "/outils/calculateur-plus-value",
+      steps: [
+        {
+          name: "Saisissez le prix de vente",
+          text: "Indiquez le prix de vente du bien immobilier tel qu'il figure dans l'acte authentique.",
+        },
+        {
+          name: "Indiquez le prix d'acquisition",
+          text: "Précisez le prix d'achat initial ou la valeur vénale au moment de l'acquisition.",
+        },
+        {
+          name: "Ajoutez les frais et travaux",
+          text: "Ajoutez les frais d'acquisition (frais de notaire, droits de mutation) et les travaux de rénovation éventuels.",
+        },
+        {
+          name: "Visualisez votre plus-value nette",
+          text: "Consultez le montant de votre plus-value imposable et l'estimation d'impôt après abattements.",
+        },
+      ],
+    })
+  );
+  return <SchemaMarkup data={schema} />;
+}
+
 export default function PlusValuePage() {
   return (
     <>
-      <SchemaMarkup data={{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        name: "Calculateur de Plus-Value Immobilière",
-        description: "Estimez votre plus-value immobilière et l'impôt à payer. Outil gratuit avec abattements pour résidence principale, durée de détention, et travaux.",
-        url: "https://www.rentready.fr/outils/calculateur-plus-value",
-        applicationCategory: "FinancialApplication",
-        operatingSystem: "Web",
-      }} />
+      <PlusValueJsonLd />
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-3xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />

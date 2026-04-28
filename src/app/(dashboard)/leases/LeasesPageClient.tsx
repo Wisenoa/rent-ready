@@ -75,19 +75,21 @@ export function LeasesPageClient({ leases, properties, tenants }: LeasesPageClie
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Mes Baux</h1>
           <p className="text-muted-foreground mt-1">
             Gérez vos baux de location et suivez leur statut
           </p>
         </div>
-        <LeaseForm properties={propertiesForForm} tenants={tenantsForForm}>
+        <div className="flex flex-wrap items-center gap-2 ml-auto">
+          <LeaseForm properties={propertiesForForm} tenants={tenantsForForm}>
           <Button>
             <Plus className="size-4 mr-2" />
             Créer un bail
           </Button>
         </LeaseForm>
+        </div>
       </div>
 
       {leases.length === 0 ? (

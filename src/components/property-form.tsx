@@ -125,7 +125,7 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<span />}>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
             {isEditing ? "Modifier le bien" : "Ajouter un bien"}
@@ -212,7 +212,7 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
           </div>
 
           {/* City + Postal Code */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="grid gap-2">
               <Label htmlFor="city">Ville *</Label>
               <Input
@@ -244,7 +244,7 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
           </div>
 
           {/* Surface + Rooms */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="grid gap-2">
               <Label htmlFor="surface">Surface (m²)</Label>
               <Input

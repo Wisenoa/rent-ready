@@ -27,6 +27,7 @@ import {
 import { ExpenseForm } from "@/components/expense-form";
 import { ExpenseOcrDialog } from "@/components/expense-ocr-dialog";
 import { ExpenseActions } from "@/components/expense-actions";
+import { ExpensesEmptyState } from "@/components/expenses-empty-state";
 
 export const metadata: Metadata = {
   title: "Dépenses",
@@ -88,8 +89,8 @@ export default async function ExpensesPage() {
       categoryAgg[0].category)
     : "—";
 
-  const totalMonth = monthlyTotal._sum.amount ?? 0;
-  const totalYear = yearlyTotal._sum.amount ?? 0;
+  const totalMonth = Number(monthlyTotal._sum.amount ?? 0);
+  const totalYear = Number(yearlyTotal._sum.amount ?? 0);
 
   return (
     <div className="space-y-8">
@@ -180,36 +181,7 @@ export default async function ExpensesPage() {
 
       {/* Expenses table or empty state */}
       {expenses.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed py-16">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-muted mb-4">
-            <Receipt className="size-7 text-muted-foreground" />
-          </div>
-          <h3 className="text-lg font-medium mb-1">Aucune dépense</h3>
-          <p className="text-sm text-muted-foreground mb-6 max-w-sm text-center">
-            Commencez par ajouter une dépense manuellement ou scannez une
-            facture avec l&apos;IA.
-          </p>
-          <div className="flex gap-2">
-            <ExpenseOcrDialog
-              properties={properties}
-              trigger={
-                <Button variant="outline">
-                  <Sparkles className="size-4 mr-2" />
-                  Scanner une facture
-                </Button>
-              }
-            />
-            <ExpenseForm
-              properties={properties}
-              trigger={
-                <Button>
-                  <Plus className="size-4 mr-2" />
-                  Ajouter une dépense
-                </Button>
-              }
-            />
-          </div>
-        </div>
+        <ExpensesEmptyState properties={properties} />
       ) : (
         <div className="rounded-lg border">
           <Table>
@@ -255,7 +227,7 @@ export default async function ExpensesPage() {
                     {expense.property?.name ?? "—"}
                   </TableCell>
                   <TableCell className="text-right text-sm font-semibold font-mono">
-                    {formatCurrency(expense.amount)}
+                    {formatCurrency(Number(expense.amount))}
                   </TableCell>
                   <TableCell>
                     <ExpenseActions
@@ -263,7 +235,7 @@ export default async function ExpensesPage() {
                         id: expense.id,
                         vendorName: expense.vendorName,
                         description: expense.description,
-                        amount: expense.amount,
+                        amount: Number(expense.amount),
                         category: expense.category,
                         date: format(expense.date, "yyyy-MM-dd"),
                         propertyId: expense.propertyId,

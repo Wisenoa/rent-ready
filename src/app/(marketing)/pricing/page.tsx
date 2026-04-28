@@ -6,6 +6,8 @@ import React from "react";
 import { TrustLogos } from "@/components/seo/TrustLogos";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { TestimonialsSection } from "@/components/landing/testimonials-section";
+import { SocialProof } from "@/components/landing/social-proof";
 
 // ISR: revalidate marketing pages at CDN edge every hour
 // Keeps content fresh while serving cached HTML for TTFB < 100ms
@@ -18,23 +20,33 @@ const FinalCta = dynamic(
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
-// Dynamic import: SubscribeButton uses useSession (client-only)
-// → code-split to avoid SSR issues
-const SubscribeButton = dynamic(
-  () => import("@/components/subscribe-button").then((mod) => mod.SubscribeButton),
-  { loading: () => <div style={{ height: 56 }} aria-hidden="true" /> }
+// Dynamic import: interactive pricing (uses client state — framer-motion)
+const PricingSectionWrapper = dynamic(
+  () =>
+    import("@/components/landing/pricing-section-wrapper").then(
+      (mod) => mod.PricingSectionWrapper
+    ),
+  {
+    loading: () => (
+      <div className="grid gap-6 lg:grid-cols-3">
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="skeleton rounded-[2rem] border border-stone-200/30 bg-white/40"
+            style={{ height: 520 }}
+          />
+        ))}
+      </div>
+    ),
+  }
 );
 
-// Dynamic import: AnnualSubscribeButton uses useSession (client-only)
-const AnnualSubscribeButton = dynamic(
-  () => import("@/components/annual-subscribe-button").then((mod) => mod.AnnualSubscribeButton),
-  { loading: () => <div style={{ height: 80 }} aria-hidden="true" /> }
-);
-
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Tarifs — Logiciel gestion locative 15€/mois | RentReady",
-    description: "15€/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire. Essai gratuit 14 jours, sans engagement.",
+    title:
+      "Tarifs RentReady 2026 — À partir de 9 €/mois | Essai gratuit sans engagement",
+    description:
+      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, détection loyers DSP2, IRL automatique. 127 propriétaires. Essai gratuit 14 jours.",
     url: "/pricing",
     ogType: "pricing",
   });
@@ -54,11 +66,11 @@ import {
 const pricingFaqs = [
   {
     question: "Combien coûte RentReady et y a-t-il un engagement ?",
-    answer: "RentReady coûte 15 € par mois sans engagement, ou 150 € par an (2 mois offerts). Ce tarif unique inclut la gestion de 10 biens maximum, un nombre illimité de locataires, toutes les fonctionnalités et les mises à jour légales. Essai gratuit 14 jours sans carte bancaire.",
+    answer: "RentReady propose 3 plans : Starter à 9 €/mois, Pro à 15 €/mois, et Agency sur devis. Sans engagement sur les plans mensuels. Le tarif annuel offre 2 mois gratuits (89 €/an Starter, 149 €/an Pro). Essai gratuit 14 jours sans carte bancaire.",
   },
   {
-    question: "Que se passe-t-il si je dépasse 10 biens ?",
-    answer: "Si vous dépassez 10 biens, vous pouvez contacter notre équipe pour un abonnement adapté à votre portfolio. Aucun frais caché, aucune commission sur les loyers encaissés.",
+    question: "Que se passe-t-il si je dépasse la limite de biens ?",
+    answer: "Le plan Starter couvre jusqu'à 3 biens, le plan Pro jusqu'à 10 biens. Si vous dépassez cette limite, vous pouvez migrer vers le plan Agency (sur devis) ou contacter notre équipe pour un abonnement adapté à votre portfolio. Aucun frais caché.",
   },
   {
     question: "Puis-je résilier à tout moment ?",
@@ -72,25 +84,33 @@ const pricingFaqs = [
     question: "Y a-t-il des frais d'installation ou de mise en service ?",
     answer: "Non, il n'y a aucun frais d'installation. Vous créez votre compte, connectez votre compte bancaire via Open Banking, et votre espace de gestion est opérationnel en quelques minutes.",
   },
+  {
+    question: "Quelle est la différence entre le plan Starter et Pro ?",
+    answer: "Le plan Starter est idéal pour commencer (3 biens max). Le plan Pro ajoute l'OCR par IA pour les factures artisans, la conformité Factur-X complète, l'export comptable et la relance automatique des impayés — indispensable pour une gestion locative professionnelle.",
+  },
+  {
+    question: "Le plan Agency inclut-il un support dédié ?",
+    answer: "Oui, le plan Agency inclut un support dédié avec SLA et un onboarding personnalisé. Vous avez également accès à l'API et aux intégrations, au multi-utilisateurs avec rôles, et à un reporting avancé.",
+  },
 ];
 
 function PricingJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
       { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Tarifs", url: "https://www.rentready.fr/pricing" },
+      { name: "Tarifs", url: "https://www.rentready.fr/tarifs" },
     ]),
     buildOrganizationSchema({ "@id": "https://www.rentready.fr/#organization" }),
     buildWebPageSchema({
       name: "Tarifs RentReady",
       description:
-        "15 €/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire.",
-      url: "https://www.rentready.fr/pricing",
+        "À partir de 9 €/mois. Gestion locative automatisée : quittances conformes, détection loyers, révision IRL, portail locataire.",
+      url: "https://www.rentready.fr/tarifs",
     }),
     buildSoftwareAppSchema({
       name: "RentReady",
       description:
-        "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France (1 à 10 biens).",
+        "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France (1 à 10+ biens).",
       applicationCategory: "BusinessApplication",
       offers: [
         {
@@ -100,16 +120,28 @@ function PricingJsonLd() {
           priceCurrency: "EUR",
         },
         {
-          name: "Abonnement mensuel",
+          name: "Starter mensuel",
+          description: "9 €/mois — jusqu'à 3 biens, gestion locative complète",
+          price: "9.00",
+          priceCurrency: "EUR",
+        },
+        {
+          name: "Starter annuel",
+          description: "89 €/an — 2 mois offerts",
+          price: "89.00",
+          priceCurrency: "EUR",
+        },
+        {
+          name: "Pro mensuel",
           description:
-            "15 €/mois pour gérer jusqu'à 10 biens. Quittances conformes, détection des loyers, révision IRL, portail locataire.",
+            "15 €/mois — jusqu'à 10 biens, OCR IA, Factur-X, relance auto",
           price: "15.00",
           priceCurrency: "EUR",
         },
         {
-          name: "Abonnement annuel",
-          description: "144 €/an — 2 mois offerts par rapport au tarif mensuel",
-          price: "144.00",
+          name: "Pro annuel",
+          description: "149 €/an — 2 mois offerts",
+          price: "149.00",
           priceCurrency: "EUR",
         },
       ],
@@ -119,7 +151,7 @@ function PricingJsonLd() {
         "Révision IRL connectée à l'INSEE",
         "Portail locataire avec gestion de la maintenance",
         "OCR factures artisans par intelligence artificielle",
-        "Conformité Factur-X et e-reporting B2C 2027",
+        "Conformité Factur-X et e-reporting B2C 2026",
         "Export comptable",
         "Relance automatique impayés",
       ],
@@ -135,62 +167,79 @@ function PricingJsonLd() {
   );
 }
 
-const includedFeatures = [
-"Jusqu'à 10 biens immobiliers",
-"Locataires illimités",
-"Quittances et reçus conformes loi 1989",
-"Détection automatique des loyers (Open Banking DSP2)",
-"Révision IRL connectée INSEE",
-"Portail locataire avec gestion maintenance",
-"OCR factures artisans (IA)",
-"Conformité Factur-X et e-reporting B2C 2026",
-"Support email prioritaire",
-"Mises à jour légales incluses",
-"Export comptable",
-"Relance automatique impayés",
-];
-
 const comparisonData = [
-{
-feature: "Nombre de biens",
-us: "Jusqu'à 10",
-competitors: "5-20 pour le même prix",
-},
-{
-feature: "Quittances conformes loi 1989",
-us: "✅ Automatique",
-competitors: "Manuel ou semi-auto",
-},
-{
-feature: "Détection des loyers",
-us: "✅ Open Banking DSP2",
-competitors: "❌ Manuel",
-},
-{
-feature: "Révision IRL INSEE",
-us: "✅ Automatique",
-competitors: "❌ Calcul manuel",
-},
-{
-feature: "Portail locataire",
-us: "✅ Inclus",
-competitors: "❌ Payant",
-},
-{
-feature: "OCR factures artisans",
-us: "✅ IA incluse",
-competitors: "❌ Non disponible",
-},
-{
-feature: "Conformité Factur-X 2026",
-us: "✅ Prêt",
-competitors: "❌ Non conforme",
-},
-{
-feature: "Support",
-us: "Email prioritaire",
-competitors: "Email standard",
-},
+  {
+    feature: "Nombre de biens",
+    starter: "Jusqu'à 3",
+    pro: "Jusqu'à 10",
+    agency: "Illimité",
+  },
+  {
+    feature: "Quittances conformes loi 1989",
+    starter: "✅ Automatique",
+    pro: "✅ Automatique",
+    agency: "✅ Automatique",
+  },
+  {
+    feature: "Détection des loyers",
+    starter: "✅ Open Banking",
+    pro: "✅ Open Banking DSP2",
+    agency: "✅ Open Banking DSP2",
+  },
+  {
+    feature: "Révision IRL INSEE",
+    starter: "✅ Automatique",
+    pro: "✅ Automatique",
+    agency: "✅ Automatique",
+  },
+  {
+    feature: "Portail locataire",
+    starter: "✅ Inclus",
+    pro: "✅ Inclus",
+    agency: "✅ Inclus",
+  },
+  {
+    feature: "OCR factures artisans (IA)",
+    starter: "❌ Non disponible",
+    pro: "✅ IA incluse",
+    agency: "✅ IA incluse",
+  },
+  {
+    feature: "Conformité Factur-X 2026",
+    starter: "❌ Non conforme",
+    pro: "✅ Prêt",
+    agency: "✅ Prêt",
+  },
+  {
+    feature: "Export comptable",
+    starter: "❌ Non disponible",
+    pro: "✅ Inclus",
+    agency: "✅ Inclus",
+  },
+  {
+    feature: "Relance automatique impayés",
+    starter: "❌ Non disponible",
+    pro: "✅ Incluse",
+    agency: "✅ Incluse",
+  },
+  {
+    feature: "Multi-utilisateurs & rôles",
+    starter: "❌ Non disponible",
+    pro: "❌ Non disponible",
+    agency: "✅ Inclus",
+  },
+  {
+    feature: "API & intégrations",
+    starter: "❌ Non disponible",
+    pro: "❌ Non disponible",
+    agency: "✅ Inclus",
+  },
+  {
+    feature: "Support",
+    starter: "Email standard",
+    pro: "Email prioritaire",
+    agency: "Support dédié + SLA",
+  },
 ];
 
 export default function PricingPage() {
@@ -198,212 +247,107 @@ export default function PricingPage() {
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
       <PricingJsonLd />
 
-{/* Hero */}
-<article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-<header className="mb-16 text-center">
-<h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
-Un tarif transparent.
-<br />
-Zéro surprise.
-</h1>
-<p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
-Tout ce dont vous avez besoin pour gérer vos locations, au prix
-d'un café par jour. Essai gratuit, sans engagement.
-</p>
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+        <header className="mb-16 text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl text-balance">
+            Un tarif transparent.
+            <br />
+            Zéro surprise.
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
+            Tout ce dont vous avez besoin pour gérer vos locations, au prix
+            d&apos;un café par jour. Essai gratuit, sans engagement.
+          </p>
 
-{/* E-E-A-T: content review badge */}
-<div className="mt-6">
-  <ContentReviewBadge updatedAt="2026-04-01" category="article" />
-</div>
-</header>
+          {/* E-E-A-T: content review badge */}
+          <div className="mt-6">
+            <ContentReviewBadge updatedAt="2026-04-25" category="article" />
+          </div>
+        </header>
 
-{/* Trust signals */}
-<div className="mb-12">
-  <TrustLogos variant="full" showMedia={false} />
-</div>
+        {/* ── Social proof stats ──────────────────────────────── */}
+        <div className="mb-12">
+          <SocialProof />
+        </div>
 
-{/* Two-column pricing cards: Monthly | Annual */}
-<div className="mx-auto max-w-4xl">
-<div className="grid gap-6 md:grid-cols-2">
+        {/* ── Trust signals ────────────────────────────────────── */}
+        <div className="mb-16">
+          <TrustLogos variant="full" showMedia={false} />
+        </div>
 
-{/* ── Monthly plan ──────────────────────────────────────────── */}
-<div className="relative overflow-hidden rounded-[2rem] border border-stone-200/30 bg-white/60 shadow-2xl shadow-stone-900/[0.04] backdrop-blur-xl">
-{/* Decorative glow */}
-<div aria-hidden className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-blue-100/30 blur-3xl"/>
-<div aria-hidden className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-teal-100/20 blur-3xl"/>
+        {/* ── Pricing section with toggle ─────────────────────── */}
+        <section aria-label="Plans tarifaires">
+          <PricingSectionWrapper />
+        </section>
 
-<div className="relative p-8 sm:p-10">
-{/* Badge */}
-<div className="mb-6 flex items-center gap-2">
-<span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-Le plus populaire
-</span>
-</div>
+        {/* ── Comparison table ────────────────────────────────── */}
+        <section className="mt-20" aria-label="Comparaison des plans">
+          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+            Tous les plans en un coup d&apos;œil
+          </h2>
+          <div className="overflow-x-auto rounded-xl border border-stone-200 bg-white shadow-xl">
+            <table className="w-full text-left text-sm">
+              <thead className="border-b border-stone-200 bg-stone-50/50">
+                <tr>
+                  <th className="px-6 py-4 font-semibold text-stone-900">
+                    Fonctionnalité
+                  </th>
+                  <th className="px-6 py-4 text-center font-semibold text-blue-600">
+                    Starter
+                  </th>
+                  <th className="px-6 py-4 text-center font-semibold text-emerald-600">
+                    Pro
+                  </th>
+                  <th className="px-6 py-4 text-center font-semibold text-amber-600">
+                    Agency
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                {comparisonData.map((row) => (
+                  <tr key={row.feature} className="hover:bg-stone-50/50">
+                    <td className="px-6 py-4 text-stone-700">{row.feature}</td>
+                    <td className="px-6 py-4 text-center text-blue-600">
+                      {row.starter}
+                    </td>
+                    <td className="px-6 py-4 text-center text-emerald-600">
+                      {row.pro}
+                    </td>
+                    <td className="px-6 py-4 text-center text-amber-600">
+                      {row.agency}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-{/* Price */}
-<div className="mb-8 text-center">
-<div className="flex items-baseline justify-center">
-<span className="text-6xl font-extrabold tracking-tighter text-stone-900">15</span>
-<span className="ml-1 text-xl font-semibold text-stone-400">€</span>
-<span className="ml-1.5 text-base text-stone-400">/mois</span>
-</div>
-<p className="mt-2 text-sm text-stone-500">Sans engagement · Résiliez quand vous voulez</p>
-</div>
+        {/* ── Testimonials ─────────────────────────────────────── */}
+        <section className="mt-20" aria-label="Témoignages clients">
+          <TestimonialsSection />
+        </section>
 
-{/* Features */}
-<ul className="mb-8 space-y-3">
-{includedFeatures.map((feature) => (
-<li key={feature} className="flex items-start gap-3 text-sm text-stone-600">
-<span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
-✓
-</span>
-<span>{feature}</span>
-</li>
-))}
-</ul>
+        {/* ── FAQ ─────────────────────────────────────────────── */}
+        <section className="mt-20" aria-label="Questions fréquentes">
+          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+            Questions fréquentes
+          </h2>
+          <dl className="mx-auto max-w-2xl space-y-6">
+            {pricingFaqs.map((faq) => (
+              <div key={faq.question}>
+                <dt className="text-base font-semibold text-stone-900">
+                  {faq.question}
+                </dt>
+                <dd className="mt-2 text-stone-600">{faq.answer}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      </article>
 
-{/* CTA */}
-<SubscribeButton />
-<p className="mt-3 text-center text-xs text-stone-400">
-Sans carte bancaire · Annulable en 1 clic
-</p>
-</div>
-</div>
-
-{/* ── Annual plan ───────────────────────────────────────────── */}
-<div className="relative overflow-hidden rounded-[2rem] border-2 border-emerald-200/50 bg-gradient-to-br from-emerald-50/60 to-white/60 shadow-2xl shadow-emerald-900/[0.06] backdrop-blur-xl">
-{/* Decorative glow */}
-<div aria-hidden className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-emerald-100/30 blur-3xl"/>
-<div aria-hidden className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-teal-100/20 blur-3xl"/>
-
-<div className="relative p-8 sm:p-10">
-{/* Savings badge */}
-<div className="mb-6 flex items-center gap-2">
-<span className="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-✨ 2 mois gratuits
-</span>
-</div>
-
-{/* Price */}
-<div className="mb-8 text-center">
-<div className="flex items-baseline justify-center">
-<span className="text-6xl font-extrabold tracking-tighter text-emerald-700">144</span>
-<span className="ml-1 text-xl font-semibold text-stone-400">€</span>
-<span className="ml-1.5 text-base text-stone-400">/an</span>
-</div>
-<p className="mt-2 text-sm text-emerald-600 font-medium">
-Soit 12 €/mois · Économie de 36 €/an
-</p>
-</div>
-
-{/* Features */}
-<ul className="mb-8 space-y-3">
-{includedFeatures.map((feature) => (
-<li key={feature} className="flex items-start gap-3 text-sm text-stone-600">
-<span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-✓
-</span>
-<span>{feature}</span>
-</li>
-))}
-</ul>
-
-{/* CTA */}
-<AnnualSubscribeButton
-  annualPriceLabel="S'abonner — 144 €/an"
-  badgeLabel="2 mois gratuits"
-/>
-<p className="mt-3 text-center text-xs text-stone-400">
-Essai 14 jours inclus · Résiliez quand vous voulez
-</p>
-</div>
-</div>
-
-</div>
-</div>
-
-{/* Comparison table */}
-<section className="mt-20">
-<h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
-Pourquoi RentReady ?
-</h2>
-<div className="overflow-x-auto rounded-xl border border-stone-200 bg-white">
-<table className="w-full text-left text-sm">
-<thead className="border-b border-stone-200 bg-stone-50/50">
-<tr>
-<th className="px-6 py-4 font-semibold text-stone-900">Fonction</th>
-<th className="px-6 py-4 font-semibold text-stone-900">
-RentReady
-</th>
-<th className="px-6 py-4 font-semibold text-stone-500">
-Logiciels classiques
-</th>
-</tr>
-</thead>
-<tbody className="divide-y divide-stone-100">
-{comparisonData.map((row) => (
-<tr key={row.feature}>
-<td className="px-6 py-4 text-stone-700">{row.feature}</td>
-<td className="px-6 py-4 font-medium text-blue-600">
-{row.us}
-</td>
-<td className="px-6 py-4 text-stone-400">{row.competitors}</td>
-</tr>
-))}
-</tbody>
-</table>
-</div>
-</section>
-
-{/* FAQ */}
-<section className="mt-20">
-<h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
-Questions fréquentes
-</h2>
-<dl className="mx-auto max-w-2xl space-y-6">
-<div>
-<dt className="text-base font-semibold text-stone-900">
-Y a-t-il des frais cachés ?
-</dt>
-<dd className="mt-2 text-stone-600">
-Non. Le tarif de 15€/mois inclut toutes les fonctionnalités ci-dessus.
-Aucun frais supplémentaire pour les quittances, la détection des loyers,
-ou le support.
-</dd>
-</div>
-<div>
-<dt className="text-base font-semibold text-stone-900">
-Puis-je annuler à tout moment ?
-</dt>
-<dd className="mt-2 text-stone-600">
-Oui. Vous pouvez annuler votre abonnement en un clic depuis votre
-compte. Aucune période d'engagement minimum.
-</dd>
-</div>
-<div>
-<dt className="text-base font-semibold text-stone-900">
-L'essai gratuit est-il vraiment sans carte bancaire ?
-</dt>
-<dd className="mt-2 text-stone-600">
-Oui. L'essai de 14 jours ne nécessite aucune carte bancaire. Vous
-serez invité à souscrire uniquement si vous souhaitez continuer après
-la période d'essai.
-</dd>
-</div>
-<div>
-<dt className="text-base font-semibold text-stone-900">
-Que se passe-t-il si j'ai plus de 10 biens ?
-</dt>
-<dd className="mt-2 text-stone-600">
-Le plan actuel couvre jusqu'à 10 biens. Si vous avez plus de biens,
-contactez-nous pour discuter d'un plan personnalisé.
-</dd>
-</div>
-</dl>
-</section>
-</article>
-
-<FinalCta />
-</div>
-);
+      <FinalCta />
+    </div>
+  );
 }

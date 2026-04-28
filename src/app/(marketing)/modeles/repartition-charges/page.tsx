@@ -12,13 +12,14 @@ const FinalCta = dynamic(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Modèle Répartition des Charges Locatives — Calcul et Contrat | RentReady",
-    description: "Modèle de convention de répartition des charges locatives. Document officiel pour partager les coûts entre propriétaire et locataire de manière claire.",
+    title:
+      "Modèle Répartition des Charges 2026 — Gratuit & PDF Instantané | RentReady",
+    description:
+      "Convention répartition charges locatives 2026 modèle gratuit. Calculez et partagez les coûts propriétaire/locataire. PDF instantané, conforme.",
     url: "/modeles/repartition-charges",
     ogType: "template",
   });
 }
-;
 
 const typesCharges = [
   {
