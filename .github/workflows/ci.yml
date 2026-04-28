@@ -87,7 +87,63 @@ jobs:
         run: pnpm exec tsc --noEmit --project tsconfig.json
 
   # ========================================
-  # 3. Unit Tests
+  # 3. Migration Validation
+  # ========================================
+  migration-validate:
+    name: Migration Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: pnpm exec prisma generate
+
+      - name: Validate Prisma Schema
+        run: pnpm exec prisma validate
+
+      - name: Ensure no uncommitted migration files
+        run: |
+          # Fail if any migration files are uncommitted (they must be committed with schema)
+          uncommitted=$(git diff --name-only -- prisma/migrations/ | wc -l)
+          untracked=$(git ls-files --others --exclude-standard prisma/migrations/ | wc -l)
+          if [ "$uncommitted" -gt 0 ] || [ "$untracked" -gt 0 ]; then
+            echo "ERROR: Uncommitted migration files detected."
+            echo "All migration files must be committed before CI runs."
+            echo "Uncommitted: $uncommitted, Untracked: $untracked"
+            git diff --name-only -- prisma/migrations/
+            git ls-files --others --exclude-standard prisma/migrations/
+            exit 1
+          fi
+
+      - name: Check schema-migration alignment
+        run: |
+          pnpm exec prisma migrate diff \
+            --from-schema-datasource prisma/schema.prisma \
+            --to-migrations prisma/migrations \
+            --exit-code || {
+            echo "ERROR: schema.prisma and migrations are out of sync."
+            echo "Run 'pnpm exec prisma migrate dev --name <name>' to generate missing migrations."
+            echo "Or if migrations exist, ensure schema.prisma is updated to match."
+            exit 1
+          }
+
+  # ========================================
+  # 4. Unit Tests
   # ========================================
   unit-tests:
     name: Unit Tests
@@ -122,11 +178,12 @@ jobs:
           retention-days: 7
 
   # ========================================
-  # 4. Build Verification
+  # 5. Build Verification
   # ========================================
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs: [migration-validate, typecheck]
     strategy:
       matrix:
         node-version: ["20"]
@@ -374,7 +431,7 @@ jobs:
     name: Slack Notification
     runs-on: ubuntu-latest
     if: failure() && vars.SLACK_WEBHOOK_URL != ''
-    needs: [lint, typecheck, unit-tests, build, e2e, lighthouse, docker-build]
+    needs: [lint, typecheck, migration-validate, unit-tests, build, e2e, lighthouse, docker-build]
     steps:
       - name: Notify Slack
         uses: slackapi/slack-github-action@v1.26.0
