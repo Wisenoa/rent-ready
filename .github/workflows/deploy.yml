@@ -11,6 +11,7 @@
 #   NEON_PROD_DATABASE_URL         — Neon production DB
 #   REDIS_PASSWORD                 — Redis auth
 #   SENTRY_DSN                     — Sentry DSN
+#   SENTRY_AUTH_TOKEN              — Sentry auth token (for sentry-cli release marking)
 #
 # Environment variables (via GitHub vars):
 #   STAGING_APP_URL                — Staging deployment URL
@@ -100,6 +101,20 @@ jobs:
           sleep 10
           curl -sf ${{ steps.deploy.outputs.deployment_url }}/api/health || exit 1
 
+      # ========================================
+      # Sentry: Mark release as deployed (staging)
+      # Requires SENTRY_AUTH_TOKEN secret and SENTRY_ORG var (defaults to 'wisenoa')
+      # ========================================
+      - name: Sentry — mark staging deploy
+        if: "${{ secrets.SENTRY_AUTH_TOKEN != '' }}"
+        run: |
+          pnpm dlx sentry-cli releases deploys rent-ready@${{ github.sha }} new \
+            --env staging \
+            --url "${{ steps.deploy.outputs.deployment_url }}"
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ vars.SENTRY_ORG || 'wisenoa' }}
+
       - name: Notify Slack (staging success)
         if: success()
         uses: slackapi/slack-github-action@v1.26.0
@@ -188,6 +203,21 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # ========================================
+      # Sentry: Mark release as deployed (production)
+      # This marks the release as "deployed" which allows Sentry to
+      # automatically resolve issues that stop appearing after this deploy.
+      # ========================================
+      - name: Sentry — mark production deploy
+        if: "${{ secrets.SENTRY_AUTH_TOKEN != '' }}"
+        run: |
+          pnpm dlx sentry-cli releases deploys rent-ready@${{ github.sha }} new \
+            --env production \
+            --url "${{ vars.PROD_APP_URL }}"
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ vars.SENTRY_ORG || 'wisenoa' }}
 
       - name: Notify Slack (production success)
         if: success()

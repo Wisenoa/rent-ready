@@ -153,6 +153,10 @@ jobs:
         env:
           NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL || 'https://staging.rentready.io' }}
           NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+          # Sentry source map upload happens automatically during build via @sentry/nextjs webpack plugin
+          # when SENTRY_AUTH_TOKEN is present (configured in GitHub Secrets)
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ vars.SENTRY_ORG || 'wisenoa' }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

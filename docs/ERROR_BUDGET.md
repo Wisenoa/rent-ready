@@ -106,7 +106,7 @@ User reports / Uptime alert fires
 | Tool | Purpose | Config location |
 |------|---------|----------------|
 | UptimeRobot (free) | Uptime checks every 1 min against `/api/health` | External — dashboard.uptimerobot.com |
-| Sentry | Error capturing (frontend + backend) | `sentry.client.config.ts`, `sentry.server.config.ts` |
+| Sentry | Error capturing (frontend + backend) + SLO tracking | `sentry.client.config.ts`, `sentry.server.config.ts`, `docs/SENTRY_RUNBOOK.md` |
 | Vercel Analytics | Core Web Vitals, page performance | Vercel dashboard |
 | GitHub Actions | CI/CD build health | `.github/workflows/` |
 
