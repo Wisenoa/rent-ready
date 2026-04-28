@@ -54,7 +54,14 @@ export default function OutilsLayout({
         </nav>
       </header>
 
-      <main className="flex-1">{children}</main>
+      {/* Skip to main content — accessibility WCAG 2.1 AA */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-[#1a1a2e] focus:px-3 focus:py-1.5 focus:text-sm focus:font-medium focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2"
+      >
+        Aller au contenu principal
+      </a>
+      <main id="main" className="flex-1">{children}</main>
 
       <footer className="border-t border-stone-200/60 bg-[#f8f7f4]">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-10 text-sm text-stone-500 sm:flex-row sm:justify-between sm:px-6">

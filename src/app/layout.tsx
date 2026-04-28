@@ -108,6 +108,13 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://o1.ingest.sentry.io" />
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden">
+        {/* Skip to main content — accessibility WCAG 2.1 AA */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-[#1a1a2e] focus:px-3 focus:py-1.5 focus:text-sm focus:font-medium focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2"
+        >
+          Aller au contenu principal
+        </a>
         <Analytics />
         <WebVitalsProvider />
         {children}

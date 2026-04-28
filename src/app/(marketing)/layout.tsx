@@ -29,8 +29,16 @@ export default function MarketingLayout({
       {/* spacer so content isn't hidden under fixed nav */}
       <div className="h-16" />
 
-      {/* Main */}
-      <main className="flex-1">{children}</main>
+      {/* Skip to main content — accessibility WCAG 2.1 AA */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-[#1a1a2e] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2"
+      >
+        Aller au contenu principal
+      </a>
+
+      {/* Main — id required for skip-to-content link target */}
+      <main id="main" className="flex-1">{children}</main>
 
       {/* Page view analytics */}
       <AnalyticsWrapper />
