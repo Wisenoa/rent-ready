@@ -1,0 +1,47 @@
+name: Sitemap Ping — Weekly
+
+on:
+  schedule:
+    # Run every Monday at 07:00 UTC
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+    # Allow manual trigger from GitHub Actions UI
+
+concurrency:
+  group: sitemap-ping
+  cancel-in-progress: false  # Let weekly runs complete even if another triggers
+
+jobs:
+  sitemap-ping:
+    name: Ping Google Search Console
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine sitemap URL
+        id: sitemap
+        run: |
+          # Use production URL from Vercel project settings
+          SITEMAP_URL="${{ vars.NEXT_PUBLIC_APP_URL }}/sitemap.xml"
+          echo "url=$SITEMAP_URL" >> $GITHUB_OUTPUT
+          echo "Sitemap URL: $SITEMAP_URL"
+
+      - name: Ping Google Search Console
+        run: |
+          SITEMAP_URL="${{ steps.sitemap.outputs.url }}"
+          echo "Pinging Google for: $SITEMAP_URL"
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "https://www.google.com/ping?sitemap=$SITEMAP_URL")
+          echo "Google response code: $RESPONSE"
+          
+          if [ "$RESPONSE" = "200" ]; then
+            echo "✅ Google acknowledged sitemap successfully"
+          else
+            echo "❌ Google returned HTTP $RESPONSE"
+            exit 1
+          fi
+
+      - name: Log result
+        run: |
+          echo "Sitemap ping completed at $(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_STATE
+          echo "Sitemap: ${{ steps.sitemap.outputs.url }}" >> $GITHUB_STATE
