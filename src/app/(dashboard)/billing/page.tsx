@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Decimal from "decimal.js";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
@@ -24,38 +25,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TransactionForm } from "@/components/transaction-form";
+import {
+  presentTransaction,
+  daysLate as periodDaysLate,
+  STATUS_PRESENTATION,
+} from "@/lib/domain/period-presentation";
 import { QuittanceButton } from "@/components/quittance-button";
 import { MarkPaidButton } from "./mark-paid-button";
 import { SubscriptionBanner } from "./subscription-banner";
 
 export const metadata: Metadata = {
   title: "Paiements",
-};
-
-const STATUS_CONFIG: Record<
-  string,
-  { label: string; className: string }
-> = {
-  PAID: {
-    label: "Payé",
-    className: "text-emerald-700 bg-emerald-50 border-emerald-200",
-  },
-  PENDING: {
-    label: "En attente",
-    className: "text-amber-700 bg-amber-50 border-amber-200",
-  },
-  LATE: {
-    label: "En retard",
-    className: "text-red-700 bg-red-50 border-red-200",
-  },
-  PARTIAL: {
-    label: "Partiel",
-    className: "text-orange-700 bg-orange-50 border-orange-200",
-  },
-  CANCELLED: {
-    label: "Annulé",
-    className: "text-gray-700 bg-gray-50 border-gray-200",
-  },
 };
 
 const RECEIPT_CONFIG: Record<string, { label: string; className: string }> = {
@@ -118,8 +98,10 @@ export default async function BillingPage() {
         where: { userId, status: "PAID", paidAt: { gte: monthStart, lte: monthEnd } },
         _sum: { amount: true },
       }),
+      // Outstanding = unpaid and past due. Deriving from the date matters: no code
+      // writes a LATE status, so filtering on one reported zero rent arrears.
       prisma.transaction.aggregate({
-        where: { userId, status: "PENDING" },
+        where: { userId, paidAt: null, dueDate: { lt: new Date() } },
         _sum: { amount: true },
       }),
       prisma.transaction.count({
@@ -256,7 +238,12 @@ export default async function BillingPage() {
               </TableHeader>
               <TableBody>
                 {transactions.map((tx) => {
-                  const status = STATUS_CONFIG[tx.status] ?? STATUS_CONFIG.PENDING;
+                  // Derived from the due date, not the stored status: nothing
+                  // writes LATE, so this previously showed overdue rent as merely
+                  // "En attente".
+                  const status = presentTransaction(tx);
+                  const lateBy = periodDaysLate(tx.dueDate);
+                  const lateLabel = `${lateBy} jour${lateBy > 1 ? "s" : ""} de retard`;
                   const receipt = tx.receiptType ? RECEIPT_CONFIG[tx.receiptType] : null;
 
                   return (
@@ -271,12 +258,19 @@ export default async function BillingPage() {
                         {tx.lease.property?.name ?? ''}
                       </TableCell>
                       <TableCell className="text-right font-mono text-sm font-semibold">
-                        {formatCurrency(Number(tx.amount))}
+                        {formatCurrency(tx.amount)}
                       </TableCell>
                       <TableCell>
-                        <Badge variant="secondary" className={status.className}>
-                          {status.label}
-                        </Badge>
+                        <div className="flex flex-col items-start gap-0.5">
+                          <Badge variant="secondary" className={status.className}>
+                            {status.label}
+                          </Badge>
+                          {lateBy > 0 && status.label === "En retard" && (
+                            <span className="text-xs text-red-600">
+                              {lateLabel}
+                            </span>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell>
                         {receipt ? (
@@ -310,7 +304,7 @@ export default async function BillingPage() {
                           {tx.status === "PENDING" && (
                             <MarkPaidButton
                               transactionId={tx.id}
-                              defaultAmount={Number(tx.lease.rentAmount) + Number(tx.lease.chargesAmount)}
+                              defaultAmount={Number(new Decimal(tx.lease.rentAmount).plus(tx.lease.chargesAmount).toDecimalPlaces(2))}
                             />
                           )}
                           {(tx.status === "PAID" || tx.status === "PARTIAL") && tx.receiptType && (

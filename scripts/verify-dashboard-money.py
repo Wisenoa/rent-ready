@@ -125,7 +125,12 @@ problems = []
 if bad_euro:
     problems.append(f"euro figures with wrong precision: {bad_euro[:5]}")
 for label, v in summary_fields.items():
-    if v is not None and len(str(v).split(".")[-1]) > 2:
+    # Only a fractional part can be over-precise: 720 (an integer) is fine,
+    # 720.005 is not. Checking split(".")[-1] alone flagged every whole number.
+    if v is None:
+        continue
+    text = str(v)
+    if "." in text and len(text.split(".")[-1]) > 2:
         problems.append(f"{label}={v}")
 
 if problems:
