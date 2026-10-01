@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
 import {
-  determineReceiptType,
+  determineReceiptTypeCumulative,
   generateReceiptNumber,
   type QuittanceData,
 } from "@/lib/quittance-generator";
@@ -49,10 +49,43 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
     const { lease, user } = transaction;
     const { property, tenant } = lease;
 
-    const receiptType = determineReceiptType(
+    // Judge the period, not the payment. A tenant who settles 700 EUR of rent in
+    // two instalments must obtain a quittance on the payment that completes it;
+    // looking only at that payment's amount denied it, which is a legal problem
+    // under loi du 6 juillet 1989 art. 21.
+    // Count only what had been received by this payment's own date. Without the
+    // paidAt bound this summed LATER instalments too, so receipting the first of
+    // two payments saw the second and issued a quittance for a balance that was
+    // still outstanding.
+    const priorPayments = await prisma.transaction.aggregate({
+      where: {
+        leaseId: transaction.leaseId,
+        paidAt: { not: null },
+        periodStart: transaction.periodStart,
+        periodEnd: transaction.periodEnd,
+        id: { not: transaction.id },
+        // Strictly "recorded before this payment", which is the only ordering
+        // that is reliable: two instalments recorded the same day share paidAt,
+        // so a paidAt comparison alone would let a later payment leak into an
+        // earlier receipt. Comparing (paidAt, createdAt) lexicographically is
+        // not expressible in one Prisma where-clause, so the two are handled as:
+        // an earlier paidAt always counts, and a tie falls back to createdAt.
+        OR: [
+          { paidAt: { lt: transaction.paidAt } },
+          {
+            paidAt: transaction.paidAt,
+            createdAt: { lt: transaction.createdAt },
+          },
+        ],
+      },
+      _sum: { amount: true },
+    });
+
+    const receiptType = determineReceiptTypeCumulative(
       transaction.amount,
       lease.rentAmount,
-      lease.chargesAmount
+      lease.chargesAmount,
+      priorPayments._sum.amount ?? 0
     );
 
     const currentCount = await prisma.transaction.count({

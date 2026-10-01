@@ -27,6 +27,32 @@ export function determineReceiptType(
 }
 
 /**
+ * Determine the receipt type for a payment, counting everything already paid for
+ * the same rental period.
+ *
+ * `determineReceiptType` only sees one payment, so a tenant paying 700 EUR of
+ * rent in two instalments could never obtain a quittance: 400 -> RECU and the
+ * completing 340 -> RECU again, even though the period was then settled in full.
+ * A quittance is a legal document (loi du 6 juillet 1989, art. 21); withholding
+ * it after the money has arrived is a compliance failure, not a cosmetic one.
+ *
+ * `previouslyPaidForPeriod` must be the sum of the amounts already received for
+ * the period, excluding the payment being receipted. Pass it and the period is
+ * judged on its cumulative total; omit it and this behaves exactly like
+ * `determineReceiptType`, so single-payment callers are unaffected.
+ */
+export function determineReceiptTypeCumulative(
+  amountPaid: number | Decimal,
+  rentAmount: number | Decimal,
+  chargesAmount: number | Decimal,
+  previouslyPaidForPeriod: number | Decimal = 0
+): "QUITTANCE" | "RECU" {
+  const totalDue = new Decimal(rentAmount).plus(chargesAmount);
+  const cumulative = new Decimal(previouslyPaidForPeriod).plus(amountPaid);
+  return cumulative.gte(totalDue) ? "QUITTANCE" : "RECU";
+}
+
+/**
  * Generate a sequential receipt number.
  * Format: QUI-2026-03-0001 or REC-2026-03-0001
  */

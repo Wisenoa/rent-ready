@@ -1,8 +1,16 @@
 import React from "react";
-// Re-export pure utilities so existing imports continue to work
-export { determineReceiptType, generateReceiptNumber } from "@/lib/payment-utils";
+// Re-export pure utilities so existing imports continue to work.
+// determineReceiptTypeCumulative must be re-exported too: quittance-actions
+// imports it from here, and a named import that is missing resolves to undefined
+// at runtime rather than failing the build.
+export {
+  determineReceiptType,
+  determineReceiptTypeCumulative,
+  generateReceiptNumber,
+} from "@/lib/payment-utils";
 import {
   determineReceiptType,
+  determineReceiptTypeCumulative,
   generateReceiptNumber,
 } from "@/lib/payment-utils";
 import {

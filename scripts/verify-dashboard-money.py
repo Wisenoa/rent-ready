@@ -17,7 +17,30 @@ import sys
 
 B = "http://localhost:3111"
 JAR = "/tmp/auditA.jar"
-ROOT = "/Users/vincentroye/Work/rent-ready"
+
+def _load_env():
+    """Export .env so the `node` children below can reach the database.
+
+    CI sets DATABASE_URL in the environment; a local shell usually does not. Without
+    this the child fails with a Prisma "DatabaseNotReachable" stack trace, which
+    reads like a product bug rather than a missing variable.
+    """
+    import os
+    import re as _re
+
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+    if not os.path.exists(path):
+        return
+    for line in open(path):
+        m = _re.match(r"^([A-Z_][A-Z0-9_]*)=(.*)$", line.strip())
+        if m and not os.environ.get(m.group(1)):
+            os.environ[m.group(1)] = m.group(2).strip().strip('"').strip("'")
+
+
+_load_env()
+
+ROOT = __import__("os").path.dirname(__import__("os").path.dirname(
+    __import__("os").path.abspath(__file__)))
 
 
 def curl(*args):
@@ -39,11 +62,9 @@ def node(script, *args):
 
 
 ENV_LOAD = r"""
-const fs=require("fs");
-for (const line of fs.readFileSync(".env","utf8").split("\n")) {
-  const m=line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);
-  if (m && !process.env[m[1]]) process.env[m[1]]=m[2].trim().replace(/^["']|["']$/g,"");
-}
+// DATABASE_URL is inherited from the environment (CI sets it, and
+// ci-local.sh exports it). Reading .env here broke in CI, where .env
+// does not exist because it is gitignored.
 const { PrismaClient } = require("@prisma/client");
 const { PrismaPg } = require("@prisma/adapter-pg");
 const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });
