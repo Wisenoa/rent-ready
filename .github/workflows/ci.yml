@@ -87,21 +87,30 @@ jobs:
         run: pnpm lint
 
       # `next build` sets ignoreBuildErrors, so type errors are invisible unless
-      # checked separately. It reports rather than blocks: 118 errors exist today
-      # (46 TS2322, 20 TS2339, 14 TS2551, 11 TS2345, and 31 more), and a gate
-      # that always fails trains everyone to ignore red. It becomes blocking the
-      # moment the count reaches 0 — no other change needed.
-      - name: Type check (reported, not yet blocking)
+      # checked separately.
+      #
+      # 119 errors are pre-existing (47 TS2322, 19 TS2339, 14 TS2551, 11 TS2345),
+      # concentrated in portal-actions.tsx, analytics.ts and the email templates.
+      # A gate that always fails trains everyone to ignore red, so instead this
+      # BLOCKS ON REGRESSION: the count may go down, never up. Lower `max` as debt
+      # is cleared; the gate tightens on its own with no further change.
+      # The Decimal-vs-number class (TS2322 on Prisma Decimal reaching a component
+      # or a `number` parameter) is the dangerous one and is what this is watching.
+      - name: Type check (blocks on regression)
         run: |
-          set +e
-          pnpm tsc --noEmit > /tmp/tsc.log 2>&1
+          pnpm tsc --noEmit > /tmp/tsc.log 2>&1 || true
           count=$(grep -c 'error TS' /tmp/tsc.log || true)
-          echo "TypeScript errors: $count"
-          if [ "$count" -ne 0 ]; then
-            echo "::warning title=Type errors::tsc reports $count errors. Known debt; not gating yet."
+          max=119
+          echo "TypeScript errors: $count (baseline $max)"
+          if [ "$count" -gt "$max" ]; then
+            echo "::error title=Type errors::$count errors, up from the $max baseline. No new type debt."
+            grep 'error TS' /tmp/tsc.log | head -20
+            exit 1
+          fi
+          if [ "$count" -gt 0 ]; then
+            echo "::warning title=Type errors::$count pre-existing errors remain; budget $max."
             grep 'error TS' /tmp/tsc.log | head -20
           fi
-          exit 0
 
       - name: Unit tests
         run: pnpm test
