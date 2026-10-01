@@ -379,6 +379,13 @@ model Document {
   fileUrl       String
   mimeType      String
   fileSize      Int          // bytes
+  /// Document bytes, stored inline when no object storage is configured.
+  ///
+  /// Generated documents (quittances, receipts) must be retrievable. Storing only
+  /// a URL left `downloadUrl: null` for every generated document, so the UI could
+  /// report a receipt that no one could open. Uploads and large files still go to
+  /// object storage via `fileUrl`; this covers small, code-generated documents.
+  content       Bytes?
   // AI extraction
   extractedData Json?        // Structured data extracted by LLM
   extractionStatus ExtractionStatus @default(PENDING)

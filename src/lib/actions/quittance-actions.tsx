@@ -101,20 +101,41 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       isFullPayment: receiptType === "QUITTANCE",
     };
 
-    // Delegate PDF generation to the dedicated server module (avoids duplicate renderToBuffer + embedFacturX logic)
-    const receiptUrl = await generateAndUploadQuittancePdf(
-      transactionId,
-      quittanceData,
-      receiptNumber,
-      userId
-    );
+    // Delegate PDF generation to the dedicated server module. A failure here must
+    // not be reported as success: previously an unconfigured storage backend
+    // yielded a placeholder URL and `success: true`, so the UI showed a receipt
+    // that could not be downloaded and no document existed.
+    let receiptUrl: string;
+    try {
+      const url = await generateAndUploadQuittancePdf(
+        transactionId,
+        quittanceData,
+        receiptNumber,
+        userId
+      );
+      if (!url) {
+        return {
+          success: false,
+          error: "La quittance n'a pas pu être enregistrée. Réessayez.",
+        };
+      }
+      receiptUrl = url;
+    } catch (error) {
+      console.error("generateQuittance PDF generation failed:", error);
+      return {
+        success: false,
+        error:
+          "Impossible d'enregistrer la quittance. Le paiement reste enregistré, " +
+          "mais aucun document n'a été généré.",
+      };
+    }
 
     await prisma.transaction.update({
       where: { id: transactionId },
       data: {
         receiptType,
         receiptNumber,
-        receiptUrl: receiptUrl || null,
+        receiptUrl,
       },
     });
 
@@ -124,7 +145,7 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       data: {
         receiptType,
         receiptNumber,
-        receiptUrl: receiptUrl || "",
+        receiptUrl,
         quittanceData: JSON.parse(JSON.stringify(quittanceData)),
       },
     };

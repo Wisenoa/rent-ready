@@ -31,17 +31,33 @@ def get(jar, path):
     return jload(curl("-b", jar, f"{B}{path}"))
 
 
-for user in ("auditA", "auditB"):
+def ensure_user(user):
+    """Sign up, or sign in if the account already exists. Idempotent so the
+    script can be re-run against the same database."""
+    creds = {
+        "email": f"{user}@test.io", "password": "Password123!",
+        "name": user, "firstName": user, "lastName": "T",
+    }
     out = jload(curl(
         "-X", "POST", f"{B}/api/auth/sign-up/email",
         "-H", "Content-Type: application/json",
-        "-d", json.dumps({
-            "email": f"{user}@test.io", "password": "Password123!",
-            "name": user, "firstName": user, "lastName": "T",
-        }),
-        "-c", f"/tmp/{user}.jar",
+        "-d", json.dumps(creds), "-c", f"/tmp/{user}.jar",
     ))
-    print(f"{user}: signup {'OK' if out.get('user') else out}")
+    if out.get("user"):
+        return "signup"
+    if out.get("code") == "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL":
+        out = jload(curl(
+            "-X", "POST", f"{B}/api/auth/sign-in/email",
+            "-H", "Content-Type: application/json",
+            "-d", json.dumps({"email": creds["email"], "password": creds["password"]}),
+            "-c", f"/tmp/{user}.jar",
+        ))
+        return "signin" if out.get("token") or out.get("user") else f"FAILED {out}"
+    return f"FAILED {out}"
+
+
+for user in ("auditA", "auditB"):
+    print(f"{user}: {ensure_user(user)}")
 
 A, Bjar = "/tmp/auditA.jar", "/tmp/auditB.jar"
 

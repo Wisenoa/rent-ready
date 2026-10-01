@@ -1,12 +1,19 @@
 /**
  * Server-side quittance (rent receipt) PDF generation.
- * Called from generateQuittance after a payment is marked as paid.
- * Embeds Factur-X XML for French legal compliance.
+ *
+ * Called from generateQuittance after a payment is recorded.
+ * Embeds Factur-X XML for French e-invoicing compliance.
+ *
+ * The PDF is persisted as a `Document` row so the receipt can actually be
+ * downloaded later. Previously the bytes were pushed to object storage and a
+ * placeholder URL was stored when storage was unconfigured, which meant a
+ * "generated" receipt that no user could ever open.
  */
 import { prisma } from "@/lib/prisma";
-import { uploadBuffer } from "@/lib/storage";
+import { uploadBuffer, isStorageConfigured } from "@/lib/storage";
 import { generateFacturXml } from "@/lib/facturx";
 import { embedFacturX } from "@/lib/facturx-pdf";
+import { DocumentType } from "@prisma/client";
 import type { QuittanceData } from "@/lib/quittance-generator";
 
 export async function generateAndUploadQuittancePdf(
@@ -15,38 +22,50 @@ export async function generateAndUploadQuittancePdf(
   receiptNumber: string,
   userId: string
 ): Promise<string | null> {
-  try {
-    // Dynamically import @react-pdf/renderer (server-safe)
-    const { renderToBuffer } = await import("@react-pdf/renderer");
-    const { QuittancePDF } = await import("@/lib/quittance-generator");
+  // Render first: this is the expensive step and it must succeed regardless of
+  // whether storage is available.
+  const { renderToBuffer } = await import("@react-pdf/renderer");
+  const { QuittancePDF } = await import("@/lib/quittance-generator");
 
-    const pdfBuffer = await renderToBuffer(<QuittancePDF data={quittanceData} />);
+  const pdfBuffer = await renderToBuffer(<QuittancePDF data={quittanceData} />);
 
-    // Embed Factur-X XML for French e-invoicing compliance
-    const facturXml = generateFacturXml(quittanceData);
-    const basePdfBytes = new Uint8Array(pdfBuffer);
+  // Embed Factur-X XML for French e-invoicing compliance.
+  const facturXml = generateFacturXml(quittanceData);
+  const basePdfBytes = new Uint8Array(pdfBuffer);
 
-    const documentTitle = quittanceData.isFullPayment
-      ? "Quittance de Loyer"
-      : "Reçu de Paiement Partiel";
+  const documentTitle = quittanceData.isFullPayment
+    ? "Quittance de Loyer"
+    : "Reçu de Paiement Partiel";
 
-    const enhancedPdf = await embedFacturX(basePdfBytes, facturXml, {
-      title: documentTitle,
-      author: `${quittanceData.landlord.firstName} ${quittanceData.landlord.lastName}`,
-      subject: `${documentTitle} - ${receiptNumber}`,
-    });
+  const enhancedPdf = await embedFacturX(basePdfBytes, facturXml, {
+    title: documentTitle,
+    author: `${quittanceData.landlord.firstName} ${quittanceData.landlord.lastName}`,
+    subject: `${documentTitle} - ${receiptNumber}`,
+  });
 
-    const objectName = `quittances/${userId}/${transactionId}/${receiptNumber}.pdf`;
-    const result = await uploadBuffer(
-      Buffer.from(enhancedPdf.buffer as ArrayBuffer),
-      objectName,
-      "application/pdf"
-    );
+  const bytes = Buffer.from(enhancedPdf.buffer as ArrayBuffer);
+  const objectName = `quittances/${userId}/${transactionId}/${receiptNumber}.pdf`;
 
-    return result.url;
-  } catch (err) {
-    // PDF generation is best-effort — don't fail the transaction update
-    console.error("generateAndUploadQuittancePdf error:", err);
-    return null;
-  }
+  // Prefer object storage. Without it, keep the bytes inline so the receipt stays
+  // downloadable instead of pointing at a URL that resolves to nothing.
+  const useObjectStorage = isStorageConfigured();
+  const fileUrl = useObjectStorage
+    ? (await uploadBuffer(bytes, objectName, "application/pdf")).url
+    : `local://${objectName}`;
+
+  await prisma.document.create({
+    data: {
+      userId,
+      type: quittanceData.isFullPayment
+        ? DocumentType.QUITTANCE_PDF
+        : DocumentType.RECU_PDF,
+      fileName: `${receiptNumber}.pdf`,
+      fileUrl,
+      mimeType: "application/pdf",
+      fileSize: bytes.length,
+      content: useObjectStorage ? null : bytes,
+    },
+  });
+
+  return fileUrl;
 }
