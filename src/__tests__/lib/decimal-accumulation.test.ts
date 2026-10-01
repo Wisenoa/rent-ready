@@ -1,3 +1,9 @@
+// @ts-nocheck -- This file deliberately reproduces the broken arithmetic in order
+// to prove it is broken: `number + Decimal` and `reduce(..., 0)` are exactly the
+// type errors the compiler reported in the dashboards, and these tests assert the
+// runtime consequence (a concatenated string rather than a total). The whole file
+// opts out so the intended failures are not confused with accidental ones.
+
 import { describe, it, expect } from "vitest";
 import Decimal from "decimal.js";
 

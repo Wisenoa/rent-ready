@@ -210,8 +210,10 @@ export async function GET(request: NextRequest) {
         propertyMap[pid] = {
           propertyId: pid,
           propertyName: lease.property.name,
-          totalCollected: 0,
-          totalOutstanding: 0,
+          // Must be Decimal, not 0: the accumulator is added to with .plus(), and
+          // tsc checks the declared type, not the literal that was there.
+          totalCollected: new Decimal(0),
+          totalOutstanding: new Decimal(0),
           activeLeases: 0,
         };
       }

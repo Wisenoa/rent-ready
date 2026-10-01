@@ -127,7 +127,42 @@ console.log("  reference: decimal.js helpers  ->", String(new Decimal(0).plus("8
 """)
 print(r.stdout.strip())
 
-problems = []
+# /api/transactions/dashboard builds monthly and per-property accumulators in
+# Decimal. It had no coverage, which is how a declared type of Decimal with a
+# literal 0 initialiser shipped: tsc agreed with the type and the endpoint threw
+# "totalCollected.plus is not a function" at runtime. Call it and require clean
+# numbers, not just a 200.
+print("\ntransactions/dashboard api:")
+txd = json.loads(curl("-b", JAR, f"{B}/api/transactions/dashboard") or "{}")
+txd_problems = []
+if "error" in txd:
+    txd_problems.append(f"endpoint returned {txd['error']}")
+else:
+    payload = txd.get("data", txd)
+    for row in payload.get("monthlyBreakdown", []):
+        label = row.get("label", "?")
+        for field in ("totalCollected", "totalExpected", "totalOutstanding"):
+            v = row.get(field)
+            # A number is correct; a string means a Decimal leaked into the JSON,
+            # and a long tail means float drift.
+            if isinstance(v, str):
+                txd_problems.append(f"{label} {field} is the string {v!r}")
+            elif isinstance(v, (int, float)) and abs(round(v, 2) - v) > 1e-9:
+                txd_problems.append(f"{label} {field}={v} has more than 2dp")
+    for row in payload.get("byProperty", []):
+        for field in ("totalCollected", "totalOutstanding"):
+            v = row.get(field)
+            if isinstance(v, str):
+                txd_problems.append(f"{row.get('propertyName','?')} {field} is the string {v!r}")
+    months = payload.get("monthlyBreakdown", [])
+    funded = [m for m in months if m.get("totalCollected")]
+    print(f"   {len(months)} months, {len(funded)} with collections; "
+          f"sample: " + ", ".join(
+              f"{m['label']}={m['totalCollected']}/{m['totalExpected']}"
+              for m in funded[:3]))
+print(f"   {len(txd_problems)} problems")
+
+problems = list(txd_problems)
 if bad_euro:
     problems.append(f"euro figures with wrong precision: {bad_euro[:5]}")
 for label, v in summary_fields.items():
