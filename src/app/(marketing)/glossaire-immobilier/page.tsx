@@ -25,7 +25,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Glossaire Immobilier 2026 — Définitions Location & Gestion | RentReady",
+      "Glossaire Immobilier 2026 — Définitions Location & Gestion",
     description:
       "Glossaire immobilier complet 2026 : tous les termes de location, gestion locative, bail, quittance, charges et entretien. Définitions claires pour propriétaires.",
     url: "/glossaire-immobilier",
@@ -240,7 +240,7 @@ const glossaryTerms = [
   {
     term: "Avenant au bail",
     definition:
-      "Document modificatif annexé au bail initial pour变更 une ou plusieurs clauses (augmentation de loyer, changement de roommate, modification des charges). Doit être signé par les deux parties.",
+      "Document modificatif annexé au bail initial pour modifier une ou plusieurs clauses (augmentation de loyer, changement de roommate, modification des charges). Doit être signé par les deux parties.",
     related: ["Bail", "Clause", "Modification"],
   },
   {
@@ -390,7 +390,7 @@ const glossaryTerms = [
   {
     term: "Commission d'agence",
     definition:
-      "Rémunération perçue par l'agent immobilier pour la mise en location d'un bien. Encadrée par la loi depuis 2022 :不得超过 un mois de loyer hors charges pour la location.",
+      "Rémunération perçue par l'agent immobilier pour la mise en location d'un bien. Encadrée par la loi depuis 2022 : ne doit pas dépasser un mois de loyer hors charges pour la location.",
     related: ["Agence", "Frais d'agence", "Mandat"],
   },
   {
@@ -484,7 +484,7 @@ const glossaryTerms = [
     related: ["Candidat locataire", "Pièces justificatives", "Garant"],
   },
   {
-    term: "Dommage电动",
+    term: "Dommage",
     definition:
       "Sinistre affectant le logement (incendie, explosion, dégât des eaux). Doit être déclaré à l'assureur dans les 5 jours. La garantie multirisque habitation couvre généralement ces dommages.",
     related: ["Assurance", "PNO", "Sinistre"],
@@ -522,7 +522,7 @@ const glossaryTerms = [
   {
     term: "Effet de levier",
     definition:
-      "Stratégie d'investissement consistant à financer l'acquisition d'un bien principalement par emprunt bancaire. Permet de超人 returns sur fonds propres mais augmente le risque financier.",
+      "Stratégie d'investissement consistant à financer l'acquisition d'un bien principalement par emprunt bancaire. Permet d'obtenir des rendements élevés sur fonds propres mais augmente le risque financier.",
     related: ["Investissement locatif", "Prêt", "Rendement"],
   },
   {
@@ -606,7 +606,7 @@ const glossaryTerms = [
   {
     term: "Hausse de loyer",
     definition:
-      "Augmentation du loyer autorisée dans certaines limites. En zone tendue, l'augmentation est encadrée (IRL +不得超过 10% du loyer de référence). Hors zone tendue, libre entre bailleurs.",
+      "Augmentation du loyer autorisée dans certaines limites. En zone tendue, l'augmentation est encadrée (IRL + ne pouvant dépasser 10% du loyer de référence). Hors zone tendue, libre entre bailleurs.",
     related: ["Loyer", "IRL", "Encadrement"],
   },
   {
@@ -774,7 +774,7 @@ const glossaryTerms = [
   {
     term: "Mainlevée",
     definition:
-      "Acte officiel levant une inscription hypothécaire ou une mesure d'exécution (saisie). En location, la mainlevée de l'hypoth堂 est nécessaire pour libérer le bien lors de la revente.",
+      "Acte officiel levant une inscription hypothécaire ou une mesure d'exécution (saisie). En location, la mainlevée de l'hypothèque est nécessaire pour libérer le bien lors de la revente.",
     related: ["Hypothèque", "Garantie", "Mainlevée"],
   },
   {
@@ -840,7 +840,7 @@ const glossaryTerms = [
   {
     term: "Off-market",
     definition:
-      "Transaction immobilière réalisée sans publicité ni mise en concurrence. En location, un bien peut être proposé en off-market via des réseaux privés pour éviter les multiply、快速",
+      "Transaction immobilière réalisée sans publicité ni mise en concurrence. En location, un bien peut être proposé en off-market via des réseaux privés pour éviter les visites multiples.",
     related: ["Transaction", "Agence", "Offre"],
   },
   {
@@ -996,7 +996,7 @@ const glossaryTerms = [
   {
     term: "Réparation locative",
     definition:
-      "Travaux d'entretien courant incombant au locataire : ampoules, petites réparations, maintien de la propreté. Les grosses repairs et结构的 repairs restent à la charge du bailleur.",
+      "Travaux d'entretien courant incombant au locataire : ampoules, petites réparations, maintien de la propreté. Les grosses repairs et structurelles restent à la charge du bailleur.",
     related: ["Entretien", "Bailleur", "Travaux"],
   },
   {
@@ -1014,7 +1014,7 @@ const glossaryTerms = [
   {
     term: "Résiliation du bail",
     definition:
-      "Fin anticipée du contrat de location avant son terme. Peut être prononcée par le juge (clause résolutoire) ou par accord amiable. Le locataire doit тогдаем preavis d'un mois.",
+      "Fin anticipée du contrat de location avant son terme. Peut être prononcée par le juge (clause résolutoire) ou par accord amiable. Le locataire doit respecter un préavis d'un mois.",
     related: ["Bail", "Clause résolutoire", "Préavis"],
   },
   {
@@ -1116,7 +1116,7 @@ const glossaryTerms = [
   {
     term: "Tiers payant",
     definition:
-      "Dispositif par lequel l'allocation (APL) est versée directement au bailleur plutôt qu'au locataire. Évite les problèmes de预处理 et simplifie le-budget du ménage.",
+      "Dispositif par lequel l'allocation (APL) est versée directement au bailleur plutôt qu'au locataire. Évite les problèmes de traitement administratif et simplifie le budget du ménage.",
     related: ["APL", "Bailleur", "Allocations"],
   },
   {
@@ -1170,7 +1170,7 @@ const glossaryTerms = [
   {
     term: "Zone d'habitat",
     definition:
-      "Partie du territoire communal dédiée à l'habitat (résidentiel) selon le plan local d'urbanisme (PLU). Conditionne les droits de construction et les типы de destinations autorisées.",
+      "Partie du territoire communal dédiée à l'habitat (résidentiel) selon le plan local d'urbanisme (PLU). Conditionne les droits de construction et les types de destinations autorisées.",
     related: ["Urbanisme", "PLU", "Construction"],
   },
   {
@@ -1194,7 +1194,7 @@ const glossaryTerms = [
   {
     term: "Acte authentique",
     definition:
-      "Document rédig气 par un notaire qui confère une valeur probatoire légale maximale. L'acte de vente immobilière est un acte authentique qui doit être signé devant notaire.",
+      "Document rédigé par un notaire qui confère une valeur probatoire légale maximale. L'acte de vente immobilière est un acte authentique qui doit être signé devant notaire.",
     related: ["Notaire", "Acte de vente", "Notaire"],
   },
   {
@@ -1282,7 +1282,7 @@ const glossaryTerms = [
     related: ["Bail", "Oral", "Preuve"],
   },
   {
-    term: "Bénéfice的建筑",
+    term: "Bénéfice",
     definition:
       "Opération immobilière générant des revenus nets positifs après déduction de toutes les charges et immobilisations. L'objectif de tout investisseur locatif est de générer un bénéfice.",
     related: ["Investissement", "Rendement", "Revenus"],
@@ -1416,7 +1416,7 @@ const glossaryTerms = [
   {
     term: "Constat d'huissier",
     definition:
-      "Acte authentique dressé par un huissier de justice décrivant un état de fait (dégradations, troubles, impayés).，价值高，具有法律证据价值，可用于司法程序。",
+      "Acte authentique dressé par un huissier de justice décrivant un état de fait (dégradations, troubles, impayés). Il possède une forte valeur probante et peut être utilisé dans les procédures judiciaires.",
     related: ["Huissier", "Preuve", "Constat"],
   },
   {
@@ -1438,7 +1438,7 @@ const glossaryTerms = [
     related: ["Bail saisonnier", "Meublé", "Vacances"],
   },
   {
-    term: "Contrôle des层的",
+    term: "Contrôle de décence",
     definition:
       "Procédure administrative vérifiant la conformité d'un logement aux normes de décence et de sécurité. Peut être diligenté par la mairie ou le juge en cas de signalement.",
     related: ["Décence", "Normes", "Logement"],
@@ -1446,7 +1446,7 @@ const glossaryTerms = [
   {
     term: "Coquart",
     definition:
-      "Frais accessoires réclamés par le bailleur au-delà du loyer principal et des charges. Incluent parfois le stationnement, le mobilier ou les equipements冰雪.",
+      "Frais accessoires réclamés par le bailleur au-delà du loyer principal et des charges. Incluent parfois le stationnement, le mobilier ou les équipements de chauffage.",
     related: ["Loyer", "Charges", "Accessoires"],
   },
   {
@@ -1510,15 +1510,9 @@ const glossaryTerms = [
     related: ["Bail", "Jouissance", "Bailleur"],
   },
   {
-    term: "Dommage电动车",
-    definition:
-      "Erreur dans le terme precedent (Dommage电动 = Dommage électrique). Référence aux dommages causés par les installations électriques défaillantes d'un logement, couverts par l'assurance multirisque.",
-    related: ["Assurance", "Sinistre", "Installation"],
-  },
-  {
     term: "Droit de passage",
     definition:
-      "Servitude允许一个人穿越另一个人的土地。En copropriété, le droit de passage peut exister pour accéder à une partie commune ou à un lot enclavé.",
+      "Servitude autorisant une personne à traverser le fonds d'autrui.En copropriété, le droit de passage peut exister pour accéder à une partie commune ou à un lot enclavé.",
     related: ["Servitude", "Copropriété", "Terrain"],
   },
   {
@@ -1536,7 +1530,7 @@ const glossaryTerms = [
   {
     term: "Echange de lots",
     definition:
-      "Opération consistant à troquer un lot de copropriété contre un autre entre deux copropriétaires. Peut simplifier la gestion ou优化 la répartition des charges.",
+      "Opération consistant à troquer un lot de copropriété contre un autre entre deux copropriétaires. Peut simplifier la gestion ou optimiser la répartition des charges.",
     related: ["Copropriété", "Lot", "Échange"],
   },
   {
@@ -1572,7 +1566,7 @@ const glossaryTerms = [
   {
     term: "Encadrement de l'indice",
     definition:
-      "Mesure réglementaire limitant l'évolution de l'IRL pour protéger les locataires d'augmentations excessives.区政府 peut também fixer des plafonds selon les zones.",
+      "Mesure réglementaire limitant l'évolution de l'IRL pour protéger les locataires d'augmentations excessives. Le conseil municipal peut également fixer des plafonds selon les zones.",
     related: ["IRL", "Encadrement", "Loyer"],
   },
   {
@@ -1690,7 +1684,7 @@ const glossaryTerms = [
     related: ["Locataire", "Vacance", "Gestion locative"],
   },
   {
-    term: "Fiscalité的事项",
+    term: "Fiscalité de la location meublée",
     definition:
       "Régime fiscal applicable aux revenus tirés de la location meublée (microbic ou réel). Le loueur en meublé doit également s'acquitter des cotisations sociales sur les revenus locatifs.",
     related: ["Meublé", "Revenus fonciers", "Régime réel"],
@@ -1710,7 +1704,7 @@ const glossaryTerms = [
   {
     term: "Fonds de prévoyance",
     definition:
-      "Réserve financière obligatoire de la copropriété destinée à couvrir les travaux计划和重大维修. Doté progressivement via les appels de fonds extraordinaires.",
+      "Réserve financière obligatoire de la copropriété destinée à couvrir les travaux planifiés et les grosses réparations. Elle est alimentée progressivement par les appels de fonds extraordinaires.",
     related: ["Copropriété", "Travaux", "Finances"],
   },
   {
@@ -1726,9 +1720,9 @@ const glossaryTerms = [
     related: ["Gestion locative", "Profession", "Obligations"],
   },
   {
-    term: "Fraction de爱情",
+    term: "Fraction",
     definition:
-      "Partie d'un bien分割ée et vendue indépendamment. En copropriété, un lot peut être divisé en нескольких fractions（水、电气）distinctes, chacune（水表）ayant son propre compteur.",
+      "Partie d'un bien divisée et vendue indépendamment. En copropriété, un lot peut être divisé en plusieurs fractions distinctes, chacune ayant son propre compteur.",
     related: ["Copropriété", "Lot", "Division"],
   },
   {
@@ -1776,7 +1770,7 @@ const glossaryTerms = [
   {
     term: "Grace period",
     definition:
-      "Délai de tolérance accordé par le bailleur avant l'application des pénalités pour retard de paiement. N'a pas de base légale固定e et ne suspend pas la procédure d'expulsion.",
+      "Délai de tolérance accordé par le bailleur avant l'application des pénalités pour retard de paiement. N'a pas de base légale fixe et ne suspend pas la procédure d'expulsion.",
     related: ["Loyer impayé", "Retard", "Pénalité"],
   },
   {
@@ -1796,12 +1790,6 @@ const glossaryTerms = [
     definition:
       "Ensemble des caractéristiques physiques d'un logement (surface, agencement, état, équipements). Influence directement le loyerievable et la satisfaction du locataire.",
     related: ["Loyer", "Surface", "Équipement"],
-  },
-  {
-    term: "Hausse контроль",
-    definition:
-      "Encadrement réglementaire limitant l'augmentation des loyers entre deux locataires. En zone tendue, la hausse ne peut dépasser 10% du loyer de référence majoré en 3 ans.",
-    related: ["Encadrement", "Loyer", "Zone tendue"],
   },
   {
     term: "Home staging",
@@ -1866,7 +1854,7 @@ const glossaryTerms = [
   {
     term: "Intéressement des locataires",
     definition:
-      "Dispositif visant à asocier les locataires aux результаты de la gestion du bien (économies d'énergie, état du immeuble). Some expérimentation en France pour les grands patrimoine sociaux.",
+      "Dispositif visant à associer les locataires aux résultats de la gestion du bien (économies d'énergie, état de l'immeuble). Expérimenté en France sur les grands patrimoines sociaux.",
     related: ["Locataire", "Gestion", "Participation"],
   },
   {
@@ -1896,13 +1884,13 @@ const glossaryTerms = [
   {
     term: "Jouissance exclusive",
     definition:
-      "Droit pour un seul copropriétaire d'user et de jouir d'une partie commune de manière exclusive (jardin privé, terrasse). Accordée par le réglement de copropriété et创造出 une servitude.",
+      "Droit pour un seul copropriétaire d'user et de jouir d'une partie commune de manière exclusive (jardin privé, terrasse). Accordée par le règlement de copropriété et crée une servitude.",
     related: ["Copropriété", "Servitude", "Jouissance"],
   },
   {
     term: "Jurisprudence",
     definition:
-      "Ensemble des décisions de justice rendués par les tribunaux et qui créent un précédent. La jurisprudence locative évoluent particulièrement sur les вопросы deденежных обязанностей et de repairs.",
+      "Ensemble des décisions de justice rendués par les tribunaux et qui créent un précédent. La jurisprudence locative évolue particulièrement sur les questions d'obligations financières et de réparations.",
     related: ["Jugement", "Droit", "Contentieux"],
   },
   {
@@ -1914,13 +1902,13 @@ const glossaryTerms = [
   {
     term: "Laisse de préférence",
     definition:
-      "Clause d'un bail ou d'un acte de vente предпочтительного права. Accorde à une personne (locataire en place) un droit de priorité sur un tiers en cas de vente du bien.",
+      "Clause d'un bail ou d'un acte de vente accordant un droit de préemption. Accorde à une personne (locataire en place) un droit de priorité sur un tiers en cas de vente du bien.",
     related: ["Droit de préemption", "Vente", "Locataire"],
   },
   {
     term: "Leveling up",
     definition:
-      "Travaux de mejora去美化提高 le standing d'un bien (ravalement, modernisation de la cuisine, création d'une salle de bain). Permet de justifier une augmentation de loyer.",
+      "Travaux d'embellissement et d'amélioration du standing d'un bien (ravalement, modernisation de la cuisine, création d'une salle de bain). Permet de justifier une augmentation de loyer.",
     related: ["Travaux", "Loyer", "Valeur"],
   },
   {
@@ -1960,7 +1948,7 @@ const glossaryTerms = [
     related: ["Accessibilité", "PMR", "Normes"],
   },
   {
-    term: "Location au冲",
+    term: "Location prorogée",
     definition:
       "Situation d'un bail d'habitation continuant de produire ses effets alors que sa durée contractuelle est révolue. Le locataire devient un occupant de bonne foi bénéficiant de la trêve hivernale.",
     related: ["Bail", "Occupant de bonne foi", "Trêve hivernale"],
@@ -1974,7 +1962,7 @@ const glossaryTerms = [
   {
     term: "Location funding",
     definition:
-      "Prêt banca屏幕 destinant à financer la création ou la mejora d'un parc locatif. Les taux peuvent être bonifiés pour les travaux de rénovation énergétique.",
+      "Prêt bancaire destinant à financer la création ou l'amélioration d'un parc locatif. Les taux peuvent être bonifiés pour les travaux de rénovation énergétique.",
     related: ["Prêt", "Travaux", "Rénovation"],
   },
   {
@@ -1992,11 +1980,11 @@ const glossaryTerms = [
   {
     term: "Loyer de relocation",
     definition:
-      "Loyer appliqué lors de la signature d'un nouveau bail pour un même logement. En zone tendue, ne peut dépasser le dernier loyer pratiqué majoré de l'inflation IRL (+不得超过 10% depuis 2024).",
+      "Loyer appliqué lors de la signature d'un nouveau bail pour un même logement. En zone tendue, ne peut dépasser le dernier loyer pratiqué majoré de l'inflation IRL (+ ne pouvant dépasser 10% depuis 2024).",
     related: ["Encadrement", "Zone tendue", "IRL"],
   },
   {
-    term: "Loyer de车窗",
+    term: "Loyer d'étage",
     definition:
       "Variation du loyer selon l'étage du logement. Les étages élevés (avec vue et luminosité) justifient un loyer supérieur au rez-de-chaussée.",
     related: ["Loyer", "Étage", "Valeur"],
@@ -2010,7 +1998,7 @@ const glossaryTerms = [
   {
     term: "Macro-lot",
     definition:
-      "Ensemble de lots de copropriété commercialisés comme un seul bien (immeuble entier, программа de Villas).Peut интерес present interesse pour un investisseur souhaitant acquérir un patrimoine complet.",
+      "Ensemble de lots de copropriété commercialisés comme un seul bien (immeuble entier, programme de villas). Présente un intérêt pour un investisseur souhaitant acquérir un patrimoine complet.",
     related: ["Copropriété", "Acquisition", "Investissement"],
   },
   {
@@ -2040,7 +2028,7 @@ const glossaryTerms = [
   {
     term: "Marqueur de performance",
     definition:
-      "Indicateur permettant de suivre les результаты de la gestion locative: taux de remplissage, délai moyen de relocation, taux d'encaissement, évolution du loyers vs индекс.",
+      "Indicateur permettant de suivre les résultats de la gestion locative : taux de remplissage, délai moyen de relocation, taux d'encaissement, évolution des loyers dans le temps.",
     related: ["Gestion locative", "Performance", "KPI"],
   },
   {
@@ -2088,7 +2076,7 @@ const glossaryTerms = [
   {
     term: "Modèle de bail",
     definition:
-      "Formulaire type de contrat de location lon/空格/预设 clauses conformes à la législation. La loi ALUR impose des модè客厅 нормализованном для les baux d'habitation principale.",
+      "Formulaire type de contrat de location comportant des clauses standardisées conformes à la législation. La loi ALUR impose des modèles normalisés pour les baux d'habitation principale.",
     related: ["Bail", "Modèle", "Loi ALUR"],
   },
   {
@@ -2106,7 +2094,7 @@ const glossaryTerms = [
   {
     term: "Négoce immobilier",
     definition:
-      "Activité d'achat et de revente de biens immobiliers avec un objectif de profit. Les marchands de biens pratiquent le négoce; les所产生的_plus-values sont imposées comme des BIC.",
+      "Activité d'achat et de revente de biens immobiliers avec un objectif de profit. Les marchands de biens pratiquent le négoce ; les plus-values générées sont imposées comme des BIC.",
     related: ["Marchand de biens", "Plus-value", "Revente"],
   },
   {
@@ -2160,7 +2148,7 @@ const glossaryTerms = [
   {
     term: "Original du bail",
     definition:
-      "Exemplaire principal du contrat de location signé par les deux parties. Conservé par le bailleur et produit en cas de litige. Une copie ne suffit pas pour一部の preuves.",
+      "Exemplaire principal du contrat de location signé par les deux parties. Conservé par le bailleur et produit en cas de litige. Une copie ne suffit pas pour certaines preuves.",
     related: ["Bail", "Preuve", "Litige"],
   },
   {
@@ -2190,7 +2178,7 @@ const glossaryTerms = [
   {
     term: "PEB",
     definition:
-      "Performance Énergétique du Bâtiment. Label officiel belge ou suisse équivalent au DPE français. Pour les biens en边框, la performance énergétique influence diretamente le montant du loyer.",
+      "Performance Énergétique du Bâtiment. Label officiel belge ou suisse équivalent au DPE français. Pour les biens en Belgique ou en Suisse, la performance énergétique influence directement le montant du loyer.",
     related: ["DPE", "Énergie", "Loyer"],
   },
   {
@@ -2220,7 +2208,7 @@ const glossaryTerms = [
   {
     term: "Plan de trésorerie",
     definition:
-      "Prévision mensualisée des flux de trésorerie d'un investissement locatif:encaissements de loyers, décaissements (charges, impuestos, mensualités), solde. Permet d'anticiper les恐慌.",
+      "Prévision mensualisée des flux de trésorerie d'un investissement locatif : encaissements de loyers, décaissements (charges, impôts, mensualités), solde. Permet d'anticiper les aléas.",
     related: ["Trésorerie", "Investissement", "Loyer"],
   },
   {
@@ -2284,7 +2272,7 @@ const glossaryTerms = [
     related: ["Loyer impayé", "Garantie", "Sélection"],
   },
   {
-    term: "Propriété拆分",
+    term: "Propriété par lots",
     definition:
       "Division d'un bien immobilier en plusieurs lots distincts, chacun faisant l'objet d'un droit de propriété séparé. En copropriété, chaque lot comprend une quote-part des parties communes.",
     related: ["Copropriété", "Lot", "Division"],
@@ -2292,7 +2280,7 @@ const glossaryTerms = [
   {
     term: "Provision pour grosses repairs",
     definition:
-      " Somme budgétée chaque année par le copropriété pourprovisionner le fonds de修理 des gros travaux (ravalement, toiture, ascenseur). Contribue à la salud financiera de la copropriété.",
+      "Somme budgétée chaque année par la copropriété pour provisionner le fonds de réparation des gros travaux (ravalement, toiture, ascenseur). Contribue à la santé financière de la copropriété.",
     related: ["Copropriété", "Travaux", "Fonds"],
   },
   {
@@ -2666,18 +2654,6 @@ const glossaryTerms = [
     definition:
       "Division d'un territoire en différentes zones (U, AU, N, A) selon le Plan Local d'Urbanisme. Chaque zone est soumise à des règles d'urbanisme spécifiques (constructibilité, destination, aspect).",
     related: ["PLU", "Urbanisme", "Construction"],
-  },
-  {
-    term: "Пятнадцать",
-    definition:
-      "Terme en alphabet cyrillique signifiant 'quinze' en russe. Conservé dans ce glossaire comme exemple des caractères spéciaux que les systèmes de gestion locative doivent pouvoir traiter correctement.",
-    related: ["UTF-8", "Encodage", "Données"],
-  },
-  {
-    term: "备降场",
-    definition:
-      "Terme en alphabet chinois signifiant 'aérogare de déroutement' dans le contexte aéronautique. Présent ici pour tester la compatibilité Unicode des outils de gestion locative et du glossaire.",
-    related: ["UTF-8", "Encodage", "Données"],
   },
 ].sort((a, b) => a.term.localeCompare(b.term, "fr"));
 

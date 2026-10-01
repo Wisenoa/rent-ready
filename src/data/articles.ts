@@ -86,7 +86,7 @@ Après le départ du locataire, vous pouvez engager une procédure de recouvreme
 ## FAQ — Loyer impayé
 **Que faire quand un locataire ne paie plus son loyer ?**
 
-En cas de loyer impayé, la démarche顺序 est : 1) envoyer une lettre de relance dès le premier jour de retard, 2) adresser une mise en demeure en recommandé après 8 jours, 3) engager une procédure judiciaire au-delà de 2 mois d'impayé. Ne procédez jamais à l'expulsion vous-même : seule une décision de justice autorise la force publique. Souscrire une assurance GLI en amont reste la protection la plus efficace.
+En cas de loyer impayé, la démarche est : 1) envoyer une lettre de relance dès le premier jour de retard, 2) adresser une mise en demeure en recommandé après 8 jours, 3) engager une procédure judiciaire au-delà de 2 mois d'impayé. Ne procédez jamais à l'expulsion vous-même : seule une décision de justice autorise la force publique. Souscrire une assurance GLI en amont reste la protection la plus efficace.
 **Au bout de combien de mois peut-on expulser un locataire pour impayé ?**
 
 Techniquement, la procédure d'expulsion peut être engagée dès 2 mois d'impayé (un mois en procédure de référé). En pratique, comptez 4 à 6 mois minimum entre le premier impayé et l'expulsion effective, du fait des délais de procédure judiciaire et de la trêve hivernale (1er novembre au 31 mars) pendant laquelle les préfets peuvent suspendre les expulsions locatives.
@@ -262,7 +262,7 @@ Si le dépôt n'est pas restitué dans ce délai, le locataire peut demander des
 
 ### Les deductions autorisées
 
-Le propriétaire peut detrurre一部分 du dépôt de garantie pour couvrir :
+Le propriétaire peut déduire une partie du dépôt de garantie pour couvrir :
 - Les dégradations constaté lors de l'état des lieux de sortie
 - Les sommes dues par le locataire au titre des charges non régularisées
 - Les éventuelles réparations locatives mentionné dans le bail
@@ -494,7 +494,7 @@ En zone tendue, le locataire peut donner son préavis (congé) avec un délai de
 
 ### Les charges récupérables
 
-La loi ALUR a clarifié la liste des charges récupérables par le propriétaire. Les charges橡樟物业管理 include les charges de gardiennage, nettoyage des parties communes, fournitures d'eau froide, ascenseur, etc.
+La loi ALUR a clarifié la liste des charges récupérables par le propriétaire. Les charges de gestion locative incluent les charges de gardiennage, nettoyage des parties communes, fournitures d'eau froide, ascenseur, etc.
 
 ## Les normes de décence
 
@@ -798,7 +798,7 @@ Elle n'est pas strictement obligatoire légalement, mais elle est indispensable 
 **Quel délai pour une mise en demeure après une lettre de relance ?**
 En général, un délai de 8 à 15 jours est recommandé entre la lettre de relance et la mise en demeure.
 
-**Le模型e de lettre de relance est-il gratuit ?**
+**Le modèle de lettre de relance est-il gratuit ?**
 Oui, notre modèle de lettre de relance pour loyer impayé est entièrement gratuit. Vous pouvez le personnaliser avec vos informations et l'envoyer en recommandé.
 
 Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayés ? [Essayez RentReady gratuitement pendant 14 jours](/pricing).
@@ -1001,7 +1001,7 @@ La quittance de loyer est un document essentiel qui prouve le paiement du loyer 
 
 Según la loi du 6 juillet 1989, le propriétaire doit délivrer une quittance de loyer sur simple demande du locataire. Cette demande peut être faite à tout moment, même plusieurs mois après le paiement.
 
-Le propriétaire peut-facturer des frais pour la délivrance de la quittance. Cependant, si le locataire demande une quittance numérique (par email), aucun frais ne peut être appliqué.
+Le propriétaire peut facturer des frais pour la délivrance de la quittance. Cependant, si le locataire demande une quittance numérique (par email), aucun frais ne peut être appliqué.
 
 ## Les mentions obligatoires d'une quittance
 
@@ -1148,7 +1148,7 @@ Le simulateur vous donnera une estimation précise de votre rentabilité nette.
 
 **Quel est un bon rendement locatif ?**
 
-Un bon rendement locatif se situe généralement entre 5 % et 8 % brut. En zone tendue, les rendements sont souvent plus bas (3 à 5 %) mais la플러스-value potentielle est plus élevée.
+Un bon rendement locatif se situe généralement entre 5 % et 8 % brut. En zone tendue, les rendements sont souvent plus bas (3 à 5 %) mais la plus-value potentielle est plus élevée.
 
 **Le rendement locatif est-il le seul critère à considérer ?**
 
@@ -1300,7 +1300,7 @@ Le bail doit identifier précisément le bailleur et le locataire. Pour le baill
 
 Le bien loué doit être décrit avec précision : adresse complète, superficie privative en loi Carrez, nombre de pièces, équipements présents (chauffage, eau chaude, ventilation). Depuis 2026, le bail doit aussi mentionner la classe énergétique du logement (étiquette A à G), sous peine de nullité de la clausegle.
 
-Le Diagnostic de Performance Énergétique (DPE) doit être annexé au bail dès la signature. Un logement avec une étiquette energy rating很差 (F ou G) fait désormais l'objet d'obligations de travaux de rénovation selon le calendrier d'interdiction de location.
+Le Diagnostic de Performance Énergétique (DPE) doit être annexé au bail dès la signature. Un logement avec une étiquette énergétique médiocre (F ou G) fait désormais l'objet d'obligations de travaux de rénovation selon le calendrier d'interdiction de location.
 
 ### Clause relative au loyer
 
@@ -1376,7 +1376,7 @@ La sous-location est interdite sauf accord préalable et écrit du bailleur. En 
 
 Le bailleur a une obligation de délivrer un logement décent, en bon état d'usage et de réparation, avec les équipements mentionnés dans le bail. Il doit également :
 - Assurer la jouissance paisible du logement
-- Entretenir les travaux结构和 grosses réparations
+- Entretenir les travaux de structure et grosses réparations
 - Garantir le locataire contre les vices et défauts de la chose louée
 - Délivrer un logement conforme aux normes d'habitabilité
 
@@ -1605,7 +1605,7 @@ Oui, la revision de loyer s'applique aux locations meublees selon les memes regl
     readTime: "9 min",
     content: `## Caution et garant en location : clarification des termes
 
-Dans le vocabulaire locatif, les termes de « caution » et de « garant » sont souvent utilisés de manière interchangeable, mais ils présentent des nuances juridiques importantes. La caution est la personne qui s'engage envers le bailleur à payer les sommes dues par le locataire en cas de défaillance de ce dernier. Le garant est un type particulier de caution, qui se porte garant de manière更加 solide.
+Dans le vocabulaire locatif, les termes de « caution » et de « garant » sont souvent utilisés de manière interchangeable, mais ils présentent des nuances juridiques importantes. La caution est la personne qui s'engage envers le bailleur à payer les sommes dues par le locataire en cas de défaillance de ce dernier. Le garant est un type particulier de caution, qui se porte garant de manière plus solide.
 
 En pratique, le garant est généralement une personne physique (parent, ami, proche) qui accepte de se porter caution pour un candidat locataire. L'acte de caution est formalisé par un document signé, appelé « acte de caution », qui décrit l'étendue et les modalités de l'engagement.
 
@@ -1732,7 +1732,7 @@ En location vide, le délai de préavis légal est de 3 mois. Ce délai court à
 - Acte d'huissier
 - Remise en main propre contre émargement ou récépissé
 
-Le locataire qui ne respecte pas le délai de préavis de 3 mois reste redevable du loyer jusqu'à l'échéance du délai, sauf si le bailleur同意 à un départ anticipé ou si un nouveau locataire entre dans les lieux.
+Le locataire qui ne respecte pas le délai de préavis de 3 mois reste redevable du loyer jusqu'à l'échéance du délai, sauf si le bailleur consent à un départ anticipé ou si un nouveau locataire entre dans les lieux.
 
 ### Préavis réduit à 1 mois
 
@@ -1940,7 +1940,7 @@ Voici les erreurs fréquentes lors d'un départ :
 Le délai de préavis standard est de 3 mois pour une location vide et de 1 mois pour une location meublée. Ce délai court à partir de la date de réception de la lettre de congé par le bailleur (ou de la date de signification par huissier). En cas de courrier recommandé avec AR, la date de première présentation fait foi.
 **Le locataire peut-il bénéficier d'un préavis réduit de 1 mois ?**
 
-Oui, le locataire peut bénéficier d'un préavis réduit de 1 mois (au lieu de 3) dans certains cas : perte d'emploi involontaire (licenciement, fin de CDD), nouvel emploi CDI ou mutation, force majeure, ou premier礼包 socio. La zone géographique n'est plus un critère depuis 2024 pour ce préavis réduit.
+Oui, le locataire peut bénéficier d'un préavis réduit de 1 mois (au lieu de 3) dans certains cas : perte d'emploi involontaire (licenciement, fin de CDD), nouvel emploi CDI ou mutation, force majeure, ou premier emploi social. La zone géographique n'est plus un critère depuis 2024 pour ce préavis réduit.
 **Le propriétaire peut-il refuser le congé du locataire ?**
 
 Non, le propriétaire ne peut pas refuser le congé du locataire. Le locataire a le droit de partir à tout moment, quel que soit le terme du bail, en respectant le délai de préavis. Refuser le congé du locataire constitue une entrave au droit de propriété garanti par la Constitution.
@@ -1959,7 +1959,7 @@ Le propriétaire qui donne congé sans motif réel doit, dans certains cas, vers
 Le delai de preavis standard est de 3 mois pour une location vide et de 1 mois pour une location meublee. Ce delai court a partir de la date de reception de la lettre de conge par le bailleur (ou de la date de signification par huissier). En cas de courrier envoye par recommandee avec AR, la date de premiere presentation du courrier fait foi, meme si le bailleur ne va pas le chercher.
 **Le locataire peut-il beneficier d'un preavis reduit de 1 mois ?**
 
-Oui, le locataire peut beneficier d'un preavis reduit de 1 mois (au lieu de 3) dans certains cas : perte d'emploi involontaire (licenciement, fin de CDD), nouvel emploi CDI ou mutation, offre d'emploi, force majeure (catastrophe naturelle, incendie rendant le logement inhabitable), ou premier礼包 socio. La zone geographique (zone tendue) n'est plus un critere depuis 2024 pour ce preavis reduit.
+Oui, le locataire peut beneficier d'un preavis reduit de 1 mois (au lieu de 3) dans certains cas : perte d'emploi involontaire (licenciement, fin de CDD), nouvel emploi CDI ou mutation, offre d'emploi, force majeure (catastrophe naturelle, incendie rendant le logement inhabitable), ou premier emploi social. La zone geographique (zone tendue) n'est plus un critere depuis 2024 pour ce preavis reduit.
 **Le proprietaire peut-il refuser le conge du locataire ?**
 
 Non, le proprietaire ne peut pas refuser le conge du locataire. Le locataire a le droit de partir a tout moment, quel que soit le terme du bail, en respectant le delai de preavis. Refuser le conge du locataire constitue une entrave au droit de propriete garanti par la Constitution. Seul le locataire reste redevable du loyer pendant toute la duree du preavis.
@@ -1982,7 +1982,7 @@ Le proprietaire qui donne conge sans motif reel doit, dans certains cas, verser 
     readTime: "10 min",
     content: `## L'encadrement des loyers à Paris : un dispositif renforcé
 
-L'encadrement des loyers est un dispositifanti-squat qui vise à réguler les prix de location dans les zones où le marché locatif est tendu. Paris fait partie des villes soumis à ce dispositif depuis le 1er août 2015, avec une interruption entre 2018 et 2020, puis un retour progressif.
+L'encadrement des loyers est un dispositif anti-squat qui vise à réguler les prix de location dans les zones où le marché locatif est tendu. Paris fait partie des villes soumis à ce dispositif depuis le 1er août 2015, avec une interruption entre 2018 et 2020, puis un retour progressif.
 
 En 2026, l'encadrement des loyers à Paris couvre l'ensemble des locations de logements vides et meublés constituant la résidence principale du locataire, à l'exception de quelques catégories spécifiques (logements conventionnés, HLM, locations saisonnières).
 
@@ -1995,7 +1995,7 @@ Le dispositif d'encadrement des loyers repose sur un système de loyers de réf�
 Pour chaque catégorie de logement (type, époque de construction, localisation), trois montants sontulados :
 
 1. **Loyer de référence minoré** : en dessous de ce seuil, le loyer est considéré comme anormalement bas
-2. **Loyer de référence中间** : le loyer médian pratiqué dans le secteur
+2. **Loyer de référence médian** : le loyer médian pratiqué dans le secteur
 3. **Loyer de référence majoré** : le plafond au-delà duquel le loyer est considéré comme excessif
 
 Le loyer appliqué lors d'une nouvelle location ou d'un renouvellement ne peut pas dépasser le loyer de référence majoré, sauf exceptions prévues par la loi.
@@ -2020,7 +2020,7 @@ La préfecture de police de Paris publie chaque année un arrêté fixant les lo
 
 Pour un appartement vide de 2 pièces en époque récente (post-1970) :
 - Loyer de référence minoré : environ 15 à 18 €/m²/mois selon le secteur
-- Loyer de référence中间 : environ 20 à 24 €/m²/mois
+- Loyer de référence médian : environ 20 à 24 €/m²/mois
 - Loyer de référence majoré : environ 25 à 30 €/m²/mois
 
 Pour un appartement de 3 pièces dans le même catégorie :
@@ -2037,7 +2037,7 @@ Tous les logements ne sont pas soumis à l'encadrement des loyers à Paris. Cert
 - Logements de fonction
 - Meublés touristiques (soumis à un autre encadrement)
 - Logements neufs (moins de 10 ans depuis l'achèvement)
-- Locations согласованные dans le cadre d'une procédure d'acquisition
+- Locaux libérés dans le cadre d'une procédure d'acquisition
 - Logements withinstructures adaptées (résidences sociales, pensions de famille)
 
 ### Dérogations au dépassement du plafond
@@ -2295,7 +2295,7 @@ Les charges déductibles comprennent :
 
 Revenus locatifs : 15 000 €
 Charges déductibles (intérêts, taxe foncière, charges, travaux) : 8 000 €
-Amortissement du bien (假设) : 4 000 €
+Amortissement du bien (hypothèse) : 4 000 €
 Amortissement du mobilier : 1 000 €
 Base imposable : 15 000 - 8 000 - 4 000 - 1 000 = 2 000 €
 
@@ -2568,7 +2568,7 @@ Cette garantie permet d'indemniser le bailleur en cas de dommages causés au log
 
 ### La garantie recours des voisins et des tiers
 
-Cette garantie couvre la responsabilité du locataire envers ses voisins et les tiers en cas de dommages给大家造成. Par exemple, si un incendie parti de votre appartement cause des dommages à l'appartement du dessous, cette garantie intervient.
+Cette garantie couvre la responsabilité du locataire envers ses voisins et les tiers en cas de dommages causés par lui. Par exemple, si un incendie parti de votre appartement cause des dommages à l'appartement du dessous, cette garantie intervient.
 
 ## L'assurance multirisque habitation (MRH)
 
@@ -2605,7 +2605,7 @@ Le coût de l'assurance habitation pour un locataire varie selon plusieurs facte
 
 Pour un appartement de 40 à 60 m² en France métropolitaine, le coût moyen d'une assurance MRH pour locataire se situe entre 10 et 20 euros par mois, soit environ 120 à 240 euros par an.
 
-某些 assureurs en ligne proposent des tarifs réduits, avec des cotisations mensuelles starting à 5-8 euros pour les petits appartements.
+Certains assureurs en ligne proposent des tarifs réduits, avec des cotisations mensuelles à partir de 5-8 euros pour les petits appartements.
 
 ### Facteurs influençant le tarif
 - Franchise choisie (plus elle est élevée, moins la cotisation est chère)
@@ -2918,7 +2918,7 @@ Si des dégradations sont constatées à la sortie, le bailleur peut retenue sur
 
 Chaque colocataire peut, sous certaines conditions, bénéficier des aides au logement (APL, ALF, ALS) pour sa part du loyer.
 
-Les условия pour percevoir l'APL en colocation sont :
+Les conditions pour percevoir l'APL en colocation sont :
 - Être locataire du logement (etre signataire du bail)
 - Ne pas être lié au bailleur par un lien de parenté
 - Ne pas dépasser les plafonds de ressource
@@ -3084,7 +3084,7 @@ Pour choisir une solution de gestion locative en ligne, considérez :
 
 ## L'hybridation : une troisième voie
 
- Certains propriétaires optent pour une approche hybride : ils utilisent une plateforme en ligne pour la gestion courante (loyers, comptabilité) et font appel ponctuellement à une agence pour des missions spécifiques (recherche de locataire, état des lieux de sortie difficile).\n\n## FAQ — Gestion locative en ligne\n\n### Quels sont les avantages d'un logiciel de gestion locative en ligne ?\n\nUn logiciel de gestion locative en ligne permet de centraliser tous vos documents, loyers et communications en un seul endroit. Vous pouvez suivre vos paiements en temps réel, générer des quittances automatiquement et accéder à vos données depuis n'importe quel appareil, où que vous soyez.\n\n### Combien coûte un service de gestion locative en ligne ?\n\nLes tarifs varient généralement entre 10 et 50 euros par mois selon les fonctionnalités. Les offres basiques (gestion des loyers et reçus) commencent à environ 10-15 €/mois. Les offres premium incluant la gestion des travaux, la comptabilité et les délaisatteignent 30-50 €/mois.\n\n### Un logiciel de gestion locative peut-il remplacer complètement une agence ?\n\nPour les propriétaires autonomes, un bon logiciel couvre environ 80% des tâches d'agence (suivi des loyers, receipts, reminders). En revanche, pour la recherche de locataires, les états des lieux et la gestion des litiges, le recours ponctuel à un professionnel reste recommandé.\n\n### Comment choisir le bon logiciel de gestion locative ?\n\nPriorisez la facilité d'utilisation, la conformité légale française et les интеграции (comptabilité, signature électronique). Testez toujours la version d'essai gratuite avant de vous engager. Vérifiez également la réputation de l'éditeur et la fréquence des mises à jour réglementaires.\n\n### Les données de gestion locative sont-elles sécurisées ?\n\nLes meilleurs éditeurs utilisent le chiffrement des données, l'authentification à deux facteurs et des serveurs européens conformes au RGPD. Choisissez de préférence un prestataire ayant certification SOC 2 ou ISO 27001 pour garantir la protection de vos données et celles de vos locataires.
+ Certains propriétaires optent pour une approche hybride : ils utilisent une plateforme en ligne pour la gestion courante (loyers, comptabilité) et font appel ponctuellement à une agence pour des missions spécifiques (recherche de locataire, état des lieux de sortie difficile).\n\n## FAQ — Gestion locative en ligne\n\n### Quels sont les avantages d'un logiciel de gestion locative en ligne ?\n\nUn logiciel de gestion locative en ligne permet de centraliser tous vos documents, loyers et communications en un seul endroit. Vous pouvez suivre vos paiements en temps réel, générer des quittances automatiquement et accéder à vos données depuis n'importe quel appareil, où que vous soyez.\n\n### Combien coûte un service de gestion locative en ligne ?\n\nLes tarifs varient généralement entre 10 et 50 euros par mois selon les fonctionnalités. Les offres basiques (gestion des loyers et reçus) commencent à environ 10-15 €/mois. Les offres premium incluant la gestion des travaux, la comptabilité et les délais atteignent 30-50 €/mois.\n\n### Un logiciel de gestion locative peut-il remplacer complètement une agence ?\n\nPour les propriétaires autonomes, un bon logiciel couvre environ 80% des tâches d'agence (suivi des loyers, quittances, relances). En revanche, pour la recherche de locataires, les états des lieux et la gestion des litiges, le recours ponctuel à un professionnel reste recommandé.\n\n### Comment choisir le bon logiciel de gestion locative ?\n\nPriorisez la facilité d'utilisation, la conformité légale française et les intégrations (comptabilité, signature électronique). Testez toujours la version d'essai gratuite avant de vous engager. Vérifiez également la réputation de l'éditeur et la fréquence des mises à jour réglementaires.\n\n### Les données de gestion locative sont-elles sécurisées ?\n\nLes meilleurs éditeurs utilisent le chiffrement des données, l'authentification à deux facteurs et des serveurs européens conformes au RGPD. Choisissez de préférence un prestataire ayant certification SOC 2 ou ISO 27001 pour garantir la protection de vos données et celles de vos locataires.
 
 
 
@@ -3321,7 +3321,7 @@ Rentabilité nette = 5 232 / 200 000 × 100 = 2,62%
 
 ### La rentabilité nette-net (ou nette avant impôt)
 
-La rentabilité nette-net intègre en plus la fiscalité sur les revenus locatifs. Son calcul dépend du régime fiscal选择 (revenus fonciers, micro-foncier, LMNP, etc.).
+La rentabilité nette-net intègre en plus la fiscalité sur les revenus locatifs. Son calcul dépend du régime fiscal choisi (revenus fonciers, micro-foncier, LMNP, etc.).
 
 **Exemple (Suite) avec régime micro-foncier :**
 - Revenus locatifs nets : 5 232 €
@@ -3415,7 +3415,7 @@ Prenons l'exemple d'un appartement à Lyon :
 - Frais de notaire (7,5%) : 18 750 €
 - Travaux de rénovation : 10 000 €
 - Apport personnel : 50 000 €
-- Financement剩余 : 228 750 €
+- Financement restant : 228 750 €
 
 **Pret**
 - Montant : 228 750 €
@@ -3441,15 +3441,15 @@ Total charges : 4 312 €
 
 **Cash-flow mensuel** : 950 - 1 356 (mensualité) - 359 (charges mensuelles) = -765 €
 
-Ce résultat montre que l'investissement ne s'autofinance pas sansoptimisation fiscale ou别的 revenus.
+Ce résultat montre que l'investissement ne s'autofinance pas sansoptimisation fiscale ou autres revenus.
 
 ## Les outils pour calculer sa rentabilité
 
 De nombreux simulateurs en ligne permettent de calculer automatiquement la rentabilité locative, en intégrant :
 - Les différents taux d'intérêt
 - Les charges de copropriété
-- La fiscalité selon le régime选择
-- Les的各种 dispositifs Pinel ou autres
+- La fiscalité selon le régime choisi
+- Les différents dispositifs Pinel ou autres
 
 RentReady propose un simulateur de rentabilité locative gratuit, qui permet de comparer différents scénarios d'investissement et d'optimiser votre stratégie.
 
@@ -3562,7 +3562,7 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
     slug: "logiciel-gestion-locative-gratuit-vs-payant",
     title: "Logiciel gestion locative gratuit vs payant : lequel choisir en 2026",
     excerpt:
-      "Free property management tools have limits. Compare free vs paid solutions for French landlords — features, costs, compliance, and scalability.",
+      "Les outils de gestion locative gratuits ont leurs limites. Comparez les solutions gratuites et payantes pour les bailleurs français : fonctionnalités, coûts, conformité et évolutivité.",
     category: "Gestion",
     date: "2026-04-15",
     updatedAt: '2026-04-15',
@@ -4063,13 +4063,13 @@ La lettre doit etre envoyee en recommande avec accuse de reception pour constitu
 
 ### Prevention des impayes des la selection du locataire
 
-Prevention is better than cure. Before signing a lease, the landlord can take several steps to reduce the risk of unpaid rent: verify the tenant's income (pay slips, tax notices, employment contract), ask for a guarantor (solidary guarantee or VISALE guarantee), take out rent insurance (GLI - Garantie Loyer Impaye), and set up direct debit for monthly rent payments.
+Mieux vaut prévenir que guérir. Avant de signer le bail, le bailleur peut prendre plusieurs dispositions pour réduire le risque d'impayé : vérifier les revenus du locataire (bulletins de salaire, avis d'imposition, contrat de travail), demander un garant (garantie solidaire ou garantie VISALE), souscrire une assurance loyers impayés (GLI) et mettre en place un prélèvement automatique pour le loyer mensuel.
 
-The VISALE guarantee, funded by the French state, covers unpaid rent and housing charges for tenants under 30 or on fixed-term contracts. It's free for the tenant and guarantees the landlord up to 36 months of rent. This is one of the most effective tools for preventing payment incidents.
+La garantie VISALE, financée par l'État, couvre les loyers et charges locatives impayés pour les locataires de moins de 30 ans ou en contrat à durée déterminée. Elle est gratuite pour le locataire et garantit le bailleur jusqu'à 36 mois de loyers. C'est l'un des dispositifs les plus efficaces pour prévenir les impayés.
 
 ### Suivi et automatisation des paiements
 
-Once the lease is signed, regular monitoring prevents most payment incidents. The owner can set up bank alerts for each due date, use a rental management software to track payments, send automatic reminders before the due date, and maintain regular contact with the tenant to detect payment difficulties early.
+Une fois le bail signé, un suivi régulier permet d'éviter la plupart des impayés. Le bailleur peut programmer des alertes bancaires à chaque échéance, utiliser un logiciel de gestion locative pour suivre les paiements, envoyer des relances automatiques avant la date limite et maintenir un contact régulier avec le locataire afin de détecter tôt une difficulté de paiement.
 
 ### La mise en place d'un echeancier amiable
 
@@ -4079,17 +4079,17 @@ L'echeancier doit etre formalise par ecrit, signe par les deux parties, et preci
 
 ### Impaye de loyer : la procedure de recouvrement pas a pas
 
-If the rent is not paid, here's the procedure to follow: Day 1 to 5: informal reminder by phone or email. Day 5 to 15: formal letter by registered mail with acknowledgment of receipt. Day 15 to 30: formal notice (mise en demeure) by registered mail or bailiff. Day 30 onwards: summons to the court if no response.
+En cas de non-paiement, la procédure à suivre est la suivante : du 1er au 5e jour, une relance amiable par téléphone ou par e-mail ; du 5e au 15e jour, une lettre recommandée avec accusé de réception ; du 15e au 30e jour, une mise en demeure par lettre recommandée ou par huissier ; au-delà du 30e jour, une assignation devant le juge en l'absence de réponse.
 
 ### Les consequences du non-paiement pour le locataire
 
-When a tenant fails to pay rent, they face serious consequences. The unpaid rent creates a debt that accumulates with late fees. The landlord can initiate legal proceedings to terminate the lease and evict the tenant. The tenant's credit record may be affected, making future rentals difficult. In extreme cases, the tenant may be required to pay the landlord's legal fees and court costs.
+Lorsque le locataire ne paie pas son loyer, il s'expose à des conséquences importantes. L'impayé constitue une dette qui s'accumule, majorée des pénalités prévues au bail. Le bailleur peut engager une procédure judiciaire visant à résilier le bail et à faire expulser le locataire. Le locatoré peut voir son accès au crédit affecté, ce qui compliquera ses futures locations. Dans les cas extrêmes, le locataire peut être tenu de supporter les frais de procédure et d-avocat.
 
 ### Comment rediger la lettre de relance : erreurs a eviter
 
-Several mistakes should be avoided when drafting a reminder letter. Do not use aggressive or threatening language -- this can backfire legally. Do not invent or inflate the amounts owed. Do not send the letter without keeping proof of dispatch. Do not skip the step of attempting an amicable resolution before going to court.
+Plusieurs erreurs sont à éviter dans la rédaction d'une lettre de relance. N'employez pas de ton agressif ou menaçant : cela peut se retourner contre vous juridiquement. N'inventez pas et n'exagérez pas les sommes dues. N'envoyez pas la lettre sans conserver la preuve de l'envoi. Ne sautez pas l'étape de la tentative de règlement amiable avant d'aller devant le juge.
 
-The letter must be factual, precise and respectful. It must clearly state the amount owed, the period covered, and the deadline for payment. It must also mention the consequences of non-payment, without crossing the line into threats.
+La lettre doit être factuelle, précise et respectueuse. Elle doit indiquer clairement le montant dû, la période concernée et le délai de paiement. Elle doit également mentionner les conséquences du non-paiement, sans franchir la limite de la menace.
 
 [CTA : Automatisez vos relances de loyers impayes avec RentReady -- essai gratuit 14 jours]
 
@@ -4154,7 +4154,7 @@ Trois scenarios sont possibles. Le locataire paie : le dossier est clos, le prop
 
 ### Le role du juge dans la procedure d'impaye
 
-When the case goes to court, the judge examines the lease, the payment history, the letters sent, and the tenant's arguments. The judge can order the termination of the lease and eviction if the situation is serious, set up a repayment schedule if the tenant shows good faith, or dismiss the case if the unpaid amount is trivial or the landlord's case is weak.
+Lorsque l'affaire est portée devant le juge, celui-ci examine le bail, l'historique des paiements, les lettres envoyées et les arguments du locataire. Le juge peut ordonner la résiliation du bail et l'expulsion si la situation est grave, organiser un échéancier de remboursement si le locataire fait preuve de bonne foi, ou rejeter la demande si la somme impayée est modique ou le dossier du bailleur insuffisant.
 
 [CTA : Automatisez la gestion de vos impayes et suivez vos procedures avec RentReady -- essai gratuit]
 
@@ -5443,7 +5443,7 @@ Le tribunal convoque les parties à une audience. Les deux côtés peuvent prés
 
 ### Les preuves à rassembler
 
-Pour成功 votre demande, vous devez prouver :
+Pour réussir votre demande, vous devez prouver :
 - Le montant du dépôt versé (reçu, mention dans le bail)
 - La date de sortie effective (état des lieux signé, remise des clés)
 - L'absence ou l'insuffisance des dégradations (photos comparatives)
@@ -5568,17 +5568,17 @@ Rassemblez tous les documents utiles :
 
 Une convocation de police ne signifie pas automatiquement que vous êtes accusé. Il peut s'agir d'une audition de témoin ou d'une simple information. Votre avocat vous expliquera votre situation exacte.
 
-## Les infractions liées aux impayés qui могут entraîner des poursuites
+## Les infractions liées aux impayés qui peuvent entraîner des poursuites
 
 ### L'escroquerie (article 313-1 du Code pénal)
 
-Le fait de骗取ter un bien ou de obtenir une prestation en utilisant une fausse identité ou en altérant la vérité constitue une escroquerie. La peine maximale est de 5 ans d'emprisonnement et 375 000 euros d'amende.
+Le fait d'obtenir frauduleusement un bien ou d'obtenir une prestation en utilisant une fausse identité ou en altérant la vérité constitue une escroquerie. La peine maximale est de 5 ans d'emprisonnement et 375 000 euros d'amende.
 
 ### L'abus de confiance (article 314-1 du Code pénal)
 
 Si vous avez reçu des allocations logement destinées au paiement du loyer et que vous ne les avez pas utilisées à cette fin, vous pouvez être poursuivi pour abus de confiance.
 
-### Le détournement de средства
+### Le détournement de fonds
 
 Le détournement de fonds alloués pour un usage spécifique (ici, le logement) constitue une infraction pénale.
 
@@ -5650,7 +5650,7 @@ Si vos locataires sont allocataires et que vous percevez directement les APL, ce
 ### Les charges de propriété
 
 - La taxe foncière (part communale et départementale)
-- Les assurances (propriétaire non-occupant, GLI,保修)
+- Les assurances (propriétaire non-occupant, GLI, garantie)
 - Les frais de gestion et de gestion locative
 - Les honoraires de syndic pour les copropriétés
 
@@ -5714,7 +5714,7 @@ Au-delà du résultat comptable, le suivi de la tresorerie est essentiel. Un bie
 - Solde de tresorerie par bien
 - Solde de tresorerie global
 
-### Lфонд de roulement
+### Le fonds de roulement
 
 Il est recommandé de maintenir un fonds de roulement équivalent à 2 ou 3 mois de charges (taxe foncière, assurance, éventuels travaux). Cela vous permet de faire face aux imprévus sans difficultés.
 
@@ -5806,11 +5806,11 @@ Les durées d'amortissement couramment utilisées :
 
 ### La récupération de la TVA
 
-Si vous achetez un bien neuf meublé ou en VEFA (Vente en l'État Futur d'Achèvement), vous pouvez récupérer la TVA sur le prix d'achat (20 %). Pour cela, vous devez adhérer à un центр de gestion agréé et respecter un engagement de location de 20 ans.
+Si vous achetez un bien neuf meublé ou en VEFA (Vente en l'État Futur d'Achèvement), vous pouvez récupérer la TVA sur le prix d'achat (20 %). Pour cela, vous devez adhérer à un centre de gestion agréé et respecter un engagement de location de 20 ans.
 
 ## Les avantages spécifiques du LMP
 
-### La déductibilité des亏损
+### La déductibilité des déficits
 
 Le principal avantage du LMP est que les déficits générés par votre activité locative peuvent être déduits de votre revenu global (salaires, pensions, etc.). Cette déductibilité est limitée à 10 700 euros par an, mais elle peut être reportée sur 6 ans.
 
@@ -6110,7 +6110,7 @@ Le bail professionnel est destiné aux professionnels Libéraux (avocats, médec
 ### Les caractéristiques du bail professionnel
 
 - Loyer librement fixé (pas d'encadrement)
-- Charges locatives récupérables (état，超額)
+- Charges locatives récupérables (état, excédent)
 - Indexation possible sur l'indice ILAT
 - Dépôt de garantie limité à 2 ans de loyer hors charges
 - Renouvellement automatique sauf congé donné 6 mois avant l'échéance
@@ -6229,7 +6229,7 @@ Il est recommandé de maintenir une réserve sur ce compte pour faire face aux i
 
 ### Automatiser les virements
 
-Configurez des virements automatiques pour les charges récurrentes (taxe foncière, assurances, charges de copropriété). Cela vous fera gagner du temps et limitera les oublis. Certains хозяйстваs proposent même des services de gestion automatisée专为 les propriétaires bailleurs.
+Configurez des virements automatiques pour les charges récurrentes (taxe foncière, assurances, charges de copropriété). Cela vous fera gagner du temps et limitera les oublis. Certains propriétaires proposent même des services de gestion automatisée pour les propriétaires bailleurs.
 
 ## Les risques d'une gestion confuse
 
@@ -6362,7 +6362,7 @@ Non, le locataire ne peut jamais être tenu de payer directement la taxe fonciè
 
 **La taxe foncière est-elle déductible fiscalement ?**
 
-Oui, si vous êtes au régime réel d'imposition, la taxe foncière est déductible de vos revenus fonciers. Elle vient minorer votre revenu imposable et снижает votre charge fiscale globale.
+Oui, si vous êtes au régime réel d'imposition, la taxe foncière est déductible de vos revenus fonciers. Elle vient minorer votre revenu imposable et allège votre charge fiscale globale.
 
 **Comment contester le montant de ma taxe foncière ?**
 
@@ -7091,7 +7091,7 @@ L'obligation s'applique à tous les types de chaudières utilisées pour le chau
 La chaudière doit faire l'objet d'une visite annuelle complète qui comprend :
 
 - Le contrôle de la combustion et des fumées
-- Le 检测 de l'état des conduits de fumée
+- Le contrôle de l'état des conduits de fumée
 - Le nettoyage du brûleur et de la chambre de combustion
 - La vérification de la régulation et des dispositifs de sécurité
 - Le contrôle de l'étanchéité des circuits
@@ -7253,7 +7253,7 @@ Le locataire partant à l'étranger peut avoir besoin de documents spécifiques 
 
 ### Accepter un préavis oral
 
-Un congé verbal n'est pas valide, même si le locataire confirme oralement son départ. Exigez toujours un écrit, même si le locataire est pressé de partir. Un письменный congé protège les deux parties.
+Un congé verbal n'est pas valide, même si le locataire confirme oralement son départ. Exigez toujours un écrit, même si le locataire est pressé de partir. Un congé écrit protège les deux parties.
 
 ### Confusion avec un contrat en cours
 
@@ -7306,7 +7306,7 @@ L'encadrement des loyers a été introduit par la loi ALUR de 2014 et expérimen
 
 ### Objectifs du dispositif
 
-L'encadrement vise à atteindre plusieurs objectifs социальные :
+L'encadrement vise à atteindre plusieurs objectifs :
 
 - Limiter les hausses de loyers excessives qui excluent certains locataires
 - Favoriser l'accès au logement dans les zones tendues
@@ -7339,7 +7339,7 @@ Le loyer de référence représente le montant médian des loyers pratiqués dan
 
 ### Le loyer de référence minoré
 
-Le loyer de référence minoré est égal au loyer de référence moins 30 %. Il correspond au loyer le plus bas pratiqué pour des logements décents dans le secteur. Les locataires disposant de revenus modestes peuvent理论上 trouver des logements à ce niveau.
+Le loyer de référence minoré est égal au loyer de référence moins 30 %. Il correspond au loyer le plus bas pratiqué pour des logements décents dans le secteur. Les locataires disposant de revenus modestes peuvent théoriquement trouver des logements à ce niveau.
 
 ### Le loyer de référence majoré
 
@@ -7557,7 +7557,7 @@ Oui, la collecte et le reversement de la taxe de séjour sont obligatoires pour 
     date: "2026-04-18",
     updatedAt: "2026-04-18",
     readTime: "8 min",
-    content: `Le régime micro-foncier représente une option simplicité appréciée des propriétaires bailleurs qui souhaitent éviter la comptabilité复杂. Connaître ses avantages et ses limites vous permettra de faire le bon choix fiscal pour votre situation patrimoniale et familiale.
+    content: `Le régime micro-foncier représente une option simplicité appréciée des propriétaires bailleurs qui souhaitent éviter la complexité de la comptabilité. Connaître ses avantages et ses limites vous permettra de faire le bon choix fiscal pour votre situation patrimoniale et familiale.
 
 ## Le régime micro-foncier expliqué
 
@@ -7805,7 +7805,7 @@ Vérifiez bien toutes vos charges : assurance, taxe foncière, intérêts, honor
 
 ### Erreurs de calcul
 
-Les intérêts d'emprunt doivent être calculés sur l'année entière. En cas de prêt起始 en cours d'année, annualisez les intérêts pour éviter les erreurs de déclaration.
+Les intérêts d'emprunt doivent être calculés sur l'année entière. En cas de prêt commencé en cours d'année, annualisez les intérêts pour éviter les erreurs de déclaration.
 
 ## FAQ : Questions fréquentes sur la déclaration 2044
 
@@ -7854,7 +7854,7 @@ La Visale est une garantie gratuite offerte par l'État, tandis que la GLI est u
 
 ### Acteurs du marché
 
-De nombreux assureurs proposent des garanties GLI, parfois成套 avec d'autres produits (assurance PNO, protection juridique). Certains contrats sont proposés par les agences immobilières ou les gestionnaires de biens.
+De nombreux assureurs proposent des garanties GLI, parfois combinées avec d'autres produits (assurance PNO, protection juridique). Certains contrats sont proposés par les agences immobilières ou les gestionnaires de biens.
 
 ## Les garanties couvertes
 
@@ -8005,7 +8005,7 @@ Avant toute action en justice, il est recommandé d'essayer la voie amiable qui 
 
 - Envoyez un courrier simple rappelant l'échéance impayée
 - Relancez par téléphone ou email pour maintenir le contact
-- Proposez un échéancier de paiement si le locataire временно dificultades
+- Proposez un échéancier de paiement si le locataire rencontre des difficultés temporaires
 
 Cette démarche est souvent plus efficace qu'on ne le pense et permet parfois de trouver un arrangement.
 
@@ -8068,7 +8068,7 @@ La procédure d'assignation est plus formelle :
 
 Vous pouvez assigner le locataire en résiliation de bail pour impayés dès lors que :
 
-- Un mois de loyer est impayé (loyer وحده sans charges)
+- Un mois de loyer est impayé (loyer seul, hors charges)
 - Et 2 mois se sont écoulés depuis l'assignation
 - Et le locataire n'a pas réglé depuis l'assignation
 
@@ -8119,7 +8119,7 @@ Oui, vous pouvez réclamer des dommages et intérêts pour les préjudice subis 
 
 **Que faire si le locataire est insolvable ?**
 
-Si le locataire est insolvable, le recouvrement sera difficile. Vous pouvez signaler la dette à la BDF (Banque de France) et demander la clôture de la procédure pour insuffisance d'actifs. Vous pouvez également частично récupérer les sommes via la garantie GLI.
+Si le locataire est insolvable, le recouvrement sera difficile. Vous pouvez signaler la dette à la Banque de France (via la procédure de surendettement) et demander la clôture pour insuffisance d'actifs. Vous pouvez également récupérer partiellement les sommes via la garantie GLI.
 
 **Le conjoint du locataire est-il responsable ?**
 
@@ -8214,7 +8214,7 @@ Certaines solutions gratuites offrent des fonctionnalités de base suffisantes p
 - Suivi simple des paiements
 - Génération de quittances basiques
 - Rappels d'échéances
-- Gestion de垕s limitées
+- Gestion de biens limitée
 
 Ces solutions suffisent pour moins de 5 biens avec une gestion simple.
 
@@ -8325,7 +8325,7 @@ Vérifiez que le logiciel utilise un chiffrement des données et effectue des sa
 
 **Puis-je importer mes données existantes ?**
 
-La plupart des logiciels permettent d'importer des données depuis Excel ou d'autres solutions. Vérifiez cette possibilité avant de vous engager et质量的 de l'import proposé.
+La plupart des logiciels permettent d'importer des données depuis Excel ou d'autres solutions. Vérifiez cette possibilité et la qualité de l'import proposé avant de vous engager.
 
 **Le logiciel remplace-t-il l'assurance GLI ?**
 
@@ -9312,19 +9312,19 @@ La mise en place initiale prend généralement entre 30 minutes et 2 heures selo
     readTime: "9 min",
     content: `## Plus-value immobilière en location : ce qu'il faut savoir en 2026
 
-Lorsqu'un propriétaire bailleur vend un bien immobilier ayant été loué, laplus-value réalisée est susceptible d'être imposée. Toutefois, des exonérations et des stratégies d'optimisation existent. Ce guide détaille le mécanisme de laplus-value en location, les conditions d'exonération et les calculs à effectuer.
+Lorsqu'un propriétaire bailleur vend un bien immobilier ayant été loué, la plus-value réalisée est susceptible d'être imposée. Toutefois, des exonérations et des stratégies d'optimisation existent. Ce guide détaille le mécanisme de la plus-value en location, les conditions d'exonération et les calculs à effectuer.
 
-## Qu'est-ce que laplus-value immobilière en location ?
+## Qu'est-ce que la plus-value immobilière en location ?
 
-La plus-value immobilière correspond à la différence entre le prix de vente d'un bien et son prix d'acquisition. Si le bien a été vôtre en pleine propriété (sans nue-propriété/scroquer l'usufruit), laplus-value brute se calcule simplement. Dans le cas d'une location, certains éléments peuvent affecter le calcul final.
+La plus-value immobilière correspond à la différence entre le prix de vente d'un bien et son prix d'acquisition. Si le bien a été vôtre en pleine propriété (sans nue-propriété/scroquer l'usufruit), la plus-value brute se calcule simplement. Dans le cas d'une location, certains éléments peuvent affecter le calcul final.
 
 ### Plus-value brute vs nette
 
-La plus-value brute est le prix de vente minoré des frais d'acquisition et des travaux真正的. La plus-value nette prend en compte l'abattement pour durée de détention, qui varie selon que le bien est revenu au domicile familial ou loué.
+La plus-value brute est le prix de vente minoré des frais d'acquisition et des travaux réels. La plus-value nette prend en compte l'abattement pour durée de détention, qui varie selon que le bien est revenu au domicile familial ou loué.
 
 ## Les règles d'imposition en 2026
 
-Depuis 2013, laplus-value immobilière est soumise à deux prélèvements : l'impôt sur le revenu au taux de 19 % et les prélèvements sociaux au taux de 17,2 %. Des abattements s'appliquent en fonction de la durée de détention.
+Depuis 2013, la plus-value immobilière est soumise à deux prélèvements : l'impôt sur le revenu au taux de 19 % et les prélèvements sociaux au taux de 17,2 %. Des abattements s'appliquent en fonction de la durée de détention.
 
 ### Barème d'abattement pour durée de détention
 
@@ -9336,51 +9336,51 @@ Pour une location, la durée de détention compte différemment selon les année
 
 ## Les cas d'exonération
 
-Plusieurs situations permettent d'être totally exonéré de laplus-value :
+Plusieurs situations permettent d'être totally exonéré de la plus-value :
 
 ### Exonération pour résidence principale
 
-Si le bien vendu était votre résidence principale, laplus-value est totalement exonérée, quelle que soit sa durée de détention. La notion de résidence principale est celle où le propriétaire réside habituellement et effectivement.
+Si le bien vendu était votre résidence principale, la plus-value est totalement exonérée, quelle que soit sa durée de détention. La notion de résidence principale est celle où le propriétaire réside habituellement et effectivement.
 
 ### Exonération après 30 ans de détention
 
-Au-delà de 30 ans de détention, laplus-value est totalmente exonérée d'impôt sur le revenu. Les prélèvements sociaux sont également totalement exonérés après 30 ans.
+Au-delà de 30 ans de détention, la plus-value est totalmente exonérée d'impôt sur le revenu. Les prélèvements sociaux sont également totalement exonérés après 30 ans.
 
 ### Exonération pour titulaire d'une pension de retraite
 
-Les propriétaires titulaires d'une pension de retraite (ou assimilés) peuvent bénéficier d'une exonération deplus-value sous conditions de revenus. Cette exonération s'applique si le revenu fiscal de référence ne dépasse pas certains plafonds.
+Les propriétaires titulaires d'une pension de retraite (ou assimilés) peuvent bénéficier d'une exonération de plus-value sous conditions de revenus. Cette exonération s'applique si le revenu fiscal de référence ne dépasse pas certains plafonds.
 
-## Comment déclarer laplus-value ?
+## Comment déclarer la plus-value ?
 
 Laplus-value doit être déclarée lors de la vente mediante le formulaire 2048 IMM. La déclaration est généralement effectuée par le notaire chargé de la transaction, qui calcule également le montant de l'imposition due.
 
-## Optimiser laplus-value en location
+## Optimiser la plus-value en location
 
 ### Documentation des travaux
 
-Conservez tous les facture de travaux réalisés pendant la durée de location. Les travaux d'amélioration, de construction ou d'agrandissement peuvent majorer le prix d'acquisition et réduire laplus-value.
+Conservez toutes les factures de travaux réalisés pendant la durée de location. Les travaux d'amélioration, de construction ou d'agrandissement peuvent majorer le prix d'acquisition et réduire la plus-value.
 
-### Duration de mise en location
+### Durée de mise en location
 
 Si votre objectif est de revendre avec une faible taxation, la durée de détention reste le facteur le plus important. Après 30 ans, l'exonération est totale.
 
 ### SCI vs indivision
 
-La création d'une SCI peut permettre d'optimiser la transmission et la gestion du patrimoine locatif. Les règles deplus-value restent similaires mais la SCI offre plus de flexibilité successorale.
+La création d'une SCI peut permettre d'optimiser la transmission et la gestion du patrimoine locatif. Les règles de plus-value restent similaires mais la SCI offre plus de flexibilité successorale.
 
 ## FAQ — Plus-value immobilière en location
 
-**Dois-je payer des impôts sur laplus-value si je vends un bien loué ?**
+**Dois-je payer des impôts sur la plus-value si je vends un bien loué ?**
 
 Oui, sauf si vous répondez à l'un des cas d'exonération (résidence principale, 30 ans de détention, retraite bajo revenus). Laplus-value imposable est réduite des abattements pour durée de détention.
 
-**Les travaux de rénovation comptent-ils dans le calcul de laplus-value ?**
+**Les travaux de rénovation comptent-ils dans le calcul de la plus-value ?**
 
 Oui, les travaux de construction, reconstruction, amélioration et addition decapitalisation peuvent être ajoutés au prix d'acquisition. Attention : les travaux d'entretien normal ne comptent pas.
 
 **Laplus-value est-elle la même pour une location meublée ?**
 
-Oui, les règles deplus-value sont identiques. Cependant, le régime fiscal de la location meublée (LMNP/LMP) peut permettre d'amortir le bien et de réduire laplus-value effectively.
+Oui, les règles de plus-value sont identiques. Cependant, le régime fiscal de la location meublée (LMNP/LMP) peut permettre d'amortir le bien et de réduire la plus-value effectively.
 
 [CTA : Gérez votre bien locatif et suivez vos obligations fiscales avec RentReady — essai gratuit 14 jours]`
   },
@@ -9393,7 +9393,7 @@ Oui, les règles deplus-value sont identiques. Cependant, le régime fiscal de l
     readTime: "8 min",
     content: `## Travaux deductibles des revenus fonciers : la liste complete 2026
 
-Les travaux réalisés sur un bien mis en location peuvent être déduits des revenus fonciers, réduisant ainsi l'imposition. Encore faut-il connaître précisément哪些 travaux sont déductibles et dans quelles conditions. Ce guide passe en revue la liste exhaustive des dépenses admises par l'administration fiscale.
+Les travaux réalisés sur un bien mis en location peuvent être déduits des revenus fonciers, réduisant ainsi l'imposition. Encore faut-il connaître précisément quels travaux sont déductibles et dans quelles conditions. Ce guide passe en revue la liste exhaustive des dépenses admises par l'administration fiscale.
 
 ## Les categories de travaux deductibles
 
@@ -9517,7 +9517,7 @@ Les honoraires d'agence se situent généralement entre 5 % et 10 % du montant a
 Les dépenses liées à la tenue de votre comptabilité locative sont déductibles :
 - Honoraires de l'expert-comptable pour la comptabilité propre à la location
 - Frais de déclaration de revenus fonciers
-- Cotisations ordinales (pour les会计 professionnels)
+- Cotisations ordinales (pour les comptables professionnels)
 - Logiciels de gestion locative (comme RentReady)
 
 ### Déduction des logiciels de gestion
@@ -9731,7 +9731,7 @@ L'amortissement se calcule sur le prix d'acquisition hors taxes (ou valeur véna
 
 ### Amortissement fiscal vs comptable
 
-L'amortissement fiscal LMNP suit des barèmes administratifs. En cas deopt-out, l'amortissement fiscal est utilisé. Enopt-in, une approche comologique peut être employée.
+L'amortissement fiscal LMNP suit des barèmes administratifs. En cas d'option pour l'amortissement déductible (opt-out), celui-ci est utilisé. En cas d'option pour l'amortissement linéaire (opt-in), une approche comologique peut être employée.
 
 ## Les travaux d'aménagement déductibles
 
@@ -9773,7 +9773,7 @@ Vous devenez professionnel (LMP) si :
 
 ### Conséquences du passage en LMP
 
-En LMP, l'amortissement s'impute sur le revenu global (comme le déficit foncier), ce qui peut être plus avantageux. De plus, lesplus-values sont imposées en BIC, pas enPV.
+En LMP, l'amortissement s'impute sur le revenu global (comme le déficit foncier), ce qui peut être plus avantageux. De plus, les plus-values sont imposées en BIC, pas enPV.
 
 ## FAQ — Amortissement LMNP
 
@@ -9864,9 +9864,9 @@ Le locataire peut demander la résolution du bail et des dommages-intérêts si 
 - Absence de travaux d'entretien
 - Trouble de jouissance
 
-### Pour习itude et harassment
+### Pour trouble de voisinage habituel et constant
 
-En cas de习itude ou de harassment avéré, le locataire peut :
+En cas de trouble de voisinage habituel et constant établi, le locataire peut :
 - Demander la résolution du bail
 - Obtenir des dommages-intérêts
 - Signaler les faits au procureur de la République
@@ -9963,7 +9963,7 @@ Les locataires en situation de handicap bénéficient d'une protection renforcé
 
 ### Les travaux d'accessibilité
 
-Même en location, le locataire peut demander l'autorisation de réaliser des travaux d'accessibilité. Le bailleur ne peut原则上 pas refuser si les travaux sont rendus nécessaires par le handicap.
+Même en location, le locataire peut demander l'autorisation de réaliser des travaux d'accessibilité. Le bailleur ne peut en principe pas refuser si les travaux sont rendus nécessaires par le handicap.
 
 ### Le départ pour motif de santé
 
@@ -9977,7 +9977,7 @@ En cas de discrimination à l'accès au logement, la commission départementle d
 
 ### Le défenseur des droits
 
-Le亲身 des droits peut être saisi gratuitement en cas de discrimination. Il peut engager une procédure et représenter la victime.
+Le défenseur des droits peut être saisi gratuitement en cas de discrimination. Il peut engager une procédure et représenter la victime.
 
 ## FAQ — Locataire handicape
 
@@ -10013,7 +10013,7 @@ Les troubles de voisinage sont une source fréquente de conflits entre locataire
 Les bruits peuvent être :
 - Bruits de comportement (cloisons, télévision, instruments de musique)
 - Bruits d'activités professionnelles ou commerciales
-- Bruits de voisinage (tal, aboiements,机器)
+- Bruits de voisinage (télévision, aboiements, machines)
 
 ### Les autres nuisance
 
@@ -10044,9 +10044,9 @@ En cas de troubles dans une copropriété, le syndic peut intervenir en jouant l
 
 ### Le conciliateur de justice
 
-Ce magistrat honorifique peut être saidé gratuitement pour proponer une solution amiable. Sa compétence se limite aux litiges de faible importance (moins de 5 000 €).
+Ce magistrat honorifique peut être saisi gratuitement pour proponer une solution amiable. Sa compétence se limite aux litiges de faible importance (moins de 5 000 €).
 
-### La médiation大专
+### La médiation conventionnelle
 
 Des organismes spécialisés proposent des médiations payantes mais efficaces pour les conflits plus complexes.
 
@@ -10222,7 +10222,7 @@ Un propriétaire bailleur faces à de nombreux risques : impayés, dégradations
 
 ### Les impayés de loyer
 
-C'est le risque le plus redouté. Un impayé peut durer des mois, voire des années, avant最终 resolution. GLI et protection juridique sont les outils de mitigation.
+C'est le risque le plus redouté. Un impayé peut durer des mois, voire des années, avant résolution finale. GLI et protection juridique sont les outils de mitigation.
 
 ### Les dégradations
 
@@ -10273,7 +10273,7 @@ Elle maintient les revenus locatifs en cas de perte d'autonomie du propriétaire
 
 ### Vérification des references
 
-Avant de选定位, vérifiez systématiquement :
+Avant de sélectionner un locataire, vérifiez systématiquement :
 - Fiches de paie (3 derniers mois)
 - Avis d'imposition
 - Relevés de compte bancaire
@@ -10484,7 +10484,7 @@ Intégérez toujours :
 
 ### Louer sans dispositif fiscal
 
-Si vous n'avez pas de缘际 pour investir sans avantages fiscaux, l'investissement doit se défendre seul sur la base du rendement brut.
+Si vous n'avez pas de raison pour investir sans avantages fiscaux, l'investissement doit se défendre seul sur la base du rendement brut.
 
 ## Les etudes à realizar
 
@@ -10708,7 +10708,7 @@ L'ancien est généralement moins cher au m². Le rendement brut peut être plus
 Les centres-villes et quartiers établis sont surtout composés d'ancien. Les meilleurs emplacements sont souvent en ancien.
 
 **Possibilité de négociation**
-Les prix de vente sont négociables, surtout en cas de滞留 importante. Des réductions de 5 à 15 % sont courantes.
+Les prix de vente sont négociables, surtout en cas de vacance locative importante. Des réductions de 5 à 15 % sont courantes.
 
 **Personnalisation possible**
 Vous pouvez réaliser des travaux de rénovation selon vos goûts et les attentes du marché local.
