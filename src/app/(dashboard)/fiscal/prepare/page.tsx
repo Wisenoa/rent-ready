@@ -26,6 +26,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { formatCurrency } from "@/lib/format";
+
 export const dynamic = "force-dynamic";
 
 type Props = { searchParams: Promise<{ year?: string }> };
@@ -47,13 +49,6 @@ const EXPENSE_CATEGORY_LABELS: Record<string, string> = {
   OTHER: "Autre",
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-  }).format(amount);
-}
 
 export default async function FiscalPreparePage({
   searchParams,

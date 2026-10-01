@@ -8,12 +8,14 @@ import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/lib/format";
+import Decimal from "decimal.js";
 
 export interface PortalPayment {
   id: string;
-  amount: number;
-  rentPortion: number;
-  chargesPortion: number;
+  amount: Decimal;
+  rentPortion: Decimal;
+  chargesPortion: Decimal;
   dueDate: string;
   periodStart: string;
   periodEnd: string;
@@ -21,12 +23,6 @@ export interface PortalPayment {
   propertyName: string;
 }
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 function PayButton({
   transactionId,
@@ -137,7 +133,7 @@ export function PortalPayments({
                   <p className="text-xs text-muted-foreground">
                    Dont{" "}
                     {formatCurrency(payment.rentPortion)} (loyer){" "}
-                    {payment.chargesPortion > 0 &&
+                    {payment.chargesPortion.gt(0) &&
                       `+ ${formatCurrency(payment.chargesPortion)} (charges)`}
                   </p>
                 </div>

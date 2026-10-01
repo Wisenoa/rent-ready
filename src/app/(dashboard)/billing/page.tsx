@@ -33,6 +33,7 @@ import {
 import { QuittanceButton } from "@/components/quittance-button";
 import { MarkPaidButton } from "./mark-paid-button";
 import { SubscriptionBanner } from "./subscription-banner";
+import { formatCurrency } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Paiements",
@@ -49,12 +50,6 @@ const RECEIPT_CONFIG: Record<string, { label: string; className: string }> = {
   },
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 function isTrialExpired(trialEndsAt: Date | null): boolean {
   if (!trialEndsAt) return false;

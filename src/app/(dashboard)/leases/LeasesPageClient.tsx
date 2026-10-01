@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { LeaseForm } from "@/components/lease-form";
 import { LeasesEmptyState } from "@/components/leases-empty-state";
 import { useOnboardingWizard } from "@/components/onboarding-trigger";
+import { formatCurrency } from "@/lib/format";
 
 const LEASE_TYPE_LABELS: Record<string, string> = {
   UNFURNISHED: "Location vide",
@@ -34,9 +35,6 @@ const PAYMENT_METHOD_LABELS: Record<string, string> = {
   OTHER: "Autre",
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(amount);
-}
 
 interface LeasesPageClientProps {
   leases: Array<{

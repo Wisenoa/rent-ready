@@ -11,12 +11,13 @@ import { Button } from "@/components/ui/button";
 import Decimal from "decimal.js";
 
 import type { QuittanceData } from "@/lib/quittance-generator";
+import { formatCurrency } from "@/lib/format";
 
 export interface PortalQuittance {
   id: string;
-  amount: number;
-  rentAmount: number;
-  chargesAmount: number;
+  amount: Decimal;
+  rentAmount: Decimal;
+  chargesAmount: Decimal;
   periodStart: string;
   periodEnd: string;
   paidAt: string;
@@ -41,12 +42,6 @@ export interface PortalQuittance {
   propertyAddress: string;
 }
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 function DownloadButton({ quittance }: { quittance: PortalQuittance }) {
   const [isPending, startTransition] = useTransition();

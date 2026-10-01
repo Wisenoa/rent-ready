@@ -14,6 +14,7 @@ import {
 } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { formatCurrency } from "@/lib/format";
 
 const styles = StyleSheet.create({
   page: {
@@ -207,12 +208,6 @@ function formatDate(date: Date): string {
   return format(date, "d MMMM yyyy", { locale: fr });
 }
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 function formatAddress(addr: {
   addressLine1: string;

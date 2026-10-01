@@ -15,6 +15,9 @@ import {
   Calendar,
 } from "lucide-react";
 
+import Decimal from "decimal.js";
+import { formatCurrency } from "@/lib/format";
+import { displayStatus } from "@/lib/domain/period-presentation";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,13 +69,6 @@ const MAINTENANCE_STATUS_CONFIG: Record<string, { label: string; className: stri
   CLOSED: { label: "Fermé", className: "bg-gray-100 text-gray-600" },
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-  }).format(amount);
-}
 
 export default async function PropertyDetailPage({ params }: Props) {
   const { id } = await params;
@@ -113,9 +109,11 @@ export default async function PropertyDetailPage({ params }: Props) {
   const allTx = activeLease?.transactions ?? [];
   const totalPaid = allTx
     .filter((tx) => tx.status === "PAID" || tx.status === "PARTIAL")
-    .reduce((sum, tx) => sum + tx.amount, 0);
-  const totalDue = allTx.reduce((sum, tx) => sum + tx.amount, 0);
-  const lateCount = allTx.filter((tx) => tx.status === "LATE").length;
+    .reduce((sum, tx) => sum.plus(tx.amount), new Decimal(0));
+  // Decimal-seeded: a number seed made `sum + tx.amount` concatenate, so a
+  // property owing 740,50 + 300,25 rendered as the string "0740.5300.25".
+  const totalDue = allTx.reduce((sum, tx) => sum.plus(tx.amount), new Decimal(0));
+  const lateCount = allTx.filter((tx) => displayStatus(tx) === "OVERDUE").length;
 
   // Maintenance stats
   const openTickets = property.maintenanceTickets.filter(
@@ -323,7 +321,9 @@ export default async function PropertyDetailPage({ params }: Props) {
                   </p>
                   <p className="text-sm font-semibold font-mono">
                     {formatCurrency(
-                      activeLease.rentAmount + activeLease.chargesAmount
+                      new Decimal(activeLease.rentAmount).plus(
+                        activeLease.chargesAmount
+                      )
                     )}
                     /mois
                   </p>

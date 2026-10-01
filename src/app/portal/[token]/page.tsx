@@ -29,6 +29,7 @@ import { MaintenanceForm } from "./maintenance-form";
 import { TicketList } from "./ticket-list";
 import { PortalPayments } from "./payments";
 import { PortalMessages } from "./messages";
+import { formatCurrency } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Espace Locataire — RentReady",
@@ -38,12 +39,6 @@ export const metadata: Metadata = {
   },
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 const LEASE_TYPE_LABELS: Record<string, string> = {
   UNFURNISHED: "Location vide",

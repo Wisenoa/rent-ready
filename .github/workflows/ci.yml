@@ -89,11 +89,15 @@ jobs:
       # `next build` sets ignoreBuildErrors, so type errors are invisible unless
       # checked separately.
       #
-      # 116 errors are pre-existing, concentrated in portal-actions.tsx, analytics.ts
-      # and the email templates. The largest class is TS2322 on a Prisma Decimal
-      # reaching a `number` parameter or a component — money becoming a float. One
-      # such mismatch was exactly that: the quittance PDF did `rentAmount +
-      # chargesAmount` on Decimals, which concatenates into a string.
+      # 106 errors are pre-existing, concentrated in portal-actions.tsx, analytics.ts
+      # and the email templates. The largest remaining class is a Prisma Decimal
+      # reaching a `number` parameter or a component.
+      #
+      # This ratchet exists because that class kept hiding real bugs: the quittance
+      # PDF, two dashboard pages and the transactions dashboard all did arithmetic
+      # with `+`/`+=` on Decimals, which concatenates ("700" + "40.50" = "70040.5",
+      # and reduce(..., 0) rendered a property total as "0740.5300.25"). tsc reported
+      # every one of them and `next build` discarded the report.
       # A gate that always fails trains everyone to ignore red, so instead this
       # BLOCKS ON REGRESSION: the count may go down, never up. Lower `max` as debt
       # is cleared; the gate tightens on its own with no further change.
@@ -103,7 +107,7 @@ jobs:
         run: |
           pnpm tsc --noEmit > /tmp/tsc.log 2>&1 || true
           count=$(grep -c 'error TS' /tmp/tsc.log || true)
-          max=116
+          max=106
           echo "TypeScript errors: $count (baseline $max)"
           if [ "$count" -gt "$max" ]; then
             echo "::error title=Type errors::$count errors, up from the $max baseline. No new type debt."
