@@ -86,7 +86,7 @@ done
 step "Runtime verification"
 for s in smoke-golden-path verify-rent-generation verify-arrears-visible \
          verify-receipt verify-receipt-cumulative verify-period-settlement \
-         verify-dashboard-money; do
+         verify-portal-token verify-dashboard-money; do
   python3 "scripts/${s}.py" >"/tmp/ci-${s}.log" 2>&1
   record $? "$s"
 done
