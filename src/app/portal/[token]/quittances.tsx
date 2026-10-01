@@ -8,6 +8,8 @@ import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Decimal from "decimal.js";
+
 import type { QuittanceData } from "@/lib/quittance-generator";
 
 export interface PortalQuittance {
@@ -56,9 +58,11 @@ function DownloadButton({ quittance }: { quittance: PortalQuittance }) {
           landlord: quittance.landlord,
           tenant: quittance.tenant,
           propertyAddress: quittance.propertyAddress,
-          rentAmount: quittance.rentAmount,
-          chargesAmount: quittance.chargesAmount,
-          totalAmount: quittance.amount,
+          // JSON over the wire: numbers here, Decimal in the document type.
+          // Converted explicitly so no arithmetic is done on the parsed values.
+          rentAmount: new Decimal(quittance.rentAmount),
+          chargesAmount: new Decimal(quittance.chargesAmount),
+          totalAmount: new Decimal(quittance.amount),
           periodStart: new Date(quittance.periodStart),
           periodEnd: new Date(quittance.periodEnd),
           paidAt: new Date(quittance.paidAt),

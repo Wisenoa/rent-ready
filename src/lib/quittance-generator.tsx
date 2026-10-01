@@ -1,4 +1,5 @@
 import React from "react";
+import Decimal from "decimal.js";
 // Re-export pure utilities so existing imports continue to work.
 // determineReceiptTypeCumulative must be re-exported too: quittance-actions
 // imports it from here, and a named import that is missing resolves to undefined
@@ -44,9 +45,16 @@ export interface QuittanceData {
     postalCode: string;
   };
   propertyAddress: string;
-  rentAmount: number;
-  chargesAmount: number;
-  totalAmount: number;
+  /**
+   * Decimal, not number. The action builds this object straight from the lease
+   * and transaction rows, so these arrive as Prisma Decimals. Declaring `number`
+   * made `tsc` report a mismatch that `next build` discarded via
+   * ignoreBuildErrors, and the arithmetic below then concatenated instead of
+   * adding.
+   */
+  rentAmount: Decimal;
+  chargesAmount: Decimal;
+  totalAmount: Decimal;
   periodStart: Date;
   periodEnd: Date;
   paidAt: Date;
@@ -246,8 +254,13 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
     ? "Quittance de Loyer"
     : "Reçu de Paiement Partiel";
 
-  const expectedTotal = data.rentAmount + data.chargesAmount;
-  const remainingBalance = expectedTotal - data.totalAmount;
+  // Decimal arithmetic throughout. With `+`, 700 + 40.50 evaluated to the STRING
+  // "70040.5" and the balance line printed 69 300 on a fully paid period.
+  const expectedTotal = new Decimal(data.rentAmount).plus(data.chargesAmount);
+  const remainingBalance = Decimal.max(
+    expectedTotal.minus(new Decimal(data.totalAmount)),
+    new Decimal(0)
+  );
 
   return (
     <Document
@@ -356,7 +369,7 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
               </Text>
             </View>
             {/* Remaining balance for partial payment */}
-            {!data.isFullPayment && remainingBalance > 0 && (
+            {!data.isFullPayment && remainingBalance.gt(0) && (
               <View style={styles.remainingRow}>
                 <Text style={styles.remainingLabel}>
                   Solde restant dû

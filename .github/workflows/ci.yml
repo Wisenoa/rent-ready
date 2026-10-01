@@ -89,8 +89,11 @@ jobs:
       # `next build` sets ignoreBuildErrors, so type errors are invisible unless
       # checked separately.
       #
-      # 119 errors are pre-existing (47 TS2322, 19 TS2339, 14 TS2551, 11 TS2345),
-      # concentrated in portal-actions.tsx, analytics.ts and the email templates.
+      # 116 errors are pre-existing, concentrated in portal-actions.tsx, analytics.ts
+      # and the email templates. The largest class is TS2322 on a Prisma Decimal
+      # reaching a `number` parameter or a component — money becoming a float. One
+      # such mismatch was exactly that: the quittance PDF did `rentAmount +
+      # chargesAmount` on Decimals, which concatenates into a string.
       # A gate that always fails trains everyone to ignore red, so instead this
       # BLOCKS ON REGRESSION: the count may go down, never up. Lower `max` as debt
       # is cleared; the gate tightens on its own with no further change.
@@ -100,7 +103,7 @@ jobs:
         run: |
           pnpm tsc --noEmit > /tmp/tsc.log 2>&1 || true
           count=$(grep -c 'error TS' /tmp/tsc.log || true)
-          max=119
+          max=116
           echo "TypeScript errors: $count (baseline $max)"
           if [ "$count" -gt "$max" ]; then
             echo "::error title=Type errors::$count errors, up from the $max baseline. No new type debt."
