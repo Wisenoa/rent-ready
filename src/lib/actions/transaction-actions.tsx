@@ -2,9 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { settlePeriodPayments } from "@/lib/domain/period-settlement";
 import { getCurrentUserId } from "@/lib/auth";
 import { transactionSchema } from "@/lib/validations/transaction";
-import { determineReceiptType } from "@/lib/quittance-generator";
 import { generateQuittance } from "@/lib/actions/quittance-actions";
 import { generateRentFollowUpDraft } from "@/lib/ai/lease-analyzer";
 import { resend, fromEmail } from "@/lib/email";
@@ -36,26 +36,32 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
       return { success: false, error: "Bail introuvable ou accès non autorisé." };
     }
 
-    // Determine receipt type based on payment amount vs expected
-    // Use Decimal.js for precise financial arithmetic
-    const rentNum = toNumber(lease.rentAmount);
-    const chargesNum = toNumber(lease.chargesAmount);
     const amountNum = parsed.data.amount; // already a number from z.coerce
-    const totalDue = new Decimal(rentNum).plus(chargesNum);
-    const isFullPayment = amountNum >= totalDue.toNumber();
-    const receiptType = determineReceiptType(amountNum, rentNum, chargesNum);
-
-    // Calculate rent/charges portions proportionally using Decimal.js
-    const rentPortionDecimal = isFullPayment
-      ? new Decimal(rentNum)
-      : new Decimal(amountNum).times(rentNum).dividedBy(totalDue).toDecimalPlaces(2);
-    const chargesPortionDecimal = isFullPayment
-      ? new Decimal(chargesNum)
-      : new Decimal(amountNum).minus(rentPortionDecimal).toDecimalPlaces(2);
-
-    const status = isFullPayment ? "PAID" : "PARTIAL";
-    const periodStart = new Date(parsed.data.periodStart);
     const paidAt = parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date();
+    const periodStart = new Date(parsed.data.periodStart);
+    const periodEnd = new Date(parsed.data.periodEnd);
+
+    // Judge the PERIOD, not this payment: a tenant paying in instalments was
+    // previously recorded PARTIAL forever. Single source of truth in
+    // src/lib/domain/period-settlement.ts.
+    const priorPayments = await prisma.transaction.findMany({
+      where: { leaseId: lease.id, periodStart, periodEnd, paidAt: { not: null } },
+      select: { amount: true, paidAt: true, createdAt: true },
+    });
+    const settlement = settlePeriodPayments({
+      rentAmount: lease.rentAmount,
+      chargesAmount: lease.chargesAmount,
+      payments: [
+        ...priorPayments.map((r) => ({ amount: r.amount, paidAt: r.paidAt, createdAt: r.createdAt })),
+        { amount: amountNum, paidAt, createdAt: new Date() },
+      ],
+      currentAmount: amountNum,
+    });
+    const rentPortionDecimal = settlement.rentPortion;
+    const chargesPortionDecimal = settlement.chargesPortion;
+    const isFullPayment = settlement.isFullPayment;
+    const receiptType = settlement.receiptType;
+    const status = settlement.status;
 
     // Settle the generated rent period for this month instead of inserting a
     // second row for the same month (which counted the period twice).
@@ -127,18 +133,32 @@ export async function markTransactionPaid(
     }
 
     const lease = transaction.lease;
-    const rentNum = toNumber(lease.rentAmount);
-    const chargesNum = toNumber(lease.chargesAmount);
-    const totalDue = new Decimal(rentNum).plus(chargesNum);
-    const isFullPayment = amount >= totalDue.toNumber();
-    const receiptType = determineReceiptType(amount, rentNum, chargesNum);
+    const when = paidAt ? new Date(paidAt) : new Date();
 
-    const rentPortionDecimal = isFullPayment
-      ? new Decimal(rentNum)
-      : new Decimal(amount).times(rentNum).dividedBy(totalDue).toDecimalPlaces(2);
-    const chargesPortionDecimal = isFullPayment
-      ? new Decimal(chargesNum)
-      : new Decimal(amount).minus(rentPortionDecimal).toDecimalPlaces(2);
+    // Same period-level rule as every other write path.
+    const priorPayments = await prisma.transaction.findMany({
+      where: {
+        leaseId: transaction.leaseId,
+        periodStart: transaction.periodStart,
+        periodEnd: transaction.periodEnd,
+        paidAt: { not: null },
+        id: { not: transaction.id },
+      },
+      select: { amount: true, paidAt: true, createdAt: true },
+    });
+    const settlement = settlePeriodPayments({
+      rentAmount: lease.rentAmount,
+      chargesAmount: lease.chargesAmount,
+      payments: [
+        ...priorPayments.map((r) => ({ amount: r.amount, paidAt: r.paidAt, createdAt: r.createdAt })),
+        { amount, paidAt: when, createdAt: transaction.createdAt },
+      ],
+      currentAmount: amount,
+    });
+    const rentPortionDecimal = settlement.rentPortion;
+    const chargesPortionDecimal = settlement.chargesPortion;
+    const isFullPayment = settlement.isFullPayment;
+    const receiptType = settlement.receiptType;
 
     await prisma.transaction.update({
       where: { id },
@@ -146,10 +166,10 @@ export async function markTransactionPaid(
         amount: toDecimal(amount),
         rentPortion: rentPortionDecimal,
         chargesPortion: chargesPortionDecimal,
-        status: isFullPayment ? "PAID" : "PARTIAL",
+        status: settlement.status,
         isFullPayment,
         receiptType,
-        paidAt: paidAt ? new Date(paidAt) : new Date(),
+        paidAt: when,
       },
     });
 

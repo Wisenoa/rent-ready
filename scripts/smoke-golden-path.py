@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """Golden-path + tenant-isolation smoke test against a running dev server."""
 import json
+import os
 import subprocess
 import sys
 
-B = "http://localhost:3111"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _loadenv import load_env  # noqa: E402
+
+load_env()
+
+B = os.environ.get("BASE", "http://localhost:3111")
 
 
 def curl(*args):

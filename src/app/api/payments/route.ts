@@ -3,8 +3,8 @@ import Decimal from "decimal.js";
 import type { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
+import { settlePeriodPayments } from "@/lib/domain/period-settlement";
 import { transactionSchema } from "@/lib/validations/transaction";
-import { determineReceiptType, computePaymentSplit } from "@/lib/payment-utils";
 import {
   findUnpaidPeriod,
   settleRentPeriod,
@@ -155,16 +155,36 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Bail introuvable ou accès non autorisé" }, { status: 404 });
     }
 
-    const { rentPortion, chargesPortion, isFullPayment } = computePaymentSplit(
-      parsed.data.amount,
-      lease.rentAmount,
-      lease.chargesAmount,
-    );
-    const receiptType = determineReceiptType(parsed.data.amount, lease.rentAmount, lease.chargesAmount);
-
-    const status = isFullPayment ? "PAID" : "PARTIAL";
     const periodStart = new Date(parsed.data.periodStart);
+    const periodEnd = new Date(parsed.data.periodEnd);
     const paidAt = parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date();
+
+    // Judge the PERIOD, not this payment. See
+    // src/lib/domain/period-settlement.ts: judging one payment's amount left a
+    // tenant who paid in instalments permanently PARTIAL and never issued a
+    // quittance.
+    const priorPayments = await prisma.transaction.findMany({
+      where: { leaseId: lease.id, periodStart, periodEnd, paidAt: { not: null } },
+      select: { amount: true, paidAt: true, createdAt: true },
+    });
+
+    const settlement = settlePeriodPayments({
+      rentAmount: lease.rentAmount,
+      chargesAmount: lease.chargesAmount,
+      payments: [
+        ...priorPayments.map((row) => ({
+          amount: row.amount,
+          paidAt: row.paidAt,
+          createdAt: row.createdAt,
+        })),
+        { amount: parsed.data.amount, paidAt, createdAt: new Date() },
+      ],
+      currentAmount: parsed.data.amount,
+    });
+
+    const { rentPortion, chargesPortion, isFullPayment } = settlement;
+    const receiptType = settlement.receiptType;
+    const status = settlement.status;
 
     // If a rent period was generated for this month, the payment SETTLES it rather
     // than creating a second row. Two rows for one month meant the period was
@@ -209,7 +229,7 @@ export async function POST(request: NextRequest) {
         rentPortion,
         chargesPortion,
         periodStart,
-        periodEnd: new Date(parsed.data.periodEnd),
+        periodEnd,
         dueDate: new Date(parsed.data.dueDate),
         paidAt,
         paymentMethod: parsed.data.paymentMethod ?? null,

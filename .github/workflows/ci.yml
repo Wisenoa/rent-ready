@@ -185,6 +185,13 @@ jobs:
       - name: A period paid in instalments still yields a quittance
         run: python3 scripts/verify-receipt-cumulative.py
 
+      # The period-level PAID status, through the API that creates a row per
+      # payment. Before this was centralised, four write paths each judged
+      # settlement from a single payment's amount, so a period paid in instalments
+      # stayed PARTIAL forever and every arrears figure counted it as still owed.
+      - name: A period paid in instalments still reaches PAID
+        run: python3 scripts/verify-period-settlement.py
+
       - name: Dashboard money is exact
         run: python3 scripts/verify-dashboard-money.py
 

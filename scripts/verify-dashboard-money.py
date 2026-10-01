@@ -11,33 +11,18 @@ Requires: dev server on :3111, migrated DB, and a user audita@test.io
 (create it with scripts/smoke-golden-path.py).
 """
 import json
+import os
 import re
 import subprocess
 import sys
 
-B = "http://localhost:3111"
+B = os.environ.get("BASE", "http://localhost:3111")
 JAR = "/tmp/auditA.jar"
 
-def _load_env():
-    """Export .env so the `node` children below can reach the database.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _loadenv import load_env  # noqa: E402
 
-    CI sets DATABASE_URL in the environment; a local shell usually does not. Without
-    this the child fails with a Prisma "DatabaseNotReachable" stack trace, which
-    reads like a product bug rather than a missing variable.
-    """
-    import os
-    import re as _re
-
-    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
-    if not os.path.exists(path):
-        return
-    for line in open(path):
-        m = _re.match(r"^([A-Z_][A-Z0-9_]*)=(.*)$", line.strip())
-        if m and not os.environ.get(m.group(1)):
-            os.environ[m.group(1)] = m.group(2).strip().strip('"').strip("'")
-
-
-_load_env()
+load_env()
 
 ROOT = __import__("os").path.dirname(__import__("os").path.dirname(
     __import__("os").path.abspath(__file__)))
