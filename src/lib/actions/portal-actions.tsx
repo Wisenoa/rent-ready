@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { nanoid } from "nanoid";
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import { getCurrentUserId } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import type { ActionResult } from "./property-actions";
@@ -273,7 +275,12 @@ export async function getPortalQuittances(
   const limit = Math.min(100, Math.max(1, opts.limit ?? 20));
   const skip = (page - 1) * limit;
 
-  const where = {
+  // Typed with Prisma's own input type. A bare const object widens `status` to
+  // `string`, which no longer matches the enum, and the resulting error cascaded:
+  // the whole query lost its `include` shape, so `tx.lease` and `tx.user` were
+  // reported as missing too. Inline literals infer correctly, which is why only
+  // the two extracted ones were broken.
+  const where: Prisma.TransactionWhereInput = {
     lease: { tenantId },
     status: "PAID",
     receiptType: { not: null },
@@ -504,7 +511,10 @@ export async function getPendingPayments(
   const limit = Math.min(100, Math.max(1, opts.limit ?? 20));
   const skip = (page - 1) * limit;
 
-  const where = {
+  // Typed with Prisma's own input type: a bare const widens the enum to string,
+  // and `as const` over-corrects by making `in` a readonly tuple that Prisma
+  // rejects. This keeps the literals narrow and the array mutable.
+  const where: Prisma.TransactionWhereInput = {
     lease: { tenantId },
     status: { in: ["PENDING", "LATE"] },
   };
@@ -581,7 +591,10 @@ export async function initiatePayment(
               name: `Loyer ${tx.periodStart.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })} — ${tx.lease.property.name}`,
               description: `Paiement du loyer et charges pour ${tx.lease.property.name}`,
             },
-            unit_amount: Math.round(tx.amount * 100), // convert to cents
+            // Decimal * 100 produces a STRING ("74050"), and Stripe requires a
+            // number here, so the amount is multiplied through Decimal and
+            // reduced once.
+            unit_amount: new Decimal(tx.amount).times(100).toNumber(),
           },
           quantity: 1,
         },
