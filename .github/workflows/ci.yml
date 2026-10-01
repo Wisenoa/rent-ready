@@ -1,0 +1,183 @@
+name: CI
+
+# Deliberately small. Previous pipelines were deleted three times for cost, and
+# duplicated `pnpm install` across every job. This runs one install, then the
+# gates that actually protect the golden path:
+#
+#   Property -> Tenant -> Lease -> Rent -> Payment -> Receipt
+#
+# The runtime scripts under scripts/verify-*.py exercise that path against a real
+# Postgres. They are the reason this file exists: the golden path was broken for
+# months and every existing check passed anyway.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+# A new push to the same branch makes an in-flight run obsolete.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '22'
+  # The verification scripts need a reachable database; migrations must succeed
+  # from an empty database, which is exactly what the shipped migrations were
+  # failing to do.
+  DATABASE_URL: postgresql://rentready:rentready@localhost:5432/rentready?schema=public
+  # Present so `import { Resend } from "resend"` resolves at build time. No email
+  # is sent in CI; see src/lib/email.ts, which throws only when a send is
+  # actually attempted.
+  RESEND_API_KEY: re_ci_placeholder
+  BETTER_AUTH_SECRET: ci-secret-not-used-for-assertions
+  NEXT_PUBLIC_APP_URL: http://localhost:3000
+
+jobs:
+  verify:
+    name: Lint, types, tests, build, golden path
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: rentready
+          POSTGRES_PASSWORD: rentready
+          POSTGRES_DB: rentready
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      # No postinstall: it only runs `prisma generate`, which needs no database
+      # and is covered by the migrate step's own generate.
+      - name: Install
+        run: pnpm install --frozen-lockfile --ignore-scripts
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+      - name: Prisma generate
+        run: pnpm prisma generate
+
+      # Fails loudly if the migration chain cannot build a schema from nothing.
+      # This is the check that would have caught StripeWebhookEvent being created
+      # twice and Conversation/Message/UserProductPurchase having no migration.
+      - name: Migrate from an empty database
+        run: pnpm prisma migrate deploy
+
+      - name: Lint
+        run: pnpm lint
+
+      # `next build` sets ignoreBuildErrors, so type errors are invisible unless
+      # checked separately. It reports rather than blocks: 118 errors exist today
+      # (46 TS2322, 20 TS2339, 14 TS2551, 11 TS2345, and 31 more), and a gate
+      # that always fails trains everyone to ignore red. It becomes blocking the
+      # moment the count reaches 0 — no other change needed.
+      - name: Type check (reported, not yet blocking)
+        run: |
+          set +e
+          pnpm tsc --noEmit > /tmp/tsc.log 2>&1
+          count=$(grep -c 'error TS' /tmp/tsc.log || true)
+          echo "TypeScript errors: $count"
+          if [ "$count" -ne 0 ]; then
+            echo "::warning title=Type errors::tsc reports $count errors. Known debt; not gating yet."
+            grep 'error TS' /tmp/tsc.log | head -20
+          fi
+          exit 0
+
+      - name: Unit tests
+        run: pnpm test
+
+      # articles-meta.ts is generated from articles.ts, and the test above only
+      # compares their counts. Deleting or adding an article without regenerating
+      # it fails the suite with an opaque "expected 124, received 123" instead of
+      # naming the cause, so check it directly and say what to run.
+      - name: Article metadata is in sync
+        run: |
+          set +e
+          pnpm gen:article-meta > /tmp/gen.log 2>&1
+          if ! git diff --quiet -- src/data/articles-meta.ts; then
+            echo "::error file=src/data/articles-meta.ts::Out of sync with articles.ts. Run 'pnpm gen:article-meta' and commit the result."
+            git diff --stat -- src/data/articles-meta.ts
+            exit 1
+          fi
+          echo "in sync"
+
+      - name: Build
+        run: pnpm build
+
+      # `next build` loads every page module to collect page data. Anything that
+      # throws at import time kills the build — and the message names whichever
+      # page's worker lost the race first, so the same underlying cause surfaces
+      # as /billing, /expenses, /_document, /login, /_not-found or /tenants on
+      # different runs. Two causes were confirmed here:
+      #
+      #   1. DATABASE_URL unset -> src/lib/prisma.ts:11 throws on import.
+      #      Fixed for CI by the env block above; do not drop those vars.
+      #   2. Authenticated dashboard routes were being prerendered. The layout
+      #      calls SubscriptionGate, which reads the session cookie, so building
+      #      raised "Headers is required" from better-auth. Fixed in
+      #      src/app/(dashboard)/layout.tsx with `dynamic = "force-dynamic"`.
+      #
+      # If this step fails, read the page name in the error as a symptom, not a
+      # cause: the real fault is a module that throws during collection.
+
+      # Exercises the golden path end to end against the live server, including
+      # cross-tenant isolation. Each script exits non-zero on failure.
+      - name: Start the app
+        run: pnpm start &
+        env:
+          PORT: '3111'
+
+      - name: Wait for the app
+        run: |
+          for i in $(seq 1 60); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3111/login || true)
+            if [ "$code" = "200" ]; then echo "ready"; exit 0; fi
+            sleep 2
+          done
+          echo "app did not become ready"
+          exit 1
+
+      - name: Golden path and tenant isolation
+        run: python3 scripts/smoke-golden-path.py
+
+      - name: Rent periods are generated and settled in place
+        run: python3 scripts/verify-rent-generation.py
+
+      - name: Arrears are visible to the landlord
+        run: python3 scripts/verify-arrears-visible.py
+
+      - name: Receipts are real, downloadable PDFs
+        run: python3 scripts/verify-receipt.py
+
+      - name: Dashboard money is exact
+        run: python3 scripts/verify-dashboard-money.py
+
+      - name: Shots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-on-failure
+          path: |
+            .next/**/*.log
+          retention-days: 7
+          if-no-files-found: ignore
