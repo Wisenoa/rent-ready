@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import Decimal from "decimal.js";
+import type { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { transactionSchema } from "@/lib/validations/transaction";
 import { determineReceiptType, computePaymentSplit } from "@/lib/payment-utils";
+import {
+  findUnpaidPeriod,
+  settleRentPeriod,
+} from "@/lib/domain/generate-rent-periods";
 
 // ============================================================
 // GET /api/payments — List payments
@@ -96,15 +102,21 @@ export async function GET(request: NextRequest) {
       })(),
     ]);
 
+    // Prisma returns `Decimal` aggregates. Coercing them with `Math.round(x * 100)`
+    // performs binary floating-point arithmetic on money (850.1 * 100 = 85009.99…),
+    // so the totals can be off by a cent. Reduce with decimal.js instead.
+    const money = (value: Prisma.Decimal | Decimal | number | null | undefined) =>
+      new Decimal(value ?? 0).toDecimalPlaces(2).toNumber();
+
     return NextResponse.json({
       data: payments,
       pagination: { page, limit, total, pages: Math.ceil(total / limit) },
       summary: {
-        collected: Math.round((summaryResult.totalCollected ?? 0) * 100) / 100,
+        collected: money(summaryResult.totalCollected),
         collectedCount: summaryResult.totalCollectedCount,
-        pending: Math.round((summaryResult.totalPending ?? 0) * 100) / 100,
+        pending: money(summaryResult.totalPending),
         pendingCount: summaryResult.totalPendingCount,
-        overdue: Math.round((summaryResult.totalOverdue ?? 0) * 100) / 100,
+        overdue: money(summaryResult.totalOverdue),
         overdueCount: summaryResult.totalOverdueCount,
         currency: "EUR",
       },
@@ -149,6 +161,43 @@ export async function POST(request: NextRequest) {
     const receiptType = determineReceiptType(parsed.data.amount, lease.rentAmount, lease.chargesAmount);
 
     const status = isFullPayment ? "PAID" : "PARTIAL";
+    const periodStart = new Date(parsed.data.periodStart);
+    const paidAt = parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date();
+
+    // If a rent period was generated for this month, the payment SETTLES it rather
+    // than creating a second row. Two rows for one month meant the period was
+    // counted twice: once as owed (PENDING) and once as paid.
+    const period = await findUnpaidPeriod(parsed.data.leaseId, periodStart);
+    if (period) {
+      const settled = await settleRentPeriod(period.id, {
+        amount: parsed.data.amount,
+        rentPortion,
+        chargesPortion,
+        paidAt,
+        ...(parsed.data.paymentMethod
+          ? { paymentMethod: parsed.data.paymentMethod }
+          : {}),
+        status,
+        isFullPayment,
+      });
+
+      if (settled) {
+        const updated = await prisma.transaction.findUniqueOrThrow({
+          where: { id: period.id },
+          include: {
+            lease: {
+              select: {
+                property: { select: { name: true, city: true } },
+                tenant: { select: { firstName: true, lastName: true } },
+              },
+            },
+          },
+        });
+        return NextResponse.json({ data: updated }, { status: 201 });
+      }
+      // Another request settled it concurrently; fall through and record it
+      // separately so the money received is never lost.
+    }
 
     const payment = await prisma.transaction.create({
       data: {
@@ -157,10 +206,10 @@ export async function POST(request: NextRequest) {
         amount: parsed.data.amount,
         rentPortion,
         chargesPortion,
-        periodStart: new Date(parsed.data.periodStart),
+        periodStart,
         periodEnd: new Date(parsed.data.periodEnd),
         dueDate: new Date(parsed.data.dueDate),
-        paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
+        paidAt,
         paymentMethod: parsed.data.paymentMethod ?? null,
         status,
         isFullPayment,

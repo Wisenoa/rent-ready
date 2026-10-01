@@ -12,7 +12,12 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { ActionResult } from "./property-actions";
 import { toNumber, round2, toDecimal } from "@/lib/decimal";
+import {
+  findUnpaidPeriod,
+  settleRentPeriod,
+} from "@/lib/domain/generate-rent-periods";
 import Decimal from "decimal.js";
+import type { PaymentMethod } from "@prisma/client";
 
 export async function createTransaction(formData: FormData): Promise<ActionResult> {
   try {
@@ -49,6 +54,31 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
       : new Decimal(amountNum).minus(rentPortionDecimal).toDecimalPlaces(2);
 
     const status = isFullPayment ? "PAID" : "PARTIAL";
+    const periodStart = new Date(parsed.data.periodStart);
+    const paidAt = parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date();
+
+    // Settle the generated rent period for this month instead of inserting a
+    // second row for the same month (which counted the period twice).
+    const period = await findUnpaidPeriod(parsed.data.leaseId, periodStart);
+    if (period) {
+      const settled = await settleRentPeriod(period.id, {
+        amount: parsed.data.amount,
+        rentPortion: rentPortionDecimal,
+        chargesPortion: chargesPortionDecimal,
+        paidAt,
+        ...(parsed.data.paymentMethod
+          ? { paymentMethod: parsed.data.paymentMethod as PaymentMethod }
+          : {}),
+        status,
+        isFullPayment,
+      });
+      if (settled) {
+        revalidatePath("/billing");
+        revalidatePath("/dashboard");
+        revalidatePath("/leases");
+        return { success: true, data: { id: period.id, receiptType } };
+      }
+    }
 
     const transaction = await prisma.transaction.create({
       data: {
@@ -57,10 +87,10 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
         amount: toDecimal(parsed.data.amount),
         rentPortion: rentPortionDecimal,
         chargesPortion: chargesPortionDecimal,
-        periodStart: new Date(parsed.data.periodStart),
+        periodStart,
         periodEnd: new Date(parsed.data.periodEnd),
         dueDate: new Date(parsed.data.dueDate),
-        paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
+        paidAt,
         paymentMethod: parsed.data.paymentMethod ?? null,
         status,
         isFullPayment,
@@ -71,6 +101,7 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
 
     revalidatePath("/billing");
     revalidatePath("/dashboard");
+    revalidatePath("/leases");
     return { success: true, data: { id: transaction.id, receiptType } };
   } catch (error) {
     console.error("createTransaction error:", error);

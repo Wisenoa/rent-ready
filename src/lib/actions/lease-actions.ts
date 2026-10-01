@@ -6,6 +6,7 @@ import { getCurrentUserId } from "@/lib/auth";
 import { leaseSchema, standaloneLeaseSchema } from "@/lib/validations/lease";
 import type { ActionResult } from "./property-actions";
 import { generateAndUploadBailPdf } from "./bail-pdf-server";
+import { generateRentPeriodsForLease } from "@/lib/domain/generate-rent-periods";
 
 export async function createLease(formData: FormData): Promise<ActionResult> {
   try {
@@ -69,6 +70,16 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
       data: leaseData,
     });
 
+    // Generate the rent periods owed from the lease start through the current
+    // month. Without this nothing records what is owed, so arrears detection and
+    // the relance flow had no data to work from.
+    try {
+      await generateRentPeriodsForLease(lease.id);
+    } catch (error) {
+      // The lease exists and is usable; generation can be retried by the cron job.
+      console.error("generateRentPeriodsForLease error:", error);
+    }
+
     // Generate and upload bail PDF — best-effort (non-blocking)
     if (data.propertyId && data.tenantId) {
       const documentUrl = await generateAndUploadBailPdf(
@@ -128,6 +139,23 @@ export async function updateLease(id: string, formData: FormData): Promise<Actio
         irlReferenceValue: parsed.data.irlReferenceValue ?? null,
       },
     });
+
+    // A rent change only affects periods that are still unpaid; settled history
+    // must keep the amounts that were actually invoiced.
+    const rentChanged =
+      existing.rentAmount.toString() !== String(parsed.data.rentAmount) ||
+      existing.chargesAmount.toString() !== String(parsed.data.chargesAmount);
+
+    if (rentChanged) {
+      try {
+        await prisma.transaction.deleteMany({
+          where: { leaseId: id, paidAt: null },
+        });
+        await generateRentPeriodsForLease(id);
+      } catch (error) {
+        console.error("regenerateRentPeriods error:", error);
+      }
+    }
 
     revalidatePath("/leases");
     revalidatePath("/leases/" + id);

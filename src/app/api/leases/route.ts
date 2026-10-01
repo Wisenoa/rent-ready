@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { leaseSchema } from "@/lib/validations/lease";
 import { generateAndUploadBailPdf } from "@/lib/actions/bail-pdf-server";
+import { generateRentPeriodsForLease } from "@/lib/domain/generate-rent-periods";
 
 // ============================================================
 // GET /api/leases — List all leases
@@ -141,6 +142,14 @@ export async function POST(request: NextRequest) {
     };
 
     const lease = await prisma.lease.create({ data: leaseData });
+
+    // Materialise the rent owed from the lease start through the current month so
+    // arrears detection and the relance flow have data to work from.
+    try {
+      await generateRentPeriodsForLease(lease.id);
+    } catch (error) {
+      console.error("[leases] rent period generation failed:", error);
+    }
 
     // Fire-and-forget: generate bail PDF without blocking the response.
     // If PDF generation fails, the lease is still created successfully.
