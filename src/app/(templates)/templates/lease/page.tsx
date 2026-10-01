@@ -4,6 +4,11 @@ import { ArrowRight } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Modèles de Bail de Location — Tous nos Contrats Gratuits 2026",
@@ -26,7 +31,6 @@ export const metadata: Metadata = {
   },
   alternates: buildHreflang("/templates/lease"),
 };
-
 
 /* ─── JSON-LD: FAQPage + BreadcrumbList ─── */
 const leaseFaqs = [
@@ -157,6 +161,11 @@ const colorMap: Record<string, string> = {
   slate: "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100",
   teal: "bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100",
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 export default function LeaseTemplatesPage() {
   return (

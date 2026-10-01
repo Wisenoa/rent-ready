@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-const FinalCta = dynamic(
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
@@ -111,6 +117,11 @@ const faqData = [
       "Oui, le bail meublé se reconduit tacitement pour des périodes de 1 an sauf si l'une des parties donne congé dans les formes légales (lettre recommandée avec accusé de réception) au moins 3 mois avant l'échéance.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function BailMeubleJsonLd() {
   const data = {

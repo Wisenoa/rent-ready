@@ -17,8 +17,18 @@ const PUBLIC_PATHS = [
   "/",
   "/login",
   "/register",
+  // `/api` must stay here: route handlers authenticate themselves via
+  // `auth.api.getSession(...)`, and Better Auth's own catch-all lives at
+  // `/api/auth/*`. Requiring a session cookie in the middleware before the handler
+  // runs breaks sign-up/sign-in entirely (they are how sessions are created).
+  // The middleware gate is a redirect UX layer, not the authorization boundary —
+  // every handler under /api is responsible for its own authz.
   "/api",
   "/portal",
+  // Crawl surface: search engines must reach these without a session.
+  "/sitemap.xml",
+  "/robots.txt",
+  "/manifest.webmanifest",
   "/gestion-locative",
   "/locations",
   "/bail",

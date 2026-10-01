@@ -1,7 +1,30 @@
+import Decimal from "decimal.js";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { formatCurrency, formatPercentage } from "@/lib/format";
 
 export { formatCurrency, formatPercentage };
+
+/**
+ * Reduce a Prisma `Decimal` (or null aggregate) to a 2dp number.
+ *
+ * Prisma returns `Decimal` instances; arithmetic with JavaScript operators
+ * coerces them to floats and reintroduces binary floating-point error
+ * (e.g. 850.10 - 120.05 => 730.0500000000001). Money is reduced here, once, so
+ * downstream display formatting never sees float drift.
+ */
+const sumMoney = (value: Prisma.Decimal | null | undefined): number =>
+  new Decimal(value ?? 0).toDecimalPlaces(2).toNumber();
+
+/**
+ * Subtract two already-reduced money values without float drift.
+ *
+ * `730.05 - 120.05` in JavaScript yields 612.9999999999999; doing it in decimal.js
+ * yields exactly 613. Use this for derived money (NOI, margins, balances) instead
+ * of the `-` operator.
+ */
+const subtractMoney = (a: number, b: number): number =>
+  new Decimal(a).minus(b).toDecimalPlaces(2).toNumber();
 
 export interface DashboardKPIs {
   properties: {
@@ -255,15 +278,15 @@ export async function getDashboardStats(userId: string): Promise<DashboardKPIs> 
 
   const expenseByCategory: Record<string, number> = {};
   expensesByCategory.forEach((e) => {
-    expenseByCategory[e.category] = e._sum.amount ?? 0;
+    expenseByCategory[e.category] = sumMoney(e._sum.amount);
   });
 
-  const currentMonthRev = currentMonthRevenue._sum.amount ?? 0;
-  const previousMonthRev = previousMonthRevenue._sum.amount ?? 0;
-  const currentMonthExp = currentMonthExpenses._sum.amount ?? 0;
-  const previousMonthExp = previousMonthExpenses._sum.amount ?? 0;
-  const ytdRev = yearToDateRevenue._sum.amount ?? 0;
-  const ytdExp = yearToDateExpenses._sum.amount ?? 0;
+  const currentMonthRev = sumMoney(currentMonthRevenue._sum.amount);
+  const previousMonthRev = sumMoney(previousMonthRevenue._sum.amount);
+  const currentMonthExp = sumMoney(currentMonthExpenses._sum.amount);
+  const previousMonthExp = sumMoney(previousMonthExpenses._sum.amount);
+  const ytdRev = sumMoney(yearToDateRevenue._sum.amount);
+  const ytdExp = sumMoney(yearToDateExpenses._sum.amount);
 
   const activeTenants = new Set(activeLeases.map((l) => l.tenantId));
 
@@ -298,8 +321,8 @@ export async function getDashboardStats(userId: string): Promise<DashboardKPIs> 
     revenue: {
       currentMonth: currentMonthRev,
       previousMonth: previousMonthRev,
-      pending: pendingPayments._sum.amount ?? 0,
-      late: latePayments._sum.amount ?? 0,
+      pending: sumMoney(pendingPayments._sum.amount),
+      late: sumMoney(latePayments._sum.amount),
     },
     expenses: {
       currentMonth: currentMonthExp,
@@ -307,9 +330,9 @@ export async function getDashboardStats(userId: string): Promise<DashboardKPIs> 
       byCategory: expenseByCategory,
     },
     noi: {
-      currentMonth: currentMonthRev - currentMonthExp,
-      previousMonth: previousMonthRev - previousMonthExp,
-      yearToDate: ytdRev - ytdExp,
+      currentMonth: subtractMoney(currentMonthRev, currentMonthExp),
+      previousMonth: subtractMoney(previousMonthRev, previousMonthExp),
+      yearToDate: subtractMoney(ytdRev, ytdExp),
     },
     vacancies: {
       properties: vacantPropertiesList,

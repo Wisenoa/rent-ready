@@ -3,6 +3,11 @@ import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Modèle Bail Meublé Gratuit 2026 — Contrat Conforme Loi 1989",
@@ -126,6 +131,11 @@ const faqData = [
       "Le décret n°2015-1370 définit le mobilier minimum obligatoire : literie avec sommier et matelas, plaques de cuisson, réfrigérateur, ustensiles de cuisine, vaisselier, table et chaises, étagères de rangement, luminaires, matériel d'entretien ménager. Sans ces éléments, le bail peut être requalifié en bail vide. Complétez votre dossier avec notre état des lieux et notre bail mobilité si vous avez besoin d'un bail plus court.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function BailMeubleJsonLd() {
   const data = {

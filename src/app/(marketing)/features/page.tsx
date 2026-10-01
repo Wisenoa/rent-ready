@@ -19,28 +19,24 @@ import {
   FileCheck2,
   Zap,
 } from "lucide-react";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 
 import { TrustLogos } from "@/components/seo/TrustLogos";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-// ISR: revalidate marketing pages at CDN edge every hour
-// Keeps content fresh while serving cached HTML for TTFB < 100ms
-export const revalidate = 3600;
-
 // Dynamic import: FinalCta and MarketingFooter use framer-motion (heavy)
 // → code-split so they don't block initial JS bundle or INP
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
-const MarketingFooter = dynamic(
+const MarketingFooter = dynamicImport(
   () => import("@/components/landing/marketing-footer").then((mod) => mod.MarketingFooter),
   { loading: () => <div aria-hidden="true" /> }
 );
-const GlassNav = dynamic(
+const GlassNav = dynamicImport(
   () => import("@/components/landing/glass-nav").then((mod) => mod.GlassNav),
   { loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
 );
@@ -99,6 +95,12 @@ import {
   buildBreadcrumbSchema,
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 function FeaturesJsonLd() {
   const schema = buildGraphSchema(
@@ -334,6 +336,11 @@ const quickFeatures = [
   "Jusqu'à 10 biens immobiliers",
   "Support email prioritaire",
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 /* ─── Component ─── */
 export default function FeaturesPage() {

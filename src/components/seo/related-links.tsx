@@ -11,7 +11,7 @@
  */
 
 import Link from "next/link";
-import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
 
 interface RelatedContentProps {
   currentUrl: string;
@@ -109,7 +109,7 @@ const CONTENT_REGISTRY: RelatedPage[] = [
     type: "template",
   },
   // Articles
-  ...articles.slice(0, 10).map((a) => ({
+  ...articleMeta.slice(0, 10).map((a) => ({
     title: a.title,
     href: `/blog/${a.slug}`,
     excerpt: a.excerpt,

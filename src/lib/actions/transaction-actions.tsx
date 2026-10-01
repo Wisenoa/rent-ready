@@ -208,7 +208,7 @@ export async function sendPaymentReminder(
     // Dynamic imports to prevent Next.js build analysis of React Email components
     const [{ renderToBuffer }, { PaymentReminderEmail }] = await Promise.all([
       import("@react-pdf/renderer"),
-      import("../../../emails/payment-reminder"),
+      import("../../emails/payment-reminder"),
     ]);
 
     const emailHtml = await renderToBuffer(

@@ -10,6 +10,12 @@ import {
   buildHowToSchema,
 } from "@/lib/seo/structured-data";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata() {
   return baseMetadata({
     title: "Simulateur Fiscal LMNP 2026 — Loueur Meublé Non Professionnel | RentReady",
@@ -24,6 +30,11 @@ const breadcrumbItems = [
   { label: "Outils", href: "/outils" },
   { label: "Simulateur Fiscal LMNP", href: "/outils/simulateur-fiscalite-lmnp" },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function SimulateurFiscalLmnpJsonLd() {
   const schema = buildGraphSchema(

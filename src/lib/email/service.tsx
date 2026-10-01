@@ -14,11 +14,11 @@ import { nanoid } from "nanoid";
 import { sendEmail } from "./sender";
 import { prisma } from "@/lib/prisma";
 import { fromEmail } from "@/lib/email";
-import { WelcomeEmail } from "../../../emails/welcome";
-import { PasswordResetEmail } from "../../../emails/password-reset";
-import { TenantInvitationEmail } from "../../../emails/tenant-invitation";
-import { PaymentReminderEmail } from "../../../emails/payment-reminder";
-import { LeaseExpiryEmail } from "../../../emails/lease-expiry";
+import { WelcomeEmail } from "../../emails/welcome";
+import { PasswordResetEmail } from "../../emails/password-reset";
+import { TenantInvitationEmail } from "../../emails/tenant-invitation";
+import { PaymentReminderEmail } from "../../emails/payment-reminder";
+import { LeaseExpiryEmail } from "../../emails/lease-expiry";
 import type { EmailType } from "@prisma/client";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

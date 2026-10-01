@@ -10,6 +10,12 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title: "Calculateur Caution de Loyer — Zone Tendue & Non Tendue | RentReady",
@@ -53,6 +59,11 @@ const faqData = [
       "En zone tendue, le dépôt maximum est limité à 1 mois, que le bien soit meublé ou vide. En zone non tendue, le dépôt peut atteindre 2 mois pour une location meublée (contre 1 mois pour le vide), quelle que soit la zone.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function CautionJsonLd() {
   const schema = buildGraphSchema(

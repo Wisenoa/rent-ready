@@ -3,10 +3,28 @@ import { withSentryConfig } from '@sentry/nextjs';
 
 const config: NextConfig = {
   // ========================================
+  // Static generation concurrency
+  // ========================================
+  // Next defaults to (CPU count - 1) static-generation workers. On a 14-core
+  // machine that is 13 concurrent page renders, and peak heap exceeded the
+  // default ~4 GB limit part-way through prerendering — the build died with
+  // "Ineffective mark-compacts near heap limit" at ~101/135 pages. Bisecting
+  // showed no single page is at fault; it is aggregate concurrency (114 static
+  // pages passed, 115 failed). Capping workers trades a little wall-clock for a
+  // build that reliably completes. Raise via NEXT_BUILD_WORKERS if desired.
+  experimental: {
+    // Enable optimized package imports
+    optimizePackageImports: ['lucide-react', 'date-fns', 'recharts'],
+    cpus: Math.max(
+      1,
+      Number.parseInt(process.env.NEXT_BUILD_WORKERS ?? '', 10) || 4
+    ),
+  },
+
+  // ========================================
   // TypeScript Configuration
   // ========================================
   typescript: {
-    // Pre-existing TS configuration issues in node_modules - skip in CI
     ignoreBuildErrors: true,
   },
 
@@ -14,7 +32,7 @@ const config: NextConfig = {
   // Lint Configuration
   // ========================================
   eslint: {
-    // ESLint 9 + rushstack patch incompatibility — lint is handled by CI
+    // `pnpm lint` runs as its own step; see eslint.config.mjs.
     ignoreDuringBuilds: true,
   },
 
@@ -170,14 +188,6 @@ const config: NextConfig = {
         destination: '/api/webhooks/bank/:path*',
       },
     ];
-  },
-
-  // ========================================
-  // Experimental Features
-  // ========================================
-  experimental: {
-    // Enable optimized package imports
-    optimizePackageImports: ['lucide-react', 'date-fns', 'recharts'],
   },
 
   // ========================================

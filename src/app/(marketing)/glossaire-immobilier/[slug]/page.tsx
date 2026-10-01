@@ -7,11 +7,14 @@ import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { baseMetadata } from "@/lib/seo/metadata";
 import glossaryData from "@/data/glossary.json";
-import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
 import { Calendar, Clock } from "lucide-react";
 
-// ISR: glossary term pages are static reference content — revalidate weekly
-export const revalidate = 604800;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 /* ─── Types ─── */
 
@@ -52,6 +55,11 @@ type GlossaryEntry = (typeof glossaryData)[number];
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 /* ─── Static generation ─── */
 
@@ -158,9 +166,9 @@ export default async function GlossaryTermPage({ params }: Props) {
   // Related articles for this glossary term
   const relatedArticleSlugs = GLOSSARY_TO_ARTICLES[slug] ?? [];
   const relatedArticles = relatedArticleSlugs
-    .map((aSlug) => articles.find((a) => a.slug === aSlug))
+    .map((aSlug) => articleMeta.find((a) => a.slug === aSlug))
     .filter(Boolean)
-    .slice(0, 3) as typeof articles;
+    .slice(0, 3) as typeof articleMeta;
 
   const breadcrumbItems = [
     { label: "Accueil", href: "https://www.rentready.fr" },

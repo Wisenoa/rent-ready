@@ -5,6 +5,12 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
 /* ─── Structured Data ─── */
 
 const GESTION_SCHEMA = {
@@ -89,9 +95,6 @@ const GESTION_SCHEMA = {
   ],
 };
 
-// ISR: all-cities listing — revalidate monthly
-export const revalidate = 2592000;
-
 export async function generateMetadata() {
   return baseMetadata({
     title: "Gestion locative en France — 50 villes",
@@ -103,6 +106,11 @@ export async function generateMetadata() {
 ;
 
 type City = (typeof cities)[number];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function groupByRegion(data: City[]): Record<string, City[]> {
   const groups: Record<string, City[]> = {};

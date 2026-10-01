@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 
 import { TrustLogos } from "@/components/seo/TrustLogos";
@@ -9,19 +9,15 @@ import { baseMetadata } from "@/lib/seo/metadata";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { SocialProof } from "@/components/landing/social-proof";
 
-// ISR: revalidate marketing pages at CDN edge every hour
-// Keeps content fresh while serving cached HTML for TTFB < 100ms
-export const revalidate = 3600;
-
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
 // Dynamic import: interactive pricing (uses client state — framer-motion)
-const PricingSectionWrapper = dynamic(
+const PricingSectionWrapper = dynamicImport(
   () =>
     import("@/components/landing/pricing-section-wrapper").then(
       (mod) => mod.PricingSectionWrapper
@@ -62,6 +58,12 @@ import {
   buildBreadcrumbSchema,
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 const pricingFaqs = [
   {
@@ -241,6 +243,11 @@ const comparisonData = [
     agency: "Support dédié + SLA",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 export default function PricingPage() {
   return (

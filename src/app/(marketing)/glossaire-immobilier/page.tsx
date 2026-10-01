@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-// ISR: glossary is static reference content — revalidate weekly
-export const revalidate = 604800;
 
 import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";
@@ -17,6 +15,12 @@ import {
 import { GlossarySidebar } from "@/components/seo/blog/GlossarySidebar";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { baseMetadata } from "@/lib/seo/metadata";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
@@ -2686,6 +2690,11 @@ const alphabetGroups = glossaryTerms.reduce(
   },
   {} as Record<string, typeof glossaryTerms>,
 );
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 export default function GlossaireImmobilierPage() {
   const schema = buildGraphSchema(

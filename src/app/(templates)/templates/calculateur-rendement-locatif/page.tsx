@@ -4,6 +4,11 @@ import { ArrowRight } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Calculateur de Rendement Locatif Gratuit — Brut & Net | RentReady",
@@ -26,6 +31,11 @@ export const metadata: Metadata = {
   },
   alternates: buildHreflang("/templates/calculateur-rendement-locatif"),
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 /* ─── JSON-LD: HowTo + BreadcrumbList ─── */
 function CalculateurRendementJsonLd() {

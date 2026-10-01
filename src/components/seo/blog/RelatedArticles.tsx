@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
-import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
 
 interface RelatedArticlesProps {
   currentSlug: string;
@@ -9,12 +9,12 @@ interface RelatedArticlesProps {
 
 export function RelatedArticles({ currentSlug, category }: RelatedArticlesProps) {
   // Get articles from the same category, excluding current
-  const related = articles
+  const related = articleMeta
     .filter((a) => a.slug !== currentSlug && a.category === category)
     .slice(0, 3);
 
   // If not enough from same category, fill with other articles
-  const others = articles
+  const others = articleMeta
     .filter((a) => a.slug !== currentSlug && !related.find((r) => r.slug === a.slug))
     .slice(0, 3 - related.length);
 

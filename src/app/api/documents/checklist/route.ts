@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
-import { generateChecklist, DEFAULT_CHECKLIST_ITEMS } from "@/lib/actions/checklist-actions";
+import { generateChecklist } from "@/lib/actions/checklist-actions";
+import { DEFAULT_CHECKLIST_ITEMS } from "@/lib/checklist-default-items";
 import type { ChecklistType } from "@/lib/checklist-generator";
 
 /**

@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-// ISR: template library is static reference content — revalidate weekly
-export const revalidate = 604800;
 
 import Link from "next/link";
 import { ArrowRight, FileText, Check } from "lucide-react";
@@ -11,6 +9,12 @@ import {
   buildItemListSchema,
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
@@ -61,6 +65,11 @@ const templateCategories = [
     ],
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function TemplatesPageJsonLd() {
   const allItems = templateCategories.flatMap((cat) =>

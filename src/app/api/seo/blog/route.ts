@@ -9,10 +9,10 @@
  * Cache: public, max-age=3600, stale-while-revalidate=86400
  */
 import { NextResponse } from "next/server";
-import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
 
 export async function GET() {
-  const blogPosts = articles.map((article, index) => ({
+  const blogPosts = articleMeta.map((article, index) => ({
     "@type": "ListItem",
     position: index + 1,
     name: article.title,
@@ -49,7 +49,7 @@ export async function GET() {
       name: "Articles du blog RentReady",
       description: "Tous les articles du blog RentReady pour les propriétaires bailleurs.",
       url: "https://www.rentready.fr/blog",
-      numberOfItems: articles.length,
+      numberOfItems: articleMeta.length,
       itemListElement: blogPosts,
     },
     // Organization (publisher)
@@ -73,7 +73,7 @@ export async function GET() {
   ];
 
   return NextResponse.json(
-    { schemas, meta: { totalArticles: articles.length } },
+    { schemas, meta: { totalArticles: articleMeta.length } },
     {
       headers: {
         "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",

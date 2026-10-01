@@ -7,6 +7,17 @@ import { articles } from "@/data/articles";
 import { baseMetadata } from "@/lib/seo/metadata";
 import glossaryData from "@/data/glossary.json";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 /** Extract Q&A pairs from a FAQ section in article markdown */
 function extractFAQ(content: string): { question: string; answer: string }[] {
   const faqSection = content.match(/## FAQ —[\s\S]+?(?=\n## [^F]|\n\n\/\\*\\*|\n\[CTA)/);

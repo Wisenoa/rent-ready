@@ -11,6 +11,12 @@ import {
   buildHowToSchema,
 } from "@/lib/seo/structured-data";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata() {
   return baseMetadata({
     title: "Simulateur Prêt Immobilier 2026 — Calcul Mensualité en Ligne | RentReady",
@@ -25,6 +31,11 @@ const breadcrumbItems = [
   { label: "Outils", href: "/outils" },
   { label: "Simulateur Prêt Immobilier", href: "/outils/simulateur-pret-immobilier" },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function SimulateurPretJsonLd() {
   const schema = buildGraphSchema(

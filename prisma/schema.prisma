@@ -249,14 +249,14 @@ model Lease {
   tenantId        String
   unitId          String?
   // Financial
-  rentAmount      Decimal   // Loyer hors charges (€)
-  chargesAmount   Decimal   // Provision pour charges (€)
-  depositAmount   Decimal   // Dépôt de garantie (€)
+  rentAmount      Decimal                       @db.Decimal(12,2) // Loyer hors charges (€)
+  chargesAmount   Decimal                       @db.Decimal(12,2) // Provision pour charges (€)
+  depositAmount   Decimal                       @db.Decimal(12,2) // Dépôt de garantie (€)
   // Dates
   startDate       DateTime
   endDate         DateTime?
   // IRL revision
-  irlReferenceValue Decimal? // IRL at signature
+  irlReferenceValue Decimal? @db.Decimal(10,5) // IRL at signature
   irlReferenceQuarter String? // e.g. "T4-2025"
   revisionDate    DateTime? // Date anniversaire de révision
   // Payment
@@ -277,7 +277,6 @@ model Lease {
   guarantor       Guarantor?
   transactions    Transaction[]
   conversation    Conversation?
-  charges         Charge[]
 
   // (userId, status) — active leases query for dashboard/unpaid detection
   @@index([userId, status])
@@ -315,9 +314,9 @@ model Transaction {
   userId          String
   leaseId         String
   // Financial
-  amount          Decimal   // Total amount received
-  rentPortion     Decimal   // Part loyer
-  chargesPortion  Decimal   // Part charges
+  amount          Decimal                       @db.Decimal(12,2) // Total amount received
+  rentPortion     Decimal                       @db.Decimal(12,2) // Part loyer
+  chargesPortion  Decimal                       @db.Decimal(12,2) // Part charges
   // Period
   periodStart     DateTime  // Start of rental period
   periodEnd       DateTime  // End of rental period
@@ -498,7 +497,7 @@ model IrlIndex {
   quarter   String   @unique // e.g. "T4-2025"
   year      Int
   trimester Int      // 1-4
-  value     Decimal   // e.g. 145.78
+  value     Decimal   @db.Decimal(10,5) // e.g. 145.78
   publishedAt DateTime?
   createdAt DateTime @default(now())
 
@@ -565,7 +564,7 @@ model Expense {
   propertyId  String?
   vendorName  String
   description String?
-  amount      Decimal
+  amount      Decimal                   @db.Decimal(12,2)
   category    ExpenseCategory
   date        DateTime
   invoiceUrl  String?         // Uploaded invoice file
@@ -579,56 +578,6 @@ model Expense {
   @@index([userId])
   @@index([propertyId])
   @@index([category])
-}
-
-// ─── Charges (Charges locatives récupérables) ──────────────────────────────
-// Recurring recoverable charges associated with a lease.
-// Examples: condominium fees, shared utilities, property tax (taxe foncière).
-// These are distinct from Transaction.chargesPortion (one-time payment split).
-model Charge {
-  id             String        @id @default(cuid())
-  userId         String        // denormalized from Lease for efficient per-user queries
-  leaseId        String
-  // Label & category
-  label          String        // e.g. "Taxe foncière", "Charges de copropriété"
-  category       ChargeCategory
-  // Amount (annual or monthly, depends on billing cycle)
-  amount         Decimal
-  billingCycle  BillingCycle  @default(MONTHLY)
-  // Period covered
-  periodStart    DateTime
-  periodEnd      DateTime?
-  // Invoice/document reference
-  invoiceUrl     String?
-  // Recovery status
-  isRecovered    Boolean       @default(false)  // passed to tenant
-  recoveredAt    DateTime?
-  // Metadata
-  notes          String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-
-  lease          Lease         @relation(fields: [leaseId], references: [id], onDelete: Cascade)
-
-  @@index([userId, isRecovered])
-  @@index([leaseId])
-}
-
-enum ChargeCategory {
-  CONDO_FEES         // Charges de copropriété
-  PROPERTY_TAX        // Taxe foncière
-  SHARED_UTILITIES   // Charges communes (eau, ordures…)
-  INSURANCE          // Assurance propriété
-  MAINTENANCE        // Entretien / petites réparations
-  MANAGEMENT_FEES    // Frais de gestion
-  OTHER              // Autre
-}
-
-enum BillingCycle {
-  MONTHLY
-  QUARTERLY
-  ANNUAL
-  ONE_TIME
 }
 
 enum ExpenseCategory {

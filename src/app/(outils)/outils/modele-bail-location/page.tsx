@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
-export const dynamic = "force-dynamic";
-
 import Link from "next/link";
 import { ArrowRight, FileText, Download, CheckCircle } from "lucide-react";
 import { SchemaMarkup, webApplicationSchema } from "@/components/seo/schema-markup";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 export const metadata: Metadata = {
   title: "Modèle de Bail de Location — Contrat de Location Vide ou Meublé",

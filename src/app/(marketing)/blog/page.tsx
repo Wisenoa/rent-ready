@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
-// ISR: blog listing changes infrequently — revalidate weekly
-export const revalidate = 604800;
 
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
-import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
 // blog listing uses the articles data
-const blogPosts = articles;
+const blogPosts = articleMeta;
 
 export async function generateMetadata() {
   return baseMetadata({
@@ -92,6 +96,11 @@ const schema = {
     },
   ],
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 export default function BlogPage() {
   return (

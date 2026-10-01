@@ -3,6 +3,11 @@ import Link from "next/link";
 import { ArrowRight, Check, Shield, Clock, Users, Star, FileText } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Modèle Bail Vide 2026 — Contrat Location Non Meublée Conforme",
@@ -140,6 +145,11 @@ const faqData = [
       "Le bail meublé offre plus de flexibilité (1 an de durée, loyer libre en zone tendue, 2 mois de dépôt) mais exige un niveau de mobilier minimum légal. Le bail vide offre une durée plus longue (3 ans) et un cadre juridique plus établi. Le choix dépend de votre situation et de la nature du bien.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function BailVideJsonLd() {
   const data = {

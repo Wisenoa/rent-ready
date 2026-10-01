@@ -3,6 +3,12 @@ import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata() {
   return baseMetadata({
     title:
@@ -103,6 +109,11 @@ const faqData = [
       "Oui. Locataire et bailleur voient l'état d'avancement en temps réel depuis leur portail respectif. Plus besoin d'appels ou de relances pour savoir où en est la réparation.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function MaintenanceJsonLd() {
   const data = {

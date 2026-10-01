@@ -4489,7 +4489,6 @@ Oui, les frais de gestion (honoraires d'agence, frais de logiciel) sont deductib
 Oui, notamment si vous avez plusieurs biens ou si votre bien est en zone tendue. N'hesitez pas a demander un devis detaille et a negocier les honoraires.`,
   },
 
-,
 
   {
     slug: "bail-mobilite-2026",
@@ -9142,7 +9141,7 @@ Appliquez la procédure de relance pour loyer impayé. Si le locataire conteste 
 [CTA : Gérez vos augmentations de loyer automatiquement avec RentReady — calcul IRL, alertes, archivage — essai gratuit]`
   },
   {
-    slug: "gestion-locative-en-ligne-avantages",
+    slug: "gestion-locative-en-ligne-avantages-comparatif-2026",
     title: "Gestion locative en ligne : avantages et comparatif 2026",
     excerpt:
       "Logiciel de gestion locative en ligne : quels avantages ? Comparatif gratuit vs payant, fonctionnalités clés, et comment choisir le meilleur outil pour votre patrimoine.",
@@ -11063,11 +11062,8 @@ Oui, le bailleur peut donner congé à l'échéance sans motif (sauf clause cont
 Le bailleur doit engager une procédure d'expulsion judiciaire. L'expulsion effective nécessite un commandement de quitter les lieux et l'intervention d'un huissier.
 
 [CTA : Gérez les fins de bail et la restitution des dépôts avec RentReady — automatisation et conformité — essai gratuit 14 jours]`
-  },] as Article[];
+  },
 
-export function getArticleBySlug(slug: string): Article | undefined {
-  return articles.find((a) => a.slug === slug);
-}  },
   {
     slug: "comment-rediger-bail-location-guide-complet",
     title: "Comment Rédiger un Bail de Location : Guide Complet 2026",
@@ -11850,4 +11846,9 @@ Pas nécessairement. Analysez le coût réel de l'équipement et la rotation att
 
 [CTA : Comparez la rentabilité de vos investissements avec RentReady — essai gratuit]`
   },
+
 ] as Article[];
+
+export function getArticleBySlug(slug: string): Article | undefined {
+  return articles.find((a) => a.slug === slug);
+}

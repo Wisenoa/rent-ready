@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-// ISR: revalidate marketing pages at CDN edge every hour
-export const revalidate = 3600;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const dynamic = "force-dynamic";
 
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 // DemoForm has form state + validation (client-heavy)
-const DemoForm = dynamic(
+const DemoForm = dynamicImport(
   () => import("@/components/landing/demo-form").then((mod) => mod.DemoForm),
   { loading: () => <div style={{ minHeight: 300 }} aria-hidden="true" /> }
 );
@@ -80,6 +83,11 @@ const faqData = [
       "Bien sûr. La démo est aussi l'occasion de voir comment migrer vos données existantes vers RentReady. Nous vous montrons le processus d'import et répondons à vos questions de compatibilité.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function DemoJsonLd() {
   const data = {
