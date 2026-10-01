@@ -321,7 +321,9 @@ export async function getOverdueTransactions(): Promise<
   const transactions = await prisma.transaction.findMany({
     where: {
       userId,
-      status: { in: ["LATE", "PENDING"] },
+      // Unpaid and past due. Deriving this from the date matters: no code writes a
+      // LATE status, so filtering on it returned an empty relance list every time.
+      paidAt: null,
       dueDate: { lt: now },
     },
     include: {

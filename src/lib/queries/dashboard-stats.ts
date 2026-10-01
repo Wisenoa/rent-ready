@@ -139,13 +139,18 @@ export async function getDashboardStats(userId: string): Promise<DashboardKPIs> 
       _sum: { amount: true },
     }),
 
+    // Unpaid rent, split by whether it is late.
+    //
+    // "LATE" is never written as a stored status — a period's lateness is derived
+    // from its due date, so querying `status: "LATE"` always returned nothing and
+    // arrears were permanently invisible. Deriving here keeps one source of truth.
     prisma.transaction.aggregate({
-      where: { userId, status: "PENDING" },
+      where: { userId, paidAt: null, dueDate: { gte: now } },
       _sum: { amount: true },
     }),
 
     prisma.transaction.aggregate({
-      where: { userId, status: "LATE" },
+      where: { userId, paidAt: null, dueDate: { lt: now } },
       _sum: { amount: true },
     }),
 

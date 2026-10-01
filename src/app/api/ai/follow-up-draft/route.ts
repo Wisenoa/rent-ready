@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         tenant: true,
         property: true,
         transactions: {
-          where: { status: { in: ["PENDING", "LATE", "PARTIAL"] } },
+          where: { paidAt: null, dueDate: { lt: new Date() } },
           orderBy: { dueDate: "asc" },
           take: 1,
         },

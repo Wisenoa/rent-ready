@@ -45,7 +45,11 @@ export async function GET(request: NextRequest) {
 
     const where: Record<string, unknown> = {
       userId: session.user.id,
-      status: { in: ["PAID", "PARTIAL", "PENDING", "LATE"] },
+      // Lateness is derived from dueDate; no LATE status is ever stored.
+      OR: [
+        { status: { in: ["PAID", "PARTIAL"] } },
+        { paidAt: null },
+      ],
       dueDate: { gte: rangeStart, lte: rangeEnd },
     };
 

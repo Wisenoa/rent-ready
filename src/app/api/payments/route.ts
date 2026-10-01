@@ -80,13 +80,15 @@ export async function GET(request: NextRequest) {
             _sum: { amount: true },
             _count: true,
           }),
+          // Lateness is derived from the due date: nothing writes a LATE status, so
+          // these counters were permanently zero and arrears looked settled.
           prisma.transaction.aggregate({
-            where: { ...baseWhere, status: "PENDING" },
+            where: { ...baseWhere, paidAt: null, dueDate: { gte: new Date() } },
             _sum: { amount: true },
             _count: true,
           }),
           prisma.transaction.aggregate({
-            where: { ...baseWhere, status: "LATE" },
+            where: { ...baseWhere, paidAt: null, dueDate: { lt: new Date() } },
             _sum: { amount: true },
             _count: true,
           }),

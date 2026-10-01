@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
         const matchingTransaction = await prisma.transaction.findFirst({
           where: {
             userId: bankConn.userId,
-            status: { in: ["PENDING", "LATE"] },
+            paidAt: null,
             lease: {
               AND: [
                 { rentAmount: { gte: 0 } },

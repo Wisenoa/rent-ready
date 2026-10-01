@@ -149,15 +149,19 @@ export async function GET(request: NextRequest) {
         .filter((t) => t.status === "PAID")
         .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       totalPending: transactions
-        .filter((t) => t.status === "PENDING")
+        .filter((t) => t.paidAt === null && new Date(t.dueDate) >= new Date())
         .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       totalLate: transactions
-        .filter((t) => t.status === "LATE")
+        .filter((t) => t.paidAt === null && new Date(t.dueDate) < new Date())
         .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       count: {
         paid: transactions.filter((t) => t.status === "PAID").length,
-        pending: transactions.filter((t) => t.status === "PENDING").length,
-        late: transactions.filter((t) => t.status === "LATE").length,
+        pending: transactions.filter(
+          (t) => t.paidAt === null && new Date(t.dueDate) >= new Date()
+        ).length,
+        late: transactions.filter(
+          (t) => t.paidAt === null && new Date(t.dueDate) < new Date()
+        ).length,
       },
     };
 
