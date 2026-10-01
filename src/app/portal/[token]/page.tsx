@@ -75,10 +75,12 @@ export default async function PortalPage({
   const { tenant, lease, property, landlord } = data;
 
   const [quittancesResult, ticketsResult, paymentsResult, conversation] = await Promise.all([
-    getPortalQuittances(tenant.id),
-    getMaintenanceTickets(tenant.id),
-    getPendingPayments(tenant.id),
-    getOrCreateConversation(tenant.id),
+    // The token from the URL is the tenant's credential; it must be presented to
+    // every action, not just used to render the page.
+    getPortalQuittances(tenant.id, token),
+    getMaintenanceTickets(tenant.id, token),
+    getPendingPayments(tenant.id, token),
+    getOrCreateConversation(tenant.id, token),
   ]);
 
   const { quittances, pagination: quittancesPagination } = quittancesResult;
@@ -185,11 +187,11 @@ export default async function PortalPage({
           </TabsContent>
 
           <TabsContent value="paiements" className="mt-4">
-            <PortalPayments payments={payments} tenantId={tenant.id} />
+            <PortalPayments payments={payments} tenantId={tenant.id} token={token} />
           </TabsContent>
 
           <TabsContent value="maintenance" className="mt-4 space-y-6">
-            <MaintenanceForm tenantId={tenant.id} />
+            <MaintenanceForm tenantId={tenant.id} token={token} />
             <div>
               <h3 className="text-sm font-medium mb-3">Mes demandes</h3>
               <TicketList tickets={tickets} />
@@ -208,6 +210,7 @@ export default async function PortalPage({
                 <PortalMessages
                   conversation={conversation}
                   tenantId={tenant.id}
+                  token={token}
                 />
               </CardContent>
             </Card>

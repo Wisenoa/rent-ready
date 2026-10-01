@@ -27,9 +27,11 @@ export interface PortalPayment {
 function PayButton({
   transactionId,
   tenantId,
+  token,
 }: {
   transactionId: string;
   tenantId: string;
+  token: string;
 }) {
   const [isPending, startTransition] = useTransition();
 
@@ -37,7 +39,7 @@ function PayButton({
     startTransition(async () => {
       try {
         const { initiatePayment } = await import("@/lib/actions/portal-actions");
-        const result = await initiatePayment(transactionId, tenantId);
+        const result = await initiatePayment(transactionId, tenantId, token);
 
         if (result.success && result.data?.url) {
           window.location.href = result.data.url;
@@ -70,9 +72,11 @@ function PayButton({
 export function PortalPayments({
   payments,
   tenantId,
+  token,
 }: {
   payments: PortalPayment[];
   tenantId: string;
+  token: string;
 }) {
   if (payments.length === 0) {
     return (
@@ -137,7 +141,7 @@ export function PortalPayments({
                       `+ ${formatCurrency(payment.chargesPortion)} (charges)`}
                   </p>
                 </div>
-                <PayButton transactionId={payment.id} tenantId={tenantId} />
+                <PayButton transactionId={payment.id} tenantId={tenantId} token={token} />
               </div>
 
               <p className="text-xs text-muted-foreground">

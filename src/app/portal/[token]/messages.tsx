@@ -67,9 +67,11 @@ function MessageBubble({ message, isMine }: { message: PortalMessage; isMine: bo
 export function PortalMessages({
   conversation,
   tenantId,
+  token,
 }: {
   conversation: PortalConversation | null;
   tenantId: string;
+  token: string;
 }) {
   const [messages, setMessages] = useState<PortalMessage[]>(
     conversation?.messages ?? []
@@ -84,10 +86,15 @@ export function PortalMessages({
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Acknowledge the unread count off the render pass. Calling setState
+  // synchronously in an effect body cascades an extra render on this public
+  // magic-link surface, so the reset is scheduled in a callback instead:
+  // the badge paints once, then clears. Cleanup aborts a pending reset.
   useEffect(() => {
-    if (unreadCount > 0) {
-      setUnreadCount(0);
-    }
+    if (unreadCount === 0) return;
+
+    const timer = setTimeout(() => setUnreadCount(0), 0);
+    return () => clearTimeout(timer);
   }, [unreadCount]);
 
   function handleSend() {
@@ -109,7 +116,7 @@ export function PortalMessages({
     startTransition(async () => {
       try {
         const { sendMessage } = await import("@/lib/actions/portal-actions");
-        const result = await sendMessage(tenantId, savedContent);
+        const result = await sendMessage(tenantId, token, savedContent);
 
         if (!result.success) {
           // Remove optimistic message on failure

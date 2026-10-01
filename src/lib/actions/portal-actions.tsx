@@ -223,23 +223,50 @@ export async function verifyPortalToken(token: string) {
 
 // ─── Portal Token Verification Helper ───
 
-async function verifyPortalAccess(tenantId: string): Promise<boolean> {
-  const token = await prisma.tenantAccessToken.findFirst({
+/**
+ * Authorise a portal request.
+ *
+ * The tenant's only credential is the access token in the portal URL, so the
+ * caller must present it and it must match this tenant. The previous version
+ * asked only whether *any* valid token existed for the tenant, which meant the
+ * server actions below — callable directly by any browser, without rendering the
+ * page — accepted a bare tenantId. Enumerating tenant ids would have exposed one
+ * landlord's rent records, maintenance tickets and messages to another.
+ *
+ * The token is compared in the query rather than fetched and string-compared, so
+ * an invalid or expired token cannot slip through and a timing difference does
+ * not reveal whether a token exists.
+ */
+async function verifyPortalAccess(tenantId: string, token: string): Promise<boolean> {
+  if (!tenantId || !token) return false;
+
+  const access = await prisma.tenantAccessToken.findFirst({
     where: {
       tenantId,
+      token,
       OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
     },
+    select: { id: true },
   });
-  return !!token;
+
+  if (!access) return false;
+
+  // Record use without blocking the request on a bookkeeping write.
+  await prisma.tenantAccessToken
+    .update({ where: { id: access.id }, data: { lastUsedAt: new Date() } })
+    .catch(() => {});
+
+  return true;
 }
 
 // ─── Quittances ───
 
 export async function getPortalQuittances(
   tenantId: string,
+  token: string,
   opts: { page?: number; limit?: number } = {}
 ) {
-  const hasAccess = await verifyPortalAccess(tenantId);
+  const hasAccess = await verifyPortalAccess(tenantId, token);
   if (!hasAccess) return { quittances: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
   const page = Math.max(1, opts.page ?? 1);
@@ -318,6 +345,10 @@ export async function createMaintenanceTicket(
 ): Promise<ActionResult> {
   try {
     const tenantId = formData.get("tenantId") as string;
+    // The token is the tenant's only credential, so the form must carry it and it
+    // must be checked against the tenant. Previously only tenantId was verified,
+    // which any caller could supply.
+    const token = formData.get("token") as string;
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const priority = formData.get("priority") as string;
@@ -325,9 +356,11 @@ export async function createMaintenanceTicket(
     if (!tenantId || !title || !description) {
       return { success: false, error: "Veuillez remplir tous les champs obligatoires." };
     }
+    if (!token) {
+      return { success: false, error: "Accès non autorisé." };
+    }
 
-    // Verify the tenant has a valid portal access token
-    const hasAccess = await verifyPortalAccess(tenantId);
+    const hasAccess = await verifyPortalAccess(tenantId, token);
     if (!hasAccess) {
       return { success: false, error: "Accès non autorisé." };
     }
@@ -408,9 +441,10 @@ export async function createMaintenanceTicket(
 
 export async function getMaintenanceTickets(
   tenantId: string,
+  token: string,
   opts: { page?: number; limit?: number } = {}
 ) {
-  const hasAccess = await verifyPortalAccess(tenantId);
+  const hasAccess = await verifyPortalAccess(tenantId, token);
   if (!hasAccess) return { tickets: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
   const page = Math.max(1, opts.page ?? 1);
@@ -460,9 +494,10 @@ export async function getMaintenanceTickets(
 
 export async function getPendingPayments(
   tenantId: string,
+  token: string,
   opts: { page?: number; limit?: number } = {}
 ) {
-  const hasAccess = await verifyPortalAccess(tenantId);
+  const hasAccess = await verifyPortalAccess(tenantId, token);
   if (!hasAccess) return { payments: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
   const page = Math.max(1, opts.page ?? 1);
@@ -507,10 +542,11 @@ export async function getPendingPayments(
 
 export async function initiatePayment(
   transactionId: string,
-  tenantId: string
+  tenantId: string,
+  token: string
 ): Promise<ActionResult & { data?: { url: string } }> {
   try {
-    const hasAccess = await verifyPortalAccess(tenantId);
+    const hasAccess = await verifyPortalAccess(tenantId, token);
     if (!hasAccess) {
       return { success: false, error: "Accès non autorisé." };
     }
@@ -584,8 +620,8 @@ async function getPortalTokenForTenant(tenantId: string): Promise<string> {
 
 // ─── Tenant-Landlord Messages ───
 
-export async function getOrCreateConversation(tenantId: string) {
-  const hasAccess = await verifyPortalAccess(tenantId);
+export async function getOrCreateConversation(tenantId: string, token: string) {
+  const hasAccess = await verifyPortalAccess(tenantId, token);
   if (!hasAccess) return null;
 
   const lease = await prisma.lease.findFirst({
@@ -648,10 +684,11 @@ export async function getOrCreateConversation(tenantId: string) {
 
 export async function sendMessage(
   tenantId: string,
+  token: string,
   content: string
 ): Promise<ActionResult> {
   try {
-    const hasAccess = await verifyPortalAccess(tenantId);
+    const hasAccess = await verifyPortalAccess(tenantId, token);
     if (!hasAccess) return { success: false, error: "Accès non autorisé." };
 
     if (!content.trim()) {

@@ -31,7 +31,13 @@ const PRIORITY_OPTIONS = [
   { value: "URGENT", label: "Urgente" },
 ] as const;
 
-export function MaintenanceForm({ tenantId }: { tenantId: string }) {
+export function MaintenanceForm({
+  tenantId,
+  token,
+}: {
+  tenantId: string;
+  token: string;
+}) {
   const [isPending, startTransition] = useTransition();
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
@@ -69,6 +75,8 @@ export function MaintenanceForm({ tenantId }: { tenantId: string }) {
     const formData = new FormData(form);
 
     formData.set("tenantId", tenantId);
+    // The token is the tenant's credential, so the action must receive it too.
+    formData.set("token", token);
     formData.set("priority", priority);
     formData.delete("files");
     for (const file of files) {
