@@ -41,7 +41,8 @@ async function generateLetterPdf(
   const draft = await generateRentFollowUpDraft(
     `${tenant.firstName} ${tenant.lastName}`,
     `${property.addressLine1}, ${property.postalCode} ${property.city}`,
-    transaction.amount,
+    // Interpolated into an AI prompt, so it must be a number.
+    transaction.amount.toDecimalPlaces(2).toNumber(),
     dueDateFormatted,
     daysLate,
     previousAttempts,

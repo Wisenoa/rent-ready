@@ -36,7 +36,13 @@ export const IRL_INDICES: IrlIndexEntry[] = [
 ];
 
 export interface RentRevisionInput {
-  currentRent: number;
+  /**
+   * Decimal is accepted because callers pass `lease.rentAmount` from Prisma
+   * directly. The function body already normalises with `toDecimal`, so the type
+   * was narrower than what the arithmetic actually supports — and the mismatch
+   * was reported at every call site instead of here.
+   */
+  currentRent: Decimal | number | string;
   referenceIrlQuarter: string; // IRL at lease signature, e.g. "T4-2023"
   newIrlQuarter: string; // Current IRL quarter, e.g. "T4-2025"
 }

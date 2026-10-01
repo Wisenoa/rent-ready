@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { getLatestIrl, getAvailableQuarters, formatQuarterLabel } from "@/lib/irl-calculator";
 import { RevisionActions } from "./revision-actions";
+import Decimal from "decimal.js";
 
 export const dynamic = "force-dynamic";
 
@@ -248,7 +249,9 @@ export default async function LeaseRevisionPage({
                     {formatQuarterLabel(lease.irlReferenceQuarter!)}
                   </p>
                   <p className="text-xs text-muted-foreground font-mono">
-                    {lease.irlReferenceValue}
+                    {lease.irlReferenceValue !== null
+                      ? `${new Decimal(lease.irlReferenceValue).toFixed(2)} %`
+                      : "—"}
                   </p>
                 </div>
                 <div className="rounded-lg bg-muted/50 p-3">

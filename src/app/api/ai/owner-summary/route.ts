@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { generateOwnerMonthlySummary } from "@/lib/ai/owner-monthly-summary";
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
@@ -124,7 +125,9 @@ export async function POST(request: NextRequest) {
         name: property.name,
         type: property.type,
         status: activeLease ? "OCCUPIED" : "VACANT",
-        monthlyRent: activeLease?.rentAmount || 0,
+        monthlyRent: activeLease
+          ? new Decimal(activeLease.rentAmount).plus(activeLease.chargesAmount).toDecimalPlaces(2).toNumber()
+          : 0,
         occupancyStatus: activeLease ? `Occupied by ${activeLease.tenant.firstName} ${activeLease.tenant.lastName}` : "Vacant",
       };
     });
@@ -137,9 +140,19 @@ export async function POST(request: NextRequest) {
 
     const summary = await generateOwnerMonthlySummary({
       properties: propertyData,
-      transactions,
+      // The prompt builder takes plain numbers; Prisma Decimals would reach the
+      // prompt text as strings. Convert once, here.
+      transactions: transactions.map((tx) => ({
+        amount: tx.amount.toDecimalPlaces(2).toNumber(),
+        rentPortion: tx.rentPortion.toDecimalPlaces(2).toNumber(),
+        chargesPortion: tx.chargesPortion.toDecimalPlaces(2).toNumber(),
+        status: tx.status,
+        periodStart: tx.periodStart,
+        paidAt: tx.paidAt,
+        propertyName: tx.propertyName,
+      })),
       expenses: expenses.map((expense) => ({
-        amount: expense.amount,
+        amount: expense.amount.toDecimalPlaces(2).toNumber(),
         category: expense.category,
         date: expense.date,
         description: expense.description,

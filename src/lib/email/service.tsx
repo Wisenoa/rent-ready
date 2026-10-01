@@ -202,7 +202,7 @@ async function sendRentReminderEmail(
         landlordFirstName={user.firstName}
         landlordLastName={user.lastName}
         propertyAddress={propertyAddress}
-        amountDue={tx.amount}
+        amountDue={tx.amount.toDecimalPlaces(2).toNumber()}
         dueDate={tx.dueDate}
         daysLate={Math.max(0, daysLate)}
         tone={tone}

@@ -89,14 +89,16 @@ jobs:
       # `next build` sets ignoreBuildErrors, so type errors are invisible unless
       # checked separately.
       #
-      # 104 errors are pre-existing, concentrated in portal-actions.tsx, analytics.ts
-      # and the email templates. The largest remaining class is a Prisma Decimal
-      # reaching a `number` parameter or a component.
+      # 89 errors are pre-existing, concentrated in portal-actions.tsx, analytics.ts
+      # and the email templates.
       #
-      # This ratchet exists because that class kept hiding real bugs: the quittance
-      # PDF, two dashboard pages and the transactions dashboard all did arithmetic
-      # with `+`/`+=` on Decimals, which concatenates ("700" + "40.50" = "70040.5",
-      # and reduce(..., 0) rendered a property total as "0740.5300.25"). tsc reported
+      # No error involves Decimal any more. Money is Decimal throughout and is
+      # converted exactly once, at a boundary that genuinely needs a number: a
+      # JSON DTO, an RSC prop, an AI prompt, an email template. That class of
+      # error had been hiding real bugs — the quittance PDF, two dashboard pages
+      # and the transactions dashboard all did arithmetic with `+`/`+=` on
+      # Decimals, which concatenates ("700" + "40.50" = "70040.5", and
+      # reduce(..., 0) rendered a property total as "0740.5300.25"). tsc reported
       # every one of them and `next build` discarded the report.
       #
       # Note the trap this ratchet cannot see: changing a declared type to Decimal
@@ -112,7 +114,7 @@ jobs:
         run: |
           pnpm tsc --noEmit > /tmp/tsc.log 2>&1 || true
           count=$(grep -c 'error TS' /tmp/tsc.log || true)
-          max=104
+          max=89
           echo "TypeScript errors: $count (baseline $max)"
           if [ "$count" -gt "$max" ]; then
             echo "::error title=Type errors::$count errors, up from the $max baseline. No new type debt."
