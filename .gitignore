@@ -51,3 +51,11 @@ pages/
 /test-results/
 /playwright-report/
 /blob-report/
+
+# Scratch files from legal-source scraping. These are working copies of source
+# pages parked in the repo root while facts are being verified; they are not
+# product assets and were previously committable by accident.
+*.ts.lock
+/sp_*.html
+/l89462.pdf
+
