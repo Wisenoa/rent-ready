@@ -4,7 +4,7 @@ import Decimal from "decimal.js";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
-import { generateReceiptNumber } from "@/lib/quittance-generator";
+import { allocateReceiptNumber } from "@/lib/receipt-number";
 import { computePaymentSplit } from "@/lib/payment-utils";
 
 const toNum = (v: Decimal.Value) =>
@@ -222,10 +222,13 @@ export async function POST(request: NextRequest) {
         if (Math.abs(incomingAmount - totalDue) > 0.01 && incomingAmount < totalDue) {
           // Partial payment
           const receiptType = "RECU" as const;
-          const receiptCount = await prisma.transaction.count({
-            where: { userId: bankConn.userId, receiptNumber: { not: null } },
-          });
-          const receiptNumber = generateReceiptNumber(receiptType, new Date(), receiptCount + 1);
+          // Atomic allocation; this was count()+1, which handed two receipts
+          // generated in the same second the same number.
+          const receiptNumber = await allocateReceiptNumber(
+            bankConn.userId,
+            receiptType,
+            new Date()
+          );
           const { rentPortion, chargesPortion } = computePaymentSplit(
             incomingAmount,
             lease.rentAmount,
@@ -252,10 +255,13 @@ export async function POST(request: NextRequest) {
         } else {
           // Full payment → Quittance
           const receiptType = "QUITTANCE" as const;
-          const receiptCount = await prisma.transaction.count({
-            where: { userId: bankConn.userId, receiptNumber: { not: null } },
-          });
-          const receiptNumber = generateReceiptNumber(receiptType, new Date(), receiptCount + 1);
+          // Atomic allocation; this was count()+1, which handed two receipts
+          // generated in the same second the same number.
+          const receiptNumber = await allocateReceiptNumber(
+            bankConn.userId,
+            receiptType,
+            new Date()
+          );
 
           await prisma.transaction.update({
             where: { id: matchingTransaction.id },

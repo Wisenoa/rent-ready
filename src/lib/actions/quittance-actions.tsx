@@ -5,9 +5,9 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
 import {
   determineReceiptTypeCumulative,
-  generateReceiptNumber,
   type QuittanceData,
 } from "@/lib/quittance-generator";
+import { allocateReceiptNumber } from "@/lib/receipt-number";
 import { generateAndUploadQuittancePdf } from "./quittance-pdf-server";
 import type { ActionResult } from "./property-actions";
 
@@ -88,16 +88,13 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       priorPayments._sum.amount ?? 0
     );
 
-    const currentCount = await prisma.transaction.count({
-      where: {
-        userId,
-        receiptNumber: { not: null },
-      },
-    });
-    const receiptNumber = generateReceiptNumber(
+    // Atomic per-landlord allocation. This was count()+1, a read followed by a
+    // write: two receipts generated in the same second read the same count and
+    // were handed the same number, silently. See src/lib/receipt-number.ts.
+    const receiptNumber = await allocateReceiptNumber(
+      userId,
       receiptType,
-      transaction.paidAt,
-      currentCount + 1
+      transaction.paidAt
     );
 
     const quittanceData: QuittanceData = {
