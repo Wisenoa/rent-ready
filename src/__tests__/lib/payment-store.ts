@@ -21,6 +21,13 @@ export interface StoredRow {
   amount: string;
   rentPortion: string;
   chargesPortion: string;
+  /**
+   * Rent and charges owed for the period, frozen when the payment was recorded.
+   * Null on rows that predate the freeze, which is exactly the case the fallback
+   * in `generateQuittance` exists for.
+   */
+  receiptRentAmount: string | null;
+  receiptChargesAmount: string | null;
   periodStart: Date;
   periodEnd: Date;
   dueDate: Date;
@@ -28,12 +35,30 @@ export interface StoredRow {
   status: string;
   isFullPayment: boolean;
   receiptType: string | null;
+  receiptUrl: string | null;
+  receiptNumber: string | null;
   notes: string | null;
   createdAt: Date;
 }
 
+/**
+ * An archived receipt. `bytes` stands in for the inline `Document.content`, so a
+ * test can assert that what the download route serves is the stored document
+ * rather than a fresh rendering.
+ */
+export interface StoredDocument {
+  id: string;
+  userId: string;
+  transactionId: string | null;
+  fileName: string;
+  mimeType: string;
+  bytes: Uint8Array;
+}
+
 export interface Store {
   rows: StoredRow[];
+  /** Generated receipt documents, keyed by the payment they attest. */
+  documents: StoredDocument[];
   leases: Array<{
     id: string;
     userId: string;
@@ -188,22 +213,39 @@ function project(
 export function createStore(options: {
   leases?: Store["leases"];
   rows?: StoredRow[];
+  documents?: StoredDocument[];
   landlord?: Record<string, unknown> | null;
 }): Store {
   const store: Store = {
     rows: [...(options.rows ?? [])],
+    documents: [...(options.documents ?? [])],
     leases: [...(options.leases ?? [])],
     landlord: options.landlord ?? null,
     prisma: undefined,
   };
 
   let sequence = store.rows.length;
+  let documentSequence = store.documents.length;
 
   const transaction = {
-    findFirst: vi.fn(async ({ where, select }: { where: Where; select?: Record<string, boolean> }) => {
-      const row = store.rows.find((r) => matches(r, where));
-      return row ? project(row, select, store.leases) : null;
-    }),
+    findFirst: vi.fn(
+      async ({ where, select, include }: { where: Where; select?: Record<string, boolean>; include?: Record<string, boolean> }) => {
+        const row = store.rows.find((r) => matches(r, where));
+        if (!row) return null;
+        // `generateQuittance`'s lost-race handler re-reads with
+        // `include: { receiptDocument: true }`, so the relation has to be there —
+        // returning the bare row there made the handler miss the winner's
+        // document and report a failure for a receipt that did exist.
+        if (include?.receiptDocument) {
+          return {
+            ...row,
+            receiptDocument:
+              store.documents.find((d) => d.transactionId === row.id) ?? null,
+          };
+        }
+        return project(row, select, store.leases);
+      }
+    ),
     findMany: vi.fn(async ({ where, select }: { where: Where; select?: Record<string, boolean> }) =>
       store.rows
         .filter((r) => matches(r, where))
@@ -222,6 +264,11 @@ export function createStore(options: {
             }
           : null,
         user: store.landlord ?? null,
+        // The one receipt generated for this payment, if any. `generateQuittance`
+        // reads it to answer an already-receipted payment with the existing
+        // document instead of minting a second one.
+        receiptDocument:
+          store.documents.find((d) => d.transactionId === row.id) ?? null,
       };
       // `generateQuittance` reads the transaction with its lease (property and
       // tenant included) and the landlord, then writes the receipt back on the row.
@@ -247,6 +294,17 @@ export function createStore(options: {
         amount: new Decimal(data.amount as number).toFixed(2),
         rentPortion: new Decimal(data.rentPortion as number).toFixed(2),
         chargesPortion: new Decimal(data.chargesPortion as number).toFixed(2),
+        // Frozen when the payment is recorded. A row that does not carry them is
+        // a row written before the freeze existed.
+        receiptRentAmount:
+          data.receiptRentAmount === undefined || data.receiptRentAmount === null
+            ? null
+            : new Decimal(data.receiptRentAmount as number).toFixed(2),
+        receiptChargesAmount:
+          data.receiptChargesAmount === undefined ||
+          data.receiptChargesAmount === null
+            ? null
+            : new Decimal(data.receiptChargesAmount as number).toFixed(2),
         periodStart: data.periodStart as Date,
         periodEnd: data.periodEnd as Date,
         dueDate: data.dueDate as Date,
@@ -254,6 +312,8 @@ export function createStore(options: {
         status: data.status as string,
         isFullPayment: Boolean(data.isFullPayment),
         receiptType: (data.receiptType as string) ?? null,
+        receiptUrl: (data.receiptUrl as string) ?? null,
+        receiptNumber: (data.receiptNumber as string) ?? null,
         notes: (data.notes as string) ?? null,
         createdAt: new Date(),
       };
@@ -277,6 +337,48 @@ export function createStore(options: {
 
   const prisma = {
     transaction,
+    document: {
+      findFirst: vi.fn(async ({ where }: { where: Where }) => {
+        // Every read is scoped by userId in the callers, so a foreign document is
+        // simply absent. `transactionId` selects the one receipt for a payment.
+        const found = store.documents.find(
+          (d) =>
+            (where.id === undefined || d.id === where.id) &&
+            (where.userId === undefined || d.userId === where.userId) &&
+            (where.transactionId === undefined ||
+              d.transactionId === where.transactionId)
+        );
+        return found ? { ...found, content: found.bytes } : null;
+      }),
+      create: vi.fn(async ({ data }: { data: Record<string, unknown> }) => {
+        // UNIQUE ("transactionId"), as in the schema. This is what makes two
+        // concurrent generations produce one document: the loser cannot persist.
+        const transactionId = (data.transactionId as string | null) ?? null;
+        if (
+          transactionId !== null &&
+          store.documents.some((d) => d.transactionId === transactionId)
+        ) {
+          const error = new Error("Unique constraint failed") as Error & {
+            code: string;
+          };
+          error.code = "P2002";
+          throw error;
+        }
+        documentSequence += 1;
+        const doc: StoredDocument = {
+          id: `doc-${documentSequence}`,
+          userId: data.userId as string,
+          transactionId,
+          fileName: data.fileName as string,
+          mimeType: data.mimeType as string,
+          bytes:
+            (data.content as Uint8Array | null | undefined) ??
+            new Uint8Array([0x25, 0x50, 0x44, 0x46]),
+        };
+        store.documents.push(doc);
+        return { id: doc.id };
+      }),
+    },
     lease: {
       findFirst: vi.fn(async ({ where, select }: { where: Where; select?: Record<string, boolean> }) => {
         const lease = store.leases.find((l) => l.id === where.id && l.userId === where.userId);
@@ -308,10 +410,26 @@ function applyUpdate(row: StoredRow, data: Record<string, unknown>): void {
   if (data.chargesPortion !== undefined) {
     row.chargesPortion = new Decimal(data.chargesPortion as number).toFixed(2);
   }
+  if (data.receiptRentAmount !== undefined) {
+    row.receiptRentAmount =
+      data.receiptRentAmount === null
+        ? null
+        : new Decimal(data.receiptRentAmount as number).toFixed(2);
+  }
+  if (data.receiptChargesAmount !== undefined) {
+    row.receiptChargesAmount =
+      data.receiptChargesAmount === null
+        ? null
+        : new Decimal(data.receiptChargesAmount as number).toFixed(2);
+  }
   if (data.status !== undefined) row.status = data.status as string;
   if (data.paidAt !== undefined) row.paidAt = data.paidAt as Date | null;
   if (data.isFullPayment !== undefined) row.isFullPayment = Boolean(data.isFullPayment);
   if (data.receiptType !== undefined) row.receiptType = data.receiptType as string | null;
+  if (data.receiptUrl !== undefined) row.receiptUrl = data.receiptUrl as string | null;
+  if (data.receiptNumber !== undefined) {
+    row.receiptNumber = data.receiptNumber as string | null;
+  }
   if (data.notes !== undefined) row.notes = data.notes as string | null;
 }
 
@@ -353,6 +471,10 @@ export function periodRow(options: {
     amount: options.amount,
     rentPortion: options.amount,
     chargesPortion: "0.00",
+    // An unpaid period row has no payment yet, so nothing is frozen: the amounts
+    // are written when the payment that closes it is recorded.
+    receiptRentAmount: null,
+    receiptChargesAmount: null,
     periodStart: options.periodStart ?? new Date("2026-10-01T00:00:00.000Z"),
     periodEnd: options.periodEnd ?? new Date("2026-10-31T00:00:00.000Z"),
     dueDate: options.dueDate ?? new Date("2026-10-03T00:00:00.000Z"),
@@ -360,8 +482,51 @@ export function periodRow(options: {
     status: "PENDING",
     isFullPayment: false,
     receiptType: null,
+    receiptUrl: null,
+    receiptNumber: null,
     notes: null,
     createdAt: new Date("2026-10-01T00:00:00.000Z"),
+  };
+}
+
+/** A receipt: a payment already recorded against a period. */
+export function receiptRow(options: {
+  id?: string;
+  userId?: string;
+  leaseId?: string;
+  amount: string;
+  rentPortion?: string;
+  chargesPortion?: string;
+  /** Frozen at payment time. Omit to simulate a row predating the freeze. */
+  receiptRentAmount?: string | null;
+  receiptChargesAmount?: string | null;
+  periodStart?: Date;
+  periodEnd?: Date;
+  paidAt?: Date;
+  createdAt?: Date;
+  status?: string;
+}): StoredRow {
+  const createdAt = options.createdAt ?? new Date("2026-10-05T00:00:00.000Z");
+  return {
+    id: options.id ?? "receipt-1",
+    userId: options.userId ?? "landlord-1",
+    leaseId: options.leaseId ?? "lease-1",
+    amount: options.amount,
+    rentPortion: options.rentPortion ?? options.amount,
+    chargesPortion: options.chargesPortion ?? "0.00",
+    receiptRentAmount: options.receiptRentAmount ?? null,
+    receiptChargesAmount: options.receiptChargesAmount ?? null,
+    periodStart: options.periodStart ?? new Date("2026-10-01T00:00:00.000Z"),
+    periodEnd: options.periodEnd ?? new Date("2026-10-31T00:00:00.000Z"),
+    dueDate: new Date("2026-10-03T00:00:00.000Z"),
+    paidAt: options.paidAt ?? createdAt,
+    status: options.status ?? "PAID",
+    isFullPayment: true,
+    receiptType: null,
+    receiptUrl: null,
+    receiptNumber: null,
+    notes: null,
+    createdAt,
   };
 }
 

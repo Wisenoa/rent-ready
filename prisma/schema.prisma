@@ -333,6 +333,18 @@ model Transaction {
   receiptType       ReceiptType? // QUITTANCE or RECU
   receiptUrl        String? // Generated PDF URL
   receiptNumber     String? // Sequential number
+  /// Rent and charges OWED for this period, frozen when the payment was recorded.
+  ///
+  /// A receipt is a legal document: it must state the figures the payment was
+  /// made against. Reading them from `Lease` at generation time made the document
+  /// depend on WHEN it was produced — an IRL rent revision after the payment
+  /// printed the new rent on a receipt for money received at the old one, so the
+  /// financial history stopped being reproducible (AGENTS.md 14).
+  ///
+  /// Null on rows written before this migration: those receipts keep describing
+  /// the period from the lease, and every new payment records them.
+  receiptRentAmount    Decimal? @db.Decimal(12, 2)
+  receiptChargesAmount Decimal? @db.Decimal(12, 2)
   // A receipt number is scoped to its landlord: numbering is per-user (see
   // src/lib/receipt-number.ts), so every landlord starts at 0001 and two
   // landlords legitimately hold the same reference. The constraint is therefore
@@ -350,6 +362,10 @@ model Transaction {
 
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   lease Lease @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+  /// The receipt document generated for this payment, when there is one.
+  /// `Document.transactionId` holds the foreign key and its UNIQUE constraint;
+  /// this is only the inverse side.
+  receiptDocument Document?
 
   // Composite indexes for common query patterns
   // (userId, status, paidAt) — dashboard collection queries
@@ -409,6 +425,13 @@ model Document {
   /// report a receipt that no one could open. Uploads and large files still go to
   /// object storage via `fileUrl`; this covers small, code-generated documents.
   content          Bytes?
+  /// The rent payment this document attests, when it is a generated receipt.
+  ///
+  /// UNIQUE, so one payment can never end up with two receipts: that constraint
+  /// is what makes generation idempotent under concurrent calls (a double click,
+  /// a retry, two open tabs) instead of relying on a read-then-write check.
+  transactionId     String?          @unique
+  transaction       Transaction?     @relation(fields: [transactionId], references: [id], onDelete: Cascade)
   // AI extraction
   extractedData    Json? // Structured data extracted by LLM
   extractionStatus ExtractionStatus @default(PENDING)

@@ -367,6 +367,12 @@ export async function recordRentPayment(
           amount: requested.toNumber(),
           rentPortion: settlement.rentPortion.toNumber(),
           chargesPortion: settlement.chargesPortion.toNumber(),
+          // Freeze what the month OWED. Same reason as in `settleRentPeriod`: a
+          // receipt generated after an IRL revision used to print the new rent
+          // for a payment made at the old one. `lease` is the source the
+          // settlement above was decided on, so the two cannot disagree.
+          receiptRentAmount: new Decimal(lease.rentAmount).toDecimalPlaces(2).toNumber(),
+          receiptChargesAmount: new Decimal(lease.chargesAmount ?? 0).toDecimalPlaces(2).toNumber(),
           periodStart,
           periodEnd,
           dueDate,

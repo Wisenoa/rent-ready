@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
 import {
@@ -20,7 +21,36 @@ import type { ActionResult } from "./property-actions";
  * - Partial payment → "Reçu de paiement partiel" with remaining balance
  * - Must separate "Loyer de base" and "Provisions pour charges"
  * - Must include full addresses of landlord and tenant
+ *
+ * IDEMPOTENT. One payment has at most one receipt document, enforced by the
+ * UNIQUE index on `Document.transactionId`. It used to allocate a new number and
+ * create a new `Document` on every call, so a double click, a retry or two open
+ * tabs produced N documents and N references for one payment, and the earlier
+ * ones were orphaned with their number burned. Now the winner's document is
+ * returned to every later caller.
+ *
+ * REPRODUCIBLE. The amounts printed are the ones FROZEN on the payment when it
+ * was recorded (`receiptRentAmount` / `receiptChargesAmount`), not the lease's
+ * current ones: a receipt states what a payment was made against, and an IRL
+ * revision between the payment and the download used to print the new rent for
+ * money received at the old one (AGENTS.md 14).
+ *
+ * NOT SENT BY EMAIL. Issuing a receipt here does not email it to the tenant.
+ * That is deliberate for the beta: the landlord downloads it from the billing
+ * screen and forwards it. Wiring an outbound mail to this action would make a
+ * legal document leave the system without the landlord ever asking for it, and
+ * there is no tenant-facing preference yet to justify it. If that changes, this
+ * function is where the send belongs — as an explicit, separately reported step,
+ * not folded silently into generation.
  */
+
+/** A Postgres unique violation, whatever shape the driver throws it in. */
+function isUniqueViolation(error: unknown): boolean {
+  if (typeof error !== "object" || error === null) return false;
+  const code = (error as { code?: unknown }).code;
+  return code === "P2002" || code === "23505";
+}
+
 export async function generateQuittance(transactionId: string): Promise<ActionResult> {
   try {
     const userId = await getCurrentUserId();
@@ -35,6 +65,7 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
           },
         },
         user: true,
+        receiptDocument: true,
       },
     });
 
@@ -44,6 +75,32 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
 
     if (!transaction.paidAt) {
       return { success: false, error: "Le paiement n'a pas encore été enregistré." };
+    }
+
+    // A CANCELLED row keeps its amount and its paidAt for the audit trail, so the
+    // only thing that distinguishes it from real money is the status. Issuing a
+    // receipt for it would attest that money arrived when it went back.
+    if (transaction.status === "CANCELLED") {
+      return {
+        success: false,
+        error: "Ce paiement a été annulé : il n'y a rien à receipter.",
+      };
+    }
+
+    // Already receipted: return that document rather than minting a second one.
+    // This is the cheap path (one indexed read); the UNIQUE index below is what
+    // makes it correct when two calls arrive together and both find nothing.
+    if (transaction.receiptDocument) {
+      return {
+        success: true,
+        data: {
+          receiptType: transaction.receiptType,
+          receiptNumber: transaction.receiptNumber,
+          receiptUrl: transaction.receiptUrl ?? transaction.receiptDocument.fileUrl,
+          documentId: transaction.receiptDocument.id,
+          existing: true,
+        },
+      };
     }
 
     const { lease, user } = transaction;
@@ -63,6 +120,13 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       };
     }
 
+    // What the period OWED at the moment this payment was recorded. Frozen on the
+    // row by `recordRentPayment`, `settleRentPeriod` and the bank webhook. Rows
+    // written before that (and nothing else) fall back to the lease, which is what
+    // every receipt before this change described.
+    const periodRent = transaction.receiptRentAmount ?? lease.rentAmount;
+    const periodCharges = transaction.receiptChargesAmount ?? lease.chargesAmount;
+
     // Judge the period, not the payment. A tenant who settles 700 EUR of rent in
     // two instalments must obtain a quittance on the payment that completes it;
     // looking only at that payment's amount denied it, which is a legal problem
@@ -75,6 +139,15 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       where: {
         leaseId: transaction.leaseId,
         paidAt: { not: null },
+        status: { not: "CANCELLED" },
+        // `status: { not: "CANCELLED" }` is the SAME filter the door, the
+        // settlement, `dashboard-stats`, /billing and the payments summary use.
+        // Without it a cancelled receipt counted as money received before this
+        // payment: cancel a month's 970,55 EUR, record 300 EUR as an instalment,
+        // and the aggregate still summed the 970,55 — so this 300 EUR payment was
+        // receipted as a QUITTANCE DE SOLDE (a QUI- number, isFullPayment) for a
+        // month with 670,55 EUR still owed. A legal document attesting to a
+        // settled month that is not settled.
         periodStart: transaction.periodStart,
         periodEnd: transaction.periodEnd,
         id: { not: transaction.id },
@@ -95,11 +168,13 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       _sum: { amount: true },
     });
 
+    const priorPaid = new Decimal(priorPayments._sum.amount ?? 0).toDecimalPlaces(2);
+
     const receiptType = determineReceiptTypeCumulative(
       transaction.amount,
-      lease.rentAmount,
-      lease.chargesAmount,
-      priorPayments._sum.amount ?? 0
+      periodRent,
+      periodCharges,
+      priorPaid
     );
 
     // Atomic per-landlord allocation. This was count()+1, a read followed by a
@@ -135,8 +210,8 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       ]
         .filter(Boolean)
         .join(", "),
-      rentAmount: lease.rentAmount,
-      chargesAmount: lease.chargesAmount,
+      rentAmount: new Decimal(periodRent),
+      chargesAmount: new Decimal(periodCharges ?? 0),
       totalAmount: transaction.amount,
       periodStart: transaction.periodStart,
       periodEnd: transaction.periodEnd,
@@ -150,21 +225,30 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
     // yielded a placeholder URL and `success: true`, so the UI showed a receipt
     // that could not be downloaded and no document existed.
     let receiptUrl: string;
+    let documentId: string;
     try {
-      const url = await generateAndUploadQuittancePdf(
+      const result = await generateAndUploadQuittancePdf(
         transactionId,
         quittanceData,
         receiptNumber,
         userId
       );
-      if (!url) {
+      // A missing document id means the bytes could not be persisted, so there is
+      // nothing to download: report it instead of claiming a receipt.
+      if (!result?.documentId) {
         return {
           success: false,
           error: "La quittance n'a pas pu être enregistrée. Réessayez.",
         };
       }
-      receiptUrl = url;
+      receiptUrl = result.url;
+      documentId = result.documentId;
     } catch (error) {
+      // A unique violation on `Document.transactionId` is not a generation
+      // failure: it means a concurrent call already produced this receipt. Let it
+      // reach the handler below, which answers with that document instead of
+      // telling the landlord a receipt exists when it does not.
+      if (isUniqueViolation(error)) throw error;
       console.error("generateQuittance PDF generation failed:", error);
       return {
         success: false,
@@ -183,17 +267,55 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       },
     });
 
-    revalidatePath("/billing");
+    // `revalidatePath` needs a request context. This action is also reached from
+    // a route handler and from a background caller, where there is none, and
+    // Next throws rather than no-op — which turned a successful generation into
+    // an error the landlord sees as a failed download. The receipt is already
+    // persisted and downloadable at this point; the cache refresh is an
+    // optimisation, not the work.
+    try {
+      revalidatePath("/billing");
+    } catch (revalidationError) {
+      console.warn("revalidatePath(/billing) skipped:", revalidationError);
+    }
     return {
       success: true,
       data: {
         receiptType,
         receiptNumber,
         receiptUrl,
+        documentId,
+        existing: false,
+        // Kept for callers that render the figures (the GET receipt route's
+        // tests, the mark-paid flow). The client no longer re-renders the PDF from
+        // this: it downloads the archived document.
         quittanceData: JSON.parse(JSON.stringify(quittanceData)),
       },
     };
   } catch (error) {
+    // Two calls that raced both reached the document insert; the UNIQUE index on
+    // `Document.transactionId` rejected the loser. That is the index doing its
+    // job, not a failure: the winner's document is the receipt for this payment,
+    // so hand it back rather than reporting an error the landlord cannot act on.
+    if (isUniqueViolation(error)) {
+      const userId = await getCurrentUserId();
+      const winner = await prisma.transaction.findFirst({
+        where: { id: transactionId, userId },
+        include: { receiptDocument: true },
+      });
+      if (winner?.receiptDocument) {
+        return {
+          success: true,
+          data: {
+            receiptType: winner.receiptType,
+            receiptNumber: winner.receiptNumber,
+            receiptUrl: winner.receiptUrl ?? winner.receiptDocument.fileUrl,
+            documentId: winner.receiptDocument.id,
+            existing: true,
+          },
+        };
+      }
+    }
     console.error("generateQuittance error:", error);
     return { success: false, error: "Impossible de générer la quittance." };
   }

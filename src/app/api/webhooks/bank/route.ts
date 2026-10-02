@@ -325,6 +325,17 @@ export async function POST(request: NextRequest) {
               amount: incoming.toNumber(),
               rentPortion: settlement.rentPortion.toNumber(),
               chargesPortion: settlement.chargesPortion.toNumber(),
+              // Freeze what the month owed, for the same reason as
+              // `settleRentPeriod`: a receipt printed later must describe the
+              // payment, not the lease as it stands by then (AGENTS.md 14).
+              receiptRentAmount: new Decimal(
+                period.lease.rentAmount
+              ).toDecimalPlaces(2).toNumber(),
+              receiptChargesAmount: new Decimal(
+                period.lease.chargesAmount ?? 0
+              )
+                .toDecimalPlaces(2)
+                .toNumber(),
               periodStart: period.periodStart,
               periodEnd: period.periodEnd,
               dueDate: period.dueDate,

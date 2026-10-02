@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { generateQuittance } from "@/lib/actions/quittance-actions";
-import Decimal from "decimal.js";
+import { settlePeriodPayments, paymentsBefore } from "@/lib/domain/period-settlement";
 
 type RouteParams = Promise<{ id: string }>;
 
@@ -21,9 +21,30 @@ export async function GET(request: NextRequest, { params }: { params: RouteParam
 
     const transaction = await prisma.transaction.findFirst({
       where: { id, userId: session.user.id },
-      include: {
+      select: {
+        id: true,
+        leaseId: true,
+        amount: true,
+        rentPortion: true,
+        chargesPortion: true,
+        periodStart: true,
+        periodEnd: true,
+        paidAt: true,
+        createdAt: true,
+        status: true,
+        receiptType: true,
+        receiptNumber: true,
+        paymentMethod: true,
+        notes: true,
+        // Frozen at payment time, so the figures below describe the period the
+        // payment was made against and not the lease as it stands now.
+        receiptRentAmount: true,
+        receiptChargesAmount: true,
+        receiptDocument: { select: { id: true } },
         lease: {
-          include: {
+          select: {
+            rentAmount: true,
+            chargesAmount: true,
             property: {
               select: {
                 id: true,
@@ -86,18 +107,63 @@ export async function GET(request: NextRequest, { params }: { params: RouteParam
     }
 
     // Determine receipt type
-    const isFullPayment = transaction.status === "PAID";
-    const receiptType = transaction.receiptType ?? (isFullPayment ? "QUITTANCE" : "RECU");
+    //
+    // This used to be `status === "PAID"` and a balance computed from the lease's
+    // CURRENT rent and this payment's amount alone: on a month paid 400 + 570,55
+    // it reported 570,55 still owed on the payment that had just cleared it, and
+    // after a rent revision it described the wrong month entirely.
+    //
+    // It is now derived from `settlePeriodPayments` — the single settlement rule
+    // (AGENTS.md 11) — over the FROZEN period amounts and every payment received
+    // up to and including this one, so `remainingDue` is what was really left at
+    // that date. Same inputs as `generateQuittance`, so the two cannot disagree.
+    // The settlement judges the period AS OF this payment, not as it stands
+    // today: a receipt attests to the balance left when the money arrived, and
+    // cannot certify (or deny) a later instalment. So only payments recorded
+    // before or at this one count — ordered by paidAt with createdAt breaking the
+    // same-day tie, the ordering `settlePeriodPayments` itself uses.
+    const periodPayments = await prisma.transaction.findMany({
+      where: {
+        leaseId: transaction.leaseId,
+        periodStart: transaction.periodStart,
+        periodEnd: transaction.periodEnd,
+        paidAt: { not: null },
+        status: { not: "CANCELLED" },
+      },
+      select: { id: true, amount: true, paidAt: true, createdAt: true },
+      orderBy: [{ paidAt: "asc" }, { createdAt: "asc" }],
+    });
+
+    const asOf = paymentsBefore(
+      periodPayments.map((p) => ({ ...p, id: p.id })),
+      transaction
+    ).map((p) => ({ amount: p.amount, paidAt: p.paidAt, createdAt: p.createdAt }));
+
+    const current = {
+      amount: transaction.amount,
+      paidAt: transaction.paidAt,
+      createdAt: transaction.createdAt,
+    };
+
+    const settlement = settlePeriodPayments({
+      rentAmount: transaction.receiptRentAmount ?? transaction.lease.rentAmount,
+      chargesAmount:
+        transaction.receiptChargesAmount ?? transaction.lease.chargesAmount,
+      payments: [...asOf, current],
+      current,
+    });
+
+    // A stored type wins: it is the type the ISSUED document carries, and this
+    // route describes a payment that has one. Only when there is none yet does
+    // the derived value answer.
+    const receiptType = transaction.receiptType ?? settlement.receiptType;
     const receiptLabel = receiptType === "QUITTANCE" ? "Quittance de loyer" : "Reçu de paiement partiel";
 
     // Format period label in French
     const formatPeriod = (d: Date) =>
       d.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
 
-    const expectedTotal = new Decimal(transaction.lease.rentAmount.toString()).plus(new Decimal(transaction.lease.chargesAmount.toString())).toNumber();
-    const remainingAmount = isFullPayment
-      ? 0
-      : new Decimal(expectedTotal).minus(new Decimal(transaction.amount.toString())).abs().toDecimalPlaces(2).toNumber();
+    const remainingAmount = settlement.outstanding.toDecimalPlaces(2).toNumber();
 
     const receipt = {
       receipt: {
@@ -106,6 +172,12 @@ export async function GET(request: NextRequest, { params }: { params: RouteParam
         number: transaction.receiptNumber ?? null,
         generatedAt: new Date().toISOString(),
         paymentDate: transaction.paidAt?.toISOString() ?? null,
+        // Where the archived document actually is. The download route serves the
+        // persisted bytes; this is not a rendering reconstructed from the figures
+        // below, which is what used to make the downloaded file differ from the
+        // stored one.
+        documentUrl: `/api/transactions/${transaction.id}/receipt/download`,
+        hasDocument: Boolean(transaction.receiptDocument),
         period: {
           start: transaction.periodStart.toISOString(),
           end: transaction.periodEnd.toISOString(),

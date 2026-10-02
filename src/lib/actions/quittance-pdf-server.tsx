@@ -8,6 +8,12 @@
  * downloaded later. Previously the bytes were pushed to object storage and a
  * placeholder URL was stored when storage was unconfigured, which meant a
  * "generated" receipt that no user could ever open.
+ *
+ * The `Document` is linked to its `Transaction`, and `Document.transactionId` is
+ * UNIQUE: that is what makes generation idempotent. Two concurrent calls both
+ * render, both insert, and the loser gets a unique violation — which the caller
+ * reads as "the receipt already exists" and answers with the winner's document
+ * rather than minting a second reference for one payment.
  */
 import { prisma } from "@/lib/prisma";
 import { uploadBuffer, isStorageConfigured } from "@/lib/storage";
@@ -16,12 +22,19 @@ import { embedFacturX } from "@/lib/facturx-pdf";
 import { DocumentType } from "@prisma/client";
 import type { QuittanceData } from "@/lib/quittance-generator";
 
+export interface QuittancePdf {
+  /** Where the archived document lives (object storage URL, or a `local://` key). */
+  url: string;
+  /** The `Document` row this call created. Null when storage rejected the bytes. */
+  documentId: string | null;
+}
+
 export async function generateAndUploadQuittancePdf(
   transactionId: string,
   quittanceData: QuittanceData,
   receiptNumber: string,
   userId: string
-): Promise<string | null> {
+): Promise<QuittancePdf | null> {
   // Render first: this is the expensive step and it must succeed regardless of
   // whether storage is available.
   const { renderToBuffer } = await import("@react-pdf/renderer");
@@ -53,7 +66,7 @@ export async function generateAndUploadQuittancePdf(
     ? (await uploadBuffer(bytes, objectName, "application/pdf")).url
     : `local://${objectName}`;
 
-  await prisma.document.create({
+  const document = await prisma.document.create({
     data: {
       userId,
       type: quittanceData.isFullPayment
@@ -64,8 +77,12 @@ export async function generateAndUploadQuittancePdf(
       mimeType: "application/pdf",
       fileSize: bytes.length,
       content: useObjectStorage ? null : bytes,
+      // Links the document to the payment it attests. UNIQUE in the schema, so
+      // this insert is the point where a duplicate generation loses.
+      transactionId,
     },
+    select: { id: true },
   });
 
-  return fileUrl;
+  return { url: fileUrl, documentId: document.id };
 }

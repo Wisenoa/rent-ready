@@ -14,6 +14,7 @@
 import { prisma } from "@/lib/prisma";
 import type { PaymentMethod, Prisma } from "@prisma/client";
 import { enumerateRentPeriods, settlePeriod } from "@/lib/domain/rent-periods";
+import { settlePeriodPayments, type Settlement } from "@/lib/domain/period-settlement";
 import Decimal from "decimal.js";
 
 export interface GenerationResult {
@@ -21,6 +22,14 @@ export interface GenerationResult {
   skipped: number;
   periods: Array<{ periodStart: Date; totalDue: string }>;
 }
+
+/**
+ * The slice of Prisma these functions use. Accepting it lets a caller pass the
+ * client of an open `prisma.$transaction`, so writing a payment and closing its
+ * period is one atomic operation instead of two that can interleave. Defaulting
+ * to the shared client keeps the single-operation call sites unchanged.
+ */
+type Db = Pick<typeof prisma, "transaction">;
 
 /**
  * Create the missing rent periods for one lease, from the lease start up to and
@@ -177,6 +186,46 @@ export async function getLeaseArrears(
 }
 
 /**
+ * How many times a lost race is re-read and retried before giving up. The
+ * contention is other payments landing on the same month, so the window is tiny;
+ * the bound exists so a pathological storm cannot spin forever.
+ */
+const SETTLE_ATTEMPTS = 5;
+
+/** Returned when nothing could be written, so the shape stays total. */
+const EMPTY_SETTLEMENT: Settlement = settlePeriodPayments({
+  rentAmount: 0,
+  chargesAmount: 0,
+  payments: [],
+});
+
+/**
+ * What `settleRentPeriod` did, derived from the state it actually wrote.
+ *
+ * `settlement` is returned rather than recomputed by the caller: the callers used
+ * to derive it from a read taken BEFORE the write, so under concurrency it
+ * described a balance that no longer existed. Whoever records the receipt row
+ * must use these figures, not its own stale ones.
+ */
+export interface SettleRentPeriodResult {
+  /** False when the period was no longer collectable; nothing was written. */
+  applied: boolean;
+  /** True when this payment discharged the month's balance and closed the row. */
+  closed: boolean;
+  /** The month's settlement including this payment. */
+  settlement: Settlement;
+  /** What the period row carries now: the balance still owed, or 0 once closed. */
+  remaining: Decimal;
+  /**
+   * True when the payment was above the caller's `maxCollectable`, so nothing was
+   * written. Distinct from a plain `applied: false` (which means the period was
+   * gone or the race was lost): the caller can tell the landlord the amount is
+   * too high instead of retrying against a balance that has not moved.
+   */
+  aboveCeiling?: boolean;
+}
+
+/**
  * Record a payment against a generated rent period.
  *
  * The period row stays the OBLIGATION and is never overwritten by the payment.
@@ -194,67 +243,281 @@ export async function getLeaseArrears(
  * month is short the period stays unpaid and still collectable, and
  * `computeDuePeriods` derives the remaining balance from the payment rows.
  *
- * Returns false when the period is not collectable (already settled, or the id
- * belongs to nobody) so callers can refuse rather than double-book the month.
+ * THE WHOLE READ-DERIVE-WRITE BELONGS HERE
+ *
+ * Both callers used to read the balance, derive the settlement, and then write
+ * `outstanding - amount` guarded only by `paidAt: null`. Two transfers of 300 EUR
+ * on the same 970.55 EUR month therefore each saw 970.55 owed and each wrote
+ * 670.55: the month ended up owing 970.55 while 600 EUR had been received, and
+ * 300 EUR of rent silently disappeared from the ledger. The guard now carries the
+ * balance that was read (`amount: <read value>`), so a concurrent write loses the
+ * update instead of overwriting it, and the whole thing is re-read and retried.
+ * Under Postgres READ COMMITTED the row lock is taken before the predicate is
+ * re-evaluated, so the compare-and-set is genuine rather than best-effort.
+ *
+ * The derived rent/charges split comes from the payments actually recorded, in
+ * payment order, so the closing instalment takes the REMAINDER rather than the
+ * month's full contractual rent. Leaving the obligation's portions on the closed
+ * row double-counted the earlier instalment (~350 EUR of phantom rent on the 2577
+ * fiscal report for a month paid 400 + 570.55).
+ *
+ * Returns `applied: false` when the period is not collectable (already settled,
+ * or the id belongs to nobody) so callers can refuse rather than double-book.
  */
 export async function settleRentPeriod(
   periodTransactionId: string,
   payment: {
-    amount: Prisma.Decimal | Decimal | number;
-    rentPortion: Prisma.Decimal | Decimal | number;
-    chargesPortion: Prisma.Decimal | Decimal | number;
+    amount: Prisma.Decimal | Decimal | number | string;
     paidAt: Date;
     paymentMethod?: string;
-    status: "PAID" | "PARTIAL";
-    isFullPayment: boolean;
-    /** Remaining balance on the period before this payment, from `settlePeriod`. */
-    outstandingBefore: Prisma.Decimal | Decimal | number;
-  }
-): Promise<boolean> {
+    /**
+     * Bank reference for the payment. Written in the SAME update that closes the
+     * period: `Transaction.bankTransactionId` is UNIQUE and is what makes booking
+     * this transfer idempotent, so a separate follow-up write would leave a closed
+     * period with no bank reference if the process died in between, and a
+     * redelivery could then book the same transfer a second time.
+     */
+    bank?: {
+      transactionId: string;
+      matchedAt: Date;
+      rawData: Prisma.InputJsonValue;
+    };
+    /**
+     * Cap the payment at what the month can still absorb, instead of closing it
+     * with whatever was posted.
+     *
+     * The retry loop below is what serialises concurrent payments on one month:
+     * the loser of the compare-and-set re-reads and re-derives, and closes the
+     * month whenever `amount >= outstanding`. That is right for a bank transfer
+     * (the money that arrived is the money that is booked) but wrong for a
+     * landlord entering a figure by hand: two 600 EUR payments on a 970.55 EUR
+     * month each re-read, each closed the month with 600 EUR, and the month's
+     * receipts summed to 1200.00 against a 970.55 debt.
+     *
+     * `recordRentPayment` sets this, and the ceiling is recomputed HERE rather
+     * than passed in: `outstanding` and `received` are the figures this
+     * iteration read, and this iteration is the one that wins the
+     * compare-and-set, so they are the only balance that is not stale. A ceiling
+     * computed by the caller before the loop is exactly the value that loses the
+     * race — on 2 × 600 it was still 970.55 when the second call reached here.
+     *
+     * The ceiling is `min(periodRow, owed − received)`: the period row carries
+     * the balance still owed, but a row written before this module started
+     * reducing it still carries the FULL month next to a sibling receipt, and
+     * trusting that row alone would accept 970.55 on top of 400 already
+     * received.
+     *
+     * The webhook deliberately does NOT set this: an incoming transfer is
+     * evidence of money moved, not a claim about a balance.
+     */
+    capToBalance?: boolean;
+  },
+  db: Db = prisma
+): Promise<SettleRentPeriodResult> {
   const amount = new Decimal(payment.amount).toDecimalPlaces(2);
-  const outstanding = new Decimal(payment.outstandingBefore).toDecimalPlaces(2);
 
-  const data: Prisma.TransactionUpdateManyMutationInput = {
-    paidAt: payment.paidAt,
-    status: payment.status,
-    isFullPayment: payment.isFullPayment,
-  };
-  if (payment.paymentMethod) {
-    data.paymentMethod = payment.paymentMethod as PaymentMethod;
-  }
-
-  // A payment that clears the balance closes the month: the obligation is
-  // discharged, so there is nothing left to collect.
-  if (outstanding.minus(amount).lte(0)) {
-    const result = await prisma.transaction.updateMany({
+  for (let attempt = 0; attempt < SETTLE_ATTEMPTS; attempt += 1) {
+    const period = await db.transaction.findFirst({
       where: { id: periodTransactionId, paidAt: null },
+      select: {
+        id: true,
+        leaseId: true,
+        amount: true,
+        periodStart: true,
+        periodEnd: true,
+        lease: { select: { rentAmount: true, chargesAmount: true } },
+      },
+    });
+
+    if (!period) {
+      return {
+        applied: false,
+        closed: false,
+        settlement: EMPTY_SETTLEMENT,
+        remaining: new Decimal(0),
+      };
+    }
+
+    // Everything already received for this month, in the rows' own order. The
+    // period row itself is excluded by `paidAt: null` above; CANCELLED receipts
+    // keep their amount for the audit trail but are not money received.
+    const priorPayments = await db.transaction.findMany({
+      where: {
+        leaseId: period.leaseId,
+        periodStart: period.periodStart,
+        periodEnd: period.periodEnd,
+        paidAt: { not: null },
+        status: { not: "CANCELLED" },
+      },
+      select: { amount: true, paidAt: true, createdAt: true },
+      orderBy: [{ paidAt: "asc" }, { createdAt: "asc" }],
+    });
+
+    const current = {
+      amount,
+      paidAt: payment.paidAt,
+      createdAt: payment.paidAt,
+    };
+
+    const settlement = settlePeriodPayments({
+      rentAmount: period.lease.rentAmount,
+      chargesAmount: period.lease.chargesAmount,
+      payments: [
+        ...priorPayments.map((p) => ({
+          amount: new Decimal(p.amount).toDecimalPlaces(2),
+          paidAt: p.paidAt,
+          createdAt: p.createdAt,
+        })),
+        current,
+      ],
+      current,
+    });
+
+    // The row's own `amount` is the balance still owed, which is what the dialog
+    // offers and what the collectable ceiling is. The settlement above is derived
+    // from the lease's contractual total, so it is the authority on status and on
+    // the rent/charges split; the row is the authority on what is left to collect.
+    const outstanding = new Decimal(period.amount).toDecimalPlaces(2);
+    // The ceiling, derived from the rows THIS iteration read. It belongs here,
+    // not before the loop: this iteration is the one that wins the
+    // compare-and-set, so these are the only figures that are not stale.
+    // `priorPayments` above is the month's receipts, the period row is the
+    // balance it still carries, and the lease's own rent + charges are what the
+    // month owes in the first place.
+    const received = priorPayments.reduce(
+      (sum, p) => sum.plus(new Decimal(p.amount)),
+      new Decimal(0)
+    );
+    const owedAfterReceipts = Decimal.max(
+      new Decimal(period.lease.rentAmount)
+        .plus(new Decimal(period.lease.chargesAmount ?? 0))
+        .minus(received),
+      new Decimal(0)
+    ).toDecimalPlaces(2);
+    const ceiling = Decimal.min(outstanding, owedAfterReceipts);
+    if (payment.capToBalance && amount.gt(ceiling)) {
+      return {
+        applied: false,
+        closed: false,
+        settlement,
+        remaining: ceiling,
+        aboveCeiling: true,
+      };
+    }
+    const remaining = outstanding.minus(amount);
+    const closed = remaining.lte(0);
+
+    const data: Prisma.TransactionUpdateManyMutationInput = closed
+      ? {
+          // The obligation is discharged: the row becomes the receipt for the
+          // payment that settled it, carrying THAT payment's rent/charges share.
+          paidAt: payment.paidAt,
+          status: settlement.status,
+          isFullPayment: settlement.isFullPayment,
+          amount: amount.toNumber(),
+          rentPortion: settlement.rentPortion.toNumber(),
+          chargesPortion: settlement.chargesPortion.toNumber(),
+          // Freeze what the month OWED on the figures this settlement was decided
+          // on. A receipt generated later must print these, not whatever the lease
+          // says by then: an IRL revision between the payment and the download
+          // used to print the new rent on a receipt for money received at the old
+          // one (AGENTS.md 14). `period.lease` is the same source the settlement
+          // above was derived from, so the receipt and the ledger cannot disagree.
+          receiptRentAmount: new Decimal(period.lease.rentAmount).toDecimalPlaces(2).toNumber(),
+          receiptChargesAmount: new Decimal(period.lease.chargesAmount ?? 0).toDecimalPlaces(2).toNumber(),
+        }
+      : {
+          // Still short: the month stays unpaid and collectable, its balance drops
+          // to what is owed. The caller records the payment as its own row.
+          amount: remaining.toNumber(),
+          status: "PENDING",
+          isFullPayment: false,
+        };
+
+    if (payment.paymentMethod) {
+      data.paymentMethod = payment.paymentMethod as PaymentMethod;
+    }
+    if (payment.bank && closed) {
+      data.bankTransactionId = payment.bank.transactionId;
+      data.bankMatchedAt = payment.bank.matchedAt;
+      data.bankRawData = payment.bank.rawData;
+    }
+
+    // Compare-and-set on the balance that was read. `paidAt: null` alone let two
+    // transfers each believe they were the first; adding the amount means the
+    // loser updates nothing and re-reads instead of clobbering the winner.
+    const result = await db.transaction.updateMany({
+      where: { id: period.id, paidAt: null, amount: period.amount },
       data,
     });
-    return result.count > 0;
+
+    if (result.count > 0) {
+      return {
+        applied: true,
+        closed,
+        settlement,
+        remaining: closed ? new Decimal(0) : remaining,
+      };
+    }
+    // Lost the race: another payment moved the balance. Re-read and re-derive.
   }
 
-  // A payment that does not clear it must not close the month. The obligation
-  // stays put and unpaid so it keeps being offered; the caller records the
-  // payment as its own row.
-  return true;
+  return {
+    applied: false,
+    closed: false,
+    settlement: EMPTY_SETTLEMENT,
+    remaining: new Decimal(0),
+  };
 }
 
 /**
  * Find the unpaid rent period covering a payment's period, if any.
  * Matching is by calendar month so a payment lands on its obligation.
+ *
+ * `userId` is part of the query, not a check afterwards: a lease belonging to
+ * somebody else must yield nothing rather than another landlord's period
+ * (AGENTS.md 7-8). Optional only for the callers that already proved ownership
+ * of the lease in the same request.
  */
 export async function findUnpaidPeriod(
   leaseId: string,
-  periodStart: Date
-): Promise<{ id: string; amount: Prisma.Decimal } | null> {
+  periodStart: Date,
+  userId?: string,
+  db: Db = prisma
+): Promise<{
+  id: string;
+  amount: Prisma.Decimal;
+  periodStart: Date;
+  periodEnd: Date;
+  dueDate: Date;
+} | null> {
   const month = periodStart.toISOString().slice(0, 7);
-  const candidate = await prisma.transaction.findFirst({
-    where: { leaseId, paidAt: null, status: { in: ["PENDING", "LATE", "PARTIAL"] } },
+  const candidate = await db.transaction.findFirst({
+    where: {
+      leaseId,
+      paidAt: null,
+      status: { in: ["PENDING", "LATE", "PARTIAL"] },
+      ...(userId ? { userId } : {}),
+    },
     orderBy: { periodStart: "asc" },
-    select: { id: true, amount: true, periodStart: true },
+    select: {
+      id: true,
+      amount: true,
+      periodStart: true,
+      periodEnd: true,
+      dueDate: true,
+    },
   });
   if (!candidate) return null;
+  // The caller's dates are replaced by the row's own: a payload naming one
+  // month's period with another month's dates must book on the row's month.
   return candidate.periodStart.toISOString().slice(0, 7) === month
-    ? { id: candidate.id, amount: candidate.amount }
+    ? {
+        id: candidate.id,
+        amount: candidate.amount,
+        periodStart: candidate.periodStart,
+        periodEnd: candidate.periodEnd,
+        dueDate: candidate.dueDate,
+      }
     : null;
 }
