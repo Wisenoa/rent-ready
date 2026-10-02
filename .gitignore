@@ -59,3 +59,11 @@ pages/
 /sp_*.html
 /l89462.pdf
 
+# Probe files created by agents while verifying behaviour against the real DB.
+# They contain throwaway credentials and one-off queries, are never product
+# assets, and must not reach a commit.
+/scripts/tmp/
+zz-probe-*
+zz-verify-*
+zz-timing*
+*.probe.mts
