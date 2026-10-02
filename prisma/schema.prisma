@@ -477,6 +477,13 @@ model BankWebhookEvent {
   connectionId String?
   provider     String
   eventType    String // "transaction.created", "item.refreshed", etc.
+  // Stable identity of the event on the provider side ("bridge:transaction.created:tx_1"),
+  // or a hash of the raw body for events that carry none. Replay protection used to
+  // compare `payload.timestamp`, which is optional in the provider schema: an event
+  // without one was reprocessed in full on every redelivery. This is UNIQUE, so the
+  // database — not a read-then-write in application code — refuses the second
+  // delivery of the same event.
+  dedupeKey    String    @unique
   payload      Json // Raw webhook payload
   processedAt  DateTime?
   error        String?
