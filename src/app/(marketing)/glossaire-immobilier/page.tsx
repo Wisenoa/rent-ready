@@ -606,7 +606,7 @@ const glossaryTerms = [
   {
     term: "Hausse de loyer",
     definition:
-      "Augmentation du loyer autorisée dans certaines limites. En zone tendue, l'augmentation est encadrée (IRL + ne pouvant dépasser 10% du loyer de référence). Hors zone tendue, libre entre bailleurs.",
+      "Augmentation du loyer, qui n'est jamais libre : elle suit l'indice des loyers de référence (IRL) publié par l'INSEE et ne peut dépasser le plafond autorisé. Dans les communes dotées d'un arrêté préfectoral, ce plafond va du loyer de référence minoré (-30 %) au loyer de référence majoré (+20 %), un complément pour atypie restant possible jusqu'à +30 %. Ailleurs, la hausse est limitée à la variation de l'IRL, ou gelée si le loyer n'a pas été réévalué depuis 18 mois (art. 17-2 de la loi du 6 juillet 1989).",
     related: ["Loyer", "IRL", "Encadrement"],
   },
   {

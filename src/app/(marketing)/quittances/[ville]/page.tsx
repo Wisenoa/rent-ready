@@ -179,7 +179,7 @@ function getFaqs(city: City) {
       question: `L'encadrement des loyers impacte-t-il les quittances à ${city.name} ?`,
       answer: ctx.isZoneTendue
         ? `Oui. ${city.name} étant en zone tendue, toute quittance relative à un nouveau bail ou un renouvellement doit mentionner le loyer de référence et un éventuel complément pour atypie. En cas de dépassement du plafond, vous risquez un redressement. RentReady intègre automatiquement ces mentions.`
-        : `${city.name} n'est actuellement pas soumise à l'encadrement des loyers à la relocation. Vous êtes libre de fixer le loyer dans les limites de la loi, sans plafonnement spécifique sur la quittance.`,
+        : `Nous ne pouvons pas l'affirmer pour ${city.name} : un « non » serait trompeur. L'encadrement à la relocation vaut pour toute commune en zone tendue, et le plafonnement du niveau des loyers exige un arrêté préfectoral, propre à uneudisaine de communes seulement. Vérifiez l'arrêté du ${city.department} : s'il fixe un loyer de référence majoré, mentionnez-le sur la quittance, sinon aucun champ dédié n'est requis.`,
     },
     {
       question: `La quittance numérique est-elle valable à ${city.name} ?`,

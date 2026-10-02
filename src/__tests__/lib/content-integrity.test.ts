@@ -500,4 +500,37 @@ describe("content integrity", () => {
       `article titles missing French accents:\n${offenders.join("\n")}`
     ).toEqual([]);
   });
+  it("gives every article a meta description of a usable length", () => {
+    // 16 articles shipped with no excerpt at all, which meant 16 pages
+    // rendered with no <meta name="description"> — the snippet Google shows
+    // was then invented from whatever text it liked.
+    const articles = readFileSync(join(SRC, "data", "articles.ts"), "utf8");
+
+    const problems: string[] = [];
+    for (const m of articles.matchAll(/slug:\s*"([^"]+)"([\s\S]{0,3000}?)content:/g)) {
+      const slug = m[1];
+      const head = m[2];
+      const ex = head.match(/excerpt:\s*\n?\s*"([^"]*)"/);
+      if (!ex) {
+        problems.push(`${slug}: no excerpt`);
+        continue;
+      }
+      const value = ex[1].trim();
+      // Google truncates around 155-160 characters; below 60 there is not
+      // enough to say anything useful, and above 300 it will be cut anyway.
+      if (value.length < 60) {
+        problems.push(`${slug}: excerpt too short (${value.length} chars)`);
+      } else if (value.length > 300) {
+        problems.push(`${slug}: excerpt too long (${value.length} chars)`);
+      }
+      if (/\*/.test(value)) {
+        problems.push(`${slug}: excerpt contains markdown`);
+      }
+    }
+
+    expect(
+      problems,
+      `article excerpts unusable as meta descriptions:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
 });

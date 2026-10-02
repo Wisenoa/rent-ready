@@ -9110,6 +9110,8 @@ La mise en place initiale prend généralement entre 30 minutes et 2 heures selo
 
   {
     slug: "plus-value-immobiliere-location",
+    excerpt:
+      "Vendre un bien loué déclenche-t-il l'impôt sur la plus-value ? Exonérations, abattements et calcul du côté propriétaire.",
     title: "Plus-value immobilière en location : calculs, exonérations et fiscalite 2026",
     category: "Fiscalité",
     date: "2026-04-20",
@@ -9194,6 +9196,8 @@ Oui, les règles de plus-value sont identiques. Cependant, le régime fiscal de 
   },
   {
     slug: "travaux-deductibles-impot-location",
+    excerpt:
+      "Quels travaux sont déductibles des revenus fonciers, et dans quelles conditions ? La liste complète et les règles à connaître.",
     title: "Travaux déductibles des revenus fonciers : la liste complète",
     category: "Fiscalité",
     date: "2026-04-20",
@@ -9298,6 +9302,8 @@ Conservez toutes les factures avec mention claire de la nature des travaux, du m
   },
   {
     slug: "frais-gestion-locative-deductibles",
+    excerpt:
+      "Frais d'agence, assurance, comptabilité : la liste des frais de gestion locative déductibles de vos revenus fonciers.",
     title: "Frais de gestion locative déductibles : agences, comptable, assurance",
     category: "Fiscalité",
     date: "2026-04-20",
@@ -9401,6 +9407,8 @@ La loi ne l'exige pas, mais c'est fortement recommandé pour une bonne gestion e
   },
   {
     slug: "deficit-foncier-impot-2026",
+    excerpt:
+      "Le déficit foncier réduit votre imposition globale quand vos charges locatives dépassent vos revenus. Mécanisme, conditions et limites.",
     title: "Déficit foncier et impôt : comment le déduire",
     category: "Fiscalité",
     date: "2026-04-20",
@@ -9503,6 +9511,8 @@ Oui, les travaux d'amélioration énergétique sont déductibles et peuvent cré
   },
   {
     slug: "amenagement-local-pro-impot",
+    excerpt:
+      "En LMNP, l'amortissement du bien et des équipements crée un déficit reporté sur les bénéfices futurs. Comment ça marche concrètement.",
     title: "Amortissement et travaux d'aménagement en LMNP : le guide fiscal",
     category: "Fiscalité",
     date: "2026-04-20",
@@ -9601,6 +9611,8 @@ Non, le déficit LMNP (amortissement) reporte uniquement sur les bénéfices LMN
   },
   {
     slug: "recours-locataire-procedure",
+    excerpt:
+      "Locataire en conflit avec son bailleur : quelles démarches amiables, quelle procédure devant le tribunal, et dans quel ordre les engager.",
     title: "Recours du locataire : procédure, tribunal et médiation en cas de litige",
     category: "Juridique",
     date: "2026-04-20",
@@ -9710,6 +9722,8 @@ Oui, si le tribunal estime que le locataire a manqué à ses obligations (par ex
   },
   {
     slug: "locataire-pertes-handicap",
+    excerpt:
+      "Loger un locataire en situation de handicap : quelles aides (APL, ANAH), quelles protections légales et quels recours en cas de difficulté.",
     title: "Locataire handicapé : recours, allocations et protections spécifiques",
     category: "Juridique",
     date: "2026-04-20",
@@ -9805,6 +9819,8 @@ La Caf peut accorder une avance locative pour le dépôt de garantie. Certaines 
   },
   {
     slug: "trouble-voisinage-recours-locataire",
+    excerpt:
+      "Bruits, nuisances, dégradations entre voisins : quelles démarches amiables puis judiciaires, et qui peut agir en cas de conflit.",
     title: "Trouble de voisinage en location : les recours du locataire et du propriétaire",
     category: "Juridique",
     date: "2026-04-20",
@@ -9910,6 +9926,8 @@ L'action en justice se prescribe par 5 ans à compter de la cessation du trouble
   },
   {
     slug: "assurance-proprietaire-non-occupant-obligations",
+    excerpt:
+      "L'assurance PNO couvre le propriétaire non occupant. Ce qu'elle garantit, ce qu'elle exclut et quand elle devient obligatoire.",
     title: "Assurance propriétaire non occupant (PNO) : obligations et couverture",
     category: "Juridique",
     date: "2026-04-20",
@@ -10017,6 +10035,8 @@ Les tarifs varient de 100 à 400 € par an selon la valeur du bien, sa localisa
   },
   {
     slug: "assurance-proprietaire-bailleur-protection",
+    excerpt:
+      "Impayés, dégradations, litiges, sinistres : quelles assurances protègent réellement un propriétaire bailleur, et à quel coût.",
     title: "Protection du bailleur : quelle assurance contre les risques locatifs ?",
     category: "Gestion",
     date: "2026-04-20",
@@ -10124,6 +10144,8 @@ L'agence assure un suivi professionnel et une intervención rapide. En contrepar
   },
   {
     slug: "assurance-gli-vs-protection-juridique",
+    excerpt:
+      "GLI ou protection juridique : deux assurances distinctes aux périmètres différents. Lequel choisir selon votre profil de risque.",
     title: "GLI ou protection juridique : quelle assurance pour le bailleur ?",
     category: "Gestion",
     date: "2026-04-20",
@@ -10215,6 +10237,8 @@ Oui, les cotisations de protection juridique sont déductibles des revenus fonci
   },
   {
     slug: "investissement-locatif-2026",
+    excerpt:
+      "Taux qui remontent, fiscalité qui évolue : les repères à connaître avant de se lancer dans un investissement locatif en 2026.",
     title: "Investissement locatif : le guide complet pour débuter",
     category: "Gestion",
     date: "2026-04-20",
@@ -10350,6 +10374,8 @@ Pour un premier investissement, l'agence apporte son expertise du marché. La ge
   },
   {
     slug: "rentabilite-locative-nette-brut",
+    excerpt:
+      "Rendement brut ou net ? Comment calculer la rentabilité réelle de votre placement locatif, frais et charges compris.",
     title: "Rentabilité locative nette ou brute : comment la calculer",
     category: "Calculs",
     date: "2026-04-20",
@@ -10467,6 +10493,8 @@ Non. La appreciation potentielle du bien, les avantages fiscaux et la qualité d
   },
   {
     slug: "investissement-immobilier-neuf-ancien",
+    excerpt:
+      "Neuf ou ancien : quelles différences de rentabilité, de travaux et de fiscalité pour un investissement locatif.",
     title: "Immobilier neuf ou ancien : avantages et inconvénients pour investir",
     category: "Gestion",
     date: "2026-04-20",
@@ -10591,6 +10619,8 @@ Tout dépend de l'emplacement. En zone tendue, les deux se louent facilement. En
   },
   {
     slug: "location-etudiante-guide-complet",
+    excerpt:
+      "Louer à un étudiant : garanties adaptées, bail mobilité, dépôts et particularités de gestion d'une location étudiante.",
     title: "Location étudiante : le guide complet du bailleur",
     category: "Juridique",
     date: "2026-04-20",
@@ -10736,6 +10766,8 @@ Anticipez la remise en état entre deux locataires. Profitez des périodes de va
   },
   {
     slug: "resiliation-bail-location",
+    excerpt:
+      "Résiliation à l'initiative du locataire ou du bailleur : motifs, préavis et procédures pour chaque situation.",
     title: "Resiliation du bail de location : motifs, délais et procedure 2026",
     category: "Juridique",
     date: "2026-04-20",
