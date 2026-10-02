@@ -34,6 +34,7 @@ import {
   NOISummary,
 } from "@/components/dashboard/charts";
 import { DashboardOnboardingWrapper } from "@/components/dashboard-onboarding-wrapper";
+import { ArrearsSection } from "./arrears-section";
 
 export const metadata: Metadata = {
   title: "Tableau de bord",
@@ -138,6 +139,11 @@ export default async function DashboardPage() {
           Vue d&apos;ensemble de votre patrimoine locatif
         </p>
       </div>
+
+      {/* Above the KPIs on purpose: this is the question the landlord came to
+          ask, and a total they did not ask for should not be the first thing on
+          the screen. Renders nothing when there is nothing to do. */}
+      <ArrearsSection userId={userId} />
 
       {/* Cartes KPI */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

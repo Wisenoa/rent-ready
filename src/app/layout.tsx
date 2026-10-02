@@ -118,6 +118,11 @@ export default function RootLayout({
         <Analytics />
         <WebVitalsProvider />
         {children}
+        {/* Mounted here, not only imported: without it `toast(...)` from ANY
+            client component is a silent no-op — verified at runtime, zero
+            `[data-sonner-toaster]` in the DOM, so « Marquer payé », « Télécharger »
+            and the relance button all reported nothing to the user. */}
+        <Toaster />
         <OrganizationSchema />
         <WebSiteSchema />
         <CookieConsent />

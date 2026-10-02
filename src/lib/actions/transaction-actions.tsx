@@ -1,7 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
+import {
+  displayStatus,
+  daysLate as daysPastDue,
+} from "@/lib/domain/period-presentation";
 import { recordRentPayment, cancelRentPayment } from "@/lib/services/rent-payments";
 import { getCurrentUserId } from "@/lib/auth";
 import { transactionSchema } from "@/lib/validations/transaction";
@@ -180,15 +185,31 @@ export async function sendPaymentReminder(
       return { success: false, error: "Transaction introuvable ou accès non autorisé." };
     }
 
-    if (transaction.status !== "LATE" && transaction.status !== "PENDING") {
-      return { success: false, error: "Cette transaction n'est pas en retard." };
+    // Refuse on the DERIVED state, not the stored status.
+    //
+    // The guard used to accept only `LATE` and `PENDING`. Nothing in the codebase
+    // ever writes `LATE`, and a partially paid month keeps `PARTIAL` — so the one
+    // case a relance exists for, a month that is both late AND partially paid,
+    // was answered "Cette transaction n'est pas en retard" by a button that had
+    // just told the landlord it was 40 days late. Same class of bug as /billing
+    // showing overdue rent as "En attente".
+    if (transaction.paidAt) {
+      return { success: false, error: "Cette période de loyer est déjà réglée." };
+    }
+    if (displayStatus(transaction) !== "OVERDUE") {
+      return {
+        success: false,
+        error: "Cette période de loyer n'est pas encore échue.",
+      };
     }
 
     const { lease, user } = transaction;
     const { property, tenant } = lease;
-    const daysLate = Math.floor(
-      (Date.now() - transaction.dueDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    // The row carries the balance still owed, which is below rent+charges once a
+    // partial payment has landed. Chasing the month's full rent would demand
+    // money the tenant has already paid.
+    const amountDue = new Decimal(transaction.amount).toDecimalPlaces(2);
+    const daysLate = daysPastDue(transaction.dueDate);
 
     // Generate AI draft letter for formal/legal tones
     let letterText: string | null = null;
@@ -206,7 +227,7 @@ export async function sendPaymentReminder(
       const draft = await generateRentFollowUpDraft(
         `${tenant.firstName} ${tenant.lastName}`,
         `${property.addressLine1}, ${property.postalCode} ${property.city}`,
-        toNumber(transaction.amount),
+        amountDue.toNumber(),
         dueDateFormatted,
         daysLate,
         previousAttempts,
@@ -233,7 +254,7 @@ export async function sendPaymentReminder(
         landlordFirstName={user.firstName}
         landlordLastName={user.lastName}
         propertyAddress={`${property.addressLine1}, ${property.postalCode} ${property.city}`}
-        amountDue={toNumber(transaction.amount)}
+        amountDue={amountDue.toNumber()}
         dueDate={transaction.dueDate}
         daysLate={daysLate}
         tone={tone}
@@ -255,7 +276,7 @@ export async function sendPaymentReminder(
 
     if (emailResult.error) {
       console.error("Email send error:", emailResult.error);
-      return { success: false, error: "Échec de l'envoi de l'email de relanc." };
+      return { success: false, error: "Échec de l'envoi de l'email de relance." };
     }
 
     // Log reminder sent
@@ -270,11 +291,12 @@ export async function sendPaymentReminder(
             : tone === "formal"
               ? "Relance formelle envoyée"
               : "Rappel envoyé",
-        body: `Relance ${tone} envoyée à ${tenant.firstName} ${tenant.lastName} pour ${toNumber(transaction.amount)} €`,
+        body: `Relance ${tone} envoyée à ${tenant.firstName} ${tenant.lastName} pour ${amountDue.toFixed(2)} €`,
       },
     });
 
     revalidatePath("/billing");
+    revalidatePath("/dashboard");
     return {
       success: true,
       data: {
@@ -285,7 +307,7 @@ export async function sendPaymentReminder(
     };
   } catch (error) {
     console.error("sendPaymentReminder error:", error);
-    return { success: false, error: "Impossible d'envoyer la relanc." };
+    return { success: false, error: "Impossible d'envoyer la relance." };
   }
 }
 
