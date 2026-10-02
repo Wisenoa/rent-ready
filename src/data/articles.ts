@@ -116,7 +116,7 @@ Oui, si le locataire est salarie, vous pouvez demander au tribunal une saisie su
 
 Non, la GLI ne couvre pas tous les cas. Elle exclut généralement les impayés antérieurs à la signature du contrat, les locataires déjà en difficulté lors de la souscription, et les logements non conformes. Certaines franchises s'appliquent (souvent 1 à 3 mois). Lisez attentivement les conditions générales : la GLI fonctionne mieux en prévention, pas en dernier recours sur un dossier déjà compromis.
 
-La lettre de relance doit mentionner le montant du, la date d'echeance revolue, et le délai supplementaire accorde (generalement 8 jours). Elle doit etre signee par le bailleur ou son representant. Conservez une copie et envoyez de preference en recommandee avec accuse de reception pour faire foi de l'envoi. Un modele gratuit est disponible sur RentReady.
+La lettre de relance doit mentionner le montant dû, la date d'échéance révolue, et le délai supplémentaire accordé (généralement 8 jours). Elle doit être signée par le bailleur ou son représentant. Conservez une copie et envoyez-la de préférence en recommandé avec accusé de réception, pour faire foi de l'envoi. Un modèle gratuit est disponible sur RentReady.
 `,
   },
   {
@@ -348,7 +348,7 @@ En cas de non-restitution dans les délais légaux, le montant du dépôt restan
 ## FAQ — Depot de garantie
 **Quel est le délai maximum pour restituer un dépôt de garantie ?**
 
-Le délai de restitution du dépôt de garantie est de 2 mois a compter de la remise des cles, ramene a 1 mois lorsque l'état des lieux de sortie est conforme a celui d'entree. Ce délai court a partir de la remise des cles par le locataire. En cas de retenue, le solde doit etre accompagne d'un releve detaille des sommes deduites, avec justificatifs (devis, factures).
+Le délai de restitution du dépôt de garantie est de 2 mois a compter de la remise des cles, ramene a 1 mois lorsque l'état des lieux de sortie est conforme a celui d'entree. Ce délai court a partir de la remise des cles par le locataire. En cas de retenue, le solde doit être accompagné d'un relevé détaillé des sommes déduites, avec justificatifs (devis, factures).
 **Quelles retenues sont legales sur le dépôt de garantie ?**
 
 Seules sont legales les retenues correspondant a des degradations reellement constatees dans l'état des lieux de sortie, ou a des travaux de remise en etat imputables au locataire (et non a l'usure normale). Le bailleur ne peut pas retenir de somme au titre de mois d'impayes. Les eventuelles reparations sont plafonnees au cout reel, sans majoration.
