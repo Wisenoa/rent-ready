@@ -10,6 +10,18 @@
  *
  * Modules that legitimately need article bodies (the [slug] page) are
  * allow-listed below.
+ *
+ * WHY THIS READS SOURCE INSTEAD OF IMPORTING
+ *
+ * The claim is about the BUILD GRAPH: which modules pull the 636 KB payload in.
+ * Importing a module to find out what it imports is not possible without already
+ * having imported it — and importing it is the very thing being guarded, since
+ * the failure mode is a module entering the graph for pages that never render a
+ * body. A test that imported every candidate would reproduce the heap exhaustion
+ * it exists to prevent.
+ *
+ * It is also a claim about a file SIZE, which is a property of the file on disk.
+ * The allow-list is an explicit decision, not something derivable at runtime.
  */
 
 import { describe, it, expect } from "vitest";

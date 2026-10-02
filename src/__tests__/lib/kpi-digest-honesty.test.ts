@@ -20,6 +20,23 @@ import { join } from "node:path";
  *
  * `null` now means "not measured" and the email prints N/C. These tests pin the
  * rule rather than the rendering, because the rendering is a template string.
+ *
+ * WHY THIS READS THE ROUTE INSTEAD OF CALLING IT
+ *
+ * The claims are negative and mostly about things that must NOT be there: that no
+ * prisma model outside the schema is queried (the original bug called
+ * `prisma.subscription.count()` against a model that does not exist, so the
+ * endpoint threw on every run), and that no metric is assigned a fabricated
+ * value. "Does this identifier exist in schema.prisma" and "does this literal
+ * appear" are questions about two source texts; the first has no runtime form
+ * that does not already trust the schema, and the second is a claim about absence,
+ * which executing code cannot establish.
+ *
+ * Calling the route would also not be honest about the outcome: with Stripe
+ * unconfigured and no analytics backend, a real run produces a digest full of
+ * nulls, and asserting on that would only re-assert the absence this file already
+ * checks more directly. What this does NOT do is prove the digest is delivered or
+ * that its numbers are right when the inputs exist.
  */
 
 const route = readFileSync(

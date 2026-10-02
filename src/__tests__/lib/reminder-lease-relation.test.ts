@@ -15,6 +15,20 @@ import { join } from "node:path";
  * This pins the schema invariant, because the compiler cannot check it: a missing
  * Prisma relation is invisible to tsc when the row is typed loosely, and only
  * appears at runtime.
+ *
+ * WHY THIS STAYS A SOURCE-READING TEST
+ *
+ * The claim is about schema.prisma declaring a relation, and the schema is not a
+ * module anything imports — it is a file Prisma reads to generate a client. A
+ * relation either exists in the generated client or it does not, and asserting on
+ * the declaration is checking the same thing one step earlier, where it is
+ * legible. (The route-level behaviour — the query returning the nested lease
+ * instead of throwing — is verified by driving the routes, as this header records.)
+ *
+ * There is no runtime alternative that is not strictly worse: importing the
+ * generated Prisma client and asking it for the relation metadata would prove the
+ * same fact through a generated artefact, and would break whenever the client is
+ * regenerated in a different state than the test run.
  */
 
 const schema = readFileSync(join(process.cwd(), "prisma/schema.prisma"), "utf8");

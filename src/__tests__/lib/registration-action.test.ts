@@ -1,7 +1,3 @@
-import { describe, it, expect } from "vitest";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-
 /**
  * Registration — the product's front door — was completely broken.
  *
@@ -16,47 +12,113 @@ import { join } from "node:path";
  * simply stayed on the page. Found by driving the real form in a browser, not by
  * a test.
  *
- * Verified after the fix, end to end against a running server: the account is
- * created (firstName populated, subscriptionStatus TRIAL), sign-in returns a
- * session, and /dashboard, /properties, /tenants, /leases and /billing all
- * return 200 with the empty state "Aucun bien".
+ * These tests CALL the action with a stubbed auth server. The stub is
+ * deliberately faithful to the failure: it exposes only `signUpEmail`, so
+ * `auth.api.signUp` is genuinely `undefined` and reading `.email` off it throws
+ * exactly as Better Auth did. An earlier version of this file asserted on the
+ * source text instead, which meant a call to the wrong endpoint passed as long
+ * as the string "signUpEmail" appeared somewhere in the file.
+ *
+ * The form side is a client component that needs a DOM; the suite runs in a node
+ * environment, so its toast wiring is not covered here. That part was verified
+ * manually in a browser against a running server: the account is created
+ * (firstName populated, subscriptionStatus TRIAL), sign-in returns a session, and
+ * /dashboard, /properties, /tenants, /leases and /billing all return 200 with
+ * the empty state "Aucun bien".
  */
 
-const action = readFileSync(
-  join(process.cwd(), "src/lib/actions/register-actions.ts"),
-  "utf8"
-);
-const form = readFileSync(
-  join(process.cwd(), "src/app/register/register-form.tsx"),
-  "utf8"
-);
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
-describe("registration server action", () => {
-  it("calls signUpEmail, the endpoint this version exposes", () => {
-    expect(action).toContain("auth.api.signUpEmail");
-    expect(action).not.toContain("auth.api.signUp.email");
+const { prismaMock, signUpEmail, stripeCreate } = vi.hoisted(() => ({
+  prismaMock: {
+    user: { findUnique: vi.fn(), update: vi.fn() },
+  },
+  signUpEmail: vi.fn(),
+  stripeCreate: vi.fn(async () => ({ id: "cus_123" })),
+}));
+
+vi.mock("@/lib/prisma", () => ({ prisma: prismaMock }));
+// Only `signUpEmail` exists, exactly as on the Better Auth server API. If the
+// action goes back to `auth.api.signUp.email`, this is undefined and the call
+// throws — the original defect, reproduced.
+vi.mock("@/lib/auth-server", () => ({
+  auth: { api: { signUpEmail } },
+}));
+vi.mock("@/lib/stripe", () => ({
+  getStripe: () => ({ customers: { create: stripeCreate } }),
+}));
+
+import { registerWithStripeCustomer } from "@/lib/actions/register-actions";
+
+const CREDENTIALS = {
+  firstName: "Camille",
+  lastName: "Durand",
+  email: "camille@example.com",
+  password: "correct-horse-battery",
+};
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  prismaMock.user.findUnique.mockResolvedValue(null);
+  signUpEmail.mockResolvedValue({ user: { id: "user-1" } });
+});
+
+describe("registerWithStripeCustomer", () => {
+  it("creates the account through the endpoint this version exposes", async () => {
+    // If the action called `auth.api.signUp.email` this would throw, the catch
+    // would swallow it, and success would be false.
+    const result = await registerWithStripeCustomer(CREDENTIALS);
+
+    expect(result.success).toBe(true);
+    expect(result.userId).toBe("user-1");
+    expect(signUpEmail).toHaveBeenCalledWith({
+      body: {
+        email: CREDENTIALS.email,
+        password: CREDENTIALS.password,
+        name: "Camille Durand",
+        firstName: "Camille",
+        lastName: "Durand",
+      },
+    });
   });
 
-  it("passes a body, since the endpoint is an endpoint not a method chain", () => {
-    expect(action).toMatch(/auth\.api\.signUpEmail\(\{\s*\n?\s*body:/);
+  it("refuses an address that already has an account, without calling the endpoint", async () => {
+    prismaMock.user.findUnique.mockResolvedValue({ id: "existing" });
+
+    const result = await registerWithStripeCustomer(CREDENTIALS);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBe("Un compte avec cet email existe déjà.");
+    expect(signUpEmail).not.toHaveBeenCalled();
   });
 
-  it("is reached from the real registration form", () => {
-    expect(form).toContain("registerWithStripeCustomer");
-    expect(form).toContain("signIn.email");
+  it("does not send a blank name when only one part is given", async () => {
+    // `${firstName} ${lastName}` with both empty produced " ", which the
+    // endpoint rejects; the action trims, so the caller cannot cause that.
+    await registerWithStripeCustomer({ ...CREDENTIALS, firstName: "  ", lastName: "  " });
+
+    const body = signUpEmail.mock.calls[0][0].body as { name: string };
+    expect(body.name).toBe("");
   });
 
-  it("reports failure to the user instead of swallowing it", () => {
-    // The catch returns { success: false } and the form toasts it, so a future
-    // regression surfaces rather than looking like a no-op.
-    expect(action).toMatch(/return \{ success: false, error:/);
-    expect(form).toMatch(/registerResult\.success/);
-    expect(form).toMatch(/toast\.error/);
+  it("reports a thrown failure to the caller instead of swallowing it", async () => {
+    // A registration that throws must not look like a no-op on the form.
+    signUpEmail.mockRejectedValue(new Error("Le service d'authentification est indisponible."));
+
+    const result = await registerWithStripeCustomer(CREDENTIALS);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBe("Le service d'authentification est indisponible.");
   });
 
-  it("does not send an empty name when only one part is given", () => {
-    // `${firstName} ${lastName}` with both empty produced " " which the endpoint
-    // rejects; the form always supplies a full name, but the action trims anyway.
-    expect(action).toMatch(/name: `\$\{firstName\} \$\{lastName\}`\.trim\(\)/);
+  it("still succeeds when the background Stripe customer creation fails", async () => {
+    // Stripe is best-effort by design: the account exists, so a Stripe outage
+    // must not be reported as a failed registration.
+    stripeCreate.mockRejectedValueOnce(new Error("Stripe unreachable"));
+
+    const result = await registerWithStripeCustomer(CREDENTIALS);
+
+    expect(result.success).toBe(true);
+    expect(result.userId).toBe("user-1");
   });
 });

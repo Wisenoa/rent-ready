@@ -14,6 +14,19 @@ import { join } from "node:path";
  * 57 other call sites already used the correct form, so the rule existed in the
  * codebase and only these four had drifted. This guards against that drifting
  * back, and against the same mistake appearing in a new route.
+ *
+ * WHY THIS WALKS THE SOURCE INSTEAD OF CALLING THE ROUTES
+ *
+ * The property under test is about EVERY route in the app, including routes that
+ * do not exist yet. There is no finite list to import and call: the check has to
+ * ask "does any file in src/ call auth.getSession?", which is a question about
+ * source text by construction. Calling the four affected routes proves those four
+ * return 401, and the fix's own header already records that runtime verification
+ * (500 before, 401 after) — re-proving it here would guard the four, not the
+ * sixty-odd call sites.
+ *
+ * What this cannot do is prove a route is reachable or correct; it proves only
+ * that the wrong API name has not been reintroduced. That is the whole claim.
  */
 
 const SRC = join(process.cwd(), "src");

@@ -1,7 +1,3 @@
-import { describe, it, expect } from "vitest";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-
 /**
  * The email sender read the Resend response id from the wrong place.
  *
@@ -11,8 +7,7 @@ import { join } from "node:path";
  *   resendResult = await resend.emails.send(...);
  *   resendId = resendResult.id ?? null;
  *
- * `res.id` is always undefined — the id lives in `res.data.id`. Verified against
- * the installed SDK, whose success response has no top-level `id`.
+ * `res.id` is always undefined — the id lives in `res.data.id`.
  *
  * That mattered because `resendId` gates both the persisted status and the
  * function's return:
@@ -22,61 +17,151 @@ import { join } from "node:path";
  *
  * So RentReady reported each email as failed even when Resend had accepted it,
  * which would make senders retry or treat delivery as broken.
+ *
+ * These tests CALL `sendEmail` with a stubbed Resend that returns the real
+ * `{ data: { id }, error: null }` shape. An earlier version asserted on the
+ * source text, so reverting to `resendResult.id` — the actual defect — would
+ * have left every assertion in the file passing.
  */
 
-const sender = readFileSync(join(process.cwd(), "src/lib/email/sender.tsx"), "utf8");
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-describe("Resend response shape", () => {
-  it("reads the message id from data.id, not the top level", () => {
-    expect(sender).toContain("resendResult.data?.id");
-    expect(sender).not.toMatch(/resendId\s*=\s*resendResult\.id/);
+const { send, emailLogCreate, fromEmail } = vi.hoisted(() => {
+  const send = vi.fn();
+  // Typed so `mock.calls` is a real tuple rather than an empty one.
+  const emailLogCreate = vi.fn(
+    async (_args: { data: Record<string, unknown> }): Promise<Record<string, never>> => ({})
+  );
+  return {
+    send,
+    emailLogCreate,
+    fromEmail: "RentReady <bonjour@example.com>",
+  };
+});
+
+vi.mock("@/lib/email", () => ({ resend: { emails: { send } }, fromEmail }));
+vi.mock("@/lib/prisma", () => ({ prisma: { emailLog: { create: emailLogCreate } } }));
+
+import { sendEmail } from "@/lib/email/sender";
+
+const OPTIONS = {
+  clientId: "quittance-2026-0007",
+  to: "locataire@example.com",
+  subject: "Votre quittance de loyer",
+  // The renderer is irrelevant to what is under test; a valid element is enough.
+  react: { type: "div", props: {}, key: null } as unknown as React.ReactElement,
+  emailType: "QUITTANCE" as never,
+};
+
+const originalKey = process.env.RESEND_API_KEY;
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  process.env.RESEND_API_KEY = "re_test";
+});
+
+afterEach(() => {
+  if (originalKey === undefined) delete process.env.RESEND_API_KEY;
+  else process.env.RESEND_API_KEY = originalKey;
+});
+
+/** The EmailLog row the sender persisted. */
+function logged(): Record<string, unknown> | undefined {
+  const [call] = emailLogCreate.mock.calls[0] ?? [];
+  return (call as { data: Record<string, unknown> } | undefined)?.data;
+}
+
+describe("a delivered email", () => {
+  beforeEach(() => {
+    // The real SDK's success shape: the id is nested, never at the top level.
+    send.mockResolvedValue({ data: { id: "abc-123" }, error: null, headers: {} });
   });
 
-  it("types the id from the SDK rather than restating it", () => {
-    expect(sender).toMatch(/type ResendMessageId = NonNullable</);
-    expect(sender).toContain("ReturnType<typeof resend.emails.send>");
+  it("reads the id from data.id and reports success", async () => {
+    const result = await sendEmail(OPTIONS);
+
+    expect(result).toEqual({ ok: true, id: "abc-123" });
   });
 
-  it("does not pretend a Resend error is optional-and-untyped", () => {
-    // statusCode is `number | null` in the SDK, not `statusCode?: number`.
-    expect(sender).toMatch(/statusCode: number \| null/);
+  it("logs the delivery as SENT with the message id", async () => {
+    await sendEmail(OPTIONS);
+
+    // The defect made this PENDING with a null id for every real delivery, which
+    // is what made the dashboard report broken email while Resend had accepted it.
+    expect(logged()).toMatchObject({ status: "SENT", resendId: "abc-123" });
   });
 
-  it("uses one of Resend's own error-code names for a synthetic failure", () => {
-    expect(sender).toMatch(/name:\s*"[a-z_]+"/);
+  it("joins multiple recipients into the log", async () => {
+    await sendEmail({ ...OPTIONS, to: ["a@example.com", "b@example.com"] });
+
+    expect(logged()).toMatchObject({ to: "a@example.com, b@example.com" });
+    expect(send).toHaveBeenCalledWith(expect.objectContaining({ to: ["a@example.com", "b@example.com"] }));
   });
 });
 
-describe("delivery status follows the id", () => {
-  /** The decision the sender makes, for a given SDK response shape. */
-  function decide(res: { data: { id: string } | null; error: unknown | null }) {
-    const resendId = res.data?.id ?? null;
-    return {
-      resendId,
-      status: resendId ? "SENT" : res.error ? "FAILED" : "PENDING",
-      ok: Boolean(resendId),
-    };
-  }
+describe("a rejected email", () => {
+  it("reports a permanent failure as non-retryable and logs it BOUNCED", async () => {
+    send.mockResolvedValue({
+      data: null,
+      error: { message: "The from address is not verified.", statusCode: 422, name: "validation_error" },
+      headers: {},
+    });
 
-  it("reports SENT and ok:true when Resend returns an id", () => {
-    const r = decide({ data: { id: "abc-123" }, error: null });
-    expect(r.status).toBe("SENT");
-    expect(r.ok).toBe(true);
-    expect(r.resendId).toBe("abc-123");
+    const result = await sendEmail(OPTIONS);
+
+    expect(result).toEqual({
+      ok: false,
+      error: "[Resend 422] The from address is not verified.",
+      retryable: false,
+    });
+    expect(logged()).toMatchObject({ status: "BOUNCED", errorMessage: "The from address is not verified." });
   });
 
-  it("would have reported PENDING and ok:false with the old top-level read", () => {
-    // What the previous code computed for the very same successful response.
-    const old = { data: { id: "abc-123" }, error: null } as { id?: string };
-    const oldId = (old as { id?: string }).id ?? null;
-    expect(oldId).toBeNull();
-    expect(oldId ? "SENT" : "PENDING").toBe("PENDING");
-    expect(Boolean(oldId)).toBe(false);
+  it("reports a transient failure as retryable and logs it FAILED", async () => {
+    send.mockResolvedValue({
+      data: null,
+      error: { message: "Service unavailable", statusCode: 503, name: "internal_server_error" },
+      headers: {},
+    });
+
+    const result = await sendEmail(OPTIONS);
+
+    expect(result).toEqual({ ok: false, error: "[Resend 503] Service unavailable", retryable: true });
+    expect(logged()).toMatchObject({ status: "FAILED" });
   });
 
-  it("still reports a failure when Resend returns an error", () => {
-    const r = decide({ data: null, error: { message: "API key is invalid" } });
-    expect(r.status).toBe("FAILED");
-    expect(r.ok).toBe(false);
+  it("treats a thrown network error as a retryable failure, not a crash", async () => {
+    send.mockRejectedValue(new Error("ECONNRESET"));
+
+    const result = await sendEmail(OPTIONS);
+
+    expect(result).toMatchObject({ ok: false, retryable: true });
+    expect(logged()).toMatchObject({ status: "FAILED" });
+  });
+});
+
+describe("when Resend is not configured", () => {
+  it("logs PENDING and does not claim a delivery", async () => {
+    // Product honesty (AGENTS.md §37): with no key the email was never sent, so
+    // the caller must be told so rather than handed a fake success.
+    delete process.env.RESEND_API_KEY;
+    send.mockResolvedValue({ data: { id: "should-not-be-used" }, error: null, headers: {} });
+
+    const result = await sendEmail(OPTIONS);
+
+    expect(result.ok).toBe(false);
+    expect(send).not.toHaveBeenCalled();
+    expect(logged()).toMatchObject({ status: "PENDING", resendId: null });
+  });
+});
+
+describe("logging must never mask the send result", () => {
+  it("returns ok:true even when the EmailLog write fails", async () => {
+    send.mockResolvedValue({ data: { id: "abc-123" }, error: null, headers: {} });
+    emailLogCreate.mockRejectedValueOnce(new Error("DB down"));
+
+    const result = await sendEmail(OPTIONS);
+
+    expect(result).toEqual({ ok: true, id: "abc-123" });
   });
 });

@@ -15,6 +15,19 @@ import { join, relative } from "node:path";
  *
  * Found by clicking them in a browser during onboarding, not by reading the code:
  * a `Link` to a non-existent route renders fine and only fails on navigation.
+ *
+ * WHY THIS READS SOURCE INSTEAD OF RENDERING
+ *
+ * The claim is about a set of hrefs against a set of routes on disk. Both sides
+ * are only knowable without booting the app: the routes are discovered by walking
+ * src/app for page.tsx and route.ts, and a link that is dead still renders
+ * perfectly in a unit test. Rendering the sidebar in jsdom would prove the same
+ * hrefs resolve to the same strings the regex already extracts, and would not
+ * prove a route file exists.
+ *
+ * A browser check is the complement, not a substitute: it proves the link works
+ * when clicked. That is what found the original bug, and it is covered by the
+ * Playwright suite rather than here.
  */
 
 const ROOT = join(process.cwd(), "src/app");

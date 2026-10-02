@@ -20,6 +20,16 @@ function sidebarHrefs(source: string): string[] {
  *
  * This walks the sidebar's links rather than asserting a fixed list, so a route
  * rename cannot make the check vacuous.
+ *
+ * WHY THIS READS SOURCE INSTEAD OF RENDERING
+ *
+ * Same reason as dashboard-links.test.ts, and the same limit: a nav link to a
+ * deleted route renders fine, so rendering proves nothing about whether the
+ * target exists. The route side of the comparison is the filesystem (walked for
+ * page.tsx and route.ts), which no in-process test can substitute for.
+ *
+ * The complement is the Playwright suite, which clicks the links. This guards the
+ * href set against drifting away from the route set between such runs.
  */
 
 const ROOT = join(process.cwd(), "src/app");

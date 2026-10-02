@@ -20,6 +20,21 @@
  *
  * Each check below is cheap and deterministic. They are not a substitute for
  * reading the content, but they stop the mechanical regressions.
+ *
+ * WHY THIS READS SOURCE INSTEAD OF RENDERING
+ *
+ * Almost every claim here is about a value that must NOT appear anywhere in a
+ * corpus: no CJK or Cyrillic fragment in French legal content, no AggregateRating
+ * or invented review names, no sitemap URL without a matching route. "Does this
+ * string appear in any of the 636 KB of articles" is not a question with a
+ * runtime answer that means anything — rendering every page to find out would
+ * require a database, a browser and a sitemap crawl, and would still only sample
+ * what was rendered.
+ *
+ * The corpus is the artefact under test, and the corpus is a file on disk. One
+ * check is genuinely a runtime concern and is treated as such elsewhere: article
+ * payload weight is about the build graph, not the text (see
+ * article-payload-boundary.test.ts for why that one also reads source).
  */
 
 import { describe, it, expect } from "vitest";
