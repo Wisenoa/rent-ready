@@ -56,7 +56,7 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       name: "Respecter l'encadrement des loyers en zone tendue",
-      text: "Dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier...), le loyer de base ne peut pas dépasser le loyer de référence majoré (référence majorée de 20 %) fixé par arrêté préfectoral à la date de signature du bail. Cette règle vaut pour le niveau du loyer à la signature, pas pour la révision annuelle : celle-ci est limitée à la variation de l'IRL.",
+      text: "Dans les communes dotées d'un arrêté préfectoral (Paris, Lyon, Lille, Bordeaux, Montpellier, Grenoble, Nice, Marseille, Nantes, Strasbourg, Toulouse, Rennes), le loyer inscrit au bail ne peut pas dépasser le loyer de référence majoré (référence +20 %) en vigueur à la signature. Ce plafond régit le niveau du loyer, pas la révision annuelle, qui reste limitée à la variation de l'IRL. Cas particulier : dans un logement classé F ou G au DPE, la révision et la majoration sont interdites (art. 17-1 III, loi Climat et Résilience) et, en cas de relocation, le loyer ne peut pas excéder celui du précédent locataire.",
     },
   ],
 };

@@ -594,4 +594,78 @@ describe("content integrity", () => {
 
     expect(problems, `article slugs unusable as URLs:\n${problems.join("\n")}`).toEqual([]);
   });
+  it("keeps every worked rent example arithmetically correct", () => {
+    // Worked examples are the most trusted content on a site that explains how
+    // to raise a rent: a reader copies the number into their own lease. One
+    // article published a whole table of IRL values that never existed
+    // (144,77 / 144,52 / 144,27 / 143,99) and an example whose result did not
+    // follow from its own inputs.
+    //
+    // This only checks arithmetic — that the stated result follows from the
+    // stated inputs. Whether an index value is real is a separate question and
+    // is maintained in KNOWN_REAL_IRL below.
+    const REAL_IRL = new Set([
+      "148,37", "146,60", // 2026
+      "145,78", "145,77", "146,68", "145,47", // 2025
+      "144,64", "144,51", "145,17", "143,46", // 2024
+      "141,03", "140,59", "138,61", // 2023
+    ]);
+
+    const files: string[] = [];
+    const walk = (dir: string) => {
+      for (const entry of readdirSync(dir)) {
+        const full = join(dir, entry);
+        if (statSync(full).isDirectory()) walk(full);
+        else if (full.endsWith(".ts") || full.endsWith(".tsx")) files.push(full);
+      }
+    };
+    walk(SRC);
+
+    const problems: string[] = [];
+
+    // 1. worked examples must compute
+    const EXAMPLE = /(\d[\d\s]*)\s*(?:€)?\s*×\s*\(?(\d{1,3},\d{2})\s*[/÷]\s*(\d{1,3},\d{2})\)?\s*=\s*(\d[\d\s]*,\d{2})/g;
+    for (const file of files) {
+      const rel = relative(process.cwd(), file);
+      const source = readFileSync(file, "utf8");
+      for (const m of source.matchAll(EXAMPLE)) {
+        const rent = parseFloat(m[1].replace(/\s/g, ""));
+        const a = parseFloat(m[2].replace(",", "."));
+        const b = parseFloat(m[3].replace(",", "."));
+        const stated = parseFloat(m[4].replace(/\s/g, "").replace(",", "."));
+        const computed = (rent * a) / b;
+        if (Math.abs(computed - stated) > 0.02) {
+          const line = source.slice(0, m.index).split("\n").length;
+          problems.push(
+            `${rel}:${line} — ${m[1].trim()} × ${m[2]}/${m[3]} = ${computed.toFixed(2)}, page states ${m[4].trim()}`
+          );
+        }
+      }
+    }
+
+    // 2. an IRL figure must be one the INSEE actually published. Only applies
+    // where a value is presented as an index, not to arbitrary percentages.
+    // Only a value that directly follows the word IRL as its index — "IRL T1
+    // 2025 : 145,47". Matching any number within 160 characters also catches
+    // the result of a calculation ("800 x (146,60 / 145,47) = 806,21"), which
+    // is not an index.
+    const IRL_MENTION = /\bIRL\b[^\n]{0,40}?[\s:=-](?:[A-Za-z]\d\s*)?(\d{2,3},\d{2})\b/g;
+    for (const file of files) {
+      const rel = relative(process.cwd(), file);
+      if (rel.startsWith("__tests__")) continue;
+      const source = readFileSync(file, "utf8");
+      for (const m of source.matchAll(IRL_MENTION)) {
+        const value = m[1];
+        if (!REAL_IRL.has(value)) {
+          const line = source.slice(0, m.index).split("\n").length;
+          problems.push(`${rel}:${line} — IRL ${value} is not a published INSEE value`);
+        }
+      }
+    }
+
+    expect(
+      problems,
+      `worked rent examples that do not compute, or unknown IRL values:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
 });

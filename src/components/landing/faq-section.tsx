@@ -32,7 +32,7 @@ const faqs: FaqItem[] = [
     question:
       "Comment calculer la révision annuelle du loyer avec l'indice IRL de l'INSEE ?",
     answer:
-      "La révision annuelle du loyer en France est encadrée par l'Indice de Référence des Loyers (IRL) publié chaque trimestre par l'INSEE. La formule légale est : Nouveau loyer = Loyer actuel × (Nouvel IRL du trimestre de référence ÷ IRL de référence à la date de signature du bail). Par exemple, avec un loyer de 800 € et un IRL passant de 142,06 à 145,78 (4ᵉ trimestre 2025), le nouveau loyer serait de 800 × (145,78 ÷ 142,06) = 820,97 €. RentReady effectue ce calcul automatiquement en se connectant aux données officielles de l'INSEE et notifie le locataire de la révision.",
+      "La révision annuelle du loyer en France est encadrée par l'Indice de Référence des Loyers (IRL) publié chaque trimestre par l'INSEE. La formule légale est : Nouveau loyer = Loyer actuel × (Nouvel IRL du trimestre de référence ÷ IRL de référence à la date de signature du bail). Par exemple, avec un loyer de 800 € et un IRL passant de 144,64 (4ᵉ trimestre 2024) à 145,78 (4ᵉ trimestre 2025), le nouveau loyer serait de 800 × (145,78 ÷ 144,64) = 806,31 €. RentReady effectue ce calcul automatiquement en se connectant aux données officielles de l'INSEE et notifie le locataire de la révision.",
   },
   {
     question:

@@ -186,6 +186,8 @@ L'IRL utilisé doit être celui du trimestre de référence prévu dans le bail,
 ## La révision de loyer en zone tendue
 
 Dans les communes visées par la loi ALUR (zones d'encadrement des loyers), les augmentations de loyer restent encadrées. La révision annuelle du loyer est plafonnée par la seule variation de l'IRL : aucun plafond supplémentaire de +10 % ou de +15 % n'existe dans la loi.
+
+**Exception importante — logements classes F et G** : depuis la loi Climat et Résilience du 22 août 2021 (art. 159 modifiant l'art. 17-1), la révision et la majoration du loyer **ne peuvent pas être appliquées** dans les logements classés F ou G au DPE. Le bailleur n'y est donc pas tenu d'appliquer l'IRL, et l'augmentation reste interdite y compris lors d'une relocation, où le loyer ne peut excéder le dernier loyer appliqué au précédent locataire (art. 17 II).
 Par ailleurs, dans les communes où s'applique l'encadrement du niveau des loyers, le loyer de base inscrit au bail ne doit pas dépasser le loyer de référence majoré en vigueur à la date de signature du bail (majoré = loyer de référence augmenté de 20 %).
 Ce dispositif vise à limiter les hausses excessives dans les marchés locatifs tendus comme Paris, Lille, Lyon ou Bordeaux.
 
@@ -4178,7 +4180,7 @@ Pour obtenir l'IRL exact du trimestre concerne, consultez le site de l'INSEE ou 
 
 La formule de revision du loyer est la suivante : Nouveau loyer = Loyer actuel x (Nouvel IRL / Ancien IRL)
 
-Exemple : un appartement loue 800 euros en janvier 2025, revision en janvier 2026 : Loyer actuel 800 euros, IRL au 1er janvier 2025 : 145,0, IRL au 1er janvier 2026 : 146,5, Calcul : 800 x (146,5 / 145,0) = 808,28 euros. L'augmentation est de 8,28 euros par mois (environ 1%).
+Exemple : un appartement loué 800 euros en avril 2025, révisé en avril 2026 : Loyer actuel 800 euros, IRL T1 2025 : 145,47, IRL T1 2026 : 146,60, Calcul : 800 x (146,60 / 145,47) = 806,21 euros. L'augmentation est de 6,21 euros par mois (+0,78 %).
 
 ### Date de revision : l'anniversaire du bail
 
@@ -4561,17 +4563,21 @@ L'Indice de Référence des Loyers (IRL) est la référence légale pour la rév
 
 ## Les derniers indices IRL pour 2025-2026
 
-- T4 2025 : 145,78 (publication janvier 2026) — Variation annuelle : +0,79 %
-- T3 2025 : 145,04
-- T2 2025 : 144,78
-- T1 2025 : 144,29
-- T4 2024 : 143,47
+- T2 2026 : 148,37 (INSEE du 10/07/2026) — Variation annuelle : +1,15 %
+- T1 2026 : 146,60 (INSEE du 15/04/2026) — Variation annuelle : +0,78 %
+- T4 2025 : 145,78 — Variation annuelle : +0,79 %
+- T3 2025 : 145,77 — Variation annuelle : +0,87 %
+- T2 2025 : 146,68 — Variation annuelle : +1,04 %
+- T1 2025 : 145,47 — Variation annuelle : +1,40 %
+- T4 2024 : 144,64 — Variation annuelle : +1,82 %
+
+Ces valeurs sont les indices métropole, publiés au Journal officiel. Les indices outre-mer et Corse sont plus bas.
 
 ## Formule de calcul
 
 Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
 
-Exemple : un appartement avec un loyer de 850 € et un IRL passé de 145,17 (T2 2024) à 146,68 (T2 2025) donne un nouveau loyer de 858,84 €.
+Exemple : un appartement avec un loyer de 850 € et un IRL passé de 145,17 (T2 2024) à 146,68 (T2 2025) donne un nouveau loyer de 858,84 € (850 × 146,68 / 145,17), soit une hausse de 1,04 %.
 
 ## Quand peut-on réviser le loyer ?
 
@@ -7188,7 +7194,7 @@ Oui, le locataire étranger dispose des mêmes droits que tout autre locataire. 
 
 ### Historique et cadre légal
 
-L'encadrement des loyers a été introduit par la loi ALUR de 2014 et expérimenté à Paris depuis 2015. Il a été généralisé et renforcé par la loi Climat et Résilience de 2021. Aujourd'hui, le dispositif s'applique dans les zones d'urbanisation continue de plus de 50 000 habitants où existe un déséquilibre significatif entre l'offre et la demande de logements.
+Deux dispositifs distincts sont souvent confondus. L'encadrement à la relocation, applicable à toute commune en zone tendue, vient de la loi ALUR du 24 mars 2014 (art. 17-2). Le plafonnement du niveau des loyers par un loyer de référence majoré fixé chaque année par arrêté préfectoral a été introduit par la loi ELAN du 23 novembre 2018 (art. 140), sur le fondement de l'article 6 de la loi ALUR. Ce second dispositif ne concerne que les communes qui en font la demande, pas toutes les zones tendues.
 
 ### Objectifs du dispositif
 
@@ -8891,10 +8897,10 @@ L'IRL est publié trimestriellement par l'INSEE. Vous devez utiliser l'IRL du tr
 
 **Exemple concret :**
 - Loyer actuel : 800 euros
-- IRL au 4e trimestre 2024 : 144,77
-- IRL au 4e trimestre 2025 : 147,12
-- Calcul : 800 × (147,12 / 144,77) = 812,96 euros
-- Nouveau loyer : 812,96 euros
+- IRL au 4e trimestre 2024 : 144,64
+- IRL au 4e trimestre 2025 : 145,78
+- Calcul : 800 × (145,78 / 144,64) = 806,31 euros
+- Nouveau loyer : 805,31 euros
 
 Notre [simulateur de révision de loyer IRL](/outils/calculateur-irl) effectue ce calcul automatiquement.
 
@@ -8921,10 +8927,10 @@ L'IRL est l'outil principal de révision des loyers en France. Il reflète l'év
 
 | Trimestre | IRL (base 100 = 1998) |
 |---|---|
-| T4 2024 | 144,77 |
-| T3 2024 | 144,52 |
-| T2 2024 | 144,27 |
-| T1 2024 | 143,99 |
+| T4 2025 | 145,78 |
+| T3 2025 | 145,77 |
+| T2 2025 | 146,68 |
+| T1 2025 | 145,47 |
 
 ### Utiliser l'IRL dans votre bail
 

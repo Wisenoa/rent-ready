@@ -8,20 +8,38 @@ import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { RelatedContent } from "@/components/seo/related-links";
 
 // IRL — latest values from INSEE 2025
+/**
+ * Official INSEE indices, métropole series, base 100 = Q4 1998.
+ * Source: insee.fr série 001515333, values as published in the Journal officiel.
+ *
+ * This list previously held values that the INSEE never published
+ * (146,02 for T1 2025, 145,77 for T4 2024, and so on), which meant the
+ * calculator below produced a wrong revised rent for anyone who used it.
+ * A calculator that silently returns a wrong figure is worse than none.
+ */
 const IRL_DATA = [
-  { quarter: "T1 2025", value: 146.02, date: "Jan 2025" },
-  { quarter: "T4 2024", value: 145.77, date: "Oct 2024" },
-  { quarter: "T3 2024", value: 145.48, date: "Jul 2024" },
-  { quarter: "T2 2024", value: 145.25, date: "Apr 2024" },
-  { quarter: "T1 2024", value: 144.65, date: "Jan 2024" },
-  { quarter: "T4 2023", value: 143.83, date: "Oct 2023" },
-  { quarter: "T3 2023", value: 143.41, date: "Jul 2023" },
-  { quarter: "T2 2023", value: 143.02, date: "Apr 2023" },
-  { quarter: "T1 2023", value: 141.10, date: "Jan 2023" },
-  { quarter: "T4 2022", value: 138.89, date: "Oct 2022" },
-  { quarter: "T3 2022", value: 137.38, date: "Jul 2022" },
-  { quarter: "T2 2022", value: 135.84, date: "Apr 2022" },
+  { quarter: "T2 2026", value: 148.37, date: "Juil 2026" },
+  { quarter: "T1 2026", value: 146.60, date: "Avr 2026" },
+  { quarter: "T4 2025", value: 145.78, date: "Jan 2026" },
+  { quarter: "T3 2025", value: 145.77, date: "Oct 2025" },
+  { quarter: "T2 2025", value: 146.68, date: "Juil 2025" },
+  { quarter: "T1 2025", value: 145.47, date: "Avr 2025" },
+  { quarter: "T4 2024", value: 144.64, date: "Jan 2025" },
+  { quarter: "T3 2024", value: 144.51, date: "Oct 2024" },
+  { quarter: "T2 2024", value: 145.17, date: "Juil 2024" },
+  { quarter: "T1 2024", value: 143.46, date: "Avr 2024" },
+  { quarter: "T4 2023", value: 142.06, date: "Jan 2024" },
+  { quarter: "T3 2023", value: 141.03, date: "Oct 2023" },
+  { quarter: "T2 2023", value: 140.59, date: "Juil 2023" },
+  { quarter: "T1 2023", value: 138.61, date: "Avr 2023" },
+  { quarter: "T4 2022", value: 137.26, date: "Jan 2023" },
+  { quarter: "T3 2022", value: 136.27, date: "Oct 2022" },
+  { quarter: "T2 2022", value: 135.84, date: "Juil 2022" },
+  { quarter: "T1 2022", value: 133.93, date: "Avr 2022" },
+  { quarter: "T4 2021", value: 132.62, date: "Jan 2022" },
+  { quarter: "T3 2021", value: 131.67, date: "Oct 2021" },
 ];
+
 
 const faqData = [
   {
@@ -42,7 +60,7 @@ const faqData = [
   {
     question: "Quelle est la valeur actuelle de l'IRL ?",
     answer:
-      "Au T1 2025, l'IRL s'établit à 146,02. La variation sur un an (T1 2024 à T1 2025) est de +0,95%. Utilisez notre calculateur de révision de loyer pour appliquer cette hausse à votre bail.",
+      "Au T1 2025, l'IRL s'établit à 145,47. La variation sur un an (T1 2024 à T1 2025) est de +1,40%. Utilisez notre calculateur de révision de loyer pour appliquer cette hausse à votre bail.",
   },
   {
     question: "Le loyer peut-il baisse si l'IRL baisse ?",
@@ -91,9 +109,13 @@ const jsonLdData = {
 export function IRLCalculatorClient() {
   const [selectedQuarter, setSelectedQuarter] = useState(IRL_DATA[0]);
 
-  const previousYearQuarter = IRL_DATA.find(
-    (q) => q.quarter === selectedQuarter.quarter.replace("2025", "2024").replace("T1 2025", "T1 2024")
-  );
+  // A rent is revised against the SAME quarter one year earlier. Deriving that
+// from the label with a string replace only ever worked for 2025, so picking
+// any other year silently produced "no variation available".
+  const previousYearQuarter = IRL_DATA.find((q) => {
+    const [qtr, year] = selectedQuarter.quarter.split(" ");
+    return q.quarter === `${qtr} ${Number(year) - 1}`;
+  });
 
   const variation =
     previousYearQuarter && previousYearQuarter.value !== 0

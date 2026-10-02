@@ -72,9 +72,7 @@ const faqData = [
   {
     question:
       "Comment calculer l'augmentation avec l'IRL ?",
-    answer:
-      "La formule est simple : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL). Par exemple, pour un loyer de 800 € avec un IRL qui passe de 138,38 à 141,02 : 800 × (141,02 / 138,38) = 815,26 €. L'augmentation maximale est de 1,9 % dans cet exemple.",
-  },
+    answer: "La formule est simple : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL). Par exemple, pour un loyer de 800 € avec un IRL qui passe de 145,17 (T2 2024) à 146,68 (T2 2025) : 800 × (146,68 / 145,17) = 808,32 €, soit une hausse de 1,04 %. Attention : si le logement est classé F ou G au DPE, la révision et la majoration du loyer sont interdites (art. 17-1 III, loi Climat et Résilience du 22 août 2021) — n'appliquez pas cette formule dans ce cas."},
   {
     question:
       "Que se passe-t-il si le bail ne contient pas de clause de révision ?",
@@ -262,9 +260,9 @@ export default function AugmentationDeLoyerPage() {
           <div className="rounded-xl border border-stone-200 bg-white p-6">
             <ul className="space-y-2 text-sm text-stone-700">
               <li>• Loyer actuel : <strong>800 €/mois</strong></li>
-              <li>• Ancien IRL (T2 2024) : <strong>138,38</strong></li>
-              <li>• Nouvel IRL (T2 2025) : <strong>141,02</strong></li>
-              <li>• Calcul : 800 × (141,02 ÷ 138,38) = <strong>815,26 €/mois</strong></li>
+              <li>• Ancien IRL (T2 2024) : <strong>145,17</strong></li>
+              <li>• Nouvel IRL (T2 2025) : <strong>146,68</strong></li>
+              <li>• Calcul : 800 × (146,68 ÷ 145,17) = <strong>808,32 €/mois</strong></li>
               <li>• Augmentation : <strong>+15,26 €/mois (+1,9 %)</strong></li>
             </ul>
           </div>
@@ -361,7 +359,7 @@ export default function AugmentationDeLoyerPage() {
                 loyer basée sur l'indice de référence des loyers (IRL).
               </p>
               <p className="mb-4">
-                Indice de référence : <strong>IRL T2 2025 = 141,02</strong>
+                Indice de référence : <strong>IRL T2 2025 = 146,68</strong>
                 <br />
                 Ancien loyer : <strong>800,00 €/mois</strong>
                 <br />
