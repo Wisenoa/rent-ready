@@ -32,11 +32,18 @@ export async function registerWithStripeCustomer({
     }
 
     // Use better-auth's server-side signUp to properly hash the password
-    const result = await auth.api.signUp.email({
+    // The server-side endpoint is `signUpEmail`, not `signUp.email`. `signUp` is
+    // undefined on the server API, so every registration threw
+    // "Cannot read properties of undefined (reading 'email')" and the form showed
+    // nothing. Verified in the browser against a running server, and against this
+    // version's own route types.
+    const result = await auth.api.signUpEmail({
       body: {
         email,
         password,
-        name: `${firstName} ${lastName}`,
+        name: `${firstName} ${lastName}`.trim(),
+        // The app's own user model carries these; Better Auth's body type is a
+        // ZodRecord intersection, so additional fields are accepted.
         firstName,
         lastName,
       },

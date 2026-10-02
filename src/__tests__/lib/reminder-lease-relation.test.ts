@@ -41,10 +41,13 @@ describe("Reminder lease relation", () => {
   });
 
   it("deletes the reminder with its lease, matching the other cascade relations", () => {
-    const m = model("Reminder");
-    const lease = /\n\s+lease\s+Lease\?\s+@relation\([^)]*onDelete:\s*Cascade[^)]*\)/s.exec(m);
-    expect(lease, "the lease relation should cascade on delete").not.toBeNull();
-  });
+  const m = model("Reminder");
+  // No /s flag: tsconfig targets ES2017, where dotAll is not available. The
+  // relation declaration is matched with an explicit [\s\S] instead.
+  const lease =
+    /\n\s+lease\s+Lease\?\s+@relation\([\s\S]*?onDelete:\s*Cascade[\s\S]*?\)/.exec(m);
+  expect(lease, "the lease relation should cascade on delete").not.toBeNull();
+});
 
   it("has a migration for the constraint, so a fresh database matches", () => {
     const { readdirSync, existsSync, readFileSync: read } = require("node:fs");
