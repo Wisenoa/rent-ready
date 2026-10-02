@@ -18,7 +18,11 @@ import { cn } from "@/lib/utils";
    />
 ────────────────────────────────────────────── */
 
-interface EmptyStateProps extends React.ComponentProps<"div"> {
+/**
+ * `title` here is the heading of the empty state, not the HTML title attribute,
+ * so the inherited div title is omitted before redeclaring it as a ReactNode.
+ */
+interface EmptyStateProps extends Omit<React.ComponentProps<"div">, "title"> {
   icon?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;
@@ -72,13 +76,16 @@ function EmptyState({
 
       {action && (
         action.href ? (
+          // `render`, not `asChild`: Button is @base-ui/react, which composes via
+          // `render`. With `asChild` the prop is ignored and the anchor inside is
+          // never rendered as a link, so the call-to-action does not navigate.
           <Button
-            asChild
             variant={action.variant ?? "default"}
             size="sm"
             className="mt-1"
+            render={<a href={action.href} />}
           >
-            <a href={action.href}>{action.label}</a>
+            {action.label}
           </Button>
         ) : (
           <Button

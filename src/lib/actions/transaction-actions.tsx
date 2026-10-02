@@ -272,7 +272,7 @@ export async function sendPaymentReminder(
         dueDate={transaction.dueDate}
         daysLate={daysLate}
         tone={tone}
-        letterUrl={letterUrl}
+          letterUrl={letterUrl ?? `${portalBaseUrl}/portal`}
       />
     );
 

@@ -114,21 +114,20 @@ jobs:
       # is cleared; the gate tightens on its own with no further change.
       # The Decimal-vs-number class (TS2322 on Prisma Decimal reaching a component
       # or a `number` parameter) is the dangerous one and is what this is watching.
-      - name: Type check (blocks on regression)
+      - name: Type check
         run: |
+          # Zero tolerance. This was a budget of 119 errors, ratcheted down as they
+          # were fixed, and now requires none. `next.config.ts` no longer sets
+          # ignoreBuildErrors, so the build enforces this too — this step exists to
+          # report the failures readably rather than to be the only gate.
           pnpm tsc --noEmit > /tmp/tsc.log 2>&1 || true
           count=$(grep -c 'error TS' /tmp/tsc.log || true)
-          max=14
-          echo "TypeScript errors: $count (baseline $max)"
-          if [ "$count" -gt "$max" ]; then
-            echo "::error title=Type errors::$count errors, up from the $max baseline. No new type debt."
-            grep 'error TS' /tmp/tsc.log | head -20
+          if [ "$count" -ne 0 ]; then
+            echo "::error title=Type errors::$count type errors. The build fails on these too."
+            grep 'error TS' /tmp/tsc.log | head -40
             exit 1
           fi
-          if [ "$count" -gt 0 ]; then
-            echo "::warning title=Type errors::$count pre-existing errors remain; budget $max."
-            grep 'error TS' /tmp/tsc.log | head -20
-          fi
+          echo "TypeScript: 0 errors."
 
       - name: Unit tests
         run: pnpm test

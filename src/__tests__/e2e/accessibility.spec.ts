@@ -48,11 +48,11 @@ test.describe('Marketing Pages — Accessibility Audit', () => {
         .analyze()
 
       // Log violations for debugging but don't fail on minor contrast warnings
+      // axe's impact values are minor | moderate | serious | critical. The
+      // previous `v.impact === 'violation'` could never match — "violation" is the
+      // name of the array, not an impact — so it was dead weight in the filter.
       const critical = result.violations.filter(
-        (v) =>
-          v.impact === 'critical' ||
-          v.impact === 'serious' ||
-          v.impact === 'violation'
+        (v) => v.impact === 'critical' || v.impact === 'serious'
       )
 
       if (critical.length > 0) {

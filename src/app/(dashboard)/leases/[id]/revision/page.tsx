@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { prisma } from "@/lib/prisma";
+import { formatCurrency } from "@/lib/format";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { getLatestIrl, getAvailableQuarters, formatQuarterLabel } from "@/lib/irl-calculator";
 import { RevisionActions } from "./revision-actions";
@@ -372,10 +373,7 @@ export default async function LeaseRevisionPage({
                         </p>
                       </div>
                       <p className="font-semibold">
-                        {tx.amount.toLocaleString("fr-FR", {
-                          style: "currency",
-                          currency: "EUR",
-                        })}
+                        {formatCurrency(tx.amount)}
                       </p>
                     </div>
                   ))}

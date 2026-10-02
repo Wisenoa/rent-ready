@@ -39,7 +39,8 @@ export async function GET(request: NextRequest) {
     .map((article) => {
       const link = `${BASE_URL}/blog/${article.slug}`;
       const pubDate = new Date(article.date).toUTCString();
-      const description = escapeXml(article.excerpt);
+      // excerpt is optional on ArticleMeta; an absent one yields an empty element.
+      const description = escapeXml(article.excerpt ?? "");
 
       return `
     <item>

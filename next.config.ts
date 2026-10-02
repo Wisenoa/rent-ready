@@ -24,8 +24,29 @@ const config: NextConfig = {
   // ========================================
   // TypeScript Configuration
   // ========================================
+  // Type errors now fail the build. `ignoreBuildErrors: true` was set to get past
+  // a pre-existing backlog, and it hid eight real bugs that tsc had reported
+  // plainly and the build discarded:
+  //
+  //   - the quittance PDF did `rentAmount + chargesAmount` on Decimals, printing
+  //     "70040.5" as the total and a 69 300 EUR balance on a paid lease
+  //   - four email routes called auth.getSession, which does not exist, and
+  //     returned 500 on every request
+  //   - the KPI digest queried prisma.subscription, a model that never existed
+  //   - both /api/reminders routes included a Prisma relation that was not
+  //     declared, so they threw on every request
+  //   - the bank webhook matched an incoming transfer against the earliest
+  //     pending invoice regardless of amount, so a 12 EUR grocery payment was
+  //     recorded against an 850 EUR rent invoice and issued a receipt
+  //   - the email sender read the Resend id from the wrong field, so every
+  //     delivered email returned ok: false
+  //   - registration called auth.api.signUp, which is undefined: nobody could
+  //     create an account, and POST /register still returned 200
+  //
+  // The CI type-check step ratchets the count, so a regression is caught before
+  // the build anyway.
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
 
   // ========================================
@@ -175,6 +196,39 @@ const config: NextConfig = {
         destination: '/',
         permanent: true,
       },
+
+      // ────────────────────────────────────────
+      // /modeles → /templates consolidation
+      // ────────────────────────────────────────
+      // Two parallel template libraries served the same intents ("modèle bail
+      // vide" existed at both /modeles/bail-vide and /templates/bail-vide).
+      // Google had to pick one, and the nav/footer only ever linked to
+      // /templates, so /modeles was the orphan copy. One canonical destination
+      // per intent: 301 the losers. The corresponding page files were deleted,
+      // so these rules are the only thing that serves the old URLs.
+      { source: '/modeles/augmentation-de-loyer', destination: '/templates/augmentation-de-loyer', permanent: true },
+      { source: '/modeles/bail-colocation', destination: '/templates/bail-colocation', permanent: true },
+      { source: '/modeles/bail-commercial', destination: '/templates/bail-commercial', permanent: true },
+      { source: '/modeles/bail-meuble', destination: '/templates/bail-meuble', permanent: true },
+      { source: '/modeles/bail-mobilite', destination: '/templates/bail-mobilite', permanent: true },
+      { source: '/modeles/bail-vide', destination: '/templates/bail-vide', permanent: true },
+      { source: '/modeles/conge-locataire', destination: '/templates/conge-locataire', permanent: true },
+      { source: '/modeles/conge-proprietaire', destination: '/templates/conge-proprietaire', permanent: true },
+      { source: '/modeles/etat-des-lieux', destination: '/templates/etat-des-lieux', permanent: true },
+      { source: '/modeles/quittance-de-loyer', destination: '/templates/recu-loyer', permanent: true },
+      { source: '/modeles/relance-loyer-impaye', destination: '/templates/relance-loyer-impaye', permanent: true },
+      { source: '/modeles/bail-professionnel', destination: '/templates/bail-professionnel', permanent: true },
+      { source: '/modeles/contrat-de-location', destination: '/templates/contrat-de-location', permanent: true },
+      { source: '/modeles/protocol-etat-des-lieux', destination: '/templates/protocol-etat-des-lieux', permanent: true },
+      { source: '/modeles/repartition-charges', destination: '/templates/repartition-charges', permanent: true },
+      { source: '/modeles', destination: '/templates', permanent: true },
+
+      // Same intent, same document under two slugs. The descriptive slug wins.
+      { source: '/templates/colocation', destination: '/templates/bail-colocation', permanent: true },
+
+      // Both IRL calculators rendered the same component under two URLs.
+      { source: '/outils/calculateur-revision-irl', destination: '/outils/calculateur-irl', permanent: true },
+      { source: '/outils/calculateur-irl-2026', destination: '/outils/calculateur-irl', permanent: true },
     ];
   },
 

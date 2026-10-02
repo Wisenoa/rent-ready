@@ -54,22 +54,13 @@ function createRedisRatelimit(options: {
     limiter: Ratelimit.slidingWindow(options.limit, `${options.window}s`),
     analytics: true,
     /**
-     * Identifier: extract IP from headers.
-     * In production behind a proxy (Fly.io, Vercel, etc.), X-Forwarded-For is set
-     * by the proxy and is more reliable than X-Real-IP.
+     * No `identifier` callback here: Upstash's Ratelimit has no such option —
+     * the key is supplied per call, as `ratelimit.limit(identifier)` in rateLimit().
+     * IP extraction therefore belongs to the caller (getClientIp), not here.
      */
-    identifier: (req: Request) => {
-      const forwarded = req.headers.get("x-forwarded-for");
-      if (forwarded) return forwarded.split(",")[0].trim();
-      const realIp = req.headers.get("x-real-ip");
-      if (realIp) return realIp;
-      return "unknown";
-    },
-    /**
-     * Rate limit headers — included in every response so the client knows
-     * how close they are to the limit.
-     */
-    resultsQueued: false,
+    // `analytics: true` above already opts into Upstash's usage analytics.
+    // `resultsQueued` is not a Ratelimit config option; the stray comment above
+    // described response headers, which this file sets via setRateLimitHeaders().
   });
 }
 

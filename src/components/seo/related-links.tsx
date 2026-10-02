@@ -39,7 +39,7 @@ const CONTENT_REGISTRY: RelatedPage[] = [
   // Tools
   {
     title: "Calculateur IRL 2026",
-    href: "/outils/calculateur-irl-2026",
+    href: "/outils/calculateur-irl",
     excerpt: "Calculez automatiquement la révision de loyer selon l'indice INSEE",
     category: "Outils",
     type: "tool",
@@ -89,7 +89,7 @@ const CONTENT_REGISTRY: RelatedPage[] = [
   },
   {
     title: "Bail de colocation",
-    href: "/templates/colocation",
+    href: "/templates/bail-colocation",
     excerpt: "Contrat de colocation avec ou sans clause de solidarity",
     category: "Templates",
     type: "template",
@@ -109,10 +109,15 @@ const CONTENT_REGISTRY: RelatedPage[] = [
     type: "template",
   },
   // Articles
-  ...articleMeta.slice(0, 10).map((a) => ({
+  ...articleMeta
+    .filter((a) => Boolean(a.excerpt))
+    .slice(0, 10)
+    .map((a) => ({
     title: a.title,
     href: `/blog/${a.slug}`,
-    excerpt: a.excerpt,
+    // ArticleMeta.excerpt is optional; an article without one is skipped above
+    // rather than rendered with an undefined excerpt.
+    excerpt: a.excerpt!,
     category: a.category,
     type: "article" as const,
   })),
