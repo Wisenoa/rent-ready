@@ -15,6 +15,13 @@ export interface LeaseTransaction {
   amount: Decimal | number | string;
   paidAt?: Date | null;
   dueDate: Date;
+  /**
+   * Stored status. A CANCELLED row keeps its amount and its `paidAt` for the
+   * audit trail, so `paidAt` alone would count money that went back as
+   * collected — the lease page would report encaissements the landlord never
+   * received. Absent on callers that predate cancellation; treated as live.
+   */
+  status?: string | null;
 }
 
 export interface LeaseSummary {
@@ -53,6 +60,11 @@ export function summariseLease(
   let oldestOverdueDays = 0;
 
   for (const tx of transactions) {
+    // A cancelled receipt is money that went back: it is neither collected nor
+    // owed (the door reopened the month with its own balance), so it leaves the
+    // summary entirely.
+    if (tx.status === "CANCELLED") continue;
+
     const amount = new Decimal(tx.amount);
 
     if (tx.paidAt) {

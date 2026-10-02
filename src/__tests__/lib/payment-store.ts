@@ -463,14 +463,26 @@ export function periodRow(options: {
   periodStart?: Date;
   periodEnd?: Date;
   dueDate?: Date;
+  /**
+   * What the month was INVOICED at, which is what the settlement is derived from.
+   *
+   * It used to default to `amount` with zero charges — a shape generation never
+   * writes: `generateRentPeriodsForLease` fills `rentPortion` / `chargesPortion`
+   * with the lease's own split. That default put the whole 970.55 EUR obligation in
+   * the rent column, so every test below it "passed" against a period that a real
+   * database could not contain, and the harness hid the fact that the settlement
+   * was reading a source the code had stopped trusting.
+   */
+  invoicedRent?: string;
+  invoicedCharges?: string;
 }): StoredRow {
   return {
     id: options.id ?? "period-oct",
     userId: options.userId ?? "landlord-1",
     leaseId: options.leaseId ?? "lease-1",
     amount: options.amount,
-    rentPortion: options.amount,
-    chargesPortion: "0.00",
+    rentPortion: options.invoicedRent ?? options.amount,
+    chargesPortion: options.invoicedCharges ?? "0.00",
     // An unpaid period row has no payment yet, so nothing is frozen: the amounts
     // are written when the payment that closes it is recorded.
     receiptRentAmount: null,

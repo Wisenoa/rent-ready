@@ -122,6 +122,9 @@ const PERIOD_SELECT = {
   periodEnd: true,
   dueDate: true,
   amount: true,
+  // What the MONTH was invoiced at. See `invoicedTotal` below.
+  rentPortion: true,
+  chargesPortion: true,
 } as const;
 
 /** Money in a user-facing error message, without importing a client formatter. */
@@ -185,6 +188,8 @@ export async function recordRentPayment(
         periodEnd: Date;
         dueDate: Date;
         amount: Prisma.Decimal;
+        rentPortion: Prisma.Decimal;
+        chargesPortion: Prisma.Decimal;
       } | null = null;
       if (input.duePeriodId) {
         const resolved = await tx.transaction.findFirst({
@@ -237,7 +242,35 @@ export async function recordRentPayment(
       // carries the FULL month next to a sibling receipt, so trusting it would
       // accept 970.55 on top of 400 already received and book 1370.55 against a
       // 970.55 debt.
-      const contractualTotal = totalDueOf(lease);
+      // What the month still owes. Prefer the PERIOD ROW's own invoiced figures
+      // over the lease's current ones: a month that took a payment keeps the
+      // figures it was billed at when the rent is revised (see
+      // `rerateUnpaidRentPeriods`), so `lease.rentAmount` described a February
+      // invoiced at 800 as owing 900 and re-invoiced a month whose instalment had
+      // already been issued against 800. `rentPortion` / `chargesPortion` are
+      // written at generation and left alone while the month is open, so together
+      // they are what was actually asked for.
+      //
+      // With no materialised period the lease is all there is, which is correct:
+      // a month the generator has not reached carries no figures of its own yet.
+      // The charges column is the discriminator, for the same reason as in
+      // `settleRentPeriod`: a row carrying the whole obligation in `rentPortion`
+      // with `chargesPortion` at zero still sums correctly, and believing it would
+      // move the charges into the rent column. When the row's charges agree with
+      // the lease's, it is describing the month's split and is authoritative even
+      // after a revision; when they disagree, it predates the split.
+      //
+      // Wrapped before use, because a caller may pass a Prisma client or a
+      // stand-in whose Decimals arrive as plain strings.
+      const leaseCharges = new Decimal(lease.chargesAmount ?? 0);
+      const rowCharges = new Decimal(period?.chargesPortion ?? 0);
+      const rowIsAuthoritative = Boolean(period) && rowCharges.eq(leaseCharges);
+      const invoicedCharges = rowIsAuthoritative ? rowCharges : leaseCharges;
+      const invoicedRent = rowIsAuthoritative
+        ? new Decimal(period?.rentPortion ?? 0)
+        : new Decimal(lease.rentAmount);
+      const invoicedTotal = invoicedRent.plus(invoicedCharges).toDecimalPlaces(2);
+      const contractualTotal = invoicedTotal;
       const owedAfterReceipts = Decimal.max(
         contractualTotal.minus(received),
         new Decimal(0)
@@ -278,8 +311,8 @@ export async function recordRentPayment(
       // actually read and writes, and returns it — the figures below then describe
       // the state that was persisted rather than the one read before the write.
       let settlement = settlePeriodPayments({
-        rentAmount: lease.rentAmount,
-        chargesAmount: lease.chargesAmount,
+        rentAmount: invoicedRent,
+        chargesAmount: invoicedCharges,
         payments: [
           ...priorPayments.map((p) => ({
             amount: p.amount,
@@ -369,10 +402,10 @@ export async function recordRentPayment(
           chargesPortion: settlement.chargesPortion.toNumber(),
           // Freeze what the month OWED. Same reason as in `settleRentPeriod`: a
           // receipt generated after an IRL revision used to print the new rent
-          // for a payment made at the old one. `lease` is the source the
+          // for a payment made at the old one. These are the same figures the
           // settlement above was decided on, so the two cannot disagree.
-          receiptRentAmount: new Decimal(lease.rentAmount).toDecimalPlaces(2).toNumber(),
-          receiptChargesAmount: new Decimal(lease.chargesAmount ?? 0).toDecimalPlaces(2).toNumber(),
+          receiptRentAmount: invoicedRent.toDecimalPlaces(2).toNumber(),
+          receiptChargesAmount: invoicedCharges.toDecimalPlaces(2).toNumber(),
           periodStart,
           periodEnd,
           dueDate,

@@ -37,6 +37,38 @@ type Db = Pick<typeof prisma, "transaction">;
  *
  * Idempotent: periods that already exist are skipped, so this is safe to call on
  * lease creation, from a cron job, and again after a lease amendment.
+ *
+ * WHEN DOES A RENT REVISION APPLY?
+ *
+ * This is the rule, stated here because the answer was previously implicit and
+ * the code could be read either way. Generation never rewrites a period that
+ * already exists — that is what the `taken` filter below does.
+ *
+ *   A revision applies to the months that HAVE NOT BEEN MATERIALISED YET. Every
+ *   period already written keeps the amount it was created with.
+ *
+ * Each consequence is a decision, not an oversight:
+ *
+ *   - The month IN PROGRESS keeps its amount if anything has already been paid
+ *     on it. The tenant was asked for a specific balance and paid part of it;
+ *     re-rating it would change what they legitimately owe. When NOTHING has
+ *     been paid, a manual amendment DOES reach it: `rerateUnpaidRentPeriods`
+ *     exists for that, and `updateLease` calls it. A revision applied through
+ *     the IRL path (`applyRentRevision`) does not, because an IRL revision is a
+ *     change of the contract going forward, not a correction of a figure the
+ *     landlord typed wrong. Both behaviours are deliberate and they differ.
+ *
+ *   - A month already PAID keeps its amount, and its receipt keeps the figures
+ *     it was issued against (`receiptRentAmount` / `receiptChargesAmount`, frozen
+ *     at payment time, AGENTS.md 14). Financial history is append-oriented: it
+ *     is never silently rewritten to match a later decision.
+ *
+ *   - Every month AFTER the revision takes the new amount, because it is
+ *     materialised after the revision was applied and reads the lease's current
+ *     `rentAmount` / `chargesAmount`.
+ *
+ * `month-rollover.db.test.ts` and `rent-revision.db.test.ts` execute both halves
+ * of this against the real database.
  */
 export async function generateRentPeriodsForLease(
   leaseId: string,
@@ -120,25 +152,153 @@ export async function generateRentPeriodsForLease(
   };
 }
 
-/** Generate periods for every active lease of a user (or all users when omitted). */
+/**
+ * Re-rate a lease's UNPAID periods after its rent or charges changed.
+ *
+ * This is what a manual amendment (`updateLease`) calls, and it replaces a
+ * `deleteMany({ paidAt: null })` followed by a regeneration. That deletion was
+ * destroying the balance of any month that had taken a PARTIAL payment: the
+ * obligation row was dropped while the receipt beside it survived, so the month
+ * was left with money received and nothing owed, and `findUnpaidPeriod` — the
+ * only thing that offers a month for collection — returned nothing. Verified on
+ * the real database: a February paid 300 of 800 became uncollectable for the
+ * remaining 500 EUR after an unrelated rent correction, with no way to reach it
+ * through any screen.
+ *
+ * WHAT IS RE-RATED, AND WHY
+ *
+ *   - Periods with NO payment recorded against them are re-rated to the lease's
+ *     new figures. Nothing was invoiced or collected at the old amount, so
+ *     there is no history to contradict.
+ *   - Periods that already took a payment keep their figures. The tenant was
+ *     asked for a specific balance and paid part of it; changing the number
+ *     under them mid-month would alter what they legitimately owe. Their
+ *     balance simply stays what it was.
+ *
+ * The month in progress is therefore re-rated when nothing has been paid on it
+ * and left alone as soon as something has — which is the same rule generation
+ * applies to a revision, expressed on the rows rather than on their absence.
+ *
+ * Settled history is untouched: a PAID row keeps its amount and the frozen
+ * `receiptRentAmount` / `receiptChargesAmount` its receipt was issued against
+ * (AGENTS.md 11, 14).
+ *
+ * Returns how many periods were re-rated, so a caller can tell a rent change
+ * that reached nothing from one that did not run.
+ */
+export async function rerateUnpaidRentPeriods(leaseId: string): Promise<number> {
+  const lease = await prisma.lease.findUnique({
+    where: { id: leaseId },
+    select: { id: true, rentAmount: true, chargesAmount: true },
+  });
+  if (!lease) return 0;
+
+  const rent = new Decimal(lease.rentAmount).toDecimalPlaces(2);
+  const charges = new Decimal(lease.chargesAmount ?? 0).toDecimalPlaces(2);
+  const total = rent.plus(charges).toDecimalPlaces(2);
+
+  const openPeriods = await prisma.transaction.findMany({
+    where: { leaseId, paidAt: null, status: { not: "CANCELLED" } },
+    select: { id: true, periodStart: true, periodEnd: true },
+  });
+
+  let rerated = 0;
+  for (const period of openPeriods) {
+    // A month that took any payment keeps its figures — see the note above.
+    const received = await prisma.transaction.findFirst({
+      where: {
+        leaseId,
+        periodStart: period.periodStart,
+        periodEnd: period.periodEnd,
+        paidAt: { not: null },
+        status: { not: "CANCELLED" },
+      },
+      select: { id: true },
+    });
+    if (received) continue;
+
+    await prisma.transaction.update({
+      where: { id: period.id },
+      data: {
+        amount: total.toNumber(),
+        rentPortion: rent.toNumber(),
+        chargesPortion: charges.toNumber(),
+      },
+    });
+    rerated += 1;
+  }
+  return rerated;
+}
+
+/**
+ * Generate periods for every active lease of a user (or all users when omitted),
+ * and move leases whose term has run out to EXPIRED.
+ *
+ * WHY THE STATUS IS CORRECTED HERE
+ *
+ * `LeaseStatus` carries EXPIRED and nothing ever set it: the only writers were
+ * `createLease` (ACTIVE) and `terminateLease` (TERMINATED). So a fixed-term lease
+ * whose `endDate` passed kept reading ACTIVE forever — shown as active on the
+ * leases list, reported as an active lease by the tenant portal, and re-scanned
+ * by this job every single day for the rest of its life.
+ *
+ * The financial side was already right, which is why this was easy to miss:
+ * `buildRentPeriod` bounds the range by `endDate`, so generation stopped at the
+ * last month of the term and no rent was ever owed past it. Verified on the real
+ * database — a three-year lease read two months past its `endDate` had generated
+ * exactly its 36 contractual months and nothing more. What was wrong was the
+ * LANDLORD'S PICTURE of the lease, not the ledger.
+ *
+ * This is the natural place for it: the job already reads every active lease
+ * every day, so the correction costs one comparison on rows it has in hand, and
+ * it needs no scheduler of its own. It is deliberately not a read-time
+ * derivation, because the status is what the UI filters and the portal reports —
+ * a value that is only correct when someone happens to look would still be
+ * wrong in every export and every query that reads the column directly.
+ *
+ * A month-granular comparison, matching `buildRentPeriod`: a lease ending the
+ * 31st is not EXPIRED until the following month begins, because rent for its
+ * final month is still owed and still collectable.
+ */
 export async function generateRentPeriodsForAllLeases(
   userId?: string,
   now: Date = new Date()
-): Promise<{ leases: number; created: number }> {
+): Promise<{ leases: number; created: number; expired: number }> {
   const leases = await prisma.lease.findMany({
     where: {
       status: "ACTIVE",
       ...(userId ? { userId } : {}),
     },
-    select: { id: true },
+    select: { id: true, endDate: true },
   });
+
+  // Anything whose final month has closed. Compared on the calendar month so a
+  // lease ending on the 31st survives until the 1st of the next month.
+  const lastCollectableMonth = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)
+  );
+  const ended = leases.filter(
+    (l) => l.endDate && l.endDate.getTime() < lastCollectableMonth.getTime()
+  );
+
+  let expired = 0;
+  if (ended.length > 0) {
+    const result = await prisma.lease.updateMany({
+      where: { id: { in: ended.map((l) => l.id) }, status: "ACTIVE" },
+      data: { status: "EXPIRED" },
+    });
+    expired = result.count;
+  }
 
   let created = 0;
   for (const lease of leases) {
+    // A lease that just expired has had its final month generated by earlier
+    // runs; generating again is a harmless no-op, and `generateRentPeriodsForLease`
+    // returns 0 for it now that the status is EXPIRED.
     const result = await generateRentPeriodsForLease(lease.id, now);
     created += result.created;
   }
-  return { leases: leases.length, created };
+  return { leases: leases.length, created, expired };
 }
 
 /**
@@ -325,6 +485,10 @@ export async function settleRentPeriod(
         amount: true,
         periodStart: true,
         periodEnd: true,
+        // What the MONTH was invoiced at, as distinct from what the lease says
+        // today. See the note on the freeze below.
+        rentPortion: true,
+        chargesPortion: true,
         lease: { select: { rentAmount: true, chargesAmount: true } },
       },
     });
@@ -359,9 +523,47 @@ export async function settleRentPeriod(
       createdAt: payment.paidAt,
     };
 
+    // What the MONTH owes, which is not always what the lease says TODAY.
+    //
+    // A month that took a payment keeps the figures it was invoiced at when the
+    // rent is revised (see `rerateUnpaidRentPeriods`), so `lease.rentAmount` is
+    // the wrong source for it: it described a February invoiced at 800 as owing
+    // 900, and the receipt froze 900 for a month whose first instalment had been
+    // issued against 800. The period row carries the month's own split —
+    // `rentPortion` + `chargesPortion` are written at generation and left alone
+    // while the month stays open, so together they are what was invoiced.
+    //
+    // The lease remains the fallback for a row that predates that split, which is
+    // the only case where the two can disagree and the row has nothing to say.
+    // The row's split is trusted only when it ADDS UP to what the lease says the
+    // month owes. A row written before the split existed carries the whole
+    // obligation in `rentPortion` with `chargesPortion` at zero, and believing that
+    // would move 120.05 EUR of charges into the rent column on the 2577 report.
+    // The lease stays the fallback for those, and for any row whose figures
+    // disagree with it — which is precisely the case where the row is not
+    // describing the month's obligation.
+    //
+    // Everything is wrapped before use: a caller may pass a Prisma client or a
+    // stand-in whose Decimals arrive as plain strings.
+    const leaseCharges = new Decimal(period.lease.chargesAmount ?? 0);
+    const rowCharges = new Decimal(period.chargesPortion ?? 0);
+    // The charges column is the discriminator. Checking only that the row's two
+    // columns add up to the month's total is not enough: a row that carries the
+    // WHOLE obligation in `rentPortion` with `chargesPortion` at zero still sums
+    // correctly, and believing it moves every euro of charges into the rent
+    // column — which is the 2577 fiscal line. When the row's charges agree with the
+    // lease's, the row is describing the month's split and is authoritative even
+    // when the lease has since been revised; when they disagree, the row predates
+    // the split and the lease is the only source there is.
+    const rowIsAuthoritative = rowCharges.eq(leaseCharges);
+    const invoicedCharges = rowIsAuthoritative ? rowCharges : leaseCharges;
+    const invoicedRent = rowIsAuthoritative
+      ? new Decimal(period.rentPortion)
+      : new Decimal(period.lease.rentAmount);
+
     const settlement = settlePeriodPayments({
-      rentAmount: period.lease.rentAmount,
-      chargesAmount: period.lease.chargesAmount,
+      rentAmount: invoicedRent,
+      chargesAmount: invoicedCharges,
       payments: [
         ...priorPayments.map((p) => ({
           amount: new Decimal(p.amount).toDecimalPlaces(2),
@@ -388,10 +590,11 @@ export async function settleRentPeriod(
       (sum, p) => sum.plus(new Decimal(p.amount)),
       new Decimal(0)
     );
+    // The month's own invoiced figures, not the lease's current ones — same
+    // reason as the settlement above, and it is what keeps the ceiling equal to
+    // the balance a revised-but-already-paid month was left at.
     const owedAfterReceipts = Decimal.max(
-      new Decimal(period.lease.rentAmount)
-        .plus(new Decimal(period.lease.chargesAmount ?? 0))
-        .minus(received),
+      invoicedRent.plus(invoicedCharges).minus(received),
       new Decimal(0)
     ).toDecimalPlaces(2);
     const ceiling = Decimal.min(outstanding, owedAfterReceipts);
@@ -421,10 +624,11 @@ export async function settleRentPeriod(
           // on. A receipt generated later must print these, not whatever the lease
           // says by then: an IRL revision between the payment and the download
           // used to print the new rent on a receipt for money received at the old
-          // one (AGENTS.md 14). `period.lease` is the same source the settlement
-          // above was derived from, so the receipt and the ledger cannot disagree.
-          receiptRentAmount: new Decimal(period.lease.rentAmount).toDecimalPlaces(2).toNumber(),
-          receiptChargesAmount: new Decimal(period.lease.chargesAmount ?? 0).toDecimalPlaces(2).toNumber(),
+          // one (AGENTS.md 14). These are the SAME `invoicedRent` /
+          // `invoicedCharges` the settlement above was derived from, so the
+          // receipt and the ledger cannot disagree.
+          receiptRentAmount: invoicedRent.toDecimalPlaces(2).toNumber(),
+          receiptChargesAmount: invoicedCharges.toDecimalPlaces(2).toNumber(),
         }
       : {
           // Still short: the month stays unpaid and collectable, its balance drops
@@ -487,22 +691,46 @@ export async function findUnpaidPeriod(
 ): Promise<{
   id: string;
   amount: Prisma.Decimal;
+  /** What the month was invoiced at, so the caller settles it at those figures. */
+  rentPortion: Prisma.Decimal;
+  chargesPortion: Prisma.Decimal;
   periodStart: Date;
   periodEnd: Date;
   dueDate: Date;
 } | null> {
   const month = periodStart.toISOString().slice(0, 7);
+  // Match the month IN THE QUERY, not by comparing the row afterwards.
+  //
+  // It used to fetch the lease's oldest unpaid period whatever the caller asked
+  // for, then return null when that row was not the requested month. So a lease
+  // with January and March both unpaid could only ever collect January by date:
+  // asking for March returned null, and the payment door fell through to a path
+  // with no materialised period, which derives the month's obligation from the
+  // CURRENT lease rent and re-invoices an arrears month that had a payment
+  // recorded against it. On a lease where the rent was revised after March's
+  // partial payment, that meant demanding 900 EUR of a month the tenant had been
+  // asked for 800 and had already paid 400 of.
+  //
+  // The month comparison is not a filter this can be relaxed on: it is what stops
+  // a payload naming one month's id or dates with another's, and it is why the
+  // row's own dates replace whatever was posted (AGENTS.md 8).
   const candidate = await db.transaction.findFirst({
     where: {
       leaseId,
       paidAt: null,
       status: { in: ["PENDING", "LATE", "PARTIAL"] },
+      // Same instant as the first day of the requested month. `periodStart` is
+      // always stored as the first of the month (see `buildRentPeriod`), so this
+      // is an equality, not a range.
+      periodStart: new Date(`${month}-01T00:00:00.000Z`),
       ...(userId ? { userId } : {}),
     },
     orderBy: { periodStart: "asc" },
     select: {
       id: true,
       amount: true,
+      rentPortion: true,
+      chargesPortion: true,
       periodStart: true,
       periodEnd: true,
       dueDate: true,
@@ -515,6 +743,8 @@ export async function findUnpaidPeriod(
     ? {
         id: candidate.id,
         amount: candidate.amount,
+        rentPortion: candidate.rentPortion,
+        chargesPortion: candidate.chargesPortion,
         periodStart: candidate.periodStart,
         periodEnd: candidate.periodEnd,
         dueDate: candidate.dueDate,

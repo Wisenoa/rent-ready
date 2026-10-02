@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { leaseSchema } from "@/lib/validations/lease";
 import { generateAndUploadBailPdf } from "@/lib/actions/bail-pdf-server";
 import { generateRentPeriodsForLease } from "@/lib/domain/generate-rent-periods";
+import { isRevisable, nextRevisionDate } from "@/lib/domain/lease-revision";
 
 // ============================================================
 // GET /api/leases — List all leases
@@ -149,7 +150,19 @@ export async function POST(request: NextRequest) {
       irlReferenceValue: parsed.data.irlReferenceValue ?? null,
     };
 
-    const lease = await prisma.lease.create({ data: leaseData });
+    const lease = await prisma.lease.create({
+      data: {
+        ...leaseData,
+        // The NEXT revision date. This route is the API twin of the createLease
+        // server action, and it left `revisionDate` null — so a lease created
+        // through the API had no revision date at all, which is one of the two
+        // reasons /api/cron/revision-check could never find anything. See
+        // `@/lib/domain/lease-revision`.
+        revisionDate: isRevisable(leaseData)
+          ? nextRevisionDate(leaseData.startDate, new Date(), leaseData.endDate ?? null)
+          : null,
+      },
+    });
 
     // Materialise the rent owed from the lease start through the current month so
     // arrears detection and the relance flow have data to work from.

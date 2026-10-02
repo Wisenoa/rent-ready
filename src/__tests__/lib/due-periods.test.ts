@@ -76,12 +76,12 @@ describe("computeDuePeriods", () => {
   });
 
   it("prefills the remaining balance of a partially paid period", () => {
-    // The shape settleRentPeriod actually produces for a partial payment: the
-    // period row keeps the FULL obligation and stays unpaid, and the 400 EUR
-    // arrives as its own sibling row. What the landlord is offered is the 300
-    // still owed, not the 700 the month was originally worth.
+    // The shape settleRentPeriod really produces for a partial payment: the
+    // period row carries the BALANCE still owed and stays unpaid, and the money
+    // received is its own sibling row. A 700 EUR month with 400 received offers
+    // the 300 left, not the 700 it was originally worth.
     const rows = [
-      period("2026-10", 700),
+      period("2026-10", 300),
       {
         ...period("2026-10", 400),
         id: "tx-payment-1",
@@ -98,13 +98,13 @@ describe("computeDuePeriods", () => {
     expect(p.status).toBe("OVERDUE");
   });
 
-  it("keeps offering the month after a partial payment that leaves the period unpaid", () => {
+  it("keeps offering the month after a partial payment leaves the period unpaid", () => {
     // THE REGRESSION. settleRentPeriod used to overwrite the period's amount
     // (970.55 -> 400) and set paidAt, so the month vanished from the unpaid set
     // and the remaining 570.55 EUR could never be collected through any UI: the
-    // dialog is the only entry point to createTransaction.
+    // dialog is the only caller of createTransaction.
     const rows = [
-      period("2026-10", "970.55"),
+      period("2026-10", "570.55"),
       {
         ...period("2026-10", 400),
         id: "tx-payment-1",
@@ -121,7 +121,7 @@ describe("computeDuePeriods", () => {
 
   it("still offers the balance when two partial payments have landed", () => {
     const rows = [
-      period("2026-10", "970.55"),
+      period("2026-10", "470.55"),
       { ...period("2026-10", 400), id: "tx-p1", paidAt: new Date("2026-10-03T10:00:00.000Z") },
       { ...period("2026-10", 100), id: "tx-p2", paidAt: new Date("2026-10-20T10:00:00.000Z") },
     ];
@@ -132,9 +132,11 @@ describe("computeDuePeriods", () => {
     expect(p.remaining).toBe("470.55");
   });
 
-  it("drops a period whose balance is already covered by sibling rows", () => {
+  it("drops a period whose balance is fully covered", () => {
+    // A month with nothing left to collect is closed (paidAt set) by
+    // settleRentPeriod; a zero-balance row must not be offered either.
     const rows = [
-      period("2026-10", 700),
+      period("2026-10", 0),
       { ...period("2026-10", 700), id: "tx-payment-1", paidAt: new Date("2026-10-03T10:00:00.000Z") },
     ];
     expect(computeDuePeriods(rows, NOW)).toEqual([]);
@@ -142,7 +144,7 @@ describe("computeDuePeriods", () => {
 
   it("never returns a negative remaining balance on overpayment", () => {
     const rows = [
-      period("2026-10", 700),
+      period("2026-10", 0),
       { ...period("2026-10", 900), id: "tx-payment-1", paidAt: new Date("2026-10-03T10:00:00.000Z") },
     ];
     // Overpaid: the period is settled, so there is nothing left to collect. The

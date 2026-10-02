@@ -12,21 +12,26 @@
  * So a missing receipt becomes an explicit warning carried in `data`, and the
  * button shows it instead of a clean success.
  *
- * The decision itself lives in `describeQuittanceOutcome` because
- * `transaction-actions.tsx` is JSX (its reminder path renders an email
- * component) and cannot be imported by the test runner — the same constraint
- * `transaction-due-period.test.ts` documents. The wiring between that function,
- * the action's payload and the button's toast is therefore pinned by reading
- * their sources, and the behaviour by calling the function.
+ * The action side is covered by CALLING markTransactionPaid in
+ * mark-transaction-paid.test.ts (it mocks the database and the generator). The
+ * two functions below are the pure decision each side makes, and the button's
+ * client component is reduced to picking the matching sonner call, so the
+ * success-vs-warning rule is executable here too.
+ *
+ * Note: an earlier version of this file asserted on the SOURCE TEXT of
+ * mark-paid-button.tsx and transaction-actions.tsx. That style passed even after
+ * the warning branch was neutralised, so it guarded nothing. Nothing here reads
+ * source any more.
  */
 
-import { describe, it, expect } from "vitest";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { describe, it, expect, vi } from "vitest";
 
 import {
   describeQuittanceOutcome,
+  describeMarkPaidToast,
+  reportMarkPaid,
   QUITTANCE_UNAVAILABLE_FALLBACK,
+  type ToastSink,
 } from "@/lib/domain/quittance-outcome";
 
 const ADDRESS_ERROR =
@@ -70,46 +75,105 @@ describe("describeQuittanceOutcome", () => {
   });
 });
 
-describe("markTransactionPaid wiring", () => {
-  const source = readFileSync(
-    join(process.cwd(), "src/lib/actions/transaction-actions.tsx"),
-    "utf8"
-  );
-  const action = source.slice(source.indexOf("export async function markTransactionPaid"));
+describe("describeMarkPaidToast", () => {
+  it("warns with the reason instead of claiming a clean success", () => {
+    // This is the exact shape markTransactionPaid returns when generateQuittance
+    // refused: the payment is recorded, no receipt exists.
+    const toast = describeMarkPaidToast({
+      success: true,
+      data: { receiptType: "QUITTANCE", quittanceError: ADDRESS_ERROR },
+    });
 
-  it("carries the reason into the payload instead of dropping it", () => {
-    expect(action).toContain("describeQuittanceOutcome(await generateQuittance(id))");
-    expect(action).toContain("quittanceError: outcome.warning");
+    expect(toast.tone).toBe("warning");
+    expect(toast.message).toContain(ADDRESS_ERROR);
+    expect(toast.message).toContain("la quittance n'a pas pu être générée");
+    // The success wording must not be the whole message here, or the user is
+    // still told everything worked.
+    expect(toast.message).not.toBe("Paiement validé");
   });
 
-  it("still succeeds when no receipt could be produced", () => {
-    // Returning success:false here would make it look like the payment was not
-    // recorded — which is worse than the original bug, not better.
-    expect(action).toMatch(/success: true/);
-    // And the failure must not be silent on the server either.
-    expect(action).toContain("quittance not generated");
+  it("confirms plainly once a receipt really was produced", () => {
+    const toast = describeMarkPaidToast({
+      success: true,
+      data: { receiptType: "QUITTANCE", receiptUrl: "/api/receipts/quittance-2026-0007.pdf" },
+    });
+
+    expect(toast).toEqual({ tone: "success", message: "Paiement validé" });
+  });
+
+  it("still errors when the action itself failed", () => {
+    const toast = describeMarkPaidToast({ success: false, error: "Transaction introuvable." });
+
+    expect(toast).toEqual({ tone: "error", message: "Transaction introuvable." });
+  });
+
+  it("has a fallback message when the action failed without a reason", () => {
+    expect(describeMarkPaidToast({ success: false })).toEqual({
+      tone: "error",
+      message: "Impossible de valider le paiement",
+    });
+  });
+
+  it("does not treat a non-string quittanceError as a warning", () => {
+    // Guards the shape check itself: truthy non-strings must not leak into the
+    // user-facing message.
+    for (const data of [{}, { quittanceError: null }, { quittanceError: "" }]) {
+      expect(describeMarkPaidToast({ success: true, data }).tone).toBe("success");
+    }
   });
 });
 
-describe("mark-paid-button wiring", () => {
-  const source = readFileSync(
-    join(process.cwd(), "src/app/(dashboard)/billing/mark-paid-button.tsx"),
-    "utf8"
-  );
+describe("reportMarkPaid", () => {
+  function sink() {
+    return {
+      error: vi.fn(),
+      warning: vi.fn(),
+      success: vi.fn(),
+    } satisfies ToastSink & Record<string, ReturnType<typeof vi.fn>>;
+  }
 
-  it("warns with the reason rather than showing a bare success", () => {
-    expect(source).toContain("quittanceError");
-    expect(source).toContain("toast.warning");
-    expect(source).toMatch(/la quittance n'a pas pu être générée/);
+  it("warns instead of reporting a bare success when no receipt came out", () => {
+    // This is the regression under test: the original bug toasted
+    // "Paiement validé" while no quittance existed anywhere.
+    const toasts = sink();
+
+    reportMarkPaid(
+      { success: true, data: { receiptType: "QUITTANCE", quittanceError: ADDRESS_ERROR } },
+      toasts
+    );
+
+    expect(toasts.warning).toHaveBeenCalledTimes(1);
+    expect(toasts.warning.mock.calls[0][0]).toContain(ADDRESS_ERROR);
+    // The critical assertions: a success toast here would restore the bug.
+    expect(toasts.success).not.toHaveBeenCalled();
+    expect(toasts.error).not.toHaveBeenCalled();
   });
 
-  it("only shows the plain success when no warning came back", () => {
-    const warningIndex = source.indexOf("if (quittanceError)");
-    const successIndex = source.indexOf('toast.success("Paiement validé")');
+  it("confirms plainly when a receipt really was produced", () => {
+    const toasts = sink();
 
-    // The success toast must be the last resort, after the warning branch —
-    // otherwise the user is told everything worked while holding no receipt.
-    expect(warningIndex).toBeGreaterThan(-1);
-    expect(successIndex).toBeGreaterThan(warningIndex);
+    reportMarkPaid({ success: true, data: { receiptUrl: "/api/receipts/q.pdf" } }, toasts);
+
+    expect(toasts.success).toHaveBeenCalledWith("Paiement validé");
+    expect(toasts.warning).not.toHaveBeenCalled();
+  });
+
+  it("errors when the action itself failed, without a warning", () => {
+    const toasts = sink();
+
+    reportMarkPaid({ success: false, error: "Transaction introuvable." }, toasts);
+
+    expect(toasts.error).toHaveBeenCalledWith("Transaction introuvable.");
+    expect(toasts.success).not.toHaveBeenCalled();
+  });
+
+  it("shows the warning long enough to read an address-related reason", () => {
+    const toasts = sink();
+
+    reportMarkPaid({ success: true, data: { quittanceError: ADDRESS_ERROR } }, toasts);
+
+    // An 8s toast is the difference between a user reading the reason and
+    // missing it, which would put them back to hunting for a receipt.
+    expect(toasts.warning).toHaveBeenCalledWith(expect.any(String), { duration: 8000 });
   });
 });

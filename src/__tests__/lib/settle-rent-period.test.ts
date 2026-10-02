@@ -130,7 +130,14 @@ async function record(payment: { amount: string; day?: number }) {
 beforeEach(() => {
   storeRef.current = createStore({
     leases: [lease("lease-1", "landlord-1", RENT, CHARGES)],
-    rows: [periodRow({ id: "period-1", amount: TOTAL })],
+    rows: [periodRow({
+      id: "period-1",
+      amount: TOTAL,
+      // What generation writes: the month's own rent/charges split, not the whole
+      // obligation in the rent column.
+      invoicedRent: RENT,
+      invoicedCharges: CHARGES,
+    })],
   });
 });
 

@@ -6,7 +6,11 @@ import { getCurrentUserId } from "@/lib/auth";
 import { leaseSchema, standaloneLeaseSchema } from "@/lib/validations/lease";
 import type { ActionResult } from "./property-actions";
 import { generateAndUploadBailPdf } from "./bail-pdf-server";
-import { generateRentPeriodsForLease } from "@/lib/domain/generate-rent-periods";
+import {
+  generateRentPeriodsForLease,
+  rerateUnpaidRentPeriods,
+} from "@/lib/domain/generate-rent-periods";
+import { isRevisable, nextRevisionDate } from "@/lib/domain/lease-revision";
 
 export async function createLease(formData: FormData): Promise<ActionResult> {
   try {
@@ -67,7 +71,17 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
     }
 
     const lease = await prisma.lease.create({
-      data: leaseData,
+      data: {
+        ...leaseData,
+        // The NEXT revision date, not "now": the lease page, the revision page,
+        // the preview route and the tenant portal all read this forward, and
+        // /api/cron/revision-check selects on it being in the future. Leaving it
+        // null at creation is what made that cron match nothing until a
+        // landlord applied a revision by hand — see `@/lib/domain/lease-revision`.
+        revisionDate: isRevisable(leaseData)
+          ? nextRevisionDate(leaseData.startDate, new Date(), leaseData.endDate ?? null)
+          : null,
+      },
     });
 
     // Generate the rent periods owed from the lease start through the current
@@ -148,12 +162,20 @@ export async function updateLease(id: string, formData: FormData): Promise<Actio
 
     if (rentChanged) {
       try {
-        await prisma.transaction.deleteMany({
-          where: { leaseId: id, paidAt: null },
-        });
+        // Re-rate the unpaid periods rather than deleting and regenerating them.
+        // The deletion dropped the obligation of any month that had taken a
+        // PARTIAL payment while leaving its receipt behind, so the balance that
+        // was still owed stopped existing and could not be collected through any
+        // screen. `rerateUnpaidRentPeriods` also leaves a month alone as soon as
+        // something has been paid on it, which is the rule a revision follows —
+        // see the note on `generateRentPeriodsForLease`.
+        await rerateUnpaidRentPeriods(id);
+        // A rent change can also make a month exist that was never generated
+        // (a lease whose start moved forward, say), so generation still runs:
+        // it only creates what is missing.
         await generateRentPeriodsForLease(id);
       } catch (error) {
-        console.error("regenerateRentPeriods error:", error);
+        console.error("rerateRentPeriods error:", error);
       }
     }
 

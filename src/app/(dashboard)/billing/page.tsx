@@ -32,8 +32,10 @@ import {
 } from "@/lib/domain/period-presentation";
 import { QuittanceButton } from "@/components/quittance-button";
 import { MarkPaidButton } from "./mark-paid-button";
+import { CancelPaymentButton } from "./cancel-payment-button";
 import { SubscriptionBanner } from "./subscription-banner";
 import { formatCurrency } from "@/lib/format";
+import { toNumber } from "@/lib/decimal";
 import { ensureRentPeriods } from "@/lib/queries/rent-periods";
 import { getDuePeriodsByLease } from "@/lib/queries/due-periods";
 
@@ -375,13 +377,27 @@ export default async function BillingPage() {
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-1">
                           {tx.status === "PENDING" && (
+                            /* The row carries the balance still owed, which drops
+                               below rent+charges once a partial payment has been
+                               recorded. Settling the lease's full rent here would
+                               book the outstanding balance twice. */
                             <MarkPaidButton
                               transactionId={tx.id}
-                              defaultAmount={Number(new Decimal(tx.lease.rentAmount).plus(tx.lease.chargesAmount).toDecimalPlaces(2))}
+                              defaultAmount={toNumber(tx.amount)}
                             />
                           )}
                           {(tx.status === "PAID" || tx.status === "PARTIAL") && tx.receiptType && (
                             <QuittanceButton transactionId={tx.id} />
+                          )}
+                          {/* The correction path: a receipt recorded in error
+                              (97,00 instead of 970,00, wrong lease) had no way
+                              out — no deletion, no reversal — so the false
+                              amount stayed in the register for good. */}
+                          {tx.status !== "CANCELLED" && tx.paidAt && (
+                            <CancelPaymentButton
+                              transactionId={tx.id}
+                              amount={toNumber(tx.amount)}
+                            />
                           )}
                         </div>
                       </TableCell>

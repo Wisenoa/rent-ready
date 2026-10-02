@@ -18,6 +18,15 @@
  *   - numbering is scoped per landlord and the pair (userId, receiptNumber) is
  *     unique in the schema. A global UNIQUE on receiptNumber would look like a
  *     fix and would reject the second landlord's first receipt.
+ *
+ * WHY THE SCHEMA AND MIGRATION ARE STILL READ AS SOURCE
+ *
+ * The concurrency half is executed against a real database, but the two
+ * declarations it depends on are not, and they are the part a mock can never
+ * supply: whether the uniqueness is scoped per landlord rather than global, and
+ * whether the migration that creates the constraint exists at all. A mock agrees
+ * with whatever the schema says, so asking one would be asking the question to
+ * itself. The claim is about the DDL, and the DDL is the artefact under test.
  */
 
 import { describe, it, expect } from "vitest";

@@ -5,30 +5,49 @@
  * it were trusted, a hand-crafted POST could settle a rent period belonging to
  * another landlord, at dates the attacker chose, and produce a quittance for it.
  *
- * Two things are pinned here:
- *   - `resolveDuePeriod` scopes the lookup to the authenticated landlord AND to
- *     the lease in the same submission, and only returns an unpaid period;
- *   - `createTransaction` takes the period dates from that row rather than from
- *     the form, and refuses rather than falling back when the row is gone.
- *
- * The action itself is a `.tsx` module: `sendPaymentReminder` in the same file
- * renders JSX, which the vitest import analyser cannot parse (the same
- * constraint `profile-address.test.ts` documents). So the database contract is
- * asserted against `resolveDuePeriod` — the whole of the untrusted-id handling —
- * and the action is checked by reading its source.
+ * `resolveDuePeriod` still scopes the lookup to the authenticated landlord AND
+ * to the lease in the same submission. What changed is the caller: `createTransaction`
+ * is now a thin adapter over the payment door
+ * (`src/lib/services/rent-payments.ts`), so instead of asserting which strings its
+ * source contains, these tests execute it and check what it wrote — the period's
+ * own dates win over the posted ones, an unowned id is refused rather than
+ * falling back, and the collectable balance is re-derived server-side.
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 
-const { prismaMock } = vi.hoisted(() => ({
-  prismaMock: { transaction: { findFirst: vi.fn() } },
+const { prismaMock, storeRef, generateQuittanceMock, fallbackPrismaMock } = vi.hoisted(() => {
+  const findFirst = vi.fn();
+  return {
+    prismaMock: { transaction: { findFirst } },
+    // Used when no store is seeded, i.e. the `resolveDuePeriod` block.
+    fallbackPrismaMock: { transaction: { findFirst } },
+    storeRef: { current: null as unknown },
+    generateQuittanceMock: vi.fn(),
+  };
+});
+
+// The door and the action read the seeded store; `resolveDuePeriod` is asserted
+// on its own query shape below, so it gets a store whose `findFirst` is a spy.
+vi.mock("@/lib/prisma", () => ({
+  get prisma() {
+    return (storeRef.current as { prisma: unknown } | null)?.prisma ?? fallbackPrismaMock;
+  },
 }));
-
-vi.mock("@/lib/prisma", () => ({ prisma: prismaMock }));
+vi.mock("@/lib/actions/quittance-actions", () => ({
+  generateQuittance: generateQuittanceMock,
+}));
+vi.mock("@/lib/auth", () => ({ getCurrentUserId: vi.fn(async () => "landlord-1") }));
+vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 
 import { resolveDuePeriod } from "@/lib/queries/due-periods";
+import { createTransaction } from "@/lib/actions/transaction-actions";
+import { createStore, monthReceipts, periodRow, lease, type Store } from "./payment-store";
+
+/** The store seeded for the current test. */
+function store(): Store {
+  return storeRef.current as Store;
+}
 
 const ROW = {
   id: "period-1",
@@ -40,6 +59,7 @@ const ROW = {
 describe("resolveDuePeriod", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    storeRef.current = null;
     prismaMock.transaction.findFirst.mockResolvedValue(ROW);
   });
 
@@ -66,37 +86,82 @@ describe("resolveDuePeriod", () => {
   });
 });
 
-describe("createTransaction source", () => {
-  const source = readFileSync(
-    join(process.cwd(), "src/lib/actions/transaction-actions.tsx"),
-    "utf8"
-  );
+const OCT = new Date("2026-10-01T00:00:00.000Z");
 
-  it("resolves the posted period id through the scoped lookup", () => {
-    expect(source).toContain("resolveDuePeriod(userId, lease.id, duePeriodId)");
+function form(overrides: Record<string, string> = {}): FormData {
+  const data = new FormData();
+  const fields: Record<string, string> = {
+    leaseId: "lease-1",
+    amount: "970.55",
+    // Deliberately September's dates next to October's period id.
+    periodStart: "2026-09-01",
+    periodEnd: "2026-09-30",
+    dueDate: "2026-09-01",
+    duePeriodId: "period-1",
+    ...overrides,
+  };
+  for (const [key, value] of Object.entries(fields)) data.append(key, value);
+  return data;
+}
+
+describe("createTransaction — the posted period id is untrusted", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    storeRef.current = createStore({
+      leases: [lease("lease-1", "landlord-1", "850.50", "120.05")],
+      rows: [periodRow({ id: "period-1", amount: "970.55" })],
+    });
+    generateQuittanceMock.mockResolvedValue({ success: true, data: {} });
   });
 
-  it("overwrites the posted dates with the period's own dates", () => {
-    // Otherwise a payload naming October's id with September's dates books the
-    // payment on the wrong month — the exact defect this change removes.
-    expect(source).toContain("periodStart = period.periodStart");
-    expect(source).toContain("periodEnd = period.periodEnd");
-    expect(source).toContain("dueDate = period.dueDate");
+  it("books the payment on the period the id names, not on the posted dates", async () => {
+    const result = await createTransaction(form());
+
+    expect(result.success).toBe(true);
+    // October's receipts, not September's: the row's dates replace the form's.
+    expect(monthReceipts(store(), "lease-1", OCT).toFixed(2)).toBe("970.55");
   });
 
-  it("refuses instead of falling back when the period no longer exists", () => {
-    const guard = source.indexOf("if (!period) {");
-    expect(guard).toBeGreaterThan(-1);
-    // A fallback here would let a rejected id post the raw form dates instead.
-    expect(source.slice(guard, guard + 260)).toContain("success: false");
+  it("refuses a period id that is not this landlord's, instead of falling back", async () => {
+    // A fallback would post the raw form dates against a rejected id, which is
+    // how another landlord's rent period was settleable.
+    storeRef.current = createStore({
+      leases: [lease("lease-1", "landlord-1", "850.50", "120.05")],
+      rows: [periodRow({ id: "victim-period", amount: "970.55", userId: "attacker" })],
+    });
+
+    const result = await createTransaction(form({ duePeriodId: "victim-period" }));
+
+    expect(result.success).toBe(false);
+    expect(monthReceipts(store(), "lease-1", OCT).toFixed(2)).toBe("0.00");
   });
 
-  it("settles the chosen row and never falls through to a second insert", () => {
-    // The insert path would book the same month twice if a rejected or
-    // already-settled period simply fell through.
-    expect(source).toContain("{ id: duePeriodId }");
-    expect(source).toMatch(
-      /if \(duePeriodId\) \{\s*return \{\s*success: false/
-    );
+  it("refuses a period that has already been settled", async () => {
+    // settling twice would book the month twice; `settleRentPeriod` matching no
+    // row is a refusal, not a fall-through to an insert.
+    storeRef.current = createStore({
+      leases: [lease("lease-1", "landlord-1", "850.50", "120.05")],
+      rows: [
+        {
+          ...periodRow({ id: "period-1", amount: "970.55" }),
+          paidAt: new Date("2026-10-05T00:00:00.000Z"),
+          status: "PAID",
+        },
+      ],
+    });
+
+    const result = await createTransaction(form());
+
+    expect(result.success).toBe(false);
+  });
+
+  it("re-derives the collectable balance server-side, not from the browser", async () => {
+    // The dialog's `max` is ergonomics. Without this check a crafted POST books
+    // 1000 EUR against a 970.55 EUR month.
+    const result = await createTransaction(form({ amount: "1000" }));
+
+    expect(result.success).toBe(false);
+    expect(result.success === false && result.error).toContain("dépasse le reste à payer");
+    expect(monthReceipts(store(), "lease-1", OCT).toFixed(2)).toBe("0.00");
   });
 });

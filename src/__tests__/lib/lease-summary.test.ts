@@ -104,4 +104,21 @@ describe("summariseLease", () => {
     const s = summariseLease([unpaid("2026-10-01", "640.005")], NOW);
     expect(s.outstanding.toDecimalPlaces(2).toString()).toBe("640.01");
   });
+
+  it("counts a cancelled receipt as neither collected nor owed", () => {
+    // A cancelled row keeps its amount AND its paidAt for the audit trail, so
+    // `paidAt` alone reported 900 EUR encaissés on a lease page when the money
+    // had gone back. The door reopens the month with its own balance row, which
+    // is what carries the debt.
+    const s = summariseLease(
+      [
+        { ...paid("2026-09-01", "900"), status: "CANCELLED" },
+        unpaid("2026-09-01", "900"),
+        paid("2026-10-01", "300"),
+      ],
+      NOW
+    );
+    expect(s.collected.toString()).toBe("300");
+    expect(s.outstanding.toString()).toBe("900");
+  });
 });
