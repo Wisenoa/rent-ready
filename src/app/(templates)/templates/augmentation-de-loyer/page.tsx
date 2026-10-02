@@ -45,7 +45,7 @@ const conditionsAugmentation = [
   {
     titre: "Délai de prévenance",
     description:
-      "Le bailleur doit informer le locataire au moins 1 mois avant la date d'anniversaire du bail (ou 3 mois pour la location meublée).",
+      "Le bailleur doit informer le locataire au moins 1 mois avant la date anniversaire du bail, y compris pour une location meublée (art. 17-3 loi 89-462).",
   },
 ];
 
@@ -67,7 +67,7 @@ const faqData = [
     question:
       "Peut-on augmenter le loyer tous les ans ?",
     answer:
-      "Oui, la révision du loyer selon l'IRL peut avoir lieu une fois par an, à la date anniversaire du bail. Mais attention : en zone tendue, le montant du loyer ne peut pas dépasser le loyer de référence minoré (soit -5 % à -20 % selon les communes). Le bailleur ne peut pas pratiquer une hausse supérieure à l'IRL sous prétexte de 'mise à niveau'.",
+      "Oui, la révision du loyer selon l'IRL peut avoir lieu une fois par an, à la date anniversaire du bail. Attention : cette révision n'est pas plafonnée par le loyer de référence minoré. Le minoré (loyer de référence diminué de 30 %) est le seuil en dessous duquel le bailleur peut engager une action en réévaluation de loyer au renouvellement (art. 17-2 loi 89-462). Le bailleur ne peut pas pratiquer une hausse supérieure à l'IRL sous prétexte de 'mise à niveau'.",
   },
   {
     question:

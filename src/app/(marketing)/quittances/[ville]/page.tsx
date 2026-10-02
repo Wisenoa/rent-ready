@@ -95,7 +95,7 @@ function getLocalParagraphs(city: City) {
 
   const intro =
     pop > 500000
-      ? `${city.name} est l'une des principales métropoles françaises avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif y est très actif — chaque mois, des milliers de propriétaires doivent générer des quittances de loyer conformes à la loi du 6 juillet 1989. Le loyer moyen au m² à ${city.name} se situe autour de ${rentData ? `${rentData.studio}-${rentData.t2}` : "15-25"} €/m².`
+      ? `${city.name} est l'une des principales métropoles françaises avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif y est très actif — chaque mois, des milliers de propriétaires doivent générer des quittances de loyer conformes à la loi du 6 juillet 1989. Le loyer moyen au m² y${rentData ? ` se situe autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " se situe au-dessus de la moyenne nationale"}`
       : pop > 200000
         ? `Avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants, ${city.name} (département ${city.department}, ${city.region}) possède un marché locatif dynamique. Propriétaires et gestionnaires doivent y produire des quittances régulières pour chaque paiement reçu.`
         : pop > 100000

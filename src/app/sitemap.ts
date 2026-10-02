@@ -57,6 +57,25 @@ type DiscoveredRoute = {
  * `/outils/simulateur-loi-jeanbrun`. Deriving the list from the filesystem
  * makes that class of drift impossible.
  */
+
+/**
+ * Newest mtime anywhere beneath `dir`.
+ *
+ * Compare timestamps, not a Date against a number: a directory's mtime is
+ * already a Date and was being compared with `>`, which is never true, so a
+ * directory's own mtime was discarded in favour of any file mtime beneath it.
+ */
+function newestMtime(dir: string): Date {
+  let newestMs = 0;
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    const stats = statSync(full);
+    const mtimeMs = stats.isDirectory() ? newestMtime(full).getTime() : stats.mtimeMs;
+    if (mtimeMs > newestMs) newestMs = mtimeMs;
+  }
+  return new Date(newestMs);
+}
+
 function discoverStaticRoutes(): DiscoveredRoute[] {
   const found: DiscoveredRoute[] = [];
 
@@ -86,19 +105,6 @@ function discoverStaticRoutes(): DiscoveredRoute[] {
     }
   }
 
-  function newestMtime(dir: string): Date {
-    // Compare timestamps, not a Date against a number: a directory's mtime is
-    // already a Date and was being compared with `>`, which is never true, so a
-    // directory's own mtime was discarded in favour of any file mtime beneath it.
-    let newestMs = 0;
-    for (const entry of readdirSync(dir)) {
-      const full = join(dir, entry);
-      const stats = statSync(full);
-      const mtimeMs = stats.isDirectory() ? newestMtime(full).getTime() : stats.mtimeMs;
-      if (mtimeMs > newestMs) newestMs = mtimeMs;
-    }
-    return new Date(newestMs);
-  }
 
   walk(APP_DIR, []);
   return found;
@@ -168,7 +174,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // City pages — bail, gestion-locative, quittances, assurance impayé.
-   
   const cities = require("../data/cities.json") as Array<{ slug: string }>;
   const CITY_FAMILIES = [
     { prefix: "/gestion-locative", priority: 0.8 },
@@ -176,16 +181,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { prefix: "/quittances", priority: 0.7 },
     { prefix: "/assurance-loyer-impaye", priority: 0.7 },
   ];
+  /**
+   * These pages are rendered from a single template per family, so their real
+   * last-modified date is the template's mtime. Stamping them with `now` made
+   * all 200 city URLs claim a fresh date on every build, which tells Google
+   * "re-crawl me" for content that has not changed.
+   */
+  const cityMtime = (prefix: string): Date => {
+    const mtime = newestMtime(join(APP_DIR, "(marketing)", prefix));
+    return Number.isNaN(mtime.getTime()) ? now : mtime;
+  };
   const cityEntries: Entry[] = cities.flatMap((city) =>
     CITY_FAMILIES.map(({ prefix, priority }) => ({
       url: `${BASE_URL}${prefix}/${city.slug}`,
-      lastModified: now,
+      lastModified: cityMtime(prefix),
       changeFrequency: "monthly" as const,
       priority,
     }))
   );
 
-   
   const glossaryRaw = readFileSync(
     join(process.cwd(), "src", "data", "glossary.json"),
     "utf-8"
@@ -194,9 +208,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     glossaryRaw.matchAll(/"slug":\s*"([^"]+)"/g),
     (m) => m[1]
   );
+  const glossaryMtime = statSync(join(process.cwd(), "src", "data", "glossary.json")).mtime;
   const glossaryEntries: Entry[] = glossarySlugs.map((slug) => ({
     url: `${BASE_URL}/glossaire-immobilier/${slug}`,
-    lastModified: now,
+    lastModified: glossaryMtime,
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));

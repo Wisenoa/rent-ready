@@ -234,7 +234,7 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
     name: "Meublé",
     shortDescription: "Location d'un logement équipé avec mobilier complet selon la liste réglementaire.",
     fullDescription:
-      "Une location meublée est un logement équipé de tous les éléments nécessaires à la vie quotidienne du locataire, conformément à la liste réglementaire (arrêté du 31 juillet 1991). Le mobilier doit inclure la literie, les plaques de cuisson, le réfrigérateur, les ustensiles de cuisine, etc. Le loyer d'un meublé peut être supérieur à celui d'un vide comparable, et la durée du bail est de 1 an (renouvelable).",
+      "Une location meublée est un logement équipé de tous les éléments nécessaires à la vie quotidienne du locataire, conformément à la liste réglementaire fixée par le décret n° 2015-981 du 31 juillet 2015. Le mobilier doit inclure la literie, les plaques de cuisson, le réfrigérateur, les ustensiles de cuisine, etc. Le loyer d'un meublé peut être supérieur à celui d'un vide comparable, et la durée du bail est de 1 an (renouvelable).",
     legalSpecificities: [
       "Bail de 1 an minimum (ou 9 mois pour bail mobilité)",
       "Dépôt de garantie max 2 mois de loyer (contre 1 pour le vide)",

@@ -137,11 +137,11 @@ La révision de loyer est un mécanisme légal qui permet aux propriétaires d'a
 
 L'IRL est un indicateur statistique qui mesure l'évolution des prix à la consommation hors tabac et hors loyer. Il est publié chaque trimestre par l'INSEE et sert de référence pour la révision annuelle des loyers dans le secteur privé.
 
-LIREA : l'IRL au quatrième trimestre 2025 s'établit à **145,19** contre **143,47** au quatrième trimestre 2024, soit une hausse annuelle de +1,2 %.
+LIREA : l'IRL au quatrième trimestre 2025 s'établit à **145,78** contre **144,64** au quatrième trimestre 2024, soit une hausse annuelle de +0,79 %.
 
 La formule de révision est simple : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
 
-Par exemple, pour un loyer de 800 euros avec un IRL passant de 140 à 145,19 : 800 × (145,19 / 140) = 829,66 euros.
+Par exemple, pour un loyer de 800 euros avec un IRL passant de 145,17 (T2 2024) à 146,68 (T2 2025) : 800 × (146,68 / 145,17) = 808,32 euros.
 
 ## Les règles de la révision de loyer en 2026
 
@@ -185,11 +185,32 @@ L'IRL utilisé doit être celui du trimestre de référence prévu dans le bail,
 
 ## La révision de loyer en zone tendue
 
-Dans les communes visées par la loi ALUR (zones d'encadrement des loyers), les augmentations de loyer sont encadrées. Elles ne peuvent pas dépasser la variation de l'IRL majorée de :
-- 10 % pour les mobilité entrantes
-- 15 % pour les locataires en place depuis plus de 3 ans
+Dans les communes visées par la loi ALUR (zones d'encadrement des loyers), les augmentations de loyer restent encadrées. La révision annuelle du loyer est plafonnée par la seule variation de l'IRL : aucun plafond supplémentaire de +10 % ou de +15 % n'existe dans la loi.
+Par ailleurs, dans les communes où s'applique l'encadrement du niveau des loyers, le loyer de base inscrit au bail ne doit pas dépasser le loyer de référence majoré en vigueur à la date de signature du bail (majoré = loyer de référence augmenté de 20 %).
+Ce dispositif vise à limiter les hausses excessives dans les marchés locatifs tendus comme Paris, Lille, Lyon ou Bordeaux.
 
-Ce dispositif vise à limiter les hausses excessives dans les marchés locatifs tendus comme Paris, Lille, Lyon ou Bordeaux.\n\n## FAQ — Révision de loyer et IRL\n\n### Quand peut-on réviser un loyer ?\n\nLa révision peut être appliquée à la date anniversaire du bail, uniquement si une clause de révision est présente dans le bail. Sans clause expresse, aucune révision nest possible. La clause doit préciser la périodicité et l'indice de référence utilisé pour le calcul.\n\n### Quelle est la formule exacte de révision de loyer ?\n\nNouveau loyer = Loyer hors charges × (Nouvel IRL du trimestre de référence / Ancien IRL du même trimestre de l'année précédente). Par exemple : 800 € × (145,19 / 140) = 829,66 €. Utilisez [notre simulateur IRL](/outils/calculateur-irl) pour un calcul automatique.\n\n### L'IRL de quel trimestre faut-il utiliser ?\n\nC'est l'IRL du dernier trimestre connu à la date de signature du bail qui sert de base. En pratique, on utilise généralement l'IRL du 4e trimestre de l'année précédente. Vérifiez votre clause de bail pour confirmer le trimestre exact applicable à votre situation.\n\n### Peut-on répercuter plusieurs années de révision d'un coup ?\n\nNon, la révision doit être appliquée chaque année à la date anniversaire. Vous ne pouvez pas réclamer les années précédentes rétroactivement. En cas d'oubli, vous perdez le droit à la révision pour les années écoulées depuis le dernier indexation.\n\n### Que faire si le locataire refuse la révision ?\n\nSi la clause de révision est dans le bail, la révision est un droit légal. Expliquez le calcul au locataire calmement. En cas de refus persists, saisissez le tribunal judiciaire qui condamnera généralement le locataire à régler les sommes dues avec intérêts.
+## FAQ — Révision de loyer et IRL
+
+### Quand peut-on réviser un loyer ?
+
+La révision peut être appliquée à la date anniversaire du bail, uniquement si une clause de révision est présente dans le bail. Sans clause expresse, aucune révision nest possible. La clause doit préciser la périodicité et l'indice de référence utilisé pour le calcul.
+
+### Quelle est la formule exacte de révision de loyer ?
+
+Nouveau loyer = Loyer hors charges × (Nouvel IRL du trimestre de référence / Ancien IRL du même trimestre de l'année précédente). Par exemple : 800 € × (146,68 / 145,17) = 808,32 €. Utilisez [notre simulateur IRL](/outils/calculateur-irl) pour un calcul automatique.
+
+### L'IRL de quel trimestre faut-il utiliser ?
+
+C'est l'IRL du dernier trimestre connu à la date de signature du bail qui sert de base. En pratique, on utilise généralement l'IRL du 4e trimestre de l'année précédente. Vérifiez votre clause de bail pour confirmer le trimestre exact applicable à votre situation.
+
+### Peut-on répercuter plusieurs années de révision d'un coup ?
+
+Non, la révision doit être appliquée chaque année à la date anniversaire. Vous ne pouvez pas réclamer les années précédentes rétroactivement. En cas d'oubli, vous perdez le droit à la révision pour les années écoulées depuis la dernière indexation.
+
+### Que faire si le locataire refuse la révision ?
+
+Si la clause de révision est dans le bail, la révision est un droit légal. Expliquez le calcul au locataire calmement. En cas de refus persiste, saisissez le tribunal judiciaire qui condamnera généralement le locataire à régler les sommes dues avec intérêts.
+
 
 
 
@@ -208,7 +229,7 @@ Oui, l'INSEE publie l'IRL chaque trimestre (fin mars, juin, septembre, décembre
 Oui, la formule s'applique dans les deux sens. Si l'IRL baisse, le loyer doit diminuer en conséquence. Cependant, le bailleur n'est pas obligé d'appliquer la révision à la baisse. En pratique, si l'indice baisse significativement, il est recommandé de le proposer au locataire pour maintenir une bonne relation locative.
 **Quelle est la formule exacte de calcul de l'IRL ?**
 
-La formule est : Nouveau loyer = Loyer hors charges × (IRL du trimestre de référence / IRL du même trimestre de l'année précédente). Exemple : un loyer de 800 € avec un IRL passant de 138,14 à 141,02 donne : 800 × (141,02 / 138,14) = 816,66 € par mois.
+La formule est : Nouveau loyer = Loyer hors charges × (IRL du trimestre de référence / IRL du même trimestre de l'année précédente). Exemple : un loyer de 800 € avec un IRL passant de 145,17 (T2 2024) à 146,68 (T2 2025) donne : 800 × (146,68 / 145,17) = 808,32 € par mois.
 
 [CTA : Calculez automatiquement vos révisions de loyer et suivez vos indexes avec RentReady — essai gratuit 14 jours]
 
@@ -227,7 +248,7 @@ Oui, l'INSEE publie l'IRL chaque trimestre (fin mars, juin, septembre, decembre)
 Oui, la formule s'applique dans les deux sens. Si l'IRL baisse, le loyer doit diminuer en consequence. Cependant, le bailleur n'est pas oblige d'appliquer la revision a la baisse. En pratique, si l'indice baisse significativement, il est recommande de le proposer au locataire pour maintenir une bonne relation locative.
 **Quelle est la formule exacte de calcul de l'IRL ?**
 
-La formule est : Nouveau loyer = Loyer hors charges x (IRL du trimestre de reference / IRL du meme trimestre de l'annee precedente). Exemple : un loyer de 800 EUR avec un IRL passant de 138,14 a 141,02 donne : 800 x (141,02 / 138,14) = 816,66 EUR par mois.
+La formule est : Nouveau loyer = Loyer hors charges x (IRL du trimestre de reference / IRL du meme trimestre de l'annee precedente). Exemple : un loyer de 800 EUR avec un IRL passant de 145,17 (T2 2024) a 146,68 (T2 2025) donne : 800 x (146,68 / 145,17) = 808,32 EUR par mois.
 `,
   },
   {
@@ -250,13 +271,13 @@ Depuis la loi ALUR de 2014, le dépôt de garantie est encadré dans le secteur 
 - Pour une location vide : maximum **1 mois de loyer hors charges**
 - Pour une location meublée : maximum **2 mois de loyer hors charges**
 
-Le dépôt de garantie ne peut être exigé pour les locations meublées (loi du 6 juillet 1948) ni pour les locations saisonnières. Si vous êtes en zone tendue, le dépôt de garantie ne peut pas dépasser le plafond légal, même si le bail le prévoit.
+Le dépôt de garantie ne peut être exigé pour les locations saisonnières ni pour les baux mobilité. En revanche, il peut être exigé en location meublée classique, dans la limite de 2 mois de loyer en principal (art. 25-6 loi 89-462). Si vous êtes en zone tendue, le dépôt de garantie ne peut pas dépasser le plafond légal, même si le bail le prévoit.
 
 ## La restitution du dépôt de garantie
 
 ### Le délai de restitution
 
-Le propriétaire doit restituer le dépôt de garantie dans un délai de **2 mois maximum** après la remise des clés par le locataire. Ce délai court à compter de la date de l'état des lieux de sortie.
+Le propriétaire doit restituer le dépôt de garantie dans un délai de **2 mois maximum** après la remise des clés par le locataire. Ce délai court à compter de la remise des clés par le locataire (art. 22 loi 89-462).
 
 Si le dépôt n'est pas restitué dans ce délai, le locataire peut demander des intérêts au taux légal. Le dépôt restant dû au locataire est alors majoré de 10 % du loyer mensuel en principal par période mensuelle commencée en retard (art. 22 de la loi du 6 juillet 1989).
 
@@ -282,7 +303,9 @@ Si le locataire conteste, il peut saisir la commission departmentale de concilia
 
 Le dépôt de garantie n'est pas une garantie contre les loyers impayés. Pour cela, il faut souscrire une Garantie Loyer Impayé (GLI). Le dépôt protege uniquement contre les dégradation et charges.
 
-protège uniquement contre les dégradations et charges.\n\n## FAQ — Dépôt de garantie
+protège uniquement contre les dégradations et charges.
+
+## FAQ — Dépôt de garantie
 
 ### Le propriétaire peut-il exiger un dépôt de garantie supplémentaire en cours de bail ?
 
@@ -290,11 +313,11 @@ Non, le montant du dépôt de garantie est fixé lors de la signature du bail et
 
 ### Que faire si le propriétaire refuse de restituer le dépôt de garantie ?
 
-Envoyez une lettre recommandée avec accusé de réception réclamant la restitution dans le délai légal de 2 mois après la remise des clés. En cas de refus persists, saisissez la commission départementale de conciliation dans le mois qui suit, ou saisissez le tribunal judiciaire.
+Envoyez une lettre recommandée avec accusé de réception réclamant la restitution dans le délai légal de 2 mois après la remise des clés. En cas de refus persiste, le locataire dispose de 3 mois après la restitution du dépôt pour saisir la commission départementale de conciliation, et de 3 mois à compter de la réception de son avis pour saisir le juge des contentieux de la protection (art. 23-1 loi 89-462).
 
 ### Le dépôt de garantie doit-il être actualisé lors du renouvellement du bail ?
 
-En cas de renouvellement de bail, le montant du dépôt de garantie reste celui du bail initial. Il ne peut pas être actualisé automatiquement, sauf clause contraire prévoit expressément une réévaluation à chaque renouvellement. Cette clause doit avoir été convenue dès l'origine du bail.
+Le montant du dépôt de garantie ne porte pas intérêt au bénéfice du locataire et ne doit faire l'objet d'aucune révision durant l'exécution du contrat de location, éventuellement renouvelé (art. 22 al. 3 loi 89-462). Le dépôt ne peut donc pas être majoré au renouvellement : une clause d'indexation est d'ordre public et réputée non écrite.
 
 ### Comment prouver l'état du logement lors de la remise des clés ?
 
@@ -403,7 +426,25 @@ Depuis la loi ALUR, une grille de vétusté peut être utilisée pour évaluer l
 Par exemple :
 - Peintures : 1/5 par an (soit 100% en 5 ans)
 - Moquettes : 1/10 par an (soit 100% en 10 ans)
-- Parquets : 1/7 par an (soit 100% en 7 ans)\n\n## FAQ — État des lieux\n\n### L'état des lieux peut-il être réalisé seul ?\n\nNon, l'état des lieux doit être réalisé en présence des deux parties (propriétaire et locataire) ou de leurs représentants désignés. En cas d'absence d'une partie, celui qui est présent peut réaliser un état des lieux unilatéral, mais l'autre partie dispose de 10 jours pour contester ou ajouter ses propres observations.\n\n### Que faire si le locataire refuse de signer l'état des lieux ?\n\nRefuser de signer n'empêche pas la validité de l'état des lieux. Vous pouvez signer seul et envoyer une copie au locataire en recommandé avec accusé de réception. Les photos datées constituent la meilleure preuve de l'état du logement à ce moment précis.\n\n### Les dégradations causées par le locataire doivent-elles être réparées avant la sortie ?\n\nNon, le locataire n'a pas l'obligation de procéder lui-même aux réparations. Il peut verser une somme au propriétaire pour couvrir les dégradations, ou le propriétaire peut déduire les sommes nécessaires du dépôt de garantie après justification par devis.\n\n### Quel délai pour réaliser l'état des lieux de sortie ?\n\nL'état des lieux de sortie doit être réalisé dans les 7 jours suivant la restitution des clés. Il est préférable de le faire le jour même du départ pour éviter tout litige sur l'état du logement. En cas de désaccord, le juge tranchera en comparant avec l'état des lieux d'entrée.
+- Parquets : 1/7 par an (soit 100% en 7 ans)
+
+## FAQ — État des lieux
+
+### L'état des lieux peut-il être réalisé seul ?
+
+Non, l'état des lieux doit être réalisé en présence des deux parties (propriétaire et locataire) ou de leurs représentants désignés. En cas d'absence d'une partie, celui qui est présent peut réaliser un état des lieux unilatéral, mais l'autre partie dispose de 10 jours pour contester ou ajouter ses propres observations.
+
+### Que faire si le locataire refuse de signer l'état des lieux ?
+
+Refuser de signer n'empêche pas la validité de l'état des lieux. Vous pouvez signer seul et envoyer une copie au locataire en recommandé avec accusé de réception. Les photos datées constituent la meilleure preuve de l'état du logement à ce moment précis.
+
+### Les dégradations causées par le locataire doivent-elles être réparées avant la sortie ?
+
+Non, le locataire n'a pas l'obligation de procéder lui-même aux réparations. Il peut verser une somme au propriétaire pour couvrir les dégradations, ou le propriétaire peut déduire les sommes nécessaires du dépôt de garantie après justification par devis.
+
+### Quel délai pour réaliser l'état des lieux de sortie ?
+
+L'état des lieux de sortie doit être réalisé dans les 7 jours suivant la restitution des clés. Il est préférable de le faire le jour même du départ pour éviter tout litige sur l'état du logement. En cas de désaccord, le juge tranchera en comparant avec l'état des lieux d'entrée.
 
 
 
@@ -476,7 +517,7 @@ La loi ALUR a instauré l'encadrement des loyers dans les zones tendues. Ce disp
 
 ### Dans les zones d'encadrement (Paris, Lille, Lyon, Bordeaux, etc.)
 
-Le loyer de relocation ne peut pas dépasser le loyer de référence majoré de 20 %. En cas de mobilité entrante, l'augmentation ne peut pas dépasser la variation de l'IRL + 10 %. Pour les locataires en place depuis plus de 3 ans, l'augmentation est limitée à l'IRL + 15 %.
+Dans les communes où s'applique l'encadrement du niveau des loyers, le loyer de base inscrit au bail ne doit pas dépasser le loyer de référence majoré en vigueur à la date de signature du bail (le loyer de référence majoré est fixé par arrêté préfectoral : il correspond au loyer de référence augmenté de 20 %). En revanche, la révision annuelle du loyer n'est pas plafonnée par ce majoré : elle est limitée à la variation de l'IRL (art. 17-1 I loi 89-462). L'encadrement du niveau des loyers ne concerne que ces communes précises, et non toute relocation.
 
 ### Les complement de loyer
 
@@ -490,7 +531,7 @@ Initialement prévue par la loi ALUR, la Garantie Universelle des Loyers (GUL) n
 
 ### Le préavis réduit
 
-En zone tendue, le locataire peut donner son préavis (congé) avec un délai de 1 mois (au lieu de 3) s'il justifie d'un motif légitime : mutation professionnelle, perte d'emploi, nouvel emploi suite à une période de chômage, force médicale ou sociale.
+Le locataire peut donner son préavis (congé) avec un délai de 1 mois (au lieu de 3) dans deux cas distincts (art. 15 II loi 89-462). Soit parce que le logement est situé dans une zone mentionnée au premier alinéa du I de l'article 17 — dans ce cas, aucun motif n'est exigé. Soit en cas d'obtention d'un premier emploi, de mutation, de perte d'emploi ou de nouvel emploi consécutif à une perte d'emploi ; en cas d'état de santé constaté par un certificat médical justifiant un changement de domicile ; pour les bénéficiaires du revenu de solidarité active ou de l'allocation adulte handicapé ; ou pour le locataire auquel un logement au sens de l'article L. 351-2 du code de la construction et de l'habitation a été attribué.
 
 ### Les charges récupérables
 
@@ -679,7 +720,25 @@ Depuis la loi de finances 2020, les bailleurs doivent transmettre mensuellement 
 
 - Ne demandez **jamais de paiement** pour la délivrance de la quittance (c'est gratuit)
 - Ne délivrez pas de **fausse quittance** pour un montant supérieur au paiement réel
-- N'omettez pas le **détail des charges** (le locataire y a droit)\n\n## FAQ — Quittance de loyer gratuit\n\n### Une quittance électronique est-elle valable ?\n\nOui, depuis la loi du 24 mars 2014, la quittance peut être délivrée sous forme électronique (email, PDF) si le locataire ne s'y oppose pas. Cette forme a la même valeur juridique que la quittance papier. Vous devez conserver une trace de l'envoi et de l'acceptation électronique du locataire.\n\n### Le locataire peut-il exiger une quittance pour chaque paiement ?\n\nOui, le locataire peut demander une quittance à chaque paiement. Le bailleur doit la délivrer dans les 4 jours ouvrés suivant la demande. Refuser de délivrer une quittance constitue un manquement passible d'une contravention de 3e classe.\n\n### Que faire si le locataire ne paie pas la totalité du loyer ?\n\nLe bailleur n'est pas obligé de délivrer une quittance en cas de paiement partiel. Il peut délivrer un reçu mentionnant le montant versé et le solde restant dû. Ce reçu protège le bailleur en cas de litige sur les sommes reçues.\n\n### Comment contester un refus de quittance par le bailleur ?\n\nSi le bailleur refuse de délivrer une quittance malgré une demande écrite, le locataire peut saisir la commission départementales de conciliation ou le tribunal judiciaire. Ce refus constitue une infraction passible d'une amende.
+- N'omettez pas le **détail des charges** (le locataire y a droit)
+
+## FAQ — Quittance de loyer gratuit
+
+### Une quittance électronique est-elle valable ?
+
+Oui, depuis la loi du 24 mars 2014, la quittance peut être délivrée sous forme électronique (email, PDF) si le locataire ne s'y oppose pas. Cette forme a la même valeur juridique que la quittance papier. Vous devez conserver une trace de l'envoi et de l'acceptation électronique du locataire.
+
+### Le locataire peut-il exiger une quittance pour chaque paiement ?
+
+Oui, le locataire peut demander une quittance à chaque paiement. Le bailleur doit la délivrer dans les 4 jours ouvrés suivant la demande. Refuser de délivrer une quittance constitue un manquement passible d'une contravention de 3e classe.
+
+### Que faire si le locataire ne paie pas la totalité du loyer ?
+
+Le bailleur n'est pas obligé de délivrer une quittance en cas de paiement partiel. Il peut délivrer un reçu mentionnant le montant versé et le solde restant dû. Ce reçu protège le bailleur en cas de litige sur les sommes reçues.
+
+### Comment contester un refus de quittance par le bailleur ?
+
+Si le bailleur refuse de délivrer une quittance malgré une demande écrite, le locataire peut saisir la commission départementales de conciliation ou le tribunal judiciaire. Ce refus constitue une infraction passible d'une amende.
 
 
 
@@ -829,7 +888,7 @@ Les charges non récupérables sont les travaux de maintenance préventive et cu
 
 ## Le mode de calcul
 
-Chaque mois, le locataire paie une provision pour charges. Le montant de cette provision est fixé lors de la signature du bail et ne peut pas être modifié en cours de bail. Dans les 6 mois suivant la fin de l'exercice, le propriétaire doit établir un décompte annuel des charges réelles.
+Chaque mois, le locataire paie une provision pour charges. Le montant de la provision est fixé lors de la signature du bail, mais il doit être révisé à chaque régularisation annuelle : le propriétaire établit le décompte des charges réelles et le compare aux provisions versées (art. 23 loi 89-462). Dans les 6 mois suivant la fin de l'exercice, le propriétaire doit établir un décompte annuel des charges réelles.
 
 Si les charges réelles dépassent la provision payée, le supplément peut être réclamé au locataire. Si les charges réelles sont inférieures à la provision, le trop-perçu est restitué au locataire.
 
@@ -1202,7 +1261,7 @@ Depuis la loi ELAN et les décrets d'application successifs, le bail doit distin
 
 ### La régularisation annuelle des charges
 
-Le bailleur doit procéder à une régularisation annuelle des charges locatives, en rapprochant les provisions versées par le locataire avec les charges réelles. Le relevé de charges doit être transmis au locataire dans un délai de quatre mois suivant la fin de l'année de référence (soit avant le 1er mai pour l'année civile).
+Le bailleur doit procéder à une régularisation annuelle des charges locatives, en rapprochant les provisions versées par le locataire avec les charges réelles. Le décompte des charges doit être établi dans les 6 mois suivant la clôture de l'exercice comptable du gestionnaire, puis transmis au locataire dans les 2 mois suivant son établissement (art. 23-1 loi 89-462).
 
 Cette régularisation doit être transparente et détaillées, avec un tableau par type de charge. En cas de trop-perçu, le bailleur doit rembourser le solde dans un délai d'un mois après la régularisation. En cas de insuffisance, le bailleur peut réclamer le complément au locataire.
 
@@ -1259,7 +1318,7 @@ Oui, le bailleur peut ajouter des clauses particulières, mais elles sont encadr
 Le bailleur ne peut pas modifier unilatéralement les clauses du bail en cours. Toute modification doit être acceptée par les deux parties via un avenant écrit. Seules les charges locatives et la révision de loyer peuvent évoluer selon des mécanismes prévus par la loi.
 **Quand le bail de location doit-il être renouvelé ?**
 
-Le bail de location vide est reconduit tacitement à son échéance si aucune partie ne donne congé. Le bailleur doit donner congé au moins 6 mois avant l'échéance (3 mois en zone tendue), par lettre recommandée avec AR ou par acte d'huissier. Le locataire peut donner congé à tout moment avec un préavis de 3 mois.
+Le bail de location vide est reconduit tacitement à son échéance si aucune partie ne donne congé. Le bailleur doit donner congé au moins 6 mois avant l'échéance, par lettre recommandée avec AR ou par acte d'huissier. Le locataire peut donner congé à tout moment avec un préavis de 3 mois.
 **Quelle est la durée minimale d'un bail de location vide ?**
 
 La durée minimale d'un bail de location vide est de 3 ans si le bailleur est une personne privée, ou de 6 ans si le bailleur est une SCI familiale. Pour une location meublée, la durée minimum est de 1 an (ou 9 mois pour un bail étudiant). La durée est libre sauf ces planfonds légaux qui s'imposent au bailleur.
@@ -1278,7 +1337,7 @@ Oui, le bailleur peut ajouter des clauses particulieres, mais elles sont encadre
 Le bailleur ne peut pas modifier unilateralement les clauses du bail en cours. Toute modification doit etre acceptee par les deux parties via un avenant ecrit. Seules les charges locatives et la revision de loyer peuvent evoluer selon des mecanismes prevus par la loi (IRL pour le loyer, provisions pour charges avec regularisation annuelle). Toute autre modification impose un nouvel accord entre les parties.
 **Quand le bail de location doit-il etre renouvele ?**
 
-Le bail de location vide est reconduit tacitement a son echeance si aucune partie ne donne conge. Le bailleur doit donner conge au moins 6 mois avant l'echeance (3 mois en zone tendue), par lettre recommandee avec AR ou par acte d'huissier. Le locataire peut donner conge a tout moment avec un preavis de 3 mois (1 mois dans certains cas : mutation, perte d'emploi, nouvel emploi).
+Le bail de location vide est reconduit tacitement a son echeance si aucune partie ne donne conge. Le bailleur doit donner conge au moins 6 mois avant l'echeance, par lettre recommandee avec AR ou par acte d'huissier. Le locataire peut donner conge a tout moment avec un preavis de 3 mois (1 mois dans certains cas : mutation, perte d'emploi, nouvel emploi).
 **Quelle est la duree minimale d'un bail de location vide ?**
 
 La duree minimale d'un bail de location vide est de 3 ans si le bailleur est une personne privee, ou de 6 ans si le bailleur est une SCI familiale. Pour une location meublee, la duree minimum est de 1 an (ou 9 mois pour un bail etudiant). La duree est libre sauf ces planfonds legaux qui s'imposent au bailleur.
@@ -1413,16 +1472,16 @@ Le locataire doit user du logement et des équipements avec diligence, effectuer
 ## FAQ — Bail meublé
 **Quelle est la durée minimale d'un bail de location meublée ?**
 
-La durée minimale d'un bail de location meublée est de 1 an pour un bail classique, ou de 9 mois pour un bail mobilité réservé aux étudiants ou personnes en mutation professionnelle. Le bail est reconduit tacitement pour la même durée sauf congé donné par l'une des parties au moins 3 mois avant l'échéance.
+La durée minimale d'un bail de location meublée est de 1 an pour un bail classique, ou de 1 à 10 mois pour un bail mobilité réservé aux étudiants ou personnes en mutation professionnelle (art. 25-14 loi 89-462). La durée de 9 mois correspond au bail étudiant (art. 25-22 loi 89-462), et non au bail mobilité. Le bail est reconduit tacitement pour la même durée sauf congé donné par l'une des parties au moins 3 mois avant l'échéance.
 **Le loyer d'une location meublée est-il plus élevé qu'une location vide ?**
 
 Oui, en moyenne le loyer d'un meublé est supérieur de 10 % à 20 % à celui d'un bien équivalent en vide, reflétant la commodité pour le locataire (équipement, pas de frais de déménagement de mobilier). En zone tendue, le loyer des meublés n'est pas soumis aux mêmes plafonds que les locations vides.
 **Quelles obligations d'équipement pour une location meublée ?**
 
 Un logement meublé doit contenir les éléments nécessaires pour dormir, manger, et prendre ses repas, ainsi que des équipements wc et de cuisson. La liste minimale légale comprend : literie avec couette ou couverture, plaques de cuisson, four ou micro-ondes, réfrigérateur, ustensiles de cuisine, table et chaises, étagères de rangement, luminaires, matériel d'entretien ménager.
-**Le bailleur peut-il exiger un préavis de 3 mois pour un meublé ?**
+**Quels sont les délais de préavis pour un bail de location meublée ?**
 
-Non, pour un bail meublé classique (1 an), le locataire ne doit respecter qu'un préavis de 3 mois. Seul le bail mobilité (9 mois) impose également un préavis de 3 mois. Le bailleur ne peut pas allonger ce délai par une clause du bail. En pratique, le bailleur ne peut donc pas être bloqué plus de 3 mois par un locataire.
+Les délais de préavis diffèrent selon la partie qui donne congé (art. 25-8 I loi 89-462). Le locataire doit respecter un préavis d'1 mois : il peut partir à tout moment en le respectant. Le bailleur doit, lui, respecter un préavis de 3 mois, et ne peut pas allonger le délai du locataire par une clause du bail. Pour le bail mobilité (1 à 10 mois), le locataire respecte également un préavis d'1 mois, et le bailleur ne peut pas donner congé en cours de bail.
 **La révision de loyer s'applique-t-elle aux locations meublées ?**
 
 Oui, la révision de loyer s'applique aux locations meublées selon les mêmes règles que pour les locations vides : elle doit être prévue dans le bail, peut intervenir une fois par an à la date d'anniversaire, et utiliser l'IRL du trimestre de référence. En zone tendue, le loyer révisé ne peut pas dépasser le loyer de référence majoré.
@@ -1432,16 +1491,16 @@ Oui, la révision de loyer s'applique aux locations meublées selon les mêmes r
 ## FAQ — Bail meuble
 **Quelle est la duree minimale d'un bail de location meublee ?**
 
-La duree minimale d'un bail de location meublee est de 1 an pour un bail classique, ou de 9 mois pour un bail mobilite reserve aux etudiants ou personnes en mutation professionnelle. Le bail est reconduit tacitement pour la meme duree sauf conge donne par l'une des parties au moins 3 mois avant l'echeance.
+La duree minimale d'un bail de location meublee est de 1 an pour un bail classique, ou de 1 a 10 mois pour un bail mobilite reserve aux etudiants ou personnes en mutation professionnelle (art. 25-14 loi 89-462). La duree de 9 mois correspond au bail etudiant (art. 25-22 loi 89-462), et non au bail mobilite. Le bail est reconduit tacitement pour la meme duree sauf conge donne par l'une des parties au moins 3 mois avant l'echeance.
 **Le loyer d'une location meublee est-il plus eleve qu'une location vide ?**
 
 Oui, en moyenne le loyer d'un meuble est superieur de 10 % a 20 % a celui d'un bien equivalent en vide, reflelant la commodite pour le locataire (equipement, pas de frais de demenagement de mobilier). Ce supplement depend du marche local et du niveau d'equipement. En zone tendue, le loyer des meubles n'est pas soumis aux memes plafonds que les locations vides.
 **Quelles obligations d'equipement pour une location meublee ?**
 
 Un logement meuble doit contenir les elements necessaires pour dormir, manger, et prendre ses repas, ainsi que des equipements wc et de cuisson. La liste minimale legale comprend : literie avec couette ou couverture, plaques de cuisson, four ou micro-ondes, refrigerator, ustensiles de cuisine, table et chaises, etageres de rangement, luminaires, materiel d'entretien menager. Le decret de 2015 precise cette liste.
-**Le bailleur peut-il exiger un preavis de 3 mois pour un meuble ?**
+**Quels sont les delais de preavis pour un bail de location meublee ?**
 
-Non, pour un bail meuble classique (1 an), le locataire ne doit respecter qu'un preavis de 3 mois. Seul le bail mobilite (9 mois) impose eguellement un preavis de 3 mois. Le bailleur ne peut pas allonger ce delai par une clause du bail. En pratique, le bailleur ne peut donc pas etre bloque plus de 3 mois par un locataire.
+Les delais de preavis different selon la partie qui donne conge (art. 25-8 I loi 89-462). Le locataire doit respecter un preavis d'1 mois : il peut partir a tout moment en le respectant. Le bailleur doit, lui, respecter un preavis de 3 mois, et ne peut pas allonger le delai du locataire par une clause du bail. Pour le bail mobilite (1 a 10 mois), le locataire respecte egalement un preavis d'1 mois, et le bailleur ne peut pas donner conge en cours de bail.
 **La revision de loyer s'applique-t-elle aux locations meublees ?**
 
 Oui, la revision de loyer s'applique aux locations meublees selon les memes regles que pour les locations vides : elle doit etre prevue dans le bail, peut intervenir une fois par an a la date d'anniversaire, et utiliser l'IRL du trimestre de reference. En zone tendue, le loyer revisé ne peut pas depasser le loyer de reference majore publie par l'Etat.
@@ -1548,7 +1607,7 @@ Le dispositif LOCA-PASS, également géré par Action Logement, permet aux propr
 
 ## Caution et bail mobilité
 
-Le bail mobilité, créé en 2018 et en vigueur depuis 2019, est incompatible avec la demande de caution par le bailleur. Ce bail de courte durée (1 à 10 mois) vise à faciliter l'accès au logement pour les personnes en transition professionnelle ou formation. L'absence de caution est compensée par d'autres garanties (prélèvement automatique, assurance GLI).
+Le bail mobilité, créé par la loi ELAN de 2018 et en vigueur depuis 2019, interdit au bailleur d'exiger un dépôt de garantie, mais il est en revanche autorisé à demander une caution — le locataire peut notamment recourir à la garantie Visale, y compris s'il est étudiant (art. 25-13 et 25-17 loi 89-462). Ce bail de courte durée (1 à 10 mois) vise à faciliter l'accès au logement pour les personnes en transition professionnelle ou formation. L'absence de caution est compensée par d'autres garanties (prélèvement automatique, assurance GLI).
 
 ## Comment se protéger en tant que garant ?
 
@@ -1606,7 +1665,7 @@ En location meublée, le délai de préavis est automatiquement de 1 mois, sans 
 
 ### Bail mobilité : pas de préavis minimum
 
-Le bail mobilité, d'une durée de 1 à 10 mois, ne prévoit pas de délai de préavis formel. Le locataire peut partir à tout moment, sous réserve de respecter un délai raisonnable de préavis contractuellement prévu.
+Le bail mobilité, d'une durée de 1 à 10 mois, prévoit un préavis d'un mois : le locataire peut partir à tout moment en respectant ce délai d'un mois (art. 25-14 loi 89-462). Le bail ne peut contenir aucune clause de révision du loyer ni de renouvellement.
 
 ## Comment rédiger la lettre de congé ?
 
@@ -1706,7 +1765,7 @@ Le préavis d'un mois s'applique automatiquement, sans que le locataire ait à j
 
 ### Bail mobilité : flexibilité maximale
 
-Le bail mobilité, conclu pour une durée de 1 à 10 mois, offre une grande liberté de départ. Le locataire peut quitter le logement à tout moment, sous réserve d'un délai de préavis contractuellement prévu (en pratique, souvent 1 mois).
+Le bail mobilité, conclu pour une durée de 1 à 10 mois, offre une grande liberté de départ. Le locataire peut quitter le logement à tout moment, sous réserve d'un préavis d'un mois (art. 25-14 loi 89-462).
 
 ## Les cas de préavis réduit à 1 mois en location vide
 
@@ -1793,7 +1852,7 @@ Voici les erreurs fréquentes lors d'un départ :
 Le délai de préavis standard est de 3 mois pour une location vide et de 1 mois pour une location meublée. Ce délai court à partir de la date de réception de la lettre de congé par le bailleur (ou de la date de signification par huissier). En cas de courrier recommandé avec AR, la date de première présentation fait foi.
 **Le locataire peut-il bénéficier d'un préavis réduit de 1 mois ?**
 
-Oui, le locataire peut bénéficier d'un préavis réduit de 1 mois (au lieu de 3) dans certains cas : perte d'emploi involontaire (licenciement, fin de CDD), nouvel emploi CDI ou mutation, force majeure, ou premier emploi social. La zone géographique n'est plus un critère depuis 2024 pour ce préavis réduit.
+Oui, le locataire peut bénéficier d'un préavis réduit de 1 mois (au lieu de 3) dans certains cas prévus par l'article 15 II de la loi du 6 juillet 1989 : obtention d'un premier emploi, mutation, perte d'emploi involontaire (licenciement, fin de CDD) ou nouvel emploi consécutif à une perte d'emploi ; état de santé constaté par un certificat médical justifiant un changement de domicile ; bénéfice du revenu de solidarité active ou de l'allocation adulte handicapé ; attribution d'un logement au sens de l'article L. 351-2 du code de la construction et de l'habitation. La zone géographique reste un critère : le délai tombe à 1 mois sans justification dans les zones mentionnées au premier alinéa du I de l'article 17.
 **Le propriétaire peut-il refuser le congé du locataire ?**
 
 Non, le propriétaire ne peut pas refuser le congé du locataire. Le locataire a le droit de partir à tout moment, quel que soit le terme du bail, en respectant le délai de préavis. Refuser le congé du locataire constitue une entrave au droit de propriété garanti par la Constitution.
@@ -1802,7 +1861,7 @@ Non, le propriétaire ne peut pas refuser le congé du locataire. Le locataire a
 Oui, le locataire doit payer le loyer pendant toute la durée du préavis, même s'il n'occupe plus le logement. C'est le cas même si le préavis est réduit à 1 mois. Le locataire peut partir dès le lendemain de la fin du préavis et ne paie alors plus rien au titre de ce logement.
 **Comment calculer l'indemnité de préavis due par le propriétaire ?**
 
-Le propriétaire qui donne congé sans motif réel doit, dans certains cas, verser une indemnité au locataire égale au montant du préavis (3 mois de loyer maximum). C'est le cas lorsque le congé est motivé par la reprise du logement ou la vente. Si le propriétaire ne reprend pas réellement le logement dans les 2 ans, il peut être condamné à des dommages et intérêts.
+Lorsque le congé est donné pour la vente du logement, aucune indemnité de préavis n'est due au locataire. En revanche, si l'acquéreur ne réoccupe pas lui-même le logement et ne le reloue pas dans les douze mois suivant le congé, le locataire benefit d'une indemnité d'occupation égale à la différence entre le loyer effectivement pratiqué par le nouvel occupant et le loyer qu'il payait (article 24-2 de la loi n° 89-462).
 
 [CTA : Calculez votre préavis et générez votre lettre de congé avec RentReady — essayer gratuitement]
 
@@ -1812,7 +1871,7 @@ Le propriétaire qui donne congé sans motif réel doit, dans certains cas, vers
 Le delai de preavis standard est de 3 mois pour une location vide et de 1 mois pour une location meublee. Ce delai court a partir de la date de reception de la lettre de conge par le bailleur (ou de la date de signification par huissier). En cas de courrier envoye par recommandee avec AR, la date de premiere presentation du courrier fait foi, meme si le bailleur ne va pas le chercher.
 **Le locataire peut-il beneficier d'un preavis reduit de 1 mois ?**
 
-Oui, le locataire peut beneficier d'un preavis reduit de 1 mois (au lieu de 3) dans certains cas : perte d'emploi involontaire (licenciement, fin de CDD), nouvel emploi CDI ou mutation, offre d'emploi, force majeure (catastrophe naturelle, incendie rendant le logement inhabitable), ou premier emploi social. La zone geographique (zone tendue) n'est plus un critere depuis 2024 pour ce preavis reduit.
+Oui, le locataire peut beneficier d'un preavis reduit de 1 mois (au lieu de 3) dans certains cas prevus par l'article 15 II de la loi du 6 juillet 1989 : obtention d'un premier emploi, mutation, perte d'emploi involontaire (licenciement, fin de CDD) ou nouvel emploi consecutif a une perte d'emploi ; etat de sante constate par un certificat medical justifiant un changement de domicile ; benefice du revenu de solidarite active ou de l'allocation adulte handicapee ; attribution d'un logement au sens de l'article L. 351-2 du code de la construction et de l'habitation. La zone geographique reste un critere : le delai tombe a 1 mois sans justification dans les zones mentionnees au premier alinea du I de l'article 17.
 **Le proprietaire peut-il refuser le conge du locataire ?**
 
 Non, le proprietaire ne peut pas refuser le conge du locataire. Le locataire a le droit de partir a tout moment, quel que soit le terme du bail, en respectant le delai de preavis. Refuser le conge du locataire constitue une entrave au droit de propriete garanti par la Constitution. Seul le locataire reste redevable du loyer pendant toute la duree du preavis.
@@ -1821,7 +1880,7 @@ Non, le proprietaire ne peut pas refuser le conge du locataire. Le locataire a l
 Oui, le locataire doit payer le loyer pendant toute la duree du preavis, meme s'il n'occupe plus le logement. C'est le cas meme si le preavis est reduit a 1 mois. Le locataire ne peut pas cesser de payer pour accelerer son depart. En revanche, il peut partir des le lendemain de la fin du preavis et ne paie alors plus rien au titre de ce logement.
 **Comment calculer l'indemnite de preavis due par le proprietaire ?**
 
-Le proprietaire qui donne conge sans motif reel doit, dans certains cas, verser une indemnite au locataire egale au montant du preavis (3 mois de loyer maximum). C'est le cas lorsque le conge est motive par la reprise du logement ou la vente. Si le proprietaire ne reprend pas reellement le logement dans les 2 ans, il peut etre condamne a des dommages et interets.
+Lorsque le conge est donne pour la vente du logement, aucune indemnite de preavis n'est due au locataire. En revanche, si l'acquereur ne reoccupe pas lui-meme le logement et ne le reloue pas dans les douze mois suivant le conge, le locataire benefit d'une indemnite d'occupation egale a la difference entre le loyer effectivement pratique par le nouvel occupant et le loyer qu'il payait (article 24-2 de la loi n° 89-462).
 `,
   },
   {
@@ -2197,7 +2256,7 @@ Le mobilier peut être amorti sur une durée de 5 à 10 ans :
 
 ### Report du déficit
 
-En LMNP réel, si vos charges déductibles (hors amortissement) dépassent vos recettes, vous dégagez un déficit foncier. Ce déficit est reportable sur vos revenus fonciers des années suivantes (dans la limite de 10 ans) ou sur votre revenu global (dans la limite de 10 700 € par an).
+En LMNP réel, si vos charges déductibles (hors amortissement) dépassent vos recettes, vous dégagez un déficit BIC non professionnel — et non un déficit foncier. Ce déficit n'est jamais imputable sur votre revenu global : il est reportable sur vos futurs revenus de location meublée pendant 10 ans, sans plafond annuel (art. 156 I-3° bis CGI, BOI-BIC-DEF-20-20 § 110). Le plafond de 10 700 € par an ne concerne que le déficit foncier de la location nue.
 
 ## La déclaration LMNP en 2026
 
@@ -2937,7 +2996,29 @@ Pour choisir une solution de gestion locative en ligne, considérez :
 
 ## L'hybridation : une troisième voie
 
- Certains propriétaires optent pour une approche hybride : ils utilisent une plateforme en ligne pour la gestion courante (loyers, comptabilité) et font appel ponctuellement à une agence pour des missions spécifiques (recherche de locataire, état des lieux de sortie difficile).\n\n## FAQ — Gestion locative en ligne\n\n### Quels sont les avantages d'un logiciel de gestion locative en ligne ?\n\nUn logiciel de gestion locative en ligne permet de centraliser tous vos documents, loyers et communications en un seul endroit. Vous pouvez suivre vos paiements en temps réel, générer des quittances automatiquement et accéder à vos données depuis n'importe quel appareil, où que vous soyez.\n\n### Combien coûte un service de gestion locative en ligne ?\n\nLes tarifs varient généralement entre 10 et 50 euros par mois selon les fonctionnalités. Les offres basiques (gestion des loyers et reçus) commencent à environ 10-15 €/mois. Les offres premium incluant la gestion des travaux, la comptabilité et les délais atteignent 30-50 €/mois.\n\n### Un logiciel de gestion locative peut-il remplacer complètement une agence ?\n\nPour les propriétaires autonomes, un bon logiciel couvre environ 80% des tâches d'agence (suivi des loyers, quittances, relances). En revanche, pour la recherche de locataires, les états des lieux et la gestion des litiges, le recours ponctuel à un professionnel reste recommandé.\n\n### Comment choisir le bon logiciel de gestion locative ?\n\nPriorisez la facilité d'utilisation, la conformité légale française et les intégrations (comptabilité, signature électronique). Testez toujours la version d'essai gratuite avant de vous engager. Vérifiez également la réputation de l'éditeur et la fréquence des mises à jour réglementaires.\n\n### Les données de gestion locative sont-elles sécurisées ?\n\nLes meilleurs éditeurs utilisent le chiffrement des données, l'authentification à deux facteurs et des serveurs européens conformes au RGPD. Choisissez de préférence un prestataire ayant certification SOC 2 ou ISO 27001 pour garantir la protection de vos données et celles de vos locataires.
+ Certains propriétaires optent pour une approche hybride : ils utilisent une plateforme en ligne pour la gestion courante (loyers, comptabilité) et font appel ponctuellement à une agence pour des missions spécifiques (recherche de locataire, état des lieux de sortie difficile).
+
+## FAQ — Gestion locative en ligne
+
+### Quels sont les avantages d'un logiciel de gestion locative en ligne ?
+
+Un logiciel de gestion locative en ligne permet de centraliser tous vos documents, loyers et communications en un seul endroit. Vous pouvez suivre vos paiements en temps réel, générer des quittances automatiquement et accéder à vos données depuis n'importe quel appareil, où que vous soyez.
+
+### Combien coûte un service de gestion locative en ligne ?
+
+Cela dépend du nombre de biens et des modules. Chez RentReady, l'offre Starter couvre 3 biens, l'offre Pro 10 biens et l'offre Agency est sans limite de biens : le tarif dépend aussi de la durée d'engagement. Les autres acteurs du marché facturent de l'ordre de 10 à 50 €/mois selon les fonctionnalités ; comparez toujours le coût par bien couvert.
+
+### Un logiciel de gestion locative peut-il remplacer complètement une agence ?
+
+Pour les propriétaires autonomes, un logiciel couvre la partie administrative (suivi des loyers, quittances, relances, archivage). Il ne remplace pas une agence pour la recherche de locataires, la visite du bien, la rédaction du bail ou la gestion des travaux, qui restent des actes concrets. RentReady couvre cette partie administrative à partir de 9 €/mois.
+
+### Comment choisir le bon logiciel de gestion locative ?
+
+Priorisez la facilité d'utilisation, la conformité légale française et les intégrations (comptabilité, signature électronique). Testez toujours la version d'essai gratuite avant de vous engager. Vérifiez également la réputation de l'éditeur et la fréquence des mises à jour réglementaires.
+
+### Les données de gestion locative sont-elles sécurisées ?
+
+Les meilleurs éditeurs utilisent le chiffrement des données, l'authentification à deux facteurs et des serveurs européens conformes au RGPD. Choisissez de préférence un prestataire ayant certification SOC 2 ou ISO 27001 pour garantir la protection de vos données et celles de vos locataires.
 
 
 
@@ -3524,13 +3605,13 @@ L'augmentation de loyer est un droit du propriétaire, mais elle est encadrée p
 
 ## L'indice de référence des loyers (IRL)
 
-Depuis le 1er août 2008, l'augmentation de loyer est indexée sur l'IRL, publié chaque trimestre par l'INSEE. Pour le quatrième trimestre 2025, l'IRL s'établit à 145,19, soit une hausse annuelle de +1,2%.
+Depuis le 1er août 2008, l'augmentation de loyer est indexée sur l'IRL, publié chaque trimestre par l'INSEE. Pour le quatrième trimestre 2025, l'IRL s'établit à 145,78, soit une hausse annuelle de +0,79%.
 
 L'augmentation automatique du loyer n'est possible que si le bail contient une clause de révision. En l'absence de clause, le loyer reste figé pendant toute la durée du contrat.
 
 La formule : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
 
-Exemple : un loyer de 1 200€ avec un IRL passé de 140 à 145,19 donne un nouveau loyer de 1 244,08€.
+Exemple : un loyer de 1 200 € avec un IRL passé de 145,17 (T2 2024) à 146,68 (T2 2025) donne un nouveau loyer de 1 212,48 €.
 
 ## Les limitations en zone tendue
 
@@ -3708,7 +3789,7 @@ En location meublee de tourisme (saisonniere), le depot de garantie peut etre pl
 
 ### Depot de garantie et bail mobilite
 
-Le bail mobilite, cree par la loi ELAN de 2018, est un bail meubre de courte duree (1 a 10 mois) destine aux personnes en mobilite professionnelle. Le depot de garantie en bail mobilite est restitue dans les memes delais que le bail meubre classique (2 mois apres la remise des cles).
+Le bail mobilite, cree par la loi ELAN de 2018, est un bail meubre de courte duree (1 a 10 mois) destine aux personnes en mobilite professionnelle. Aucun depot de garantie ne peut etre exige en bail mobilite : la clause prevoyant un depot de garantie est interdite et reputee non ecrite (art. 25-13 et 25-17 loi 89-462). Le bailleur peut en revanche demander une caution, notamment la garantie Visale.
 
 ### Restitution du depot de garantie : delai de 2 mois
 
@@ -4336,7 +4417,7 @@ Si le locataire souhaite rester au-delà de la durée initiale du bail, il doit 
 
 ## Le loyer et les charges
 
-Le loyer du bail de mobilité est libre. Il n'y a pas d'encadrement des loyers comme pour les baux classiques en zone tendue. Le propriétaire fixe le montant qu'il souhaite.
+Le loyer du bail de mobilité est librement fixé par le bailleur, mais le bail mobilité n'échappe pas à l'encadrement des loyers : dans les communes en zone tendue, le propriétaire ne peut pas augmenter librement le loyer lors du changement de locataire ou du renouvellement du bail. Le bail ne peut pas contenir de clause de révision du loyer en cours de bail (art. 25-13 loi 89-462).
 
 Les charges locatives sont traitées comme dans un bail meublé classique : provision pour charges avec régularisation annuelle.
 
@@ -4480,7 +4561,7 @@ L'Indice de Référence des Loyers (IRL) est la référence légale pour la rév
 
 ## Les derniers indices IRL pour 2025-2026
 
-- T4 2025 : 145,19 (publication janvier 2026) — Variation annuelle : +1,2%
+- T4 2025 : 145,78 (publication janvier 2026) — Variation annuelle : +0,79 %
 - T3 2025 : 145,04
 - T2 2025 : 144,78
 - T1 2025 : 144,29
@@ -4490,7 +4571,7 @@ L'Indice de Référence des Loyers (IRL) est la référence légale pour la rév
 
 Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
 
-Exemple : un appartement avec un loyer de 850€ et un IRL passé de 143,47 à 145,19 donne un nouveau loyer de 860,27€.
+Exemple : un appartement avec un loyer de 850 € et un IRL passé de 145,17 (T2 2024) à 146,68 (T2 2025) donne un nouveau loyer de 858,84 €.
 
 ## Quand peut-on réviser le loyer ?
 
@@ -5617,7 +5698,7 @@ Si vous achetez un bien neuf meublé ou en VEFA (Vente en l'État Futur d'Achèv
 
 ### La déductibilité des déficits
 
-Le principal avantage du LMP est que les déficits générés par votre activité locative peuvent être déduits de votre revenu global (salaires, pensions, etc.). En LMP, le déficit est imputable sur le revenu global sans plafond de 10 700 euros (qui ne concerne que le déficit foncier) et sans limitation de durée ; il peut être reportée sur 6 ans.
+Le principal avantage du LMP est que les déficits générés par votre activité locative peuvent être déduits de votre revenu global (salaires, pensions, etc.). En LMP, le déficit est imputable sur le revenu global sans plafond de 10 700 euros (qui ne concerne que le déficit foncier) et sans limitation dans le temps : il n'existe aucun report limité à 6 ans, cette durée ne concernant pas les LMP.
 
 Pour le LMNP, les déficits ne sont déductibles que des revenus locatifs, et non du revenu global.
 
@@ -5670,7 +5751,7 @@ Si vous dépassez les deux seuils, vous pouvez choisir de rester en LMNP ouopter
 | Critère | LMNP | LMP |
 |---------|------|-----|
 | Seuils | En dessous des seuils | Au-dessus des seuils |
-| Déficits | Déductibles des revenus locatifs uniquement | Déductibles du revenu global (10 700 euros/an max) |
+| Déficits | Déductibles des revenus locatifs uniquement (LMNP : report 10 ans, jamais sur le revenu global) | Déductibles du revenu global sans plafond (LMP ; pour le déficit foncier, dans la limite de 10 700 euros/an) |
 | Comptabilité | Simplifiée au micro | Complète obligatoire |
 | Amortissements | Oui, si régime réel | Oui |
 | Plus-value | Taxation variable | Exonération possible après 5 ans |

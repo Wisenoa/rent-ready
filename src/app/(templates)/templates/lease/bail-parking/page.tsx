@@ -88,12 +88,12 @@ const faqData = [
   {
     question: "Le bail de parking est-il encadré par la loi de 1989 ?",
     answer:
-      "Non. La loi du 6 juillet 1989 sur les baux d'habitation ne s'applique pas aux locations de places de parking ou garages à usage exclusif. Ces bails sont dits 'hors champ' de la loi de 1989 et sont donc librement régis par le Code civil. Cela signifie que les conditions (loyer, durée, dépôt de garantie) sont librement fixées entre les parties, sauf dispositions locales (encadrement de certains loyer en zone tendue).",
+      "Non. La loi du 6 juillet 1989 sur les baux d'habitation ne s'applique pas aux locations de places de parking ou garages à usage exclusif. Ces bails sont dits 'hors champ' de la loi de 1989 et sont donc librement régis par le Code civil. Cela signifie que les conditions (loyer, durée, dépôt de garantie) sont librement fixées entre les parties. Attention : l\'encadrement des loyers en zone tendue ne concerne que les baux d\'habitation — un parking loué selon le droit commun n\'est pas plafonné de ce fait.",
   },
   {
     question: "Peut-on demander un dépôt de garantie pour un parking ?",
     answer:
-      "Oui. Contrairement aux baux d'habitation où le dépôt est limité, le bail de parking n'est pas soumis à ces restrictions légales. Le dépôt de garantie est librement fixé entre les parties (souvent l'équivalent de 1 à 3 mois de loyer). Il doit être restitué à la fin du bail déduction faite des éventuelles dégradations.",
+      "Cela dépend de la façon dont le parking est loué. S'il est loué indépendamment de tout logement, à un autre bailleur ou sans lien avec un bail d'habitation, le contrat relève du droit commun du louage (art. 1713 et suivants du Code civil) : les parties fixent librement le montant du dépôt. Mais si le garage est mentionné dans le bail d'habitation, ou loué simultanément au même locataire par le même bailleur dans la même résidence, il est accessoire au logement et relève alors de la loi du 6 juillet 1989 : le dépôt est plafonné à un mois de loyer hors charges (art. 22). La Cour de cassation retient que la simple mention du garage dans le bail suffit (3e civ., 11 juillet 2007). Le dépôt doit être restitué à la fin du bail, déduction faite des dégradations justifiées — le bailleur doit les prouver.",
   },
   {
     question: "Quelle durée pour un bail de parking ?",

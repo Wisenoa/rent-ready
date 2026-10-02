@@ -36,7 +36,7 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       name: "Appliquer la formule de révision",
-      text: "Multipliez le loyer actuel par le rapport entre le nouvel IRL et l'ancien IRL : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 × (146,44 / 138,61) = 845,20 €.",
+      text: "Multipliez le loyer actuel par le rapport entre le nouvel IRL et l'ancien IRL : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 × (146,68 / 145,17) = 808,32 €.",
     },
     {
       "@type": "HowToStep",
@@ -51,12 +51,12 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       name: "Consulter les valeurs officielles de l'IRL",
-      text: "Les valeurs de l'IRL sont disponibles gratuitement sur www.insee.fr, par trimestre et par année depuis 2008. Q4 2025 : 146,44 (+0,09 % sur un an).",
+      text: "Les valeurs de l'IRL sont disponibles gratuitement sur www.insee.fr, par trimestre et par année depuis 2008. Q4 2025 : 145,78 (+0,79 % sur un an).",
     },
     {
       "@type": "HowToStep",
       name: "Respecter l'encadrement des loyers en zone tendue",
-      text: "Dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier...), le loyer ne peut pas dépasser le loyer de référence majoré de 20 % lors d'une relocation ou révision.",
+      text: "Dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier...), le loyer de base ne peut pas dépasser le loyer de référence majoré (référence majorée de 20 %) fixé par arrêté préfectoral à la date de signature du bail. Cette règle vaut pour le niveau du loyer à la signature, pas pour la révision annuelle : celle-ci est limitée à la variation de l'IRL.",
     },
   ],
 };
@@ -70,7 +70,7 @@ const faqSchema = {
       name: "Quelle est la valeur de l'IRL en 2026 ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "L'IRL applicable pour les révisions de loyer en 2026 est de 146,44 au titre du quatrième trimestre 2025, publié par l'INSEE en janvier 2026. La variation annuelle est de +0,09 %.",
+        text: "L'IRL applicable pour les révisions de loyer en 2026 est de 145,78 au titre du quatrième trimestre 2025, publié par l'INSEE en janvier 2026. La variation annuelle est de +0,79 % (145,78 contre 144,64 au quatrième trimestre 2024).",
       },
     },
     {
@@ -78,7 +78,7 @@ const faqSchema = {
       name: "Comment calculer une révision de loyer avec l'IRL ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 € × (146,44 / 138,61) = 845,20 €. Le résultat ne doit pas dépasser l'encadrement des loyers en zone tendue.",
+        text: "La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 € × (146,68 / 145,17) = 808,32 €. Le résultat ne doit pas dépasser la variation de l'IRL, majorée du éventuellement complément de loyer indexé.",
       },
     },
     {
@@ -102,7 +102,7 @@ const faqSchema = {
       name: "L'encadrement des loyers limite-t-il la révision IRL ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Oui, dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer révisé ne peut pas dépasser le loyer de référence majoré de 20 %. En cas de relocation, le loyer ne peut pas excéder le précédent loyer majoré de 20 %.",
+        text: "Oui, dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer de base inscrit au bail ne peut pas dépasser le loyer de référence majoré en vigueur à la date de signature du bail. En revanche, la révision annuelle du loyer n&apos;est pas plafonnée par ce majoré : elle est limitée à la variation de l&apos;IRL (art. 17-1 I loi 89-462).",
       },
     },
     {
@@ -160,7 +160,7 @@ export default function IRL2026GuidePage() {
             <h2 className="text-sm font-medium uppercase tracking-wide text-blue-600">
               Valeur IRL 2026 (Q4 2025)
             </h2>
-            <p className="mt-2 text-4xl font-bold text-stone-900">146,44</p>
+            <p className="mt-2 text-4xl font-bold text-stone-900">145,78</p>
             <p className="mt-1 text-sm text-stone-500">
               Source : INSEE — Indice de référence des loyers
             </p>
@@ -168,7 +168,7 @@ export default function IRL2026GuidePage() {
           <div className="flex flex-col gap-3 sm:items-end">
             <div className="rounded-lg bg-green-50 px-4 py-2 text-center">
               <p className="text-xs text-green-600">Variation annuelle</p>
-              <p className="text-lg font-bold text-green-700">+0,09 %</p>
+              <p className="text-lg font-bold text-green-700">+0,79 %</p>
             </div>
             <Link
               href="/templates/augmentation-de-loyer"
@@ -201,11 +201,11 @@ export default function IRL2026GuidePage() {
           Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien)
         </div>
         <p>
-          Exemple : un loyer actuel de 800 € avec un IRL passé de 138,61 et un IRL
-          actuel de 146,44 :
+          Exemple : un loyer actuel de 800 € avec un IRL passé de 145,17 (T2 2024) et un IRL
+          actuel de 146,68 (T2 2025) :
         </p>
         <div className="not-prose my-4 rounded-lg bg-stone-100 p-4 text-center font-mono text-sm">
-          800 × (146,44 / 138,61) = 845,20 € / mois
+          800 × (146,68 / 145,17) = 808,32 € / mois
         </div>
 
         <h2>Quand peut-on réviser le loyer ?</h2>
@@ -236,7 +236,7 @@ export default function IRL2026GuidePage() {
           </Link>. Les valeurs sont disponibles par trimestre et par année depuis 2008.
         </p>
         <ul>
-          <li><strong>Q4 2025 (utilisable en 2026)</strong> : 146,44 (+0,09 % sur un an)</li>
+          <li><strong>Q4 2025 (utilisable en 2026)</strong> : 145,78 (+0,79 % sur un an — 144,64 au T4 2024</li>
           <li><strong>Q3 2025</strong> : 146,22 (+0,69 % sur un an)</li>
           <li><strong>Q2 2025</strong> : 145,65 (+0,58 % sur un an)</li>
           <li><strong>Q1 2025</strong> : 145,18 (+0,89 % sur un an)</li>
@@ -247,7 +247,7 @@ export default function IRL2026GuidePage() {
           Dans les communes soumises à l&apos;encadrement des loyers (Paris, Lille, Lyon,
           Montpellier, etc.), la hausse du loyer lors de la relocation ou de la révision
           est limitée. Le bailleur ne peut pas demander un loyer supérieur au loyer de
-          référence majoré de 20 %.
+référence majoré en vigueur à la date de signature du bail. Cette règle porte sur le niveau du loyer à la signature du bail, et non sur la révision annuelle, qui est plafonnée par la seule variation de l'IRL.
         </p>
       </div>
 
@@ -258,11 +258,11 @@ export default function IRL2026GuidePage() {
           {[
             {
               q: "Quelle est la valeur de l'IRL en 2026 ?",
-              a: "L'IRL applicable pour les révisions de loyer en 2026 est de 146,44 au titre du quatrième trimestre 2025, publié par l'INSEE en janvier 2026. La variation annuelle est de +0,09 %.",
+              a: "L'IRL applicable pour les révisions de loyer en 2026 est de 145,78 au titre du quatrième trimestre 2025, publié par l'INSEE en janvier 2026. La variation annuelle est de +0,79 % (145,78 contre 144,64 au quatrième trimestre 2024).",
             },
             {
               q: "Comment calculer une révision de loyer avec l'IRL ?",
-              a: "La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 € × (146,44 / 138,61) = 845,20 €. Le résultat ne doit pas dépasser l'encadrement des loyers en zone tendue.",
+              a: "La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 € × (146,68 / 145,17) = 808,32 €. Le résultat ne doit pas dépasser la variation de l'IRL, majorée du éventuellement complément de loyer indexé.",
             },
             {
               q: "Peut-on réviser le loyer rétroactivement ?",
@@ -274,7 +274,7 @@ export default function IRL2026GuidePage() {
             },
             {
               q: "L'encadrement des loyers limite-t-il la révision IRL ?",
-              a: "Oui, dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer révisé ne peut pas dépasser le loyer de référence majoré de 20 %.",
+      a: "Oui, dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer de base inscrit au bail ne peut pas dépasser le loyer de référence majoré en vigueur à la date de signature du bail. En revanche, la révision annuelle du loyer n&apos;est pas plafonnée par ce majoré : elle est limitée à la variation de l&apos;IRL (art. 17-1 I loi 89-462).",
             },
             {
               q: "Comment informer le locataire de la révision ?",

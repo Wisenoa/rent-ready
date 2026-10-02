@@ -533,4 +533,28 @@ describe("content integrity", () => {
       `article excerpts unusable as meta descriptions:\n${problems.join("\n")}`
     ).toEqual([]);
   });
+  it("renders article markdown without escaped newlines leaking as text", () => {
+    // An automated edit wrote literal backslash-n sequences inside the
+    // template literals instead of real newlines, so the FAQ rendered as one
+    // run-on line with visible "\n\n## Question" in the page body.
+    const articles = readFileSync(join(SRC, "data", "articles.ts"), "utf8");
+
+    const offenders: string[] = [];
+    for (const m of articles.matchAll(/slug:\s*"([^"]+)"([\s\S]{0,60000}?)content:\s*`([\s\S]*?)`,/g)) {
+      const slug = m[1];
+      const body = m[3];
+      const literals = (body.match(/\\n/g) || []).length;
+      if (literals > 0) {
+        offenders.push(`${slug}: ${literals} literal \\n sequence(s) in body`);
+      }
+      if (body.includes("\\*\\*")) {
+        offenders.push(`${slug}: escaped markdown bold in body`);
+      }
+    }
+
+    expect(
+      offenders,
+      `article bodies with escaped newlines / markdown:\n${offenders.join("\n")}`
+    ).toEqual([]);
+  });
 });

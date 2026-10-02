@@ -172,7 +172,7 @@ function getFaqs(city: City) {
     {
       question: `Quel est le loyer moyen à ${city.name} en 2026 ?`,
       answer: rentData
-        ? `Le loyer moyen à ${city.name} se situe autour de ${rentData.studio} à ${rentData.t3} €/m² selon le type de bien (studio à T3). Ces chiffres sont donné à titre indicatif — le loyer réel dépend de l'état, de l'emplacement et des équipements. Source : ${rentData.source}.`
+        ? `Le loyer moyen à ${city.name} se situe autour de ${rentData.studio} à ${rentData.t3} €/m² selon le type de bien (studio à T3). Ces chiffres sont donnés à titre indicatif — le loyer réel dépend de l'état, de l'emplacement et des équipements. Source : ${rentData.source}.`
         : `Le marché locatif de ${city.name} offre des opportunités intéressant pour les propriétaires. Utilisez notre calculateur pour estimer le rendement de votre bien et comparer avec les standards du marché local.`,
     },
     {
@@ -207,11 +207,9 @@ function getLocalParagraphs(city: City) {
 
   const intro =
     pop > 500000
-      ? `${city.name} est l'une des principales métropoles françaises, avec ${formatPopulation(pop)} habitants et un marché locatif parmi les plus dynamiques de la région ${city.region}. La demande locative y est soutenue par un bassin d'emploi diversifié, une population étudiante importante et un réseau de transports en commun dense. Le loyer moyen au m² à ${city.name} se situe autour de ${rentData ? `${rentData.studio}-${rentData.t2}` : "12-16"} €/m² selon le type de bien.`
-      : pop > 200000
-        ? `Avec ${formatPopulation(pop)} habitants, ${city.name} s'affirme comme une grande ville attractive de la région ${city.region} (département ${city.department}). Son marché locatif est porté par une croissance démographique régulière et des projets d'urbanisme qui renforcent l'attractivité des quartiers résidentiels. Le loyer moyen à ${city.name} se situe aux alentours de ${rentData ? `${rentData.studio}-${rentData.t2}` : "10-13"} €/m².`
+      ? `${city.name} est l'une des principales métropoles françaises, avec ${formatPopulation(pop)} habitants et un marché locatif parmi les plus dynamiques de la région ${city.region}. La demande locative y est soutenue par un bassin d'emploi diversifié, une population étudiante importante et un réseau de transports en commun dense. Le loyer moyen au m² y${rentData ? ` se situe autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " se situe au-dessus de la moyenne nationale"}`
         : pop > 100000
-          ? `${city.name} (${formatPopulation(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement et stabilité, avec une demande régulière portée par les actifs et les familles. Le loyer moyen au m² à ${city.name} tourne autour de ${rentData ? `${rentData.studio}-${rentData.t2}` : "8-11"} €/m².`
+          ? `${city.name} (${formatPopulation(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement et stabilité, avec une demande régulière portée par les actifs et les familles. Le loyer moyen au m² y${rentData ? ` tourne autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " reste modéré par rapport aux métropoles"}`
           : `Située dans le département ${city.department} (${city.region}), ${city.name} compte ${formatPopulation(pop)} habitants. Le marché locatif local se caractérise par des loyers modérés et un taux de vacance faible, ce qui en fait un territoire de choix pour les investisseurs locatifs à la recherche de rendements réguliers.`;
 
   const regulation = ctx.isZoneTendue

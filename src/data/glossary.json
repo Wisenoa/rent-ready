@@ -221,7 +221,7 @@
     "slug": "bail-mobilite",
     "term": "Bail de mobilité",
     "shortDefinition": "Contrat de location meublée de courte durée (1 à 10 mois) pour publics spécifiques.",
-    "fullDefinition": "Le bail de mobilité, créé par la loi Elan de 2018, est un contrat de location meublée réservé aux locataires en situation de mobilité professionnelle ou personnelle : mutation professionnelle, CDD, formation, stage, mission temporaire, etc. Sa durée est de 1 à 10 mois, sans tacite reconduction possible. Le dépôt de garantie est limité à 1 mois de loyer.",
+    "fullDefinition": "Le bail de mobilité, créé par la loi Elan de 2018, est un contrat de location meublée réservé aux locataires en situation de mobilité professionnelle ou personnelle : mutation professionnelle, CDD, formation, stage, mission temporaire, etc. Sa durée est de 1 à 10 mois, sans tacite reconduction possible. Aucun dépôt de garantie ne peut être exigé ; en revanche, le bailleur est autorisé à demander une caution, notamment la garantie Visale.",
     "relatedTerms": [
       "location-meuble",
       "bail-location"
@@ -235,7 +235,7 @@
     "slug": "encadrement-loyer",
     "term": "Encadrement des loyers",
     "shortDefinition": "Réglementation limitant les loyers dans les zones tendues à un montant maximum.",
-    "fullDefinition": "L'encadrement des loyers est une mesure visant à limiter les montants des loyers dans les zones où la demande de logement est très supérieure à l'offre (zones tendues). Initialement expérimenté à Paris, il a été pérennisé et étendu par la loi Climat et Résilience de 2021 à plus de 1 000 communes. Le loyer de relocation ne peut dépasser le loyer de référence majoré de 20%, sous peine de sanctions pour le bailleur.",
+    "fullDefinition": "L'encadrement des loyers est une mesure visant à limiter les montants des loyers dans les zones où la demande de logement est très supérieure à l'offre (zones tendues). Créé par la loi ALUR du 24 mars 2014 (art. 6), il a été repris et étendu par la loi ELAN du 23 novembre 2018 (art. 140), qui en a fait un dispositif expérimental dans les communes en zone tendue. Le loyer de relocation ne peut dépasser le loyer de référence majoré de 20%, sous peine de sanctions pour le bailleur.",
     "relatedTerms": [
       "loyer-nu",
       "IRL",
