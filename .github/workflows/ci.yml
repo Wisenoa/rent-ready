@@ -32,7 +32,12 @@ env:
   # actually attempted.
   RESEND_API_KEY: re_ci_placeholder
   BETTER_AUTH_SECRET: ci-secret-not-used-for-assertions
-  NEXT_PUBLIC_APP_URL: http://localhost:3000
+  # Trusted by Better Auth's origin check (src/lib/auth-server.ts). In production
+  # only this exact origin is accepted — the loopback wildcard is development
+  # only — so it MUST match the port the app is actually served on below.
+  # Mismatched, every sign-in is refused with INVALID_ORIGIN and the browser job
+  # below fails at the first registration.
+  NEXT_PUBLIC_APP_URL: http://localhost:3111
 
 jobs:
   verify:
