@@ -339,7 +339,19 @@ async function sendLeaseExpiryEmail(leaseId: string): Promise<void> {
     return;
   }
 
-  const propertyAddress = `${lease.property.addressLine1}, ${lease.postalCode} ${lease.property.city}`;
+  // A lease without an end date is an open-ended tenancy: there is no expiry to
+  // remind anyone about, and endDate is nullable, so reading .getTime() threw.
+  if (!lease.endDate) {
+    console.warn(
+      "[email/service] sendLeaseExpiryEmail: lease has no endDate, skipping",
+      leaseId
+    );
+    return;
+  }
+
+  // postalCode is selected on `property`, not on the lease; reading
+  // `lease.postalCode` rendered "undefined" in the recipient's address.
+  const propertyAddress = `${lease.property.addressLine1}, ${lease.property.postalCode} ${lease.property.city}`;
   const daysUntilExpiry = Math.floor(
     (lease.endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
   );

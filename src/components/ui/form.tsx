@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Slot } from "@base-ui/react/slot";
+
 import { cn } from "@/lib/utils";
 
 /* ─────────────────────────────────────────────
@@ -35,7 +35,8 @@ function FormField({
         </FormLabel>
       )}
       {description && <FormDescription>{description}</FormDescription>}
-      {/* Clone children to inject id + aria-describedby */}
+      {/* Rendered as-is. A field wires its own id/aria-describedby via FormLabel's
+          htmlFor; see the note on FormFieldProps. */}
       {children}
       {error && <FormMessage>{error}</FormMessage>}
     </div>
