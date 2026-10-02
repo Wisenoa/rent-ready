@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useRef, useState } from "react";
+import { useMemo, useTransition, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Plus, Loader2 } from "lucide-react";
 import { createTransaction } from "@/lib/actions/transaction-actions";
@@ -23,14 +23,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { formatPeriodLabel, type DuePeriod } from "@/lib/domain/due-periods";
+import { formatCurrency } from "@/lib/format";
 
 interface LeaseOption {
   id: string;
-  rentAmount: number;
-  chargesAmount: number;
   property: { name: string } | null;
   tenant: { firstName: string; lastName: string } | null;
+  /** Collectable periods for this lease. Empty means there is nothing to collect. */
+  duePeriods: DuePeriod[];
 }
+
+const EMPTY_PERIODS: DuePeriod[] = [];
 
 const PAYMENT_METHODS = [
   { value: "TRANSFER", label: "Virement" },
@@ -44,24 +48,34 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const [selectedLeaseId, setSelectedLeaseId] = useState("");
+  const [selectedPeriodId, setSelectedPeriodId] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
   const selectedLease = leases.find((l) => l.id === selectedLeaseId);
+  // `duePeriods` falls back to a shared empty array, so it is memoised: without
+  // this the period lookup below would see a new reference on every render.
+  const duePeriods = useMemo(
+    () => selectedLease?.duePeriods ?? EMPTY_PERIODS,
+    [selectedLease]
+  );
+  const selectedPeriod =
+    duePeriods.find((p) => p.transactionId === selectedPeriodId) ?? null;
 
-  // Default period: current month
-  const now = new Date();
-  const defaultPeriodStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
-  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  const defaultPeriodEnd = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
-  const defaultDueDate = defaultPeriodStart;
+  // A lease with no collectable period is a dead end, not a form with empty
+  // fields: saying so is what stops the landlord typing dates back in by hand.
+  const hasDuePeriod = duePeriods.length > 0;
+  const canSubmit = selectedPeriod !== null && !isPending;
 
   function handleSubmit(formData: FormData) {
+    if (!selectedPeriod) {
+      toast.error("Sélectionnez la période de loyer à encaisser.");
+      return;
+    }
     startTransition(async () => {
       const result = await createTransaction(formData);
       if (result.success) {
         toast.success("Paiement enregistré avec succès");
-        setOpen(false);
-        setSelectedLeaseId("");
+        handleOpenChange(false);
         formRef.current?.reset();
       } else {
         toast.error(result.error ?? "Une erreur est survenue");
@@ -71,12 +85,13 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
 
   function handleOpenChange(nextOpen: boolean) {
     setOpen(nextOpen);
-    // Reset the lease selection when the dialog closes, so reopening starts
-    // from a blank form. Done in the close handler instead of an effect on
-    // `open`: the successful-submit path below already resets it itself, and
-    // this is the only other path that closes the dialog.
+    // Reset the selections when the dialog closes, so reopening starts from a
+    // blank form. Done in the close handler instead of an effect on `open`:
+    // the successful-submit path below already resets it itself, and this is the
+    // only other path that closes the dialog.
     if (!nextOpen) {
       setSelectedLeaseId("");
+      setSelectedPeriodId("");
     }
   }
 
@@ -90,7 +105,7 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
         <DialogHeader>
           <DialogTitle>Enregistrer un paiement</DialogTitle>
           <DialogDescription>
-            Saisissez les informations du paiement reçu.
+            Choisissez le bail puis la période de loyer que vous encaissez.
           </DialogDescription>
         </DialogHeader>
         <form ref={formRef} action={handleSubmit} className="space-y-4">
@@ -100,7 +115,13 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
             <Select
               name="leaseId"
               value={selectedLeaseId}
-              onValueChange={(v) => setSelectedLeaseId(v ?? "")}
+              onValueChange={(v) => {
+                setSelectedLeaseId(v ?? "");
+                // The period belongs to the lease, so a new lease means a new
+                // period — and keeping the old id would post a payment against
+                // a period of the previous lease.
+                setSelectedPeriodId("");
+              }}
               required
             >
               <SelectTrigger id="leaseId">
@@ -109,71 +130,105 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
               <SelectContent>
                 {leases.map((lease) => (
                   <SelectItem key={lease.id} value={lease.id}>
-                    {lease.tenant?.firstName ?? ''} {lease.tenant?.lastName ?? ''} — {lease.property?.name ?? ''}
+                    {lease.tenant?.firstName ?? ""} {lease.tenant?.lastName ?? ""} —{" "}
+                    {lease.property?.name ?? ""}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
+          {/* Due period — read-only proof of what is being settled, chosen from
+              the obligations that actually exist for this lease. */}
+          <div className="space-y-2">
+            <Label htmlFor="duePeriodId">Période de loyer</Label>
+            <Select
+              name="duePeriodId"
+              value={selectedPeriodId}
+              onValueChange={(v) => setSelectedPeriodId(v ?? "")}
+              disabled={!selectedLease || !hasDuePeriod}
+              required
+            >
+              <SelectTrigger id="duePeriodId">
+                <SelectValue
+                  placeholder={
+                    selectedLease
+                      ? "Sélectionner une période"
+                      : "Sélectionner d'abord un bail"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {duePeriods.map((period) => (
+                  <SelectItem key={period.transactionId} value={period.transactionId}>
+                    {formatPeriodLabel(period.periodStart)} —{" "}
+                    {formatCurrency(period.remaining)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* The selected period's dates are carried as hidden fields: the
+                landlord never types them, and the server still validates them. */}
+            {selectedPeriod && (
+              <>
+                <input type="hidden" name="periodStart" value={selectedPeriod.periodStart} />
+                <input type="hidden" name="periodEnd" value={selectedPeriod.periodEnd} />
+                <input type="hidden" name="dueDate" value={selectedPeriod.dueDate} />
+              </>
+            )}
+
+            {selectedLease && !hasDuePeriod && (
+              <p className="text-sm text-muted-foreground">
+                Aucune période de loyer à encaisser pour ce bail.
+              </p>
+            )}
+
+            {selectedPeriod && (
+              <dl className="grid grid-cols-3 gap-2 rounded-lg bg-muted/50 p-3 text-xs">
+                <div>
+                  <dt className="text-muted-foreground">Total dû</dt>
+                  <dd className="font-medium">{formatCurrency(selectedPeriod.totalDue)}</dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground">Déjà encaissé</dt>
+                  <dd className="font-medium">
+                    {formatCurrency(selectedPeriod.alreadyPaid)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground">Reste à payer</dt>
+                  <dd className="font-semibold">
+                    {formatCurrency(selectedPeriod.remaining)}
+                  </dd>
+                </div>
+                <div className="col-span-3 text-muted-foreground">
+                  Échéance : {selectedPeriod.dueDate.split("-").reverse().join("/")}
+                </div>
+              </dl>
+            )}
+          </div>
+
           {/* Amount */}
           <div className="space-y-2">
-            <Label htmlFor="amount">Montant (€)</Label>
+            <Label htmlFor="amount">Montant encaissé (€)</Label>
             <Input
               id="amount"
               name="amount"
               type="number"
               step="0.01"
               min="0.01"
+              max={selectedPeriod?.remaining}
               required
-              defaultValue={
-                selectedLease
-                  ? (Number(selectedLease.rentAmount) + Number(selectedLease.chargesAmount)).toFixed(2)
-                  : ""
-              }
-              key={selectedLeaseId}
+              defaultValue={selectedPeriod?.remaining ?? ""}
+              key={selectedPeriod?.transactionId ?? "no-period"}
             />
-            {selectedLease && (
+            {selectedPeriod && (
               <p className="text-xs text-muted-foreground">
-                Loyer : {Number(selectedLease.rentAmount).toFixed(2)} € + Charges : {Number(selectedLease.chargesAmount).toFixed(2)} €
+                Pré-rempli avec le reste à payer. Un encaissement partiel est
+                accepté : reducez le montant si le locataire n&apos;a pas tout versé.
               </p>
             )}
-          </div>
-
-          {/* Period */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="periodStart">Début de période</Label>
-              <Input
-                id="periodStart"
-                name="periodStart"
-                type="date"
-                required
-                defaultValue={defaultPeriodStart}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="periodEnd">Fin de période</Label>
-              <Input
-                id="periodEnd"
-                name="periodEnd"
-                type="date"
-                required
-                defaultValue={defaultPeriodEnd}
-              />
-            </div>
-          </div>
-
-          {/* Due date */}
-          <div className="space-y-2">
-            <Label htmlFor="dueDate">Date d&apos;échéance</Label>
-            <Input
-              id="dueDate"
-              name="dueDate"
-              type="date"
-              required
-              defaultValue={defaultDueDate}
-            />
           </div>
 
           {/* Payment date */}
@@ -215,7 +270,7 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button type="submit" className="w-full" disabled={!canSubmit}>
             {isPending ? (
               <>
                 <Loader2 className="size-4 mr-2 animate-spin" />

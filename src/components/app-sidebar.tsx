@@ -7,13 +7,11 @@ import {
   Building2,
   Users,
   CreditCard,
-  FileText,
-  Settings,
-  Brain,
   Receipt,
   Wrench,
   Calculator,
   FileSignature,
+  Settings,
   Eye,
 } from "lucide-react";
 import {
@@ -40,10 +38,17 @@ const mainNav = [
   { title: "Maintenance", href: "/maintenance", icon: Wrench },
 ];
 
+/** The former "Documents" and "Assistant IA" entries pointed at routes that do not
+    exist. A dead link is worse than a missing feature, and a "bientôt" placeholder
+    with nothing behind it is the fake success AGENTS.md forbids. The backend for
+    Documents is already wired under src/app/api/documents; restore the entry when
+    it has a screen to link to. */
 const toolsNav = [
   { title: "Analyse Fiscale", href: "/fiscal", icon: Calculator },
-  { title: "Documents", href: "/documents", icon: FileText },
-  { title: "Assistant IA", href: "/ai-assistant", icon: Brain },
+  // Restored with the profile page: the previous "Paramètres" entry was removed
+  // because it pointed at a /settings route that did not exist. This one
+  // resolves.
+  { title: "Paramètres", href: "/settings/profile", icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -107,10 +112,9 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* No settings entry: there is no /settings route, so the button led to a
-          404. It is omitted rather than pointed elsewhere, because nothing else in
-          the app serves as a settings page — a link to /dashboard would be a worse
-          lie than no link. Restore this when settings actually exists. */}
+      {/* The settings entry now lives in the "Outils" group above, pointing at the
+          profile page that exists. A bare /settings route still does not exist, so
+          nothing links to it. */}
     </Sidebar>
   );
 }

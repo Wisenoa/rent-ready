@@ -34,6 +34,8 @@ import { QuittanceButton } from "@/components/quittance-button";
 import { MarkPaidButton } from "./mark-paid-button";
 import { SubscriptionBanner } from "./subscription-banner";
 import { formatCurrency } from "@/lib/format";
+import { ensureRentPeriods } from "@/lib/queries/rent-periods";
+import { getDuePeriodsByLease } from "@/lib/queries/due-periods";
 
 export const metadata: Metadata = {
   title: "Paiements",
@@ -58,6 +60,10 @@ function isTrialExpired(trialEndsAt: Date | null): boolean {
 
 export default async function BillingPage() {
   const userId = await getAuthenticatedUserId();
+
+  // The arrears and pending totals below only count periods that exist, so
+  // backfill before querying them.
+  await ensureRentPeriods(userId);
 
   // Current month boundaries
   const now = new Date();
@@ -121,6 +127,24 @@ export default async function BillingPage() {
   const totalPendingAmount = Number(totalPending._sum.amount ?? 0);
   const hasTransactions = transactions.length > 0;
 
+  // The payment dialog collects an existing obligation instead of asking the
+  // landlord to type dates, so it needs the periods this user can actually
+  // collect. Loaded here rather than in the dialog: one query on render, no
+  // fetch-after-render on a form a landlord opens to be quick.
+  const duePeriodsByLease = await getDuePeriodsByLease(
+    userId,
+    activeLeases.map((l) => l.id)
+  );
+
+  // Every active lease stays in the list: a lease with nothing to collect must
+  // still be selectable, so the dialog can say so rather than hiding it.
+  const leaseOptions = activeLeases.map((l) => ({
+    id: l.id,
+    property: l.property,
+    tenant: l.tenant,
+    duePeriods: duePeriodsByLease[l.id] ?? [],
+  }));
+
   const subscriptionStatus = user?.subscriptionStatus ?? "TRIAL";
   const trialEndsAt = user?.trialEndsAt ?? null;
   const trialExpired = isTrialExpired(trialEndsAt);
@@ -145,7 +169,7 @@ export default async function BillingPage() {
             Suivi des loyers et génération de quittances
           </p>
         </div>
-        <TransactionForm leases={activeLeases.map(l => ({ ...l, rentAmount: Number(l.rentAmount), chargesAmount: Number(l.chargesAmount) }))} />
+        <TransactionForm leases={leaseOptions} />
       </div>
 
       {/* Summary cards */}
@@ -322,7 +346,7 @@ export default async function BillingPage() {
             <p className="text-muted-foreground text-sm mb-6">
               Commencez par enregistrer votre premier paiement.
             </p>
-            <TransactionForm leases={activeLeases.map(l => ({ ...l, rentAmount: Number(l.rentAmount), chargesAmount: Number(l.chargesAmount) }))} />
+            <TransactionForm leases={leaseOptions} />
           </CardContent>
         </Card>
       )}

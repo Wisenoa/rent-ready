@@ -185,10 +185,19 @@ export async function POST(request: NextRequest) {
     const { rentPortion, chargesPortion, isFullPayment } = settlement;
     const receiptType = settlement.receiptType;
     const status = settlement.status;
+    /** True when this payment discharges the month, so the period row closes. */
+    const clearsPeriod = settlement.outstanding.lte(0);
+    const outstandingBefore = settlement.outstanding.plus(
+      new Decimal(parsed.data.amount)
+    );
 
-    // If a rent period was generated for this month, the payment SETTLES it rather
-    // than creating a second row. Two rows for one month meant the period was
-    // counted twice: once as owed (PENDING) and once as paid.
+    // If a rent period was generated for this month, the payment SETTLES it
+    // rather than creating a second row: two rows for one month meant the period
+    // was counted twice, once as owed (PENDING) and once as paid.
+    //
+    // A payment that does NOT clear the balance leaves the period row unpaid on
+    // purpose and falls through to the insert below, so the remaining balance
+    // stays collectable. settleRentPeriod never overwrites the obligation.
     const period = await findUnpaidPeriod(parsed.data.leaseId, periodStart);
     if (period) {
       const settled = await settleRentPeriod(period.id, {
@@ -201,9 +210,10 @@ export async function POST(request: NextRequest) {
           : {}),
         status,
         isFullPayment,
+        outstandingBefore,
       });
 
-      if (settled) {
+      if (settled && clearsPeriod) {
         const updated = await prisma.transaction.findUniqueOrThrow({
           where: { id: period.id },
           include: {

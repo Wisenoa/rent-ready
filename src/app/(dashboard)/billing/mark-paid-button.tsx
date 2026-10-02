@@ -18,11 +18,27 @@ export function MarkPaidButton({
   function handleClick() {
     startTransition(async () => {
       const result = await markTransactionPaid(transactionId, defaultAmount);
-      if (result.success) {
-        toast.success("Paiement validé");
-      } else {
+      if (!result.success) {
         toast.error(result.error ?? "Impossible de valider le paiement");
+        return;
       }
+
+      // The payment is recorded either way. A missing quittance is a real
+      // outcome the user must see — never report it as a clean success.
+      const quittanceError =
+        typeof result.data?.quittanceError === "string"
+          ? result.data.quittanceError
+          : null;
+
+      if (quittanceError) {
+        toast.warning(
+          `Paiement validé, mais la quittance n'a pas pu être générée : ${quittanceError}`,
+          { duration: 8000 }
+        );
+        return;
+      }
+
+      toast.success("Paiement validé");
     });
   }
 

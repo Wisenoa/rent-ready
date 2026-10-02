@@ -66,11 +66,15 @@ export function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/settings")}>
+        {/* Both entries used to point at /settings, which does not exist: every
+            authenticated screen 404'd from its own user menu. There is now one
+            settings route, so both labels lead there rather than duplicating a
+            dead link. */}
+        <DropdownMenuItem onClick={() => router.push("/settings/profile")}>
           <User className="mr-2 size-4" />
-          Profil
+          Mon profil
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/settings")}>
+        <DropdownMenuItem onClick={() => router.push("/settings/profile")}>
           <Settings className="mr-2 size-4" />
           Paramètres
         </DropdownMenuItem>

@@ -27,6 +27,7 @@ import { getAuthenticatedUserId } from "@/lib/auth";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { getDashboardStats, formatCurrency } from "@/lib/queries/dashboard-stats";
+import { ensureRentPeriods } from "@/lib/queries/rent-periods";
 import {
   RevenueExpenseChart,
   ExpenseByCategoryChart,
@@ -55,6 +56,10 @@ const transactionStatusConfig: Record<
 
 export default async function DashboardPage() {
   const userId = await getAuthenticatedUserId();
+
+  // Materialise the months owed before reading them: without this, the KPI and
+  // "activité récente" below only ever show the month a lease was created in.
+  await ensureRentPeriods(userId);
 
   const [stats, recentTransactions] = await Promise.all([
     getDashboardStats(userId),

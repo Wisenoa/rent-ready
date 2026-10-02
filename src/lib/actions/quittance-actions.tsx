@@ -49,6 +49,20 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
     const { lease, user } = transaction;
     const { property, tenant } = lease;
 
+    // A quittance is a legal document (loi du 6 juillet 1989, art. 21) and must
+    // carry the landlord's full address. The User columns default to "", and
+    // nothing used to let a landlord fill them, so this used to render an empty
+    // "bailleur" block: an unusable document. Refuse it instead, and say what to
+    // do about it. This also fires before allocateReceiptNumber, so a refused
+    // generation does not burn a receipt number.
+    if (!user.addressLine1.trim() || !user.city.trim() || !user.postalCode.trim()) {
+      return {
+        success: false,
+        error:
+          "Complétez votre adresse de propriétaire dans Mon profil pour pouvoir générer une quittance.",
+      };
+    }
+
     // Judge the period, not the payment. A tenant who settles 700 EUR of rent in
     // two instalments must obtain a quittance on the payment that completes it;
     // looking only at that payment's amount denied it, which is a legal problem

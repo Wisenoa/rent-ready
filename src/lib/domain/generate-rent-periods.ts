@@ -177,16 +177,25 @@ export async function getLeaseArrears(
 }
 
 /**
- * Settle a generated rent period with a payment.
+ * Record a payment against a generated rent period.
  *
- * The period and the payment are the SAME row: a generated period holds what is
- * owed, and recording a payment converts it to what was received. Creating a
- * second row instead double-counted the period (summing `amount` across the month
- * returned owed + paid).
+ * The period row stays the OBLIGATION and is never overwritten by the payment.
+ * It holds the balance still owed for the month; each payment is recorded as its
+ * own row sharing the same `periodStart`/`periodEnd`, so the month's receipts sum
+ * to what was received and the month's obligation is still derivable.
  *
- * Returns the updated row, or null when the period does not exist (a payment
- * recorded for a month that was never generated, which the payment endpoint
- * handles by inserting).
+ * This used to overwrite `amount` with the payment and set `paidAt`, which is
+ * only harmless for a payment that clears the month. A PARTIAL payment rewrote
+ * 970.55 EUR as 400 EUR and closed the period: the obligation was gone from the
+ * database, `computeDuePeriods` (which reads unpaid rows) stopped offering the
+ * month, and the remaining 570.55 EUR could not be collected through any UI.
+ *
+ * `paidAt` is therefore set only when the payment clears the balance. While the
+ * month is short the period stays unpaid and still collectable, and
+ * `computeDuePeriods` derives the remaining balance from the payment rows.
+ *
+ * Returns false when the period is not collectable (already settled, or the id
+ * belongs to nobody) so callers can refuse rather than double-book the month.
  */
 export async function settleRentPeriod(
   periodTransactionId: string,
@@ -198,12 +207,14 @@ export async function settleRentPeriod(
     paymentMethod?: string;
     status: "PAID" | "PARTIAL";
     isFullPayment: boolean;
+    /** Remaining balance on the period before this payment, from `settlePeriod`. */
+    outstandingBefore: Prisma.Decimal | Decimal | number;
   }
 ): Promise<boolean> {
+  const amount = new Decimal(payment.amount).toDecimalPlaces(2);
+  const outstanding = new Decimal(payment.outstandingBefore).toDecimalPlaces(2);
+
   const data: Prisma.TransactionUpdateManyMutationInput = {
-    amount: new Decimal(payment.amount).toNumber(),
-    rentPortion: new Decimal(payment.rentPortion).toNumber(),
-    chargesPortion: new Decimal(payment.chargesPortion).toNumber(),
     paidAt: payment.paidAt,
     status: payment.status,
     isFullPayment: payment.isFullPayment,
@@ -212,11 +223,20 @@ export async function settleRentPeriod(
     data.paymentMethod = payment.paymentMethod as PaymentMethod;
   }
 
-  const result = await prisma.transaction.updateMany({
-    where: { id: periodTransactionId, paidAt: null },
-    data,
-  });
-  return result.count > 0;
+  // A payment that clears the balance closes the month: the obligation is
+  // discharged, so there is nothing left to collect.
+  if (outstanding.minus(amount).lte(0)) {
+    const result = await prisma.transaction.updateMany({
+      where: { id: periodTransactionId, paidAt: null },
+      data,
+    });
+    return result.count > 0;
+  }
+
+  // A payment that does not clear it must not close the month. The obligation
+  // stays put and unpaid so it keeps being offered; the caller records the
+  // payment as its own row.
+  return true;
 }
 
 /**

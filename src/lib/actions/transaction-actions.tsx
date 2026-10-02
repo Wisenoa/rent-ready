@@ -3,9 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { settlePeriodPayments } from "@/lib/domain/period-settlement";
+import { settlePeriod } from "@/lib/domain/rent-periods";
 import { getCurrentUserId } from "@/lib/auth";
 import { transactionSchema } from "@/lib/validations/transaction";
 import { generateQuittance } from "@/lib/actions/quittance-actions";
+import { describeQuittanceOutcome } from "@/lib/domain/quittance-outcome";
 import { generateRentFollowUpDraft } from "@/lib/ai/lease-analyzer";
 import { resend, fromEmail } from "@/lib/email";
 import { format } from "date-fns";
@@ -17,7 +19,13 @@ import {
   settleRentPeriod,
 } from "@/lib/domain/generate-rent-periods";
 import Decimal from "decimal.js";
-import type { PaymentMethod } from "@prisma/client";
+import type { PaymentMethod, Prisma } from "@prisma/client";
+import { resolveDuePeriod } from "@/lib/queries/due-periods";
+
+/** Money in a user-facing error message, without importing a client formatter. */
+function formatEuros(value: Decimal): string {
+  return `${value.toDecimalPlaces(2).toFixed(2)} €`;
+}
 
 export async function createTransaction(formData: FormData): Promise<ActionResult> {
   try {
@@ -38,8 +46,30 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
 
     const amountNum = parsed.data.amount; // already a number from z.coerce
     const paidAt = parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date();
-    const periodStart = new Date(parsed.data.periodStart);
-    const periodEnd = new Date(parsed.data.periodEnd);
+
+    // A landlord picks the period to settle instead of typing dates, so the
+    // period's identity comes from the database, not from the form: the id is
+    // resolved scoped to this lease and must still be unpaid. The dates then
+    // come from that row, which also closes the door on a form that posts
+    // another lease's period dates.
+    const duePeriodId = parsed.data.duePeriodId;
+    let periodStart = new Date(parsed.data.periodStart);
+    let periodEnd = new Date(parsed.data.periodEnd);
+    let dueDate = new Date(parsed.data.dueDate);
+    let duePeriodAmount: Prisma.Decimal | null = null;
+    if (duePeriodId) {
+      const period = await resolveDuePeriod(userId, lease.id, duePeriodId);
+      if (!period) {
+        return {
+          success: false,
+          error: "Cette période de loyer n'est plus à encaisser pour ce bail.",
+        };
+      }
+      periodStart = period.periodStart;
+      periodEnd = period.periodEnd;
+      dueDate = period.dueDate;
+      duePeriodAmount = period.amount;
+    }
 
     // Judge the PERIOD, not this payment: a tenant paying in instalments was
     // previously recorded PARTIAL forever. Single source of truth in
@@ -48,6 +78,32 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
       where: { leaseId: lease.id, periodStart, periodEnd, paidAt: { not: null } },
       select: { amount: true, paidAt: true, createdAt: true },
     });
+
+    // A period row holds the OBLIGATION, so what is still collectable is that
+    // amount minus everything already received for the month. This is the
+    // ceiling the dialog enforces with `max`, and it is re-derived here on
+    // purpose: the browser is not the boundary (AGENTS.md 6). Without it a
+    // hand-crafted POST books 1000 EUR against a 970.55 EUR month and the ledger
+    // claims more rent than the lease ever asked for.
+    if (duePeriodAmount) {
+      const received = priorPayments.reduce(
+        (sum, r) => sum.plus(new Decimal(r.amount)),
+        new Decimal(0)
+      );
+      const remaining = settlePeriod(
+        new Decimal(duePeriodAmount),
+        received,
+        dueDate,
+        paidAt
+      ).outstanding;
+      if (new Decimal(amountNum).gt(remaining)) {
+        return {
+          success: false,
+          error: `Le montant dépasse le reste à payer pour cette période (${formatEuros(remaining)}).`,
+        };
+      }
+    }
+
     const settlement = settlePeriodPayments({
       rentAmount: lease.rentAmount,
       chargesAmount: lease.chargesAmount,
@@ -62,10 +118,21 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
     const isFullPayment = settlement.isFullPayment;
     const receiptType = settlement.receiptType;
     const status = settlement.status;
+    /** True when this payment discharges the month, so the period row closes. */
+    const clearsPeriod = settlement.outstanding.lte(0);
+    // What was still owed just before this payment landed.
+    const outstandingBefore = settlement.outstanding.plus(new Decimal(amountNum));
 
-    // Settle the generated rent period for this month instead of inserting a
-    // second row for the same month (which counted the period twice).
-    const period = await findUnpaidPeriod(parsed.data.leaseId, periodStart);
+    // A generated rent period is settled rather than duplicated: the month must
+    // not be counted twice (once as owed, once as received).
+    //
+    // When the dialog sent a period id, that row IS the period. settleRentPeriod
+    // closes it only if this payment clears the balance; otherwise it leaves the
+    // obligation unpaid on purpose and the payment is inserted as its own row
+    // below, which is what keeps the remaining balance collectable.
+    const period: { id: string } | null = duePeriodId
+      ? { id: duePeriodId }
+      : await findUnpaidPeriod(parsed.data.leaseId, periodStart);
     if (period) {
       const settled = await settleRentPeriod(period.id, {
         amount: parsed.data.amount,
@@ -77,12 +144,22 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
           : {}),
         status,
         isFullPayment,
+        outstandingBefore,
       });
-      if (settled) {
+      if (settled && clearsPeriod) {
         revalidatePath("/billing");
         revalidatePath("/dashboard");
         revalidatePath("/leases");
         return { success: true, data: { id: period.id, receiptType } };
+      }
+      // A partial payment returns settled=true WITHOUT closing the period (see
+      // settleRentPeriod): falling through inserts the receipt row, and the
+      // obligation stays unpaid so the balance remains collectable.
+      if (!settled && duePeriodId) {
+        return {
+          success: false,
+          error: "Cette période de loyer vient déjà d'être encaissée.",
+        };
       }
     }
 
@@ -94,8 +171,8 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
         rentPortion: rentPortionDecimal,
         chargesPortion: chargesPortionDecimal,
         periodStart,
-        periodEnd: new Date(parsed.data.periodEnd),
-        dueDate: new Date(parsed.data.dueDate),
+        periodEnd,
+        dueDate,
         paidAt,
         paymentMethod: parsed.data.paymentMethod ?? null,
         status,
@@ -173,8 +250,19 @@ export async function markTransactionPaid(
       },
     });
 
-    // Auto-generate PDF quittance after marking as paid
-    const quittanceResult = await generateQuittance(id);
+    // Auto-generate PDF quittance after marking as paid.
+    //
+    // The payment IS recorded at this point, so a receipt failure must not fail
+    // the action — but it must not be silent either. generateQuittance refuses
+    // when the landlord's own address is incomplete, which is the default state
+    // of every account created before the profile page existed. Reporting plain
+    // success there would claim a receipt was issued when none was, so the
+    // reason travels back as `quittanceError` (AGENTS.md §21, §37).
+    const outcome = describeQuittanceOutcome(await generateQuittance(id));
+
+    if (outcome.warning) {
+      console.error("markTransactionPaid: quittance not generated:", outcome.warning);
+    }
 
     revalidatePath("/billing");
     revalidatePath("/dashboard");
@@ -182,7 +270,8 @@ export async function markTransactionPaid(
       success: true,
       data: {
         receiptType,
-        receiptUrl: quittanceResult.success ? (quittanceResult.data as { receiptUrl?: string })?.receiptUrl : undefined,
+        receiptUrl: outcome.receiptUrl,
+        ...(outcome.warning ? { quittanceError: outcome.warning } : {}),
       },
     };
   } catch (error) {

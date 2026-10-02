@@ -3,6 +3,17 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 /**
+ * Both forms matter: the sidebar mixes JSX attributes (`href="/dashboard"`) with
+ * nav object literals (`href: "/documents"`). Matching only the JSX form left the
+ * whole toolsNav group unchecked, which is how a dead entry shipped.
+ */
+const HREF_RE = /href(?::\s*|=)"(\/[^"]*)"/g;
+
+function sidebarHrefs(source: string): string[] {
+  return [...source.matchAll(HREF_RE)].map((m) => m[1]);
+}
+
+/**
  * The sidebar linked to /settings, which does not exist: there is no settings page
  * anywhere in the app. A user clicking "Paramètres" got a 404, from the one piece
  * of navigation present on every authenticated screen.
@@ -52,14 +63,13 @@ describe("app sidebar navigation", () => {
   );
 
   it("has links to check", () => {
-    const hrefs = [...sidebar.matchAll(/href="(\/[^"]*)"/g)].map((m) => m[1]);
+    const hrefs = sidebarHrefs(sidebar);
     expect(hrefs.length).toBeGreaterThan(0);
   });
 
   it("every sidebar link points at a real route", () => {
     const broken: string[] = [];
-    for (const m of sidebar.matchAll(/href="(\/[^"]*)"/g)) {
-      const href = m[1];
+    for (const href of sidebarHrefs(sidebar)) {
       if (href.includes("{")) continue; // dynamic, checked at render time
       if (!resolves(href)) broken.push(href);
     }
@@ -69,9 +79,19 @@ describe("app sidebar navigation", () => {
     ).toEqual([]);
   });
 
-  it("offers no settings entry, because there is no settings page", () => {
-    expect(sidebar).not.toContain('href="/settings"');
-    // and nothing else pretends to be one
-    expect(resolves("/settings")).toBe(false);
+  it("has no documents or ai-assistant entry", () => {
+    for (const href of sidebarHrefs(sidebar)) {
+      expect(href).not.toBe("/documents");
+      expect(href).not.toBe("/ai-assistant");
+    }
+  });
+
+  it("links to a settings page that exists, never to a bare /settings", () => {
+    // The sidebar previously offered "Paramètres" -> /settings, which 404'd from
+    // every authenticated screen. The entry now points at the profile page.
+    for (const href of sidebarHrefs(sidebar)) {
+      expect(href).not.toBe("/settings");
+    }
+    expect(resolves("/settings/profile")).toBe(true);
   });
 });
