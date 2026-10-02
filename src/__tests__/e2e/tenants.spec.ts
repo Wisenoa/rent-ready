@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { registerTestUser } from './helpers/auth'
 
 test.describe('Tenant Management', () => {
   const testTenant = {
@@ -13,14 +14,7 @@ test.describe('Tenant Management', () => {
 
   async function registerAndGoToTenants(page: any) {
     const uniqueEmail = `e2e.ten.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Tenant')
-    await page.fill('[id="lastName"]', 'Owner')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+        await registerTestUser(page, uniqueEmail)
     await page.goto('/tenants')
   }
 
@@ -30,11 +24,11 @@ test.describe('Tenant Management', () => {
 
   test('tenants page loads with empty state', async ({ page }) => {
     await expect(page.getByRole('heading', { name: /locataires/i })).toBeVisible()
-    await expect(page.getByRole('button', { name: /ajouter un locataire/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first()).toBeVisible()
   })
 
   test('can add a new tenant', async ({ page }) => {
-    await page.getByRole('button', { name: /ajouter un locataire/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first().click()
 
     // Dialog should open
     await expect(page.getByText(/nouveau locataire|ajouter un locataire/i)).toBeVisible({ timeout: 5000 })
@@ -57,7 +51,7 @@ test.describe('Tenant Management', () => {
 
   test('tenant detail page loads', async ({ page }) => {
     // First create a tenant
-    await page.getByRole('button', { name: /ajouter un locataire/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first().click()
     await expect(page.getByText(/nouveau locataire/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="firstName"]', testTenant.firstName)
     await page.fill('[id="lastName"]', testTenant.lastName)

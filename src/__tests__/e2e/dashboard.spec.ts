@@ -1,17 +1,10 @@
 import { test, expect } from '@playwright/test'
-import { TEST_USER } from './helpers/auth'
+import { TEST_USER, registerTestUser } from './helpers/auth'
 
 test.describe('Dashboard Analytics', () => {
   test('dashboard page loads with stats cards', async ({ page }) => {
     const uniqueEmail = `e2e.dash.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Dashboard')
-    await page.fill('[id="lastName"]', 'Test')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    await registerTestUser(page, uniqueEmail)
 
     // Should load without JS errors
     await expect(page).toHaveURL(/\/dashboard/)
@@ -24,14 +17,7 @@ test.describe('Dashboard Analytics', () => {
 
   test('dashboard shows quick action cards', async ({ page }) => {
     const uniqueEmail = `e2e.dash.quick.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Quick')
-    await page.fill('[id="lastName"]', 'Action')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    await registerTestUser(page, uniqueEmail)
 
     // Quick action cards should be present
     // Look for: Ajouter un bien, Ajouter un locataire, Générer une quittance
@@ -51,18 +37,11 @@ test.describe('Dashboard Analytics', () => {
     const uniqueEmail = `e2e.dash.stats.${Date.now()}@rentready.io`
 
     // Register
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Stats')
-    await page.fill('[id="lastName"]', 'User')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    await registerTestUser(page, uniqueEmail)
 
     // Add a property
     await page.goto('/properties')
-    await page.getByRole('button', { name: /ajouter un bien/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
     await expect(page.getByText(/nouveau bien/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="name"]', 'Maison Dashboard')
     await page.fill('[id="addressLine1"]', '5 Avenue des Champs')
@@ -91,14 +70,7 @@ test.describe('Dashboard Analytics', () => {
 
   test('empty dashboard state — no properties shows onboarding', async ({ page }) => {
     const uniqueEmail = `e2e.dash.empty.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Empty')
-    await page.fill('[id="lastName"]', 'Dash')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    await registerTestUser(page, uniqueEmail)
 
     await page.goto('/dashboard')
 

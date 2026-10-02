@@ -1,21 +1,15 @@
 import { test, expect } from '@playwright/test'
+import { registerTestUser } from './helpers/auth'
 
 test.describe('Lease Creation', () => {
   async function setupUserWithPropertyAndTenant(page: any) {
     const uniqueEmail = `e2e.lease.${Date.now()}@rentready.io`
     // Register
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Lease')
-    await page.fill('[id="lastName"]', 'Test')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    await registerTestUser(page, uniqueEmail)
 
     // Create a property
     await page.goto('/properties')
-    await page.getByRole('button', { name: /ajouter un bien/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
     await expect(page.getByText(/nouveau bien/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="name"]', 'Studio Lyon')
     await page.fill('[id="addressLine1"]', '8 Rue de la République')
@@ -26,26 +20,23 @@ test.describe('Lease Creation', () => {
 
     // Create a tenant
     await page.goto('/tenants')
-    await page.getByRole('button', { name: /ajouter un locataire/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first().click()
     await expect(page.getByText(/nouveau locataire/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="firstName"]', 'Pierre')
     await page.fill('[id="lastName"]', 'Durand')
     await page.fill('[id="email"]', `pierre.durand.${Date.now()}@example.com`)
+    // address, city and postal code are required; without them the form
+    // validates in place and does not submit.
+    await page.fill('[id="addressLine1"]', '5 avenue Foch')
+    await page.fill('[id="city"]', 'Paris')
+    await page.fill('[id="postalCode"]', '75016')
     await page.getByRole('button', { name: /créer|ajouter/i }).click()
     await expect(page.getByText('Pierre Durand')).toBeVisible({ timeout: 10_000 })
   }
 
   test('leases page loads and shows empty state', async ({ page }) => {
     const uniqueEmail = `e2e.lease.empty.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Lease')
-    await page.fill('[id="lastName"]', 'Empty')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
-
+        await registerTestUser(page, uniqueEmail)
     await page.goto('/leases')
     await expect(page.getByRole('heading', { name: /baux/i })).toBeVisible()
     // Should have a way to create a lease (either empty state CTA or button)

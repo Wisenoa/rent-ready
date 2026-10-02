@@ -21,13 +21,7 @@ test.describe('Authentication Flow', () => {
   test('can register a new user and redirect to dashboard', async ({ page }) => {
     // Use a unique email per test run to avoid conflicts
     const uniqueEmail = `e2e.reg.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Test')
-    await page.fill('[id="lastName"]', 'User')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
+    await registerTestUser(page, uniqueEmail)
     // Should redirect to dashboard after successful registration
     await page.waitForURL('**/dashboard**', { timeout: 20_000 })
     await expect(page).toHaveURL(/\/dashboard/)
@@ -36,15 +30,7 @@ test.describe('Authentication Flow', () => {
   test('login with valid credentials redirects to dashboard', async ({ page }) => {
     // First register a user
     const uniqueEmail = `e2e.login.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Login')
-    await page.fill('[id="lastName"]', 'Test')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
-
+        await registerTestUser(page, uniqueEmail)
     // Logout
     await page.goto('/login')
 
@@ -56,14 +42,7 @@ test.describe('Authentication Flow', () => {
   test('login with wrong password shows error', async ({ page }) => {
     const uniqueEmail = `e2e.wrong.${Date.now()}@rentready.io`
     // Register first
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Wrong')
-    await page.fill('[id="lastName"]', 'Test')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    await registerTestUser(page, uniqueEmail)
 
     // Logout and try with wrong password
     await page.goto('/login')

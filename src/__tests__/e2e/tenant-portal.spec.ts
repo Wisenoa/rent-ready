@@ -1,20 +1,13 @@
 import { test, expect } from '@playwright/test'
+import { registerTestUser } from './helpers/auth'
 
 test.describe('Tenant Invitation and Portal Access', () => {
   async function setupLandlordWithPropertyAndTenant(page: any) {
     const uniqueEmail = `e2e.portal.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Landlord')
-    await page.fill('[id="lastName"]', 'Portal')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
-
+        await registerTestUser(page, uniqueEmail)
     // Create a property
     await page.goto('/properties')
-    await page.getByRole('button', { name: /ajouter un bien/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
     await expect(page.getByText(/nouveau bien/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="name"]', 'Appartement Portal')
     await page.fill('[id="addressLine1"]', '10 Rue du Portal')
@@ -25,7 +18,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
 
     // Create a tenant
     await page.goto('/tenants')
-    await page.getByRole('button', { name: /ajouter un locataire/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first().click()
     await expect(page.getByText(/nouveau locataire/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="firstName"]', 'TenantPortal')
     await page.fill('[id="lastName"]', 'User')

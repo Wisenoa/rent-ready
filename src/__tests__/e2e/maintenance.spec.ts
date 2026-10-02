@@ -1,20 +1,13 @@
 import { test, expect } from '@playwright/test'
+import { registerTestUser } from './helpers/auth'
 
 test.describe('Maintenance Request Flow', () => {
   async function setupUserWithPropertyAndTenant(page: any) {
     const uniqueEmail = `e2e.maint.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Maintenance')
-    await page.fill('[id="lastName"]', 'Test')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
-
+        await registerTestUser(page, uniqueEmail)
     // Create a property
     await page.goto('/properties')
-    await page.getByRole('button', { name: /ajouter un bien/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
     await expect(page.getByText(/nouveau bien/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="name"]', 'Immeuble Maintenance')
     await page.fill('[id="addressLine1"]', '30 Rue de la Maintenance')
@@ -25,11 +18,16 @@ test.describe('Maintenance Request Flow', () => {
 
     // Create a tenant
     await page.goto('/tenants')
-    await page.getByRole('button', { name: /ajouter un locataire/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first().click()
     await expect(page.getByText(/nouveau locataire/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="firstName"]', 'Jean')
     await page.fill('[id="lastName"]', 'Michelin')
     await page.fill('[id="email"]', `michelin.${Date.now()}@example.com`)
+    // address, city and postal code are required; without them the form
+    // validates in place and does not submit.
+    await page.fill('[id="addressLine1"]', '5 avenue Foch')
+    await page.fill('[id="city"]', 'Paris')
+    await page.fill('[id="postalCode"]', '75016')
     await page.getByRole('button', { name: /créer|ajouter/i }).click()
     await expect(page.getByText('Jean Michelin')).toBeVisible({ timeout: 10_000 })
 
@@ -38,15 +36,7 @@ test.describe('Maintenance Request Flow', () => {
 
   test('maintenance page loads and shows empty state', async ({ page }) => {
     const uniqueEmail = `e2e.maint.empty.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'MaintEmpty')
-    await page.fill('[id="lastName"]', 'Test')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
-
+        await registerTestUser(page, uniqueEmail)
     await page.goto('/maintenance')
     // Page should load with some maintenance-related heading or content
     const body = await page.textContent('body')
@@ -147,15 +137,7 @@ test.describe('Maintenance Request Flow', () => {
 
   test('maintenance page no JS errors on load', async ({ page }) => {
     const uniqueEmail = `e2e.maint.errors.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'MaintErr')
-    await page.fill('[id="lastName"]', 'Test')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
-
+        await registerTestUser(page, uniqueEmail)
     const errors: string[] = []
     page.on('console', (msg) => {
       if (msg.type() === 'error') errors.push(msg.text())
