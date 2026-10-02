@@ -198,6 +198,31 @@ const config: NextConfig = {
       },
 
       // ────────────────────────────────────────
+      // Doublon exact : deux articles, un seul titre
+      // ────────────────────────────────────────
+      // Both articles carried the exact same title, "Augmentation de loyer :
+      // règles et procédure". The thin one (1,994 chars) covered a subset of
+      // what the rich one (8,999 chars) already had — same IRL explanation,
+      // same zone-tendue limit, same procedure, same pitfalls, same FAQ — so
+      // there was nothing to merge. The file is deleted, so this rule is the
+      // only thing that keeps the old URL alive.
+      {
+        // Second exact title collision found in the same pass: "Comment
+        // rédiger un contrat de location en 2026", one version ending in
+        // ": guide complet". Bodies only shared 2.3% of their text, but the
+        // titles were indistinguishable in a SERP, which is the point.
+        source: '/blog/comment-rediger-contrat-location',
+        destination: '/blog/rediger-contrat-location',
+        permanent: true,
+      },
+
+      {
+        source: '/blog/augmentation-loyer-regles-et-procedure',
+        destination: '/blog/augmentation-loyer-regles-procedure',
+        permanent: true,
+      },
+
+      // ────────────────────────────────────────
       // Slugs d'articles corrigés
       // ────────────────────────────────────────
       // /blog/assurance-loyer-impaye-GLI is deliberately NOT redirected: Next

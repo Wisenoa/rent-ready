@@ -3592,47 +3592,7 @@ Pour un ou deux biens, l'auto-gestion est viable avec un bon outil. Au-delà de 
 
 [CTA : Centralisez toute votre gestion locative avec RentReady — essai gratuit 14 jours]`,
   },
-  {
-    slug: "augmentation-loyer-regles-et-procedure",
-    title: "Augmentation de loyer : règles et procédure en 2026",
-    excerpt:
-      "IRL, plafonds, zones tendues, révision annuelle : comment augmenter legalmente votre loyer en 2026. Guide complet bailleur.",
-    category: "Calculs",
-    date: "2026-04-15",
-    updatedAt: '2026-04-15',
-    readTime: "8 min",
-    content: `## Augmentation de loyer : règles et procédure en 2026
 
-L'augmentation de loyer est un droit du propriétaire, mais elle est encadrée par des règles strictes en France.
-
-## L'indice de référence des loyers (IRL)
-
-Depuis le 1er août 2008, l'augmentation de loyer est indexée sur l'IRL, publié chaque trimestre par l'INSEE. Pour le quatrième trimestre 2025, l'IRL s'établit à 145,78, soit une hausse annuelle de +0,79%.
-
-L'augmentation automatique du loyer n'est possible que si le bail contient une clause de révision. En l'absence de clause, le loyer reste figé pendant toute la durée du contrat.
-
-La formule : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
-
-Exemple : un loyer de 1 200 € avec un IRL passé de 145,17 (T2 2024) à 146,68 (T2 2025) donne un nouveau loyer de 1 212,48 €.
-
-## Les limitations en zone tendue
-
-Depuis la loi ALUR, les communes en zone tendue (Paris, Lille, Lyon, Bordeaux, etc.) sont soumises à l'encadrement des loyers. Le loyer ne peut pas dépasser le loyer de référence majoré de 20%. En cas de relocation, le nouveau loyer ne peut pas dépasser le précédent de plus de 20%.
-
-## La procédure
-
-Vérifiez le bail, calculez le nouveau loyer en appliquant la formule, puis notifiez le locataire au moins 1 mois avant la date d'application. La notification doit mentionner l'ancien et le nouveau loyer, la date d'application, l'IRL utilisé et la formule de calcul.
-
-## Les erreurs à éviter
-
-Trop attendre pour réviser fait perdre le droit de réclamer les années d'augmentation non appliquées. Utiliser le mauvais trimestre rend la révision contestable. En zone tendue, dépasser le loyer de référence expose à des sanctions.
-
-## FAQ — Augmentation de loyer
-
-Si la clause de révision est dans le bail, le propriétaire est en droit d'appliquer la révision. Le locataire ne peut pas refuser une révision basée sur l'IRL tant que le calcul est correct.
-
-[CTA : Automatisez le calcul et l'application de vos révisions de loyer avec RentReady — essai gratuit 14 jours]`,
-  },
   {
     slug: "charges-locatives-recuperables-liste",
     title: "Charges locatives récupérables : liste complète et réglementation 2026",
@@ -4158,81 +4118,81 @@ La saisie sur salaire dure jusqu'a epuisement de la dette. Si le salarie quitte 
     date: "2026-04-28",
     updatedAt: "2026-04-28",
     readTime: "7 min",
-    content: `## Augmentation de loyer et IRL 2026 : comment calculer et appliquer la revision
+    content: `## Augmentation de loyer et IRL 2026 : comment calculer et appliquer la révision
 
-L'augmentation de loyer basee sur l'Indice de Reference des Loyers (IRL) est encadree par la loi. Proprietaires comme locataires doivent comprendre les regles pour eviter les litiges lors de la revision annuelle du loyer.
+L'augmentation de loyer basée sur l'Indice de Référence des Loyers (IRL) est encadrée par la loi. Propriétaires comme locataires doivent comprendre les règles pour éviter les litiges lors de la révision annuelle du loyer.
 
 ### Qu'est-ce que l'IRL ?
 
-L'Indice de Reference des Loyers (IRL) est un indice publie trimestriellement par l'INSEE. Il reflete l'evolution des prix a la consommation hors tabac et hors loyer, sur les 12 derniers mois.
+L'Indice de Référence des Loyers (IRL) est un indice publié trimestriellement par l'INSEE. Il reflète l'évolution des prix à la consommation hors tabac et hors loyer, sur les 12 derniers mois.
 
-L'IRL sert de base legale a la revision des loyers dans les contrats de location. Depuis la loi du 8 fevrier 2008, la revision du loyer ne peut pas depasser l'evolution de l'IRL, ce qui protege les locataires contre les hausses excessives.
+L'IRL sert de base légale à la révision des loyers dans les contrats de location. Depuis la loi du 8 février 2008, la révision du loyer ne peut pas dépasser l'évolution de l'IRL, ce qui protège les locataires contre les hausses excessives.
 
-L'IRL est publie au Journal officiel et disponible sur le site de l'INSEE. Les principales dates de publication sont janvier, avril, juillet et octobre.
+L'IRL est publié au Journal officiel et disponible sur le site de l'INSEE. Les principales dates de publication sont janvier, avril, juillet et octobre.
 
 ### Les valeurs de l'IRL en 2025-2026
 
-Les dernieres valeurs de l'IRL publiees : IRL Q3 2025 (publie octobre 2025) : environ 146,2. IRL Q4 2025 (publie janvier 2026) : environ 146,5. IRL Q1 2026 (publie avril 2026) : disponible sur insee.fr.
+Les dernières valeurs de l'IRL publiées : IRL Q3 2025 (publié octobre 2025) : environ 146,2. IRL Q4 2025 (publié janvier 2026) : environ 146,5. IRL Q1 2026 (publié avril 2026) : disponible sur insee.fr.
 
-Pour obtenir l'IRL exact du trimestre concerne, consultez le site de l'INSEE ou votre logiciel de gestion locative.
+Pour obtenir l'IRL exact du trimestre concerné, consultez le site de l'INSEE ou votre logiciel de gestion locative.
 
-### Formule de revision du loyer
+### Formule de révision du loyer
 
-La formule de revision du loyer est la suivante : Nouveau loyer = Loyer actuel x (Nouvel IRL / Ancien IRL)
+La formule de révision du loyer est la suivante : Nouveau loyer = Loyer actuel x (Nouvel IRL / Ancien IRL)
 
 Exemple : un appartement loué 800 euros en avril 2025, révisé en avril 2026 : Loyer actuel 800 euros, IRL T1 2025 : 145,47, IRL T1 2026 : 146,60, Calcul : 800 x (146,60 / 145,47) = 806,21 euros. L'augmentation est de 6,21 euros par mois (+0,78 %).
 
-### Date de revision : l'anniversaire du bail
+### Date de révision : l'anniversaire du bail
 
-La revision du loyer intervient automatiquement a chaque anniversaire du bail, si une clause de revision est prevue dans le contrat. Sans clause de revision, le loyer ne peut pas etre augmente en cours de bail.
+La révision du loyer intervient automatiquement à chaque anniversaire du bail, si une clause de révision est prévue dans le contrat. Sans clause de révision, le loyer ne peut pas être augmenté en cours de bail.
 
-La clause de revision doit preciser : la date de reference de l'indice (souvent le trimestre du dernier IRL connu a la signature), la periodicite de la revision (generalement annuelle), et la formule de calcul.
+La clause de révision doit préciser : la date de référence de l'indice (souvent le trimestre du dernier IRL connu à la signature), la périodicité de la révision (généralement annuelle), et la formule de calcul.
 
-Sans ces precisions, la clause est reputee non ecrite et le loyer ne peut pas etre revise.
+Sans ces précisions, la clause est réputée non écrite et le loyer ne peut pas être révisé.
 
 ### Les limites de l'augmentation de loyer
 
-L'augmentation de loyer en cours de bail ne peut pas depasser la variation de l'IRL. Le proprietaire ne peut pas augmenter le loyer au-dela de l'inflation constatee.
+L'augmentation de loyer en cours de bail ne peut pas dépasser la variation de l'IRL. Le propriétaire ne peut pas augmenter le loyer au-delà de l'inflation constatée.
 
-Exception : si le loyer est manifestement sous-evalue par rapport aux prix du marche, le proprietaire peut proposer une augmentation superieure lors du renouvellement du bail, mais cette augmentation est encadree. Elle ne peut pas depasser 10% du loyer actuel en zone tendue, doit etre justifiee par des travaux ameliorant la performance energetique du logement, et doit etre proposee au locataire 3 mois avant l'echeance du bail.
+Exception : si le loyer est manifestement sous-évalué par rapport aux prix du marché, le propriétaire peut proposer une augmentation supérieure lors du renouvellement du bail, mais cette augmentation est encadrée. Elle ne peut pas dépasser 10 % du loyer actuel en zone tendue, doit être justifiée par des travaux améliorant la performance énergétique du logement, et doit être proposée au locataire 3 mois avant l'échéance du bail.
 
-### Majoration limitee en zone tendue
+### Majoration limitée en zone tendue
 
-Dans les communes soumises a l'encadrement des loyers (Paris, Lille, Grenoble, etc.), le loyer de relocation ne peut pas depasser le loyer de reference majore, publie par les observatoires locaux des loyers.
+Dans les communes soumises à l'encadrement des loyers (Paris, Lille, Grenoble, etc.), le loyer de relocation ne peut pas dépasser le loyer de référence majoré, publié par les observatoires locaux des loyers.
 
-Le depassement est sanctionne par une amend e pouvant aller jusqu'a 5 000 euros pour une personne physique.
+Le dépassement est sanctionné par une amende pouvant aller jusqu'à 5 000 euros pour une personne physique.
 
 ### IRL et travaux : quand peut-on augmenter davantage ?
 
-En cas de travaux amenageant la performance energetique du logement (travaux permettant un gain d'au moins 20% de la performance energetique), le proprietaire peut negocier une augmentation de loyer superieure a l'IRL lors du renouvellement du bail.
+En cas de travaux aménageant la performance énergétique du logement (travaux permettant un gain d'au moins 20 % de la performance énergétique), le propriétaire peut négocier une augmentation de loyer supérieure à l'IRL lors du renouvellement du bail.
 
-L'augmentation ne peut pas depasser 15% du cout des travaux TTC, etale sur la duree du bail, ou 50% de l'augmentation echelonnee sur 3 ans. Les travaux doivent etre documentes et communiques au locataire.
+L'augmentation ne peut pas dépasser 15 % du coût des travaux TTC, étalé sur la durée du bail, ou 50 % de l'augmentation échelonnée sur 3 ans. Les travaux doivent être documentés et communiqués au locataire.
 
-### Comment mettre en oeuvre la revision de loyer ?
+### Comment mettre en œuvre la révision de loyer ?
 
-La revision du loyer doit etre notifiee au locataire par lettre recommandee avec accuse de reception, au moins 1 mois avant la date de revision. Le bailleur doit inclure le detail du calcul : ancien loyer, nouvel IRL, coefficient de revision, nouveau loyer.
+La révision du loyer doit être notifiée au locataire par lettre recommandée avec accusé de réception, au moins 1 mois avant la date de révision. Le bailleur doit inclure le détail du calcul : ancien loyer, nouvel IRL, coefficient de révision, nouveau loyer.
 
-Si le bailleur omet de notifier la revision dans les delais, il ne peut pas rattraper les augmentations non appliquees. Le loyer reste fige jusqu'a la prochaine date de revision possible.
+Si le bailleur omet de notifier la révision dans les délais, il ne peut pas rattraper les augmentations non appliquées. Le loyer reste figé jusqu'à la prochaine date de révision possible.
 
-[CTA : Calculez automatiquement vos revisions de loyer et genere z les notifications avec RentReady -- essai gratuit]
+[CTA : Calculez automatiquement vos révisions de loyer et générez les notifications avec RentReady -- essai gratuit]
 
 ## FAQ -- Augmentation de loyer IRL
 
-**Peut-on refuser une augmentation de loyer basee sur l'IRL ?**
+**Peut-on refuser une augmentation de loyer basée sur l'IRL ?**
 
-Non, si une clause de revision est prevue dans le bail et que la methode de calcul est conforme a la loi, le locataire ne peut pas refuser la revision. Toutefois, il peut contester le calcul devant le juge s'il y a une erreur.
+Non, si une clause de révision est prévue dans le bail et que la méthode de calcul est conforme à la loi, le locataire ne peut pas refuser la révision. Toutefois, il peut contester le calcul devant le juge s'il y a une erreur.
 
-**Que se passe-t-il si l'IRL est negatif ?**
+**Que se passe-t-il si l'IRL est négatif ?**
 
-Si l'IRL diminue (deflation), le loyer doit diminuer dans les memes proportions. Le proprietaire ne peut pas maintenir un loyer superieur a celui qui resulte de la formule de revision.
+Si l'IRL diminue (déflation), le loyer doit diminuer dans les mêmes proportions. Le propriétaire ne peut pas maintenir un loyer supérieur à celui qui résulte de la formule de révision.
 
-**L'augmentation de loyer peut-elle depasser l'IRL en cours de bail ?**
+**L'augmentation de loyer peut-elle dépasser l'IRL en cours de bail ?**
 
-Non, en cours de bail, l'augmentation ne peut pas depasser l'evolution de l'IRL. En cas de renouvellement, des augmentations plus importantes sont possibles sous conditions (travaux, zone non tendue).
+Non, en cours de bail, l'augmentation ne peut pas dépasser l'évolution de l'IRL. En cas de renouvellement, des augmentations plus importantes sont possibles sous conditions (travaux, zone non tendue).
 
 **Comment savoir si je suis en zone tendue ?**
 
-Les zones tendues sont definies par arrete prefectoral. Vous pouvez verifier sur le site du gouvernement ou de votre commune. En general, les grandes villes (Paris, Lyon, Marseille, Lille, Bordeaux, etc.) sont considerees comme zones tendues.`,
+Les zones tendues sont définies par arrêté préfectoral. Vous pouvez vérifier sur le site du gouvernement ou de votre commune. En général, les grandes villes (Paris, Lyon, Marseille, Lille, Bordeaux, etc.) sont considérées comme zones tendues.`,
   },
 
   {
@@ -5374,7 +5334,7 @@ Si le propriétaire ne peut pas payer malgré un jugement favorable, vous pouvez
     slug: "recours-garde-a-vue",
     title: "Garde à vue et loyers impayés : que faire en cas d'accusation",
     excerpt:
-      "Loisirs impayés peuvent-ils mener à une garde à vue ? Connaître vos droits et les procédures pénales applicables.",
+      "Des loyers impayés peuvent-ils mener à une garde à vue ? Connaître vos droits et les procédures pénales applicables.",
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
@@ -7066,9 +7026,9 @@ Le professionnel doit vous remettre un procès-verbal d'intervention mentionnant
   },
     {
     slug: "preavis-location-etranger",
-    title: "Préavis de relocation pour les locataires étrangers : règles",
+    title: "Préavis de congé pour un locataire étranger : quelle règle ?",
     excerpt:
-      "Congé du locataire étranger : préavis, règles spécifiques et pièges à éviter. Guide juridique pour propriétaires bailleurs et locataires non-résidents.",
+      "Le congé d'un locataire étranger suit les mêmes règles que tout autre locataire : 3 mois de préavis, réduits à 1 mois dans les cas prévus par la loi. Ce que change la non-résidence : les délais d'acheminement du courrier et les justificatifs à produire.",
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
@@ -7163,7 +7123,7 @@ Oui, le congé peut être donné depuis l'étranger par lettre recommandée avec
 
 **Le délai de préavis est-il différent pour un étranger ?**
 
-Non, les délais légaux sont les mêmes pour tous les locataires, quelle que soit leur nationalité. Seul le délai de 1 mois pour motif de relocation à l'étranger peut s'appliquer dans des cas exceptionnels documentés.
+Non, les délais légaux sont les mêmes pour tous les locataires, quelle que soit leur nationalité. Le délai reste de 3 mois, quelle que soit la nationalité du locataire. Il est ramené à 1 mois uniquement dans les cas prévus par la loi : logement situé en zone tendue, obtention d'un premier emploi, mutation professionnelle, perte d'emploi, état de santé, ou bénéfice du RSA ou de l'AAH. Un déménagement à l'étranger en soi n'en fait pas partie : c'est la mutation professionnelle qui ouvre le délai d'un mois.
 
 **Que faire si le locataire étranger part sans donner de préavis ?**
 
@@ -8225,181 +8185,7 @@ Non, le logiciel gère le suivi et la comptabilité mais ne se substitue pas à 
 
 [CTA : Optimisez la gestion de votre patrimoine avec RentReady — outil complet pour investisseurs — essai gratuit]`
   },
-  {
-    slug: "comment-rediger-contrat-location",
-    title: "Comment rédiger un contrat de location en 2026",
-    excerpt:
-      "Guide pas à pas pour rédiger un bail de location conforme : clauses obligatoires, pièges à éviter, modèle gratuit et conseils juridiques pour propriétaire.",
-    category: "Bail",
-    date: "2026-04-19",
-    updatedAt: '2026-04-19',
-    readTime: "12 min",
-    content: `## Pourquoi bien rédiger son contrat de location est essentiel
 
-Un contrat de location, aussi appelé bail d'habitation, constitue le socle juridique de toute relation entre un bailleur et un locataire. Une erreur dans sa rédaction peut entraîner des litiges coûteux, des procédures judiciaires longues, voire la nullité de certaines clauses. En 2026, la réglementation française impose des mentions obligatoires précises que tout propriétaire doit respecter.
-
-Un bail bien rédigé vous protège autant qu'il protège votre locataire. Il clarifie les droits et obligations de chaque partie, fixe les règles du jeu dès le départ et constitue votre meilleure arme en cas de conflit. À l'inverse, un bail mal rédigé peut vous priver de recours efficaces quand vous en aurez besoin.
-
-Ce guide vous accompagne dans la rédaction d'un bail conforme, que vous louiez un logement nu ou meublé, en zone tendue ou non.
-
-## Les mentions obligatoires du bail en 2026
-
-Depuis la loi Alur de 2014 et les évolutions successives, le bail doit contenir un certain nombre de mentions obligatoires. L'absence de l'une d'entre elles peut entraîner la requalification du contrat voire des sanctions financières.
-
-### Identité des parties
-
-Le bail doit préciser :
-- Votre identité complète en tant que bailleur (nom, adresse)
-- L'identité de votre locataire
-- Si applicable, l'identité du garant et le type de caution (solidaire ou simple)
-
-### Description du bien loué
-
-La description doit inclure :
-- L'adresse complète du logement
-- La nature du bien (appartement, maison, studio)
-- Le nombre de pièces et leur superficie (surface habitable au sens de la loi Carrez)
-- Les éléments d'équipements : chauffage, eau chaude, sanitaires
-- La destination du bien (usage d'habitation principale exclusivement)
-
-### Durée et modalités du bail
-
-Le bail doit préciser :
-- La durée du contrat (3 ans pour une location nue, 1 an pour une location meublée)
-- La date de début du bail
-- Les conditions de tacite prolongation
-- Le délai de préavis applicable (3 mois en général, 1 mois en zone tendue ou pour certains motifs)
-
-## Bail nu ou bail meublé : quelles différences ?
-
-### Le bail de location nue
-
-La location nue concerne les logements loués sans meuble. C'est le type de bail le plus courant pour les investissements locatifs longue durée.
-
-**Caractéristiques du bail nu :**
-- Durée minimale de 3 ans
-- Tacite reconduction pour une durée équivalente
-- Préavis de 3 mois (1 mois dans certains cas)
-- Loyer libre lors de la première mise en location (encadré en zone tendue lors du renouvellement)
-
-**Obligations du bailleur en location nue :**
-- Délivrer un logement décent (surface minimale de 9 m², hauteur sous plafond de 2,20 m, conformité énergétique)
-- Assurer le gros œuvre et la vacance entre deux locataires
-- Effectuer les travaux de mise aux normes
-- Remettre les documents obligatoires à chaque paiement de loyer
-
-### Le bail de location meublée
-
-La location meublée exige que le logement soit équipé d'un mobilier suffisant pour permettre au locataire de vivre normalement. La liste des équipements obligatoires est définie par décret.
-
-**Liste des équipements obligatoires :**
-- literie avec couette ou couverture
-- plaques de cuisson
-- four ou four micro-ondes
-- réfrigérateur et congélateur (ou compartiment freezer)
-- vaisselle et ustensiles de cuisine
-- table et chaises
-- étagères de rangement
-- luminaires
-- matériel d'entretien ménager
-
-**Caractéristiques du bail meublé :**
-- Durée minimale de 1 an (renouvelable)
-- Possible bail mobilité de 1 à 10 mois pour publics spécifiques
-- Fiscalité avantageuse sous le régime LMNP
-
-## Les clauses essentielles à intégrer
-
-### Clause de révision du loyer
-
-En zone tendue, la révision du loyer est encadrée. Pour les autres zones, vous pouvez prévoir une clause d'indexation basée sur l'Indice de Référence des Loyers (IRL) publié trimestriellement par l'INSEE. Cette clause doit préciser la date de prise d'effet et la périodicité de révision.
-
-[CTA : Utilisez RentReady pour automatiser le calcul de révision de loyer selon l'IRL — essai gratuit]
-
-### Clause de dépôt de garantie
-
-Le dépôt de garantie ne peut pas dépasser un mois de loyer hors charges en location nue et deux mois en location meublée. Il doit être restitué dans un délai maximal de 2 mois après la remise des clés par le locataire, déduction faite des sommes restant dues et des réparations locatives justifiées.
-
-### Clause résolutoire
-
-La clause résolutoire permet la résiliation automatique du bail en cas de manquements graves du locataire (impayés, assurance non souscrite, troubles de voisinage). Elle doit respecter un délai de grâce et une procédure précise définie par la loi.
-
-## Les clauses interdites ou nulles
-
-Certaines clauses sont considérées comme abusives et sont privées d'effet juridique :
-
-- **Clause de solidarité** entre colocataires si elle excède la durée du bail initial
-- **Clause de hausse de loyer supérieure à l'IRL** en zone tendue
-- **Clause imposant des frais de dossier au locataire**
-- **Clause interdisant la délivrance de reçus**
-- **Clause de variation arbitraire du loyer**
-
-## La rédaction étape par étape
-
-### Étape 1 : Vérifiez votre éligibilité à la mise en location
-
-Avant de rédiger le bail, assurez-vous que votre logement peut être loué :
-- Diagnostic de performance énergétique (DPE) valide
-- Conformité au titre de la santé publique (plomb, amiante)
-- Assurance propriétaire non occupant souscrite
-- Mise en location conforme aux règles d'urbanisme de votre commune
-
-### Étape 2 : Constituez votre dossier
-
-Préparez les annexes obligatoires :
-- L'état des lieux (entrée) avec description détaillée de l'état du logement
-- Le dossier de diagnostic technique (DPE, ESRIS, constats de risque d'exposition au plomb)
-- L'attestation d'assurance habitation du locataire
-- Un échéancier des charges communiquant le mode de répartition
-
-### Étape 3 : Rédigez ou utilisez un modèle
-
-Vous pouvez rédiger votre bail vous-même ou utiliser un modèle. Attention toutefois à ne pas partir d'un modèle obsolète. La réglementation évolue régulièrement et un modèle de bail ancien peut contenir des clauses devenues caduques.
-
-Notre [modèle de bail de location nue gratuit](/templates/bail-vide) est mis à jour conformément à la réglementation 2026 et inclut toutes les mentions obligatoires.
-
-### Étape 4 : Signez en trois exemplaires
-
-Le bail doit être signé en trois exemplaires : un pour le bailleur, un pour le locataire, un pour le garant si applicable. Remettez un exemplaire à chaque partie lors de la signature.
-
-## Les pièges courants à éviter
-
-### Ne pas sous-évaluer le bien
-
-Un loyer trop bas vous fait perdre des revenus légitimes. Un loyer trop élevé peut entraîner la vacance prolongée ou des difficultés de paiement. Utilisez notre [simulateur de rentabilité locative](/outils/calculateur-rendement) pour trouver le juste prix.
-
-### Oublier de décrire précisément les équipements
-
-Tout équipement non décrit dans le bail est présumé appartenir au locataire à la sortie. Décrivez avec précision l'état de chaque équipement et son fonctionnement.
-
-### Ne pas anticiper la révision de loyer
-
-Sans clause de révision, vous ne pourrez pas augmenter le loyer en cours de bail. Intégrez une clause d'indexation dès la signature si vous souhaitez protéger votre pouvoir d'achat.
-
-## FAQ : Questions fréquentes sur la rédaction du bail
-
-**Peut-on rédiger un bail sans passer par un professionnel ?**
-
-Oui, vous pouvez rédiger votre bail vous-même à condition de respecter les mentions obligatoires et d'utiliser un modèle à jour. En cas de doute, consultez un professionnel de l'immobilier ou un avocat.
-
-**Le bail doit-il être enregistré en mairie ?**
-
-Non, le bail n'a pas besoin d'être enregistré en mairie. Seuls certains baux ruraux ou commerciaux nécessitent un enregistrement.
-
-**Que faire si mon locataire refuse de signer le bail ?**
-
-Sans signature des deux parties, le bail n'est pas valable. Vous ne pouvez pas mettre le locataire dans les lieux sans bail signé. Contactez un conciliateur de justice ou un avocat pour trouver une solution.
-
-**Peut-on modifier le bail en cours de location ?**
-
-Oui, mais uniquement par avenant signé par les deux parties. Toute modification unilatérale est nulle. Notre [modèle d'avenant au bail](/blog/rediger-contrat-location) vous permet de formaliser les modifications acceptées d'un commun accord.
-
-**Combien coûte la rédaction par un professionnel ?**
-
-Un notaire ou un avocat charge généralement entre 150 et 300 euros HT pour la rédaction d'un bail. Certains syndics de copropriété proposent ce service inclus dans leurs honoraires.
-
-[CTA : Réédigiez vos baux en toute conformité avec RentReady — générateur de bail gratuit et mis à jour — essai gratuit]`
-  },
   {
     slug: "modele-quittance-loyer-gratuit",
     title: "Modèle de quittance de loyer gratuit : créez-la en 2 minutes",
