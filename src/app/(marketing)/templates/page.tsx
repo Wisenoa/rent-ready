@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Modèles Gratuits de Location 2026 | Bail, Quittance, Courrier | RentReady",
+      "Modèles Gratuits de Location 2026 | Bail, Quittance, Courrier",
     description:
       "Téléchargez gratuitement nos modèles de bail, quittances de loyer, lettres de relance et plus. Documents conformes loi 1989, personnalisables et gratuits.",
     url: "/templates",

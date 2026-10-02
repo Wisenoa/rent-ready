@@ -519,7 +519,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                     { name: "18e (Montmartre)", detail: "Encadrement loyers 2025", zone: "Zone tendue" },
                     { name: "12e (Bercy)", detail: "Marché moins tendu", zone: "Zone modérée" },
                     { name: "10e (Canal)", detail: "Très tendu — plafond bas", zone: "Zone tendue" },
-                    { name: "15e (Vaugirard)", detail: "Moins tendu — plus自由的 marché", zone: "Zone modérée" },
+                    { name: "15e (Vaugirard)", detail: "Moins tendu — marché plus libre", zone: "Zone modérée" },
                   ].map((q) => (
                     <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
                       <div className="flex items-start justify-between">

@@ -78,7 +78,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
     setValue,
     formState: { errors },
   } = useForm<LeaseFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(leaseSchema) as any,
     defaultValues: {
       propertyId: "",
@@ -105,7 +105,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
     if (!isOpen) reset();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   function onSubmit(values: any) {
     startTransition(async () => {
       const formData = new FormData();

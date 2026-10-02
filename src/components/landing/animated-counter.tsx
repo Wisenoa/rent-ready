@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 interface AnimatedCounterProps {
   /** Target value to animate to (e.g. 2400, 98, 15) */
@@ -17,6 +17,36 @@ interface AnimatedCounterProps {
   label?: string;
   /** Format as French locale (spaces for thousands) */
   localeFR?: boolean;
+}
+
+/**
+ * `prefers-reduced-motion` read as an external source via useSyncExternalStore,
+ * the same pattern as `src/hooks/use-mobile.ts`.
+ *
+ * Reading it this way keeps the reduced-motion value available *during render*,
+ * so the component can derive the final number without ever calling setState in
+ * an effect body (which `react-hooks/set-state-in-effect` rejects, and which
+ * costs an extra cascading render pass on mount).
+ *
+ * getServerSnapshot returns false: the server and the first client render agree,
+ * so the plain-number server render stays hydration-safe. A user with reduced
+ * motion enabled gets the final value on the very next render, which is the same
+ * instant display the old setState produced.
+ */
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(onStoreChange: () => void) {
+  const mql = window.matchMedia(REDUCED_MOTION_QUERY);
+  mql.addEventListener("change", onStoreChange);
+  return () => mql.removeEventListener("change", onStoreChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+function getReducedMotionServerSnapshot() {
+  return false;
 }
 
 /**
@@ -42,16 +72,25 @@ export function AnimatedCounter({
   label,
   localeFR = true,
 }: AnimatedCounterProps) {
-  const [displayValue, setDisplayValue] = useState(0);
+  // `animatedValue` is only ever written from the rAF callback, i.e. an async
+  // external-system update, never synchronously in an effect body.
+  const [animatedValue, setAnimatedValue] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
   const rafRef = useRef<number | null>(null);
+
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot
+  );
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // Intersection Observer — only animate when scrolled into view
+    // Intersection Observer — only animate when scrolled into view.
+    // setState lives in the observer callback, not the effect body.
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !hasStarted) {
@@ -66,14 +105,9 @@ export function AnimatedCounter({
   }, [hasStarted]);
 
   useEffect(() => {
-    if (!hasStarted) return;
-
-    // Respect reduced motion
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) {
-      setDisplayValue(value);
-      return;
-    }
+    // Reduced motion is derived during render (see above), so there is nothing
+    // to do here but skip the animation entirely.
+    if (!hasStarted || prefersReducedMotion) return;
 
     const startTime = performance.now();
     const startValue = 0;
@@ -86,7 +120,7 @@ export function AnimatedCounter({
       const easedProgress = easeOut(progress);
       const current = Math.round(startValue + (value - startValue) * easedProgress);
 
-      setDisplayValue(current);
+      setAnimatedValue(current);
 
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(animate);
@@ -100,7 +134,11 @@ export function AnimatedCounter({
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [hasStarted, value, duration]);
+  }, [hasStarted, prefersReducedMotion, value, duration]);
+
+  // Reduced-motion (and the pre-start state) resolve to the final value / 0
+  // without a state write; otherwise show whatever the rAF loop last produced.
+  const displayValue = hasStarted && prefersReducedMotion ? value : animatedValue;
 
   const formatted = localeFR
     ? displayValue.toLocaleString("fr-FR")

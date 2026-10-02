@@ -89,7 +89,7 @@ const motifs = [
     desc: "Le bien doit être libéré pour permettre une destination différente (commerciale, agricole, etc.)",
   },
   {
-    motif: "Fin de права",
+    motif: "Fin de contrat",
     desc: "Le bail expire car le droit d'occupation du bailleur arrive à échéance (fin de bail rural, etc.)",
   },
 ];
@@ -98,7 +98,7 @@ const faqData = [
   {
     question: "Qu'est-ce qu'un bail précaire ?",
     answer:
-      "Le bail précaire (aussi appelé 'bail avec préavis' ou 'bail à待遇 réduite') est un contrat de location dont la durée est limitée et qui ne peut pas être renouvelé tacitement. Il est soumis à des conditions strictes : un motif légitime et temporaire doit justifier le recours à ce type de bail. Il ne peut pas servir à éviter les règles du bail d'habitation classique.",
+      "Le bail précaire (aussi appelé 'bail avec préavis' ou 'bail à durée réduite') est un contrat de location dont la durée est limitée et qui ne peut pas être renouvelé tacitement. Il est soumis à des conditions strictes : un motif légitime et temporaire doit justifier le recours à ce type de bail. Il ne peut pas servir à éviter les règles du bail d'habitation classique.",
   },
   {
     question: "Quand peut-on utiliser un bail précaire ?",

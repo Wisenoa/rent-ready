@@ -23,13 +23,13 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
     shortDescription:
       "Logement situé dans un immeuble collectif, composé de pièces communicantes.",
     fullDescription:
-      "L'appartement est un logement situé dans un immeuble à plusieurs étages, composé de pièces communicantes (salon, chambres, cuisine, salle de bain) et disposant d'un accès，独立 à l'escalier ou à l'ascenseur. C'est le type de bien locatif le plus courant en France, représentant environ 75% du parc locatif privé. La gestion d'un appartement implique la coordination avec la copropriété pour les parties communes.",
+      "L'appartement est un logement situé dans un immeuble à plusieurs étages, composé de pièces communicantes (salon, chambres, cuisine, salle de bain) et disposant d'un accès indépendant à l'escalier ou à l'ascenseur. C'est le type de bien locatif le plus courant en France, représentant environ 75% du parc locatif privé. La gestion d'un appartement implique la coordination avec la copropriété pour les parties communes.",
     legalSpecificities: [
       "Loi du 6 juillet 1989 applicable",
       "Dépôt de garantie max 1 mois loyer nu (location vide)",
       "Surface minimale habitable : 9m², hauteur sous plafond 2,20m minimum",
       "En zone tendue : encadrement des loyers applicable",
-      "Si copropriété : respect du règlement de copropriété обязателен",
+      "Si copropriété : respect du règlement de copropriété obligatoire",
     ],
     commonIssues: [
       "Troubles de voisinage (bruits, odeurs)",
@@ -57,9 +57,9 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
     updatedAt: '2026-04-15',
     name: "Maison",
     shortDescription:
-      "Logement individuel avec accès，独立 et terrain éventuel.",
+      "Logement individuel avec accès indépendant et terrain éventuel.",
     fullDescription:
-      "La maison individuelle est un logement detached de tout autre bâtiment, avec un accès，独立 à la rue et potentiellement un terrain (jardin, cour, parking). La maison représente environ 20% du parc locatif privé français. Elle offre généralement plus d'espace qu'un appartement et attire des familles ou des locataires recherchant plus d'autonomie. La gestion d'une maison implique l'entretien du terrain et des équipements extérieurs.",
+      "La maison individuelle est un logement indépendant de tout autre bâtiment, avec un accès indépendant à la rue et potentiellement un terrain (jardin, cour, parking). La maison représente environ 20% du parc locatif privé français. Elle offre généralement plus d'espace qu'un appartement et attire des familles ou des locataires recherchant plus d'autonomie. La gestion d'une maison implique l'entretien du terrain et des équipements extérieurs.",
     legalSpecificities: [
       "Loi du 6 juillet 1989 applicable",
       "Pas de règles de copropriété (sauf lotissement)",
@@ -100,7 +100,7 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
       "Surface minimale : 9m² (sinon décence non respectée)",
       "Dépôt de garantie max 1 mois loyer nu",
       "Encadrement des loyers applicable en zone tendue",
-      "Pas de pièces独立ées — toute la surface est une seule pièce principale",
+      "Pas de pièces séparées — toute la surface est une seule pièce principale",
     ],
     commonIssues: [
       "Risque d'isolement du locataire (surface réduite)",
@@ -138,7 +138,7 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
       "Charges généralement plus complexes à récupérer (Taxe Foncière, assurances)",
     ],
     commonIssues: [
-      "Vacance locative longue (activité поиска locataire commercial)",
+      "Vacance locative longue (activité de recherche de locataire ou de commercial)",
       "Travaux d'aménagement à la charge du propriétaire bailleur",
       "Dégradation du pas-de-porte (droit d'entrée)",
       "Disputes sur la répartition des charges",
@@ -164,10 +164,10 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
     name: "Place de parking / Garage",
     shortDescription: "Espace de stationnement pour véhicule, box ou place ouverte.",
     fullDescription:
-      "Une place de parking ou un garage est un espace réservé au stationnement d'un ou plusieurs véhicules. En France, les places de parking sont de plus en plus稀缺 en zone urbaine, ce qui en fait un investissement locatif intéressant avec un хороший rendement locatif. La location d'une place de parking peut être soumise à la loi du 6 juillet 1989 si elle constitue la résidence principale du locataire.",
+      "Une place de parking ou un garage est un espace réservé au stationnement d'un ou plusieurs véhicules. En France, les places de parking sont de plus en plus rares en zone urbaine, ce qui en fait un investissement locatif intéressant avec un bon rendement locatif. La location d'une place de parking peut être soumise à la loi du 6 juillet 1989 si elle constitue la résidence principale du locataire.",
     legalSpecificities: [
       "Si liée à un logement : bail accessoire au bail principal",
-      "Si独立ée : может être soumise à la loi de 1989 si résidence principale",
+      "Si elle constitue la résidence principale : la loi du 6 juillet 1989 est applicable",
       "Pas de dépôt de garantie obligatoire mais usual 1 mois",
       "Pas d'encadrement des loyers sauf exception",
       "Tutelle des règles de copropriété applicables",
@@ -176,12 +176,12 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
       "Usage non conforme (stockage de matériaux, atelier)",
       "Difficulté à récupérer la place en cas d'impayé",
       "Litiges sur l'accès ou le voisinage immédiat",
-      "Vandalisme在空中停车场",
+      "Vandalisme et dégradation du stationnement",
       "Rescisory clause enforcement",
     ],
     managementTips: [
       "Précisez l'usage exclusif pour stationnement dans le bail",
-      "Installez une barrière ou un система контроля доступа",
+      "Installez une barrière ou un système de contrôle d'accès",
       "Vérifiez l'assurance du locataire pour couvrir les dommages",
       "Proposez un bail annuel renouvelé par tacite reconduction",
       "Gardez des photos de l'état de la place à chaque entrée/sortie",
@@ -190,7 +190,7 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
       "Propriétaires de véhicules sans garage",
       "Salariés en zone urbaine cherchant une solution de stationnement",
       "Commerces cherchant des places pour leurs employés",
-      "Investisseurs cherchant un хороший rendement locatif",
+      "Investisseurs cherchant un bon rendement locatif",
     ],
   },
   {
@@ -201,16 +201,16 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
     fullDescription:
       "La colocation est une forme de location dans laquelle plusieurs locataires partagent un même logement. Elle peut être régie par un bail unique avec clause de solidarité (chaque colocataire est responsable de l'intégralité du loyer) ou par des baux individuels. La colocation a connu un essor important en France, notamment chez les jeunes actifs et les étudiants.",
     legalSpecificities: [
-      "Bail unique с clause de solidarité ou baux individuels au choix",
+      "Bail unique avec clause de solidarité ou baux individuels au choix",
       "Surface minimale par occupant : 9m² (sinon décence non respectée)",
       "Dépôt de garantie peut être demandé à chaque colocataire",
       "Départ d'un colocataire : le bail continue avec les restants",
-      "En zone tendue : каждый colocataire doit avere un bail individualisé",
+      "En zone tendue : chaque colocataire doit avoir un bail individualisé",
     ],
     commonIssues: [
       "Départ d'un colocataire et recherche de replacement",
       "Troubles de voisinage entre colocataires",
-      "Impays частичные (un seul colocataire ne paie pas)",
+      "Impays partiels (un seul colocataire ne paie pas)",
       "Utilisation partagée des espaces et des équipements",
       "Désaccords sur les charges (visites, eau, internet)",
     ],
@@ -240,7 +240,7 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
       "Dépôt de garantie max 2 mois de loyer (contre 1 pour le vide)",
       "Loyer peut être libre en zone non tendue (encadrement en zone tendue)",
       "Amortissement fiscal possible sur le mobilier (régime LMNP/LMP)",
-      "Si bail mobilité : pas de tacite reconduction, только renew на определенный срок",
+      "Si bail mobilité : pas de tacite reconduction, seulement un renouvellement pour une durée déterminée",
     ],
     commonIssues: [
       "Usure et dégradation du mobilier plus rapide qu'en vide",
@@ -269,13 +269,13 @@ export const PROPERTY_TYPES: PropertyTypeGuide[] = [
     name: "Location vide",
     shortDescription: "Location d'un bien sans mobilier, bail de 3 ans minimum.",
     fullDescription:
-      "La location vide (ou location nue) est le формат traditionnel de location en France, avec un bail de 3 ans minimum pour les particuliers bailleurs. C'est le формат le plus courant pour les investissements locatifs longue durée. Le loyer est généralement inférieur à celui d'un meublé comparable, mais la vacance locative может быть longer et les droits du locataire plus importants.",
+      "La location vide (ou location nue) est le format traditionnel de location en France, avec un bail de 3 ans minimum pour les particuliers bailleurs. C'est le format le plus courant pour les investissements locatifs de longue durée. Le loyer est généralement inférieur à celui d'un meublé comparable, mais la vacance locative peut être plus longue et les droits du locataire plus importants.",
     legalSpecificities: [
       "Bail de 3 ans minimum (6 ans si personne morale bailleur)",
       "Dépôt de garantie max 1 mois de loyer nu",
       "Loyer encadré en zone tendue (loi Climat et Résilience)",
       "Révision de loyer possible chaque année sur IRL",
-      "Congé du bailleur必须有正当理由 : reprise, vente, motif légitime",
+      "Congé du bailleur : doit reposer sur un motif légitime (reprise, vente, motif grave et justifié)",
     ],
     commonIssues: [
       "Vacance locative entre deux locataires",

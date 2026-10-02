@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Générateur Lettre Relance Loyer 2026 — Mise en Demeure | RentReady",
+    title: "Générateur Lettre Relance Loyer 2026 — Mise en Demeure",
     description:
       "Modèle de lettre de relance pour loyer impayé. Document gratuit pour réclamer le paiement du loyer avec instructions légales et modèles gratuits.",
     url: "/outils/lettre-relance-loyer",

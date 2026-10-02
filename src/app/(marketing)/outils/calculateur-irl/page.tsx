@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur IRL 2026 — Indice de Référence des Loyers | RentReady",
+    title: "Calculateur IRL 2026 — Indice de Référence des Loyers",
     description:
       "Calculez la révision de loyer avec l'IRL 2026. Historique des indices INSEE, formule officielle et simulateur gratuit pour propriétaires et locataires.",
     url: "/outils/calculateur-irl",

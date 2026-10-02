@@ -37,7 +37,7 @@ const faqData = [
   {
     question: "Le locataire doit-il payer le loyer pendant le préavis ?",
     answer:
-      "Oui, le locataire est tenu de payer le loyer et les charges jusqu'à la fin du préavis, même s'il a trouvé un nouveau locataire entre-temps. Cependant, si le propriétaire reloue le logement avant la fin du préavis, il peut essere tenu de reverser une partie du dépôt au locataire sortant.",
+      "Oui, le locataire est tenu de payer le loyer et les charges jusqu'à la fin du préavis, même s'il a trouvé un nouveau locataire entre-temps. Cependant, si le propriétaire reloue le logement avant la fin du préavis, il peut être tenu de reverser une partie du dépôt au locataire sortant.",
   },
 ];
 
@@ -115,7 +115,7 @@ export function PreavisCalculatorClient() {
     } else {
       months = 3;
       legalBasis = "Zone non tendue + location vide : préavis de 3 mois (loi 1989, art. 15)";
-      explanation = "Pour une location vide en zone non tendue, le préavis légal est de 3 mois. Vous pouvez partir avant en négociant avec le bailleur.";
+      explanation = "Pour une location vide en zone non tendue, le préavis légal est de 3 mois. Vous pouvez partir avant en négociant avec le locataire.";
     }
 
     // Calculate end date
@@ -268,7 +268,7 @@ export function PreavisCalculatorClient() {
                       <div>
                         <p className="text-sm text-yellow-800 font-semibold">Astuce</p>
                         <p className="text-sm text-yellow-700 mt-1">
-                          Si vous trouvez un locataire qui reprend le bail avant la fin du préavis, le propriétaire peut être tenu de vous libérer du loyers剩余部分. Négociez avec votre bailleur.
+                          Si vous trouvez un locataire qui reprend le bail avant la fin du préavis, le propriétaire peut être tenu de vous libérer du loyer restant. Négociez avec votre locataire.
                         </p>
                       </div>
                     </div>
@@ -318,7 +318,7 @@ export function PreavisCalculatorClient() {
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-stone-900 mb-4">Outils complémentaires</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/modeles/conge-locataire" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/conge-locataire" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Congé Locataire</div>
@@ -339,7 +339,7 @@ export function PreavisCalculatorClient() {
                   <div className="text-sm text-stone-500">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/modeles/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📝</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>

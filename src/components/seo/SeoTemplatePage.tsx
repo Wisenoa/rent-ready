@@ -44,7 +44,7 @@ export interface SeoTemplatePageProps {
  *   description="Generated compliant rent receipts in seconds..."
  *   updatedAt="2026-04-10"
  *   slug="quittance-de-loyer"
- *   breadcrumbs={[{ label: "Modeles", href: "/modeles" }]}
+ *   breadcrumbs={[{ label: "Modeles", href: "/templates" }]}
  *   downloadCount={12400}
  *   legalReference="Article 21 de la loi du 6 juillet 1989"
  *   relatedTemplates={[...]}
@@ -90,7 +90,7 @@ export function SeoTemplatePage({
         <Breadcrumb
           items={[
             { label: "Accueil", href: "/" },
-            { label: "Modeles", href: "/modeles" },
+            { label: "Modeles", href: "/templates" },
             ...breadcrumbs,
             { label: title, href: "#" },
           ]}

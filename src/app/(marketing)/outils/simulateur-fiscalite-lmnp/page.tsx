@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Simulateur Fiscal LMNP 2026 — Loueur Meublé Non Professionnel | RentReady",
+    title: "Simulateur Fiscal LMNP 2026 — Loueur Meublé Non Professionnel",
     description: "Estimez vos impôts en LMNP (loueur meublé non professionnel). Comparaison micro-BIC vs réel, amortissement et déficit imputable. Outil gratuit.",
     url: "/outils/simulateur-fiscalite-lmnp",
     ogType: "outil",

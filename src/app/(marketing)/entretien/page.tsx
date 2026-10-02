@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Suivi Maintenance 2026 — Déclarez et résolvez les interventions | RentReady",
+      "Suivi Maintenance 2026 — Déclarez et résolvez les interventions",
     description:
       "Déclarez, suivez et résolvez les interventions de maintenance. Historique complet, photos, priorisation. Simplifiez la gestion locative 2026.",
     url: "/maintenance",

@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Comment Faire une Quittance de Loyer 2026 — Guide & Modèle Gratuit | RentReady",
+      "Comment Faire une Quittance de Loyer 2026 — Guide & Modèle Gratuit",
     description:
       "Guide complet : comment faire une quittance de loyer, mentions obligatoires, modèle gratuit à télécharger. Obligatoire sur simple demande du locataire.",
     url: "/guides/quittance-loyer",

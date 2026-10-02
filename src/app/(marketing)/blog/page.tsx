@@ -18,7 +18,7 @@ const blogPosts = articleMeta;
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Blog Gestion Locative — Conseils propriétaires bailleurs | RentReady",
+    title: "Blog Gestion Locative — Conseils propriétaires bailleurs",
     description:
       "Blog propriété : guides gestion locative, modèles gratuits, révision IRL, quittances, bail et entretien. Conseils d'experts et mises à jour légales 2026.",
     url: "/blog",

@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Comparatif Gestion Locative 2026 — Logiciels, Outils & Prix | RentReady",
+      "Comparatif Gestion Locative 2026 — Logiciels, Outils & Prix",
     description:
       "Comparez les meilleurs logiciels de gestion locative, outils et services pour propriétaires bailleurs en 2026. Tarifs, fonctionnalités, avis — faites le bon choix.",
     url: "/comparatif",

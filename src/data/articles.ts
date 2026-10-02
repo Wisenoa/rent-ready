@@ -250,7 +250,7 @@ Depuis la loi ALUR de 2014, le dépôt de garantie est encadré dans le secteur 
 - Pour une location vide : maximum **1 mois de loyer hors charges**
 - Pour une location meublée : maximum **2 mois de loyer hors charges**
 
-Le depósito no puede essere exigé pour les locations agreementées (loi de 1948) ni pour les locations saisonnières. Si vous êtes en zone tendue, le dépôt de garantie ne peut pas dépasser le plafond légal, même si le bail le prévoit.
+Le dépôt de garantie ne peut être exigé pour les locations meublées (loi du 6 juillet 1948) ni pour les locations saisonnières. Si vous êtes en zone tendue, le dépôt de garantie ne peut pas dépasser le plafond légal, même si le bail le prévoit.
 
 ## La restitution du dépôt de garantie
 
@@ -258,7 +258,7 @@ Le depósito no puede essere exigé pour les locations agreementées (loi de 194
 
 Le propriétaire doit restituer le dépôt de garantie dans un délai de **2 mois maximum** après la remise des clés par le locataire. Ce délai court à compter de la date de l'état des lieux de sortie.
 
-Si le dépôt n'est pas restitué dans ce délai, le locataire peut demander des intérêts au taux légal. Au-delà de 2 mois sans restitution ni contestation, le dépôt est considéré comme acquis au propriétaire.
+Si le dépôt n'est pas restitué dans ce délai, le locataire peut demander des intérêts au taux légal. Le dépôt restant dû au locataire est alors majoré de 10 % du loyer mensuel en principal par période mensuelle commencée en retard (art. 22 de la loi du 6 juillet 1989).
 
 ### Les deductions autorisées
 
@@ -278,7 +278,7 @@ En cas de litige sur la restitution, le propriétaire doit envoyer au locataire 
 
 Si le locataire conteste, il peut saisir la commission departmentale de conciliation (CDC) ou le tribunal judiciaire. La procédure est gratuite devant le tribunal.
 
-## Dépôt de garantie etAssurance Loyer Impayé
+## Dépôt de garantie et Assurance Loyer Impayé
 
 Le dépôt de garantie n'est pas une garantie contre les loyers impayés. Pour cela, il faut souscrire une Garantie Loyer Impayé (GLI). Le dépôt protege uniquement contre les dégradation et charges.
 
@@ -309,7 +309,7 @@ Non, le locataire ne peut pas procéder à une déduction unilatérale sur le d�
 ## FAQ — Dépôt de garantie
 **Quel est le délai maximum pour restituer un dépôt de garantie ?**
 
-Le délai de restitution du dépôt de garantie est de 1 mois si l'état des lieux de sortie est identique à celui d'entrée, ou 2 mois si des dégradations sont constatées. Ce délai court à partir de la remise des clés par le locataire. En cas de retenue, le solde doit être accompagné d'un relevé détaillé des sommes déduites, avec justificatifs (devis, factures).
+Le délai de restitution du dépôt de garantie est de 2 mois à compter de la remise des clés, ramené à 1 mois lorsque l'état des lieux de sortie est conforme à celui d'entrée. Ce délai court à partir de la remise des clés par le locataire. En cas de retenue, le solde doit être accompagné d'un relevé détaillé des sommes déduites, avec justificatifs (devis, factures).
 **Quelles retenues sont légales sur le dépôt de garantie ?**
 
 Seules sont légales les retenues correspondant à des dégradations réellement constatées dans l'état des lieux de sortie, ou à des travaux de remise en état imputables au locataire (et non à l'usure normale). Le bailleur ne peut pas retenir de somme au titre de mois d'impayés. Les éventuelles réparations sont plafonnées au coût réel, sans majoration.
@@ -328,7 +328,7 @@ En cas de non-restitution dans les délais légaux, le propriétaire risque une 
 ## FAQ — Depot de garantie
 **Quel est le delai maximum pour restituer un depot de garantie ?**
 
-Le delai de restitution du depot de garantie est de 1 mois si l'etat des lieux de sortie est identique a celui d'entree, ou 2 mois si des degradations sont constatees. Ce delai court a partir de la remise des cles par le locataire. En cas de retenue, le solde doit etre accompagne d'un releve detaille des sommes deduites, avec justificatifs (devis, factures).
+Le delai de restitution du depot de garantie est de 2 mois a compter de la remise des cles, ramene a 1 mois lorsque l'etat des lieux de sortie est conforme a celui d'entree. Ce delai court a partir de la remise des cles par le locataire. En cas de retenue, le solde doit etre accompagne d'un releve detaille des sommes deduites, avec justificatifs (devis, factures).
 **Quelles retenues sont legales sur le depot de garantie ?**
 
 Seules sont legales les retenues correspondant a des degradations reellement constatees dans l'etat des lieux de sortie, ou a des travaux de remise en etat imputables au locataire (et non a l'usure normale). Le bailleur ne peut pas retenir de somme au titre de mois d'impayes. Les eventuelles reparations sont plafonnees au cout reel, sans majoration.
@@ -502,7 +502,7 @@ La loi ALUR a renforcé les normes de décence énergétique. Un logement est in
 
 En 2026, les passoires thermiques (classe F et G) sont progressivement interdites à la location. Les propriétaires doivent realizar les travaux de rénovation nécessaires.
 
-## La gestion de lacolocation
+## La gestion de la colocation
 
 La loi ALUR a également Impacté la colocation. Un bail de colocation peut être conclu pour une partie seulement du logement. Chaque colocataire est solidairement responsable du paiement du loyer et des charges.
 
@@ -883,108 +883,6 @@ Oui, le locataire peut contester le décompte annuel des charges dans les 2 mois
 [CTA : Automatisez le décompte annualisé des charges locatives avec RentReady — essai gratuit 14 jours]`,
   },
   {
-    slug: "assurance-loyer-impaye-gli",
-    title: "Assurance loyer impayé (GLI) : comment protéger vos revenus locatifs",
-    excerpt:
-      "La Garantie Loyer Impayé (GLI) vous protège contre les impayés, dégradations et frais de procédure. Comparatif des offres et conseils pour bien choisir.",
-    category: "Gestion",
-    date: "2026-04-24",
-    updatedAt: '2026-04-24',
-    readTime: "7 min",
-    content: `## Charges locatives : le guide complet du décompte annualisé
-
-Les charges locatives représentent une part importante de la gestion d'un bien en location. En France, le propriétaire peut récupérer une partie des charges auprès du locataire via le système du décompte annualisé. Comprendre ce mécanisme est essentiel pour gérer efficacement vos locations et éviter les litiges.
-
-## Qu'est-ce que le décompte annualisé des charges locatives ?
-
-Le décompte annualisé est un dispositif qui permet de régulariser les charges locatives une fois par an. Au lieu de facturer les charges réelles mensuellement, le propriétaire exige du locataire une provision pour charges basée sur les charges de l'année précédente. À la fin de l'exercice, un décompte réel est établi et la différence est soit réclamée au locataire, soit restituée.
-
-Ce système bénéficie aux deux parties : le propriétaire évite les manipulations comptables complexes chaque mois, et le locataire connaît à l'avance le montant de ses charges provisionnelles.
-
-## Les charges récupérables vs non récupérables
-
-### Charges récupérables
-
-Les charges récupérables en location vide et meublée sont strictement encadrées par la loi. Elles comprennent l'eau chaude et le chauffage collectif, l'électricité des parties communes, le nettoyage des parties communes et des espaces verts, l'entretien des ascenseurs, l'élimination des déchets ménagers, le gardiennage, les primes d'assurance de l'immeuble, les frais de gestion des équipements collectifs et la redevance d'assainissement.
-
-### Charges non récupérables
-
-Certaines charges ne peuvent jamais être répercutées sur le locataire : les travaux de maintenance préventive et curative, les provisions pour travaux de rénovation, les charges relatives aux équipements individuels, les honoraires du syndic dépassant les honoraires de gestion courante, et les charges de structure.
-
-## Le mode de calcul du décompte annualisé
-
-Chaque mois, le locataire paie une provision pour charges en même temps que son loyer. Le montant de cette provision est fixé lors de la signature du bail et ne peut pas être modifié en cours de bail. Dans les 6 mois suivant la fin de l'exercice, le propriétaire doit établir un décompte annuel des charges réelles.
-
-Si les charges réelles dépassent la provision payée, le supplément peut être réclamé au locataire. Si les charges réelles sont inférieures à la provision, le trop-perçu est restitué au locataire.
-
-## Les pièges à éviter pour les propriétaires
-
-Ne pas faire de régularisation fait perdre le droit de réclamer les suppléments. Confondre charges récupérables et charges personnelles expose à des réclamations. Provisionner trop bas génère des régularisations importantes difficiles à recouvrer.
-
-En colocation, chaque colocataire est solidairement responsable du paiement des charges. La durée de conservation des justificatifs est de 2 ans.
-
-## FAQ — Charges locatives et décompte annualisé
-
-### Quand doit-on envoyer le décompte annuel de charges ?
-
-Le décompte doit être envoyé dans les 6 mois suivant la fin de l'exercice comptable, généralement le 31 décembre pour un exercice calendaire. Passé ce délai, le propriétaire perd le droit de réclamer les charges au locataire et celui-ci peut conserver les sommes versées.
-
-### Comment contester un décompte de charges locatives ?
-
-Le locataire dispose de 2 mois pour contester à compter de la réception du décompte. Il peut demander les factures et justificatifs détaillés. En cas de désaccord persists, il peut saisir la commission départementale de conciliation ou, en dernier recours, le tribunal judiciaire.
-
-### Quels sont les charges locatives récupérables ?
-
-Les charges récupérables incluent : eau froide, chauffage collectif, entretien des parties communes, redevance d'assainissement, taxe d'enlèvement des ordures ménagères. Les réparations locatives et gros entretiens sont à la charge exclusive du propriétaire.
-
-### Comment calculer le régul de charges ?
-
-Le régul se calcule en comparant les charges réelles de l'année avec les provisions mensuelles versées par le locataire. Si les charges réelles dépassent les provisions, le propriétaire peut réclamer le complément. Si les provisions excèdent, l'excédent s'impute sur les provisions de l'année suivante.
-
-### Le locataire peut-il refuser de payer le supplément de charges ?
-
-Non, si le décompte est régulier et envoyé dans les délais. Le locataire doit régler le supplément dans un délai d'un mois. En cas de refus persists, le propriétaire peut appliquer des pénalités et, en dernière instance, engager une procédure judiciaire.
-
-
-
-## FAQ — Assurance loyer impayé
-**Qu'est-ce que la garantie loyer impayé (GLI) et comment fonctionne-t-elle ?**
-
-La Garantie Loyer Impayé (GLI) est une assurance qui rembourse au bailleur les loyers et charges impayés, généralement avec un délai de carence de 30 à 60 jours après constatation de l'impayé. Elle couvre aussi les frais de procédure en cas d'expulsion. La prime oscille entre 2 % et 4 % du montant annuel du loyer charges comprises.
-**La GLI couvre-t-elle les dégradations du logement ?**
-
-Cela dépend du contrat. Les GLI standards couvrent uniquement les impayés de loyer et de charges. Les contrats premium incluent parfois une garantie dégradation qui rembourse les dommages locatifs constatés à l'état des lieux de sortie, dans la limite d'un plafond (généralement 1 à 2 mois de loyer).
-**Comment choisir la meilleure assurance GLI en 2026 ?**
-
-Comparez d'abord le taux de couverture réel (particulièrement le pourcentage du loyer remboursé), le délai de carence, le plafond annuel, et les exclusions. Vérifiez également si le contrat inclut une protection juridique. Demandez toujours un devis personnalisé avec les specifics de votre profil.
-**La GLI est-elle obligatoire pour les propriétaires bailleurs ?**
-
-Non, la GLI n'est pas obligatoire en France, sauf pour les bailleurs qui perçoivent l'allocation APL via la garantie LOCA-PAS ou VISALE. Cependant, les agences immobilières et les gestionnaires de biens recommandent fortement d'en souscrire une.
-**Quel est le prix moyen d'une assurance GLI en 2026 ?**
-
-En 2026, le tarif moyen d'une GLI se situe entre 2 % et 4 % du loyer annuel charges comprises, soit pour un loyer de 1 000 €/mois environ 240 € à 480 € par an. Certaines assureurs appliquent en sus des frais de dossier à l'entrée (50 € à 150 €).
-
-[CTA : Automatisez le décompte annualisé des charges locatives avec RentReady — essai gratuit 14 jours]
-
-## FAQ — Assurance loyer impaye
-**Qu'est-ce que la garantie loyer impaye (GLI) et comment fonctionne-t-elle ?**
-
-La Garantie Loyer Impaye (GLI) est une assurance qui rembourse au bailleur les loyers et charges impayes, generalement avec un delai de carence de 30 a 60 jours apres constatation de l'impaye. Elle couvre aussi les frais de procedure en cas d'expulsion. La prime oscille entre 2 % et 4 % du montant annuel du loyer charges comprises. Certaines GLI incluent aussi la protection juridique.
-**La GLI couvre-t-elle les degradations du logement ?**
-
-Cela depend du contrat. Les GLI standards couvrent uniquement les impayes de loyer et de charges. Les contrats premium incluent parfois une garantie degradation qui rembourse les dommages locatifs constates a l'etat des lieux de sortie, dans la limite d'un plafond (generalement 1 a 2 mois de loyer). Lisez attentivement les conditions particulieres pour connaatre l'etendue exacte de la couverture.
-**Comment choisir la meilleure assurance GLI en 2026 ?**
-
-Comparez d'abord le taux de couverture reel, le delai de carence, le plafond annuel, et les exclusions. Les assureurs speciaalises comme Luko, Qover ou les assureurs mutuels proposent des GLI competitives. Verifiez egalement si le contrat inclut une protection juridique. Demandez toujours un devis personnalise avec les specifics de votre profil bailleur et de votre bien.
-**La GLI est-elle obligatoire pour les proprietaires bailleurs ?**
-
-Non, la GLI n'est pas obligatoire en France, sauf pour les bailleurs qui percoivent l'allocation APL via la garantie LOCA-PAS ou VISALE. Cependant, les agences immoblières et les gestionnaires de biens recommandent fortement d'en souscrire une, car un seul impaye prolonge peut representer plusieurs milliers d'euros de perte et des mois de procedure.
-**Quel est le prix moyen d'une assurance GLI en 2026 ?**
-
-En 2026, le tarif moyen d'une GLI se situe entre 2 % et 4 % du loyer annuel charges comprises, soit pour un loyer de 1 000 EUR/mois environ 240 EUR a 480 EUR par an. Certaines assureurs appliquent en sus des frais de dossier a l'entree (50 EUR a 150 EUR). Les contrats avec protection juridique integree sont legerement plus eleves (jusqu'a 5 % du loyer annuel).
-`,
-  },
-  {
     slug: "quittance-loyer-mentions-obligatoires",
     title: "Quittance de loyer : mentions obligatoires et modèle gratuit",
     excerpt:
@@ -1064,7 +962,7 @@ Il est recommandé de conserver les quittances de loyer pendant au moins 5 ans a
 
 **La quittance peut-elle être délivrée plusieurs mois après le paiement ?**
 
-Oui, le locataire peut demander une quittance à tout moment, même plusieurs mois après le paiement. Le propriétaire doit then la délivrer dans un délai raisonnable.
+Oui, le locataire peut demander une quittance à tout moment, même plusieurs mois après le paiement. Le propriétaire doit alors la délivrer dans un délai raisonnable.
 
 [CTA : Générez automatiquement vos quittances de loyer conformes avec RentReady — essai gratuit 14 jours]`,
   },
@@ -1083,7 +981,7 @@ Le rendement locatif est un indicateur clé pour évaluer la rentabilité d'un i
 
 ## Qu'est-ce que le rendement locatif ?
 
-Le rendement locatif mesure le rapport entre les revenusGenerated par la location et le prix d'acquisition du bien. Il s'exprime en pourcentage et permet de comparer différents investissements entre eux ou avec d'autres placements financiers.
+Le rendement locatif mesure le rapport entre les revenus générés par la location et le prix d'acquisition du bien. Il s'exprime en pourcentage et permet de comparer différents investissements entre eux ou avec d'autres placements financiers.
 
 ## Le rendement brut
 
@@ -1229,51 +1127,6 @@ L'état des lieux doit être contradictoire : les deux parties doivent être pr�
 [CTA : Générez automatiquement vos états des lieux conformes avec RentReady — essai gratuit 14 jours]`,
   },
   {
-    slug: "bail-colocation-modele-clauses",
-    title: "Bail de colocation : modèle et clauses essentielles en 2026",
-    excerpt:
-      "Bail de colocation : comment rédiger le contrat, quelles clauses ajouter, modèle gratuit. Droits et obligations des colocataires.",
-    category: "Juridique",
-    date: "2026-05-08",
-    updatedAt: '2026-05-08',
-    readTime: "7 min",
-    content: `## État des lieux : modèle gratuit et procédure pour propriétaires
-
-L'état des lieux est un document essentiel dans toute location immobilière. Il permet de comparer l'état du logement à l'entrée et à la sortie du locataire, et constitue la référence principale en cas de litige sur le dépôt de garantie. Depuis le décret 2016-382, l'état des lieux doit respecter des standards précis pour être opposable aux deux parties.
-
-## Pourquoi l'état des lieux est-il obligatoire ?
-
-L'état des lieux est obligatoire pour toute location, qu'elle soit vide ou meublée. Il doit être réalisé le jour de la remise des clés et le jour de la restitution des clés. Ce document protège à la fois le propriétaire et le locataire : pour le propriétaire, il justifie d'éventuelles dégradations et les retenues sur le dépôt de garantie ; pour le locataire, il le protège contre des accusations de dégradations préexistantes.
-
-Depuis 2020, les états des lieux peuvent être réalisés sur support numérique sans obliger les parties à signer sur place.
-
-## Les mentions obligatoires
-
-L'état des lieux doit mentionner la date de réalisation, l'adresse complète du logement, le nom des parties, la signature des deux parties, le détail pièce par pièce avec l'état de chaque élément, et des photos datées et géolocalisées.
-
-À la sortie, l'état des lieux doit être comparé terme à terme avec l'état d'entrée. Chaque différence doit être notée avec sa nature, son origine possible et une estimation du coût de remise en état.
-
-## Les travaux à la charge du propriétaire
-
-Certaines dégradations sont considérées comme relevant de la normale et ne peuvent pas être imputées au locataire : l'usure normale des peintures, les traces de furniture légèrement visibles sur les murs, l'usure des revêtements de sol due au passage normal, et l'usure des équipements due à l'utilisation normale.
-
-En revanche, les dégradations dues à un manquement aux obligations du locataire peuvent être retenues sur le dépôt de garantie.
-
-## La checklist de l'état des lieux
-
-Pour la cuisine : plan de travail, meubles, équipements (réfrigérateur, four, plaques, hotte), évier et sol. Pour le salon/séjour : murs, sol, fenêtres, portes, électricité. Pour les chambres : murs, plafond, sol, fenêtres, placards. Pour la salle de bain : sol, murs, sanitaires, VMC. Pour l'entrée : sol, murs, porte d'entrée, placards.
-
-## Le rôle dans la restitution du dépôt de garantie
-
-Le dépôt de garantie doit être restitué dans un délai de 1 mois si l'état des lieux de sortie est conforme à l'entrée. Si des dégradations sont constatées, le propriétaire dispose de 2 mois pour restituer le dépôt après déduction des travaux, en fournissant les factures justificatives.
-
-## FAQ — État des lieux
-
-L'état des lieux doit être contradictoire : les deux parties doivent être présentes ou représentées. Il doit être conservé pendant 5 ans. Les photos datées et géolocalisées constituent une preuve indiscutable.
-
-[CTA : Générez automatiquement vos états des lieux conformes avec RentReady — essai gratuit 14 jours]`,
-  },
-  {
     slug: "bail-location-vide-2026",
     title: "Bail de location vide : guide complet 2026 — clauses, durée et obligations",
     excerpt:
@@ -1376,7 +1229,7 @@ La sous-location est interdite sauf accord préalable et écrit du bailleur. En 
 
 Le bailleur a une obligation de délivrer un logement décent, en bon état d'usage et de réparation, avec les équipements mentionnés dans le bail. Il doit également :
 - Assurer la jouissance paisible du logement
-- Entretenir les travaux de structure et grosses réparations
+- Entretenir la structure du bâti et assurer les grosses réparations
 - Garantir le locataire contre les vices et défauts de la chose louée
 - Délivrer un logement conforme aux normes d'habitabilité
 
@@ -1549,7 +1402,7 @@ En cas de litige sur la validité du congé ou sur la restitution du dépôt de 
 | Loyer | Libre (zone tendue encadré) | Libre (zone tendue encadré) |
 | Fiscalité | Revenus fonciers | BIC (LMNP/LMP) |
 
-## LesNOSNOS obligations respectives en location meublée
+## Les obligations respectives en location meublée
 
 Le bailleur doit livrer un logement équipé conforme à la liste réglementaire, en bon état et avec des équipements fonctionnels. Il est tenu à une obligation d'entretien et de grosses réparations.
 
@@ -1574,7 +1427,7 @@ Non, pour un bail meublé classique (1 an), le locataire ne doit respecter qu'un
 
 Oui, la révision de loyer s'applique aux locations meublées selon les mêmes règles que pour les locations vides : elle doit être prévue dans le bail, peut intervenir une fois par an à la date d'anniversaire, et utiliser l'IRL du trimestre de référence. En zone tendue, le loyer révisé ne peut pas dépasser le loyer de référence majoré.
 
-[CTA : Préparez vos contrats de location meublée et gérez vos biens easily avec RentReady — essayer gratuitement]
+[CTA : Préparez vos contrats de location meublée et gérez vos biens facilement avec RentReady — essayer gratuitement]
 
 ## FAQ — Bail meuble
 **Quelle est la duree minimale d'un bail de location meublee ?**
@@ -2047,7 +1900,7 @@ Le bailleur peut dépasser le loyer de référence majoré dans plusieurs cas :
 1. **Travaux d'amélioration** : si des travaux d'un montant supérieur ou égal à 50% de la valeur annuelle du dernier loyer ont été réalisés depuis le départ du précédent locataire
 2. **Logement with characteristics exceptionnosti** : voir le complément de loyer exceptionnel ci-dessus
 3. **Premier renouvellement depuis 18 mois de vacance** : si le logement est vacant depuis au moins 18 mois, le bailleur peut appliquer un loyer libre
-4. **Loyer précédemment supérieur** : si le dernier loyer appliqué au précédent locataire était lui-même supérieur au plafond, le nouveau loyer peut être maintenu à ce niveau (encadrement duDecrease only)
+4. **Loyer précédemment supérieur** : si le dernier loyer appliqué au précédent locataire était lui-même supérieur au plafond, le nouveau loyer peut être maintenu à ce niveau (encadrement à la baisse seulement)
 
 ## Les recours en cas de dépassement
 
@@ -2197,7 +2050,7 @@ En SCI, la responsabilité des associés est limitée aux apports. Cependant, le
 
 Sortir d'une SCI (vente de parts, dissolution) peut être complexifiée par :
 - La difficulté à trouver un acquéreur pour des parts de SCI
-- Les droits de mutation potentially élevés
+- Les droits de mutation potentiellement élevés
 - Les plus-values potentiellement imposables
 
 ## SCI et LMNP : une combination puissante
@@ -2277,7 +2130,7 @@ Les charges déductibles comprennent :
 - Les assurances
 - Les frais de gestion (compte tenu des frais si vous avez recours à un gestionnaire)
 - La taxe foncière
-- LesDotations aux amortissements (pour le bien et le mobilier)
+- Les dotations aux amortissements (pour le bien et le mobilier)
 
 ### Avantages du régime réel
 - Possibilité de déduire toutes les charges réelles
@@ -2929,7 +2782,7 @@ Le montant de l'APL est calculé sur la base du loyer charges comprises, divisé
 
 Chaque colocataire doit être assuré individuellement pour sa responsabilité civile. En pratique, une assurance multirisque habitation globale peut couvrir l'ensemble des colocataires, avec une clause désignant le titulaire principal du contrat.
 
-## LesNOSNOS pièges à éviter en colocation
+## Les pièges à éviter en colocation
 
 ### Bail commun sans solidarité
 Si le bail ne prévoit pas de clause de solidarité, le bailleur peut avoir des difficultés à recouvrer les impayés si un colocataire part sans payer.
@@ -3162,7 +3015,7 @@ Pour permettre le traitement du dossier APL par la CAF, la quittance de loyer do
 
 ### Le paiement direct des APL au bailleur
 
-Dans certains cas (situation d'impayé, logementConventionné), la CAF peut décider de verser les APL directement au bailleur (paiement direct). Ce dernier est then tenu d'en informer le locataire et de déduire le montant des APL de la prochaine quittance.
+Dans certains cas (situation d'impayé, logement conventionné), la CAF peut décider de verser les APL directement au bailleur (paiement direct). Ce dernier est alors tenu d'en informer le locataire et de déduire le montant des APL de la prochaine quittance.
 
 ### Le justificatif de paiement CAF
 
@@ -3441,7 +3294,7 @@ Total charges : 4 312 €
 
 **Cash-flow mensuel** : 950 - 1 356 (mensualité) - 359 (charges mensuelles) = -765 €
 
-Ce résultat montre que l'investissement ne s'autofinance pas sansoptimisation fiscale ou autres revenus.
+Ce résultat montre que l'investissement ne s'autofinance pas sans optimisation fiscale ni autres revenus.
 
 ## Les outils pour calculer sa rentabilité
 
@@ -3747,54 +3600,6 @@ Oui, le locataire peut demander à voir les factures. La durée de conservation 
 [CTA : Automatisez le calcul et la régularisation de vos charges locatives avec RentReady — essai gratuit 14 jours]`,
   },
 
-  {
-    slug: "bail-parking",
-    title: "Bail de parking : comment rediger le contrat de location d'une place de stationnement",
-    excerpt: "Location d'une place de parking : bail, duree, loyer, charges locatives. Guide complet pour proprietaires et locataires en 2026.",
-    category: "Juridique",
-    date: "2026-04-28",
-    updatedAt: "2026-04-28",
-    readTime: "7 min",
-    content: `## Charges locatives récupérables : liste complète et réglementation 2026
-
-Les charges locatives récupérables constituent un poste important dans la gestion locative. Seules les charges listées dans l'article 7 du décret du 26 mai 2012 peuvent être récupérées.
-
-## La liste officielle des charges récupérables
-
-**Eau froide et chaude collective** : consommation d'eau des parties communes, eau chaude sanitaire collective. Exclues : eau chaude individuelle et eau sans comptage possible.
-
-**Chauffage collectif** : combustible, électricité de la pompe à chaleur, frais d'entretien du système. Non récupérables : frais de chauffage d'un logement équipé d'un système individuel.
-
-**Électricité des parties communes** : éclairage des halls, couloirs, escaliers, caves, parking, et frais d'abonnement du compteur collectif.
-
-**Entretien des parties communes et espaces verts** : nettoyage des sols et vitres, entretien des interphones, ménage des espaces communs, entretien des espaces verts, élimination des déchets ménagers.
-
-**Ascenseurs et monte-charge** : électricité de fonctionnement, contrats de maintenance, vérifications périodiques, frais de modernisation.
-
-**Gardiennage et sécurité** : salaire et charges sociales du gardien, prestations de sécurité, fournitures de bureau. Pour la vidéosurveillance sans gardien, seuls les frais d'abonnement et de maintenance sont récupérables.
-
-**Primes d'assurance** : assurance multirisque de l'immeuble, assurance responsabilité civile de la copropriété, assurance contre les risques naturels.
-
-**Frais de gestion et d'administration** : honoraires de syndic pour la gestion courante. Exclus : honoraires pour travaux ou contentieux importants.
-
-**Taxes et redevances** : redevance d'assainissement collectif, taxe d'enlèvement des ordures ménagères (TEOM).
-
-**Entretien des équipements techniques** : VMC, chaudières collectives, systèmes de production d'eau chaude collective, contrats de maintenance préventive.
-
-## Les charges NON récupérables
-
-Les travaux de maintenance préventive et curative, les provisions pour travaux de rénovation, les charges des équipements individuels, les intérêts d'emprunt pour travaux de réparation, les pénalités de retard ou frais d'instance.
-
-## Les modalités de récupération
-
-Chaque mois, le locataire paie une provision pour charges. Dans les 6 mois suivant la fin de l'exercice, le propriétaire doit établir un décompte annuel avec les factures justificatives. Le locataire dispose de 2 mois pour contester.
-
-## FAQ — Charges locatives récupérables
-
-Oui, le locataire peut demander à voir les factures. La durée de conservation est de 2 ans. Les mêmes charges récupérables s'appliquent en location vide et meublée. Le supplément de charges non payé constitue un impayé au même titre que le loyer.
-
-[CTA : Automatisez le calcul et la régularisation de vos charges locatives avec RentReady — essai gratuit 14 jours]`,
-  },
 
   {
     slug: "bail-professionnel",
@@ -5683,7 +5488,7 @@ Un résultat positif indique un revenu net, un résultat négatif indique un dé
 
 **Régime réel** : si vous êtes au régime réel, vous déclarez l'intégralité de vos revenus et déduisez l'ensemble de vos charges réelles. Ce régime est plus avantageux si vos charges dépassent 30 % de vos revenus.
 
-## Le bilan de cada bien
+## Le bilan de chaque bien
 
 Pour avoir une vision précise de votre patrimoine, établissez un bilan individualisé pour chaque bien :
 
@@ -5806,13 +5611,13 @@ Les durées d'amortissement couramment utilisées :
 
 ### La récupération de la TVA
 
-Si vous achetez un bien neuf meublé ou en VEFA (Vente en l'État Futur d'Achèvement), vous pouvez récupérer la TVA sur le prix d'achat (20 %). Pour cela, vous devez adhérer à un centre de gestion agréé et respecter un engagement de location de 20 ans.
+Si vous achetez un bien neuf meublé ou en VEFA (Vente en l'État Futur d'Achèvement), la TVA récupérable sur le prix d'achat dépend du taux applicable et des conditions du dispositif (option, taux réduit, agrément d'un centre de gestion). Chaque dispositif prévoit des engagements de durée propres, qui évoluent : vérifiez ceux qui s'appliquent à votre opération auprès de l'administration fiscale ou d'un conseil avant de vous engager.
 
 ## Les avantages spécifiques du LMP
 
 ### La déductibilité des déficits
 
-Le principal avantage du LMP est que les déficits générés par votre activité locative peuvent être déduits de votre revenu global (salaires, pensions, etc.). Cette déductibilité est limitée à 10 700 euros par an, mais elle peut être reportée sur 6 ans.
+Le principal avantage du LMP est que les déficits générés par votre activité locative peuvent être déduits de votre revenu global (salaires, pensions, etc.). En LMP, le déficit est imputable sur le revenu global sans plafond de 10 700 euros (qui ne concerne que le déficit foncier) et sans limitation de durée ; il peut être reportée sur 6 ans.
 
 Pour le LMNP, les déficits ne sont déductibles que des revenus locatifs, et non du revenu global.
 
@@ -5894,7 +5699,7 @@ Oui, si les deux conditions de seuils sont remplies (23 000 euros et 50 % du rev
     slug: "travaux-entretien-locatif",
     title: "Travaux d'entretien locatif : qui paie quoi en 2026",
     excerpt:
-      "Répartition des charges de travaux entre propriétaire et locataire. Guide des repairs locatives et obligations.",
+      "Répartition des charges de travaux entre propriétaire et locataire. Guide des réparations locatives et obligations.",
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
@@ -5928,7 +5733,7 @@ L'entretien courant est à la charge du locataire. Il comprend toutes les petite
 - Entretien des sols (aspiration, nettoyage)
 - Peinture des murs (sauf grosses réparations)
 
-## La liste des repairs locatives
+## La liste des réparations locatives
 
 Le décret n° 2016-382 du 31 mars 2016 a fixé une liste précise des réparations locatives. Cette liste s'impose à tous les baux d'habitation et ne peut pas être modifiée par convention.
 
@@ -6009,19 +5814,19 @@ Si le propriétaire ne réalise pas les travaux, le locataire peut :
 
 ### Obligations du locataire
 
-Le locataire doit effectuer les repairs locatives dans un délai raisonnable. En cas de négligence, le propriétaire peut, après mise en demeure restée infructueuse, effectuer les travaux etfacturer le locataire.
+Le locataire doit effectuer les réparations locatives dans un délai raisonnable. En cas de négligence, le propriétaire peut, après mise en demeure restée infructueuse, effectuer les travaux et facturer le locataire.
 
 ## FAQ — Travaux d'entretien locatif
 
-**Le locataire peut-il refuser de faire une repair locator ?**
+**Le locataire peut-il refuser de faire une réparation ?**
 
-Non, les repairs locatives sont une obligation légale du locataire. En cas de refus, le propriétaire peut effectuer les travaux etfacturer le locataire, ou saisir le tribunal.
+Non, les réparations locatives sont une obligation légale du locataire. En cas de refus, le propriétaire peut effectuer les travaux et facturer le locataire, ou saisir le tribunal.
 
 **Le propriétaire peut-il obliger le locataire à faire peindre ?**
 
-Oui, si la peinture est dégradation par le locataire et excède l'usure normale. En revanche, un simple rafraîchissement à la salida ne peut pas être imposé si le logement était en bon état à l'entrée.
+Oui, si la peinture est dégradation par le locataire et excède l'usure normale. En revanche, un simple rafraîchissement à la sortie ne peut pas être imposé si le logement était en bon état à l'entrée.
 
-**Qui paie le remplacement de la chaudiè reférenc ?**
+**Qui paie le remplacement de la chaudière de référence ?**
 
 Le remplacement de la chaudière (grosse réparation) est à la charge du propriétaire, même si l'ancienne chaudière était en mauvais état. Le locataire n'est responsable que de l'entretien annuel (ramonage, nettoyage).
 
@@ -6029,7 +5834,7 @@ Le remplacement de la chaudière (grosse réparation) est à la charge du propri
 
 Vous pouvez adresser un courrier au propriétaire exigeant des travaux dans un délai précis. En cas de danger immédiat, vous pouvez saisir le juge des référés pour obliger le propriétaire à intervenir. Vous pouvez également signaler la situation à la mairie pour une inspection.
 
-[CTA : Suivez les travaux et gérez les responsibilities avec RentReady — essai gratuit 14 jours]`
+[CTA : Suivez les travaux et gérez les responsabilités avec RentReady — essai gratuit 14 jours]`
   },
     {
     slug: "duree-bail-location",
@@ -6060,7 +5865,7 @@ Le bail reconduit tacitement reprend les mêmes conditions que le bail initial, 
 
 ### Le congé donné par le propriétaire
 
-Le propriétaire peut donnercongé à la fin du bail pour :
+Le propriétaire peut donner congé à la fin du bail pour :
 - Reprendre le logement pour habiter (avec preavis de 6 mois)
 - Vendre le bien (avec preavis de 6 mois)
 - Motif légitime et sérieux (impayés, troubles de voisinage, etc.)
@@ -6069,7 +5874,7 @@ Le congé doit être délivré par lettre recommandée avec accusé de réceptio
 
 ### Le congé donné par le locataire
 
-Le locataire peut donnercongé à tout moment, sans avoir à justifier d'un motif. Le délai de preavis est de **3 mois** (réduit à 1 mois dans certains cas : mutation, perte d'emploi, première installation).
+Le locataire peut donner congé à tout moment, sans avoir à justifier d'un motif. Le délai de preavis est de **3 mois** (réduit à 1 mois dans certains cas : mutation, perte d'emploi, première installation).
 
 ## Le bail de location meublée
 
@@ -6091,13 +5896,13 @@ Ce bail ne peut pas être renouvelé plus de deux fois (soit 30 mois maximum).
 
 À la différence du bail vide, le bail meublé n'est pas automatiquement reconduit tacitement. Si les parties veulent continuer la location, elles doivent signer un nouveau bail ou un avenant.
 
-Cette différence offre plus de flexibilité au propriétaire qui peut, s'il le souhaite, ne pas renouveler le bail sans avoir à donner decongé.
+Cette différence offre plus de flexibilité au propriétaire qui peut, s'il le souhaite, ne pas renouveler le bail sans avoir à donner de congé.
 
 ## Le bail saisonnier
 
 ### La durée maximale de 90 jours
 
-Le bail saisonnier est réservé aux locations de vacances. Sa durée ne peut pas dépasser **90 jours consécutifs**. Le loyer est fixé librement et le dépôt de garantie est limité à 30 % du montant total du séjour.
+Le bail saisonnier est réservé aux locations de vacances et relève du Code du tourisme. Sa durée ne peut pas dépasser **90 jours consécutifs**. Le loyer est fixé librement et le dépôt de garantie n'est soumis à aucun plafond légal.
 
 Ce type de bail ne donne pas droit à la résidência principal. Le locataire ne peut pas s'y installer de manière permanente.
 
@@ -6110,9 +5915,9 @@ Le bail professionnel est destiné aux professionnels Libéraux (avocats, médec
 ### Les caractéristiques du bail professionnel
 
 - Loyer librement fixé (pas d'encadrement)
-- Charges locatives récupérables (état, excédent)
+- Charges : loyer et charges sont librement fixés dans le bail professionnel, la notion de charges récupérables n'y est pas applicable
 - Indexation possible sur l'indice ILAT
-- Dépôt de garantie limité à 2 ans de loyer hors charges
+- Dépôt de garantie : aucun plafond légal dans le bail professionnel, le montant est contractuel (souvent 1 à 3 mois de loyer)
 - Renouvellement automatique sauf congé donné 6 mois avant l'échéance
 
 ## Le bail rural
@@ -6157,11 +5962,11 @@ Oui, les deux parties peuvent convenir de renouveler le bail avant son terme par
 
 **Que se passe-t-il si le propriétaire donnecongé sans motif ?**
 
-En location vide, le propriétaire n'a pas à motiver soncongé s'il est donné à l'échéance du bail. S'il donnecongé en cours de bail, il doit justifier d'un motif légitime (reprise, vente, motif sérieux).
+En location vide, le propriétaire n'a pas à motiver son congé s'il est donné à l'échéance du bail. S'il donnecongé en cours de bail, il doit justifier d'un motif légitime (reprise, vente, motif sérieux).
 
 **Le bail saisonnier peut-il être renouvelé ?**
 
-Oui, un bail saisonnier peut être renouvelé pour une nouvelle période de 90 jours. Le locataire peut donc revenir chaque année, mais sans continuity de séjour.
+Oui, un bail saisonnier peut être renouvelé pour une nouvelle période de 90 jours. Le locataire peut donc revenir chaque année, mais sans continuité de séjour.
 
 [CTA : Gérez automatiquement les échéances de vos baux avec RentReady — essai gratuit 14 jours]`
   },
@@ -6186,7 +5991,7 @@ Ce compte est distinct de votre compte personnel ou professionnel principal. L'o
 
 ### La loi Hoguet et les agents immobiliers
 
-La loi du 2 janvier 1970 (dite loi Hoguet) impose aux agents immobiliers et aux professionnels de la gestion locative d'utiliser un compte séquestre pour séparer les fonds des clients de leurs propres fonds. Cette obligation ne concerne pas directement les propriétaires bailleurs personnes physiques qui gèrent eux-mêmes leurs biens, mais elle establece un principe de bonne gestion que tous devraient suivre.
+La loi du 2 janvier 1970 (dite loi Hoguet) impose aux agents immobiliers et aux professionnels de la gestion locative d'utiliser un compte séquestre pour séparer les fonds des clients de leurs propres fonds. Cette obligation ne concerne pas directement les propriétaires bailleurs personnes physiques qui gèrent eux-mêmes leurs biens, mais elle établit un principe de bonne gestion que tous devraient suivre.
 
 ### Les avantages fiscaux du compte séparé
 
@@ -6403,7 +6208,7 @@ Le dispositif Pinel permet de bénéficier d'une réduction d'impôt de 10 % à 
 
 ### Les taux de réduction
 
-Les taux de réduction Pinel ont connu une decrease progressive. Pour les engagements de location pris en 2026, les taux sont fixés à :
+Les taux de réduction Pinel ont connu une diminution progressive. Pour les engagements de location pris en 2026, les taux sont fixés à :
 
 - 10 % pour un engagement de 6 ans
 - 15 % pour un engagement de 9 ans
@@ -8042,7 +7847,7 @@ La procédure d'injonction de payer prend généralement :
 
 - Quelques semaines à quelques mois selon les tribunaux
 - Coût : environ 40 euros de frais de requête + honoraires d'huissier
-- Frais potentially advanced mais récupérables sur le locataire
+- Frais avancés mais récupérables sur le locataire
 
 ## L'assignation au tribunal
 
@@ -9329,14 +9134,17 @@ Depuis 2013, la plus-value immobilière est soumise à deux prélèvements : l'i
 ### Barème d'abattement pour durée de détention
 
 Pour une location, la durée de détention compte différemment selon les années :
-- De 0 à 5 ans : aucun abattement supplémentaire
-- De 6 à 15 ans : 1,65 % par an
-- De 16 à 21 ans : 1,75 % par an
-- À partir de 22 ans : abattement de 21 ans+ sur l'assiette de l'abattement
+- De 0 à 5 ans : aucun abattement
+- De la 6e à la 21e année : 6 % par an pour l'IR, 1,65 % par an pour les prélèvements sociaux
+- 22e année : 4 % pour l'IR (exonération totale d'IR), 1,60 % pour les prélèvements sociaux
+- De la 23e à la 30e année : 9 % par an pour les prélèvements sociaux uniquement
+- À partir de 30 ans : exonération totale
+
+Deux grilles distinctes s'appliquent : l'impôt sur le revenu (19 %) est exonéré au bout de 22 ans de détention, les prélèvements sociaux (17,2 %) au bout de 30 ans (art. 150 VC du CGI).
 
 ## Les cas d'exonération
 
-Plusieurs situations permettent d'être totally exonéré de la plus-value :
+Plusieurs situations permettent d'être intégralement exonéré de la plus-value :
 
 ### Exonération pour résidence principale
 
@@ -9344,7 +9152,7 @@ Si le bien vendu était votre résidence principale, la plus-value est totalemen
 
 ### Exonération après 30 ans de détention
 
-Au-delà de 30 ans de détention, la plus-value est totalmente exonérée d'impôt sur le revenu. Les prélèvements sociaux sont également totalement exonérés après 30 ans.
+Au-delà de 30 ans de détention, la plus-value est intégralement exonérée d'impôt sur le revenu. Les prélèvements sociaux sont également intégralement exonérés après 30 ans.
 
 ### Exonération pour titulaire d'une pension de retraite
 
@@ -9372,7 +9180,7 @@ La création d'une SCI peut permettre d'optimiser la transmission et la gestion 
 
 **Dois-je payer des impôts sur la plus-value si je vends un bien loué ?**
 
-Oui, sauf si vous répondez à l'un des cas d'exonération (résidence principale, 30 ans de détention, retraite bajo revenus). Laplus-value imposable est réduite des abattements pour durée de détention.
+Oui, sauf si vous répondez à l'un des cas d'exonération (résidence principale, 30 ans de détention, retraite à faibles revenus). Laplus-value imposable est réduite des abattements pour durée de détention.
 
 **Les travaux de rénovation comptent-ils dans le calcul de la plus-value ?**
 
@@ -9380,7 +9188,7 @@ Oui, les travaux de construction, reconstruction, amélioration et addition deca
 
 **Laplus-value est-elle la même pour une location meublée ?**
 
-Oui, les règles de plus-value sont identiques. Cependant, le régime fiscal de la location meublée (LMNP/LMP) peut permettre d'amortir le bien et de réduire la plus-value effectively.
+Oui, les règles de plus-value sont identiques. Cependant, le régime fiscal de la location meublée (LMNP/LMP) peut permettre d'amortir le bien et de réduire effectivement la plus-value.
 
 [CTA : Gérez votre bien locatif et suivez vos obligations fiscales avec RentReady — essai gratuit 14 jours]`
   },
@@ -9773,7 +9581,7 @@ Vous devenez professionnel (LMP) si :
 
 ### Conséquences du passage en LMP
 
-En LMP, l'amortissement s'impute sur le revenu global (comme le déficit foncier), ce qui peut être plus avantageux. De plus, les plus-values sont imposées en BIC, pas enPV.
+En LMP, l'amortissement s'impute sur le revenu global (comme le déficit foncier), ce qui peut être plus avantageux. De plus, les plus-values sont imposées en BIC, pas en PV.
 
 ## FAQ — Amortissement LMNP
 
@@ -10046,7 +9854,7 @@ En cas de troubles dans une copropriété, le syndic peut intervenir en jouant l
 
 Ce magistrat honorifique peut être saisi gratuitement pour proponer une solution amiable. Sa compétence se limite aux litiges de faible importance (moins de 5 000 €).
 
-### La médiation conventionnelle
+### La médiation conciliatrice
 
 Des organismes spécialisés proposent des médiations payantes mais efficaces pour les conflits plus complexes.
 
@@ -10189,7 +9997,7 @@ C'est le montant qui reste à votre charge en cas de sinistre. Une franchise de 
 
 ### Le délai de carence
 
-Période pendant laquelle certaines garanties ne s'appliquent pas encore. Il varie de 30 à 90 jours selon les contrats.
+Période pendant laquelle une garantie ne s'applique pas encore. Elle varie de 30 à 90 jours selon les contrats.
 
 ## FAQ — Assurance PNO
 

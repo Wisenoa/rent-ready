@@ -72,11 +72,11 @@ const features = [
 ];
 
 const droits = [
-  "Droit au的报告e du bail : 1 mois (locataire), 3 mois (propriétaire) en meublé",
+  "Droit au renouvellement du bail : 1 mois (locataire), 3 mois (propriétaire) en meublé",
   "Dépôt de garantie : maximum 2 mois de loyer hors charges",
   "État des lieux d'entrée et de sortie obligatoires",
   "DPE (Diagnostic de Performance Énergétique) obligatoire",
-  "Garant VISALE accepté sans条件 supplémentaire",
+  "Garant VISALE accepté sans condition supplémentaire",
   "Révision de loyer annuelle possible selon clause IRL",
   " Assurance habitation obligatoire pour le locataire",
 ];
@@ -259,7 +259,7 @@ export default function BailEtudiantPage() {
               ["Coverage", "Jusqu'à 36 mois de loyers impayés"],
               ["Coût", "Gratuit pour le locataire et le propriétaire"],
               ["Démarche", "Demande sur visale.fr avant signature du bail"],
-              ["Pour le propriétaire", "Garantie de paiement sans条件的 de revenus"],
+              ["Pour le propriétaire", "Garantie de paiement sans condition de revenus"],
             ].map(([label, value]) => (
               <div key={label} className="flex gap-3 text-sm">
                 <span className="font-medium text-stone-900">{label} :</span>

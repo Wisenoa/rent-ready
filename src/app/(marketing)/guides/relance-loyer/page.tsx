@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Lettre Relance Loyer Impayé 2026 — Modèle Gratuit & Guide | RentReady",
+      "Lettre Relance Loyer Impayé 2026 — Modèle Gratuit & Guide",
     description:
       "Modèle de lettre de relance pour loyers impayés à télécharger. Modèle gratuit, personnalisable, à envoyer en recommandé. Procédure et délais.",
     url: "/guides/relance-loyer",
@@ -175,7 +175,7 @@ export default function RelanceLoyerGuidePage() {
         <h2>La procédure de recouvrement d&apos;un loyer impayé</h2>
         <p>
           Environ 2 à 3 % des locations génèrent un impayé chaque année en France.
-          La procédure de recouvrement est строго réglementée. Voici les étapes
+          La procédure de recouvrement est strictement réglementée. Voici les étapes
           légales et les délais à respecter :
         </p>
 

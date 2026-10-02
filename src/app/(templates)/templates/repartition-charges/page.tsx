@@ -19,10 +19,10 @@ const FinalCta = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Modèle Répartition des Charges 2026 — Gratuit & PDF Instantané | RentReady",
+      "Modèle Répartition des Charges 2026 — Gratuit & PDF Instantané",
     description:
       "Convention répartition charges locatives 2026 modèle gratuit. Calculez et partagez les coûts propriétaire/locataire. PDF instantané, conforme.",
-    url: "/modeles/repartition-charges",
+    url: "/templates/repartition-charges",
     ogType: "template",
   });
 }
@@ -109,7 +109,7 @@ function RepartitionChargesJsonLd() {
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
           { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
-          { "@type": "ListItem", position: 3, name: "Répartition des Charges", item: "https://www.rentready.fr/modeles/repartition-charges" },
+          { "@type": "ListItem", position: 3, name: "Répartition des Charges", item: "https://www.rentready.fr/templates/repartition-charges" },
         ],
       },
       {
@@ -159,7 +159,7 @@ export default function RepartitionChargesPage() {
             <Link href="/register" className="inline-block rounded-lg bg-emerald-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-emerald-700 w-full sm:w-auto">
               Utiliser avec RentReady →
             </Link>
-            <Link href="/modeles" className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto">
+            <Link href="/templates" className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto">
               Tous les modèles →
             </Link>
           </div>
@@ -263,10 +263,10 @@ export default function RepartitionChargesPage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/modeles/bail-vide" className="text-blue-600 hover:underline">Bail vide →</Link>
-          <Link href="/modeles/etat-des-lieux" className="text-blue-600 hover:underline">État des lieux →</Link>
+          <Link href="/templates/bail-vide" className="text-blue-600 hover:underline">Bail vide →</Link>
+          <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">État des lieux →</Link>
           <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
-          <Link href="/modeles" className="text-blue-600 hover:underline">Tous les modèles →</Link>
+          <Link href="/templates" className="text-blue-600 hover:underline">Tous les modèles →</Link>
         </nav>
       </article>
       <FinalCta />

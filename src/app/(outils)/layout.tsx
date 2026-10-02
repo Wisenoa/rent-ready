@@ -32,7 +32,7 @@ export default function OutilsLayout({
               Calculateur Loyer
             </Link>
             <Link
-              href="/outils/calculateur-charges"
+              href="/outils/calculateur-charges-locatives"
               className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
             >
               Calculateur Charges
@@ -44,7 +44,7 @@ export default function OutilsLayout({
               Dépôt Garantie
             </Link>
             <Link
-              href="/modeles"
+              href="/templates"
               className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
             >
               Modèles

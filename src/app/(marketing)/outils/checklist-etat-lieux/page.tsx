@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Checklist État des Lieux — Interactive | RentReady",
+    title: "Checklist État des Lieux — Interactive",
     description:
       "Checklist interactive pour réaliser un état des lieux entrée ou sortie conforme à la loi. Parcourez chaque pièce, cochez les éléments, et générez un reçu récapitulatif.",
     url: "/outils/checklist-etat-lieux",

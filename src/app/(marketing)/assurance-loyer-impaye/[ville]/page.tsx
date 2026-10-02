@@ -208,7 +208,7 @@ function getFaqs(city: City) {
     {
       question: `Comment déclarer un impayé à ${city.name} ?`,
       answer: ctx.isZoneTendue
-        ? `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours après la date d'échéance non payée. À ${city.name} (zone tendue),速度和 délai d'intervention sont cruciaux. Avec RentReady, l'alerte automatique vous permet de déclarer rapidement et de respecter les délais contractuels.`
+        ? `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours après la date d'échéance non payée. À ${city.name} (zone tendue), la rapidité et le délai d'intervention sont cruciaux. Avec RentReady, l'alerte automatique vous permet de déclarer rapidement et de respecter les délais contractuels.`
         : `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours. Avec RentReady, l'alerte automatique vous permet de détecter l'impayé rapidement et de constituer votre dossier sans délai.`,
     },
   ];

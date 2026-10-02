@@ -19,10 +19,10 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Modèle Contrat de Location 2026 — Gratuit, Conforme & PDF | RentReady",
+      "Modèle Contrat de Location 2026 — Gratuit, Conforme & PDF",
     description:
       "Modèle contrat de location gratuit 2026. Bail résidentiel conforme loi Alur avec toutes les clauses obligatoires. PDF instantané, personnalisable en 2 min.",
-    url: "/modeles/contrat-de-location",
+    url: "/templates/contrat-de-location",
     ogType: "template",
   });
 }
@@ -82,7 +82,7 @@ function ContratLocationJsonLd() {
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
           { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
-          { "@type": "ListItem", position: 3, name: "Contrat de location", item: "https://www.rentready.fr/modeles/contrat-de-location" },
+          { "@type": "ListItem", position: 3, name: "Contrat de location", item: "https://www.rentready.fr/templates/contrat-de-location" },
         ],
       },
       {
@@ -175,7 +175,7 @@ export default function ContratDeLocationPage() {
               Générer mon bail →
             </Link>
             <Link
-              href="/blog/charges-locatives-guide-complet"
+              href="/blog/charges-locatives-recuperables-liste-2026"
               className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto"
             >
               Guide charges locatives
@@ -413,7 +413,7 @@ export default function ContratDeLocationPage() {
           <Link href="/bail" className="text-blue-600 hover:underline">
             Gestion des baux →
           </Link>
-          <Link href="/etat-des-lieux" className="text-blue-600 hover:underline">
+          <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">
             État des lieux →
           </Link>
           <Link href="/quittances" className="text-blue-600 hover:underline">

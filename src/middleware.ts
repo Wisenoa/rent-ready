@@ -33,7 +33,6 @@ const PUBLIC_PATHS = [
   "/locations",
   "/bail",
   "/quittances",
-  "/maintenance",
   "/pricing",
   "/features",
   "/demo",
@@ -42,9 +41,19 @@ const PUBLIC_PATHS = [
   "/outils",
   "/mentions-legales",
   "/politique-confidentialite",
+  "/politique-cookies",
   "/cgu",
-  "/modeles",
   "/entretien",
+  // Template library, guides and comparison pages are the organic acquisition
+  // surface. They were missing here, so the middleware answered every request
+  // to /templates/*, /guides/*, /comparatif/* and /assurance-loyer-impaye/* with
+  // a 307 to /login — Googlebot could not reach content that the sitemap
+  // advertised. Keep this list in sync with the public routes in
+  // `src/app/sitemap.ts`.
+  "/templates",
+  "/guides",
+  "/comparatif",
+  "/assurance-loyer-impaye",
 ];
 
 function isPublicPath(pathname: string): boolean {

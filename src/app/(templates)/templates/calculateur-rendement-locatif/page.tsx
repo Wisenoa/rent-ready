@@ -11,7 +11,7 @@ import { buildHreflang } from "@/lib/seo/metadata";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Calculateur de Rendement Locatif Gratuit — Brut & Net | RentReady",
+  title: "Calculateur de Rendement Locatif Gratuit — Brut & Net",
   description:
     "Calculez le rendement brut et net de votre investissement locatif. Estimez la rentabilité nette de frais et charges, le TRI et le cash-flow. Outil gratuit.",
   keywords: [

@@ -43,7 +43,7 @@ export async function generateMetadata() {
   return baseMetadata({
     title: "RentReady — Logiciel gestion locative pour propriétaires | Essai gratuit",
     description:
-      "Automatisez vos quittances, détectez les loyers automatiquement et réviséz l'IRL en 1 clic. 127 propriétaires nous font confiance. Essai gratuit 14 jours, sans carte bancaire.",
+      "Automatisez vos quittances, détectez les loyers automatiquement et révisez l'IRL en 1 clic. Essai gratuit 14 jours, sans carte bancaire.",
     url: "",
     ogType: "default",
   });
@@ -54,57 +54,18 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
   buildGraphSchema,
-  buildReviewSchema,
-  buildAggregateRatingSchema,
 } from "@/lib/seo/structured-data";
 
-/* ─── Testimonials data for JSON-LD Review + AggregateRating schemas ─── */
-const testimonialReviews = [
-  {
-    name: "Marie-Claire D.",
-    reviewBody:
-      "Gérer mes 3 appartements LMNP me prenait des heures chaque mois. Entre le suivi des virements, l'envoi des quittances et la comptabilité des charges, c'était un enfer administratif. RentReady a tout automatisé : je reçois une notification quand le loyer arrive, la quittance part toute seule, et mon comptable a accès à un export propre en fin d'année. J'ai récupéré mes week-ends.",
-    ratingValue: 5,
-    author: { name: "Marie-Claire D.", description: "3 appartements LMNP à Lyon" },
-  },
-  {
-    name: "Thomas R.",
-    reviewBody:
-      "Ce qui m'a convaincu, c'est la conformité légale. Je n'arrivais jamais à savoir si mes quittances respectaient bien la loi de 1989. RentReady sépare automatiquement le loyer des charges, vérifie que le paiement est complet avant d'émettre le document, et prépare déjà le format Factur-X pour 2027. Pour 15 € par mois, c'est une assurance tranquillité.",
-    ratingValue: 5,
-    author: { name: "Thomas R.", description: "2 studios meublés à Bordeaux" },
-  },
-  {
-    name: "Isabelle & Marc P.",
-    reviewBody:
-      "Avec 6 locataires et une SCI, le suivi devenait ingérable sur Excel. Les retards de paiement passaient entre les mailles, et on oubliait systématiquement la révision IRL. Depuis RentReady, le calcul de l'indice INSEE est automatique, les relances se font toutes seules, et le portail locataire a divisé par trois nos appels téléphoniques.",
-    ratingValue: 5,
-    author: { name: "Isabelle & Marc P.", description: "6 lots en SCI familiale à Nantes" },
-  },
-];
-
-function TestimonialsJsonLd() {
-  const schemas = [
-    buildAggregateRatingSchema({
-      itemReviewed: {
-        name: "RentReady",
-        description:
-          "Logiciel de gestion locative automatisée pour propriétaires bailleurs en France.",
-      },
-      ratingValue: 4.9,
-      bestRating: 5,
-      worstRating: 1,
-      reviewCount: 127,
-    }),
-    ...testimonialReviews.map((r) => buildReviewSchema(r)),
-  ];
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
-    />
-  );
-}
+/**
+ * No AggregateRating / Review markup here on purpose.
+ *
+ * The homepage previously shipped `ratingValue: 4.9`, `reviewCount: 127` and
+ * three named testimonials in JSON-LD. None of it traced to a real review
+ * source. Unverifiable review markup violates Google's structured data
+ * guidelines and risks a manual action, and invented social proof is the
+ * "fake success" pattern we refuse to ship. Add Review/AggregateRating only
+ * once ratings come from a real, verifiable source.
+ */
 
 export default function HomePage() {
   return (
@@ -118,7 +79,6 @@ export default function HomePage() {
         }}
       />
       <FaqJsonLd />
-      <TestimonialsJsonLd />
       <GlassNav />
       <HeroSection />
       <SocialProofWrapper />

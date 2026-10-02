@@ -276,7 +276,7 @@ export function DepotGarantieCalculatorClient() {
                   <div className="text-sm text-stone-500">Estimez le loyer au m²</div>
                 </div>
               </Link>
-              <Link href="/modeles/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
@@ -290,7 +290,7 @@ export function DepotGarantieCalculatorClient() {
                   <div className="text-sm text-stone-500">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/modeles/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">🏠</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle État des Lieux</div>

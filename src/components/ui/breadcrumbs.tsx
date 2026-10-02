@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
    <Breadcrumbs
      items={[
        { label: "Accueil", href: "/" },
-       { label: "Modèles", href: "/modeles" },
+       { label: "Modèles", href: "/templates" },
        { label: "Contrat de location" }, // current page — no href
      ]}
    />

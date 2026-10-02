@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur de Surface Habitable — loi Boutin 2026 | RentReady",
+    title: "Calculateur de Surface Habitable — loi Boutin 2026",
     description: "Calculez la surface habitable d'un logement selon la loi Boutin. Outil gratuit pour vérifier la surface exacte et éviter les litiges avec le locataire.",
     url: "/outils/calculateur-surface-habitable",
     ogType: "outil",

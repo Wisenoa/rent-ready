@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Dépôt de Garantie Location 2026 — Règles, Montant & Restitution | RentReady",
+      "Dépôt de Garantie Location 2026 — Règles, Montant & Restitution",
     description:
       "Dépôt de garantie location : montant maximum (1 ou 2 mois), modalités de restitution, déductibilité des dégradations. Guide complet pour le propriétaire bailleur.",
     url: "/guides/depot-garantie",

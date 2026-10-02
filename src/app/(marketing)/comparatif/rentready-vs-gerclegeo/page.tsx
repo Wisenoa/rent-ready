@@ -55,7 +55,7 @@ const faqSchema = {
       name: "Les deux logiciels sont-ils conformes à la loi Alur ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Oui, les deux软件 intègrent la conformité loi Alur : mentions obligatoires sur les quittances, calcul IRL automatique, délai de restitution du dépôt de garantie. Les deux mettent à jour leurs modèles lors des évolutions légales.",
+        text: "Oui, les deux logiciels intègrent la conformité loi Alur : mentions obligatoires sur les quittances, calcul IRL automatique, délai de restitution du dépôt de garantie. Les deux mettent à jour leurs modèles lors des évolutions légales.",
       },
     },
     {

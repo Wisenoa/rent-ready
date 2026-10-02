@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Générateur Congé pour Vente 2026 — Lettre Congé Vendeur | RentReady",
+    title: "Générateur Congé pour Vente 2026 — Lettre Congé Vendeur",
     description: "Générez un congé pour vente conforme au Code de la construction. Document gratuit avec modèle de lettre de congé pour vendre votre bien locatif.",
     url: "/outils/generateur-conge-vente",
     ogType: "outil",

@@ -31,10 +31,17 @@ function AmbientAiInput({
   const value =
     controlledValue !== undefined ? String(controlledValue) : internalValue;
 
-  const [suggestion, setSuggestion] = useState<string | null>(null);
+  const [rawSuggestion, setSuggestion] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mirrorRef = useRef<HTMLDivElement>(null);
+
+  // The suggestion is only rendered once the value is long enough to have
+  // produced one. Deriving it here (instead of clearing it with setState inside
+  // the effect body, which react-hooks/set-state-in-effect rejects) keeps the
+  // effect free of synchronous state writes while leaving the visible
+  // behaviour identical: short values simply render no ghost text.
+  const suggestion = value.length >= 2 ? rawSuggestion : null;
 
   const fetchSuggestion = useCallback(
     async (currentValue: string) => {
@@ -61,10 +68,7 @@ function AmbientAiInput({
 
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
-    if (value.length < 2) {
-      setSuggestion(null);
-      return;
-    }
+    if (value.length < 2) return;
 
     debounceRef.current = setTimeout(() => {
       fetchSuggestion(value);

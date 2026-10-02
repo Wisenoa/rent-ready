@@ -62,7 +62,7 @@ export function StandaloneLeaseForm({ properties, tenants }: StandaloneLeaseForm
     setValue,
     formState: { errors },
   } = useForm<StandaloneLeaseFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(standaloneLeaseSchema) as any,
     defaultValues: {
       propertyId: undefined,

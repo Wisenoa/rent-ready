@@ -301,7 +301,7 @@ export default function SimulateurJeanbrunPage() {
                     Non
                   </td>
                   <td className="px-4 py-3 text-center text-stone-600">
-                    ~2 %/an (叙)
+                    ~2 %/an (fourchette indicative)
                   </td>
                   <td className="px-4 py-3 text-center font-medium text-green-700">
                     5,5 % puis 4,5 % puis 3,5 %
@@ -398,7 +398,7 @@ export default function SimulateurJeanbrunPage() {
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <a
-              href="/blog/loi-jeanbrun-2026-guide-complet"
+              href="/blog/statut-lmnp-2026-guide-complet"
               className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30"
             >
               <span className="text-2xl">📄</span>
@@ -410,7 +410,7 @@ export default function SimulateurJeanbrunPage() {
               </div>
             </a>
             <a
-              href="/blog/lmnp-reel-vs-micro-bic"
+              href="/blog/lmnp-declaration-fiscale-2026"
               className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30"
             >
               <span className="text-2xl">📊</span>

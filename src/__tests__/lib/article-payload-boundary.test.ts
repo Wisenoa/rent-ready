@@ -8,8 +8,8 @@
  * page that renders it, which is what made `next build` die with
  * "Ineffective mark-compacts near heap limit" at ~100/135 static pages.
  *
- * Modules that legitimately need article bodies (the [slug] page, the per-article
- * SEO route) are allow-listed below.
+ * Modules that legitimately need article bodies (the [slug] page) are
+ * allow-listed below.
  */
 
 import { describe, it, expect } from "vitest";
@@ -22,8 +22,6 @@ const SRC = join(process.cwd(), "src");
 const ALLOWED = new Set([
   // Renders a single article body.
   "app/(marketing)/blog/[slug]/page.tsx",
-  // Builds JSON-LD (including FAQ extraction) from the article body.
-  "app/api/seo/blog/[slug]/route.ts",
   // The data module and the metadata generator must read it.
   "data/articles.ts",
 ]);

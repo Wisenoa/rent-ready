@@ -163,7 +163,7 @@ function getBailTypes(city: City) {
       description: `Location partagée à ${city.name} avec clause de solidarité ou contrat individuel au choix. Idéal pour les appartements familiaux ou les logements étudiants, avec état des lieux et annexes adaptés.`,
       duration: "3 ans (vide) / 1 an (meublé)",
       deposit: "max 2 mois × occupants",
-      href: "/templates/colocation",
+      href: "/templates/bail-colocation",
       popular: false,
     },
     {
@@ -208,7 +208,7 @@ function getFaqs(city: City) {
     },
     {
       question: `Quelles annexes obligatoires pour un bail à ${city.name} ?`,
-      answer: `Tout bail de location à ${city.name} doit不可或缺的 annexes : le DPE (Diagnostic de Performance Énergétique), l'état des lieux d'entrée, les diagnostics amiante, plomb, termites et ERNMT (risques naturels). En zone tendue, le dossier de diagnostic technique doit être remis au locataire avant la signature.`,
+      answer: `Tout bail de location à ${city.name} doit être accompagné des annexes suivantes : le DPE (Diagnostic de Performance Énergétique), l'état des lieux d'entrée, les diagnostics amiante, plomb, termites et ERNMT (risques naturels). En zone tendue, le dossier de diagnostic technique doit être remis au locataire avant la signature.`,
     },
     {
       question: `Comment utiliser le modèle de bail pour ${city.name} ?`,
@@ -562,7 +562,7 @@ export default async function BailVillePage({ params }: Props) {
                 Gestion locative →
               </Link>
               {ctx.isZoneTendue && (
-                <Link href="/guides/encadrement-loyers" className="text-amber-600 hover:underline">
+                <Link href="/blog/encadrement-des-loyers" className="text-amber-600 hover:underline">
                   Encadrement des loyers →
                 </Link>
               )}
@@ -687,14 +687,14 @@ export default async function BailVillePage({ params }: Props) {
               <Link href="/quittances" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
                 📄 Quittances de loyer
               </Link>
-              <Link href="/guides/etat-des-lieux" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
+              <Link href="/templates/etat-des-lieux" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
                 📋 État des lieux
               </Link>
               <Link href="/outils/calculateur-surface-habitable" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
                 🧮 Calculateur surface habitable
               </Link>
               {ctx.isZoneTendue && (
-                <Link href="/guides/encadrement-loyers" className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100">
+                <Link href="/blog/encadrement-des-loyers" className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100">
                   ⚖️ Encadrement des loyers
                 </Link>
               )}

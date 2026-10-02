@@ -141,7 +141,7 @@ const leaseTypes = [
     color: "slate",
   },
   {
-    href: "/templates/colocation",
+    href: "/templates/bail-colocation",
     label: "Bail Colocation",
     desc: "Colocation avec ou sans clause de solidarité. Un ou plusieurs baux.",
     icon: "👥",

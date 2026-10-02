@@ -81,7 +81,7 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
     reset,
     formState: { errors },
   } = useForm<PropertyFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(propertySchema) as any,
     defaultValues: {
       name: property?.name ?? "",

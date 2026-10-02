@@ -40,7 +40,7 @@ const FinalCta = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Gestion des Baux 2026 — Créer, Suivre & Renouveler | RentReady",
+      "Gestion des Baux 2026 — Créer, Suivre & Renouveler",
     description:
       "Logiciel gestion des baux 2026 : création contrats, renouvellement, préavis, documents légaux. Simplifiez la gestion de vos locations. Essai gratuit.",
     url: "/bail",

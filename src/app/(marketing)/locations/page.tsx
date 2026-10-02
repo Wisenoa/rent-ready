@@ -22,7 +22,7 @@ const FinalCta = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Gestion Locations 2026 — Tableau de bord unifié | RentReady",
+      "Gestion Locations 2026 — Tableau de bord unifié",
     description:
       "Gérez tous vos biens locatifs avec RentReady : tableau de bord temps réel, suivi loyers, portail locataire et documents centralisés. Essai gratuit 2026.",
     url: "/locations",

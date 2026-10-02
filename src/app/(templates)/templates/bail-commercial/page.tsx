@@ -315,7 +315,7 @@ export default function BailCommercialPage() {
           <Link href="/templates/bail-mobilite" className="text-blue-600 hover:underline">
             Bail mobilité →
           </Link>
-          <Link href="/templates/colocation" className="text-blue-600 hover:underline">
+          <Link href="/templates/bail-colocation" className="text-blue-600 hover:underline">
             Colocation →
           </Link>
           <Link href="/templates" className="text-blue-600 hover:underline">

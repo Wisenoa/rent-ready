@@ -6,7 +6,6 @@ export default defineConfig({
     environment: "node",
     globals: true,
     include: ["src/__tests__/**/*.test.{ts,tsx}"],
-    exclude: ["src/__tests__/lib/quittance-generator.test.ts"],
   },
   resolve: {
     alias: {

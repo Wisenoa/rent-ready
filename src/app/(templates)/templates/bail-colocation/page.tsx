@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Modèle Bail Colocation — Gratuit | RentReady",
+    title: "Modèle Bail Colocation — Gratuit",
     description: "Téléchargez notre modèle de bail de colocation gratuit et conforme. Contrats pour plusieurs locataires avec clauses partagées et individuelles.",
     url: "/templates/bail-colocation",
     ogType: "template",

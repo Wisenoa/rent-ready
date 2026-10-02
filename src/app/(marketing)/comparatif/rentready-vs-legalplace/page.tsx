@@ -235,7 +235,7 @@ export default function RentReadyVsLegalPlace() {
                 <div>
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-green-700">Avantages</p>
                   <ul className="space-y-1">
-                    {["Quittances légales全自动", "Détection paiements via Open Banking", "Relance automatique impayés", "Portail locataire inclus", "Essai gratuit 14 jours"].map((pro) => (
+                    {["Quittances légales automatiques", "Détection paiements via Open Banking", "Relance automatique impayés", "Portail locataire inclus", "Essai gratuit 14 jours"].map((pro) => (
                       <li key={pro} className="flex items-start gap-2 text-sm text-stone-600">
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
                         {pro}

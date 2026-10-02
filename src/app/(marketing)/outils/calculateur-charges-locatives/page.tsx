@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur Charges Locatives — Provision & Déduction | RentReady",
+    title: "Calculateur Charges Locatives — Provision & Déduction",
     description:
       "Calculez la répartition des charges locatives entre propriétaire et locataire. Outil gratuit basé sur les règles légales françaises.",
     url: "/outils/calculateur-charges-locatives",

@@ -381,7 +381,7 @@ export function ChecklistEDLClient() {
               <div>
                 <h3 className="font-semibold text-yellow-900 mb-1">Important sur le plan légal</h3>
                 <p className="text-sm text-yellow-800 leading-relaxed">
-                  Cette checklist est un outil d'aide à la réalisation de l'état des lieux. Pour produire un document officiel recevable en cas de litige, utilisez le modèle prévu par l'arrêté du 15 mars 2012 (annexe II du Code de la construction et de l'habitation). Le modèle officiel est disponible sur <Link href="/modeles/etat-des-lieux" className="font-semibold underline">notre page Modèles</Link>.
+                  Cette checklist est un outil d'aide à la réalisation de l'état des lieux. Pour produire un document officiel recevable en cas de litige, utilisez le modèle prévu par l'arrêté du 15 mars 2012 (annexe II du Code de la construction et de l'habitation). Le modèle officiel est disponible sur <Link href="/templates/etat-des-lieux" className="font-semibold underline">notre page Modèles</Link>.
                 </p>
               </div>
             </div>
@@ -409,14 +409,14 @@ export function ChecklistEDLClient() {
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-stone-900 mb-4">Ressources complémentaires</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/modeles/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle Officiel État des Lieux</div>
                   <div className="text-sm text-stone-500">Modèle légal à télécharger</div>
                 </div>
               </Link>
-              <Link href="/modeles/protocol-etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/protocol-etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📋</span>
                 <div>
                   <div className="font-semibold text-stone-900">Protocole État des Lieux</div>
@@ -430,7 +430,7 @@ export function ChecklistEDLClient() {
                   <div className="text-sm text-stone-500">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/modeles/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📝</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>

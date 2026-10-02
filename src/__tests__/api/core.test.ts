@@ -13,7 +13,7 @@ function mockRequest(
     headers.set("cookie", `${options.cookieName}=${options.cookieValue}`);
   }
   const { signal: _signal, headers: _headers, ...opts } = options;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   return new NextRequest(url, { ...opts, headers } as any);
 }
 

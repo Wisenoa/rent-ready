@@ -18,8 +18,9 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Modèle Lettre Augmentation de Loyer — Gratuit | RentReady",
-    description: "Modèle de lettre pour augmenter le loyer en cours de bail. Calculs révision IRL et règles d'encadrement pour incrementer合法的租金.",
+    title: "Modèle Lettre Augmentation de Loyer — Gratuit",
+    description:
+      "Modèle de lettre pour augmenter le loyer en cours de bail. Calcul de la révision IRL et règles d'encadrement pour augmenter le loyer légalement.",
     url: "/templates/augmentation-de-loyer",
     ogType: "template",
   });
@@ -189,7 +190,7 @@ export default function AugmentationDeLoyerPage() {
               Calculer et générer →
             </Link>
             <Link
-              href="/blog/charges-locatives-guide-complet"
+              href="/blog/charges-locatives-recuperables-liste-2026"
               className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto"
             >
               Guide sur les charges

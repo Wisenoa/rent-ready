@@ -105,7 +105,7 @@ export function ExpenseForm({
     reset,
     formState: { errors },
   } = useForm<ExpenseFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(expenseSchema) as any,
     defaultValues: defaults,
   });

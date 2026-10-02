@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useSyncExternalStore, useTransition } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -18,16 +18,87 @@ interface SubscriptionBannerProps {
   stripeCustomerId: string | null;
 }
 
-function isTrialExpired(trialEndsAt: Date | string | null): boolean {
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+/**
+ * The wall clock is an external mutable source, so it is read through
+ * useSyncExternalStore rather than Date.now()/new Date() in the render body —
+ * a render must be pure and idempotent, and a value that changes on every
+ * re-render makes the banner flicker between two different answers.
+ *
+ * The banner counts whole days, so the snapshot is rounded down to the start of
+ * the current day. That is deliberate:
+ *  - it matches the unit the UI displays, so the value only changes when the
+ *    displayed number would change;
+ *  - server render and hydration both land on the same day boundary, so there
+ *    is no hydration mismatch (getServerSnapshot is the same computation).
+ *
+ * The store is module-level: the timer and the cached snapshot are shared by
+ * every banner instance, and the first subscriber starts the ticker.
+ */
+function startOfCurrentDay(): number {
+  return Math.floor(Date.now() / MS_PER_DAY) * MS_PER_DAY;
+}
+
+let daySnapshot = startOfCurrentDay();
+const dayListeners = new Set<() => void>();
+let dayTicker: ReturnType<typeof setInterval> | undefined;
+
+function refreshDaySnapshot() {
+  const next = startOfCurrentDay();
+  if (next === daySnapshot) return;
+  daySnapshot = next;
+  for (const listener of dayListeners) listener();
+}
+
+function subscribeToDay(onStoreChange: () => void) {
+  dayListeners.add(onStoreChange);
+  if (dayListeners.size === 1) {
+    // A tab can stay open across midnight, so catch up on subscribe.
+    refreshDaySnapshot();
+    dayTicker = setInterval(refreshDaySnapshot, 60 * 1000);
+  }
+  return () => {
+    dayListeners.delete(onStoreChange);
+    if (dayListeners.size === 0 && dayTicker) {
+      clearInterval(dayTicker);
+      dayTicker = undefined;
+    }
+  };
+}
+
+function getDaySnapshot(): number {
+  return daySnapshot;
+}
+
+/**
+ * Fresh per render on purpose: subscribe() only runs on the client, so a
+ * long-lived server process would otherwise serve a day snapshot frozen at
+ * module-init time. Hydration calls this too, and both sides land on the same
+ * day boundary because the value is rounded.
+ */
+function getServerDaySnapshot(): number {
+  return startOfCurrentDay();
+}
+
+function isTrialExpired(trialEndsAt: Date | string | null, now: number): boolean {
   if (!trialEndsAt) return false;
-  return new Date(trialEndsAt) < new Date();
+  return new Date(trialEndsAt).getTime() < now;
+}
+
+/** Whole days between `now` and the trial end; 0 once the trial is over. */
+function trialDaysLeft(trialEndsAt: Date | string, now: number): number {
+  return Math.max(0, Math.ceil((new Date(trialEndsAt).getTime() - now) / MS_PER_DAY));
 }
 
 export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: SubscriptionBannerProps) {
   const [isPending, startTransition] = useTransition();
   const [showPortalLoading, setShowPortalLoading] = useState(false);
 
-  const trialExpired = isTrialExpired(trialEndsAt);
+  // One clock read, shared by every branch below: the expired check and the
+  // countdown must never disagree because they sampled the clock separately.
+  const now = useSyncExternalStore(subscribeToDay, getDaySnapshot, getServerDaySnapshot);
+  const trialExpired = isTrialExpired(trialEndsAt, now);
   const hasStripeCustomer = !!stripeCustomerId;
 
   // Active subscriber — show plan benefits
@@ -80,7 +151,7 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
 
   // Trial — show countdown + upgrade CTA
   if (status === "TRIAL" && !trialExpired && trialEndsAt) {
-    const daysLeft = Math.ceil((new Date(trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+    const daysLeft = trialDaysLeft(trialEndsAt, now);
     return (
       <Card className="border-amber-200 bg-amber-50/50 shadow-sm">
         <CardContent className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4">

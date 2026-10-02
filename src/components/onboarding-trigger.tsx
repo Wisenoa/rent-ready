@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import { OnboardingWizard } from "@/components/onboarding-wizard";
 import { OnboardingWizardV2 } from "@/components/onboarding-wizard-v2";
 
@@ -48,15 +48,48 @@ function getOrAssignVariant(): OnboardingVariant {
   }
 }
 
+/**
+ * `variant` lives in localStorage — an external mutable source — so it is read
+ * through useSyncExternalStore instead of being copied into state by an effect.
+ * Reading it during render avoids the extra render pass (and the
+ * react-hooks/set-state-in-effect error) the previous mount effect caused.
+ * getServerSnapshot keeps SSR and the first client render in agreement.
+ */
+function subscribeToVariant() {
+  // The one-time assignment the old mount effect performed, now done as an
+  // external-system write when the store is subscribed to. getSnapshot stays
+  // free of side effects.
+  getOrAssignVariant();
+  return () => {};
+}
+
+function getVariantSnapshot(): OnboardingVariant {
+  if (typeof window === "undefined") return "C";
+  try {
+    const stored = localStorage.getItem(VARIANT_KEY);
+    return stored === "A" || stored === "B" || stored === "C" ? stored : "C";
+  } catch {
+    return "C";
+  }
+}
+
+function getVariantServerSnapshot(): OnboardingVariant {
+  return "C";
+}
+
 export function useOnboardingWizard() {
   const [wizardOpen, setWizardOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const [variant, setVariant] = useState<OnboardingVariant>("C");
-
-  useEffect(() => {
-    setMounted(true);
-    setVariant(getOrAssignVariant());
-  }, []);
+  const variant = useSyncExternalStore(
+    subscribeToVariant,
+    getVariantSnapshot,
+    getVariantServerSnapshot
+  );
+  // True on the client, false during SSR and the hydration render.
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   const startWizard = useCallback(() => {
     setWizardOpen(true);

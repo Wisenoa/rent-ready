@@ -40,7 +40,7 @@ const faqData = [
   {
     question: "Le motif est-il obligatoire dans un congé propriétaire ?",
     answer:
-      "Oui. Depuis la loi ALUR de 2014, le propriétaire doit indiquer le motif du congé. Les motifs acceptés sont : la reprise pour habiter, la vente du bien, ou un motif légitime et sérieux (troubles de voisinage avérés, impayés persistants). Ne pas указать de motif expose le propriétaire à des sanctions financières.",
+      "Oui. Depuis la loi ALUR de 2014, le propriétaire doit indiquer le motif du congé. Les motifs acceptés sont : la reprise pour habiter, la vente du bien, ou un motif légitime et sérieux (troubles de voisinage avérés, impayés persistants). Ne pas indiquer de motif expose le propriétaire à des sanctions financières.",
   },
   {
     question: "Le congé pour vendre nécessite-t-il une promesse de vente ?",
@@ -326,7 +326,7 @@ export default function CongeProprietairePage() {
               Essai gratuit 14 jours
             </Link>
             <Link
-              href="/outils/calculateur-irl-2026"
+              href="/outils/calculateur-irl"
               className="inline-block rounded-lg border border-orange-500 px-6 py-3 font-medium text-orange-300 transition-colors hover:bg-orange-800"
             >
               Simulateur IRL →

@@ -135,7 +135,7 @@ export default function RentReadyVsImmotop() {
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
             Comparaison détaillée entre RentReady et Immotop : tarifs réels, fonctionnalités,
-            conformité légale et适合性. Trouvez la solution adaptée à votre parc locatif.
+            conformité légale et pertinence. Trouvez la solution adaptée à votre parc locatif.
           </p>
         </header>
 

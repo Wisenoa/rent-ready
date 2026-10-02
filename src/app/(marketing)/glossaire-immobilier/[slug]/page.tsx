@@ -97,7 +97,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!entry) return {};
 
   return baseMetadata({
-    title: `${entry.term} — Définition complète | RentReady`,
+    title: `${entry.term} — Définition complète`,
     description: `${entry.shortDefinition} En savoir plus sur ${entry.term} dans le glossaire immobilier RentReady.`,
     url: `/glossaire-immobilier/${entry.slug}`,
     ogType: "article",

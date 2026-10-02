@@ -44,7 +44,7 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const leaseData: any = {
       userId,
       rentAmount: data.rentAmount,

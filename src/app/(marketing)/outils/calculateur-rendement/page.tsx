@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur Rendement Locatif — NET & BRUT 2026 | RentReady",
+    title: "Calculateur Rendement Locatif — NET & BRUT 2026",
     description:
       "Calculez votre rendement locatif NET et BRUT en quelques clics. Outil gratuit pour investisseurs immobiliers avec indicateurs détaillés.",
     url: "/outils/calculateur-rendement",

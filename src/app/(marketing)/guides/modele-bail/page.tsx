@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Modèle de Bail de Location 2026 — Gratuit & Conforme Loi 1989 | RentReady",
+      "Modèle de Bail de Location 2026 — Gratuit & Conforme Loi 1989",
     description:
       "Téléchargez notre modèle de bail de location gratuit et conforme à la loi du 6 juillet 1989. Bail vide, bail meublé, bail mobilité — personnalisez et utilisez immédiatement.",
     url: "/guides/modele-bail",

@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Simulateur Prêt Immobilier 2026 — Calcul Mensualité en Ligne | RentReady",
+    title: "Simulateur Prêt Immobilier 2026 — Calcul Mensualité en Ligne",
     description: "Calculez votre mensualité de prêt immobilier en ligne. Simulateur gratuit avec tableau d'amortissement, taux d'intérêt et durée personnalisables.",
     url: "/outils/simulateur-pret-immobilier",
     ogType: "outil",

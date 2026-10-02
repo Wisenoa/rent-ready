@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Modèle Relance Loyer Impayé — Gratuit | RentReady",
+    title: "Modèle Relance Loyer Impayé — Gratuit",
     description: "Modèle de lettre de relance pour loyer impayé. Étapes légales et modèle gratuit pour réclamer le paiement du loyer en toute légalité.",
     url: "/templates/relance-loyer-impaye",
     ogType: "template",
@@ -170,7 +170,7 @@ export default function RelanceLoyerImpayePage() {
               Utiliser le modèle →
             </Link>
             <Link
-              href="/blog/charges-locatives-guide-complet"
+              href="/blog/charges-locatives-recuperables-liste-2026"
               className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto"
             >
               Guide charges locatives

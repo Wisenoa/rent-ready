@@ -27,7 +27,7 @@ const faqData = [
   {
     question: "Le montant de référence est-il le même partout ?",
     answer:
-      "Non. Le montant de référence evolve selon la zone géographique, le type de logement (vide/meublé), et la taille du logement (studio, T2, T3, etc.). Chaque commune en zone tendue dispose de ses propres tableaux de référence. Consultez le site du政府对 pour votre commune.",
+      "Non. Le montant de référence évolue selon la zone géographique, le type de logement (vide/meublé), et la taille du logement (studio, T2, T3, etc.). Chaque commune en zone tendue dispose de ses propres tableaux de référence. Consultez le site de la mairie ou de la préfecture pour votre commune.",
   },
   {
     question: "Peut-on louer au-dessus du montant de référence ?",
@@ -251,7 +251,7 @@ export function LoyerCalculatorClient() {
                   <div className="text-sm text-stone-500">Dépôt de garantie maximum</div>
                 </div>
               </Link>
-              <Link href="/modeles/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
@@ -265,7 +265,7 @@ export function LoyerCalculatorClient() {
                   <div className="text-sm text-stone-500">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/outils/calculateur-revision-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📈</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur de Révision IRL</div>

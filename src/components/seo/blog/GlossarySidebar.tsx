@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { BookOpen, Star, Search } from "lucide-react";
 import glossaryData from "@/data/glossary.json";
@@ -13,21 +13,17 @@ const GLOSSARY_TERMS = glossaryData.map((e) => ({
 
 export function GlossarySidebar() {
   const [search, setSearch] = useState("");
-  const [filtered, setFiltered] = useState(GLOSSARY_TERMS.slice(0, 10));
 
-  useEffect(() => {
-    if (!search.trim()) {
-      setFiltered(GLOSSARY_TERMS.slice(0, 12));
-    } else {
-      const q = search.toLowerCase();
-      setFiltered(
-        GLOSSARY_TERMS.filter(
-          (t) =>
-            t.label.toLowerCase().includes(q) ||
-            t.slug.toLowerCase().includes(q)
-        ).slice(0, 12)
-      );
-    }
+  // `filtered` is derived from `search`, so compute it during render instead of
+  // mirroring it into state from an effect: setState in an effect body triggers
+  // a second render pass (react-hooks/set-state-in-effect) and would briefly show
+  // the previous term list on mount.
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return GLOSSARY_TERMS.slice(0, 12);
+    return GLOSSARY_TERMS.filter(
+      (t) => t.label.toLowerCase().includes(q) || t.slug.toLowerCase().includes(q)
+    ).slice(0, 12);
   }, [search]);
 
   return (

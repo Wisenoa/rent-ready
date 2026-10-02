@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useRef, useEffect, useState } from "react";
+import { useTransition, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Plus, Loader2 } from "lucide-react";
 import { createTransaction } from "@/lib/actions/transaction-actions";
@@ -69,15 +69,19 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
     });
   }
 
-  // Reset form state when dialog closes
-  useEffect(() => {
-    if (!open) {
+  function handleOpenChange(nextOpen: boolean) {
+    setOpen(nextOpen);
+    // Reset the lease selection when the dialog closes, so reopening starts
+    // from a blank form. Done in the close handler instead of an effect on
+    // `open`: the successful-submit path below already resets it itself, and
+    // this is the only other path that closes the dialog.
+    if (!nextOpen) {
       setSelectedLeaseId("");
     }
-  }, [open]);
+  }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={<Button />}>
         <Plus className="size-4 mr-2" />
         Enregistrer un paiement

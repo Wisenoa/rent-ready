@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Check, Shield, Clock, Users, Star, FileText } from "lucide-react";
+import { ArrowRight, Check, Shield, Clock, Users, FileText } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -331,8 +331,8 @@ export default function BailVidePage() {
           {[
             { icon: <Shield className="size-5 text-blue-600" />, label: "Conforme loi 89-462" },
             { icon: <Clock className="size-5 text-blue-600" />, label: "Mis à jour 2026" },
-            { icon: <Users className="size-5 text-blue-600" />, label: "12 400+ bailleurs utilisent ce modèle" },
-            { icon: <Star className="size-5 text-amber-500" />, label: "4.9/5 basé sur 847 avis" },
+            { icon: <Users className="size-5 text-blue-600" />, label: "Bail conforme à la loi du 6 juillet 1989" },
+            { icon: <FileText className="size-5 text-blue-600" />, label: "PDF prêt à signer" },
           ].map((badge) => (
             <div key={badge.label} className="flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm text-stone-600">
               {badge.icon}
@@ -544,7 +544,7 @@ export default function BailVidePage() {
               Essai gratuit 14 jours
             </Link>
             <Link
-              href="/outils/calculateur-irl-2026"
+              href="/outils/calculateur-irl"
               className="inline-block rounded-lg border border-blue-500 px-6 py-3 font-medium text-blue-300 transition-colors hover:bg-blue-800"
             >
               Simulateur IRL →

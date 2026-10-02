@@ -75,7 +75,7 @@ const alternatives = [
     price: "15 €/mois",
     priceDetail: "tout inclus jusqu'à 10 biens",
     pros: [
-      "Quittances légales全自动",
+      "Quittances légales automatiques",
       "Détection paiements via Open Banking",
       "Révision IRL connectée INSEE",
       "Portail locataire inclus",

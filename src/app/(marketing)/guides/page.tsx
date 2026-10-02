@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Guides Propriétaire Bailleur — Modèles gratuits,IRL, Bail 2026 | RentReady",
+      "Guides Propriétaire Bailleur — Modèles gratuits,IRL, Bail 2026",
     description:
       "Guides gratuits pour propriétaires : modèle de bail, quittance, dépôt de garantie, révision IRL, lettre de relance. Téléchargez et utilisez immédiatement — sans inscription.",
     url: "/guides",
@@ -59,7 +59,7 @@ const guides = [
     slug: "irl-2026",
     title: "Révision de loyer IRL 2026",
     excerpt:
-      "Indice de référence des loyers (IRL) 2026 : dernière valeur officielle INSEE, comment calculer la révision de loyer annuelle, délai et méthode正确e.",
+      "Indice de référence des loyers (IRL) 2026 : dernière valeur officielle INSEE, comment calculer la révision de loyer annuelle, délai et méthode corrects.",
     icon: BookOpen,
     href: "/guides/irl-2026",
     category: "IRL",

@@ -104,7 +104,7 @@ const solutions = [
       "Accompagnement procedure en cas de litige",
       "Coût modéré (10 à 30 €/mois)",
       "Couverture large (litiges contractuels, voisins, etc.)",
-      "Aide à la prescription des等级的",
+      "Aide à la prescription des dégâts",
     ],
     cons: [
       "Ne rembourse PAS les loyers impayés",

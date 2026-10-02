@@ -40,7 +40,7 @@ const FOOTER_LINKS = {
     { href: "/outils/calculateur-rendement", label: "Rendement locatif" },
     { href: "/outils/lettre-relance-loyer", label: "Lettre de relance" },
     { href: "/templates/bail-vide", label: "Modèle bail PDF" },
-    { href: "/templates/quittance-de-loyer", label: "Quittance PDF" },
+    { href: "/templates/recu-loyer", label: "Quittance PDF" },
   ],
   Légal: [
     { href: "/mentions-legales", label: "Mentions légales" },

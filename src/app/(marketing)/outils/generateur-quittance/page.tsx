@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Générateur de Quittance de Loyer 2026 — PDF Conforme | RentReady",
+    title: "Générateur de Quittance de Loyer 2026 — PDF Conforme",
     description:
       "Générez des quittances de loyer personnalisées et conformes. Outil gratuit pour propriétaires avec calculs automatiques des montants et dates.",
     url: "/outils/generateur-quittance",

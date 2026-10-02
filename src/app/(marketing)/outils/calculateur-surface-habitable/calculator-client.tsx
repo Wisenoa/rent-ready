@@ -248,7 +248,7 @@ export function SurfaceHabitableClient() {
 
       <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
         <Link href="/outils/calculateur-loyer" className="text-blue-600 hover:underline">Calculateur de loyer →</Link>
-        <Link href="/modeles/etat-des-lieux" className="text-blue-600 hover:underline">Modèle état des lieux →</Link>
+        <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">Modèle état des lieux →</Link>
         <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
       </div>
     </div>

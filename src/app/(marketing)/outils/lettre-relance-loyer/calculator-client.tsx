@@ -288,7 +288,7 @@ export function LettreRelanceClient() {
           <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500 mb-8">
             <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
             <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
-            <Link href="/modeles" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
+            <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
             <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
           </div>
 

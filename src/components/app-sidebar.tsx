@@ -107,16 +107,10 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton render={<Link href="/settings" />} tooltip="Paramètres">
-              <Settings className="size-4" />
-              <span>Paramètres</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
+      {/* No settings entry: there is no /settings route, so the button led to a
+          404. It is omitted rather than pointed elsewhere, because nothing else in
+          the app serves as a settings page — a link to /dashboard would be a worse
+          lie than no link. Restore this when settings actually exists. */}
     </Sidebar>
   );
 }

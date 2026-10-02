@@ -19,10 +19,10 @@ const FinalCta = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Modèle Bail Professionnel 2026 — Gratuit & Conforme | RentReady",
+      "Modèle Bail Professionnel 2026 — Gratuit & Conforme",
     description:
       "Téléchargez le modèle bail professionnel gratuit. Location de bureaux et locaux commerciaux, clauses essentielles et annexes. PDF instantané, prêt à utiliser.",
-    url: "/modeles/bail-professionnel",
+    url: "/templates/bail-professionnel",
     ogType: "template",
   });
 }
@@ -119,7 +119,7 @@ function BailProfessionnelJsonLd() {
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
           { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
-          { "@type": "ListItem", position: 3, name: "Bail Professionnel", item: "https://www.rentready.fr/modeles/bail-professionnel" },
+          { "@type": "ListItem", position: 3, name: "Bail Professionnel", item: "https://www.rentready.fr/templates/bail-professionnel" },
         ],
       },
       {
@@ -169,7 +169,7 @@ export default function BailProfessionnelPage() {
             <Link href="/register" className="inline-block rounded-lg bg-teal-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-teal-700 w-full sm:w-auto">
               Utiliser avec RentReady →
             </Link>
-            <Link href="/modeles" className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto">
+            <Link href="/templates" className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto">
               Tous les modèles →
             </Link>
           </div>
@@ -279,10 +279,10 @@ export default function BailProfessionnelPage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/modeles/bail-commercial" className="text-blue-600 hover:underline">Bail commercial →</Link>
-          <Link href="/modeles/bail-vide" className="text-blue-600 hover:underline">Bail vide →</Link>
+          <Link href="/templates/bail-commercial" className="text-blue-600 hover:underline">Bail commercial →</Link>
+          <Link href="/templates/bail-vide" className="text-blue-600 hover:underline">Bail vide →</Link>
           <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
-          <Link href="/modeles" className="text-blue-600 hover:underline">Tous les modèles →</Link>
+          <Link href="/templates" className="text-blue-600 hover:underline">Tous les modèles →</Link>
         </nav>
       </article>
       <FinalCta />

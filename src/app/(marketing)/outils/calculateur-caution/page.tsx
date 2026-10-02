@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Calculateur Caution de Loyer — Zone Tendue & Non Tendue | RentReady",
+    title: "Calculateur Caution de Loyer — Zone Tendue & Non Tendue",
     description:
       "Calculez le dépôt de garantie maximum légal pour votre location en France. Outil gratuit respectant les plafonds selon la zone géographique.",
     url: "/outils/calculateur-caution",

@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "IRL 2026 — Indice de Référence des Loyers & Révision de Loyer | RentReady",
+      "IRL 2026 — Indice de Référence des Loyers & Révision de Loyer",
     description:
       "Indice de Référence des Loyers (IRL) 2026 : dernière valeur officielle INSEE, comment calculer la révision de loyer annuelle, délai et méthode correcte.",
     url: "/guides/irl-2026",

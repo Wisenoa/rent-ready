@@ -318,7 +318,7 @@ export function SimulateurLmnpClient() {
 
       <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
         <Link href="/outils/calculateur-rendement" className="text-blue-600 hover:underline">Calculateur rendement →</Link>
-        <Link href="/modeles" className="text-blue-600 hover:underline">Modèles de bail →</Link>
+        <Link href="/templates" className="text-blue-600 hover:underline">Modèles de bail →</Link>
         <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
       </div>
     </div>

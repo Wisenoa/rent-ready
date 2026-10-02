@@ -667,11 +667,11 @@ export default async function GestionLocativeVille({ params }: Props) {
                 🧮 Calculateur surface habitable
               </Link>
               {ctx.isZoneTendue && (
-                <Link href="/guides/encadrement-loyers" className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100">
+                <Link href="/blog/encadrement-des-loyers" className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100">
                   ⚖️ Encadrement des loyers
                 </Link>
               )}
-              <Link href="/guides/regime-fiscal-lmnp" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
+              <Link href="/blog/regime-micro-foncier" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
                 📊 Simulateur fiscal LMNP
               </Link>
               <Link href="/bail" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">

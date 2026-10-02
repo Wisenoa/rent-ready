@@ -7,33 +7,45 @@ import { spring } from "@/components/landing/motion-config";
 
 const COOKIE_KEY = "rentready_cookie_consent";
 
+/** How long to wait before interrupting the user with the banner. */
+const DELAY_MS = 1500;
+
 export function CookieConsent() {
-  const [visible, setVisible] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  // Two things must be true for the banner to show: no stored decision, and
+  // 1.5s elapsed since mount.
+  //
+  // The previous version called setState synchronously in the effect body
+  // (react-hooks/set-state-in-effect rejects that — a cascading render on mount).
+  // The fix is a timer that only *reports elapsed time*; visibility is derived
+  // during render from two pieces of state, so the effect performs no write that
+  // changes the component synchronously — the setTimeout callback is async and
+  // is the sanctioned way to defer a state update.
+  const [mountedAt, setMountedAt] = useState<number | null>(null);
+  const [elapsed, setElapsed] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    const consent = localStorage.getItem(COOKIE_KEY);
-    if (!consent) {
-      const timer = setTimeout(() => setVisible(true), 1500);
-      return () => clearTimeout(timer);
-    }
+    if (localStorage.getItem(COOKIE_KEY)) return;
+    const id = setTimeout(() => {
+      setMountedAt(Date.now());
+      setElapsed(true);
+    }, DELAY_MS);
+    return () => clearTimeout(id);
   }, []);
 
+  function decide(value: "accepted" | "rejected") {
+    localStorage.setItem(COOKIE_KEY, value);
+    setElapsed(false);
+  }
+
   function accept() {
-    localStorage.setItem(COOKIE_KEY, "accepted");
-    setVisible(false);
+    decide("accepted");
   }
 
   function reject() {
-    localStorage.setItem(COOKIE_KEY, "rejected");
-    setVisible(false);
+    decide("rejected");
   }
 
-  // Don't render during SSR to avoid framer-motion context issues
-  if (!mounted) {
-    return null;
-  }
+  const visible = elapsed && mountedAt !== null;
 
   return (
     <AnimatePresence>

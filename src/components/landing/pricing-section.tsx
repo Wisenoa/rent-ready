@@ -161,32 +161,17 @@ export function PricingSection() {
               </div>
             </div>
 
-            {/* Testimonial pull-quotes */}
-            <div className="mb-8 space-y-4">
+            {/* Removal of the objections we can actually answer */}
+            <div className="mb-8 space-y-3">
               {[
-                {
-                  text: "J'ai récupéré mes week-ends. La quittance part toute seule.",
-                  name: "Marie-Claire D., 3 appartements LMNP",
-                },
-                {
-                  text: "Pour 15 € par mois, c'est une assurance tranquillité.",
-                  name: "Thomas R., 2 studios meublés",
-                },
-              ].map((t) => (
-                <div
-                  key={t.name}
-                  className="flex gap-3 rounded-2xl border border-stone-100 bg-white/60 p-4"
-                >
-                  <div className="mt-0.5 size-5 shrink-0 text-blue-500">
-                    <svg viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M6.5 1.5h4v4h-4v-4zm-5 9h4v4H1.5v-4zm7-1a3.5 3.5 0 014 4 3.5 3.5 0 01-4 4H8V6.5z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-[13px] italic text-stone-600">"{t.text}"</p>
-                    <p className="mt-1 text-[11px] font-medium text-stone-500">{t.name}</p>
-                  </div>
-                </div>
+                "Sans engagement : vous partez quand vous voulez",
+                "Vos données restent les vôtres, exportables à tout moment",
+                "Les quittances sont générées depuis vos encaissements réels",
+              ].map((point) => (
+                <p key={point} className="flex gap-2 text-[13px] text-stone-600">
+                  <span aria-hidden="true" className="text-blue-500">✓</span>
+                  {point}
+                </p>
               ))}
             </div>
           </motion.div>

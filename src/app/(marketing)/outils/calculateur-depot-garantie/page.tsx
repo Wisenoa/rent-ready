@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur Dépôt de Garantie 2026 — Gratuit | RentReady",
+    title: "Calculateur Dépôt de Garantie 2026 — Gratuit",
     description:
       "Calculez le dépôt de garantie maximum légal pour votre location selon la zone géographique (tendue ou non) et le type de bail. Outil gratuit — base légale mise à jour 2026.",
     url: "/outils/calculateur-depot-garantie",
@@ -55,7 +55,7 @@ function CalculateurDepotGarantieJsonLd() {
         },
         {
           name: "Indiquez le montant mensuel du loyer charges comprises",
-          text: "Saisissez le montant du loyer charges comprises pour calculer le plafond对应的 dépôt.",
+          text: "Saisissez le montant du loyer charges comprises pour calculer le plafond correspondant du dépôt de garantie.",
         },
         {
           name: "Sélectionnez la zone géographique",

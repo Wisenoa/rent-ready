@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur Plus-Value Immobilière 2026 — Gratuit | RentReady",
+    title: "Calculateur Plus-Value Immobilière 2026 — Gratuit",
     description: "Estimez votre plus-value immobilière et l'impôt à payer lors de la vente d'un bien. Outil gratuit avec tous les abattements légaux applicables.",
     url: "/outils/calculateur-plus-value",
     ogType: "outil",

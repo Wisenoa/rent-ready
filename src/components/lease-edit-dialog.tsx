@@ -86,7 +86,7 @@ export function LeaseEditDialog({ lease }: LeaseEditDialogProps) {
     formState: { errors },
   } = useForm<LeaseFormValues>({
     // @hookform/resolvers v5 + Zod v4 has a known type mismatch on optional coerce fields
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(leaseSchema) as any,
     defaultValues: {
       propertyId: lease.propertyId,

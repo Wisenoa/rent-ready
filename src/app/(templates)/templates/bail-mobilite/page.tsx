@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "bail stage",
   ],
   openGraph: {
-    title: "Modèle Bail Mobilité 2026 — Sans Garantie | RentReady",
+    title: "Modèle Bail Mobilité 2026 — Sans Garantie",
     description:
       "Bail mobilité 1-10 mois sans garantie loyer. Téléchargez et personnalisez en ligne. Mise à jour 2026.",
     type: "website",
@@ -353,7 +353,7 @@ export default function BailMobilitePage() {
           <Link href="/templates/bail-commercial" className="text-blue-600 hover:underline">
             Bail commercial →
           </Link>
-          <Link href="/templates/colocation" className="text-blue-600 hover:underline">
+          <Link href="/templates/bail-colocation" className="text-blue-600 hover:underline">
             Colocation →
           </Link>
           <Link href="/templates" className="text-blue-600 hover:underline">
