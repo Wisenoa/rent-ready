@@ -179,11 +179,15 @@ export default async function OwnerDashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" asChild>
-            <Link href="/dashboard">
-              <BarChart3 className="size-4 mr-2" />
-              Vue détaillée
-            </Link>
+          {/* `render`, not `asChild`: this repo's Button is @base-ui/react, which
+              composes via `render`. With `asChild` the prop is ignored and the
+              Link inside is never rendered as a link. */}
+          <Button
+            variant="outline"
+            render={<Link href="/dashboard" />}
+          >
+            <BarChart3 className="size-4 mr-2" />
+            Vue détaillée
           </Button>
         </div>
       </div>
@@ -365,8 +369,13 @@ export default async function OwnerDashboardPage() {
                 <p className="text-sm font-medium text-muted-foreground">
                   Aucun bien enregistré
                 </p>
-                <Button asChild className="mt-4" size="sm">
-                  <Link href="/properties/new">Ajouter mon premier bien</Link>
+                {/* `render`, not `asChild` — see the note above. */}
+                <Button
+                  className="mt-4"
+                  size="sm"
+                  render={<Link href="/properties/new" />}
+                >
+                  Ajouter mon premier bien
                 </Button>
               </div>
             ) : vacantProperties > 0 ? (
@@ -459,10 +468,13 @@ export default async function OwnerDashboardPage() {
                     </div>
                   )}
                 </div>
-                <Button asChild variant="outline" className="w-full" size="sm">
-                  <Link href="/maintenance">
-                    Voir toutes les interventions
-                  </Link>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  size="sm"
+                  render={<Link href="/maintenance" />}
+                >
+                  Voir toutes les interventions
                 </Button>
               </div>
             )}
@@ -477,23 +489,17 @@ export default async function OwnerDashboardPage() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button asChild>
-              <Link href="/properties/new">
-                <Home className="size-4 mr-2" />
-                Ajouter un bien
-              </Link>
+            <Button render={<Link href="/properties/new" />}>
+              <Home className="size-4 mr-2" />
+              Ajouter un bien
             </Button>
-            <Button asChild variant="outline">
-              <Link href="/leases/new">
-                <Users className="size-4 mr-2" />
-                Créer un bail
-              </Link>
+            <Button variant="outline" render={<Link href="/leases/new" />}>
+              <Users className="size-4 mr-2" />
+              Créer un bail
             </Button>
-            <Button asChild variant="outline">
-              <Link href="/maintenance/new">
-                <Wrench className="size-4 mr-2" />
-                Signaler un problème
-              </Link>
+            <Button variant="outline" render={<Link href="/maintenance/new" />}>
+              <Wrench className="size-4 mr-2" />
+              Signaler un problème
             </Button>
           </div>
         </CardContent>
