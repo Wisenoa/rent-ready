@@ -30,8 +30,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files — secrets are ignored, the documented template is not.
+# `.env*` alone also matched `.env.example`, so a fresh clone had no example file
+# and no documented list of required variables.
 .env*
+!.env.example
 
 # vercel
 .vercel
