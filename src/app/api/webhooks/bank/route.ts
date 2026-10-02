@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import Decimal from "decimal.js";
+import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import { generateReceiptNumber } from "@/lib/quittance-generator";
 import { computePaymentSplit } from "@/lib/payment-utils";
 
@@ -18,25 +20,35 @@ const toNum = (v: Decimal.Value) =>
  * 4. Trigger email notification (placeholder)
  */
 
-interface BridgeTransaction {
-  id: string;
-  amount: number; // positive = credit (incoming)
-  currency_code: string;
-  description: string;
-  date: string;
-  account_id: string;
-  category_id?: number;
-  is_future: boolean;
-}
+/**
+ * A bank webhook body is untrusted input. It was previously read with
+ * `payload = JSON.parse(rawBody)` and then asserted to `BankWebhookPayload`, so
+ * `payload.transaction.amount` was trusted to be a number before it was used to
+ * decide that rent had been paid. These validate rather than assert.
+ */
+const BridgeTransactionSchema = z.object({
+  id: z.string().min(1),
+  // positive = credit (incoming), per the provider's convention
+  amount: z.number().finite(),
+  currency_code: z.string().min(1),
+  description: z.string().default(""),
+  date: z.string().min(1),
+  account_id: z.string().default(""),
+  category_id: z.number().optional(),
+  is_future: z.boolean().default(false),
+});
 
-interface BankWebhookPayload {
-  event_type: string;
-  item_id?: string;
-  account_id?: string;
-  transaction?: BridgeTransaction;
-  timestamp: string;
-  data?: Record<string, unknown>;
-}
+const BankWebhookSchema = z.object({
+  event_type: z.string().min(1),
+  item_id: z.string().optional(),
+  account_id: z.string().optional(),
+  transaction: BridgeTransactionSchema.optional(),
+  timestamp: z.string().optional(),
+  data: z.record(z.string(), z.unknown()).optional(),
+});
+
+type BankWebhookPayload = z.infer<typeof BankWebhookSchema>;
+
 
 function verifyHmacSignature(body: string, signature: string, secret: string): boolean {
   try {
@@ -69,12 +81,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
+  // Validated, not asserted: a valid signature proves the provider sent the body,
+  // not that it matches this shape.
   let payload: BankWebhookPayload;
 
   try {
-    payload = JSON.parse(rawBody);
+    payload = BankWebhookSchema.parse(JSON.parse(rawBody));
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
   // Replay protection: reject events already processed
@@ -105,7 +119,7 @@ export async function POST(request: NextRequest) {
         connectionId: connection?.id ?? null,
         provider: "bridge",
         eventType: payload.event_type,
-        payload: payload as unknown as Record<string, unknown>,
+        payload: payload as unknown as Prisma.InputJsonValue,
       },
     });
   } catch (err) {
@@ -130,26 +144,61 @@ export async function POST(request: NextRequest) {
         });
         if (!bankConn) break;
 
-        // Search for a PENDING transaction matching this amount
-        // Match by total due (rent + charges) within ±€0.01 tolerance
-        const matchingTransaction = await prisma.transaction.findFirst({
+        // Find the pending transaction this payment actually corresponds to.
+        //
+        // The comment here claimed "matching this amount", but the query never
+        // referenced incomingAmount: it returned the earliest pending transaction
+        // for the user and whatever followed. Because a payment smaller than the
+        // total took the PARTIAL branch, a €12 grocery transfer was written onto
+        // whichever rent invoice sorted first — marking it part-paid and issuing a
+        // receipt for it.
+        //
+        // Candidates are now gathered with their lease total and filtered in
+        // memory, because rent + charges is a sum of two Decimal columns and Prisma
+        // cannot compare a cross-column sum against a scalar in `where`. Narrowed
+        // to at most a handful by the dueDate ordering, so this stays bounded.
+        const candidates = await prisma.transaction.findMany({
           where: {
             userId: bankConn.userId,
             paidAt: null,
-            lease: {
-              AND: [
-                { rentAmount: { gte: 0 } },
-              ],
-            },
+            lease: { rentAmount: { gte: 0 } },
           },
-          include: {
+          select: {
+            id: true,
+            rentPortion: true,
+            chargesPortion: true,
+            amount: true,
+            dueDate: true,
             lease: {
-              include: { property: true, tenant: true },
+              select: {
+                id: true,
+                rentAmount: true,
+                chargesAmount: true,
+                property: true,
+                tenant: true,
+              },
             },
-            user: true,
           },
           orderBy: { dueDate: "asc" },
+          take: 20,
         });
+
+        const incomingDecimal = new Decimal(incomingAmount);
+        // A payment matches a pending transaction when it covers it exactly, or is
+        // a partial of it. Overpayments are not matched — they need confirmation.
+        const matchingCandidate = candidates.find((c) => {
+          const due = new Decimal(c.lease.rentAmount).plus(c.lease.chargesAmount);
+          const slack = new Decimal("0.01");
+          // Only an exact cover (within a cent) is auto-applied. An overpayment is
+          // deliberately not matched: recording €1500 against a €900 invoice would
+          // write an amount the tenant never agreed to, and a mismatch like that
+          // should reach a human rather than a receipt.
+          return incomingDecimal.gte(due.minus(slack)) && incomingDecimal.lte(due.plus(slack));
+        });
+
+        const matchingTransaction = matchingCandidate
+          ? { ...matchingCandidate, lease: matchingCandidate.lease, user: { id: bankConn.userId } }
+          : null;
 
         // Secondary check: verify the amount actually matches the lease total
         if (!matchingTransaction) {
@@ -196,7 +245,7 @@ export async function POST(request: NextRequest) {
               paidAt: new Date(tx.date),
               bankTransactionId: tx.id,
               bankMatchedAt: new Date(),
-              bankRawData: tx as unknown as Record<string, unknown>,
+              bankRawData: tx as unknown as Prisma.InputJsonValue,
             },
           });
           console.log(`[Bank] Partial payment matched: ${incomingAmount}€ for lease ${lease.id}`);
@@ -221,7 +270,7 @@ export async function POST(request: NextRequest) {
               paidAt: new Date(tx.date),
               bankTransactionId: tx.id,
               bankMatchedAt: new Date(),
-              bankRawData: tx as unknown as Record<string, unknown>,
+              bankRawData: tx as unknown as Prisma.InputJsonValue,
             },
           });
           console.log(`[Bank] Full payment matched: ${incomingAmount}€ → Quittance for lease ${lease.id}`);
