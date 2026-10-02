@@ -17,6 +17,10 @@ const PERIOD_SELECT = {
   dueDate: true,
   amount: true,
   paidAt: true,
+  // `computeDuePeriods` needs it to leave CANCELLED rows out of both the
+  // obligation and the receipts: a cancelled payment must make the month
+  // collectable again, not disappear from the ledger's totals.
+  status: true,
 } as const;
 
 /**

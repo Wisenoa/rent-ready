@@ -32,6 +32,8 @@ export interface DuePeriodRow {
   dueDate: Date;
   amount: Prisma.Decimal | Decimal | number | string;
   paidAt: Date | null;
+  /** Absent on rows written before cancellation existed; treated as live. */
+  status?: string | null;
 }
 
 /** A rent period with money left on it, serialisable for a client component. */
@@ -85,11 +87,16 @@ export function computeDuePeriods(
   rows: DuePeriodRow[],
   now: Date = new Date()
 ): DuePeriod[] {
-  const unpaid = rows.filter((row) => row.paidAt === null);
+  // A CANCELLED row is not a receipt: the money went back, so the month is owed
+  // again. Excluding it here is what makes a cancelled payment collectable, and
+  // it must happen on BOTH sides — as an unpaid obligation it would also be
+  // offered as a second period for the same month.
+  const live = rows.filter((row) => row.status !== "CANCELLED");
+  const unpaid = live.filter((row) => row.paidAt === null);
   if (unpaid.length === 0) return [];
 
   const paidByMonth = new Map<string, Decimal>();
-  for (const row of rows) {
+  for (const row of live) {
     if (row.paidAt === null) continue;
     const key = monthKey(row.periodStart);
     paidByMonth.set(key, (paidByMonth.get(key) ?? new Decimal(0)).plus(row.amount));

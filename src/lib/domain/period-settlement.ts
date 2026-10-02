@@ -12,6 +12,16 @@
  * charges for that period. Only payments recorded at or before `asOf` count,
  * because a receipt attests to the state at its own date and cannot certify
  * money that had not yet arrived.
+ *
+ * RENT / CHARGES ATTRIBUTION
+ *
+ * Each payment is attributed against what the previous ones left, in payment
+ * order, and a payment that clears the balance takes exactly the remainder. This
+ * matters fiscally: a 970.55 month (850.50 rent + 120.05 charges) paid as
+ * 400 + 570.55 must attribute 350.52 + 499.98 of rent and 49.48 + 70.57 of
+ * charges, so the rows sum to the rent and charges actually owed. Attributing the
+ * closing payment the FULL contractual rent instead double-counted the instalment
+ * already recorded on its own row (~350 EUR of phantom rent on the 2577 report).
  */
 
 import Decimal from "decimal.js";
@@ -29,10 +39,12 @@ export interface SettlementInput {
   /** Every payment recorded against the period, in any order. */
   payments: PeriodPayment[];
   /**
-   * The payment being recorded, when deciding at write time. Its amount is what
-   * gets split into rent/charges; `payments` should include it.
+   * The payment being recorded, when deciding at write time. It must be the same
+   * object as the one in `payments`; its own rent/charges share is returned.
+   * Compared by identity, not by amount: two instalments of the same value are
+   * two different payments. Omit it to describe the last payment of the period.
    */
-  currentAmount?: Decimal | number | string | null;
+  current?: PeriodPayment;
   /** The moment being judged; defaults to now. */
   asOf?: Date;
 }
@@ -56,6 +68,64 @@ export interface Settlement {
   isFullPayment: boolean;
 }
 
+interface Allocation {
+  rent: Decimal;
+  charges: Decimal;
+  /** What is left of each after this payment. */
+  rentLeft: Decimal;
+  chargesLeft: Decimal;
+}
+
+/**
+ * Attribute one payment against the rent and charges still unattributed.
+ *
+ * The two portions always add back to the payment's own amount. A payment that
+ * covers the whole remainder (the normal instalment that closes the month) takes
+ * exactly what is left; a payment larger than the remainder — an overpayment —
+ * is spread over it in the same proportion, so no cent of the money received is
+ * attributed to nothing.
+ */
+function allocate(
+  amount: Decimal,
+  rentLeft: Decimal,
+  chargesLeft: Decimal
+): Allocation {
+  const left = rentLeft.plus(chargesLeft);
+  if (amount.lte(0) || left.lte(0)) {
+    return {
+      rent: new Decimal(0),
+      charges: new Decimal(0),
+      rentLeft,
+      chargesLeft,
+    };
+  }
+  if (amount.gte(left)) {
+    const rent = rentLeft.times(amount).dividedBy(left).toDecimalPlaces(2);
+    return {
+      rent,
+      charges: amount.minus(rent),
+      rentLeft: new Decimal(0),
+      chargesLeft: new Decimal(0),
+    };
+  }
+  const rent = amount.times(rentLeft).dividedBy(left).toDecimalPlaces(2);
+  const charges = amount.minus(rent);
+  return {
+    rent,
+    charges,
+    rentLeft: Decimal.max(rentLeft.minus(rent), new Decimal(0)),
+    chargesLeft: Decimal.max(chargesLeft.minus(charges), new Decimal(0)),
+  };
+}
+
+/** Oldest first; `createdAt` breaks a same-day tie between two instalments. */
+function byPaymentOrder(a: PeriodPayment, b: PeriodPayment): number {
+  const aPaid = a.paidAt ? a.paidAt.getTime() : Number.POSITIVE_INFINITY;
+  const bPaid = b.paidAt ? b.paidAt.getTime() : Number.POSITIVE_INFINITY;
+  if (aPaid !== bPaid) return aPaid - bPaid;
+  return (a.createdAt?.getTime() ?? 0) - (b.createdAt?.getTime() ?? 0);
+}
+
 /**
  * Decide a period's settlement. `payments` must be scoped to the period
  * (same lease, periodStart, periodEnd) by the caller.
@@ -65,30 +135,47 @@ export function settlePeriodPayments(input: SettlementInput): Settlement {
   const charges = new Decimal(input.chargesAmount ?? 0);
   const totalDue = rent.plus(charges).toDecimalPlaces(2);
 
-  const paid = input.payments
-    .filter((p) => p.paidAt !== null)
+  const received = input.payments.filter((p) => p.paidAt !== null);
+  const paid = received
     .reduce((sum, p) => sum.plus(new Decimal(p.amount)), new Decimal(0))
     .toDecimalPlaces(2);
 
   const outstanding = Decimal.max(totalDue.minus(paid), new Decimal(0)).toDecimalPlaces(2);
   const settled = paid.gte(totalDue);
 
-  // Split the payment being recorded: a payment that clears the period is
-  // attributed in full to rent and charges rather than proportionally, so the two
-  // portions always add back to the amount actually received.
-  const current = new Decimal(
-    input.currentAmount ?? (input.payments.length === 1 ? input.payments[0].amount : 0)
-  );
+  // The payment being decided, identified by identity so an instalment is never
+  // confused with an identical one recorded earlier. A `current` the caller did
+  // not include in `payments` is appended: attributing it is the point.
+  const ordered = [...received].sort(byPaymentOrder);
+  const sequence: PeriodPayment[] = input.current
+    ? [...ordered, ...(ordered.includes(input.current) ? [] : [input.current])].sort(
+        byPaymentOrder
+      )
+    : ordered;
+  const current = input.current ?? ordered[ordered.length - 1];
 
-  let rentPortion: Decimal;
-  let chargesPortion: Decimal;
-  if (current.gte(totalDue) || totalDue.isZero()) {
-    rentPortion = rent;
-    chargesPortion = charges;
-  } else {
-    rentPortion = current.times(rent).dividedBy(totalDue).toDecimalPlaces(2);
-    chargesPortion = current.minus(rentPortion).toDecimalPlaces(2);
+  let rentLeft = rent;
+  let chargesLeft = charges;
+  let rentPortion = new Decimal(0);
+  let chargesPortion = new Decimal(0);
+
+  for (const p of sequence) {
+    const allocation = allocate(
+      new Decimal(p.amount).toDecimalPlaces(2),
+      rentLeft,
+      chargesLeft
+    );
+    rentLeft = allocation.rentLeft;
+    chargesLeft = allocation.chargesLeft;
+    if (p === current) {
+      rentPortion = allocation.rent;
+      chargesPortion = allocation.charges;
+    }
   }
+
+  const currentAmount = current
+    ? new Decimal(current.amount).toDecimalPlaces(2)
+    : new Decimal(0);
 
   return {
     totalDue,
@@ -99,7 +186,7 @@ export function settlePeriodPayments(input: SettlementInput): Settlement {
     receiptType: settled ? "QUITTANCE" : "RECU",
     rentPortion,
     chargesPortion,
-    isFullPayment: current.gte(totalDue),
+    isFullPayment: currentAmount.gte(totalDue),
   };
 }
 

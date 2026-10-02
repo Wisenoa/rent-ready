@@ -2,8 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { settlePeriodPayments } from "@/lib/domain/period-settlement";
-import { settlePeriod } from "@/lib/domain/rent-periods";
+import { recordRentPayment, cancelRentPayment } from "@/lib/services/rent-payments";
 import { getCurrentUserId } from "@/lib/auth";
 import { transactionSchema } from "@/lib/validations/transaction";
 import { generateQuittance } from "@/lib/actions/quittance-actions";
@@ -13,19 +12,7 @@ import { resend, fromEmail } from "@/lib/email";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { ActionResult } from "./property-actions";
-import { toNumber, round2, toDecimal } from "@/lib/decimal";
-import {
-  findUnpaidPeriod,
-  settleRentPeriod,
-} from "@/lib/domain/generate-rent-periods";
-import Decimal from "decimal.js";
-import type { PaymentMethod, Prisma } from "@prisma/client";
-import { resolveDuePeriod } from "@/lib/queries/due-periods";
-
-/** Money in a user-facing error message, without importing a client formatter. */
-function formatEuros(value: Decimal): string {
-  return `${value.toDecimalPlaces(2).toFixed(2)} €`;
-}
+import { toNumber } from "@/lib/decimal";
 
 export async function createTransaction(formData: FormData): Promise<ActionResult> {
   try {
@@ -38,217 +25,104 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
       return { success: false, error: parsed.error.issues[0]?.message ?? "Données invalides" };
     }
 
-    // Verify lease belongs to user
-    const lease = await prisma.lease.findUnique({ where: { id: parsed.data.leaseId } });
-    if (!lease || lease.userId !== userId) {
-      return { success: false, error: "Bail introuvable ou accès non autorisé." };
-    }
-
-    const amountNum = parsed.data.amount; // already a number from z.coerce
-    const paidAt = parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date();
-
-    // A landlord picks the period to settle instead of typing dates, so the
-    // period's identity comes from the database, not from the form: the id is
-    // resolved scoped to this lease and must still be unpaid. The dates then
-    // come from that row, which also closes the door on a form that posts
-    // another lease's period dates.
-    const duePeriodId = parsed.data.duePeriodId;
-    let periodStart = new Date(parsed.data.periodStart);
-    let periodEnd = new Date(parsed.data.periodEnd);
-    let dueDate = new Date(parsed.data.dueDate);
-    let duePeriodAmount: Prisma.Decimal | null = null;
-    if (duePeriodId) {
-      const period = await resolveDuePeriod(userId, lease.id, duePeriodId);
-      if (!period) {
-        return {
-          success: false,
-          error: "Cette période de loyer n'est plus à encaisser pour ce bail.",
-        };
-      }
-      periodStart = period.periodStart;
-      periodEnd = period.periodEnd;
-      dueDate = period.dueDate;
-      duePeriodAmount = period.amount;
-    }
-
-    // Judge the PERIOD, not this payment: a tenant paying in instalments was
-    // previously recorded PARTIAL forever. Single source of truth in
-    // src/lib/domain/period-settlement.ts.
-    const priorPayments = await prisma.transaction.findMany({
-      where: { leaseId: lease.id, periodStart, periodEnd, paidAt: { not: null } },
-      select: { amount: true, paidAt: true, createdAt: true },
+    // Every write goes through the one door (src/lib/services/rent-payments.ts):
+    // it resolves the period from the database, derives the settlement and caps
+    // the amount at what is still collectable. This action only validates and
+    // revalidates — it holds no version of the rule of its own.
+    const result = await recordRentPayment({
+      userId,
+      leaseId: parsed.data.leaseId,
+      duePeriodId: parsed.data.duePeriodId || null,
+      periodStart: new Date(parsed.data.periodStart),
+      periodEnd: new Date(parsed.data.periodEnd),
+      dueDate: new Date(parsed.data.dueDate),
+      amount: parsed.data.amount,
+      paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
+      paymentMethod: parsed.data.paymentMethod ?? null,
+      notes: parsed.data.notes || null,
     });
 
-    // A period row holds the OBLIGATION, so what is still collectable is that
-    // amount minus everything already received for the month. This is the
-    // ceiling the dialog enforces with `max`, and it is re-derived here on
-    // purpose: the browser is not the boundary (AGENTS.md 6). Without it a
-    // hand-crafted POST books 1000 EUR against a 970.55 EUR month and the ledger
-    // claims more rent than the lease ever asked for.
-    if (duePeriodAmount) {
-      const received = priorPayments.reduce(
-        (sum, r) => sum.plus(new Decimal(r.amount)),
-        new Decimal(0)
-      );
-      const remaining = settlePeriod(
-        new Decimal(duePeriodAmount),
-        received,
-        dueDate,
-        paidAt
-      ).outstanding;
-      if (new Decimal(amountNum).gt(remaining)) {
-        return {
-          success: false,
-          error: `Le montant dépasse le reste à payer pour cette période (${formatEuros(remaining)}).`,
-        };
-      }
+    if (!result.ok) {
+      return { success: false, error: result.error };
     }
-
-    const settlement = settlePeriodPayments({
-      rentAmount: lease.rentAmount,
-      chargesAmount: lease.chargesAmount,
-      payments: [
-        ...priorPayments.map((r) => ({ amount: r.amount, paidAt: r.paidAt, createdAt: r.createdAt })),
-        { amount: amountNum, paidAt, createdAt: new Date() },
-      ],
-      currentAmount: amountNum,
-    });
-    const rentPortionDecimal = settlement.rentPortion;
-    const chargesPortionDecimal = settlement.chargesPortion;
-    const isFullPayment = settlement.isFullPayment;
-    const receiptType = settlement.receiptType;
-    const status = settlement.status;
-    /** True when this payment discharges the month, so the period row closes. */
-    const clearsPeriod = settlement.outstanding.lte(0);
-    // What was still owed just before this payment landed.
-    const outstandingBefore = settlement.outstanding.plus(new Decimal(amountNum));
-
-    // A generated rent period is settled rather than duplicated: the month must
-    // not be counted twice (once as owed, once as received).
-    //
-    // When the dialog sent a period id, that row IS the period. settleRentPeriod
-    // closes it only if this payment clears the balance; otherwise it leaves the
-    // obligation unpaid on purpose and the payment is inserted as its own row
-    // below, which is what keeps the remaining balance collectable.
-    const period: { id: string } | null = duePeriodId
-      ? { id: duePeriodId }
-      : await findUnpaidPeriod(parsed.data.leaseId, periodStart);
-    if (period) {
-      const settled = await settleRentPeriod(period.id, {
-        amount: parsed.data.amount,
-        rentPortion: rentPortionDecimal,
-        chargesPortion: chargesPortionDecimal,
-        paidAt,
-        ...(parsed.data.paymentMethod
-          ? { paymentMethod: parsed.data.paymentMethod as PaymentMethod }
-          : {}),
-        status,
-        isFullPayment,
-        outstandingBefore,
-      });
-      if (settled && clearsPeriod) {
-        revalidatePath("/billing");
-        revalidatePath("/dashboard");
-        revalidatePath("/leases");
-        return { success: true, data: { id: period.id, receiptType } };
-      }
-      // A partial payment returns settled=true WITHOUT closing the period (see
-      // settleRentPeriod): falling through inserts the receipt row, and the
-      // obligation stays unpaid so the balance remains collectable.
-      if (!settled && duePeriodId) {
-        return {
-          success: false,
-          error: "Cette période de loyer vient déjà d'être encaissée.",
-        };
-      }
-    }
-
-    const transaction = await prisma.transaction.create({
-      data: {
-        userId,
-        leaseId: parsed.data.leaseId,
-        amount: toDecimal(parsed.data.amount),
-        rentPortion: rentPortionDecimal,
-        chargesPortion: chargesPortionDecimal,
-        periodStart,
-        periodEnd,
-        dueDate,
-        paidAt,
-        paymentMethod: parsed.data.paymentMethod ?? null,
-        status,
-        isFullPayment,
-        receiptType,
-        notes: parsed.data.notes || null,
-      },
-    });
 
     revalidatePath("/billing");
     revalidatePath("/dashboard");
     revalidatePath("/leases");
-    return { success: true, data: { id: transaction.id, receiptType } };
+    return { success: true, data: { id: result.transactionId, receiptType: result.receiptType } };
   } catch (error) {
     console.error("createTransaction error:", error);
     return { success: false, error: "Impossible d'enregistrer le paiement." };
   }
 }
 
+/**
+ * Cancel a receipt that was recorded in error (wrong amount, wrong lease, money
+ * that came back). The month becomes collectable again.
+ */
+export async function cancelTransaction(id: string): Promise<ActionResult> {
+  try {
+    const userId = await getCurrentUserId();
+    const result = await cancelRentPayment({ userId, transactionId: id });
+
+    if (!result.ok) {
+      return { success: false, error: result.error };
+    }
+
+    revalidatePath("/billing");
+    revalidatePath("/dashboard");
+    revalidatePath("/leases");
+    return {
+      success: true,
+      data: { id, collectable: result.collectable, reopenedPeriodId: result.reopenedPeriodId },
+    };
+  } catch (error) {
+    console.error("cancelTransaction error:", error);
+    return { success: false, error: "Impossible d'annuler ce paiement." };
+  }
+}
+
+/**
+ * « Marquer payé » on a period row.
+ *
+ * The `amount` argument used to be written straight onto the row, straight from
+ * the browser, with no ceiling and no relation to the period: a crafted call
+ * marked a 970.55 EUR month paid for 0.01 EUR, and the dashboard then showed a
+ * settled month whose receipts summed to nothing.
+ *
+ * The amount is therefore no longer the browser's to choose. What is settled is
+ * the row's REAL balance; a `amount` argument is still accepted for the button's
+ * signature but only as a claim, validated against that balance — a different
+ * value is refused rather than silently overwriting the ledger.
+ */
 export async function markTransactionPaid(
   id: string,
-  amount: number,
+  amount?: number,
   paidAt?: string
 ): Promise<ActionResult> {
   try {
     const userId = await getCurrentUserId();
 
-    const transaction = await prisma.transaction.findUnique({
-      where: { id },
-      include: { lease: true },
+    const transaction = await prisma.transaction.findFirst({
+      where: { id, userId },
+      select: { id: true, leaseId: true, amount: true },
     });
 
-    if (!transaction || transaction.userId !== userId) {
+    if (!transaction) {
       return { success: false, error: "Transaction introuvable ou accès non autorisé." };
     }
 
-    const lease = transaction.lease;
-    const when = paidAt ? new Date(paidAt) : new Date();
+    const result = await recordRentPayment({
+      userId,
+      leaseId: transaction.leaseId,
+      duePeriodId: id,
+      paidAt: paidAt ? new Date(paidAt) : new Date(),
+      ...(amount === undefined ? {} : { amount }),
+    });
 
-    // Same period-level rule as every other write path.
-    const priorPayments = await prisma.transaction.findMany({
-      where: {
-        leaseId: transaction.leaseId,
-        periodStart: transaction.periodStart,
-        periodEnd: transaction.periodEnd,
-        paidAt: { not: null },
-        id: { not: transaction.id },
-      },
-      select: { amount: true, paidAt: true, createdAt: true },
-    });
-    const settlement = settlePeriodPayments({
-      rentAmount: lease.rentAmount,
-      chargesAmount: lease.chargesAmount,
-      payments: [
-        ...priorPayments.map((r) => ({ amount: r.amount, paidAt: r.paidAt, createdAt: r.createdAt })),
-        { amount, paidAt: when, createdAt: transaction.createdAt },
-      ],
-      currentAmount: amount,
-    });
-    const rentPortionDecimal = settlement.rentPortion;
-    const chargesPortionDecimal = settlement.chargesPortion;
-    const isFullPayment = settlement.isFullPayment;
-    const receiptType = settlement.receiptType;
-
-    await prisma.transaction.update({
-      where: { id },
-      data: {
-        amount: toDecimal(amount),
-        rentPortion: rentPortionDecimal,
-        chargesPortion: chargesPortionDecimal,
-        status: settlement.status,
-        isFullPayment,
-        receiptType,
-        paidAt: when,
-      },
-    });
+    if (!result.ok) {
+      return { success: false, error: result.error };
+    }
 
     // Auto-generate PDF quittance after marking as paid.
     //
@@ -258,7 +132,9 @@ export async function markTransactionPaid(
     // of every account created before the profile page existed. Reporting plain
     // success there would claim a receipt was issued when none was, so the
     // reason travels back as `quittanceError` (AGENTS.md §21, §37).
-    const outcome = describeQuittanceOutcome(await generateQuittance(id));
+    const outcome = describeQuittanceOutcome(
+      await generateQuittance(result.transactionId)
+    );
 
     if (outcome.warning) {
       console.error("markTransactionPaid: quittance not generated:", outcome.warning);
@@ -269,7 +145,7 @@ export async function markTransactionPaid(
     return {
       success: true,
       data: {
-        receiptType,
+        receiptType: result.receiptType,
         receiptUrl: outcome.receiptUrl,
         ...(outcome.warning ? { quittanceError: outcome.warning } : {}),
       },
