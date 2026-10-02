@@ -155,10 +155,19 @@ describe("content integrity", () => {
         "so the redirect assertions below are not meaningful"
     ).toBeGreaterThan(50);
 
+    // Dynamic routes are resolved by data, not by the filesystem: /blog/[slug]
+    // has no per-slug directory, so a redirect to an article slug must be
+    // checked against the article corpus instead of `routes`.
+    const articleSlugs = new Set(
+      [...readFileSync(join(SRC, "data", "articles.ts"), "utf8")
+        .matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1])
+    );
+
     for (const dest of redirectDestinations) {
       if (dest === "/" || dest.includes(":")) continue;
+      const isArticle = dest.startsWith("/blog/") && articleSlugs.has(dest.slice("/blog/".length));
       expect(
-        routes.has(dest),
+        routes.has(dest) || isArticle,
         `redirect destination ${dest} has no page — it would 404`
       ).toBe(true);
     }
