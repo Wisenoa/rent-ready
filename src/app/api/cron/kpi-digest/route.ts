@@ -69,9 +69,15 @@ async function getSEOMetrics(weekStart: Date, weekEnd: Date) {
         const totalPageviews = data.results?.reduce((sum, r) => sum + (r.pageviews ?? 0), 0) ?? 0;
         return {
           organicSessions: totalPageviews,
-          nonBrandedClicks: Math.floor(totalPageviews * 0.65),
-          newPagesIndexed: 0,
-          cwvStatus: "green" as const,
+          // These three were placeholders presented as measurements:
+          // nonBrandedClicks was a flat 65% of pageviews, newPagesIndexed was 0,
+          // and cwvStatus was hardcoded "green". Core Web Vitals are not a
+          // Plausible metric at all — they come from Search Console or CrUX — so
+          // the digest emailed leadership a passing CWV score that nobody
+          // measured. Unmeasured is reported as null and printed as N/C.
+          nonBrandedClicks: null,
+          newPagesIndexed: null,
+          cwvStatus: "unknown" as const,
           topWins: [] as string[],
           source: "Plausible Analytics",
         };
@@ -126,14 +132,19 @@ async function getProductMetrics(weekStart: Date, weekEnd: Date) {
           createdAt: { gte: weekStart, lte: weekEnd },
         },
       }),
-      // Active trials (users with a subscription in trial status)
-      prisma.subscription.count({
-        where: { status: "trialing" },
-      }),
+      // No trial concept exists in the data model: the schema has no
+      // Subscription table, so prisma.subscription is undefined and querying it
+      // threw a TypeError on every call. 0 would claim a measured fact that was
+      // never measured, so this reports null and the email prints "N/C".
+      null,
       // Users who created their first lease this week
       prisma.auditLog.count({
         where: {
-          action: "LEASE_CREATED",
+          // AuditAction is CREATE | UPDATE | DELETE | LOGIN | LOGOUT. The previous
+          // filter used "LEASE_CREATED", which is not a member of that enum, so it
+          // matched nothing and this figure was silently always 0. Counting CREATEs
+          // is the closest signal the audit log actually records.
+          action: "CREATE",
           createdAt: { gte: weekStart, lte: weekEnd },
         },
       }),
@@ -157,7 +168,7 @@ async function getProductMetrics(weekStart: Date, weekEnd: Date) {
   }
 }
 
-async function getRevenueMetrics() {
+async function getRevenueMetrics(): Promise<RevenueMetrics> {
   /**
    * Fetch revenue metrics from Stripe.
    * Returns zeros if Stripe is not configured.
@@ -165,7 +176,14 @@ async function getRevenueMetrics() {
   try {
     const stripeKey = process.env.STRIPE_SECRET_KEY;
     if (!stripeKey) {
-      return { mrr: 0, newPaidCustomers: 0, churnedCustomers: 0, trialToPaidRate: 0 };
+      // Not configured is not the same as zero revenue.
+      return {
+        mrr: null,
+        newPaidCustomers: null,
+        churnedCustomers: null,
+        trialToPaidRate: null,
+        note: "STRIPE_SECRET_KEY not set",
+      };
     }
 
     // Dynamic import to avoid requiring stripe in dev if not installed
@@ -183,16 +201,27 @@ async function getRevenueMetrics() {
 
     return {
       mrr,
-      newPaidCustomers: 0, // Requires tracking new vs existing
-      churnedCustomers: 0,
-      trialToPaidRate: 0,
+      // None of these three can be derived from a subscriptions.list() call, and
+      // reporting 0 would email leadership a measured-looking number that was
+      // never measured. New-vs-existing and churn need the event history; the trial
+      // conversion needs a trial concept the schema does not have.
+      newPaidCustomers: null,
+      churnedCustomers: null,
+      trialToPaidRate: null,
     };
   } catch {
-    return { mrr: 0, newPaidCustomers: 0, churnedCustomers: 0, trialToPaidRate: 0 };
+    // Stripe unconfigured or unreachable: MRR is unknown, not zero.
+    return {
+      mrr: null,
+      newPaidCustomers: null,
+      churnedCustomers: null,
+      trialToPaidRate: null,
+      note: "Stripe unreachable or not configured",
+    };
   }
 }
 
-async function getEngineeringMetrics() {
+async function getEngineeringMetrics(): Promise<EngineeringMetrics> {
   /**
    * Fetch engineering metrics from GitHub Actions + database.
    */
@@ -222,12 +251,66 @@ async function getEngineeringMetrics() {
 // Email template
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * A metric that may not be measurable in this deployment. `null` means "not
+ * measured" — the integration is not configured, or the data model has no such
+ * concept — and is deliberately distinct from 0, which would be a measurement.
+ */
+type Measured<T> = T | null;
+
+type SeoMetrics = {
+  organicSessions: Measured<number>;
+  nonBrandedClicks: Measured<number>;
+  newPagesIndexed: Measured<number>;
+  cwvStatus: "green" | "amber" | "unknown";
+  topWins: string[];
+  source?: string;
+  note?: string;
+};
+
+type RevenueMetrics = {
+  mrr: Measured<number>;
+  newPaidCustomers: Measured<number>;
+  churnedCustomers: Measured<number>;
+  trialToPaidRate: Measured<number>;
+  note?: string;
+};
+
+type ProductMetrics = {
+  totalSignups: number;
+  activeTrials: Measured<number>;
+  firstLeasesCreated: number;
+  onboardingCompletionRate: Measured<number>;
+  note?: string;
+  error?: string;
+};
+
+type EngineeringMetrics = {
+  closedStoryPoints: Measured<number>;
+  totalStoryPoints: Measured<number>;
+  deployFrequency: Measured<number>;
+  incidents: Measured<number>;
+  openBlockers: string[];
+  note?: string;
+};
+
+/**
+ * Render a metric, showing N/C when it was not measured rather than a 0 that
+ * looks like a measurement.
+ */
+function metric(value: number | null | undefined, format: "int" | "eur" | "pct" = "int"): string {
+  if (value === null || value === undefined) return "N/C";
+  if (format === "eur") return `${value.toLocaleString("fr-FR", { maximumFractionDigits: 0 })} €`;
+  if (format === "pct") return `${value} %`;
+  return value.toLocaleString("fr-FR", { maximumFractionDigits: 0 });
+}
+
 function buildEmailHtml(params: {
   weekOf: string;
-  seo: Awaited<ReturnType<typeof getSEOMetrics>>;
-  product: Awaited<ReturnType<typeof getProductMetrics>>;
-  revenue: Awaited<ReturnType<typeof getRevenueMetrics>>;
-  engineering: Awaited<ReturnType<typeof getEngineeringMetrics>>;
+  seo: SeoMetrics;
+  product: ProductMetrics;
+  revenue: RevenueMetrics;
+  engineering: EngineeringMetrics;
 }): string {
   const { weekOf, seo, product, revenue, engineering } = params;
 
@@ -257,15 +340,15 @@ function buildEmailHtml(params: {
     <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Sessions organiques</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${seo.organicSessions.toLocaleString("fr-FR")}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${metric(seo.organicSessions)}</td>
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Clics non-branded</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${seo.nonBrandedClicks.toLocaleString("fr-FR")}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${metric(seo.nonBrandedClicks)}</td>
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Nouvelles pages indexées</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${seo.newPagesIndexed}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${metric(seo.newPagesIndexed)}</td>
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Core Web Vitals</td>
@@ -289,7 +372,7 @@ function buildEmailHtml(params: {
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Essais actifs</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${product.activeTrials}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${metric(product.activeTrials)}</td>
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Premiers baux créés</td>
@@ -297,7 +380,7 @@ function buildEmailHtml(params: {
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Taux complétion onboarding</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${product.onboardingCompletionRate > 0 ? product.onboardingCompletionRate + "%" : "N/C"}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${metric(product.onboardingCompletionRate, "pct")}</td>
       </tr>
     </table>
     ${product.note ? `<p style="margin: 8px 0 0; font-size: 12px; color: #9ca3af; font-style: italic;">${product.note}</p>` : ""}
@@ -309,19 +392,19 @@ function buildEmailHtml(params: {
     <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">MRR</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 700; font-size: 18px;">€${revenue.mrr.toLocaleString("fr-FR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 700; font-size: 18px;">${metric(revenue.mrr, "eur")}</td>
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Nouveaux clients payants</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${revenue.newPaidCustomers}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${metric(revenue.newPaidCustomers)}</td>
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Clients renouvelés</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${revenue.churnedCustomers}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${metric(revenue.churnedCustomers)}</td>
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Trial → Paid rate</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${revenue.trialToPaidRate > 0 ? revenue.trialToPaidRate + "%" : "N/C"}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600;">${metric(revenue.trialToPaidRate, "pct")}</td>
       </tr>
     </table>
   </div>
@@ -336,7 +419,7 @@ function buildEmailHtml(params: {
       </tr>
       <tr>
         <td style="padding: 6px 0; color: #6b7280;">Incidents</td>
-        <td style="padding: 6px 0; text-align: right; font-weight: 600; color: ${engineering.incidents > 0 ? "#dc2626" : "#16a34a"};">${engineering.incidents}</td>
+        <td style="padding: 6px 0; text-align: right; font-weight: 600; color: ${engineering.incidents === null ? "#9ca3af" : engineering.incidents > 0 ? "#dc2626" : "#16a34a"};">${metric(engineering.incidents)}</td>
       </tr>
       ${engineering.openBlockers.length > 0 ? `
       <tr>
