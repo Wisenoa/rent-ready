@@ -18,17 +18,14 @@ export async function GET(
 
     const { documentId } = await context.params;
 
-    const document = await prisma.document.findUnique({
-      where: { id: documentId },
+    // Scoped by userId so a foreign document id is reported as missing rather
+    // than as "Forbidden" — the 403 told an attacker the id existed.
+    const document = await prisma.document.findFirst({
+      where: { id: documentId, userId: session.user.id },
     });
 
     if (!document) {
       return NextResponse.json({ error: "Document not found" }, { status: 404 });
-    }
-
-    // Ensure the document belongs to the authenticated user
-    if (document.userId !== session.user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     let downloadUrl: string | null = null;
@@ -141,19 +138,16 @@ export async function DELETE(
 
     const { documentId } = await context.params;
 
-    const document = await prisma.document.findUnique({
-      where: { id: documentId },
+    // `deleteMany`/`findFirst` scoped by userId: the owner is part of the
+    // statement, so a foreign document id is never deleted and cannot be
+    // distinguished from a missing one.
+    const deleted = await prisma.document.deleteMany({
+      where: { id: documentId, userId: session.user.id },
     });
 
-    if (!document) {
+    if (deleted.count === 0) {
       return NextResponse.json({ error: "Document not found" }, { status: 404 });
     }
-
-    if (document.userId !== session.user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    await prisma.document.delete({ where: { id: documentId } });
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

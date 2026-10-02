@@ -112,16 +112,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify property and tenant ownership
+    // Ownership is a constraint of the query, not a comparison afterwards: both
+    // the property and the tenant are looked up WITH the session's userId.
+    // `findUnique({ where: { id } })` followed by `property.userId !== session…`
+    // read another landlord's row before refusing — and a lease created from a
+    // foreign propertyId/tenantId would have corrupted their records.
     const [property, tenant] = await Promise.all([
-      prisma.property.findUnique({ where: { id: parsed.data.propertyId } }),
-      prisma.tenant.findUnique({ where: { id: parsed.data.tenantId } }),
+      prisma.property.findFirst({
+        where: { id: parsed.data.propertyId, userId: session.user.id },
+      }),
+      prisma.tenant.findFirst({
+        where: { id: parsed.data.tenantId, userId: session.user.id },
+      }),
     ]);
 
-    if (!property || property.userId !== session.user.id) {
+    if (!property) {
       return NextResponse.json({ error: "Bien introuvable ou accès non autorisé" }, { status: 404 });
     }
-    if (!tenant || tenant.userId !== session.user.id) {
+    if (!tenant) {
       return NextResponse.json({ error: "Locataire introuvable ou accès non autorisé" }, { status: 404 });
     }
 

@@ -67,14 +67,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    const existing = await prisma.lease.findFirst({
-      where: { id, userId: session.user.id },
-    });
-
-    if (!existing) {
-      return NextResponse.json({ error: "Bail introuvable" }, { status: 404 });
-    }
-
     const body = await request.json();
     const parsed = leaseSchema.safeParse(body);
 
@@ -85,8 +77,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const updated = await prisma.lease.update({
-      where: { id },
+    const result = await prisma.lease.updateMany({
+      where: { id, userId: session.user.id },
       data: {
         rentAmount: parsed.data.rentAmount,
         chargesAmount: parsed.data.chargesAmount,
@@ -101,6 +93,11 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       },
     });
 
+    if (result.count === 0) {
+      return NextResponse.json({ error: "Bail introuvable" }, { status: 404 });
+    }
+
+    const updated = await prisma.lease.findUnique({ where: { id } });
     return NextResponse.json({ data: updated });
   } catch (error) {
     console.error("PATCH /api/leases/[id] error:", error);
@@ -127,11 +124,18 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Bail introuvable" }, { status: 404 });
     }
 
-    const updated = await prisma.lease.update({
-      where: { id },
+    // Terminating is scoped by owner too: the read above supplies endDate, and
+    // the write refuses to touch a lease the caller does not own.
+    const result = await prisma.lease.updateMany({
+      where: { id, userId: session.user.id },
       data: { status: "TERMINATED", endDate: existing.endDate ?? new Date() },
     });
 
+    if (result.count === 0) {
+      return NextResponse.json({ error: "Bail introuvable" }, { status: 404 });
+    }
+
+    const updated = await prisma.lease.findUnique({ where: { id } });
     return NextResponse.json({ data: updated });
   } catch (error) {
     console.error("DELETE /api/leases/[id] error:", error);

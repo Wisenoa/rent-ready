@@ -75,6 +75,16 @@ export async function GET(request: NextRequest, { params }: { params: RouteParam
       );
     }
 
+    // A cancelled row keeps its amount and its paidAt, so without this guard
+    // this endpoint would describe a payment whose money went back — as a
+    // receipt, with a remaining balance computed from it.
+    if (transaction.status === "CANCELLED") {
+      return NextResponse.json(
+        { error: "Ce paiement a été annulé." },
+        { status: 400 }
+      );
+    }
+
     // Determine receipt type
     const isFullPayment = transaction.status === "PAID";
     const receiptType = transaction.receiptType ?? (isFullPayment ? "QUITTANCE" : "RECU");
@@ -161,6 +171,21 @@ export async function POST(
     }
 
     const { id } = await context.params;
+
+    // Establish ownership here rather than relying entirely on the callee.
+    // `generateQuittance` does re-check `transaction.userId`, but it is a
+    // server action reachable from other callers (the receipt button), and its
+    // failure message is not an authorization answer. Scoping the read here
+    // means this route cannot be used to probe which transaction ids exist.
+    const owned = await prisma.transaction.findFirst({
+      where: { id, userId: session.user.id },
+      select: { id: true },
+    });
+
+    if (!owned) {
+      return NextResponse.json({ error: "Transaction introuvable" }, { status: 404 });
+    }
+
     const result = await generateQuittance(id);
 
     if (!result.success) {

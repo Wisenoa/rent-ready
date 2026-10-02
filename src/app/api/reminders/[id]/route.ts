@@ -82,8 +82,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
         nextDueDate.setDate(nextDueDate.getDate() + existing.recurringInterval);
       }
 
-      const updated = await prisma.reminder.update({
-        where: { id },
+      const updated = await prisma.reminder.updateMany({
+        where: { id, userId: session.user.id },
         data: {
           status: body.status,
           completedAt: completedAt ?? existing.completedAt,
@@ -91,7 +91,12 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
           nextDueDate: nextDueDate ?? existing.nextDueDate,
         },
       });
-      return NextResponse.json({ data: updated });
+      if (updated.count === 0) {
+        return NextResponse.json({ error: "Rappel introuvable" }, { status: 404 });
+      }
+      return NextResponse.json({
+        data: await prisma.reminder.findUnique({ where: { id } }),
+      });
     }
 
     // Full update with validation
@@ -148,8 +153,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       nextDueDate.setDate(nextDueDate.getDate() + parsed.data.recurringInterval);
     }
 
-    const updated = await prisma.reminder.update({
-      where: { id },
+    const updated = await prisma.reminder.updateMany({
+      where: { id, userId: session.user.id },
       data: {
         leaseId: parsed.data.leaseId || null,
         propertyId: parsed.data.propertyId || null,
@@ -165,7 +170,13 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       },
     });
 
-    return NextResponse.json({ data: updated });
+    if (updated.count === 0) {
+      return NextResponse.json({ error: "Rappel introuvable" }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      data: await prisma.reminder.findUnique({ where: { id } }),
+    });
   } catch (error) {
     console.error("PATCH /api/reminders/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
@@ -183,15 +194,13 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    const existing = await prisma.reminder.findFirst({
+    const deleted = await prisma.reminder.deleteMany({
       where: { id, userId: session.user.id },
     });
 
-    if (!existing) {
+    if (deleted.count === 0) {
       return NextResponse.json({ error: "Rappel introuvable" }, { status: 404 });
     }
-
-    await prisma.reminder.delete({ where: { id } });
 
     return NextResponse.json({ success: true });
   } catch (error) {
