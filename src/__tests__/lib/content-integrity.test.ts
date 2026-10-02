@@ -557,4 +557,32 @@ describe("content integrity", () => {
       `article bodies with escaped newlines / markdown:\n${offenders.join("\n")}`
     ).toEqual([]);
   });
+  it("keeps every article slug usable as a URL", () => {
+    // Two slugs were broken as URLs and invisible in review:
+    //  - "assurance-loyer-impaye-GLI" carried an uppercase letter. Next.js
+    //    normalises the path to lowercase before matching, so the article could
+    //    never resolve: the sitemap URL 301'd, then 404'd.
+    //  - "gestion-compte-banque-séparé" carried a non-ASCII character, which
+    //    breaks sitemap percent-encoding and URL normalisation.
+    const articles = readFileSync(join(SRC, "data", "articles.ts"), "utf8");
+
+    const problems: string[] = [];
+    const seen = new Set<string>();
+    for (const m of articles.matchAll(/slug:\s*"([^"]*)"/g)) {
+      const slug = m[1];
+      const line = articles.slice(0, m.index).split("\n").length;
+      if (slug !== slug.toLowerCase()) {
+        problems.push(`src/data/articles.ts:${line} — uppercase in slug "${slug}"`);
+      }
+      if (/[^\x21-\x7e]/.test(slug)) {
+        problems.push(`src/data/articles.ts:${line} — non-ASCII character in slug "${slug}"`);
+      }
+      if (seen.has(slug)) {
+        problems.push(`src/data/articles.ts:${line} — duplicate slug "${slug}"`);
+      }
+      seen.add(slug);
+    }
+
+    expect(problems, `article slugs unusable as URLs:\n${problems.join("\n")}`).toEqual([]);
+  });
 });

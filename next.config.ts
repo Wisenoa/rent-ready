@@ -198,6 +198,31 @@ const config: NextConfig = {
       },
 
       // ────────────────────────────────────────
+      // Slugs d'articles corrigés
+      // ────────────────────────────────────────
+      // /blog/assurance-loyer-impaye-GLI is deliberately NOT redirected: Next
+      // matches redirect sources after normalising the path to lowercase, so a
+      // source spelled with an uppercase letter also matches the lowercase URL
+      // and sends it back to itself in an endless 308. The slug is now
+      // lowercase and resolves, and Next lowercases incoming paths before the
+      // page looks the article up, so old mixed-case links still land here.
+      // A 301 for the accented slug keeps that inbound link working and hands
+      // the signal to the new URL.
+      {
+        // Next lowercases the path before matching a redirect source, so the
+        // literal accented form never matches: the encoded slug arrives as
+        // %c3%a9. Both spellings are registered.
+        source: '/blog/gestion-compte-banque-s%c3%a9par%c3%a9',
+        destination: '/blog/gestion-compte-banque-separe',
+        permanent: true,
+      },
+      {
+        source: '/blog/gestion-compte-banque-séparé',
+        destination: '/blog/gestion-compte-banque-separe',
+        permanent: true,
+      },
+
+      // ────────────────────────────────────────
       // /modeles → /templates consolidation
       // ────────────────────────────────────────
       // Two parallel template libraries served the same intents ("modèle bail

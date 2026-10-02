@@ -6052,7 +6052,7 @@ Oui, un bail saisonnier peut être renouvelé pour une nouvelle période de 90 j
 [CTA : Gérez automatiquement les échéances de vos baux avec RentReady — essai gratuit 14 jours]`
   },
     {
-    slug: "gestion-compte-banque-separé",
+    slug: "gestion-compte-banque-separe",
     title: "Compte bancaire séparé pour la gestion locative : obligation légale",
     excerpt:
       "Le compte bancaire séparé est-il obligatoire pour les bailleurs ? Découvrez les règles légales, les exceptions et les meilleures pratiques pour une gestion locative conforme.",
@@ -7718,7 +7718,7 @@ Les déficits sont reportables sur les revenus fonciers des 10 années suivantes
 [CTA : Générez automatiquement votre déclaration 2044 avec RentReady — charges déductibles et déficit — essai gratuit]`
   },
     {
-    slug: "assurance-loyer-impaye-GLI",
+    slug: "assurance-loyer-impaye-gli",
     title: "Garantie Loyers Impayés : couverture et exclusions",
     excerpt:
       "Assurance GLI : quelles sont les garanties couvrir, les exclusions et les conditions pour protéger vos revenus locatifs contre les impayés.",
