@@ -134,8 +134,13 @@ export async function POST(request: NextRequest) {
 
       case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
-        // Primary: userId stored in subscription metadata
-        let userId = subscription.metadata?.userId;
+        // Primary: userId stored in subscription metadata.
+        //
+        // Stripe types metadata as an index signature ({ [k: string]: string }), so
+        // `metadata?.userId` infers as `string` even though the key is frequently
+        // absent at runtime — which is why the fallback below exists. Declared
+        // `string | undefined` so the type matches what the code actually handles.
+        let userId: string | undefined = subscription.metadata?.userId;
         // Fallback: look up user by stripeSubscriptionId in case metadata was not set
         if (!userId) {
           const user = await prisma.user.findFirst({
