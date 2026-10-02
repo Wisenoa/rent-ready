@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!article) return { title: "Article non trouvé" };
 
   return baseMetadata({
-    title: `${article.title} | Blog RentReady`,
+    title: `${article.title} | Blog`,
     description: article.excerpt,
     url: `/blog/${slug}`,
     ogType: "article",
@@ -113,7 +113,10 @@ export default async function BlogPostPage({ params }: PageProps) {
   // Extract FAQ Q&A pairs from article content
   const faqPairs = article.content ? extractFAQ(article.content) : [];
 
-  const articleAuthor = article.author ?? "RentReady";
+  // Articles carry no byline: the Article type has no author field, so the
+  // previous `article.author ?? "RentReady"` always took the fallback. The
+  // JSON-LD below attributes posts to the organisation either way.
+  const articleAuthor = "RentReady";
 
   // BreadcrumbList schema
   const breadcrumbSchema = {

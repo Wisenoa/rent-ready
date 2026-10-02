@@ -233,8 +233,9 @@ export async function GET(request: NextRequest) {
 
     const byProperty = Object.values(propertyMap).map((p) => ({
       ...p,
-      totalCollected: Math.round(p.totalCollected * 100) / 100,
-      totalOutstanding: Math.round(p.totalOutstanding * 100) / 100,
+      // Reduce once, at the JSON boundary. The accumulator is Decimal; multiplying it
+      totalCollected: p.totalCollected.toDecimalPlaces(2).toNumber(),
+      totalOutstanding: p.totalOutstanding.toDecimalPlaces(2).toNumber(),
     }));
 
     // ── Recent transactions ─────────────────────────────────

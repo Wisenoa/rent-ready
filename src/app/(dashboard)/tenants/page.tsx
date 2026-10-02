@@ -73,13 +73,23 @@ export default async function TenantsPage() {
     lastName: t.lastName,
   }));
 
-  // Serialize dates for client component
+  // Convert money for the client boundary. A Prisma Decimal serialises to a
+  // *string* in RSC props, so the client component would receive "740.50" where
+  // its prop type says number. The previous mapping copied transactions through
+  // unchanged, so it did not serialize anything.
   const tenantsSerialized = tenantsResult.map((t) => ({
     ...t,
     dateOfBirth: t.dateOfBirth,
     leases: t.leases.map((l) => ({
       ...l,
-      transactions: l.transactions,
+      rentAmount: l.rentAmount.toDecimalPlaces(2).toNumber(),
+      chargesAmount: l.chargesAmount.toDecimalPlaces(2).toNumber(),
+      transactions: l.transactions.map((tx) => ({
+        ...tx,
+        amount: tx.amount.toDecimalPlaces(2).toNumber(),
+        rentPortion: tx.rentPortion.toDecimalPlaces(2).toNumber(),
+        chargesPortion: tx.chargesPortion.toDecimalPlaces(2).toNumber(),
+      })),
     })),
   }));
 

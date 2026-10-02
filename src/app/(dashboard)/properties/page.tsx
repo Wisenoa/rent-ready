@@ -29,9 +29,20 @@ export default async function PropertiesPage() {
     }),
   ]);
 
+  // Convert money at the client boundary: a Prisma Decimal serialises to a string
+  // in RSC props, and this client's prop type declares number.
+  const propertiesForClient = properties.map((property) => ({
+    ...property,
+    leases: property.leases.map((lease) => ({
+      ...lease,
+      rentAmount: lease.rentAmount.toDecimalPlaces(2).toNumber(),
+      chargesAmount: lease.chargesAmount.toDecimalPlaces(2).toNumber(),
+    })),
+  }));
+
   return (
     <PropertiesPageClient
-      properties={properties}
+      properties={propertiesForClient}
       tenants={tenants}
     />
   );
