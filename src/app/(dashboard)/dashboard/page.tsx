@@ -352,14 +352,14 @@ export default async function DashboardPage() {
         <CardContent>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/properties/new"
+              href="/properties"
               className="inline-flex items-center justify-center rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-stone-900/20 transition-all hover:bg-stone-800 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Home className="size-4 mr-2" />
               Ajouter un bien
             </Link>
             <Link
-              href="/tenants/new"
+              href="/tenants"
               className="inline-flex items-center justify-center rounded-xl border border-stone-200 bg-white px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm transition-all hover:bg-stone-50 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Plus className="size-4 mr-2" />

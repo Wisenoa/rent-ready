@@ -373,7 +373,7 @@ export default async function OwnerDashboardPage() {
                 <Button
                   className="mt-4"
                   size="sm"
-                  render={<Link href="/properties/new" />}
+                  render={<Link href="/properties" />}
                 >
                   Ajouter mon premier bien
                 </Button>
@@ -489,7 +489,7 @@ export default async function OwnerDashboardPage() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button render={<Link href="/properties/new" />}>
+            <Button render={<Link href="/properties" />}>
               <Home className="size-4 mr-2" />
               Ajouter un bien
             </Button>
@@ -497,9 +497,14 @@ export default async function OwnerDashboardPage() {
               <Users className="size-4 mr-2" />
               Créer un bail
             </Button>
-            <Button variant="outline" render={<Link href="/maintenance/new" />}>
+            {/* Label matches what the page offers. This led to a
+                /maintenance/new route that never existed, and filing a ticket is
+                currently only possible from the tenant portal — so a button reading
+                "Signaler un problème" would promise an action the landlord cannot
+                take. */}
+            <Button variant="outline" render={<Link href="/maintenance" />}>
               <Wrench className="size-4 mr-2" />
-              Signaler un problème
+              Suivre les interventions
             </Button>
           </div>
         </CardContent>
