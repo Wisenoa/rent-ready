@@ -2,18 +2,31 @@
  * Stand-in for @react-pdf/renderer in the test suite.
  *
  * The real library needs a browser/DOM to render, which the node environment does
- * not provide, and no test asserts on the visual output. What tests DO assert on
- * is the figures the component was handed — a receipt's amounts are the whole
- * point of the quittance — so `renderToBuffer` records them where a test can read
- * them, and returns a real, minimal PDF so `embedFacturX` (pdf-lib) can still
- * load the bytes it is given, exactly as in production.
+ * not provide. What tests DO assert on is what the receipt SAYS, so these
+ * components render their children instead of swallowing them: a test can mount
+ * `QuittancePDF` through `react-dom/server` and read the actual strings the
+ * landlord and the tenant would see. A receipt is a legal document — asserting on
+ * the props it was handed misses the whole defect class where a figure is right
+ * in the data and wrong on the page.
+ *
+ * `renderToBuffer` additionally records the props of each rendering where a test
+ * can read them, and returns a real, minimal PDF so `embedFacturX` (pdf-lib) can
+ * still load the bytes it is given, exactly as in production.
  */
+import { Fragment, createElement, type ReactNode } from "react";
 import type { ReactElement } from "react";
 
-export const Document = () => null;
-export const Page = () => null;
-export const Text = () => null;
-export const View = () => null;
+/**
+ * Render children rather than null. `react-pdf` reads them; a test needs to.
+ */
+function passthrough({ children }: { children?: ReactNode }) {
+  return createElement(Fragment, null, children);
+}
+
+export const Document = passthrough;
+export const Page = passthrough;
+export const Text = passthrough;
+export const View = passthrough;
 export const StyleSheet = { create: () => ({}) };
 
 /** What each rendering was asked to print, oldest first. */

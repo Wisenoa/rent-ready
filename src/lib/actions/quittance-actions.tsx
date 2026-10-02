@@ -4,10 +4,11 @@ import { revalidatePath } from "next/cache";
 import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
+import { type QuittanceData } from "@/lib/quittance-generator";
 import {
-  determineReceiptTypeCumulative,
-  type QuittanceData,
-} from "@/lib/quittance-generator";
+  settlePeriodPayments,
+  paymentsBefore,
+} from "@/lib/domain/period-settlement";
 import { allocateReceiptNumber } from "@/lib/receipt-number";
 import { generateAndUploadQuittancePdf } from "./quittance-pdf-server";
 import type { ActionResult } from "./property-actions";
@@ -127,55 +128,70 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
     const periodRent = transaction.receiptRentAmount ?? lease.rentAmount;
     const periodCharges = transaction.receiptChargesAmount ?? lease.chargesAmount;
 
-    // Judge the period, not the payment. A tenant who settles 700 EUR of rent in
-    // two instalments must obtain a quittance on the payment that completes it;
-    // looking only at that payment's amount denied it, which is a legal problem
-    // under loi du 6 juillet 1989 art. 21.
-    // Count only what had been received by this payment's own date. Without the
-    // paidAt bound this summed LATER instalments too, so receipting the first of
-    // two payments saw the second and issued a quittance for a balance that was
-    // still outstanding.
-    const priorPayments = await prisma.transaction.aggregate({
+    // Judge the PERIOD, not this payment — and take BOTH answers (QUITTANCE or
+    // RECU, and the balance left) from the one rule, `settlePeriodPayments`.
+    //
+    // A tenant who settles 700 EUR of rent in two instalments must obtain a
+    // quittance on the payment that completes it; looking only at that payment's
+    // amount denied it, which is a legal problem under loi du 6 juillet 1989
+    // art. 21. But the type is only half the question: `determineReceiptType
+    // Cumulative` decided that half here while the PDF derived the OTHER half
+    // itself, from this payment alone. A 970,55 month paid 300 + 300 was
+    // receipted as a RECU announcing 670,55 owed instead of 370,55 — and that
+    // contradicted the `remainingDue` GET /api/transactions/[id]/receipt reports
+    // for the very same payment. Same inputs, same function, one figure: that is
+    // what stops the archive, the JSON view and the UI from disagreeing.
+    //
+    // Only what had been received by this payment's own date counts. Without that
+    // bound this summed LATER instalments too, so receipting the first of two
+    // payments saw the second and issued a quittance for a balance that was still
+    // outstanding.
+    //
+    // `status: { not: "CANCELLED" }` is the SAME filter the door, the settlement,
+    // `dashboard-stats`, /billing and the payments summary use. Without it a
+    // cancelled receipt counted as money received before this payment: cancel a
+    // month's 970,55 EUR, record 300 EUR as an instalment, and the sum still
+    // carried the 970,55 — so this 300 EUR payment was receipted as a QUITTANCE DE
+    // SOLDE (a QUI- number) for a month with 670,55 EUR still owed. A legal
+    // document attesting to a settled month that is not settled.
+    const periodPayments = await prisma.transaction.findMany({
       where: {
         leaseId: transaction.leaseId,
         paidAt: { not: null },
         status: { not: "CANCELLED" },
-        // `status: { not: "CANCELLED" }` is the SAME filter the door, the
-        // settlement, `dashboard-stats`, /billing and the payments summary use.
-        // Without it a cancelled receipt counted as money received before this
-        // payment: cancel a month's 970,55 EUR, record 300 EUR as an instalment,
-        // and the aggregate still summed the 970,55 — so this 300 EUR payment was
-        // receipted as a QUITTANCE DE SOLDE (a QUI- number, isFullPayment) for a
-        // month with 670,55 EUR still owed. A legal document attesting to a
-        // settled month that is not settled.
         periodStart: transaction.periodStart,
         periodEnd: transaction.periodEnd,
-        id: { not: transaction.id },
-        // Strictly "recorded before this payment", which is the only ordering
-        // that is reliable: two instalments recorded the same day share paidAt,
-        // so a paidAt comparison alone would let a later payment leak into an
-        // earlier receipt. Comparing (paidAt, createdAt) lexicographically is
-        // not expressible in one Prisma where-clause, so the two are handled as:
-        // an earlier paidAt always counts, and a tie falls back to createdAt.
-        OR: [
-          { paidAt: { lt: transaction.paidAt } },
-          {
-            paidAt: transaction.paidAt,
-            createdAt: { lt: transaction.createdAt },
-          },
-        ],
       },
-      _sum: { amount: true },
+      select: { id: true, amount: true, paidAt: true, createdAt: true },
+      orderBy: [{ paidAt: "asc" }, { createdAt: "asc" }],
     });
 
-    const priorPaid = new Decimal(priorPayments._sum.amount ?? 0).toDecimalPlaces(2);
+    // `paymentsBefore` keeps what was received strictly before this payment,
+    // ordered by paidAt with createdAt breaking the same-day tie. Two instalments
+    // recorded the same day share paidAt, so a paidAt comparison alone would let a
+    // later payment leak into an earlier receipt — and comparing (paidAt, createdAt)
+    // lexicographically is not expressible in one Prisma where-clause.
+    const asOf = paymentsBefore(periodPayments, transaction);
 
-    const receiptType = determineReceiptTypeCumulative(
-      transaction.amount,
-      periodRent,
-      periodCharges,
-      priorPaid
-    );
+    const current = {
+      id: transaction.id,
+      amount: transaction.amount,
+      paidAt: transaction.paidAt,
+      createdAt: transaction.createdAt,
+    };
+
+    const settlement = settlePeriodPayments({
+      rentAmount: periodRent,
+      chargesAmount: periodCharges,
+      payments: [...asOf, current],
+      current,
+    });
+
+    const receiptType = settlement.receiptType;
+    // What the tenant still owes for the month AFTER this payment, floored at 0
+    // and rounded once, in Decimal: an overpayment must never print as a credit
+    // invented by the document.
+    const remainingAmount = settlement.outstanding.toDecimalPlaces(2);
 
     // Atomic per-landlord allocation. This was count()+1, a read followed by a
     // write: two receipts generated in the same second read the same count and
@@ -213,6 +229,11 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       rentAmount: new Decimal(periodRent),
       chargesAmount: new Decimal(periodCharges ?? 0),
       totalAmount: transaction.amount,
+      // The balance the settlement just decided, not a figure this document
+      // works out for itself. Same `settlePeriodPayments` call as the receipt
+      // route, so the PDF and the JSON view cannot print different numbers for
+      // one payment.
+      remainingAmount,
       periodStart: transaction.periodStart,
       periodEnd: transaction.periodEnd,
       paidAt: transaction.paidAt,

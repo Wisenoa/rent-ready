@@ -8,6 +8,10 @@ import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import { getCurrentUserId } from "@/lib/auth";
+import {
+  settlePeriodPayments,
+  paymentsBefore,
+} from "@/lib/domain/period-settlement";
 import { stripe } from "@/lib/stripe";
 import type { ActionResult } from "./property-actions";
 
@@ -305,42 +309,99 @@ export async function getPortalQuittances(
     prisma.transaction.count({ where }),
   ]);
 
+  // The PDF the tenant downloads must describe the PAYMENT, so it needs the same
+  // two things the landlord's copy does: the amounts frozen when the payment was
+  // recorded (the lease's current rent would print an IRL revision on a receipt
+  // for money received at the old price), and the balance the period really had
+  // left. Both come from `settlePeriodPayments`, in ONE extra query for the whole
+  // page rather than one per receipt.
+  const leaseIds = [...new Set(transactions.map((tx) => tx.leaseId))];
+  const siblingPayments = leaseIds.length
+    ? await prisma.transaction.findMany({
+        where: {
+          leaseId: { in: leaseIds },
+          paidAt: { not: null },
+          status: { not: "CANCELLED" },
+        },
+        select: {
+          id: true,
+          leaseId: true,
+          amount: true,
+          paidAt: true,
+          createdAt: true,
+          periodStart: true,
+          periodEnd: true,
+        },
+      })
+    : [];
+
+  /** The period a receipt describes: same lease, same month. */
+  const samePeriod = (a: { leaseId: string; periodStart: Date; periodEnd: Date }, b: typeof a) =>
+    a.leaseId === b.leaseId &&
+    a.periodStart.getTime() === b.periodStart.getTime() &&
+    a.periodEnd.getTime() === b.periodEnd.getTime();
+
   return {
-    quittances: transactions.map((tx) => ({
-    id: tx.id,
-    amount: tx.amount,
-    rentAmount: tx.lease.rentAmount,
-    chargesAmount: tx.lease.chargesAmount,
-    periodStart: tx.periodStart.toISOString(),
-    periodEnd: tx.periodEnd.toISOString(),
-    paidAt: tx.paidAt!.toISOString(),
-    receiptType: tx.receiptType!,
-    receiptNumber: tx.receiptNumber,
-    // Full data needed for PDF generation
-    landlord: {
-      firstName: tx.user.firstName,
-      lastName: tx.user.lastName,
-      addressLine1: tx.user.addressLine1,
-      addressLine2: tx.user.addressLine2 ?? undefined,
-      city: tx.user.city,
-      postalCode: tx.user.postalCode,
-    },
-    tenant: {
-      firstName: tx.lease.tenant.firstName,
-      lastName: tx.lease.tenant.lastName,
-      addressLine1: tx.lease.tenant.addressLine1,
-      addressLine2: tx.lease.tenant.addressLine2 ?? undefined,
-      city: tx.lease.tenant.city,
-      postalCode: tx.lease.tenant.postalCode,
-    },
-    propertyAddress: [
-      tx.lease.property.addressLine1,
-      tx.lease.property.addressLine2,
-      `${tx.lease.property.postalCode} ${tx.lease.property.city}`,
-    ]
-      .filter(Boolean)
-      .join(", "),
-  })),
+    quittances: transactions.map((tx) => {
+      const periodRent = tx.receiptRentAmount ?? tx.lease.rentAmount;
+      const periodCharges = tx.receiptChargesAmount ?? tx.lease.chargesAmount;
+
+      const asOf = paymentsBefore(
+        siblingPayments.filter((p) => samePeriod(p, tx)),
+        tx
+      );
+      const current = {
+        id: tx.id,
+        amount: tx.amount,
+        paidAt: tx.paidAt,
+        createdAt: tx.createdAt,
+      };
+      const settlement = settlePeriodPayments({
+        rentAmount: periodRent,
+        chargesAmount: periodCharges,
+        payments: [...asOf, current],
+        current,
+      });
+
+      return {
+        id: tx.id,
+        amount: tx.amount,
+        rentAmount: periodRent,
+        chargesAmount: periodCharges,
+        // What was left after THIS payment — the figure the document prints,
+        // decided once by the domain instead of being re-derived downstream.
+        remainingAmount: settlement.outstanding.toDecimalPlaces(2),
+        periodStart: tx.periodStart.toISOString(),
+        periodEnd: tx.periodEnd.toISOString(),
+        paidAt: tx.paidAt!.toISOString(),
+        receiptType: tx.receiptType!,
+        receiptNumber: tx.receiptNumber,
+        // Full data needed for PDF generation
+        landlord: {
+          firstName: tx.user.firstName,
+          lastName: tx.user.lastName,
+          addressLine1: tx.user.addressLine1,
+          addressLine2: tx.user.addressLine2 ?? undefined,
+          city: tx.user.city,
+          postalCode: tx.user.postalCode,
+        },
+        tenant: {
+          firstName: tx.lease.tenant.firstName,
+          lastName: tx.lease.tenant.lastName,
+          addressLine1: tx.lease.tenant.addressLine1,
+          addressLine2: tx.lease.tenant.addressLine2 ?? undefined,
+          city: tx.lease.tenant.city,
+          postalCode: tx.lease.tenant.postalCode,
+        },
+        propertyAddress: [
+          tx.lease.property.addressLine1,
+          tx.lease.property.addressLine2,
+          `${tx.lease.property.postalCode} ${tx.lease.property.city}`,
+        ]
+          .filter(Boolean)
+          .join(", "),
+      };
+    }),
     pagination: { page, limit, total, pages: Math.ceil(total / limit) },
   };
 }

@@ -18,6 +18,12 @@ export interface PortalQuittance {
   amount: Decimal;
   rentAmount: Decimal;
   chargesAmount: Decimal;
+  /**
+   * The balance left after THIS payment, decided server-side by
+   * `settlePeriodPayments`. Passed rather than re-derived here: the tenant's copy
+   * is the same legal document as the landlord's and must carry the same figure.
+   */
+  remainingAmount: Decimal;
   periodStart: string;
   periodEnd: string;
   paidAt: string;
@@ -58,6 +64,7 @@ function DownloadButton({ quittance }: { quittance: PortalQuittance }) {
           rentAmount: new Decimal(quittance.rentAmount),
           chargesAmount: new Decimal(quittance.chargesAmount),
           totalAmount: new Decimal(quittance.amount),
+          remainingAmount: new Decimal(quittance.remainingAmount),
           periodStart: new Date(quittance.periodStart),
           periodEnd: new Date(quittance.periodEnd),
           paidAt: new Date(quittance.paidAt),

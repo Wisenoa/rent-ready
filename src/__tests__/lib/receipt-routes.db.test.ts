@@ -14,15 +14,26 @@
  * not merely hidden.
  *
  * Real Prisma and a real PostgreSQL, because the point of these is what the
- * queries mean. Skips when DATABASE_URL is unset, so `pnpm test` stays green on a
- * machine without the database.
+ * queries mean. `vitest.config.ts` loads `.env`, so a local `pnpm test` runs them
+ * exactly as CI does — previously they were skipped SILENTLY without
+ * DATABASE_URL and the suite still reported green, which is how "N tests verts"
+ * could mean nothing about the database.
  */
 
 import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 import Decimal from "decimal.js";
 
 const DATABASE_URL = process.env.DATABASE_URL;
+// Loud when it does not run. A silent skip reads as coverage in a summary, and a
+// receipt route is exactly the kind of code that passes a mocked suite and
+// 500s against PostgreSQL.
 const describeDb = DATABASE_URL ? describe : describe.skip;
+if (!DATABASE_URL) {
+  console.warn(
+    "[receipt-routes.db.test] SKIPPED: DATABASE_URL is unset. The receipt " +
+      "routes are NOT covered by this run — copy .env, or export DATABASE_URL."
+  );
+}
 
 const SUFFIX = `${Date.now().toString(36)}${Math.floor(Math.random() * 1e4)}`;
 const ALICE = `receipt-alice-${SUFFIX}`;
@@ -226,6 +237,55 @@ describeDb("the receipt routes, real rows", () => {
       expect(body.data.receipt.documentUrl).toBe(
         `/api/transactions/${aliceBalanceId}/receipt/download`
       );
+    });
+  });
+
+  describe("the balance the PDF and the JSON agree on", () => {
+    it("generates the second of two partial payments without overstating the debt", async () => {
+      // The defect this pins, on the real database rather than on an in-memory
+      // store: the PDF used to derive "Solde restant dû" from this payment alone
+      // (expectedTotal - amount) while the route below answers with the period's
+      // real balance. On a month paid 400 + 570,55, the receipt for the SECOND
+      // payment announced 400 still owed on a month that was fully paid — and on
+      // a month still open it announced the first instalment twice. The two
+      // documents disagreed about the same payment, and the PDF is the one the
+      // tenant keeps.
+      const res = await receiptGET(request(), {
+        params: Promise.resolve({ id: aliceFirstInstalmentId }),
+      });
+      const body = (await res.json()) as {
+        data: { amounts: { remainingDue: number } };
+      };
+      const jsonRemaining = body.data.amounts.remainingDue;
+
+      const generated = await generateQuittance(aliceFirstInstalmentId);
+      expect(generated.success).toBe(true);
+
+      // Whatever the PDF was handed as `remainingAmount` must equal what the
+      // route reports, cent for cent. `generateQuittance` passes it to the
+      // renderer untouched.
+      const data = generated.success
+        ? (generated.data as { quittanceData?: { remainingAmount?: unknown } })
+        : {};
+      const pdfRemaining = new Decimal(
+        (data.quittanceData?.remainingAmount as string) ?? NaN
+      ).toDecimalPlaces(2);
+
+      expect(pdfRemaining.toFixed(2)).toBe(new Decimal(jsonRemaining).toFixed(2));
+      // And that figure is the period's, not the payment's: 970,55 owed, 400
+      // received.
+      expect(pdfRemaining.toFixed(2)).toBe("570.55");
+    });
+
+    it("reports nothing outstanding on the payment that closed the month", async () => {
+      const res = await receiptGET(request(), {
+        params: Promise.resolve({ id: aliceBalanceId }),
+      });
+      const body = (await res.json()) as {
+        data: { amounts: { remainingDue: number } };
+      };
+
+      expect(body.data.amounts.remainingDue).toBe(0);
     });
   });
 

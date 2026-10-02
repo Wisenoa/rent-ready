@@ -102,7 +102,7 @@ function allFigures(): string[] {
       new Decimal(value as Decimal.Value).toDecimalPlaces(2).toFixed(2);
     return `rent=${money(data.rentAmount)} charges=${money(
       data.chargesAmount
-    )} total=${money(data.totalAmount)}`;
+    )} total=${money(data.totalAmount)} remaining=${money(data.remainingAmount)}`;
   });
 }
 
@@ -163,13 +163,23 @@ beforeEach(() => {
 /**
  * Records a payment through the door, so the freeze happens in the production
  * path rather than being written into the fixture by hand.
+ *
+ * `paidAt` is passed explicitly when a test needs two instalments of one period:
+ * ordering the cumulative judgement depends on it, and two calls inside the same
+ * millisecond would otherwise be ordered by a `createdAt` the store cannot
+ * separate.
  */
-async function pay(amount: number, duePeriodId: string | null = "period-oct") {
+async function pay(
+  amount: number,
+  duePeriodId: string | null = "period-oct",
+  paidAt?: Date
+) {
   const result = await recordRentPayment({
     userId: LANDLORD,
     leaseId: LEASE,
     duePeriodId,
     amount,
+    paidAt,
   });
   expect(result.ok).toBe(true);
   return result.ok ? result.transactionId : "";
@@ -192,7 +202,9 @@ describe("a receipt is reproducible from the payment, not from the lease", () =>
 
     // The document describes the payment. Reading the lease here would print
     // 900,00 — a receipt for 970,55 of money stating a 1 020,05 month.
-    expect(allFigures()).toEqual([`rent=850.50 charges=120.05 total=970.55`]);
+    expect(allFigures()).toEqual([
+      `rent=850.50 charges=120.05 total=970.55 remaining=0.00`,
+    ]);
     void store;
   }, BUDGET);
 
@@ -204,7 +216,9 @@ describe("a receipt is reproducible from the payment, not from the lease", () =>
     reviseLease("1100.00", "250.00");
     await generateQuittance(transactionId);
 
-    expect(allFigures()).toEqual([`rent=850.50 charges=120.05 total=970.55`]);
+    expect(allFigures()).toEqual([
+      `rent=850.50 charges=120.05 total=970.55 remaining=0.00`,
+    ]);
   }, BUDGET);
 
   it("still describes a payment recorded before the freeze from the lease", async () => {
@@ -223,7 +237,9 @@ describe("a receipt is reproducible from the payment, not from the lease", () =>
     const result = await generateQuittance("legacy-receipt");
 
     expect(result.success).toBe(true);
-    expect(allFigures()).toEqual([`rent=850.50 charges=120.05 total=970.55`]);
+    expect(allFigures()).toEqual([
+      `rent=850.50 charges=120.05 total=970.55 remaining=0.00`,
+    ]);
   }, BUDGET);
 
   it("freezes the amounts on the payment itself, so the ledger carries them", async () => {
@@ -250,7 +266,98 @@ describe("a receipt is reproducible from the payment, not from the lease", () =>
 
     expect(result.success).toBe(true);
     // The RECU shows the month's real obligation (850,50 + 120,05), not 900,00.
-    expect(allFigures()).toEqual([`rent=850.50 charges=120.05 total=400.00`]);
+    expect(allFigures()).toEqual([
+      `rent=850.50 charges=120.05 total=400.00 remaining=570.55`,
+    ]);
+  }, BUDGET);
+});
+
+describe("the balance the document prints is the period's, not the payment's", () => {
+  it("announces 370,55 after a 970,55 month paid 300 + 300, not 670,55", async () => {
+    // The defect: the PDF derived its "Solde restant dû" as
+    // `expectedTotal - this payment`, so the second instalment told the tenant
+    // they owed 670,55 when 370,55 was left — a legal document (loi du 6 juillet
+    // 1989, art. 21) overstating the debt by the first instalment, and
+    // contradicting the `remainingDue` the receipt route reports for the same
+    // payment. The balance now comes from `settlePeriodPayments`.
+    newStore();
+    await pay(300, "period-oct", new Date("2026-10-05T10:00:00.000Z"));
+    const secondId = await pay(
+      300,
+      "period-oct",
+      new Date("2026-10-20T10:00:00.000Z")
+    );
+
+    await generateQuittance(secondId);
+
+    expect(allFigures()).toEqual([
+      `rent=850.50 charges=120.05 total=300.00 remaining=370.55`,
+    ]);
+  }, BUDGET);
+
+  it("still prints nothing owed on the payment that closes the month", async () => {
+    newStore();
+    await pay(400, "period-oct", new Date("2026-10-05T10:00:00.000Z"));
+    const balanceId = await pay(
+      570.55,
+      "period-oct",
+      new Date("2026-10-20T10:00:00.000Z")
+    );
+
+    const result = await generateQuittance(balanceId);
+
+    expect(result.success).toBe(true);
+    const data = result.success
+      ? (result.data as { receiptType: string })
+      : null;
+    // Settled month: a QUITTANCE, with no balance line to print.
+    expect(data?.receiptType).toBe("QUITTANCE");
+    expect(allFigures()).toEqual([
+      `rent=850.50 charges=120.05 total=570.55 remaining=0.00`,
+    ]);
+  }, BUDGET);
+
+  it("prints the full balance on the FIRST instalment of a period", async () => {
+    newStore();
+    const firstId = await pay(
+      400,
+      "period-oct",
+      new Date("2026-10-05T10:00:00.000Z")
+    );
+
+    await generateQuittance(firstId);
+
+    // 970,55 owed, 400 received: 570,55 left. The later instalment has not
+    // happened yet, so this is not 0 — a receipt attests to its own date.
+    expect(allFigures()).toEqual([
+      `rent=850.50 charges=120.05 total=400.00 remaining=570.55`,
+    ]);
+  }, BUDGET);
+
+  it("does not let a receipt claim a credit when the payment exceeds the month", async () => {
+    // An overpayment must floor at zero. A document that printed a negative
+    // balance would be inventing money the tenant did not hand over.
+    const store = newStore();
+    await pay(Number(TOTAL_DUE), "period-oct", new Date("2026-10-05T10:00:00.000Z"));
+
+    // A second, larger payment on the same period, written directly: the door
+    // refuses anything above the collectable balance, and this is about what the
+    // document does with a row it is asked to receipt.
+    store.rows.push(
+      receiptRow({
+        id: "overpaid",
+        amount: "1200.00",
+        receiptRentAmount: "850.50",
+        receiptChargesAmount: "120.05",
+        paidAt: new Date("2026-10-20T10:00:00.000Z"),
+        createdAt: new Date("2026-10-20T10:00:00.000Z"),
+      })
+    );
+
+    const result = await generateQuittance("overpaid");
+
+    expect(result.success).toBe(true);
+    expect(allFigures().at(-1)).toContain("remaining=0.00");
   }, BUDGET);
 });
 
