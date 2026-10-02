@@ -40,6 +40,97 @@ function extractFAQ(content: string): { question: string; answer: string }[] {
   return qaPairs;
 }
 
+/**
+ * French words that carry no topic signal when scoring article similarity.
+ */
+const RELATION_STOPWORDS = new Set([
+  "le", "la", "les", "de", "des", "du", "un", "une", "et", "ou", "en", "au", "aux",
+  "pour", "avec", "sur", "dans", "par", "ce", "cette", "qui", "que", "quoi", "comment",
+  "guide", "complet", "modele", "tout", "sa", "son", "ses", "leur", "vous", "votre",
+  "est", "sont", "sans", "plus", "aussi", "entre", "sous", "fait", "etre", "the", "vs",
+]);
+
+/**
+ * Topic signals, grouped so that articles sharing a real subject score higher
+ * than articles that merely share a word.
+ */
+const RELATION_TOPICS: Record<string, string[]> = {
+  "loyer": ["loyer", "loyers", "IRL", "indexation", "revision", "encadrement", "reference"],
+  "quittance": ["quittance", "quittances", "recu", "regu", "paiement"],
+  "depot": ["depot", "caution", "garant", "retenue", "restitution"],
+  "bail": ["bail", "contrat", "location", "vide", "meuble", "duree", "preavis", "conge"],
+  "impaye": ["impaye", "impayes", "retard", "relance", "recouvrement", "demeure", "expulsion", "saisie"],
+  "charges": ["charges", "recuperable", "provision", "regularisation", "decompte"],
+  "etat-des-lieux": ["etat", "lieux", "constat", "degradation", "inventaire"],
+  "fiscal": ["fiscal", "fiscalite", "impot", "declaration", "revenus", "micro", "reel", "deficit", "LMNP", "LMP", "plus-value"],
+  "assurance": ["assurance", "PNO", "GLI", "VISALE", "protection", "juridique", "franchise"],
+  "travaux": ["travaux", "entretien", "renovation", "reparation", "amelioration", "amortissement"],
+  "colocation": ["colocation", "colocataire", "solidaire", "solidarite"],
+  "saisonnier": ["saisonnier", "saisonniere", "vacances", "tourisme", "residence"],
+  // 17 articles sit in this cluster (agency vs software, pricing, city guides).
+  // Without a topic they get no related links at all.
+  "gestion": ["gestion", "locative", "agence", "agences", "logiciel", "administratif", "investisseur", "investissement"],
+  "rentabilite": ["rentabilite", "rendement", "investissement", "immobilier", "neuf", "ancien"],
+  "recours": ["recours", "tribunal", "mediation", "litige", "procedural", "droits", "obligations"],
+  // Without this one the ALUR article — which cross-cuts every other topic —
+  // was the single article in the corpus with no related link at all.
+  "loi": ["loi", "ALUR", "alur", "legisl", "reglementation", "reforme"],
+};
+
+/**
+ * Pick the three articles most likely to be useful to a reader who just
+ * finished this one.
+ *
+ * The previous implementation selected by `category` alone. 54 of the 121
+ * articles share the "Juridique" category, so that linked an article about
+ * drafting a lease to an unrelated article about the ALUR law — technically
+ * a link, editorially noise. Scoring on shared topic vocabulary and on title
+ * overlap produces links a reader can actually follow.
+ */
+function pickRelatedArticles(slug: string) {
+  const source = articles.find((a) => a.slug === slug);
+  if (!source) return [];
+
+  const tokens = (text: string) =>
+    new Set(
+      (text.toLowerCase().match(/[a-zà-ÿ0-9]{3,}/g) ?? []).filter(
+        (w) => !RELATION_STOPWORDS.has(w)
+      )
+    );
+
+  const sourceTokens = tokens(`${source.slug} ${source.title} ${source.category}`);
+  const sourceTopics = new Set(
+    Object.entries(RELATION_TOPICS)
+      .filter(([, words]) => words.some((w) => sourceTokens.has(w.toLowerCase())))
+      .map(([topic]) => topic)
+  );
+
+  return articles
+    .filter((a) => a.slug !== slug)
+    .map((a) => {
+      const otherTokens = tokens(`${a.slug} ${a.title} ${a.category}`);
+      let shared = 0;
+      for (const t of sourceTokens) if (otherTokens.has(t)) shared++;
+
+      const otherTopics = new Set(
+        Object.entries(RELATION_TOPICS)
+          .filter(([, words]) => words.some((w) => otherTokens.has(w.toLowerCase())))
+          .map(([topic]) => topic)
+      );
+      let sharedTopics = 0;
+      for (const t of sourceTopics) if (otherTopics.has(t)) sharedTopics++;
+
+      // A shared topic is a much stronger signal than a shared word: one
+      // topic match outranks a pile of coincidental vocabulary overlaps.
+      const score = sharedTopics * 10 + shared;
+      return { article: a, score, sharedTopics };
+    })
+    .filter((r) => r.sharedTopics > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((r) => r.article);
+}
+
 /** Slugs of glossary terms that appear in each blog article */
 const ARTICLE_GLOSSARY_MAP: Record<string, string[]> = {
   "comment-gerer-loyers-impayes": ["quittance-loyer", "loyer-nu", "charges-recuperables", "impaye-loyer", "relance-loyer", "garant-loyer", "depot-garantie"],
@@ -51,11 +142,9 @@ const ARTICLE_GLOSSARY_MAP: Record<string, string[]> = {
   "quittance-loyer-pdf-gratuit": ["quittance-loyer", "bail-location", "charges-recuperables", "loyer-nu"],
   "lettre-relance-loyer-impaye-modele": ["relance-loyer", "impaye-loyer", "quittance-loyer"],
   "charges-locatives-decompte-annualise": ["charges-recuperables", "loyer-ccai", "quittance-loyer", "bail-location"],
-  "assurance-loyer-impaye-gli": ["impaye-loyer", "garant-loyer", "caution-locative", "depot-garantie"],
   "quittance-loyer-mentions-obligatoires": ["quittance-loyer", "bail-location", "charges-recuperables", "loyer-nu"],
   "calculer-rendement-locatif-brut-net": ["rendement-locatif", "loyer-nu", "taxe-fonciere", "vacance-locative"],
   "etat-des-lieux-proprietaire-modele": ["etat-des-lieux", "bail-location", "depot-garantie", "quittance-loyer"],
-  "bail-colocation-modele-clauses": ["colocation", "bail-location", "charges-recuperables", "depot-garantie"],
   "bail-location-vide-2026": ["bail-location", "loyer-nu", "etat-des-lieux", "depot-garantie", "charges-recuperables", "preavis-loyer", "encadrement-loyer"],
   "bail-location-meuble-2026": ["location-meuble", "bail-location", "loyer-nu", "bail-mobilite", "depot-garantie"],
   "garant-caution-solidaire": ["garant-loyer", "caution-locative", "depot-garantie", "visale"],
@@ -85,9 +174,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const article = articles.find((a) => a.slug === slug);
   if (!article) notFound();
 
-  const relatedArticles = articles
-    .filter((a) => a.slug !== slug && a.category === article.category)
-    .slice(0, 3);
+  const relatedArticles = pickRelatedArticles(article.slug);
 
   // Extract h2/h3 headings from content for "In This Article" sidebar
   const tocItems: { id: string; text: string; level: number }[] = [];

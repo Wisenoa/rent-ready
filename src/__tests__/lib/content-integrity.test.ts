@@ -46,6 +46,19 @@ function walk(dir: string, out: string[] = []): string[] {
 
 const FILES = walk(SRC);
 
+/**
+ * Collapse a body to comparable words: lowercase, no punctuation, single
+ * spaces. Used to compare article bodies for duplication without being
+ * defeated by differing markdown emphasis or line breaks.
+ */
+function normalise(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-zà-ÿ0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 describe("content integrity", () => {
   it("ships no CJK or Cyrillic characters in user-facing content", () => {
     // Han, Hiragana, Katakana, Hangul, Cyrillic, Arabic.
@@ -183,6 +196,308 @@ describe("content integrity", () => {
     expect(
       offenders,
       `links to 301'd URLs (they cost a redirect hop and split internal signals):\n${offenders.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("has no internal link in article bodies pointing at a non-existent page", () => {
+    // Article bodies carry markdown links like [voir le modèle](/modele-bail-nu).
+    // These are rendered as-is by the blog renderer, so a stale path is a real
+    // 404 for a reader. 18 of 26 such links were dead before this check existed.
+    const articles = readFileSync(join(SRC, "data", "articles.ts"), "utf8");
+    const slugs = new Set(
+      [...articles.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1])
+    );
+
+    const APP = join(SRC, "app");
+    const ROUTE_GROUPS = ["(dashboard)", "(marketing)", "(outils)", "(templates)"];
+    const routes = new Set<string>(["/"]);
+    const collect = (dir: string, segments: string[]) => {
+      for (const entry of readdirSync(dir)) {
+        if (ROUTE_GROUPS.includes(entry)) {
+          collect(join(dir, entry), segments);
+          continue;
+        }
+        if (entry.startsWith("[")) continue;
+        const full = join(dir, entry);
+        if (!statSync(full).isDirectory()) continue;
+        const next = [...segments, entry];
+        if (readdirSync(full).includes("page.tsx")) routes.add(`/${next.join("/")}`);
+        collect(full, next);
+      }
+    };
+    collect(APP, []);
+
+    // Route groups are not URL segments: /outils/x exists, /(marketing)/outils/x does not.
+    const PRIVATE = ["/dashboard", "/leases", "/properties", "/tenants", "/billing",
+      "/expenses", "/fiscal", "/maintenance", "/login", "/register", "/portal",
+      "/offline", "/settings", "/api"];
+
+    const dead: string[] = [];
+    for (const m of articles.matchAll(/\]\((\/[^)]+)\)/g)) {
+      const link = m[1];
+      const ok = link.startsWith("/blog/")
+        ? slugs.has(link.split("/blog/")[1])
+        : routes.has(link) && !PRIVATE.some((p) => link === p || link.startsWith(`${p}/`));
+      if (!ok) {
+        const line = articles.slice(0, m.index).split("\n").length;
+        dead.push(`src/data/articles.ts:${line} → ${link}`);
+      }
+    }
+
+    expect(dead, `dead internal links in article bodies:\n${dead.join("\n")}`).toEqual([]);
+  });
+
+  it("does not duplicate or near-duplicate article bodies", () => {
+    // Four articles once shipped under a promising slug while serving another
+    // article's text verbatim (a "bail de parking" article carrying the text
+    // about charges locatives). That is the content-farm failure mode.
+    const articles = readFileSync(join(SRC, "data", "articles.ts"), "utf8");
+
+    const bodies: { slug: string; text: string }[] = [];
+    for (const m of articles.matchAll(/slug:\s*"([^"]+)"/g)) {
+      const start = articles.indexOf("content:", m.index);
+      if (start === -1) continue;
+      const open = articles.indexOf("`", start);
+      const close = articles.indexOf("\n  },", open);
+      if (open === -1 || close === -1) continue;
+      const body = articles.slice(open + 1, close);
+      bodies.push({ slug: m[1], text: normalise(body) });
+    }
+
+    expect(bodies.length).toBeGreaterThan(100);
+
+    const exact = new Map<string, string[]>();
+    for (const { slug, text } of bodies) {
+      if (text.length < 400) continue;
+      const existing = exact.get(text);
+      if (existing) existing.push(slug);
+      else exact.set(text, [slug]);
+    }
+    const exactDuplicates = [...exact.values()].filter((v) => v.length > 1);
+    expect(
+      exactDuplicates,
+      `articles sharing an identical body:\n${exactDuplicates.map((v) => v.join(" = ")).join("\n")}`
+    ).toEqual([]);
+
+    // Near-duplicates: token-set overlap above 0.9 between distinct bodies.
+    const sets = bodies
+      .filter((b) => b.text.length >= 400)
+      .map((b) => ({ slug: b.slug, tokens: new Set(b.text.split(" ")) }));
+    const near: string[] = [];
+    for (let i = 0; i < sets.length; i++) {
+      for (let j = i + 1; j < sets.length; j++) {
+        const a = sets[i];
+        const b = sets[j];
+        let shared = 0;
+        for (const t of a.tokens) if (b.tokens.has(t)) shared++;
+        const union = a.tokens.size + b.tokens.size - shared;
+        if (union > 0 && shared / union > 0.9) near.push(`${a.slug} ≈ ${b.slug}`);
+      }
+    }
+    expect(
+      near,
+      `articles whose bodies are near-identical:\n${near.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("has no large untranslated English blocks in French content", () => {
+    // A whole article once shipped in English under a French title, and an
+    // English meta description on a French page.
+    //
+    // This deliberately looks only at *prose* — the `description:` / `title:`
+    // fields of generateMetadata and the JSON-LD `text` / `answer` strings. It
+    // must not scan JSX or JSON-LD scaffolding: class names, @type values and
+    // URL keys carry no French stopwords and produce hundreds of false hits.
+    const offenders: string[] = [];
+    // Strings that are content, not code.
+    const FIELDS = [
+      /description:\s*\n?\s*"([^"]{40,})"/g,
+      /question:\s*\n?\s*"([^"]{40,})"/g,
+      /answer:\s*\n?\s*"([^"]{40,})"/g,
+      /text:\s*"([^"]{40,})"/g,
+      /reviewBody:\s*"([^"]{40,})"/g,
+      /excerpt:\s*\n?\s*"([^"]{40,})"/g,
+    ];
+    const FRENCH = new Set([
+      "le", "la", "les", "de", "des", "du", "et", "un", "une", "vous", "votre", "il",
+      "elle", "pour", "avec", "sur", "est", "sont", "dans", "par", "au", "aux", "ce",
+      "cette", "qui", "que", "nous", "notre", "leur", "plus", "sans", "entre", "sous",
+      "être", "fait", "si", "ne", "pas", "on", "en", "y", "a", "ou", "peut", "aussi",
+      "comme", "tout", "son", "sa", "ses", "cela", "doit", "c'est", "n'est", "donc",
+      "où", "tant", "après", "avant", "même", "dès", "les", "une", "des", "vos",
+    ]);
+
+    for (const file of FILES) {
+      const rel = relative(process.cwd(), file);
+      if (SKIP_FILES.has(rel)) continue;
+      if (!rel.endsWith(".ts") && !rel.endsWith(".tsx")) continue;
+
+      const source = readFileSync(file, "utf8");
+      for (const pattern of FIELDS) {
+        for (const m of source.matchAll(pattern)) {
+          const value = m[1];
+          const words = value.toLowerCase().match(/[a-zà-ÿ']+/g);
+          if (!words || words.length < 12) continue;
+          const french = words.filter((w) => FRENCH.has(w)).length;
+          if (french / words.length < 0.06) {
+            const line = source.slice(0, m.index).split("\n").length;
+            offenders.push(`${rel}:${line} — ${value.slice(0, 90)}`);
+          }
+        }
+      }
+    }
+
+    expect(
+      offenders,
+      `untranslated English prose in French pages:\n${offenders.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("keeps every article title in properly accented French", () => {
+    // 38 of 121 titles shipped with no accents at all ("Modele de lettre de
+    // relance loyer impaye gratuit"). A title is the most-read string on a
+    // page; it is not a place to save typing.
+    const articles = readFileSync(join(SRC, "data", "articles.ts"), "utf8");
+
+    const ACCENTS = "àâäéèêëîïôöùûüçÀÂÉÈÊËÎÏÔÖÙÛÜÇœŒ";
+    /**
+     * Words that only look French but legitimately carry no accent. Several of
+     * these are domain terms whose correct spelling is unaccented, or titles
+     * whose subject needs no accent at all ("Dossier de location : que doit
+     * contenir un dossier complet ?" is fully correct as written). Flagging
+     * them would train the team to ignore the check.
+     */
+    /**
+     * French words that carry no accent in their correct spelling. A title made
+     * only of these needs no diacritic — "Logiciel de gestion locative pour
+     * investisseurs immobiliers" is correct French as written, and flagging it
+     * would only teach the team to ignore this check.
+     */
+    /**
+     * Words whose correct French spelling *requires* a diacritic. A title
+     * containing one of these without its accent is a defect.
+     *
+     * This inverts the naive check for good reason: most French words are
+     * legitimately unaccented ("calculer", "formule", "prix", "garant"), so
+     * "the title has no accents at all" is not evidence of a problem. Only a
+     * known-misspelled word is.
+     */
+    /**
+     * Words whose correct French spelling *requires* a diacritic, paired with
+     * that exact misspelling. A title containing the misspelling is a defect.
+     *
+     * Inverting the naive check matters here: most French words are correctly
+     * unaccented — "calculer", "formule", "prix", "garant", "solidaire",
+     * "comparatif", "obligations". "The title has no accent anywhere" is
+     * therefore no evidence of a problem, and flagging it would only train
+     * the team to ignore this check. Only a known misspelling counts.
+     */
+    const MISSPELLED: Record<string, string> = {      modele: "modèle",
+      modeles: "modèles",
+      proprietaire: "propriétaire",
+      proprietaires: "propriétaires",
+      locataire: "locataire",
+      locataires: "locataires",
+      bailleur: "bailleur",
+      bailleurs: "bailleurs",
+      depot: "dépôt",
+      recuperable: "récupérable",
+      recuperables: "récupérables",
+      deductible: "déductible",
+      deductibles: "déductibles",
+      deduction: "déduction",
+      deductions: "déductions",
+      impot: "impôt",
+      imposition: "imposition",
+      definition: "définition",
+      definitions: "définitions",
+      cle: "clé",
+      acces: "accès",
+      succes: "succès",
+      proces: "procès",
+      exces: "excès",
+      necessaire: "nécessaire",
+      necessaires: "nécessaires",
+      regle: "règle",
+      regles: "règles",
+      reglementation: "réglementation",
+      reference: "référence",
+      references: "références",
+      preavis: "préavis",
+      conge: "congé",
+      conges: "congés",
+      etat: "état",
+      etats: "états",
+      degradation: "dégradation",
+      degradations: "dégradations",
+      amelioration: "amélioration",
+      renovation: "rénovation",
+      reparation: "réparation",
+      reparations: "réparations",
+      regularisation: "régularisation",
+      decompte: "décompte",
+      diagnostics: "diagnostics",
+      energetique: "énergétique",
+      fonciere: "foncière",
+      foncieres: "foncières",
+      deficit: "déficit",
+      deficits: "déficits",
+      benefice: "bénéfice",
+      saisonniere: "saisonnière",
+      etudiant: "étudiant",
+      etudiante: "étudiante",
+      duree: "durée",
+      prealable: "préalable",
+      derniere: "dernière",
+      reponse: "réponse",
+      delai: "délai",
+      delais: "délais",
+      exoneree: "exonérée",
+      exonere: "exonéré",
+      depose: "déposé",
+      annee: "année",
+      annees: "années",
+      periode: "période",
+      periodes: "périodes",
+      critere: "critère",
+      criteres: "critères",
+    };
+
+
+
+
+    const offenders: string[] = [];
+    for (const m of articles.matchAll(/\n\s*title:\s*"([^"]*)"/g)) {
+      const title = m[1];
+      // A word is a defect only when it appears in the title in its
+      // accentless spelling. Comparing the two forms explicitly is the only
+      // reliable way: a character class like [a-zà-ÿ] matches accented letters,
+      // so a naive key lookup flags correctly-written words.
+      const written = (title.toLowerCase().match(/[\p{L}'’-]+/gu) ?? []).map((w) =>
+        w.replace(/^[dl]['’]/, "")
+      );
+      const missed = written.filter(
+        (w) =>
+          MISSPELLED[w] !== undefined &&
+          // The accentless spelling really is in the title…
+          written.includes(w) &&
+          // …and it is not the correctly accented form of the same word.
+          !written.includes(MISSPELLED[w])
+      );
+
+      if (missed.length > 0) {
+        const line = articles.slice(0, m.index).split("\n").length;
+        offenders.push(
+          `src/data/articles.ts:${line} — "${title}" (should be: ` +
+            missed.map((w) => MISSPELLED[w]).join(", ") +
+            `)`
+        );
+      }
+    }
+
+    expect(
+      offenders,
+      `article titles missing French accents:\n${offenders.join("\n")}`
     ).toEqual([]);
   });
 });

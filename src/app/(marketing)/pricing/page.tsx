@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title:
       "Tarifs RentReady 2026 — À partir de 9 €/mois | Essai gratuit sans engagement",
     description:
-      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, détection loyers DSP2, IRL automatique. 127 propriétaires. Essai gratuit 14 jours.",
+      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, détection des loyers par DSP2, révision IRL automatique. Essai gratuit 14 jours.",
     url: "/pricing",
     ogType: "pricing",
   });

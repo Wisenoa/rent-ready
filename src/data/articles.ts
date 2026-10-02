@@ -159,7 +159,7 @@ Depuis la loi ALUR et ses évolutions, la révision ne peut pas dépasser la var
 
 ## Le simulateur IRL : outil indispensable
 
-Pour faciliter vos calculs, utilisez [notre simulateur IRL 2026](/outils/calculateur-irl-2026) qui vous permettra d'estimer instantanément votre nouveau loyer en fonction de l'indice applicable.
+Pour faciliter vos calculs, utilisez [notre simulateur IRL 2026](/outils/calculateur-irl) qui vous permettra d'estimer instantanément votre nouveau loyer en fonction de l'indice applicable.
 
 Le simulateur prend en compte :
 - Loyer actuel
@@ -321,7 +321,7 @@ Oui, mais uniquement pour compenser les dégradations constatées dans l'état d
 Pour une location meublée, le dépôt de garantie ne peut pas dépasser 2 mois de loyer hors charges (contre 1 mois pour une location vide). Ce plafond est imposé par la loi et s'applique sur tout le territoire français, sans exception même en zone tendue. Ce montant est inscrit dans le bail et restitué selon les mêmes délais que pour une location vide.
 **Que faire si le propriétaire ne restitue pas le dépôt de garantie ?**
 
-En cas de non-restitution dans les délais légaux, le propriétaire risque une pénalité de 10 % du loyer mensuel par mois de retard, en plus de la restitution du dépôt. Le locataire peut d'abord tenter une mise en demeure par courrier recommandé, puis saisir la commission départementale de conciliation (gratuite), ou le tribunal judiciaire si échec de la médiation. Conservez tous les échanges écrits.
+En cas de non-restitution dans les délais légaux, le montant du dépôt restant dû au locataire est majoré de 10 % du loyer mensuel (hors charges) par mois de retard commencé (art. 22 de la loi du 6 juillet 1989) : cette pénalité est due par le locataire, pas par le bailleur. Le locataire peut d'abord tenter une mise en demeure par courrier recommandé, puis saisir la commission départementale de conciliation (gratuite), ou le tribunal judiciaire si échec de la médiation. Conservez tous les échanges écrits.
 
 [CTA : Gérez automatiquement vos dépôts de garantie et suivez les états des lieux avec RentReady — essai gratuit 14 jours]
 
@@ -340,7 +340,7 @@ Oui, mais uniquement pour compenser les degradations constatees dans l'etat des 
 Pour une location meublee, le depot de garantie ne peut pas depasser 2 mois de loyer hors charges (contre 1 mois pour une location vide). Ce plafond est impose par la loi et s'applique sur tout le territoire francais, sans exception meme en zone tendue. Ce montant est inscrit dans le bail et restitue selon les memes delais que pour une location vide.
 **Que faire si le proprietaire ne restitue pas le depot de garantie ?**
 
-En cas de non-restitution dans les delais legaux, le proprietaire risque une penalite de 10 % du loyer mensuel par mois de retard, en plus de la restitution du depot. Le locataire peut d'abord tenter une mise en demeure par courrier recommande, puis saisir la commission departmentale de conciliation (gratuite), ou le tribunal judiciaire si echec de la mediation. Conservez tous les echanges ecrits.
+En cas de non-restitution dans les délais légaux, le montant du dépôt restant dû au locataire est majoré de 10 % du loyer mensuel (hors charges) par mois de retard commencé (art. 22 de la loi du 6 juillet 1989) : cette pénalité est due par le locataire, pas par le bailleur. Le locataire peut d'abord tenter une mise en demeure par courrier recommande, puis saisir la commission departmentale de conciliation (gratuite), ou le tribunal judiciaire si echec de la mediation. Conservez tous les echanges ecrits.
 `,
   },
   {
@@ -448,7 +448,7 @@ Le depot de garantie est concu pour couvrir les eventuelles degradations constat
     slug: "loi-alur-proprietaire-bailleur",
     title: "Loi ALUR: impact sur les propriétaires bailleurs en 2026",
     excerpt:
-      "Les obligations de la loi ALUR: diagnostics obligatoires, plafonds, zone tendue et encadrement des loyers.",
+      "Les obligations de la loi ALUR : diagnostics obligatoires, plafonds, zone tendue et encadrement des loyers.",
     category: "Juridique",
     date: "2026-02-15",
     updatedAt: '2026-02-15',
@@ -968,7 +968,7 @@ Oui, le locataire peut demander une quittance à tout moment, même plusieurs mo
   },
   {
     slug: "calculer-rendement-locatif-brut-net",
-    title: "Calcul rendement locatif brut et net — Formule et simulateur gratuit",
+    title: "Calculer un rendement locatif brut et net : formule et simulateur",
     excerpt:
       "Calculez le rendement locatif brut et net de votre investissement immobilier. Formule, exemple chiffré, et conseils pour maximiser votre rentabilité.",
     category: "Fiscalité",
@@ -1449,7 +1449,7 @@ Oui, la revision de loyer s'applique aux locations meublees selon les memes regl
   },
   {
     slug: "garant-caution-solidaire",
-    title: "Garant et caution solidaire en location : droits et obligations en 2026",
+    title: "Garant et caution solidaire en location : droits et obligations",
     excerpt:
       "Caution et garant en location : différence entre caution simple et solidaire, obligations du garant, procédure en cas de défaillance du locataire, et protection du garant.",
     category: "Juridique",
@@ -1944,7 +1944,7 @@ Les plafonds de loyer sont actualisés chaque année en fonction de l'évolution
   },
   {
     slug: "sci-gestion-locative",
-    title: "SCI et gestion locative : avantages, contraintes et fonctionnement en 2026",
+    title: "SCI et gestion locative : avantages, contraintes et fonctionnement",
     excerpt:
       "SCI et location : les avantages fiscaux et patrimoniaux de la gestion locative en SCI, la création, la comptabilité, les obligations déclaratives et les pièges à éviter.",
     category: "Fiscalité",
@@ -2394,7 +2394,7 @@ La jurisprudence est riche en la matière et fournit de nombreux exemples de dé
   },
   {
     slug: "assurance-habitation-locataire",
-    title: "Assurance habitation du locataire : obligations, couverture et comparatif 2026",
+    title: "Assurance habitation du locataire : obligations, couverture et comparatif",
     excerpt:
       "Assurance habitation locataire : obligation légale de s'assurer, couverture minimale requise, assurance multirisque habitation, montant moyen et sanctions en cas de défaut.",
     category: "Juridique",
@@ -2539,7 +2539,7 @@ Le bailleur ne peut pas prélever sur le dépôt de garantie pour couvrir les ri
   },
   {
     slug: "indexation-loyer-formule-2026",
-    title: "Indexation du loyer : la formule de calcul IRL en 2026",
+    title: "Indexation du loyer : la formule de calcul par l'IRL",
     excerpt:
       "Indexation du loyer en 2026 : comment calculer la révision annuelle avec l'IRL. Formule, exemples pratiques, date d'application, et pièges à éviter pour bailleurs et locataires.",
     category: "Calculs",
@@ -2671,7 +2671,7 @@ Par ailleurs, en cas de relocation, le nouveau loyer ne peut pas dépasser le de
   },
   {
     slug: "colocation-bail-solidaire-2026",
-    title: "Colocation et bail solidaire : guide pratique en 2026",
+    title: "Colocation et bail solidaire : le guide pratique",
     excerpt:
       "Colocation avec bail solidaire : les règles en 2026, différence entre bail commun et baux individuels, obligations des colocataires, clause de solidarité et sortie d'un colocataire.",
     category: "Juridique",
@@ -2962,7 +2962,7 @@ Un logiciel de gestion locative automatise la génération de quittances, la dé
   },
   {
     slug: "quittance-loyer-apl-caf",
-    title: "Quittance de loyer et APL/CAF : mentions obligatoires et obligations en 2026",
+    title: "Quittance de loyer et APL/CAF : mentions obligatoires et obligations",
     excerpt:
       "Quittance de loyer et aides au logement : mentions obligatoires à faire figurer, obligation de délivrance, modèle gratuit, procédure en cas de non-réponse du bailleur.",
     category: "Gestion",
@@ -3413,7 +3413,7 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
 [CTA : Créez vos baux de location conformes en 5 minutes avec RentReady — essai gratuit]`,},
   {
     slug: "logiciel-gestion-locative-gratuit-vs-payant",
-    title: "Logiciel gestion locative gratuit vs payant : lequel choisir en 2026",
+    title: "Logiciel de gestion locative : gratuit ou payant, que choisir ?",
     excerpt:
       "Les outils de gestion locative gratuits ont leurs limites. Comparez les solutions gratuites et payantes pour les bailleurs français : fonctionnalités, coûts, conformité et évolutivité.",
     category: "Gestion",
@@ -3603,15 +3603,15 @@ Oui, le locataire peut demander à voir les factures. La durée de conservation 
 
   {
     slug: "bail-professionnel",
-    title: "Bail professionnel : tout savoir sur la location de locaux commerciaux en 2026",
-    excerpt: "Bail professionnel vs bail commercial : differences, duree, loyer et obligations. Guide juridique pour louer un local a usage professionnel.",
+    title: "Bail professionnel : durée, loyer et obligations pour un local",
+    excerpt: "Bail professionnel ou bail commercial : différences, durée, loyer et obligations. Quel régime pour louer un local à usage professionnel ?",
     category: "Juridique",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
     readTime: "8 min",
     content: `## Bail professionnel : cadre juridique, duree et specificites en 2026
 
-Le bail professionnel est un contrat de location de locaux a usage professionnel, distinct du bail commercial. Il repond a des regles specifiques definies par le Code de commerce. Comprendre ses caracteristiques est essentiel avant de signer ou de rediger un tel bail.
+Le bail professionnel est un contrat de location de locaux à usage professionnel, distinct du bail commercial : il est régi par la loi n° 89-462 du 6 juillet 1989 et son article 22-10, non par le Code de commerce. Comprendre ses caractéristiques est essentiel avant de signer ou de rédiger un tel bail.
 
 ### Bail professionnel : pour qui et pour quoi ?
 
@@ -3686,8 +3686,8 @@ Non, le bail professionnel n'est pas soumis a l'encadrement des loyers applicabl
 
   {
     slug: "depot-garantie-meuble",
-    title: "Depot de garantie pour location meublee : plafonnement, restitution et litiges en 2026",
-    excerpt: "Le depot de garantie en location meublee est limite a 2 mois de loyer. Conditions de restitution, deductions autorisees et recours en cas de litige.",
+    title: "Dépôt de garantie en location meublée : plafond, restitution et litiges",
+    excerpt: "Le dépôt de garantie en location meublée est limité à 2 mois de loyer. Conditions de restitution, déductions autorisées et recours en cas de litige.",
     category: "Juridique",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
@@ -3761,8 +3761,8 @@ L'etat des lieux d'entree doit etre le plus detaille possible. En cas de litige,
 
   {
     slug: "litige-depot-garantie",
-    title: "Litige sur le depot de garantie : procedure et recours pour proprietaires et locataires",
-    excerpt: "Depot de garantie non restitue, retenue abusive, etat des lieux conteste : tous les recours en cas de litige entre bailleur et locataire.",
+    title: "Litige sur le dépôt de garantie : procédure et recours",
+    excerpt: "Dépôt de garantie non restitué, retenue abusive, état des lieux contesté : tous les recours en cas de litige entre bailleur et locataire.",
     category: "Juridique",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
@@ -3842,8 +3842,8 @@ Non, sauf accord expr es du bailleur. Le depot de garantie doit etre verse en me
 
   {
     slug: "modele-lettre-relance",
-    title: "Modele de lettre de relance loyer impaye gratuit -- Lettre simple et efficace",
-    excerpt: "Telechargez notre modele de lettre de relance pour loyer impaye, pret a personnaliser. Relancez efficacement vos locataires defaillants.",
+    title: "Modèle de lettre de relance pour loyer impayé, simple et efficace",
+    excerpt: "Téléchargez notre modèle de lettre de relance pour loyer impayé, prêt à personnaliser. Relancez efficacement vos locataires défaillants.",
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
@@ -3919,8 +3919,8 @@ Si le locataire conteste le montant, verifiez vos calculs et envoyez un decompte
 
   {
     slug: "mis-en-demeure-loyer",
-    title: "Mise en demeure pour loyer impaye : modele et procedure legale en 2026",
-    excerpt: "La mise en demeure est l'etape cle avant la procedure judiciaire pour impaye de loyer. Modele gratuit, delais et effets juridiques expliques.",
+    title: "Mise en demeure pour loyer impayé : modèle et procédure légale",
+    excerpt: "La mise en demeure est l'étape clé avant la procédure judiciaire pour impayé de loyer. Modèle gratuit, délais et effets juridiques expliqués.",
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
@@ -3984,8 +3984,8 @@ La mise en demeure n'est pas obligatoire strictement parlant, mais elle est fort
 
   {
     slug: "saisie-salaire-loyer-impaye",
-    title: "Saisie sur salaire pour loyer impaye : procedure et montants recuperables",
-    excerpt: "Quand le locataire ne paie plus son loyer et que la procedure judiciaire a permis d'obtenir un titre executoire, le bailleur peut engager une saisie sur salaire pour recuperer les arrieres.",
+    title: "Saisie sur salaire pour loyer impayé : procédure et montants récupérables",
+    excerpt: "Quand le locataire ne paie plus son loyer et que la procédure judiciaire a permis d'obtenir un titre exécutoire, le bailleur peut engager une saisie sur salaire pour récupérer les arriérés.",
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
@@ -4069,8 +4069,8 @@ La saisie sur salaire dure jusqu'a epuisement de la dette. Si le salarie quitte 
 
   {
     slug: "augmentation-loyer-irl",
-    title: "Augmentation de loyer et IRL 2026 : comment calculer et appliquer la revision",
-    excerpt: "L'augmentation de loyer basee sur l'IRL ne peut pas depasser l'evolution de l'indice. Formule, date de reference, plafonnements et exemples de calcul.",
+    title: "Augmentation de loyer et IRL : comment calculer et appliquer la révision",
+    excerpt: "L'augmentation de loyer basée sur l'IRL ne peut pas dépasser l'évolution de l'indice. Formule, date de référence, plafonnements et exemples de calcul.",
     category: "Calculs",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
@@ -4154,8 +4154,8 @@ Les zones tendues sont definies par arrete prefectoral. Vous pouvez verifier sur
 
   {
     slug: "gestion-locative-gratuite",
-    title: "Gestion locative gratuite : les solutions sans frais pour les proprietaires",
-    excerpt: "Peut-on gerer ses locations gratuitement ? Comparatif des solutions : Excel, applications gratuites et outils en ligne pour les proprietaires.",
+    title: "Gérer ses locations gratuitement : les solutions sans frais",
+    excerpt: "Peut-on gérer ses locations gratuitement ? Comparatif des solutions : Excel, applications gratuites et outils en ligne pour les propriétaires.",
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
@@ -4219,8 +4219,8 @@ Il n'existe pas de vrai logiciel de gestion locative 100% gratuit et complet. Le
 
   {
     slug: "gestion-locative-prix",
-    title: "Gestion locative : prix et tarifs des prestations en 2026 -- agences vs logiciels",
-    excerpt: "Combien coute une gestion locative ? Tarifs des agences, frais de gestion et solutions logicielles. Tout pour bien budgeter votre location.",
+    title: "Gestion locative : prix et tarifs, agence ou logiciel ?",
+    excerpt: "Combien coûte une gestion locative ? Tarifs des agences, frais de gestion et solutions logicielles. Tout pour bien budgéter votre location.",
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
@@ -4799,16 +4799,16 @@ Non, le bail de location n'a pas besoin d'être notarié.
 ,
     {
     slug: "loyer-charges-recuperables",
-    title: "Loyer charges recuperables : liste exhaustive et calcul",
+    title: "Loyer et charges récupérables : la liste complète et le calcul",
     excerpt:
-      "Charges recuperables : la liste complete des charges que le proprietaire peut repercuter sur le locataire. Calcul des provisions, regularisation annuelle et obligations legales.",
+      "Charges récupérables : la liste complète des charges que le propriétaire peut répercuter sur le locataire. Calcul des provisions, régularisation annuelle et obligations légales.",
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
     readTime: "7 min",
     content: `## Loyer charges recuperables : liste exhaustive et calcul
 
-Dans une location, le locataire paie generalement un loyer minor e d'un depot de garantie et verse mensuellement des provisions pour charges recuperables. Ces charges, listees de maniere exhaustive par le decret du 26 mai 2022, peuvent etre repercutees sur le locataire en plus du loyer. Comprendre cette liste et le mecanisme de recuperation est essentiel pour proprietaires comme pour locataires.
+Dans une location, le locataire paie generalement un loyer minor e d'un depot de garantie et verse mensuellement des provisions pour charges recuperables. Ces charges, listées de manière limitative par le décret n° 87-713 du 26 août 1987, peuvent etre repercutees sur le locataire en plus du loyer. Comprendre cette liste et le mecanisme de recuperation est essentiel pour proprietaires comme pour locataires.
 
 ## Qu'est-ce que les charges recuperables ?
 
@@ -4823,7 +4823,7 @@ Cette distinction entre loyer et charges est importante pour le calcul des droit
 
 ## Liste exhaustive des charges recuperables (decret 2022)
 
-Le decret du 26 mai 2022 a modernise et clarifie la liste des charges recuperables. Elle comprend plusieurs categories :
+Le décret n° 87-713 du 26 août 1987 Elle comprend plusieurs categories :
 
 ### Categorie 1 : Eau froide et chaude
 - Consommation d'eau froide et chaude du logement
@@ -4918,7 +4918,7 @@ Le bailleur doit etre en mesure de justifier l'ensemble des charges reclamees au
 
 **Comment savoir si une charge est recuperable ou non ?**
 
-La liste des charges recuperables est limitative et definie par le decret du 26 mai 2022. Si une charge n'y figure pas, elle n'est pas recuperable. En cas de doute, vous pouvez consulter le decret complet ou demander conseil a un professionnel de l'immobilier.
+La liste des charges recuperables est limitative et definie par le décret n° 87-713 du 26 août 1987. Si une charge n'y figure pas, elle n'est pas recuperable. En cas de doute, vous pouvez consulter le decret complet ou demander conseil a un professionnel de l'immobilier.
 
 **Comment sont reparties les charges en cas de colocation ?**
 
@@ -5697,7 +5697,7 @@ Oui, si les deux conditions de seuils sont remplies (23 000 euros et 50 % du rev
   },
     {
     slug: "travaux-entretien-locatif",
-    title: "Travaux d'entretien locatif : qui paie quoi en 2026",
+    title: "Travaux d'entretien locatif : qui paie quoi ?",
     excerpt:
       "Répartition des charges de travaux entre propriétaire et locataire. Guide des réparations locatives et obligations.",
     category: "Juridique",
@@ -6315,7 +6315,7 @@ Le Pinel est particulièrement intéressant si vous êtes fortement imposé et q
   },
     {
     slug: "amortissement-immobilier-locatif",
-    title: "Amortissement d'un bien immobilier locatif : guide fiscal",
+    title: "Amortissement d'un bien locatif : le guide fiscal",
     excerpt:
       "L'amortissement en location meublée : comment fonctionne-t-il ? Guide complet sur l'amortissement comptable LMNP, les durées et le calcul pour optimiser votre fiscalité.",
     category: "Fiscalité",
@@ -8269,7 +8269,7 @@ Préparez les annexes obligatoires :
 
 Vous pouvez rédiger votre bail vous-même ou utiliser un modèle. Attention toutefois à ne pas partir d'un modèle obsolète. La réglementation évolue régulièrement et un modèle de bail ancien peut contenir des clauses devenues caduques.
 
-Notre [modèle de bail de location nue gratuit](/modele-bail-nu) est mis à jour conformément à la réglementation 2026 et inclut toutes les mentions obligatoires.
+Notre [modèle de bail de location nue gratuit](/templates/bail-vide) est mis à jour conformément à la réglementation 2026 et inclut toutes les mentions obligatoires.
 
 ### Étape 4 : Signez en trois exemplaires
 
@@ -8279,7 +8279,7 @@ Le bail doit être signé en trois exemplaires : un pour le bailleur, un pour le
 
 ### Ne pas sous-évaluer le bien
 
-Un loyer trop bas vous fait perdre des revenus légitimes. Un loyer trop élevé peut entraîner la vacance prolongée ou des difficultés de paiement. Utilisez notre [simulateur de rentabilité locative](/simulateur-rendement) pour trouver le juste prix.
+Un loyer trop bas vous fait perdre des revenus légitimes. Un loyer trop élevé peut entraîner la vacance prolongée ou des difficultés de paiement. Utilisez notre [simulateur de rentabilité locative](/outils/calculateur-rendement) pour trouver le juste prix.
 
 ### Oublier de décrire précisément les équipements
 
@@ -8305,7 +8305,7 @@ Sans signature des deux parties, le bail n'est pas valable. Vous ne pouvez pas m
 
 **Peut-on modifier le bail en cours de location ?**
 
-Oui, mais uniquement par avenant signé par les deux parties. Toute modification unilatérale est nulle. Notre [modèle d'avenant au bail](/avenant-bail-location) vous permet de formaliser les modifications acceptées d'un commun accord.
+Oui, mais uniquement par avenant signé par les deux parties. Toute modification unilatérale est nulle. Notre [modèle d'avenant au bail](/blog/rediger-contrat-location) vous permet de formaliser les modifications acceptées d'un commun accord.
 
 **Combien coûte la rédaction par un professionnel ?**
 
@@ -8369,7 +8369,7 @@ Pour être valable, une quittance de loyer doit contenir un certain nombre d'inf
 
 Vous pouvez télécharger notre modèle de quittance de loyer gratuit et le remplir manuellement. Ce modèle est conforme à la réglementation 2026 et inclut toutes les mentions obligatoires.
 
-Cependant, pour gagner du temps et éviter les erreurs, nous vous recommandons d'utiliser notre [générateur de quittance de loyer en ligne](/generateur-quittance-loyer). En 2 minutes, vous obtenez une quittance PDF professionnelle et juridiquement conforme.
+Cependant, pour gagner du temps et éviter les erreurs, nous vous recommandons d'utiliser notre [générateur de quittance de loyer en ligne](/outils/generateur-quittance). En 2 minutes, vous obtenez une quittance PDF professionnelle et juridiquement conforme.
 
 ## Comment remplir une quittance de loyer : pas à pas
 
@@ -8499,7 +8499,7 @@ En adressant le problème dès le premier jour de retard, vous montrez à votre 
 
 ## Modèle de lettre de relance pour loyer impayé
 
-Notre [modèle de lettre de relance pour loyer impayé](/lettre-relance-loyer) est gratuit et personnalisable. Il respecte la forme juridique attendue par les tribunaux et peut être envoyé dès le premier jour de retard.
+Notre [modèle de lettre de relance pour loyer impayé](/outils/lettre-relance-loyer) est gratuit et personnalisable. Il respecte la forme juridique attendue par les tribunaux et peut être envoyé dès le premier jour de retard.
 
 ### Modèle à télécharger
 
@@ -8516,7 +8516,7 @@ Le modèle inclut :
 
 ### Jour 1 : Détection de l'impayé
 
-Dès que la date d'échéance du loyer est dépassée sans réception du paiement, identifiez l'incident. Utilisez un [logiciel de gestion locative](/logiciel-gestion-locative) pour être alerté automatiquement en cas de retard.
+Dès que la date d'échéance du loyer est dépassée sans réception du paiement, identifiez l'incident. Utilisez un [logiciel de gestion locative](/blog/logiciel-gestion-locative-gratuit-vs-payant) pour être alerté automatiquement en cas de retard.
 
 À ce stade, un simple email ou appel peut suffire. Vérifiez d'abord qu'il ne s'agit pas d'un incident technique (virement en cours, problème bancaire).
 
@@ -8533,7 +8533,7 @@ Si le paiement n'est toujours pas réceptionné, envoyez la lettre de relance. N
 
 Si vous n'avez pas de réponse après 8 jours, envoyez une mise en demeure formelle. Cette fois, le courrier doit être plus ferme et mentionner explicitement les conséquences légales d'un non-paiement.
 
-Utilisez notre [modèle de mise en demeure pour loyer impayé](/lettre-mise-en-demeure-loyer) qui inclut les mentions obligatoires et les délais légaux.
+Utilisez notre [modèle de mise en demeure pour loyer impayé](/outils/lettre-relance-loyer) qui inclut les mentions obligatoires et les délais légaux.
 
 ### Après 2 mois : Procédure judiciaire
 
@@ -8591,7 +8591,7 @@ Coût : entre 2 % et 4 % du montant annuel du loyer charges comprises.
 
 ### Utiliser un logiciel de gestion locative
 
-Un [logiciel de gestion locative](/application-gestion-locative) comme RentReady vous alerte automatiquement en cas de retard, génère les lettres de relance, archive vos échanges et constitue un dossier solide en cas de procédure.
+Un [logiciel de gestion locative](/features) comme RentReady vous alerte automatiquement en cas de retard, génère les lettres de relance, archive vos échanges et constitue un dossier solide en cas de procédure.
 
 ## FAQ : Questions fréquentes sur la relance de loyer impayé
 
@@ -8646,7 +8646,7 @@ Avant l'arrivée du locataire, préparez :
 - Un mètre ruban pour vérifier les superficies
 - Un appareil photo pour documenter l'état
 
-Notre [modèle d'état des lieux d'entrée](/etat-des-lieux-entree) vous permet de documenter chaque pièce de manière systématique.
+Notre [modèle d'état des lieux d'entrée](/templates/etat-des-lieux) vous permet de documenter chaque pièce de manière systématique.
 
 ### Pièce par pièce : les points à vérifier
 
@@ -8740,7 +8740,7 @@ L'usure normale résulte de l'utilisation paisible du logement et ne justifie au
 **Si le montant des réparations excède le dépôt :**
 Vous pouvez réclamer le supplément au locataire. En cas de désaccord, saisissez la commission départementale de conciliation.
 
-Notre [modèle d'état des lieux de sortie](/etat-des-lieux-sortie) vous guide dans la comparaison et la justification des retenues.
+Notre [modèle d'état des lieux de sortie](/templates/etat-des-lieux) vous guide dans la comparaison et la justification des retenues.
 
 ## Les outils pour simplifier l'état des lieux
 
@@ -8756,8 +8756,8 @@ Notre outil d'état des lieux intégré à RentReady vous permet de :
 ### Modèles gratuits à télécharger
 
 Si vous préférez réaliser l'état des lieux sur papier, téléchargez nos modèles gratuits :
-- [Modèle d'état des lieux d'entrée](/etat-des-lieux-entree)
-- [Modèle d'état des lieux de sortie](/etat-des-lieux-sortie)
+- [Modèle d'état des lieux d'entrée](/templates/etat-des-lieux)
+- [Modèle d'état des lieux de sortie](/templates/etat-des-lieux)
 
 Ces modèles sont conformes à la réglementation et incluent une checklist détaillée pièce par pièce.
 
@@ -8815,7 +8815,7 @@ L'IRL est publié trimestriellement par l'INSEE. Vous devez utiliser l'IRL du tr
 - Calcul : 800 × (147,12 / 144,77) = 812,96 euros
 - Nouveau loyer : 812,96 euros
 
-Notre [simulateur de révision de loyer IRL](/simulateur-irl) effectue ce calcul automatiquement.
+Notre [simulateur de révision de loyer IRL](/outils/calculateur-irl) effectue ce calcul automatiquement.
 
 ### L'augmentation de loyer lors du renouvellement du bail
 
@@ -8864,7 +8864,7 @@ Assurez-vous qu'une clause de révision est présente et qu'elle précise les mo
 **Étape 2 : Calculez le nouveau loyer**
 Utilisez la formule : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL)
 
-Notre [calculateur de révision de loyer](/calculateur-revision-loyer) vous permet d'effectuer ce calcul en 3 clics.
+Notre [calculateur de révision de loyer](/outils/calculateur-irl) vous permet d'effectuer ce calcul en 3 clics.
 
 **Étape 3 : Informez votre locataire**
 Adressez un courrier ou un email à votre locataire avant la date d'anniversaire du bail, en lui précisant :
@@ -8874,7 +8874,7 @@ Adressez un courrier ou un email à votre locataire avant la date d'anniversaire
 - La date d'effet de l'augmentation
 
 **Étape 4 : Mettez à jour votre comptabilité**
-Enregistrez le nouveau loyer dans votre [logiciel de gestion locative](/logiciel-gestion-locative) à partir de la date d'effet.
+Enregistrez le nouveau loyer dans votre [logiciel de gestion locative](/blog/logiciel-gestion-locative-gratuit-vs-payant) à partir de la date d'effet.
 
 ### Lors du renouvellement : la proposition d'augmentation
 
@@ -8919,7 +8919,7 @@ Joignez à votre courrier le détail du calcul (anciens et nouveaux indices, for
 Si vous avez réalisé des travaux d'amélioration, conservez les factures et les devis. Ils justifient une augmentation supérieure à l'IRL en zone tendue.
 
 **Utilisez un logiciel de gestion locative**
-Un [logiciel comme RentReady](/application-gestion-locative) calcule automatiquement vos augmentations de loyer, vous alerte en cas de plafonds dépassés et archive vos échanges.
+Un [logiciel comme RentReady](/features) calcule automatiquement vos augmentations de loyer, vous alerte en cas de plafonds dépassés et archive vos échanges.
 
 ## FAQ : Questions fréquentes sur l'augmentation de loyer
 
@@ -8947,7 +8947,7 @@ Appliquez la procédure de relance pour loyer impayé. Si le locataire conteste 
   },
   {
     slug: "gestion-locative-en-ligne-avantages-comparatif-2026",
-    title: "Gestion locative en ligne : avantages et comparatif 2026",
+    title: "Gestion locative en ligne : avantages et comparatif",
     excerpt:
       "Logiciel de gestion locative en ligne : quels avantages ? Comparatif gratuit vs payant, fonctionnalités clés, et comment choisir le meilleur outil pour votre patrimoine.",
     category: "Gestion",
@@ -8975,7 +8975,7 @@ Toutes ces tâches sont automatisées. Vous vous concentrez sur les décisions s
 
 ### Réduction des erreurs et des litiges
 
-Les erreurs de calcul de charges, les quittances incomplètes, les oublis de relève de compteur... Ces erreurs sont coûteuses et source de litiges. Un [logiciel de gestion locative](/logiciel-gestion-locative) effectue ces calculs automatiquement et vous alerte en cas d'anomalie.
+Les erreurs de calcul de charges, les quittances incomplètes, les oublis de relève de compteur... Ces erreurs sont coûteuses et source de litiges. Un [logiciel de gestion locative](/blog/logiciel-gestion-locative-gratuit-vs-payant) effectue ces calculs automatiquement et vous alerte en cas d'anomalie.
 
 [CTA : Testez RentReady gratuitement pendant 30 jours — gestion locative complète en ligne — essai gratuit]
 
@@ -9075,13 +9075,13 @@ Consultez les avis sur les plateformes d'évaluation en ligne. Attention aux avi
 RentReady est un logiciel de gestion locative en ligne conçu spécifiquement pour les propriétaires français. Il couvre l'ensemble de vos besoins :
 
 **Fonctionnalités clés :**
-- [Gestion des paiements](/application-gestion-locative) : suivi automatique, alertes de retard, relances
-- [Génération de quittances PDF](/quittance-loyer) : en 2 minutes, conformes et archivées
-- [Modèles de bail](/modele-bail-location) : gratuits, mis à jour 2026, personnalisables
-- [Calcul de révision IRL](/simulateur-irl) : automatique selon les derniers indices
-- [État des lieux numérique](/etat-des-lieux) : checklist interactive, photos intégrées
-- [Suivi des travaux](/demande-intervention) : demandes de maintenance, devis, suivi
-- [Reporting patrimoine](/tableau-bord-investisseur) : rentabilité, vacance, trésorerie
+- [Gestion des paiements](/features) : suivi automatique, alertes de retard, relances
+- [Génération de quittances PDF](/outils/generateur-quittance) : en 2 minutes, conformes et archivées
+- [Modèles de bail](/outils/modele-bail-location) : gratuits, mis à jour 2026, personnalisables
+- [Calcul de révision IRL](/outils/calculateur-irl) : automatique selon les derniers indices
+- [État des lieux numérique](/templates/etat-des-lieux) : checklist interactive, photos intégrées
+- [Suivi des travaux](/blog/travaux-entretien-locatif) : demandes de maintenance, devis, suivi
+- [Reporting patrimoine](/features) : rentabilité, vacance, trésorerie
 
 ## FAQ : Questions fréquentes sur la gestion locative en ligne
 
@@ -9194,7 +9194,7 @@ Oui, les règles de plus-value sont identiques. Cependant, le régime fiscal de 
   },
   {
     slug: "travaux-deductibles-impot-location",
-    title: "Travaux deductibles des revenus fonciers : liste complete 2026",
+    title: "Travaux déductibles des revenus fonciers : la liste complète",
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -9298,7 +9298,7 @@ Conservez toutes les factures avec mention claire de la nature des travaux, du m
   },
   {
     slug: "frais-gestion-locative-deductibles",
-    title: "Frais de gestion locative deductibles : agences, comptable, assurance",
+    title: "Frais de gestion locative déductibles : agences, comptable, assurance",
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -9401,12 +9401,12 @@ La loi ne l'exige pas, mais c'est fortement recommandé pour une bonne gestion e
   },
   {
     slug: "deficit-foncier-impot-2026",
-    title: "Déficit foncier et impot : comment le defalquer en 2026",
+    title: "Déficit foncier et impôt : comment le déduire",
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
     readTime: "7 min",
-    content: `## Déficit foncier et impot : guide complet pour les propriétaires bailleurs 2026
+    content: `## Déficit foncier et impôt : guide complet pour les propriétaires bailleurs
 
 Le déficit foncier permet de réduire votre imposition globale lorsque vos charges locatives dépassent vos revenus. Une optimisation fiscale puissante mais encadrée. Ce guide détaille le mécanisme, les conditions et les limites du déficit foncier.
 
@@ -9503,7 +9503,7 @@ Oui, les travaux d'amélioration énergétique sont déductibles et peuvent cré
   },
   {
     slug: "amenagement-local-pro-impot",
-    title: "Amortissement et travaux d'amenagement LMNP : guide fiscal 2026",
+    title: "Amortissement et travaux d'aménagement en LMNP : le guide fiscal",
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -9601,7 +9601,7 @@ Non, le déficit LMNP (amortissement) reporte uniquement sur les bénéfices LMN
   },
   {
     slug: "recours-locataire-procedure",
-    title: "Recours locataire : procedure, tribunal et mediation en cas de litige",
+    title: "Recours du locataire : procédure, tribunal et médiation en cas de litige",
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -9710,7 +9710,7 @@ Oui, si le tribunal estime que le locataire a manqué à ses obligations (par ex
   },
   {
     slug: "locataire-pertes-handicap",
-    title: "Recours du locataire handicape : allocations et protections speciales 2026",
+    title: "Locataire handicapé : recours, allocations et protections spécifiques",
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -9805,7 +9805,7 @@ La Caf peut accorder une avance locative pour le dépôt de garantie. Certaines 
   },
   {
     slug: "trouble-voisinage-recours-locataire",
-    title: "Trouble de voisinage en location : recours du locataire et du proprietaire",
+    title: "Trouble de voisinage en location : les recours du locataire et du propriétaire",
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -9910,7 +9910,7 @@ L'action en justice se prescribe par 5 ans à compter de la cessation du trouble
   },
   {
     slug: "assurance-proprietaire-non-occupant-obligations",
-    title: "Assurance proprietaire non-occupant (PNO) : obligations et couverture 2026",
+    title: "Assurance propriétaire non occupant (PNO) : obligations et couverture",
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -10017,7 +10017,7 @@ Les tarifs varient de 100 à 400 € par an selon la valeur du bien, sa localisa
   },
   {
     slug: "assurance-proprietaire-bailleur-protection",
-    title: "Protection du bailleur : quelle assurance contre les risques en 2026",
+    title: "Protection du bailleur : quelle assurance contre les risques locatifs ?",
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -10124,7 +10124,7 @@ L'agence assure un suivi professionnel et une intervención rapide. En contrepar
   },
   {
     slug: "assurance-gli-vs-protection-juridique",
-    title: "GLI ou protection juridique : quelle assurance pour le proprietaire bailleur",
+    title: "GLI ou protection juridique : quelle assurance pour le bailleur ?",
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -10215,7 +10215,7 @@ Oui, les cotisations de protection juridique sont déductibles des revenus fonci
   },
   {
     slug: "investissement-locatif-2026",
-    title: "Investissement locatif en 2026 : guide complet pour debuter",
+    title: "Investissement locatif : le guide complet pour débuter",
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -10350,7 +10350,7 @@ Pour un premier investissement, l'agence apporte son expertise du marché. La ge
   },
   {
     slug: "rentabilite-locative-nette-brut",
-    title: "Rentabilite locative nette vs brute : comment la calculer en 2026",
+    title: "Rentabilité locative nette ou brute : comment la calculer",
     category: "Calculs",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -10467,7 +10467,7 @@ Non. La appreciation potentielle du bien, les avantages fiscaux et la qualité d
   },
   {
     slug: "investissement-immobilier-neuf-ancien",
-    title: "Immobilier neuf vs ancien : avantages et inconvenients pour investir",
+    title: "Immobilier neuf ou ancien : avantages et inconvénients pour investir",
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -10591,7 +10591,7 @@ Tout dépend de l'emplacement. En zone tendue, les deux se louent facilement. En
   },
   {
     slug: "location-etudiante-guide-complet",
-    title: "Location etudiante : guide complet du bailleur en 2026",
+    title: "Location étudiante : le guide complet du bailleur",
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
@@ -11063,7 +11063,7 @@ Oui, les mêmes règles s'appliquent.
   },
   {
     slug: "droits-et-obligations-locataire-guide-complet",
-    title: "Droits et Obligations du Locataire : Guide Complet 2026",
+    title: "Droits et obligations du locataire : le guide complet",
     excerpt:
       "Connaissez tous vos droits et obligations en tant que locataire : paiement du loyer, entretien, assurance, préavis, garanties et recours.",
     category: "Juridique",
@@ -11106,7 +11106,7 @@ Non, sauf cas d'urgence, le bailleur doit respecter un préavis de 48 heures min
   },
   {
     slug: "droits-et-obligations-bailleur-guide-complet",
-    title: "Droits et Obligations du Bailleur : Ce Que la Loi Impose en 2026",
+    title: "Droits et obligations du bailleur : ce que la loi impose",
     excerpt:
       "Tout ce que le bailleur doit savoir : délivrer un logement décent, entretien, assurance, garantie, sanctions.",
     category: "Juridique",
@@ -11262,9 +11262,9 @@ Les deux parties ensemble ou un huissier en cas de désaccord.
   },
   {
     slug: "cout-gestion-locative-prix-2026",
-    title: "Gestion Locative : Combien Ça Coûte en 2026 ?",
+    title: "Combien coûte une gestion locative en 2026 ?",
     excerpt:
-      "Prix de la gestion locative : honoraires de syndic, frais de gestion, tarif des logiciels en ligne.",
+      "Prix de la gestion locative : honoraires de syndic, frais de gestion et tarifs des logiciels en ligne.",
     category: "Gestion",
     date: "2026-05-20",
     updatedAt: "2026-05-20",
@@ -11324,7 +11324,7 @@ Oui, au taux légal de 5 % en 2026.
   },
   {
     slug: "interets-retard-loyer-impaye-calcul",
-    title: "Comment Calculer les Intérêts de Retard sur Loyer Impayé",
+    title: "Calculer les intérêts de retard sur un loyer impayé",
     excerpt:
       "Calcul des intérêts de retard : taux légal, formule, dates d'exigibilité.",
     category: "Calculs",
@@ -11353,7 +11353,7 @@ Non, sans courrier formalisant la demande, le locataire n'est pas en tort.
   },
   {
     slug: "dossier-location-complet-pieces-fournir",
-    title: "Dossier de Location : Que Doit Contenir un Dossier Complet ?",
+    title: "Dossier de location : que doit contenir un dossier complet ?",
     excerpt:
       "Pièces à fournir pour un dossier de location : documents obligatoires, justificatifs, garanties.",
     category: "Gestion",
@@ -11421,7 +11421,7 @@ Oui, pour des biens différents.
   },
   {
     slug: "declaration-revenus-locatifs-2026",
-    title: "Comment Déclarer ses Revenus Locatifs aux Impôts en 2026",
+    title: "Déclarer ses revenus locatifs aux impôts : régime micro-foncier ou réel",
     excerpt:
       "Déclaration de revenus locatifs : formulaires 2044, 2031, régimes micro-foncier et réel, dates limites.",
     category: "Fiscalité",
@@ -11454,7 +11454,7 @@ Oui, dans un délai de 3 mois après la date limite.
   },
   {
     slug: "micro-foncier-ou-reel-comparaison-2026",
-    title: "Régime Micro-Foncier vs Réel : Quelle Option Choisir en 2026 ?",
+    title: "Micro-foncier ou réel : quel régime fiscal choisir ?",
     excerpt:
       "Micro-foncier ou régime réel : comparaison, abattement, charges déductibles, déficit.",
     category: "Fiscalité",
@@ -11520,7 +11520,7 @@ Non, les deux dispositifs ne peuvent pas se cumuler sur un même bail.
   },
   {
     slug: "assurance-proprietaire-non-occupant-guide-2026",
-    title: "Assurance Propriétaire Non Occupant : Guide Complet 2026",
+    title: "Assurance propriétaire non occupant (PNO) : garanties et obligations",
     excerpt:
       "Assurance PNO : obligations légales, garanties essentielles, risques couverts, coût moyen.",
     category: "Juridique",
