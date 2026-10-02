@@ -8,9 +8,44 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  // Better Auth rejects a callback whose origin is not listed here. Hardcoding
+  // "http://localhost:3000" meant that on any other port the CSRF origin check
+  // failed, so sign-in and magic links were refused with a bare 403. Accept the
+  // configured origin, plus the localhost ports used in development.
+  // Better Auth's origin check rejects any callback not listed here with
+  // INVALID_ORIGIN, which surfaced as a silent hang: registration succeeded and
+  // returned a userId, then signIn.email never completed, leaving the new user on
+  // /register with no error.
+  //
+  // In production only the configured public origin is trusted. In development
+  // the loopback range is trusted wholesale, because pinning individual ports
+  // breaks on the next port anyone chooses.
+  // Better Auth's origin check rejects any callback not listed here with
+  // INVALID_ORIGIN, which surfaced as a silent hang: registration succeeded and
+  // returned a userId, then signIn.email never completed, leaving the new user
+  // stuck on /register with no error shown.
+  //
+  // Patterns use Better Auth's own wildcard syntax ("*" and "?"), not RegExp —
+  // matchesOriginPattern calls pattern.includes(...), which a RegExp does not
+  // have. Enumerating ports is whack-a-mole, so the whole loopback range is
+  // trusted in development and only the configured origin in production.
   trustedOrigins: [
-    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
-  ],
+    ...(process.env.NEXT_PUBLIC_AUTH_URL
+      ? [process.env.NEXT_PUBLIC_AUTH_URL]
+      : process.env.NEXT_PUBLIC_APP_URL
+        ? [process.env.NEXT_PUBLIC_APP_URL]
+        : []),
+    ...(process.env.NODE_ENV === "production"
+      ? []
+      : [
+          "http://localhost",
+          "http://127.0.0.1",
+          // Any loopback port, for `next dev -p <n>`.
+          "http://localhost:*",
+          "http://127.0.0.1:*",
+        ]),
+  ].filter((origin): origin is string => Boolean(origin)),
+
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
