@@ -97,8 +97,9 @@ export async function ArrearsSection({ userId }: { userId: string }) {
                       variant="outline"
                       className="text-xs text-red-700 border-red-200"
                     >
-                      {exception.daysLate} jour
-                      {exception.daysLate > 1 ? "s" : ""} de retard
+                      {exception.daysLate === 0
+                        ? "Échéance aujourd'hui"
+                        : `${exception.daysLate} jour${exception.daysLate > 1 ? "s" : ""} de retard`}
                     </Badge>
                   </p>
                 </div>

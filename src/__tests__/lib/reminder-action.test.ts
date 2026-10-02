@@ -23,19 +23,20 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Decimal from "decimal.js";
 
-const { storeRef, sendMock, renderToBufferMock, documentCountMock, draftMock, notificationCreate } =
+const { storeRef, sendMock, emailRenderMock, documentCountMock, draftMock, notificationCreate } =
   vi.hoisted(() => {
     const storeRef = { current: null as unknown };
-    // Invokes the element's component the way the real renderer would, so the
-    // props the email was built from are observable. A stub that returned a
-    // fixed buffer without rendering would prove nothing about the amount.
-    const renderToBufferMock = vi.fn(
+    // Records the props the email was built from, then returns HTML. This is a
+    // stand-in for `@react-email/components`' `render`, which is the renderer
+    // the action actually uses; the real one is covered unmocked in
+    // `reminder-email-render.test.tsx`, which is what pins the engine choice.
+    const emailRenderMock = vi.fn(
       async (element: { type?: unknown; props?: Record<string, unknown> }) => {
         const type = element?.type;
         if (typeof type === "function") {
           (type as (props: Record<string, unknown>) => unknown)(element.props ?? {});
         }
-        return Buffer.from("<html>relance</html>");
+        return "<html>relance</html>";
       }
     );
     // Typed so `mock.calls` entries are real tuples rather than `[]` — an
@@ -63,7 +64,7 @@ const { storeRef, sendMock, renderToBufferMock, documentCountMock, draftMock, no
     return {
       storeRef,
       sendMock,
-      renderToBufferMock,
+      emailRenderMock,
       documentCountMock,
       draftMock,
       notificationCreate,
@@ -85,14 +86,18 @@ vi.mock("@/lib/ai/lease-analyzer", () => ({
 }));
 vi.mock("@/lib/auth", () => ({ getCurrentUserId: vi.fn(async () => "landlord-1") }));
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
-// The PDF render is not what is under test; a buffer is enough to reach the send.
-// `StyleSheet` is included because `quittance-generator` builds its styles at
-// module scope, and the action imports it transitively.
+// Only `render` is stubbed — the React Email primitives stay real, so a change
+// that reached for a different renderer (the PDF engine, which cannot read a
+// react-email tree) is not silently absorbed by this mock. The action no longer
+// imports `@react-pdf/renderer`; it is still mocked below because
+// `quittance-generator` builds its `StyleSheet` at module scope and the action
+// imports it transitively.
+vi.mock("@react-email/components", async (importOriginal) => ({
+  ...(await importOriginal<Record<string, unknown>>()),
+  render: emailRenderMock,
+}));
 vi.mock("@react-pdf/renderer", () => ({
-  // Invokes the element's component, the way the real renderer would, so the
-  // props the email was built from are observable. Returning a fixed buffer
-  // without rendering would prove nothing about which figure was passed in.
-  renderToBuffer: renderToBufferMock,
+  renderToBuffer: vi.fn(),
   StyleSheet: { create: (sheet: Record<string, unknown>) => sheet },
   pdf: vi.fn(),
   Document: () => null,
@@ -100,9 +105,10 @@ vi.mock("@react-pdf/renderer", () => ({
   Text: () => null,
   View: () => null,
 }));
-vi.mock("../../emails/payment-reminder", () => ({
-  PaymentReminderEmail: () => null,
-}));
+// The email module is deliberately NOT mocked: the real `PaymentReminderEmail`
+// is what reaches the renderer. Only `render` itself is stubbed, so the props
+// the template was built from are observable without the PDF engine being
+// reachable as a silent substitute.
 
 import { sendPaymentReminder } from "@/lib/actions/transaction-actions";
 import {
@@ -222,7 +228,7 @@ describe("sendPaymentReminder — the guard", () => {
 
     // The figure the tenant is asked for is the balance still owed (570.55),
     // not the month's original rent the period was generated with.
-    const [renderCall] = renderToBufferMock.mock.calls[0];
+    const [renderCall] = emailRenderMock.mock.calls[0];
     expect(renderCall.props?.amountDue).toBe(570.55);
   });
 
@@ -284,6 +290,18 @@ describe("sendPaymentReminder — what it reports back", () => {
     expect(sendMock).toHaveBeenCalledTimes(1);
     // And nothing is logged as sent when nothing was sent.
     expect(notificationCreate).not.toHaveBeenCalled();
+  });
+
+  it("hands the provider HTML, not binary", async () => {
+    // `html:` is an HTML field. A Buffer here would ship PDF bytes to the tenant,
+    // and the action would still report the relance as sent.
+    useTransaction(transaction());
+    accepted();
+
+    await sendPaymentReminder("period-1", "friendly");
+
+    expect(typeof sentPayload().html).toBe("string");
+    expect(sentPayload().html).not.toMatch(/^%PDF/);
   });
 
   it("records the reminder against the owner who asked for it", async () => {

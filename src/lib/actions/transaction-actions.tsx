@@ -243,12 +243,12 @@ export async function sendPaymentReminder(
       : undefined;
 
     // Dynamic imports to prevent Next.js build analysis of React Email components
-    const [{ renderToBuffer }, { PaymentReminderEmail }] = await Promise.all([
-      import("@react-pdf/renderer"),
+    const [{ render }, { PaymentReminderEmail }] = await Promise.all([
+      import("@react-email/components"),
       import("../../emails/payment-reminder"),
     ]);
 
-    const emailHtml = await renderToBuffer(
+    const emailHtml = await render(
       <PaymentReminderEmail
         tenantFirstName={tenant.firstName}
         landlordFirstName={user.firstName}
@@ -271,7 +271,7 @@ export async function sendPaymentReminder(
           : tone === "formal"
             ? `Relance pour loyer impayé - ${property.addressLine1}`
             : "Rappel : votre loyer en attente",
-      html: emailHtml.toString(),
+      html: emailHtml,
     });
 
     if (emailResult.error) {
