@@ -30,6 +30,7 @@ const PUBLIC_PATHS = [
   "/robots.txt",
   "/manifest.webmanifest",
   "/gestion-locative",
+  "/villes",
   "/locations",
   "/bail",
   "/quittances",

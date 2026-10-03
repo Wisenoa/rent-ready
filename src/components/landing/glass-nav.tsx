@@ -4,13 +4,28 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { SmartHeaderCta } from "@/components/smart-header-cta";
 
+/**
+ * `/gestion-locative` used to be labelled "Fonctionnalités" while being a
+ * directory of 50 city links. It is now the product page, so the label finally
+ * matches the destination, and `/features` (the detailed list) took the old
+ * name.
+ *
+ * `/comparatif` was reachable from nowhere except its own hub and its own
+ * breadcrumbs: eight pages, including the three head-to-head comparisons with
+ * Gercleo, ImmoTop and LegalPlace, invisible to a user who never guessed the
+ * URL. Those pages match the exact intent someone has when they type
+ * "comparatif logiciel gestion locative", so they belong in the nav.
+ * `/outils` was likewise missing while holding the 18 calculators.
+ */
 const NAV_LINKS = [
-  { href: "/gestion-locative", label: "Fonctionnalités" },
-  { href: "/locations", label: "Gestion locative" },
-  { href: "/bail", label: "Baux" },
-  { href: "/quittances", label: "Quittances" },
+  { href: "/gestion-locative", label: "Gestion locative" },
+  { href: "/features", label: "Fonctionnalités" },
+  { href: "/outils", label: "Outils" },
   { href: "/templates", label: "Modèles" },
   { href: "/guides", label: "Guides" },
+  { href: "/comparatif", label: "Comparatifs" },
+  { href: "/bail", label: "Baux" },
+  { href: "/quittances", label: "Quittances" },
   { href: "/blog", label: "Blog" },
   { href: "/glossaire-immobilier", label: "Glossaire" },
   { href: "/pricing", label: "Tarifs" },

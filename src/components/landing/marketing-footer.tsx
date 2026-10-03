@@ -5,9 +5,14 @@ import { useState } from "react";
 
 const FOOTER_LINKS = {
   Produit: [
-    { href: "/gestion-locative", label: "Fonctionnalités" },
+    { href: "/gestion-locative", label: "Logiciel de gestion locative" },
     { href: "/features", label: "Fonctionnalités détaillées" },
-    { href: "/locations", label: "Gestion locative" },
+    { href: "/locations", label: "Gestion de mes locations" },
+    // `/comparatif` was listed nowhere in the footer or the nav: the three
+    // head-to-head pages (Gercleo, ImmoTop, LegalPlace) were only reachable by
+    // typing the URL.
+    { href: "/comparatif", label: "Comparatifs" },
+    { href: "/villes", label: "Villes couvertes" },
     { href: "/bail", label: "Baux" },
     { href: "/quittances", label: "Quittances" },
     { href: "/entretien", label: "Entretien" },
@@ -34,9 +39,13 @@ const FOOTER_LINKS = {
     { href: "https://github.com/Wisenoa/rent-ready/blob/master/docs/API_OPENAPI_SPEC.yaml", label: "API Spec" },
   ],
   Outils: [
-    { href: "/guides/irl-2026", label: "Révision IRL 2026" },
-    { href: "/outils/calculateur-loyer", label: "Calculateur de loyer" },
+    // The real calculators, not the decorative ones. `/outils/calculateur-loyer`
+    // was promoted here while multiplying a surface by a price — the "zone
+    // tendue" field it collects was never read by the calculation.
+    { href: "/outils/calculateur-irl", label: "Calculateur IRL" },
+    { href: "/outils/calculateur-charges-locatives", label: "Charges locatives" },
     { href: "/outils/calculateur-depot-garantie", label: "Dépôt de garantie" },
+    { href: "/outils/generateur-quittance", label: "Générer une quittance" },
     { href: "/outils/calculateur-rendement", label: "Rendement locatif" },
     { href: "/outils/lettre-relance-loyer", label: "Lettre de relance" },
     { href: "/templates/bail-vide", label: "Modèle bail PDF" },
