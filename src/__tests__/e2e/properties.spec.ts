@@ -1,5 +1,5 @@
 import { test, expect } from './helpers/fixtures'
-import { registerTestUser, loginTestUser } from './helpers/auth'
+import { registerTestUser, loginTestUser, uniqueEmail } from './helpers/auth'
 
 test.describe('Property Management', () => {
   const testProperty = {
@@ -14,8 +14,8 @@ test.describe('Property Management', () => {
 
   test.beforeEach(async ({ page }) => {
     // Register and login before each property test
-    const uniqueEmail = `e2e.prop.${Date.now()}@rentready.io`
-        await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('prop')
+        await registerTestUser(page, accountEmail)
   })
 
   test('properties page loads with empty state', async ({ page }) => {

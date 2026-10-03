@@ -59,11 +59,9 @@ export function TenantsEmptyState({ onStartWizard }: TenantsEmptyStateProps) {
           Configurer avec guide
         </Button>
         <TenantForm>
-          <Button variant="outline">
             <Plus className="size-4 mr-2" />
             Ajouter un locataire
-          </Button>
-        </TenantForm>
+          </TenantForm>
       </div>
 
       <p className="text-xs text-muted-foreground mt-6">

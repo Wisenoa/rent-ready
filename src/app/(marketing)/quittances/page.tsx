@@ -334,7 +334,7 @@ interopérable.
 <h2 className="text-2xl font-bold sm:text-3xl">
 Générez votre première quittance gratuitement
 </h2>
-<p className="mx-auto mt-3 max-w-xl text-stone-700">
+<p className="mx-auto mt-3 max-w-xl text-stone-300">
 Essai 14 jours sans carte bancaire. Créez vos quittances, envoyez-les à
 vos locataires.
 </p>

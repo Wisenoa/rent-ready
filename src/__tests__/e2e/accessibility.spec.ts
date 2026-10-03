@@ -2,6 +2,8 @@ import { test, expect } from './helpers/fixtures'
 import { type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { registerTestUser, uniqueEmail } from './helpers/auth'
+import { realErrors } from './helpers/console'
+
 
 /**
  * WCAG 2.1 AA Accessibility Audit
@@ -70,21 +72,7 @@ test.describe('Marketing Pages — Accessibility Audit', () => {
         `accessibility violations on ${page.url}:\n  ${summary.join('\n  ')}`
       ).toEqual([])
 
-      // Console errors that are not the framework's own noise.
-      const criticalErrors = errors.filter(
-        (e) =>
-          !e.includes('favicon') &&
-          !e.includes('hydration') &&
-          !e.includes('Warning') &&
-          !e.includes('zod') &&
-          // Next.js injects its dev overlay and telemetry scripts, which the
-          // Content-Security-Policy in next.config.ts blocks. That is a dev-only
-          // artifact, not a defect in the page.
-          !e.includes('va.vercel-scripts.com') &&
-          !e.includes('Content Security Policy') &&
-          !e.includes('Failed to load resource')
-      )
-      expect(criticalErrors).toEqual([])
+      expect(realErrors(errors)).toEqual([])
     })
   }
 
@@ -176,14 +164,7 @@ test.describe('App Pages — Accessibility Audit', () => {
           console.log(`Critical violations on ${page.url}:`, summary)
         }
 
-        const criticalErrors = errors.filter(
-          (e) =>
-            !e.includes('favicon') &&
-            !e.includes('hydration') &&
-            !e.includes('Warning') &&
-            !e.includes('zod')
-        )
-        expect(criticalErrors).toHaveLength(0)
+        expect(realErrors(errors)).toHaveLength(0)
       })
     } else {
       test(`${page.name} (${page.url}) has no critical WCAG violations (authenticated)`, async ({
@@ -227,14 +208,7 @@ test.describe('App Pages — Accessibility Audit', () => {
           console.log(`Critical violations on ${page.url}:`, summary)
         }
 
-        const criticalErrors = errors.filter(
-          (e) =>
-            !e.includes('favicon') &&
-            !e.includes('hydration') &&
-            !e.includes('Warning') &&
-            !e.includes('zod')
-        )
-        expect(criticalErrors).toHaveLength(0)
+        expect(realErrors(errors)).toHaveLength(0)
       })
     }
   }

@@ -1195,7 +1195,7 @@ const glossaryTerms = [
     term: "Acte authentique",
     definition:
       "Document rédigé par un notaire qui confère une valeur probatoire légale maximale. L'acte de vente immobilière est un acte authentique qui doit être signé devant notaire.",
-    related: ["Notaire", "Acte de vente", "Notaire"],
+    related: ["Notaire", "Acte de vente"],
   },
   {
     term: "Agios",
@@ -2764,7 +2764,11 @@ export default function GlossaireImmobilierPage() {
                             <p className="text-sm text-stone-600">
                               Voir aussi:{" "}
                               {item.related.map((rel, i) => (
-                                <span key={rel}>
+                                // Indexed, not the label: a repeated « Voir aussi »
+                                // entry must not collide. It did — one glossary
+                                // term listed « Notaire » twice, React warned, and
+                                // the item could be duplicated or dropped.
+                                <span key={`${rel}-${i}`}>
                                   {i > 0 && " • "}
                                   <a
                                     href={`#${rel[0].toUpperCase()}`}

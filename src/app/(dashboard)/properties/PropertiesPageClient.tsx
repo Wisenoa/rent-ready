@@ -71,17 +71,17 @@ export function PropertiesPageClient({ properties, tenants }: PropertiesPageClie
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <LeaseForm properties={propertiesForLeaseForm} tenants={tenants}>
-            <Button variant="outline">
-              <FileText className="size-4 mr-2" />
-              Créer un bail
-            </Button>
+            <FileText className="size-4 mr-2" />
+            Créer un bail
           </LeaseForm>
+          {/* Content, not a <Button>: the form renders its own trigger button,
+              so passing one nests a button in a button. */}
           <PropertyForm
             trigger={
-              <Button>
+              <>
                 <Plus className="size-4 mr-2" />
                 Ajouter un bien
-              </Button>
+              </>
             }
           />
         </div>

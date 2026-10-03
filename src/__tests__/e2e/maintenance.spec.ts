@@ -1,10 +1,11 @@
 import { test, expect } from './helpers/fixtures'
-import { registerTestUser } from './helpers/auth'
+import { registerTestUser, uniqueEmail } from './helpers/auth'
+import { realErrors } from './helpers/console'
 
 test.describe('Maintenance Request Flow', () => {
   async function setupUserWithPropertyAndTenant(page: any) {
-    const uniqueEmail = `e2e.maint.${Date.now()}@rentready.io`
-        await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('maint')
+        await registerTestUser(page, accountEmail)
     // Create a property
     await page.goto('/properties')
     await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
@@ -31,12 +32,12 @@ test.describe('Maintenance Request Flow', () => {
     await page.getByRole('button', { name: /créer|ajouter/i }).click()
     await expect(page.getByText('Jean Michelin')).toBeVisible({ timeout: 10_000 })
 
-    return uniqueEmail
+    return accountEmail
   }
 
   test('maintenance page loads and shows empty state', async ({ page }) => {
-    const uniqueEmail = `e2e.maint.empty.${Date.now()}@rentready.io`
-        await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('maint.empty')
+        await registerTestUser(page, accountEmail)
     await page.goto('/maintenance')
     // Page should load with some maintenance-related heading or content
     const body = await page.textContent('body')
@@ -136,8 +137,8 @@ test.describe('Maintenance Request Flow', () => {
   })
 
   test('maintenance page no JS errors on load', async ({ page }) => {
-    const uniqueEmail = `e2e.maint.errors.${Date.now()}@rentready.io`
-        await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('maint.errors')
+        await registerTestUser(page, accountEmail)
     const errors: string[] = []
     page.on('console', (msg) => {
       if (msg.type() === 'error') errors.push(msg.text())
@@ -146,9 +147,6 @@ test.describe('Maintenance Request Flow', () => {
     await page.goto('/maintenance')
     await page.waitForLoadState('networkidle')
 
-    const criticalErrors = errors.filter(
-      (e) => !e.includes('favicon') && !e.includes('hydration') && !e.includes('Warning')
-    )
-    expect(criticalErrors).toHaveLength(0)
+    expect(realErrors(errors)).toHaveLength(0)
   })
 })

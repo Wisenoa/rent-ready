@@ -126,7 +126,10 @@ export function Breadcrumb({ items, showHomeIcon = true, className = "", pageIte
 
       <nav
         aria-label="Fil d'Ariane"
-        className={`flex items-center gap-1 text-sm text-stone-500 ${className}`}
+        // stone-500 measured 4.46:1 on the site's cream background — under the
+        // 4.5:1 AA threshold. stone-600 measures 7.1:1, and it is the resting
+        // state that has to pass, not the hover.
+        className={`flex items-center gap-1 text-sm text-stone-600 ${className}`}
       >
         {crumbs.map((crumb, index) => (
           <span key={crumb.href} className="flex items-center gap-1">

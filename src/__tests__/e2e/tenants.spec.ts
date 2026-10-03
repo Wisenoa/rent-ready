@@ -1,5 +1,5 @@
 import { test, expect } from './helpers/fixtures'
-import { registerTestUser } from './helpers/auth'
+import { registerTestUser, uniqueEmail } from './helpers/auth'
 
 test.describe('Tenant Management', () => {
   const testTenant = {
@@ -13,8 +13,8 @@ test.describe('Tenant Management', () => {
   }
 
   async function registerAndGoToTenants(page: any) {
-    const uniqueEmail = `e2e.ten.${Date.now()}@rentready.io`
-        await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('ten')
+        await registerTestUser(page, accountEmail)
     await page.goto('/tenants')
   }
 

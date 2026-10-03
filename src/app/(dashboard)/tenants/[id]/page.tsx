@@ -146,9 +146,7 @@ export default async function TenantDetailPage({ params }: Props) {
         </div>
         <div className="flex items-center gap-2">
           <TenantForm tenant={serialized}>
-            <Button variant="outline" size="sm">
-              Modifier
-            </Button>
+            Modifier
           </TenantForm>
           <DeleteTenantButton
             tenantId={tenant.id}

@@ -476,7 +476,7 @@ export default function FeaturesPage() {
                   aria-hidden
                 >
                   <div className="flex h-48 w-48 items-center justify-center rounded-full bg-gradient-to-br from-blue-100/60 to-teal-100/60">
-                    <Icon className="h-20 w-20 text-blue-500/40" strokeWidth={1} />
+                    <Icon className="h-20 w-20 text-blue-600/40" strokeWidth={1} />
                   </div>
                 </div>
               </section>

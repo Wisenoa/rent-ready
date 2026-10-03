@@ -1,10 +1,10 @@
 import { test, expect } from './helpers/fixtures'
-import { registerTestUser } from './helpers/auth'
+import { registerTestUser, uniqueEmail } from './helpers/auth'
 
 test.describe('Tenant Invitation and Portal Access', () => {
   async function setupLandlordWithPropertyAndTenant(page: any) {
-    const uniqueEmail = `e2e.portal.${Date.now()}@rentready.io`
-        await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('portal')
+        await registerTestUser(page, accountEmail)
     // Create a property
     await page.goto('/properties')
     await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
@@ -26,7 +26,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
     await page.getByRole('button', { name: /créer|ajouter/i }).click()
     await expect(page.getByText('TenantPortal User')).toBeVisible({ timeout: 10_000 })
 
-    return uniqueEmail
+    return accountEmail
   }
 
   test('tenant detail page shows invitation option', async ({ page }) => {

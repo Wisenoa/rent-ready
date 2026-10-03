@@ -33,7 +33,7 @@ export function GlossarySidebar() {
         <div className="rounded-xl border border-stone-200 bg-white p-4">
           <div className="mb-2 flex items-center gap-2">
             <Search className="size-4 text-stone-400" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-stone-400">
+            <span className="text-xs font-semibold uppercase tracking-widest text-stone-600">
               Rechercher
             </span>
           </div>
@@ -50,7 +50,7 @@ export function GlossarySidebar() {
         <div className="rounded-xl border border-stone-200 bg-white p-4">
           <div className="mb-3 flex items-center gap-2">
             <BookOpen className="size-4 text-blue-600" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-stone-400">
+            <span className="text-xs font-semibold uppercase tracking-widest text-stone-600">
               Glossaire
             </span>
           </div>

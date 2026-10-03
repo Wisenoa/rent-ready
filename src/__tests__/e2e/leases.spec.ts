@@ -1,11 +1,11 @@
 import { test, expect } from './helpers/fixtures'
-import { registerTestUser } from './helpers/auth'
+import { registerTestUser, uniqueEmail } from './helpers/auth'
 
 test.describe('Lease Creation', () => {
   async function setupUserWithPropertyAndTenant(page: any) {
-    const uniqueEmail = `e2e.lease.${Date.now()}@rentready.io`
+    const accountEmail = uniqueEmail('lease')
     // Register
-    await registerTestUser(page, uniqueEmail)
+    await registerTestUser(page, accountEmail)
 
     // Create a property
     await page.goto('/properties')
@@ -35,8 +35,8 @@ test.describe('Lease Creation', () => {
   }
 
   test('leases page loads and shows empty state', async ({ page }) => {
-    const uniqueEmail = `e2e.lease.empty.${Date.now()}@rentready.io`
-        await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('lease.empty')
+        await registerTestUser(page, accountEmail)
     await page.goto('/leases')
     await expect(page.getByRole('heading', { name: /baux/i })).toBeVisible()
     // Should have a way to create a lease (either empty state CTA or button)
@@ -60,7 +60,12 @@ test.describe('Lease Creation', () => {
     }
 
     // Dialog/form should appear - wait for property select
-    await expect(page.getByText(/propriété|bien/i)).toBeVisible({ timeout: 5000 })
+    // Scoped to the heading: a bare `getByText(/propriété|bien/i)` matches the
+    // breadcrumb, the empty-state sentence and the form label, and Playwright's
+    // strict mode refuses to guess between them.
+    await expect(
+      page.getByRole('heading', { name: /propriété|bien/i }).first(),
+    ).toBeVisible({ timeout: 5000 })
 
     // Select property (Studio Lyon)
     const propertySelect = page.locator('[id="propertyId"]').or(page.locator('[aria-label*="propriété" i]')).or(page.locator('[aria-haspopup="listbox"]').first())

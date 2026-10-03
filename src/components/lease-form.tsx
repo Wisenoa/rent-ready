@@ -129,7 +129,15 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger render={<span />}>{children}</DialogTrigger>
+      {/* The trigger RENDERS the button rather than wrapping one of its own
+          around the caller's: Base UI's native <button> wrapping a <Button> is
+          `<button><button/></button>`, which React rejects, and
+          `nativeButton={false}` expects a NON-button, so it warns in turn.
+          Rendering is the one form all three accept. The caller therefore passes
+          button CONTENT (icon + label), not a <Button>. */}
+      <DialogTrigger render={<Button variant="outline" size="sm" />}>
+        {children}
+      </DialogTrigger>
       <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>Créer un bail</DialogTitle>

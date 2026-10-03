@@ -1,5 +1,5 @@
 import { test, expect } from './helpers/fixtures'
-import { TEST_USER, loginTestUser, registerTestUser } from './helpers/auth'
+import { TEST_USER, loginTestUser, registerTestUser, uniqueEmail } from './helpers/auth'
 
 test.describe('Authentication Flow', () => {
   test('login page loads correctly', async ({ page }) => {
@@ -13,15 +13,17 @@ test.describe('Authentication Flow', () => {
   test('register page loads correctly', async ({ page }) => {
     await page.goto('/register')
     await expect(page.getByRole('heading', { name: /créer un compte/i })).toBeVisible()
-    await expect(page.getByLabel(/prénom/i)).toBeVisible()
+    // The form asks for a full name, not a first name: there is no « prénom »
+    // field, and a test looking for one fails against a page that is correct.
+    await expect(page.getByLabel(/nom complet/i)).toBeVisible()
     await expect(page.getByLabel(/nom/i)).toBeVisible()
     await expect(page.getByLabel(/adresse email/i)).toBeVisible()
   })
 
   test('can register a new user and redirect to dashboard', async ({ page }) => {
     // Use a unique email per test run to avoid conflicts
-    const uniqueEmail = `e2e.reg.${Date.now()}@rentready.io`
-    await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('reg')
+    await registerTestUser(page, accountEmail)
     // Should redirect to dashboard after successful registration
     await page.waitForURL('**/dashboard**', { timeout: 20_000 })
     await expect(page).toHaveURL(/\/dashboard/)
@@ -29,24 +31,24 @@ test.describe('Authentication Flow', () => {
 
   test('login with valid credentials redirects to dashboard', async ({ page }) => {
     // First register a user
-    const uniqueEmail = `e2e.login.${Date.now()}@rentready.io`
-        await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('login')
+        await registerTestUser(page, accountEmail)
     // Logout
     await page.goto('/login')
 
     // Now login with the registered user
-    await loginTestUser(page, uniqueEmail, 'TestPassword123!')
+    await loginTestUser(page, accountEmail, 'TestPassword123!')
     await expect(page).toHaveURL(/\/dashboard/)
   })
 
   test('login with wrong password shows error', async ({ page }) => {
-    const uniqueEmail = `e2e.wrong.${Date.now()}@rentready.io`
+    const accountEmail = uniqueEmail('wrong')
     // Register first
-    await registerTestUser(page, uniqueEmail)
+    await registerTestUser(page, accountEmail)
 
     // Logout and try with wrong password
     await page.goto('/login')
-    await page.fill('[id="email"]', uniqueEmail)
+    await page.fill('[id="email"]', accountEmail)
     await page.fill('[id="password"]', 'WrongPassword123!')
     await page.click('[type="submit"]')
 

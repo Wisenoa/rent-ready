@@ -106,16 +106,12 @@ export function TenantsPageClient({
         </div>
         <div className="flex items-center gap-2">
           <LeaseForm properties={properties} tenants={tenantsForLeaseForm}>
-            <Button variant="outline">
-              <FileText className="size-4 mr-2" />
+            <FileText className="size-4 mr-2" />
               Créer un bail
-            </Button>
           </LeaseForm>
           <TenantForm>
-            <Button>
-              <Plus className="size-4 mr-2" />
-              Ajouter un locataire
-            </Button>
+            <Plus className="size-4 mr-2" />
+            Ajouter un locataire
           </TenantForm>
         </div>
       </div>
@@ -252,14 +248,8 @@ export function TenantsPageClient({
                         </a>
                       )}
                       <TenantForm tenant={serialized}>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="size-8 text-muted-foreground hover:text-foreground"
-                        >
-                          <Pencil className="size-4" />
-                        </Button>
-                      </TenantForm>
+            <Pencil className="size-4" />
+          </TenantForm>
                       <DeleteTenantButton
                         tenantId={tenant.id}
                         tenantName={`${tenant.firstName} ${tenant.lastName}`}

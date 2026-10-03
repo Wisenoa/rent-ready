@@ -1,10 +1,10 @@
 import { test, expect } from './helpers/fixtures'
-import { TEST_USER, registerTestUser } from './helpers/auth'
+import { TEST_USER, registerTestUser, uniqueEmail } from './helpers/auth'
 
 test.describe('Dashboard Analytics', () => {
   test('dashboard page loads with stats cards', async ({ page }) => {
-    const uniqueEmail = `e2e.dash.${Date.now()}@rentready.io`
-    await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('dash')
+    await registerTestUser(page, accountEmail)
 
     // Should load without JS errors
     await expect(page).toHaveURL(/\/dashboard/)
@@ -16,8 +16,8 @@ test.describe('Dashboard Analytics', () => {
   })
 
   test('dashboard shows quick action cards', async ({ page }) => {
-    const uniqueEmail = `e2e.dash.quick.${Date.now()}@rentready.io`
-    await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('dash.quick')
+    await registerTestUser(page, accountEmail)
 
     // Quick action cards should be present
     // Look for: Ajouter un bien, Ajouter un locataire, Générer une quittance
@@ -34,10 +34,10 @@ test.describe('Dashboard Analytics', () => {
   })
 
   test('dashboard stats render for user with data', async ({ page }) => {
-    const uniqueEmail = `e2e.dash.stats.${Date.now()}@rentready.io`
+    const accountEmail = uniqueEmail('dash.stats')
 
     // Register
-    await registerTestUser(page, uniqueEmail)
+    await registerTestUser(page, accountEmail)
 
     // Add a property
     await page.goto('/properties')
@@ -69,8 +69,8 @@ test.describe('Dashboard Analytics', () => {
   })
 
   test('empty dashboard state — no properties shows onboarding', async ({ page }) => {
-    const uniqueEmail = `e2e.dash.empty.${Date.now()}@rentready.io`
-    await registerTestUser(page, uniqueEmail)
+    const accountEmail = uniqueEmail('dash.empty')
+    await registerTestUser(page, accountEmail)
 
     await page.goto('/dashboard')
 

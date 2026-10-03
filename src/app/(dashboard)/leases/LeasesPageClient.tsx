@@ -82,11 +82,9 @@ export function LeasesPageClient({ leases, properties, tenants }: LeasesPageClie
         </div>
         <div className="flex flex-wrap items-center gap-2 ml-auto">
           <LeaseForm properties={propertiesForForm} tenants={tenantsForForm}>
-          <Button>
             <Plus className="size-4 mr-2" />
             Créer un bail
-          </Button>
-        </LeaseForm>
+          </LeaseForm>
         </div>
       </div>
 
