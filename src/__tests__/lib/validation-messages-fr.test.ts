@@ -189,6 +189,44 @@ describe("propertySchema — aucun message anglais atteint l'utilisateur", () =>
   });
 });
 
+describe("corps JSON non-objet — le troisieme message anglais", () => {
+  // Les deux blocs precedents ne testent que des OBJETS. Or les routes font
+  // `await request.json()` puis `safeParse(body)` sans garde de type : un corps
+  // `null`, `[]`, `42`, `"abc"` ou `true` atteint le schema. Sans `error` sur
+  // la RACINE de `z.object`, Zod elabore « Invalid input: expected object,
+  // received null » et c'est ce texte que l'API renvoie au client.
+  const corps: [string, unknown][] = [
+    ["null", null],
+    ["un tableau vide", []],
+    ["un tableau d'objets", [{ name: "Studio", propertyId: "prop_123" }]],
+    ["une chaine", "abc"],
+    ["un nombre", 42],
+    ["un booleen", true],
+  ];
+
+  it.each(corps)("unitSchema refuse un corps %s en francais", (_label, body) => {
+    const messages = messagesDe(unitSchema, body);
+    expect(anglaisDans(messages)).toEqual([]);
+    expect(messages.every((m) => m.trim() !== "")).toBe(true);
+  });
+
+  it.each(corps)("propertySchema refuse un corps %s en francais", (_label, body) => {
+    const messages = messagesDe(propertySchema, body);
+    expect(anglaisDans(messages)).toEqual([]);
+    expect(messages.every((m) => m.trim() !== "")).toBe(true);
+  });
+
+  it("le message racine dit ce qu'il faut corriger", () => {
+    const parsed = unitSchema.safeParse(null);
+    expect(parsed.success).toBe(false);
+    if (!parsed.success) {
+      expect(parsed.error.issues[0]?.message).toBe(
+        "Le corps de la requête doit être un objet JSON"
+      );
+    }
+  });
+});
+
 describe("les refus de longueur disent quoi corriger", () => {
   it("nomme le champ et la limite, pas seulement « trop long »", () => {
     const parsed = propertySchema.safeParse({
@@ -296,4 +334,50 @@ describe("non-regression : la reponse HTTP elle-meme est en francais", () => {
     );
     expect(anglaisDans([body.error])).toEqual([]);
   });
+
+  // La preuve que la fuite atteignait le CLIENT et qu'elle est fermee : corps
+  // non-objet sur les deux routes. Mesure avant le correctif (revue round 1) :
+  // 400 + « Invalid input: expected object, received null » sur 5 corps sur 5.
+  const corpsNonObjet: [string, unknown][] = [
+    ["null", null],
+    ["un tableau vide", []],
+    ["une chaine", "abc"],
+    ["un nombre", 42],
+    ["un booleen", true],
+  ];
+
+  const attendu = "Le corps de la requête doit être un objet JSON";
+
+  it.each(corpsNonObjet)(
+    "POST /api/units refuse un corps %s en francais",
+    async (_label, body) => {
+      const response = await postUnit(body);
+      expect(response.status).toBe(400);
+      const payload = (await response.json()) as { error: string };
+      expect(payload.error).toBe(attendu);
+      expect(anglaisDans([payload.error])).toEqual([]);
+    }
+  );
+
+  it.each(corpsNonObjet)(
+    "POST /api/properties refuse un corps %s en francais",
+    async (_label, body) => {
+      const response = await postProperty(body);
+      expect(response.status).toBe(400);
+      const payload = (await response.json()) as { error: string };
+      expect(payload.error).toBe(attendu);
+      expect(anglaisDans([payload.error])).toEqual([]);
+    }
+  );
+
+  it.each(corpsNonObjet)(
+    "PATCH /api/units refuse un corps %s en francais",
+    async (_label, body) => {
+      const response = await patchUnit("unit_1", body);
+      expect(response.status).toBe(400);
+      const payload = (await response.json()) as { error: string };
+      expect(payload.error).toBe(attendu);
+      expect(anglaisDans([payload.error])).toEqual([]);
+    }
+  );
 });
