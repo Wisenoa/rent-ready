@@ -116,6 +116,18 @@ refuse de tourner dans le checkout principal, qui est partagé.
 Ne lance jamais `pnpm build` dans le checkout principal pendant que d'autres
 cartes tournent.
 
+Règle d'atterrissage : si tu travailles en worktree, ce que tu commits reste
+sur la branche de ta carte. Tant que le travail n'est pas fusionné dans la
+branche principale, la carte suivante ne le voit pas et les deux divergent. Le
+script `scripts/kanban-workspace.sh` prépare le worktree, il ne fusionne rien.
+Après `kanban_complete`, vérifie que ta branche estIntegrated ou demande
+explicitement la fusion dans le `summary` de ta carte — ne laisse pas une carte
+`done` dont le travail n'atteint jamais `master`.
+
+Si tu constates que le travail d'une carte précédente n'est pas dans ton arbre
+alors que la carte est `done`, c'est un défaut d'atterrissage : signale-le
+plutôt que de reconstruire à l'identique.
+
 ⸻
 
 4. Next.js
