@@ -30,15 +30,23 @@ const { prismaMock, allocateMock, pdfMock } = vi.hoisted(() => ({
 
 vi.mock("@/lib/prisma", () => ({ prisma: prismaMock }));
 vi.mock("@/lib/auth", () => ({ getCurrentUserId: async () => "landlord-1" }));
-// @/lib/quittance-generator is deliberately NOT mocked: it is JSX (@react-pdf),
-// but vitest resolves it thanks to @vitejs/plugin-react (vitest.config.ts:23)
-// plus the `@react-pdf/renderer` test alias (vitest.config.ts:40), which is what
-// makes `@react-pdf` analysable. An earlier version of this file mocked it on the
-// false belief that the vitest import analyser could not parse it; that was
-// refuted by importing the module for real, and the mock is now gone — the
-// address guard runs before determineReceiptTypeCumulative anyway. Do not
-// "restore" or remove that alias on the belief it exists for another reason —
-// it is the only thing letting this module load.
+// @/lib/quittance-generator is deliberately NOT mocked. It is a .tsx with JSX,
+// and it IS importable: @vitejs/plugin-react (vitest.config.ts:23) compiles the
+// JSX and @react-pdf/renderer@4.4.1 is really installed in node_modules, so the
+// import resolves on its own. Verified by importing the module for real (exports
+// QuittancePDF, determineReceiptType, determineReceiptTypeCumulative,
+// generateReceiptNumber), with and without the test alias below.
+//
+// An earlier version of this file mocked it on the false belief that the vitest
+// import analyser could not parse JSX. That mock is gone; the address guard runs
+// before determineReceiptTypeCumulative anyway, so nothing here depended on it.
+//
+// Do NOT read the `@react-pdf/renderer` alias (vitest.config.ts:40) as a fix for
+// module resolution — it is not, and the two are easy to confuse. It swaps the
+// real PDF engine for the DOM-free stub in __tests__/__mocks__ so tests can read
+// the strings and recorded renderings of the receipt. Deleting it leaves this
+// file green but costs 8 tests in quittance-reproducible.test.ts, which asserts
+// on what the document actually printed. That, not resolution, is why it stays.
 vi.mock("@/lib/receipt-number", () => ({
   allocateReceiptNumber: allocateMock,
 }));

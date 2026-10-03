@@ -61,15 +61,19 @@ describe("object storage", () => {
 });
 
 describe("receipt type follows the legal rule", () => {
-  // Uses @/lib/payment-utils because that is where the legal rule lives, not
-  // because quittance-generator.tsx is unimportable: it is JSX (@react-pdf) but
-  // vitest resolves it thanks to @vitejs/plugin-react (vitest.config.ts:23) plus
-  // the `@react-pdf/renderer` test alias (vitest.config.ts:40), which is what
-  // makes `@react-pdf` analysable. An older comment here claimed the opposite;
-  // it was refuted by importing the module for real (exports QuittancePDF,
-  // determineReceiptType, determineReceiptTypeCumulative, generateReceiptNumber).
-  // Do not "restore" or remove that alias on the belief it exists for another
-  // reason — it is the only thing letting these modules load.
+  // This exercises @/lib/payment-utils because that is where the legal rule
+  // lives — one function, no PDF involved. quittance-generator.tsx would not have
+  // been an obstacle: it is a .tsx with JSX, and vitest imports it fine
+  // (@vitejs/plugin-react, vitest.config.ts:23, plus @react-pdf/renderer@4.4.1
+  // installed in node_modules). An older comment here claimed the opposite; it
+  // was refuted by importing the module for real, with and without the
+  // `@react-pdf/renderer` test alias (vitest.config.ts:40).
+  //
+  // Note that alias is NOT what makes the module importable, which is the easy
+  // misreading. It replaces the real PDF engine with the DOM-free stub in
+  // __tests__/__mocks__ so tests can read the receipt's strings and renderings;
+  // removing it costs 8 tests in quittance-reproducible.test.ts, and that — not
+  // module resolution — is why it is there.
   it("issues a quittance only when rent + charges are fully paid", async () => {
     const { determineReceiptType } = await import("@/lib/payment-utils");
 
