@@ -186,7 +186,18 @@ export function settlePeriodPayments(input: SettlementInput): Settlement {
     receiptType: settled ? "QUITTANCE" : "RECU",
     rentPortion,
     chargesPortion,
-    isFullPayment: currentAmount.gte(totalDue),
+    // Whether the MONTH is discharged, not whether THIS payment alone could have
+    // covered it.
+    //
+    // Read from `currentAmount`, a 400 then 500 on a 900 month settled with a
+    // 500 left `false` — while `status` was PAID and `outstanding` was 0. The
+    // quittance generator branches on this to title the document « Total
+    // acquitté » against « Montant reçu », and to print the remaining balance: a
+    // fully paid month produced a receipt announcing money still owed.
+    //
+    // `settled` is the same question asked of the cumulative total, which is what
+    // the rest of this object already uses for `status` and `receiptType`.
+    isFullPayment: settled,
   };
 }
 
