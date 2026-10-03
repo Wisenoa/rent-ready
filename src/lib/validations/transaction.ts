@@ -1,9 +1,27 @@
 import { z } from "zod";
 
-const paymentMethodSchema = z
-  .enum(["TRANSFER", "CHECK", "CASH", "DIRECT_DEBIT", "OTHER"])
-  .nullable()
-  .optional();
+/**
+ * Le moyen de paiement est facultatif, mais « facultatif » ne veut pas dire
+ * « absent » : le Select de base-ui envoie une chaîne vide pour un champ que
+ * le propriétaire n'a pas touché, exactement comme un champ texte laissé vide.
+ * Sans ce preprocesseur, `transactionSchema` rejetaient `""` au nom de l'enum
+ * et le propriétaire ne pouvait pas saisir un paiement sans renseigner un champ
+ * qui n'est pas obligatoire.
+ *
+ * La distinction qui compte est « aucune valeur » contre « une valeur » :
+ *   "" / null / undefined → absent, valide
+ *   "TRANSFER"            → valeur, doit appartenir à l'enum
+ *   "VIREMENT"            → invalide, refusé
+ *
+ * Une valeur réellement fausse n'est donc jamais transformée en absent : elle
+ * reste refusée.
+ */
+const absentIfBlank = (value: unknown): unknown =>
+  value === null || (typeof value === "string" && value.trim() === "") ? undefined : value;
+
+const PAYMENT_METHODS = ["TRANSFER", "CHECK", "CASH", "DIRECT_DEBIT", "OTHER"] as const;
+
+const paymentMethodSchema = z.preprocess(absentIfBlank, z.enum(PAYMENT_METHODS).optional());
 
 export const transactionSchema = z.object({
   leaseId: z.string().min(1, "Le bail est requis"),
@@ -17,7 +35,7 @@ export const transactionSchema = z.object({
   // against the lease server-side: a client-supplied id is never trusted on its
   // own. Absent, the period is resolved from the dates as before.
   duePeriodId: z.string().optional().or(z.literal("")),
-  paymentMethod: z.enum(["TRANSFER", "CHECK", "CASH", "DIRECT_DEBIT", "OTHER"]).optional(),
+  paymentMethod: paymentMethodSchema,
   notes: z.string().max(1000).optional().or(z.literal("")),
 });
 

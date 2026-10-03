@@ -86,12 +86,6 @@ function euros(value: number): string {
   return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value)
 }
 
-/** Choose « Virement » in the payment dialog. See the FIXME at the call site. */
-async function choosePaymentMethod(page: Page): Promise<void> {
-  await page.locator('#paymentMethod').click()
-  await openOptions(page).first().click()
-}
-
 /** Opening the « Enregistrer un paiement » dialog on /billing. */
 async function openPaymentDialog(page: Page): Promise<void> {
   // The trigger is rendered twice while the table is empty (header + empty
@@ -293,15 +287,14 @@ test('a landlord takes a partial payment, then the balance, and downloads the re
   // would settle the month outright and silently skip the very case this test
   // exists to cover.
   await expect(page.locator('#amount')).toHaveValue(String(PARTIAL))
-  // FIXME(t_aad7babe follow-up): « Moyen de paiement » MUST be chosen or the
-  // payment is refused. base-ui submits an empty string for an untouched Select,
-  // and `transactionSchema` types it as an enum, so the action answers
-  // « Invalid option: expected one of "TRANSFER"|"CHECK"|… » and nothing is
-  // recorded — a landlord who paid by transfer and left the field alone cannot
-  // enter the payment at all. Tracked as a bug on the card; here the field is
-  // filled so the test exercises the rest of the path. Remove this call once the
-  // schema treats an absent method as absent rather than as an invalid option.
-  await choosePaymentMethod(page)
+  // « Moyen de paiement » is deliberately NOT touched here. base-ui submits an
+  // empty string for an intact Select, and `transactionSchema` used to reject
+  // that "" at the enum's door — so a landlord paying by transfer could not
+  // record the payment without filling a field that is not required. The schema
+  // now reads "" as "absent" while still refusing a value outside the enum
+  // (bugA-payment-method.test.ts). Leaving this line out is the regression
+  // guard: if the schema rejects "" again, this payment is refused and the
+  // next assertion fails.
   await page.getByRole('dialog').getByRole('button', { name: 'Enregistrer le paiement' }).click()
   await expect(page.getByText('Paiement enregistré avec succès')).toBeVisible({ timeout: 30_000 })
   await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 15_000 })
@@ -340,7 +333,9 @@ test('a landlord takes a partial payment, then the balance, and downloads the re
   // balance in full does not have to compute it.
   await expect(page.locator('#amount')).toHaveValue(String(MONTH_DUE - PARTIAL))
 
-  await choosePaymentMethod(page)
+  // Again, no « Moyen de paiement »: leaving the Select untouched is the case
+  // this card fixed, and paying the balance must not require filling a field
+  // that is not mandatory either.
   await page.getByRole('dialog').getByRole('button', { name: 'Enregistrer le paiement' }).click()
   await expect(page.getByText('Paiement enregistré avec succès')).toBeVisible({ timeout: 30_000 })
 
