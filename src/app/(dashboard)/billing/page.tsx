@@ -108,8 +108,21 @@ export default async function BillingPage() {
         },
         select: { leaseId: true, periodStart: true, amount: true },
       }),
+      // Money received this month, from EVERY row that holds money — not only the
+      // rows whose own status is PAID.
+      //
+      // A month paid in instalments is represented by two rows: the instalment
+      // (PARTIAL, 400) and the period row the closing payment settled (PAID, but
+      // carrying only its own 500, because a period row's `amount` is what was still
+      // owed just before it closed). Filtering on `status: "PAID"` therefore summed
+      // 500 for a month that had received 900, and the dashboard told a landlord
+      // they had collected half of what actually came in.
       prisma.transaction.aggregate({
-        where: { userId, status: "PAID", paidAt: { gte: monthStart, lte: monthEnd } },
+        where: {
+          userId,
+          paidAt: { gte: monthStart, lte: monthEnd },
+          status: { not: "CANCELLED" },
+        },
         _sum: { amount: true },
       }),
       // Outstanding = unpaid and past due. Deriving from the date matters: no code

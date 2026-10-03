@@ -121,11 +121,19 @@ export async function getDashboardStats(userId: string): Promise<DashboardKPIs> 
       },
     }),
 
+    // Money received — every row that holds it, CANCELLED excepted.
+    //
+    // Filtering on `status: "PAID"` undercounts every month paid in instalments:
+    // such a month is two rows, the instalment (PARTIAL) and the period row the
+    // closing payment settled, and that row carries ONLY its own amount (a period
+    // row's `amount` is what was still owed just before it closed). So 400 + 500
+    // on a 900 month summed to 500. A landlord was told they had received half of
+    // what actually came in, on the dashboard as well as on /billing.
     prisma.transaction.aggregate({
       where: {
         userId,
-        status: "PAID",
         paidAt: { gte: currentMonthStart, lt: now },
+        status: { not: "CANCELLED" },
       },
       _sum: { amount: true },
     }),
@@ -133,8 +141,8 @@ export async function getDashboardStats(userId: string): Promise<DashboardKPIs> 
     prisma.transaction.aggregate({
       where: {
         userId,
-        status: "PAID",
         paidAt: { gte: previousMonthStart, lt: previousMonthEnd },
+        status: { not: "CANCELLED" },
       },
       _sum: { amount: true },
     }),
@@ -179,11 +187,13 @@ export async function getDashboardStats(userId: string): Promise<DashboardKPIs> 
       _sum: { amount: true },
     }),
 
+    // Year to date — same rule as the two monthly figures above: a month paid
+    // in instalments contributes its instalment row too.
     prisma.transaction.aggregate({
       where: {
         userId,
-        status: "PAID",
         paidAt: { gte: yearStart, lt: now },
+        status: { not: "CANCELLED" },
       },
       _sum: { amount: true },
     }),

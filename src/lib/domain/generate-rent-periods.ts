@@ -609,6 +609,18 @@ export async function settleRentPeriod(
           paidAt: payment.paidAt,
           status: settlement.status,
           isFullPayment: settlement.isFullPayment,
+          // The row that DISCHARGES the month is the one that carries the
+          // quittance. Without this, the period row was written with a status and
+          // a full-payment flag but no receipt type, so /billing — which gates
+          // its download button on `tx.receiptType` — offered the quittance on the
+          // EARLIER instalment's row instead, and the row that actually settled
+          // the obligation had no way to produce its own document.
+          //
+          // This does not rewrite history: the instalment that was recorded first
+          // keeps its « Reçu ». A later payment settling the month does not turn
+          // it into a quittance. What changes is that the settlement itself is
+          // now reachable, from the row that performed it.
+          receiptType: settlement.receiptType,
           amount: amount.toNumber(),
           rentPortion: settlement.rentPortion.toNumber(),
           chargesPortion: settlement.chargesPortion.toNumber(),

@@ -31,8 +31,14 @@ test.describe('Property Management', () => {
     // Click "Ajouter un bien" button to open the dialog
     await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
 
-    // Dialog should open
-    await expect(page.getByText(/nouveau bien|ajouter un bien/i)).toBeVisible({ timeout: 5000 })
+    // Dialog should open.
+    // Scoped to the dialog role, NOT matched by text: /nouveau bien|ajouter un
+    // bien/i resolved to four elements (the trigger button, « Ajouter un bien
+    // manuellement » in the empty state, the dialog title and its description),
+    // and strict mode refuses an ambiguous match. `getByText` also walks
+    // aria-hidden subtrees, so the surrounding page stays in scope; the dialog
+    // role is what the assertion actually means.
+    await expect(page.getByRole('dialog')).toBeVisible({ timeout: 5000 })
 
     // Fill in property form
     await page.fill('[id="name"]', testProperty.name)
@@ -53,6 +59,10 @@ test.describe('Property Management', () => {
     // Create property first
     await page.goto('/properties')
     await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
+    // Left as a text match on purpose: `/nouveau bien/i` appears only in the
+    // dialog description, so it resolves to exactly one element (measured, not
+    // assumed). The `|ajouter un bien` alternative on line 35 is what made that
+    // assertion ambiguous, and it is what was removed.
     await expect(page.getByText(/nouveau bien/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="name"]', testProperty.name)
     await page.fill('[id="addressLine1"]', testProperty.addressLine1)

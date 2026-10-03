@@ -377,13 +377,28 @@ test('a landlord takes a partial payment, then the balance, and downloads the re
   // tenant paying in instalments obtain a quittance at all; judging it from one
   // payment's amount is what used to deny them one.
   //
-  // FIXME(financial card): the row that SETTLED the month carries no
-  // `receiptType`, so /billing offers it no download button at all — the quittance
-  // is reachable only from the earlier instalment's row. `settleRentPeriod` writes
-  // `status` and `isFullPayment` on the closed row but not `receiptType`, while the
-  // table gates its button on `tx.receiptType`. Reported, not fixed here: it is a
-  // financial rule.
-  const receiptRow = page.getByRole('row').filter({ hasText: euros(PARTIAL) })
+  // The quittance belongs to the row that SETTLED the month, not to the earlier
+  // instalment. It used to be the other way round: `settleRentPeriod` closed the
+  // period without writing `receiptType` on it, and /billing gates its download
+  // button on `tx.receiptType` — so the settling row had none, and the only
+  // reachable button sat on the PARTIAL row. Paying in instalments would then
+  // have produced a quittance whose row says « Reçu », against 900 EUR owed.
+  //
+  // This is the regression guard for that: it downloads from the row of the
+  // SECOND payment.
+  //
+  // Selected on the month's FIGURES and its « Payé » status, never on the amount
+  // column: /billing renders a period row as its own amount PLUS what the month
+  // already received, so the row that settled a 900 EUR month displays « 900,00 »
+  // while the 400 EUR instalment displays « 400,00 ». Filtering on 500 matched
+  // nothing and Playwright fell through to an unrelated row — which is how a
+  // « Quittance » row could still have downloaded a « Reçu » document.
+  //
+  // The Montant cell of a settled period row reads « 500,00 € sur 900,00 € » —
+  // the closing instalment against the month it settles — so no plain amount
+  // match can identify it. « Payé » and « Partiel » are mutually exclusive on a
+  // single row, which makes them the stable discriminator.
+  const receiptRow = page.getByRole('row').filter({ hasText: 'Payé' })
   await expect(receiptRow).toHaveCount(1, { timeout: 20_000 })
   const downloadButton = receiptRow.getByRole('button', { name: /télécharger/i }).first()
   await expect(downloadButton).toBeVisible({ timeout: 20_000 })
@@ -406,11 +421,34 @@ test('a landlord takes a partial payment, then the balance, and downloads the re
   expect(bytes.subarray(0, 5).toString('latin1')).toBe('%PDF-')
   expect(bytes.length).toBeGreaterThan(1000)
 
-  // A receipt for money that arrived carries the amount and the date it was
-  // recorded, read from the PDF's own text rather than from the page that
-  // offered the download.
+  // The document is read from the PDF's own text, not from the page that
+  // offered the download. It carries the amount of the row it was generated
+  // from — the 500 that settled the month — and that is the point: a quittance
+  // reachable from the 400 instalment would print 400 against a 900 EUR month.
+  // A PDF's text streams are compressed, so the amounts are not readable as raw
+  // bytes. What IS asserted here is the part that must never be wrong: the
+  // document is numbered as a QUITTANCE, which is the bug this card fixed — the
+  // download used to be a « Reçu » for a month that was fully paid.
   const pdfText = bytes.toString('latin1')
-  expect(pdfText).toContain('400')
+  expect(pdfText).toContain('QUI-')
+
+  // The dashboard must agree. It used to sum only the PAID rows, which for a
+  // month paid in instalments is the closing 500 alone — so a landlord who had
+  // received 900 was told « 500,00 € encaissés ».
+  // The figure lives in the card's CONTENT, a sibling of its header, so scoping
+  // to the label's own parent finds only the label. The card is what has to be
+  // asserted.
+  const collectedCard = page
+    .locator('[data-slot="card"]')
+    .filter({ has: page.getByText('Total encaissé') })
+  await expect(collectedCard).toContainText(euros(MONTH_DUE))
+
+  // And the instalment row keeps saying « Reçu »: settling the month later did
+  // not turn an earlier partial payment into a quittance.
+  const instalmentAfterSettlement = page.getByRole('row').filter({ hasText: euros(PARTIAL) })
+  await expect(instalmentAfterSettlement).toHaveCount(1, { timeout: 20_000 })
+  await expect(instalmentAfterSettlement).toContainText('Reçu')
+  await expect(instalmentAfterSettlement).not.toContainText('Quittance')
 })
 
 test('registration signs the new user straight in', async ({ page }) => {

@@ -187,7 +187,20 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
       current,
     });
 
-    const receiptType = settlement.receiptType;
+    // A stored type is the type the ISSUED document must carry.
+    //
+    // Recomputing it here silently rewrote history: `asOf` holds the payments of
+    // the month BEFORE this one, so on the row that settled a month paid in
+    // instalments it saw 500 against 900 owed, decided « Reçu », and line 285
+    // wrote that verdict back over the correct « Quittance » the settlement had
+    // recorded. The landlord then downloaded a "Reçu de paiement partiel" for a
+    // month they had fully paid, and the type stayed wrong for every later read.
+    //
+    // The domain already decided this once, when the money actually moved; the
+    // document follows the transaction, not a second opinion computed at
+    // download time. Falling back to the derivation only covers a payment that
+    // predates the stored type.
+    const receiptType = transaction.receiptType ?? settlement.receiptType;
     // What the tenant still owes for the month AFTER this payment, floored at 0
     // and rounded once, in Decimal: an overpayment must never print as a credit
     // invented by the document.
