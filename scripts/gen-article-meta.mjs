@@ -52,10 +52,24 @@ import { writeFileSync } from "fs";
 describe("gen", () => {
   it("dumps metadata", async () => {
     const mod: any = await import("@/data/articles");
-    const meta = mod.articles.map((a: any) => ({
-      slug: a.slug, title: a.title, excerpt: a.excerpt,
-      category: a.category, date: a.date, updatedAt: a.updatedAt, readTime: a.readTime,
-    }));
+    // readTime is COMPUTED from the body, never copied from the hand-written
+    // field. 30 articles declared 6-11 minutes for bodies of 100-250 words:
+    // an article that announces "11 min" and delivers one is worse than a thin
+    // article that admits it, and the number is shown next to the title in the
+    // SERP and on the page.
+    const WORDS_PER_MINUTE = 200; // usual reading pace for technical French
+    const meta = mod.articles.map((a: any) => {
+      // ESCAPING: this block is a JS template literal written to a temporary
+      // .ts file. A single backslash is consumed by the outer template, so
+      // "\\w" here must be written "\\\\w" or the generated file sees /w/.
+      const words = ((a.content ?? "").match(/[\\w\\u00C0-\\u024F'’-]+/g) ?? []).length;
+      const minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+      return {
+        slug: a.slug, title: a.title, excerpt: a.excerpt,
+        category: a.category, date: a.date, updatedAt: a.updatedAt,
+        readTime: minutes + " min",
+      };
+    });
     writeFileSync(${JSON.stringify(join(dir, "meta.json"))}, JSON.stringify(meta));
   });
 });

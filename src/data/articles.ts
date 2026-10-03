@@ -1,15 +1,35 @@
-export type Article = {
+export type ArticleInput = {
   slug: string;
   title: string;
   excerpt: string;
   category: string;
   date: string;
-  readTime: string;
   updatedAt: string;
   content?: string;
 };
 
-export const articles: Article[] = [
+/**
+ * Reading time is derived, never written by hand.
+ *
+ * `readTime` used to be a field each article carried, and 30 of the 119 declared
+ * 6 to 11 minutes for bodies of 100 to 250 words — `statut-lmnp-2026` promised
+ * 11 minutes and delivered 119 words. The number is printed beside the title in
+ * the SERP and under the heading on the page, so it is a promise the reader
+ * checks within seconds.
+ *
+ * It is computed here, at 200 words/minute, so a page and the generated
+ * `articles-meta.ts` can never disagree.
+ */
+const WORDS_PER_MINUTE = 200;
+
+export type Article = ArticleInput & { readTime: string };
+
+function computeReadTime(content: string | undefined): string {
+  const words = (content ?? "").match(/[\w\u00C0-\u024F'’-]+/g)?.length ?? 0;
+  return `${Math.max(1, Math.round(words / WORDS_PER_MINUTE))} min`;
+}
+
+const articleInputs: ArticleInput[] = [
   {
     slug: "comment-gerer-loyers-impayes",
     title: "Comment gérer les loyers impayés en 2026",
@@ -18,7 +38,6 @@ export const articles: Article[] = [
     category: "Gestion",
     date: "2026-01-15",
     updatedAt: '2026-01-15',
-    readTime: "8 min",
     content: `## Loyer impayé : comment agir efficacement en 2026
 
 Un loyer impayé est une situation délicate qui touche environ 2 à 3 % des locations en France chaque année. Pour un propriétaire bailleur,cela représente non seulement un manque à gagner, mais aussi une source de stress et de complications administratives. Découvrez dans ce guide complet la procédure à suivre, les délais à respecter et les recours disponibles pour récupérer vos dus ou reprendre votre bien.
@@ -127,7 +146,6 @@ La lettre de relance doit mentionner le montant dû, la date d'échéance révol
     category: "Calculs",
     date: "2026-01-10",
     updatedAt: '2026-01-10',
-    readTime: "6 min",
     content: `## Révision de loyer et IRL : comment calculer en 2026
 
 La révision de loyer est un mécanisme légal qui permet aux propriétaires d'ajuster annuellement le montant du loyer en fonction de l'inflation. Depuis 2008, l'Indice de Référence des Loyers (IRL) published par l'INSEE sert de base à ce calcul. Comprendre ce mécanisme est essentiel pour tout propriétaire bailleur souhaitant maintenir le pouvoir d'achat de ses revenus locatifs.
@@ -256,7 +274,6 @@ La formule est : Nouveau loyer = Loyer hors charges x (IRL du trimestre de réf�
     category: "Juridique",
     date: "2026-01-05",
     updatedAt: '2026-01-05',
-    readTime: "5 min",
     content: `## Dépôt de garantie : les règles essentielles en 2026
 
 Le dépôt de garantie est une somme d'argent versée par le locataire au moment de la signature du bail. Il garantit au propriétaire la bonne exécution des obligations locatives et notamment la restitution du bien en état. [Consultez notre guide complet sur le dépôt de garantie](/guides/depot-garantie) pour éviter les litiges à la fin du bail.
@@ -371,7 +388,6 @@ En cas de non-restitution dans les délais légaux, le montant du dépôt restan
     category: "Juridique",
     date: "2026-02-20",
     updatedAt: '2026-02-20',
-    readTime: "7 min",
     content: `## État des lieux d'entrée et de sortie : mode d'emploi 2026
 
 L'état des lieux est un document essentiel qui décrit l'état du logement lors de l'entrée et de la sortie du locataire. Il constitue la référence absolue pour évaluer d'éventuelles dégradations et protéger tanto le propriétaire que le locataire.
@@ -490,7 +506,6 @@ Le dépôt de garantie est concu pour couvrir les eventuelles degradations const
     category: "Juridique",
     date: "2026-02-15",
     updatedAt: '2026-02-15',
-    readTime: "10 min",
     content: `## Loi ALUR : ce qui change pour les propriétaires bailleurs en 2026
 
 La loi ALUR (Accès au Logement et Urbanisme Rénové), promulguée le 24 mars 2014, a profondément modifié les relations entre propriétaires et locataires. Même en 2026, ses dispositions continuent de s'appliquer et restent essentielles à connaître pour tout bailleur.
@@ -570,7 +585,6 @@ Non, seules les locations vides et meublées en zone tendue sont concernée. Les
     category: "Fiscalité",
     date: "2026-03-01",
     updatedAt: '2026-03-01',
-    readTime: "9 min",
     content: `## Optimiser la fiscalité de vos revenus locatifs en 2026
 
 La fiscalite des revenus locatifs peut représenter une part significative de vos rendements. Choisir le bon régime fiscal et optimer vos charges déductibles permet de maximiser votre rentabilité nette. Découvrez les stratégies fiscales adaptées à votre situation.
@@ -658,7 +672,6 @@ Non, la TVA payée sur l'acquisition d'un bien locatif n'est pas déductible. En
     category: "Gestion",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "6 min",
     content: `## Qu'est-ce qu'une quittance de loyer ?
 
 Une quittance de loyer est un document signé par le bailleur qui constate le paiement intégral du loyer et des charges par le locataire. Elle est remise sur demande du locataire et constitue une preuve de paiement.
@@ -765,7 +778,6 @@ Oui, la quittance de loyer est un justificatif de domicile valide pour les admin
     category: "Gestion",
     date: "2026-04-17",
     updatedAt: '2026-04-17',
-    readTime: "7 min",
     content: `Un loyer impayé est une situation stressante pour tout bailleur. Avant d'engager une procédure judiciaire, la lettre de relance est une étape obligatoire et indispensable. Découvrez comment la rédiger efficacement.
 
 ## Pourquoi envoyer une lettre de relance pour loyer impayé ?
@@ -868,7 +880,6 @@ Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayé
     category: "Gestion",
     date: "2026-04-21",
     updatedAt: '2026-04-21',
-    readTime: "8 min",
     content: `## Charges locatives : le guide complet du décompte annualisé
 
 Les charges locatives représentent une part importante de la gestion d'un bien en location. En France, le propriétaire peut récupérer une partie des charges auprès du locataire via le système du décompte annualisé.
@@ -946,7 +957,6 @@ Oui, le locataire peut contester le décompte annuel des charges dans les 2 mois
     category: "Juridique",
     date: "2026-04-28",
     updatedAt: '2026-04-28',
-    readTime: "5 min",
     content: `## Quittance de loyer : mentions obligatoires et modèle gratuit 2026
 
 La quittance de loyer est un document essentiel qui prouve le paiement du loyer par le locataire. Elle est obligatoire sur simple demande du locataire et doit contenir des mentions précises. Découvrez ce qui doit figurer sur une quittance conforme et comment la générer facilement.
@@ -1030,7 +1040,6 @@ Oui, le locataire peut demander une quittance à tout moment, même plusieurs mo
     category: "Fiscalité",
     date: "2026-05-01",
     updatedAt: '2026-05-01',
-    readTime: "6 min",
     content: `## Calcul rendement locatif brut et net : formule et simulateur 2026
 
 Le rendement locatif est un indicateur clé pour évaluer la rentabilité d'un investissement immobilier. Qu'il s'agisse d'un achat comptant ou à crédit, comprendre les différence entre rendement brut et rendement net est essentiel pour prendre les bonnes décisions d'investissement.
@@ -1145,7 +1154,6 @@ Trois leviers principaux : réduire les charges (rénover pour baisser la consom
     category: "Juridique",
     date: "2026-05-05",
     updatedAt: '2026-05-05',
-    readTime: "6 min",
     content: `## État des lieux : modèle gratuit et procédure pour propriétaires
 
 L'état des lieux est un document essentiel dans toute location immobilière. Il permet de comparer l'état du logement à l'entrée et à la sortie du locataire, et constitue la référence principale en cas de litige sur le dépôt de garantie. Depuis le décret 2016-382, l'état des lieux doit respecter des standards précis pour être opposable aux deux parties.
@@ -1190,7 +1198,6 @@ L'état des lieux doit être contradictoire : les deux parties doivent être pr�
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "11 min",
     content: `## Qu'est-ce qu'un bail de location vide ?
 
 Le bail de location vide, aussi appelé bail non meublé, est le contrat de location le plus courant en France. [Consultez notre guide complet du modèle de bail](/guides/modele-bail) pour connaître toutes les clauses obligatoires et éviter les erreurs fréquentes.
@@ -1344,7 +1351,6 @@ La durée minimale d'un bail de location vide est de 3 ans si le bailleur est un
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "10 min",
     content: `## Location meublée : définition et cadre juridique en 2026
 
 La location meublée constitue une alternative attractive à la location vide pour les propriétaires qui souhaitent bénéficier d'une plus grande flexibilité. [Consultez notre guide du modèle de bail](/guides/modele-bail) pour connaître les clauses spécifiques à la location meublée.
@@ -1504,7 +1510,6 @@ Oui, la revision de loyer s'applique aux locations meublees selon les memes règ
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "9 min",
     content: `## Caution et garant en location : clarification des termes
 
 Dans le vocabulaire locatif, les termes de « caution » et de « garant » sont souvent utilisés de manière interchangeable, mais ils présentent des nuances juridiques importantes. La caution est la personne qui s'engage envers le bailleur à payer les sommes dues par le locataire en cas de défaillance de ce dernier. Le garant est un type particulier de caution, qui se porte garant de manière plus solide.
@@ -1618,7 +1623,6 @@ Avant de se porter garant, il est essentiel d'évaluer sa capacité à assumer c
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "8 min",
     content: `## Le congé du locataire : un droit fondamental
 
 Le locataire a le droit de mettre fin à son bail de location à tout moment, sans avoir à justifier d'un motif particulier. Ce droit, issu de la loi du 6 juillet 1989, constitue l'une des protections essentielles du locataire en France. Il s'exerce par la notification d'un congé (aussi appelé « délai de préavis »).
@@ -1729,7 +1733,6 @@ Avant de quitter le logement, le locataire doit :
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "7 min",
     content: `## Le préavis de départ : une étape obligatoire
 
 Le préavis de départ constitue une formalité incontournable pour tout locataire qui souhaite mettre fin à son bail. Ce délai, fixé par la loi, permet au bailleur de préparer la relocation du logement et de limiter la vacance locative.
@@ -1879,7 +1882,6 @@ Lorsque le congé est donné pour la vente du logement, aucune indemnité de pr�
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "10 min",
     content: `## L'encadrement des loyers à Paris : un dispositif renforcé
 
 L'encadrement des loyers est un dispositif anti-squat qui vise à réguler les prix de location dans les zones où le marché locatif est tendu. Paris fait partie des villes soumis à ce dispositif depuis le 1er août 2015, avec une interruption entre 2018 et 2020, puis un retour progressif.
@@ -1997,7 +1999,6 @@ Les plafonds de loyer sont actualisés chaque année en fonction de l'évolution
     category: "Fiscalité",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "11 min",
     content: `## Qu'est-ce qu'une SCI ?
 
 La Société Civile Immobilière (SCI) est une structure juridique créée spécifiquement pour détenir et gérer un ou plusieurs biens immobiliers. Elle permet à plusieurs personnes (parents, enfants, associés externes) de se regrouper pour acquérir et gérer ensemble des biens locatifs.
@@ -2132,7 +2133,6 @@ Elle l'est moins pour :
     category: "Fiscalité",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "12 min",
     content: `## Le statut LMNP :Loueur en Meublé Non Professionnel
 
 Le statut de Loueur en Meublé Non Professionnel (LMNP) s'applique aux personnes qui louent des biens meublés sans que cette activité constitue leur profession principale. Pour être considéré comme LMNP plutôt que LMP (Loueur en Meublé Professionnel), le montant des recettes locatives ne doit pas dépasser 23 000 euros par an, et ces recettes ne doivent pas représenter plus de la moitié des revenus du foyer fiscal.
@@ -2286,7 +2286,6 @@ En 2026, le LMF permet de bénéficier de certains avantages du LMNP (amortissem
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "9 min",
     content: `## La distinction fondamentale : entretien et réparations
 
 La question de la répartition des travaux entre locataire et bailleur est l'une des sources principales de litiges en location. La loi et la jurisprudence ont establecido une distinction claire entre trois catégories de travaux :
@@ -2447,7 +2446,6 @@ La jurisprudence est riche en la matière et fournit de nombreux exemples de dé
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "8 min",
     content: `## L'obligation d'assurance habitation du locataire
 
 En France, le locataire est légalement tenu de s'assurer contre les risques locatifs. Cette obligation, prévue par l'article 7 de la loi du 6 juillet 1989, constitue l'une des obligations fondamentales du locataire.
@@ -2592,7 +2590,6 @@ Le bailleur ne peut pas prélever sur le dépôt de garantie pour couvrir les ri
     category: "Calculs",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "7 min",
     content: `## L'indexation du loyer : principe général
 
 L'indexation du loyer est le mécanisme par lequel le montant du loyer est ajusté chaque année en fonction de l'évolution d'un indice de référence. En France, cet indice est l'Indice de Référence des Loyers (IRL), publié trimestriellement par l'INSEE.
@@ -2724,7 +2721,6 @@ Par ailleurs, en cas de relocation, le nouveau loyer ne peut pas dépasser le de
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "9 min",
     content: `## La colocation en France : cadre juridique
 
 La colocation est devenue un mode d'habitation très répandu, notamment dans les grandes villes françaises où les loyers élevés rendent difficile l'accès au logement pour les jeunes actifs, les étudiants et les ménages modeste.
@@ -2853,7 +2849,6 @@ La sous-location d'une partie du logement à un tiers (sans être remplaçant of
     category: "Gestion",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "10 min",
     content: `## La gestion locative : un marché en mutation
 
 La gestion locative représente un enjeu majeur pour les propriétaires bailleurs, qu'ils détiennent un seul logement ou un portefeuille de plusieurs biens. Deux options principales s'offrent à eux : faire appel à une agence immobilière traditionnelle ou opter pour une solution de gestion locative en ligne.
@@ -3037,7 +3032,6 @@ Un logiciel de gestion locative automatise la génération de quittances, la dé
     category: "Gestion",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "7 min",
     content: `## La quittance de loyer : un document obligatoire
 
 La quittance de loyer est le document remis par le bailleur au locataire pour attester du paiement du loyer et des charges. Elle constitue la preuve du réglement et doit être délivrée automatiquement par le bailleur lorsquele locataire en fait la demande.
@@ -3186,7 +3180,6 @@ En location meublée (LMNP/LMP), les quittances peuvent être utilisées comme j
     category: "Calculs",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "12 min",
     content: `## L'investissement locatif : pourquoi calculer sa rentabilité ?
 
 L'investissement locatif consiste à acquérir un bien immobilier pour le louer et percevoir des revenus réguliers. Pour évaluer la qualité de cet investissement, le calcul de la rentabilité locative est essential.
@@ -3385,7 +3378,6 @@ RentReady propose un simulateur de rentabilité locative gratuit, qui permet de 
   category: "Juridique",
   date: "2026-04-14",
     updatedAt: '2026-04-14',
-  readTime: "12 min",
   content: `## Pourquoi rédiger un bail de location est essentiel
 
 Le contrat de location (bail) est le document fondateur de toute relation locative. Il définit les droits et obligations du bailleur et du locataire, fixe le montant du loyer, et encadre les conditions de remise et de restitution du logement. Un bail mal rédigé peut exposer le propriétaire à des litiges, des pénalités ou des nullités de clauses.
@@ -3488,7 +3480,6 @@ Toute clause interdite est automatiquement nulle. Le bail reste valide par aille
     category: "Gestion",
     date: "2026-04-15",
     updatedAt: '2026-04-15',
-    readTime: "9 min",
     content: `## Logiciel gestion locative gratuit vs payant : lequel choisir en 2026
 
 La gestion locative en ligne a révolutionné le quotidien des propriétaires bailleurs en France. Face à la multiplication des outils disponibles, la question du choix entre solution gratuite et solution payante devient cruciale.
@@ -3541,7 +3532,6 @@ La plupart des solutions gratuites sont limitées à 2-3 propriétés. Les solut
     category: "Gestion",
     date: "2026-04-15",
     updatedAt: '2026-04-15',
-    readTime: "10 min",
     content: `## Comment gérer ses biens locatifs : guide complet du propriétaire
 
 Gérer ses biens locatifs demande rigueur et organisation. Entre suivi des paiements, entretien du patrimoine, obligations légales et fiscales, un propriétaire bailleur doit savoir jongler avec de multiples casquettes.
@@ -3587,7 +3577,6 @@ Pour un ou deux biens, l'auto-gestion est viable avec un bon outil. Au-delà de 
     category: "Juridique",
     date: "2026-04-15",
     updatedAt: '2026-04-15',
-    readTime: "7 min",
     content: `## Charges locatives récupérables : liste complète et réglementation 2026
 
 Les charges locatives récupérables constituent un poste important dans la gestion locative. Seules les charges listées dans l'article 7 du décret du 26 mai 2012 peuvent être récupérées.
@@ -3637,7 +3626,6 @@ Oui, le locataire peut demander à voir les factures. La durée de conservation 
     category: "Juridique",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "8 min",
     content: `## Bail professionnel : cadre juridique, durée et spécificités en 2026
 
 Le bail professionnel est un contrat de location de locaux à usage professionnel, distinct du bail commercial : il est régi par la loi n° 89-462 du 6 juillet 1989 et son article 22-10, non par le Code de commerce. Comprendre ses caractéristiques est essentiel avant de signer ou de rédiger un tel bail.
@@ -3720,7 +3708,6 @@ Non, le bail professionnel n'est pas soumis a l'encadrement des loyers applicabl
     category: "Juridique",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "6 min",
     content: `## Dépôt de garantie en location meublée : plafonnement, restitution et droits en 2026
 
 Le dépôt de garantie en location meublée répond a des règles spécifiques différentes de la location vide. Connaître les plafonds, les délais et les droits de chaque partie permet d'éviter les litiges a la fin du bail.
@@ -3795,7 +3782,6 @@ L'état des lieux d'entrée doit etre le plus détaille possible. En cas de liti
     category: "Juridique",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "8 min",
     content: `## Litige sur le dépôt de garantie : tous vos recours en 2026
 
 Le dépôt de garantie est une source fréquente de litiges entre bailleurs et locataires. Mauvaise foi, état des lieux conteste, retenue abusive : voici comment faire valoir vos droits, que vous soyez locataire ou propriétaire.
@@ -3876,7 +3862,6 @@ Non, sauf accord expr es du bailleur. Le dépôt de garantie doit etre verse en 
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "6 min",
     content: `## Modèle de lettre de relance pour loyer impayé : guide et téléchargement gratuit
 
 La lettre de relance est la première etape de la procédure de recouvrement d'un loyer impayé. Elle marque le début formel du processus et permet souvent de résoudre le litige sans passer par les tribunaux. Découurez comment rédiger une lettre de relance efficace.
@@ -3953,7 +3938,6 @@ Si le locataire conteste le montant, vérifiez vos calculs et envoyez un décomp
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "7 min",
     content: `## Mise en demeure pour loyer impayé : modèle et procédure en 2026
 
 La mise en demeure est l'étape formelle qui précis ede la procédure judiciaire en cas de loyers impayés. Elle donné lieu a des effets juridiques précis et marque un tournant dans la relation avec le locataire défaillant.
@@ -4018,7 +4002,6 @@ La mise en demeure n'est pas obligatoire strictement parlant, mais elle est fort
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "7 min",
     content: `## Saisie sur salaire pour loyer impayé : procédure, montants et droits du salarié
 
 Quand un locataire ne paie plus son loyer et que la procédure judiciaire a permis d'obtenir un titre exécutoire, le bailleur peut engager une saisie sur salaire pour récupérer les arriérés. Voici comment fonctionne cette procédure.
@@ -4103,7 +4086,6 @@ La saisie sur salaire dure jusqu'a épuisement de la dette. Si le salarié quitt
     category: "Calculs",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "7 min",
     content: `## Augmentation de loyer et IRL 2026 : comment calculer et appliquer la révision
 
 L'augmentation de loyer basée sur l'Indice de Référence des Loyers (IRL) est encadrée par la loi. Propriétaires comme locataires doivent comprendre les règles pour éviter les litiges lors de la révision annuelle du loyer.
@@ -4188,7 +4170,6 @@ Les zones tendues sont définies par arrêté préfectoral. Vous pouvez vérifie
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "6 min",
     content: `## Gestion locative gratuite : peut-on vraiment gérer ses locations sans frais ?
 
 De nombreux propriétaires se demandent s'il est possible de gérer leurs locations sans débourser un euro. Entre Excel gratuit, applications sans frais et fausses solutions, voici la réalité de la gestion locative gratuite en 2026.
@@ -4253,7 +4234,6 @@ Il n'existe pas de vrai logiciel de gestion locative 100% gratuit et complet. Le
     category: "Gestion",
     date: "2026-04-28",
     updatedAt: "2026-04-28",
-    readTime: "7 min",
     content: `## Gestion locative : prix et tarifs en 2026 -- agences vs logiciels
 
 Combien coûte une gestion locative en France ? Entre les agences immobilières et les logiciels en ligne, les tarifs varient du simple au quintuple. Voici le panorama complet des prix et des prestations.
@@ -4332,7 +4312,6 @@ Oui, notamment si vous avez plusieurs biens ou si votre bien est en zone tendue.
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: '2026-04-20',
-    readTime: "7 min",
     content: `## Bail de mobilité : modèle et conditions en 2026
 
 Le bail de mobilité, créé par la loi ELAN de 2018, offre une solution de location flexible pour les personnes en situation de mobilité professionnelle ou personnelle. Contrairement au bail classique, il présente des caractéristiques spécifiques qui le rendent unique dans le paysage locatif français.
@@ -4412,7 +4391,6 @@ Le locataire peut rompre le bail de mobilité à tout moment avec un préavis de
     category: "Juridique",
     date: "2026-04-19",
     updatedAt: '2026-04-19',
-    readTime: "6 min",
     content: `## Restitution du dépôt de garantie : délais et procédure en 2026
 
 La restitution du dépôt de garantie est un moment critique dans la relation entre propriétaire et locataire. Les délais sont stricts et les sanctions sévères en cas de non-respect.
@@ -4462,7 +4440,6 @@ Non, le dépôt de garantie ne peut couvrir que les dégradations imputables au 
     category: "Gestion",
     date: "2026-04-18",
     updatedAt: '2026-04-18',
-    readTime: "4 min",
     content: `## Générateur de quittance de loyer gratuit : créez vos reçus en ligne
 
 La quittance de loyer est un document essentiel qui prouve le paiement du loyer par le locataire. Un générateur de quittance de loyer en ligne facilite considérablement cette tâche.
@@ -4502,7 +4479,6 @@ Oui, depuis 2015, les factures et quittances sous forme électronique ont la mê
     category: "Calculs",
     date: "2026-04-17",
     updatedAt: '2026-04-17',
-    readTime: "3 min",
     content: `## Simulateur IRL 2026 : calculez votre révision de loyer en ligne
 
 L'Indice de Référence des Loyers (IRL) est la référence légale pour la révision des loyers en France. Chaque trimestre, l'INSEE publie le nouvel indice.
@@ -4550,7 +4526,6 @@ Oui, le simulateur fonctionne pour tout type de bail.
     category: "Gestion",
     date: "2026-04-16",
     updatedAt: '2026-04-16',
-    readTime: "9 min",
     content: `## Procédure de recouvrement d'un loyer impayé : étapes et délais
 
 Le loyer impayé est une situation stressante pour le propriétaire. Il est important de respecter la procédure légale pour préserver ses droits.
@@ -4588,7 +4563,6 @@ Vérifiez la réalité de la situation, proposez éventuellement un échéancier
     category: "Juridique",
     date: "2026-04-15",
     updatedAt: '2026-04-15',
-    readTime: "7 min",
     content: `## Loyer impayé : tous vos recours juridiques en tant que propriétaire
 
 Face à un loyer impayé, le propriétaire dispose de plusieurs recours juridiques. Plus la procédure démarre tôt, plus les chances de récupération sont élevées.
@@ -4626,7 +4600,6 @@ Les frais d'huissier et de tribunal sont à la charge du propriétaire, mais peu
     category: "Juridique",
     date: "2026-04-14",
     updatedAt: '2026-04-14',
-    readTime: "10 min",
     content: `## Comment rédiger un bail de location conforme : modèle et conseils
 
 Le bail de location est le document fondateur de la relation entre le propriétaire et le locataire. Sa rédaction doit être particulièrement soignée.
@@ -4664,7 +4637,6 @@ Non, le bail de location n'a pas besoin d'être notarié.
     category: "Gestion",
     date: "2026-04-13",
     updatedAt: '2026-04-13',
-    readTime: "8 min",
     content: `## Gestion locative à Lyon : guide complet pour les propriétaires
 
 Lyon est la deuxième agglomération de France et un marché locatif particulièrement dynamique. Pour les propriétaires lyonnais, la gestion locative implique de connaître des règles spécifiques.
@@ -4694,7 +4666,6 @@ Oui, si votre bien est dans un arrondissement soumis à l'encadrement. Consultez
     category: "Gestion",
     date: "2026-04-12",
     updatedAt: '2026-04-12',
-    readTime: "9 min",
     content: `## Gestion locative à Paris : règles spécifiques et conseils pour propriétaires
 
 Paris est le marché locatif le plus réglementé de France. Les propriétaires parisiens doivent maîtriser un cadre légal complexe fait d'encadrement des loyers, de normes strictes et d'obligations spécifiques.
@@ -4726,7 +4697,6 @@ Oui, en 2026. Seuls les logements classés G sont interdits à la location depui
     category: "Juridique",
     date: "2026-04-11",
     updatedAt: '2026-04-11',
-    readTime: "8 min",
     content: `## Bail commercial : réglementation, durée et clauses essentielles en 2026
 
 Le bail commercial est le contrat qui lie un propriétaire de locaux professionnels à son locataire commerçant, artisan ou industriel. Il obéit à des règles spécifiques définies par le Code de commerce.
@@ -4764,7 +4734,6 @@ Non, l'augmentation ne peut se faire que selon les modalités prévues dans le b
     category: "Juridique",
     date: "2026-04-10",
     updatedAt: '2026-04-10',
-    readTime: "9 min",
     content: `## Étapes d'éviction d'un locataire pour loyer impayé : procédure complète
 
 L'éviction d'un locataire pour loyer impayé est une procédure judiciaire longue et complexe qui nécessite de respecter des étapes précises et des délais stricts.
@@ -4800,7 +4769,6 @@ Oui, en pratique la trêve hivernale peut ajouter 1 à 4 mois à la procédure.
     category: "Juridique",
     date: "2026-04-09",
     updatedAt: '2026-04-09',
-    readTime: "6 min",
     content: `## Modèle de bail de location gratuit : téléchargement et guide de conformité
 
 Un modèle de bail de location bien construit est essentiel pour sécuriser la relation locative. Voici comment choisir et utiliser un modèle de bail gratuit.
@@ -4838,7 +4806,6 @@ Non, le bail de location n'a pas besoin d'être notarié.
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "7 min",
     content: `## Loyer charges récupérables : liste exhaustive et calcul
 
 Dans une location, le locataire paie generalement un loyer minor e d'un dépôt de garantie et verse mensuellement des provisions pour charges recuperables. Ces charges, listées de manière limitative par le décret n° 87-713 du 26 août 1987, peuvent etre repercutees sur le locataire en plus du loyer. Comprendre cette liste et le mecanisme de recuperation est essentiel pour proprietaires comme pour locataires.
@@ -4979,7 +4946,6 @@ Oui, le montant des provisions peut etre ajuste lors de la régularisation annue
     category: "Calculs",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "6 min",
     content: `## Calcul du dépôt de garantie : plafonds 2026 et modalités
 
 Le dépôt de garantie représente une somme essentielle dans le cadre d'une location. Il protège le propriétaire contre les éventuels impayés de charges, les dégradations du bien ou les litiges à la fin du bail. Depuis la loi ALUR de 2014, les montants sont strictement encadrés et leur calcul obéit à des règles précises que tout bailleur doit maîtriser.
@@ -5072,7 +5038,6 @@ Si le propriétaire exige un dépôt supérieur au plafond, le locataire peut re
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "7 min",
     content: `## Dépôt de garantie et état des lieux : la relation juridique
 
 Le dépôt de garantie et l'état des lieux sont deux éléments indissociables de toute location. Leur interaction détermine directement le montant que le propriétaire pourra conserver à la fin du bail et les droits du locataire en cas de contestation. Comprendre cette relation est essentiel pour éviter les litiges et protéger vos intérêts.
@@ -5187,7 +5152,6 @@ Non, la retenue est réduite proportionnellement à la durée de vie déjà éco
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `## Litige sur le dépôt de garantie : les procédures de recours
 
 Les litiges relatifs au dépôt de garantie sont parmi les contentieux locatifs les plus fréquents en France. Qu'il s'agisse d'un refus de restitution, de retenues contestées ou de délais non respectés, le droit français offre plusieurs niveaux de recours pour résoudre ces différends. Découvrez la procédure à suivre selon votre situation.
@@ -5324,7 +5288,6 @@ Si le propriétaire ne peut pas payer malgré un jugement favorable, vous pouvez
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "7 min",
     content: `## Garde à vue et loyers impayés : comprendre vos droits
 
 La question de la garde à vue dans le cadre de loyers impayés soulève de nombreuses interrogations. Contrairement à ce que certains pourraient craindre, le simple fait d'avoir des loyers impayés ne constitue pas automatiquement une infraction pénale. Encore faut-il comprendre les mécanismes juridiques en jeu et les cas où une procédure pénale peut effectivement être engagée.
@@ -5448,7 +5411,6 @@ Oui, percevoir des APL destinées au paiement du loyer et ne pas les reverser au
     category: "Gestion",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `## État financier de votre gestion locative : le bilan annuel
 
 La gestion d'un patrimoine locatif nécessite un suivi financier rigoureux. Le bilan annuel de votre gestion locative permet d'évaluer la performance de vos investissements, de préparer votre déclaration fiscale et d'identifier les axes d'amélioration. Découvrez comment construire ce document essentiel pour tout propriétaire bailleur.
@@ -5602,7 +5564,6 @@ Pour une gestion simple avec quelques biens, vous pouvez réaliser le bilan vous
     category: "Fiscalité",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `## LMNP ou LMP : quel statut fiscal pour votre location meublée ?
 
 La location meublée offre deux statuts fiscaux distincts : le LMNP (Loueur en Meublé Non Professionnel) et le LMP (Loueur en Meublé Professionnel). Le choix entre ces deux statuts a des conséquences importantes sur votre imposition, vos obligations déclaratives et votre capacité à récupérer la TVA. Décryptage complet pour faire le bon choix.
@@ -5736,7 +5697,6 @@ Oui, si les deux conditions de seuils sont remplies (23 000 euros et 50 % du rev
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "7 min",
     content: `## Travaux d'entretien locatif : la répartition des charges
 
 La question des travaux et de leur prise en charge est une source frecuente de litiges entre propriétaires et locataires. La loi établit une répartition claire des responsabilités, mais elle n'est pas toujours bien connue. Ce guide fait le point sur les obligaciones respectives de chaque partie en 2026.
@@ -5877,7 +5837,6 @@ Vous pouvez adresser un courrier au propriétaire exigeant des travaux dans un d
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "7 min",
     content: `## Durée du bail de location : les règles selon le type de location
 
 La durée du bail de location varie significativement selon la nature du logement et du contrat. Connaître ces durées est essentiel pour les propriétaires comme pour les locataires, afin de planificar correctement leur projet immobilier et d'anticiper les échéances importantes.
@@ -6011,7 +5970,6 @@ Oui, un bail saisonnier peut être renouvelé pour une nouvelle période de 90 j
     category: "Gestion",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `La gestion d'un bien immobilier en location nécessite une organisation financière rigoureuse. Parmi les obligations du bailleur, l'utilisation d'un compte bancaire séparé pour les revenus locatifs soulève de nombreuses questions. Faisons le point sur ce que dit la loi et comment vous organiser efficacement pour respecter les meilleures pratiques comptables.
 
 ## Qu'est-ce qu'un compte bancaire séparé pour la location ?
@@ -6111,7 +6069,6 @@ Pour un particulier, il n'y a pas de sanction légale directe. Cependant, en cas
     category: "Fiscalité",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `La taxe foncière représente une charge significative pour les propriétaires bailleurs. Comprendre qui doit la payer, comment la déclare et quelles sont les charges récupérables auprès du locataire est essentiel pour une gestion locative sereine et rentable.
 
 ## Qui paie la taxe foncière en location ?
@@ -6224,7 +6181,6 @@ Oui, la taxe foncière est due pour l'année entière. Si vous vendez un bien en
     category: "Fiscalité",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "10 min",
     content: `L'investissement locatif demeure attractif grâce à de multiples dispositifs de réduction d'impôt. En 2026, plusieurs mécanismes permettent aux propriétaires bailleurs de réduire significativement leur imposition. Faisons le point sur ces opportunités pour optimiser votre stratégie fiscale.
 
 ## Le dispositif Pinel : état des lieux en 2026
@@ -6354,7 +6310,6 @@ Le Pinel est particulièrement intéressant si vous êtes fortement imposé et q
     category: "Fiscalité",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `L'amortissement constitue l'un des avantages majeurs du statut LMNP (Loueur en Meublé Non Professionnel). Comprendre son fonctionnement vous permettra d'optimiser significativement votre fiscalité locative. Voici tout ce que vous devez savoir pour tirer le meilleur parti de ce mécanisme comptable.
 
 ## Qu'est-ce que l'amortissement en immobilier locatif ?
@@ -6477,7 +6432,6 @@ Les amortissements non déduits sont pris en compte dans le calcul de la plus-va
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `L'accès au logement reste un défi pour de nombreux locataires. La garantie Visale et d'autres dispositifs permettent de faciliter ce processus. Propriétaires comme locataires doivent connaître ces outils pour sécuriser leurs démarches et réussir leur installation.
 
 ## La garantie Visale : le dispositif d'État
@@ -6608,7 +6562,6 @@ La garantie Visale couvre les impayés pendant toute la durée du bail, dans la 
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `La constitution d'un dossier de location complet est une étape cruciale pour sécuriser votre bail. Connaître les pièces obligatoires et recommandées vous permettra d'éviter les litiges et de sélectionner sereinement vos candidats. Voici le guide complet pour réussir voslocations.
 
 ## Les pièces obligatoires depuis la loi ALUR
@@ -6761,7 +6714,6 @@ Vous pouvez demander des pièces complémentaires mais sans exiger de documents 
     category: "Gestion",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `L'assurance habitation du propriétaire bailleur est souvent négligée, pourtant elle constitue une protection indispensable. Que vous soyez occupant ou non de votre bien, cette assurance mérite une attention particulière pour protéger votre patrimoine immobilier.
 
 ## Assurance propriétaire non occupant (PNO)
@@ -6893,7 +6845,6 @@ Si vous êtes propriétaire de plusieurs biens, vous pouvez négocier un contrat
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `L'entretien régulier de la chaudière est une obligation légale qui pèse sur les épaules des propriétaires bailleurs. Connaître ces obligations vous permettra d'éviter des sanctions et garantir la sécurité de vos locataires. Ne négligez pas cette responsabilité qui peut avoir des conséquences graves.
 
 ## Le cadre légal de l'entretien des équipements
@@ -7018,7 +6969,6 @@ Le professionnel doit vous remettre un procès-verbal d'intervention mentionnant
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `La gestion d'un départ de locataire étranger soulève des questions spécifiques liées à la distance et aux formalités internationales. Comprendre les règles applicables vous permettra d'éviter les litiges et respecter les obligations de chaque partie dans ce contexte particulier.
 
 ## Les règles générales du préavis en France
@@ -7133,7 +7083,6 @@ Oui, le locataire étranger dispose des mêmes droits que tout autre locataire. 
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `L'encadrement des loyers est devenu un dispositif central de la politique du logement en France. Comprendre son fonctionnement est essentiel pour tout propriétaire bailleur opérant en zone tendue. Le non-respect de ces règles peut entraîner des sanctions financières importantes.
 
 ## Le dispositif d'encadrement des loyers
@@ -7264,7 +7213,6 @@ Non, un propriétaire ne peut pas refuser de louer un bien uniquement pour évit
     category: "Fiscalité",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `La location saisonnière attire de nombreux propriétaires souhaitant rentabiliser un bien secondaire tout en conservant la flexibilité d'utilisation. Comprendre le régime fiscal applicable est essentiel pour éviter les surprises et optimiser vos revenus nets. Cette activité présente des spécificités fiscales importantes.
 
 ## Définition de la location saisonnière
@@ -7394,7 +7342,6 @@ Oui, la collecte et le reversement de la taxe de séjour sont obligatoires pour 
     category: "Fiscalité",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "8 min",
     content: `Le régime micro-foncier représente une option simplicité appréciée des propriétaires bailleurs qui souhaitent éviter la complexité de la comptabilité. Connaître ses avantages et ses limites vous permettra de faire le bon choix fiscal pour votre situation patrimoniale et familiale.
 
 ## Le régime micro-foncier expliqué
@@ -7533,7 +7480,6 @@ Faites une simulation en comparant vos charges réelles avec l'abattement de 30 
     category: "Fiscalité",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `La déclaration des revenus fonciers au régime réel nécessite de remplir le formulaire 2044 avec précision. Comprendre sa structure et ses subtilités vous permettra d'optimiser votre fiscalité locative et de bénéficier de toutes les déductions posibles.
 
 ## Le formulaire 2044 expliqué
@@ -7677,7 +7623,6 @@ Les déficits sont reportables sur les revenus fonciers des 10 années suivantes
     category: "Gestion",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `La Garantie Loyers Impayés (GLI) constitue une protection essentielle pour les propriétaires bailleurs qui souhaitent sécuriser leurs revenus locatifs. Encore faut-il bien comprendre son fonctionnement, ses garanties et ses limites avant de souscription pour éviter les surprises lors des sinistres.
 
 ## Qu'est-ce que la Garantie Loyers Impayés ?
@@ -7832,7 +7777,6 @@ Vous devez déclarer l'impayé à votre assureur dans un délai spécifié (gén
     category: "Juridique",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `Face à un locataire défaillant malgré les relances amiables, le recouvrement judiciaire peut devenir nécessaire pour récupérer vos fonds. Comprendre les différentes étapes et procédures vous permettra d'agir efficacement et de naviguer dans le système judiciaire avec sérénité.
 
 ## Les étapes amiables avant la action judiciaire
@@ -7977,7 +7921,6 @@ Oui, si une caution a été fournie, vous pouvez vous retourner contre elle selo
     category: "Gestion",
     date: "2026-04-18",
     updatedAt: "2026-04-18",
-    readTime: "9 min",
     content: `La gestion d'un patrimoine immobilier locatif demande une organisation sans faille et une vision globale de vos investissements. Un logiciel de gestion locative adapté peut vous faire gagner un temps précieux tout en assurant la conformité de vos déclarations et le suivi optimal de vos biens.
 
 ## Pourquoi utiliser un logiciel de gestion locative ?
@@ -8180,7 +8123,6 @@ Non, le logiciel gère le suivi et la comptabilité mais ne se substitue pas à 
     category: "Quittances",
     date: "2026-04-19",
     updatedAt: '2026-04-19',
-    readTime: "8 min",
     content: `## Quittance de loyer : est-elle obligatoire en 2026 ?
 
 La quittance de loyer est le document remis au locataire par le bailleur pour attester du paiement d'un loyer. En France, le Code de la construction et de l'habitation impose au bailleur de délivrer une quittance gratuitement dans un délai de un mois à compter du paiement intégral du loyer et des charges.
@@ -8335,7 +8277,6 @@ Vous êtes tenu de fournir un duplicata si le locataire le demande. Votre espace
     category: "Gestion",
     date: "2026-04-19",
     updatedAt: '2026-04-19',
-    readTime: "10 min",
     content: `## Loyer impayé : votre premier levier d'action
 
 Un loyer impayé est une situation que tout propriétaire bailleur redoute. Pourtant, les statistiques montrent qu'environ 2 à 3 % des locations en France connaissent des incidents de paiement chaque année. Plutôt que de paniquer, il est essentiel d'agir méthodiquement et rapidement.
@@ -8484,7 +8425,6 @@ Si vous obtenez gain de cause devant le tribunal, vous pouvez demander la condam
     category: "Documents",
     date: "2026-04-19",
     updatedAt: '2026-04-19',
-    readTime: "9 min",
     content: `## L'état des lieux : document clé de la location
 
 L'état des lieux est l'un des documents les plus importants du bail de location. Il décrit l'état du logement à l'entrée du locataire et, ultérieurement, à sa sortie. C'est le seul document qui permet de comparer l'état du bien et de justifier d'éventuelles retenues sur le dépôt de garantie.
@@ -8648,7 +8588,6 @@ Oui, le relevé des compteurs d'eau, d'électricité et de gaz est obligatoire l
     category: "Gestion",
     date: "2026-04-19",
     updatedAt: '2026-04-19',
-    readTime: "11 min",
     content: `## Comprendre les règles d'augmentation de loyer en 2026
 
 L'augmentation de loyer est un sujet qui préoccupe autant les propriétaires que les locataires. En 2026, la réglementation encadrant la révision des loyers s'est complexifiée avec la mise en place de l'encadrement des loyers dans de nombreuses villes françaises.
@@ -8812,7 +8751,6 @@ Appliquez la procédure de relance pour loyer impayé. Si le locataire conteste 
     category: "Gestion",
     date: "2026-04-19",
     updatedAt: '2026-04-19',
-    readTime: "10 min",
     content: `## Pourquoi passer à la gestion locative en ligne en 2026
 
 La gestion locative en ligne a révolutionné la façon dont les propriétaires bailleurs gèrent leur patrimoine immobilier. Goodbye aux tableurs Excel incompréhensibles et aux dossiers papier qui s'accumulent. En 2026, les logiciels de gestion locative en ligne offrent des fonctionnalités complètes à des prix accessibles, permettant à tout propriétaire de gérer ses biens comme un professionnel.
@@ -8975,7 +8913,6 @@ La mise en place initiale prend généralement entre 30 minutes et 2 heures selo
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "9 min",
     content: `## Plus-value immobilière en location : ce qu'il faut savoir en 2026
 
 Lorsqu'un propriétaire bailleur vend un bien immobilier ayant été loué, la plus-value réalisée est susceptible d'être imposée. Toutefois, des exonérations et des stratégies d'optimisation existent. Ce guide détaille le mécanisme de la plus-value en location, les conditions d'exonération et les calculs à effectuer.
@@ -9061,7 +8998,6 @@ Oui, les règles de plus-value sont identiques. Cependant, le régime fiscal de 
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "8 min",
     content: `## Travaux deductibles des revenus fonciers : la liste complete 2026
 
 Les travaux réalisés sur un bien mis en location peuvent être déduits des revenus fonciers, réduisant ainsi l'imposition. Encore faut-il connaître précisément quels travaux sont déductibles et dans quelles conditions. Ce guide passe en revue la liste exhaustive des dépenses admises par l'administration fiscale.
@@ -9167,7 +9103,6 @@ Conservez toutes les factures avec mention claire de la nature des travaux, du m
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "6 min",
     content: `## Frais de gestion locative deductibles : guide complet 2026
 
 Les propriétaires bailleurs peuvent déduire de leurs revenus fonciers l'ensemble des frais liés à la gestion de leur patrimoine locatif. Ces dépenses, souvent négligées, représentent pourtant un poste significatif. Découvrez la liste complète des frais déductibles et les conditions à respecter.
@@ -9272,7 +9207,6 @@ La loi ne l'exige pas, mais c'est fortement recommandé pour une bonne gestion e
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "7 min",
     content: `## Déficit foncier et impôt : guide complet pour les propriétaires bailleurs
 
 Le déficit foncier permet de réduire votre imposition globale lorsque vos charges locatives dépassent vos revenus. Une optimisation fiscale puissante mais encadrée. Ce guide détaille le mécanisme, les conditions et les limites du déficit foncier.
@@ -9376,7 +9310,6 @@ Oui, les travaux d'amélioration énergétique sont déductibles et peuvent cré
     category: "Fiscalité",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "8 min",
     content: `## Amortissement LMNP : guide fiscal complet pour la location meublée 2026
 
 Le statut LMNP (Loueur en Meublé Non Professionnel) permet de bénéficier de l'amortissement du bien et de ses équipements. Contrairement au régime foncier, l'amortissement crée un déficit qui ne s'impute pas sur le revenu global mais reporte sur les bénéfices futurs. Ce guide explique le mécanisme de l'amortissement en LMNP.
@@ -9476,7 +9409,6 @@ Non, le déficit LMNP (amortissement) reporte uniquement sur les bénéfices LMN
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "7 min",
     content: `## Recours locataire : procédure complete et solutions en cas de litige bailleur
 
 Un locataire qui rencontre un problème avec son bailleur dispose de plusieurs voies de recours. Ce guide détaille les procédures amiables et judiciaires à la disposition du locataire, depuis la réclamation jusqu'au tribunal.
@@ -9587,7 +9519,6 @@ Oui, si le tribunal estime que le locataire a manqué à ses obligations (par ex
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "7 min",
     content: `## Locataire handicape : allocations et protections speciales en 2026
 
 Les locataires en situation de handicap disposent de droits spécifiques et d'aides financières particulières pour les accompagner dans leur logement. Ce guide détaille les allocations disponibles, les protections légales et les recours en cas de difficulté.
@@ -9684,7 +9615,6 @@ La Caf peut accorder une avance locative pour le dépôt de garantie. Certaines 
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "7 min",
     content: `## Trouble de voisinage en location : procedures et recours en 2026
 
 Les troubles de voisinage sont une source fréquente de conflits entre locataires et parfois entre propriétaires. Qu'il s'agisse de bruits, de nuisances olfactives ou de dégradations, chaque partie dispose de recours. Ce guide détaille les démarches amiables et judiciaires disponibles.
@@ -9791,7 +9721,6 @@ L'action en justice se prescribe par 5 ans à compter de la cessation du trouble
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "6 min",
     content: `## Assurance proprietaire non-occupant (PNO) : ce qu'il faut savoir en 2026
 
 L'assurance Propriétaire Non-Occupant (PNO) est souvent mal connue des bailleurs. Elle est pourtant devenue incontournable, voire obligatoire dans certains cas. Ce guide détaille les obligations, les couvertures et les conseils pour bien choisir votre assurance PNO.
@@ -9900,7 +9829,6 @@ Les tarifs varient de 100 à 400 € par an selon la valeur du bien, sa localisa
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "6 min",
     content: `## Protection du bailleur : guide des assurances pour proprietaires bailleurs 2026
 
 Un propriétaire bailleur faces à de nombreux risques : impayés, dégradations, litiges, sinistres. Ce guide passe en revue les différentes assurances et protections disponibles pour sécuriser votre investissement locatif.
@@ -10009,7 +9937,6 @@ L'agence assure un suivi professionnel et une intervención rapide. En contrepar
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "5 min",
     content: `## GLI ou protection juridique : guide comparatif pour le proprietaire bailleur
 
 Garantie Loyer Impayé (GLI) et protection juridique sont deux assurances distinctes que les propriétaires bailleurs doivent souvent choisir entre elles. Ce guide compare ces deux protections pour vous aider à faire le bon choix.
@@ -10102,7 +10029,6 @@ Oui, les cotisations de protection juridique sont déductibles des revenus fonci
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "9 min",
     content: `## Investissement locatif en 2026 : guide complet pour debuter
 
 L'investissement locatif reste l'un des placements préférés des Français. En 2026, avec la remontée des taux et les évolutions fiscales, il est essentiel de bien comprendre les mécaniques avant de se lancer. Ce guide couvre les bases essentielles pour investir intelligemment.
@@ -10239,7 +10165,6 @@ Pour un premier investissement, l'agence apporte son expertise du marché. La ge
     category: "Calculs",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "6 min",
     content: `## Rentabilité locative nette vs brute : guide de calcul 2026
 
 Avant d'investir dans l'immobilier locatif, il est essentiel de savoir calculer correctement la rentabilité. Beaucoup d'investisseurs novices se contentent du rendement brut, mais le rendement net offre une image bien plus réaliste. Ce guide explique tout.
@@ -10358,7 +10283,6 @@ Non. La appreciation potentielle du bien, les avantages fiscaux et la qualité d
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "7 min",
     content: `## Immobilier neuf vs ancien : guide comparatif pour l'investissement locatif
 
 Faut-il privilégier le neuf ou l'ancien pour un investissement locatif ? Cette question se pose à tout investisseur. Chaque option présente des avantages et des inconvénients. Ce guide compare les deux pour vous aider à décider.
@@ -10484,7 +10408,6 @@ Tout dépend de l'emplacement. En zone tendue, les deux se louent facilement. En
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "7 min",
     content: `## Location etudiante : guide complet du bailleur en 2026
 
 Louer à un étudiant présente des spécificités : garanties adaptées, profils variés, gestion particulière. Ce guide couvre tout ce qu'un bailleur doit savoir pour réussir sa location étudiante.
@@ -10631,7 +10554,6 @@ Anticipez la remise en état entre deux locataires. Profitez des périodes de va
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    readTime: "6 min",
     content: `## Resiliation du bail de location : motifs, délais et procédure 2026
 
 La résiliation du bail de location peut survenir à l'initiative du locataire ou du bailleur. Chaque situation obéit à des règles précises. Ce guide détaille les différentes formes de résiliation, les délais à respecter et les procédures à suivre.
@@ -10771,7 +10693,6 @@ Le bailleur doit engager une procédure d'expulsion judiciaire. L'expulsion effe
     category: "Juridique",
     date: "2026-05-06",
     updatedAt: "2026-05-06",
-    readTime: "10 min",
     content: `## Comment Rédiger un Bail de Location : Guide Complet 2026
 
 Rédiger un bail de location conforme représente une étape fondamentale pour tout propriétaire bailleur. Un contrat mal rédigé expose à des litiges coûteux, à des sanctions administratives et à des risques juridiques importants.
@@ -10830,7 +10751,6 @@ Non, les clauses du bail ne peuvent pas être modifiées unilatéralement pendan
     category: "Juridique",
     date: "2026-05-06",
     updatedAt: "2026-05-06",
-    readTime: "8 min",
     content: `## Bail Meublé vs Bail Vide : Quelle Différence Choisir ?
 
 Le choix entre bail meublé et bail vide impacte directement votre rentabilité, vos obligations fiscales et la relation avec votre locataire.
@@ -10878,7 +10798,6 @@ Le bail meublé sous statut LMNP offre généralement une meilleure optimisation
     category: "Juridique",
     date: "2026-05-13",
     updatedAt: "2026-05-13",
-    readTime: "9 min",
     content: `## Congé Bailleur : Comment Donner Congé à Son Locataire en 2026
 
 Donner congé à un locataire représente une décision importante qui doit respecter des règles strictes.
@@ -10923,7 +10842,6 @@ Le bailleur doit engager une procédure d'expulsion auprès du tribunal.
     category: "Juridique",
     date: "2026-05-20",
     updatedAt: "2026-05-20",
-    readTime: "7 min",
     content: `## Sous-location : Est-ce Autorisé et Comment la Mettre en Place ?
 
 La sous-location est une pratique fréquente mais mal connue. Elle peut représenter une opportunité ou un risque selon les cas.
@@ -10960,7 +10878,6 @@ Oui, les mêmes règles s'appliquent.
     category: "Juridique",
     date: "2026-05-06",
     updatedAt: "2026-05-06",
-    readTime: "10 min",
     content: `## Droits et Obligations du Locataire : Guide Complet 2026
 
 En tant que locataire, vous disposez de droits protégés par la loi et d'obligations à respecter.
@@ -11003,7 +10920,6 @@ Non, sauf cas d'urgence, le bailleur doit respecter un préavis de 48 heures min
     category: "Juridique",
     date: "2026-05-06",
     updatedAt: "2026-05-06",
-    readTime: "10 min",
     content: `## Droits et Obligations du Bailleur : Ce Que la Loi Impose en 2026
 
 Le bailleur en France bénéficie de droits protégés mais est soumis à des obligations nombreuses et précises.
@@ -11048,7 +10964,6 @@ Oui, sans avoir à justifier.
     category: "Juridique",
     date: "2026-05-13",
     updatedAt: "2026-05-13",
-    readTime: "9 min",
     content: `## Travaux de Rénovation : Qui Paye Quoi ?
 
 La question des travaux en location est une source majeure de litiges. Voici la frontière claire entre les responsabilités.
@@ -11083,7 +10998,6 @@ Les travaux d'aménagement léger sont tolérés sans accord préalable. Les tra
     category: "Gestion",
     date: "2026-05-13",
     updatedAt: "2026-05-13",
-    readTime: "9 min",
     content: `## Charges Locatives : Liste Complète et Récupérables en 2026
 
 Les charges locatives récupérables sont définies par le décret du 26 août 1987 modifié.
@@ -11126,7 +11040,6 @@ Oui, les salaires et charges sociales du gardien sont récupérables au tantièm
     category: "Juridique",
     date: "2026-05-13",
     updatedAt: "2026-05-13",
-    readTime: "10 min",
     content: `## Comment Faire un État des Lieux : Modèle et Procédure en 2026
 
 L'état des lieux permet de comparer l'état du logement à l'entrée et à la sortie du locataire.
@@ -11159,7 +11072,6 @@ Les deux parties ensemble ou un huissier en cas de désaccord.
     category: "Gestion",
     date: "2026-05-20",
     updatedAt: "2026-05-20",
-    readTime: "8 min",
     content: `## Gestion Locative : Combien Ça Coûte en 2026 ?
 
 Les honoraires de gestion varient généralement entre 5 % et 10 % du montant annuel des loyers hors charges.
@@ -11188,7 +11100,6 @@ Oui, entièrement déductibles des revenus fonciers.
     category: "Gestion",
     date: "2026-05-20",
     updatedAt: "2026-05-20",
-    readTime: "10 min",
     content: `## Loyer Impayé : Que Faire et Comment Agir Rapidement ?
 
 Plus la réaction est rapide, plus les chances de recouvrement sont élevées.
@@ -11221,7 +11132,6 @@ Oui, au taux légal. Au second semestre 2026, il est de 6,84 % pour un créancie
     category: "Calculs",
     date: "2026-05-27",
     updatedAt: "2026-05-27",
-    readTime: "6 min",
     content: `## Comment Calculer les Intérêts de Retard sur Loyer Impayé
 
 Les intérêts de retard courent à partir de la mise en demeure. Le taux applicable est celui fixé par arrêté semestriel. Au second semestre 2026 : 6,84 % pour un créancier particulier, 2,75 % dans les autres cas (arrêté du 26 juin 2026).
@@ -11250,7 +11160,6 @@ Non, sans courrier formalisant la demande, le locataire n'est pas en tort.
     category: "Gestion",
     date: "2026-05-27",
     updatedAt: "2026-05-27",
-    readTime: "7 min",
     content: `## Dossier de Location : Que Doit Contenir un Dossier Complet ?
 
 Un dossier complet protège le bailleur et permet une sélection éclairée du locataire.
@@ -11279,7 +11188,6 @@ Non, les frais de dossier réclamés au locataire sont interdits depuis la loi A
     category: "Fiscalité",
     date: "2026-06-03",
     updatedAt: "2026-06-03",
-    readTime: "11 min",
     content: `## LMNP 2026 : Guide Complet du Statut Loueur Meublé Non Professionnel
 
 Le statut LMNP offre un régime fiscal attractif pour les propriétaires qui louent des biens équipés.
@@ -11318,7 +11226,6 @@ Oui, pour des biens différents.
     category: "Fiscalité",
     date: "2026-06-03",
     updatedAt: "2026-06-03",
-    readTime: "9 min",
     content: `## Comment Déclarer ses Revenus Locatifs en 2026
 
 La déclaration conditionne le montant de l'impôt et des prélèvements sociaux.
@@ -11351,7 +11258,6 @@ Oui, dans un délai de 3 mois après la date limite.
     category: "Fiscalité",
     date: "2026-06-03",
     updatedAt: "2026-06-03",
-    readTime: "8 min",
     content: `## Régime Micro-Foncier vs Réel : Quelle Option Choisir ?
 
 Le choix du régime fiscal peut réduire significativement votre imposition.
@@ -11384,7 +11290,6 @@ Non, vous pouvez changer chaque année avant le 1er février.
     category: "Juridique",
     date: "2026-06-03",
     updatedAt: "2026-06-03",
-    readTime: "8 min",
     content: `## Garantie Visale : Comment Fonctionne et Qui Peut en Bénéficier ?
 
 Visale est une garantie gratuite qui couvre les bailleurs contre les loyers impayés et les dégradations.
@@ -11417,7 +11322,6 @@ Non, les deux dispositifs ne peuvent pas se cumuler sur un même bail.
     category: "Juridique",
     date: "2026-06-10",
     updatedAt: "2026-06-10",
-    readTime: "8 min",
     content: `## Assurance Propriétaire Non Occupant : Guide Complet 2026
 
 L'assurance PNO protège le bailleur contre les risques liés à sa qualité de propriétaire bailleur.
@@ -11450,7 +11354,6 @@ Non, pour cela il faut une assurance GLI ou le dispositif Visale.
     category: "Fiscalité",
     date: "2026-06-10",
     updatedAt: "2026-06-10",
-    readTime: "11 min",
     content: `## Comment Investir dans l'Immobilier Locatif : Guide Débutant 2026
 
 L'investissement locatif combine constitution d'un patrimoine et revenus complémentaires.
@@ -11487,7 +11390,6 @@ Pas obligatoire mais peut présenter des avantages en termes de transmission pat
     category: "Fiscalité",
     date: "2026-06-10",
     updatedAt: "2026-06-10",
-    readTime: "9 min",
     content: `## Plus-Value Immobilière en Location : Calcul et Exonération
 
 La plus-value est la différence entre le prix de vente et le prix d'achat d'un bien.
@@ -11520,7 +11422,6 @@ Oui, la plus-value doit être déclarée même si totalement exonérée.
     category: "Fiscalité",
     date: "2026-06-10",
     updatedAt: "2026-06-10",
-    readTime: "8 min",
     content: `## Bail Meublé vs Bail Vide pour Investisseur
 
 Le choix impacte rentabilité, fiscalité et gestion quotidienne.
@@ -11546,7 +11447,12 @@ Pas nécessairement. Analysez le coût réel de l'équipement et la rotation att
 [CTA : Comparez la rentabilité de vos investissements avec RentReady — essai gratuit]`
   },
 
-] as Article[];
+];
+
+export const articles: Article[] = articleInputs.map((article) => ({
+  ...article,
+  readTime: computeReadTime(article.content),
+}));
 
 export function getArticleBySlug(slug: string): Article | undefined {
   return articles.find((a) => a.slug === slug);

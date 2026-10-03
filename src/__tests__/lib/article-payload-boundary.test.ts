@@ -84,7 +84,25 @@ describe("article payload boundaries", () => {
       const m = articleMeta.find((x) => x.slug === a.slug);
       expect(m, `missing metadata for ${a.slug}`).toBeDefined();
       expect(m!.title).toBe(a.title);
-      expect(m!.readTime).toBe(a.readTime);
+      expect(m!.date).toBe(a.date);
+    }
+  });
+
+  /**
+   * `readTime` is deliberately NOT compared to the article's own `readTime`.
+   *
+   * It used to be, and that assertion is what let 30 articles declare 6 to 11
+   * minutes for bodies of 100 to 250 words: the generator copied the
+   * hand-written number, and this test then certified the copy as correct. The
+   * metadata value is now computed from the body at 200 words/minute — see
+   * `article-readtime-honesty.test.ts`, which checks it against reality.
+   *
+   * The check that matters here is only that the field is well-formed.
+   */
+  it("the generated readTime is well-formed for every article", async () => {
+    const { articleMeta } = await import("@/data/articles-meta");
+    for (const m of articleMeta) {
+      expect(m.readTime, m.slug).toMatch(/^\d+ min$/);
     }
   });
 });
