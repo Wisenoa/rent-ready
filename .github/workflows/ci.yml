@@ -31,6 +31,11 @@ env:
   # is sent in CI; see src/lib/email.ts, which throws only when a send is
   # actually attempted.
   RESEND_API_KEY: re_ci_placeholder
+  # `src/lib/stripe.ts` throws at module load without it, and the registration
+  # path creates a Stripe customer, so every browser spec that registers a user
+  # dies here otherwise. A placeholder is enough: the key is never used for an
+  # assertion, and no request reaches Stripe in CI.
+  STRIPE_SECRET_KEY: sk_test_ci_placeholder
   BETTER_AUTH_SECRET: ci-secret-not-used-for-assertions
   # Trusted by Better Auth's origin check (src/lib/auth-server.ts). In production
   # only this exact origin is accepted — the loopback wildcard is development
