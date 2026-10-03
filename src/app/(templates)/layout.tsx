@@ -44,7 +44,7 @@ export default function TemplatesLayout({
               Documents
             </Link>
             <Link
-              href="/templates/calculateur-rendement-locatif"
+              href="/outils/calculateur-rendement"
               className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
             >
               Calculateurs

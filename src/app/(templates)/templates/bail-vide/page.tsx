@@ -610,7 +610,7 @@ export default function BailVidePage() {
               { href: "/templates/bail-meuble", label: "Bail meublé", emoji: "🛏️", desc: "Location meublée 1 an" },
               { href: "/templates/bail-mobilite", label: "Bail mobilité", emoji: "🏃", desc: "1-10 mois, sans dépôt" },
               { href: "/templates/etat-des-lieux", label: "État des lieux", emoji: "📋", desc: "Entrée et sortie" },
-              { href: "/templates/calculateur-rendement-locatif", label: "Rendement locatif", emoji: "📊", desc: "Simulateur gratuit" },
+              { href: "/outils/calculateur-rendement", label: "Rendement locatif", emoji: "📊", desc: "Simulateur gratuit" },
             ].map((t) => (
               <Link
                 key={t.href}

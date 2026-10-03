@@ -94,11 +94,17 @@ export function SurfaceHabitableClient() {
     const height = parseFloat(room.ceilingHeight) || 2.50;
     if (surface === 0) return sum;
 
-    if (height < 1.80) return sum; // Not counted at all
-    if (height < 2.50) {
-      // Proportional reduction for 1.80-2.50m
-      return sum + surface * ((height - 1.80) / 0.70);
-    }
+    // Article R.111-2 du code de la construction et de l'habitation excludes
+    // "les parties de locaux d'une hauteur inférieure à 1,80 mètre". The test is
+    // binary: a room is excluded in full below 1.80 m and counted in full from
+    // 1.80 m up. There is no proportional scale between the two.
+    //
+    // This used to interpolate (`surface * ((height - 1.80) / 0.70)` for the
+    // 1.80–2.50 m band), which does not exist in the law: a 20 m² room with a
+    // 2.15 m ceiling was declared as 10 m² habitable. The surface feeds
+    // `bail-pdf-generator.tsx`, so the error was written into the lease and used
+    // to compute the rent.
+    if (height < 1.80) return sum; // Excluded entirely
     return sum + surface;
   }, 0);
 

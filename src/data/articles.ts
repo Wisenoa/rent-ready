@@ -8936,7 +8936,7 @@ RentReady est un logiciel de gestion locative en ligne conçu spécifiquement po
 **Fonctionnalités clés :**
 - [Gestion des paiements](/features) : suivi automatique, alertes de retard, relances
 - [Génération de quittances PDF](/outils/generateur-quittance) : en 2 minutes, conformes et archivées
-- [Modèles de bail](/outils/modele-bail-location) : gratuits, mis à jour 2026, personnalisables
+- [Modèles de bail](/templates/bail-vide) : gratuits, mis à jour 2026, personnalisables
 - [Calcul de révision IRL](/outils/calculateur-irl) : automatique selon les derniers indices
 - [État des lieux numérique](/templates/etat-des-lieux) : checklist interactive, photos intégrées
 - [Suivi des travaux](/blog/travaux-entretien-locatif) : demandes de maintenance, devis, suivi

@@ -264,7 +264,7 @@ export function IRLCalculatorClient() {
                   <div className="text-sm text-stone-600">Toutes les definitions legales</div>
                 </div>
               </Link>
-              <Link href="/outils/calculateur-caution" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-depot-garantie" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">🔐</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur Caution</div>

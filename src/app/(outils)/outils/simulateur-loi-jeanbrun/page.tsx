@@ -422,7 +422,7 @@ export default function SimulateurJeanbrunPage() {
               </div>
             </a>
             <a
-              href="/outils/modele-bail-location"
+              href="/templates/bail-vide"
               className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30"
             >
               <span className="text-2xl">📄</span>

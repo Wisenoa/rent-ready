@@ -53,15 +53,6 @@ const TOOLS = [
     badge: null,
   },
   {
-    title: "Calculateur Caution de Loyer",
-    description:
-      "Calculez le dépôt de garantie maximum selon la zone tendue ou non tendue.",
-    href: "/outils/calculateur-caution",
-    icon: "🛡️",
-    category: "Calculateurs",
-    badge: null,
-  },
-  {
     title: "Calculateur Charges Locatives",
     description:
       "Estimez le coût réel de vos charges de propriété et la provision mensuelle à demander au locataire.",

@@ -223,6 +223,49 @@ const config: NextConfig = {
       },
 
       // ────────────────────────────────────────
+      // Duplicate deposit calculators: one crashed, one was correct
+      // ────────────────────────────────────────
+      // `/outils/calculateur-caution` and `/outils/calculateur-depot-garantie`
+      // answered the same question ("what is the maximum legal deposit?") with
+      // the same two inputs, so they competed for the same intent.
+      //
+      // The "caution" one was broken twice over:
+      //   1. `calculator-client.tsx` rendered `<DepositCalculatorClient />`
+      //      inside `DepositCalculatorClient`, so the page recursed until the
+      //      React stack blew and visitors saw a blank page;
+      //   2. its rule returned 2 months in any non-tendue zone, ignoring
+      //      whether the lease was furnished. The law caps an unfurnished
+      //      (non-meublé) deposit at 1 month everywhere.
+      //
+      // `/outils/calculateur-depot-garantie` asks for the zone *and* whether
+      // the lease is furnished and applies the cap correctly, so it becomes the
+      // single canonical page. The file is deleted; this redirect keeps the old
+      // URL and hands its signal over.
+      {
+        source: '/outils/calculateur-caution',
+        destination: '/outils/calculateur-depot-garantie',
+        permanent: true,
+      },
+
+      // Same intent as /outils/calculateur-rendement ("rentability locative"),
+      // which lives under /templates even though it calculates nothing and the
+      // real calculator is the one under /outils. One URL per intent.
+      {
+        source: '/templates/calculateur-rendement-locatif',
+        destination: '/outils/calculateur-rendement',
+        permanent: true,
+      },
+
+      // A static article sitting in /outils/, cannibalising /templates/bail-vide.
+      // /outils is meant to hold things that compute or generate; this one only
+      // describes a model that already has a canonical home.
+      {
+        source: '/outils/modele-bail-location',
+        destination: '/templates/bail-vide',
+        permanent: true,
+      },
+
+      // ────────────────────────────────────────
       // Slugs d'articles corrigés
       // ────────────────────────────────────────
       // /blog/assurance-loyer-impaye-GLI is deliberately NOT redirected: Next

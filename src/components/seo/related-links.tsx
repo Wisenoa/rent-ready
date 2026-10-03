@@ -67,7 +67,7 @@ const CONTENT_REGISTRY: RelatedPage[] = [
   },
   {
     title: "Calculateur de rendement locatif",
-    href: "/templates/calculateur-rendement-locatif",
+    href: "/outils/calculateur-rendement",
     excerpt: "Analysez la rentabilité de votre investissement immobilier",
     category: "Outils",
     type: "tool",
