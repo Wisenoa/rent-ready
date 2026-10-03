@@ -185,7 +185,7 @@ export default function GestionLocativePage() {
 
   return (
     <article className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
-      <SchemaMarkup data={GESTION_SCHEMA} />
+      <SchemaMarkup data={GESTION_SCHEMA} breadcrumbRenderedByComponent />
 
       <Breadcrumb
         items={[

@@ -220,7 +220,7 @@ function getScore(alternative: string, criterion: string): "check" | "cross" | "
 export default function ComparatifLogicielGestionLocative() {
   return (
     <>
-      <SchemaMarkup data={faqSchema} />
+      <SchemaMarkup data={faqSchema} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },

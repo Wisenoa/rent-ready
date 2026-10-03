@@ -68,7 +68,7 @@ function CalculateurIRLJsonLd() {
       ],
     })
   );
-  return <SchemaMarkup data={schema} />;
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
 export default function CalculateurIRLPage() {

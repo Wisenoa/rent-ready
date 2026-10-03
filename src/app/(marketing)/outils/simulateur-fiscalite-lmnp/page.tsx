@@ -74,7 +74,7 @@ function SimulateurFiscalLmnpJsonLd() {
       ],
     })
   );
-  return <SchemaMarkup data={schema} />;
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
 export default function SimulateurFiscalLmnpPage() {

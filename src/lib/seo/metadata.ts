@@ -67,6 +67,19 @@ export function buildTitle(page: string, city?: string): string {
 }
 
 /**
+ * Strip a trailing brand suffix that the root layout would append a second time.
+ *
+ * `src/app/layout.tsx` declares `title.template = "%s | RentReady"`, so any
+ * page whose own title already ends in the brand produces
+ * "… — RentReady | RentReady". Four pages rendered exactly that, and the brand
+ * name in a title is a signal Google discounts, so it is worth fixing once here
+ * rather than page by page.
+ */
+function dedupeBrandSuffix(title: string): string {
+  return title.replace(/\s*\|\s*RentReady\s*$/, "").trim() || title;
+}
+
+/**
  * Default metadata shape for generateMetadata().
  * Override title/description as needed per page.
  *
@@ -96,7 +109,7 @@ export function baseMetadata({
     : DEFAULT_OG_IMAGE;
 
   return {
-    title,
+    title: dedupeBrandSuffix(title),
     description,
     keywords,
     alternates: {
@@ -106,7 +119,7 @@ export function baseMetadata({
       ),
     },
     openGraph: {
-      title,
+      title: dedupeBrandSuffix(title),
       description,
       type,
       url: `${BASE_URL}${url}`,
@@ -122,7 +135,7 @@ export function baseMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: dedupeBrandSuffix(title),
       description,
       images: [ogImageUrl],
     },

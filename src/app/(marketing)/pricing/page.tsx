@@ -40,7 +40,7 @@ const PricingSectionWrapper = dynamicImport(
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Tarifs RentReady 2026 — À partir de 9 €/mois | Essai gratuit sans engagement",
+      "Tarifs RentReady 2026 — à partir de 9 €/mois, essai gratuit sans engagement",
     description:
       "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, détection des loyers par DSP2, révision IRL automatique. Essai gratuit 14 jours.",
     url: "/pricing",

@@ -110,7 +110,7 @@ export function LettreRelanceClient() {
 
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
+      <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-3xl mx-auto px-4 py-12">

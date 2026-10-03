@@ -79,7 +79,7 @@ export default function VillesPage() {
 
   return (
     <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-      <SchemaMarkup data={schema} />
+      <SchemaMarkup data={schema} breadcrumbRenderedByComponent />
 
       <Breadcrumb
         items={[

@@ -11,15 +11,68 @@ import {
   getEntryPrice,
 } from "@/data/entity";
 
+/**
+ * Entity types that belong to the site, not to a page.
+ *
+ * `src/app/layout.tsx` renders `<OrganizationSchema />` and `<WebSiteSchema />`
+ * on every request, so the site-level entity is already declared once per page.
+ * Thirty-two page schemas also declared their own copy — and `SchemaMarkup` was
+ * called from 30+ files, so cleaning them up one at a time was 32 chances to
+ * break a page.
+ *
+ * Stripping them here makes the root layout the single source of truth for the
+ * organisation and the website, at every call site, with no behaviour left to
+ * remember.
+ *
+ * What a page may still declare: SoftwareApplication, Article, FAQPage,
+ * HowTo, DefinedTerm, ItemList, Service, and so on. What it must not: the site
+ * entity, which is identical everywhere.
+ */
+const SITE_LEVEL_TYPES = new Set(["Organization", "WebSite"]);
+
 interface SchemaMarkupProps {
   data: Record<string, unknown>;
+  /**
+   * Set when the page also renders `<Breadcrumb>`, which emits its own
+   * BreadcrumbList from the same items. The two were identical in content but
+   * not in shape: the component omits `item` on the current page, the page
+   * schema included it. Two conflicting breadcrumbs on one page is worse than
+   * the page schema being the redundant one.
+   */
+  breadcrumbRenderedByComponent?: boolean;
 }
 
-export function SchemaMarkup({ data }: SchemaMarkupProps) {
+function stripSiteLevelNodes(
+  data: Record<string, unknown>,
+  dropBreadcrumb: boolean
+): unknown {
+  const isRedundant = (node: unknown): boolean => {
+    const type = (node as Record<string, unknown>)?.["@type"];
+    if (typeof type !== "string") return false;
+    if (SITE_LEVEL_TYPES.has(type)) return true;
+    return dropBreadcrumb && type === "BreadcrumbList";
+  };
+
+  const graph = data["@graph"];
+  if (Array.isArray(graph)) {
+    const kept = graph.filter((node) => !isRedundant(node));
+    // A graph of only redundant nodes carries nothing of its own.
+    if (kept.length === 0) return null;
+    return { ...data, "@graph": kept };
+  }
+
+  if (isRedundant(data)) return null;
+  return data;
+}
+
+export function SchemaMarkup({ data, breadcrumbRenderedByComponent }: SchemaMarkupProps) {
+  const cleaned = stripSiteLevelNodes(data, breadcrumbRenderedByComponent === true);
+  if (cleaned === null) return null;
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(cleaned) }}
     />
   );
 }

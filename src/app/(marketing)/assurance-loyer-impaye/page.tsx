@@ -100,7 +100,7 @@ export default function AssuranceLoyerImpayéIndex() {
 
   return (
     <>
-      <SchemaMarkup data={GLI_SCHEMA} />
+      <SchemaMarkup data={GLI_SCHEMA} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },

@@ -368,7 +368,7 @@ export default async function QuittanceVillePage({ params }: Props) {
 
   return (
     <>
-      <SchemaMarkup data={buildQuittanceVilleSchema(city)} />
+      <SchemaMarkup data={buildQuittanceVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },

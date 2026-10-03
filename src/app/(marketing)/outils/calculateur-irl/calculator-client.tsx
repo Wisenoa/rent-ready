@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { RelatedContent } from "@/components/seo/related-links";
@@ -75,36 +74,7 @@ const breadcrumbItems = [
   { label: "Calculateur IRL", href: "/outils/calculateur-irl" },
 ];
 
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Calculateur IRL — Indice de Référence des Loyers",
-      description: "Consultez l'historique des IRL et la variation annuelle. Outil gratuit pour propriétaires et locataires.",
-      url: "https://www.rentready.fr/outils/calculateur-irl",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://www.rentready.fr${item.href}`,
-      })),
-    },
-  ],
-};
+;
 
 export function IRLCalculatorClient() {
   const [selectedQuarter, setSelectedQuarter] = useState(IRL_DATA[0]);
@@ -124,7 +94,6 @@ export function IRLCalculatorClient() {
 
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-5xl mx-auto px-4 py-12">

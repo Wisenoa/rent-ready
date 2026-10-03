@@ -116,7 +116,7 @@ export default function RentReadyVsLegalPlace() {
 
   return (
     <>
-      <SchemaMarkup data={faqSchema} />
+      <SchemaMarkup data={faqSchema} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },

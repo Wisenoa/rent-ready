@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
@@ -40,36 +39,7 @@ const breadcrumbItems = [
   { label: "Calculateur Dépôt de Garantie", href: "/outils/calculateur-depot-garantie" },
 ];
 
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Calculateur de Dépôt de Garantie",
-      description: "Calculez le dépôt de garantie maximum légal pour votre location selon la zone et le type de bail.",
-      url: "https://www.rentready.fr/outils/calculateur-depot-garantie",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://www.rentready.fr${item.href}`,
-      })),
-    },
-  ],
-};
+;
 
 export function DepotGarantieCalculatorClient() {
   const [monthlyRent, setMonthlyRent] = useState("");
@@ -100,7 +70,6 @@ export function DepotGarantieCalculatorClient() {
 
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-5xl mx-auto px-4 py-12">

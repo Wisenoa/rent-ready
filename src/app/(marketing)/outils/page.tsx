@@ -199,7 +199,7 @@ function OutilsJsonLd() {
       { name: "Outils", url: "https://www.rentready.fr/outils" },
     ])
   );
-  return <SchemaMarkup data={data} />;
+  return <SchemaMarkup data={data} breadcrumbRenderedByComponent />;
 }
 
 export default function OutilsPage() {

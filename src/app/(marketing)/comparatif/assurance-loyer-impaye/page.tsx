@@ -168,7 +168,7 @@ const solutions = [
 export default function AssuranceLoyerImpayé() {
   return (
     <>
-      <SchemaMarkup data={faqSchema} />
+      <SchemaMarkup data={faqSchema} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },

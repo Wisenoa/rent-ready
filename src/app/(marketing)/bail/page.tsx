@@ -220,7 +220,7 @@ const BAIL_SCHEMA = {
 export default function BailPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <SchemaMarkup data={BAIL_SCHEMA} />
+      <SchemaMarkup data={BAIL_SCHEMA} breadcrumbRenderedByComponent />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
 {/* Breadcrumb */}

@@ -432,7 +432,7 @@ export default async function GestionLocativeVille({ params }: Props) {
 
   return (
     <>
-      <SchemaMarkup data={buildGestionLocativeVilleSchema(city)} />
+      <SchemaMarkup data={buildGestionLocativeVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },

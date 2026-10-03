@@ -422,10 +422,36 @@ export function buildItemListSchema(input: ItemListSchemaInput) {
    Use for pages that need multiple schema types (e.g., pricing page).
 ───────────────────────────────────────────── */
 
+/**
+ * Compose several schema objects into one `@graph`.
+ *
+ * The builders return either a single node or their own `{ "@graph": [...] }`
+ * wrapper. This used to nest those wrappers inside the outer graph, so a page
+ * calling `buildBreadcrumbSchema`, `buildWebApplicationSchema` and
+ * `buildHowToSchema` produced a graph containing two nested graphs — and the
+ * crawler saw the same `@type` twice, which reads as two competing entities
+ * rather than one page describing one tool.
+ *
+ * Flattening here means a page-level graph holds one flat list of nodes, and
+ * `SchemaMarkup` can also drop the site-level duplicates it strips.
+ */
 export function buildGraphSchema(...schemas: unknown[]) {
+  const nodes: unknown[] = [];
+
+  for (const schema of schemas) {
+    if (schema === null || schema === undefined) continue;
+
+    const record = schema as Record<string, unknown>;
+    if (Array.isArray(record["@graph"])) {
+      nodes.push(...(record["@graph"] as unknown[]));
+    } else {
+      nodes.push(schema);
+    }
+  }
+
   return {
     "@context": "https://schema.org",
-    "@graph": schemas,
+    "@graph": nodes,
   };
 }
 

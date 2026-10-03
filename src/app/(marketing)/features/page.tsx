@@ -44,7 +44,7 @@ const GlassNav = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Fonctionnalités RentReady — Quittances auto, IRL & Open Banking | 2026",
+      "Fonctionnalités RentReady — quittances auto, IRL et Open Banking (2026)",
     description:
       "Quittances conformes loi 1989, détection automatique des loyers via Open Banking DSP2, révision IRL INSEE, portail locataire et gestion des baux. À partir de 9 €/mois.",
     url: "/features",

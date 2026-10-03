@@ -210,7 +210,7 @@ const QUITTANCES_SCHEMA = {
 export default function QuittancesPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <SchemaMarkup data={QUITTANCES_SCHEMA} />
+      <SchemaMarkup data={QUITTANCES_SCHEMA} breadcrumbRenderedByComponent />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
 {/* Breadcrumb */}

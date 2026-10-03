@@ -409,7 +409,7 @@ export default async function BailVillePage({ params }: Props) {
 
   return (
     <>
-      <SchemaMarkup data={buildBailVilleSchema(city)} />
+      <SchemaMarkup data={buildBailVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },

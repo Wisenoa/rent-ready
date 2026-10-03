@@ -181,7 +181,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
   return (
     <>
-      <SchemaMarkup data={buildGlossarySchema(entry)} />
+      <SchemaMarkup data={buildGlossarySchema(entry)} breadcrumbRenderedByComponent />
 
       <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
         {/* Back navigation */}

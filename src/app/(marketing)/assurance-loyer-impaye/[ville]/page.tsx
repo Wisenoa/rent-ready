@@ -340,7 +340,7 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
 
   return (
     <>
-      <SchemaMarkup data={buildGliVilleSchema(city)} />
+      <SchemaMarkup data={buildGliVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },

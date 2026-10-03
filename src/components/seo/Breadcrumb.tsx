@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Home } from "lucide-react";
+import { SchemaMarkup } from "./schema-markup";
 
 export interface BreadcrumbItem {
   label: string;
@@ -115,14 +116,11 @@ export function Breadcrumb({ items, showHomeIcon = true, className = "", pageIte
   const pathname = usePathname();
   const crumbs = items ?? autoBreadcrumbs(pathname);
 
-  const schemaJson = JSON.stringify(breadcrumbListSchema(crumbs, pageItemId));
-
+  // Emitted through SchemaMarkup rather than a raw <script>, so a page that also
+  // declares a BreadcrumbList cannot ship two. Pages were doing both.
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: schemaJson }}
-      />
+      <SchemaMarkup data={breadcrumbListSchema(crumbs, pageItemId)} />
 
       <nav
         aria-label="Fil d'Ariane"
