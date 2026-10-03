@@ -94,6 +94,30 @@ Avoid parallel implementations of the same concept.
 
 ⸻
 
+3b. Workspace par carte (Hermes Kanban)
+
+Quand tu travailles sur une carte Kanban, ton workspace est défini par la carte.
+
+Si `workspace_kind` vaut `dir:<chemin>`, plusieurs agents écrivent dans le même
+arbre. C'est la source de corruption observée sur la famille de cartes
+quittances : `.next/BUILD_ID` disparu pendant qu'un autre agent rebuildait, une
+suite de tests passant de 12s à 87s, une sonde de revue non attribuable
+présente dans l'arbre de l'implémenteur. Si tu vois un fichier qui ne
+t'appartient pas et qui n'est pas stagé, ne le commite pas et ne le supprime
+pas : signale-le dans la carte.
+
+Si `workspace_kind` vaut `worktree`, tu as ton propre arbre sous
+`.worktrees/<task-id>`. Lance `scripts/kanban-workspace.sh` une fois en début de
+carte : il lie `node_modules` et `.env` depuis le checkout principal (un
+worktree neuf n'a ni l'un ni l'autre, sinon chaque carte redécouvre `pnpm
+install` ou installe une seconde copie de l'arbre de dépendances). Le script
+refuse de tourner dans le checkout principal, qui est partagé.
+
+Ne lance jamais `pnpm build` dans le checkout principal pendant que d'autres
+cartes tournent.
+
+⸻
+
 4. Next.js
 
 <!-- BEGIN:nextjs-agent-rules -->

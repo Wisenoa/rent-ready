@@ -17,6 +17,11 @@
 /.next/
 /out/
 
+# per-card git worktrees (Hermes Kanban: workspace_kind=worktree)
+# Each card builds its own .next and node_modules symlink inside its tree;
+# without this, every card's `git add -A` would try to stage sibling cards.
+/.worktrees/
+
 # production
 /build
 
