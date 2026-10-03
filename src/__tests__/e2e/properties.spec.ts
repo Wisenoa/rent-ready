@@ -71,9 +71,29 @@ test.describe('Property Management', () => {
     await page.getByRole('button', { name: /créer|ajouter/i }).click()
     await expect(page.getByText(testProperty.name)).toBeVisible({ timeout: 10_000 })
 
-    // Click on the property to view detail
+    // Click on the property to view detail.
+    //
+    // `getByText` resolves to exactly one element — the `card-title` div nested
+    // inside the card's `<Link>` — measured, not assumed. The click therefore
+    // bubbles to the link and navigates; the target was never the problem.
     await page.getByText(testProperty.name).click()
-    await page.waitForURL(/\/properties\/[^/]+$/, { timeout: 10_000 })
+    //
+    // The flakiness was the TIMEOUT, not the click and not the wait primitive.
+    // `/properties/[id]` is compiled on demand by the dev server, and that first
+    // compile was measured at 14.0s end-to-end (server log: `Compiled
+    // /properties/[id] in 10.7s`, request served in 14024ms) with every other
+    // route already warm — larger than the 10s this line allowed. On an idle
+    // machine the same cold compile is ~1.6s, so whether the old 10s budget was
+    // enough depended on machine load: that is precisely why it looked "flaky
+    // one time in two" rather than reliably broken.
+    //
+    // The server does answer; the budget just expired while it was still
+    // compiling, so the retry then passed.
+    //
+    // `expect(...).toHaveURL` rather than `page.waitForURL`: it asserts the URL
+    // state and re-polls, where `waitForURL` can only wait once and give up.
+    // The 45s covers the cold compile; measured warm, this resolves in ~500ms.
+    await expect(page).toHaveURL(/\/properties\/[^/]+$/, { timeout: 45_000 })
 
     // Detail page should show property name
     await expect(page.getByRole('heading', { name: testProperty.name })).toBeVisible()
