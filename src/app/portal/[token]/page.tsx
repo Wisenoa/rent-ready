@@ -183,7 +183,7 @@ export default async function PortalPage({
           </TabsList>
 
           <TabsContent value="quittances" className="mt-4">
-            <PortalQuittances quittances={quittances} />
+            <PortalQuittances quittances={quittances} token={token} />
           </TabsContent>
 
           <TabsContent value="paiements" className="mt-4">
