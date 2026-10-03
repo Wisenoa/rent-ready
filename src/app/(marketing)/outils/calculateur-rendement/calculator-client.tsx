@@ -247,7 +247,7 @@ export function YieldCalculatorClient() {
           </div>
 
           <div className="mb-10">
-            <YieldCalculatorClient />
+            <YieldCalculatorInner />
           </div>
 
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
