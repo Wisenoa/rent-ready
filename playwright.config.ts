@@ -31,10 +31,14 @@ export default defineConfig({
   // another port); without this the config still spawned `pnpm dev`, which failed
   // with "Invalid project directory: --port" because `pnpm dev` passes its flags
   // through differently.
+  // No `--` between `pnpm dev` and the flag: `next dev -- --port 3003` forwards the
+  // separator to Next, which then reads `--port` as a project directory and exits
+  // with "Invalid project directory provided". Every local `pnpm test:e2e` died
+  // there before running a single test.
   webServer: process.env.CI || process.env.PLAYWRIGHT_BASE_URL
     ? undefined
     : {
-        command: 'pnpm dev -- --port 3003',
+        command: 'pnpm dev --port 3003',
         url: 'http://localhost:3003',
         reuseExistingServer: true,
         timeout: 120_000,
