@@ -16,12 +16,31 @@ const absent = (value: unknown): unknown =>
   value === null || (typeof value === "string" && value.trim() === "") ? undefined : value;
 
 /**
+ * Zeros sous toutes leurs ecritures. On compare APRES la coercion numerique :
+ * "0", "0.0", "0.00", ".0" et "00" valent tous 0, et tester l'egalite avec la
+ * chaine "0" avant coercion laissait passer les autres ecritures, qui
+ * devenaient alors un 0 refuse par `.positive()` — un refus que l'utilisateur
+ * ne voit pas, car le formulaire n'affiche pas `errors.surface`.
+ */
+const isZero = (value: unknown): boolean => {
+  if (typeof value === "number") return value === 0;
+  // Uniquement les chaines : `Number([])` et `Number(false)` valent aussi 0,
+  // on ne veut pas avaler une saisie aberrante pour laDeclarer non renseignee.
+  if (typeof value !== "string") return false;
+  const n = Number(value);
+  return Number.isFinite(n) && n === 0;
+};
+
+/**
  * Nombre positif facultatif. 0 est traite comme "non renseigne" : 0 m² n'est
  * pas une surface, et c'est la valeur par defaut du formulaire.
  */
 const optionalPositiveNumber = (notANumber: string, notPositive: string) =>
   z.preprocess(
-    (value) => (value === 0 || value === "0" ? undefined : absent(value)),
+    (value) => {
+      const v = absent(value);
+      return v === undefined || isZero(v) ? undefined : v;
+    },
     z.coerce
       .number({ error: notANumber })
       .positive(notPositive)

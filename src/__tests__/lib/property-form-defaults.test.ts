@@ -55,6 +55,26 @@ describe("propertySchema — valeurs par defaut du formulaire produit", () => {
         surface,
       });
       expect(parsed.success, `surface=${JSON.stringify(surface)}`).toBe(true);
+      if (parsed.success) {
+        expect(parsed.data.surface).toBeUndefined();
+      }
+    }
+  });
+
+  // Regression du trou restant : tester l'egalite avec la chaine "0" AVANT la
+  // coercion ne capturait que "0". "0.0", "0.00" et ".0" coercent aussi en 0,
+  // donc `.positive()` les refusait — en silence, car le formulaire
+  // n'affiche pas `errors.surface`.
+  it("traite toute ecriture de zero comme une surface non renseignee", () => {
+    for (const surface of ["0.0", "0.00", "0.000", ".0", "00", " 0 ", "0e0"]) {
+      const parsed = propertySchema.safeParse({
+        ...requiredFields,
+        surface,
+      });
+      expect(parsed.success, `surface=${JSON.stringify(surface)}`).toBe(true);
+      if (parsed.success) {
+        expect(parsed.data.surface).toBeUndefined();
+      }
     }
   });
 
