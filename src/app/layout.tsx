@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { formatEntryPrice } from "@/data/entity";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s | RentReady",
   },
   description:
-    "Simplifiez votre gestion locative. Quittances automatiques, suivi des loyers et intelligence artificielle pour les propriétaires bailleurs. À partir de 15 €/mois.",
+    `Simplifiez votre gestion locative. Quittances automatiques, suivi des loyers et gestion des documents pour les propriétaires bailleurs. À partir de ${formatEntryPrice()}.`,
   keywords: [
     "gestion locative",
     "quittance de loyer",
@@ -58,10 +59,10 @@ export const metadata: Metadata = {
     siteName: "RentReady",
     title: "RentReady — Gestion Locative Intelligente",
     description:
-      "Quittances automatiques, suivi bancaire DSP2, et IA pour les propriétaires bailleurs. À partir de 15 €/mois.",
+      `Quittances automatiques, suivi bancaire DSP2 et gestion des documents pour les propriétaires bailleurs. À partir de ${formatEntryPrice()}.`,
     images: [
       {
-        url: "https://www.rentready.fr/opengraph-image.png",
+        url: "https://www.rentready.fr/opengraph-image",
         width: 1200,
         height: 630,
         alt: "RentReady — Gestion Locative Intelligente",
@@ -72,9 +73,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "RentReady — Gestion Locative Intelligente",
     description:
-      "Quittances automatiques, suivi bancaire DSP2, et IA pour les propriétaires bailleurs. 15 €/mois.",
+      `Quittances automatiques, suivi bancaire DSP2 et gestion des documents pour les propriétaires bailleurs. À partir de ${formatEntryPrice()}.`,
     site: "@rentready_fr",
-    images: ["https://www.rentready.fr/opengraph-image.png"],
+    images: ["https://www.rentready.fr/opengraph-image"],
   },
   alternates: {
     canonical: "https://www.rentready.fr",

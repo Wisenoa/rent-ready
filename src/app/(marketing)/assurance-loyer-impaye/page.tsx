@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import cities from "@/data/cities.json";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
@@ -49,11 +49,6 @@ const GLI_SCHEMA = {
       "@type": "WebSite",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://www.rentready.fr/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "Organization",
@@ -82,12 +77,7 @@ const GLI_SCHEMA = {
       url: "https://www.rentready.fr/assurance-loyer-impaye",
       description: "Garantie des Loyers Impayés (GLI) pour propriétaires bailleurs. Couverture jusqu'à 90 % des loyers impayés, prise en charge des frais d'expulsion, détection automatique des paiements.",
       offers: {
-        "@type": "Offer",
-        price: "15.00",
-        priceCurrency: "EUR",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        url: "https://www.rentready.fr/register",
+        ...paidOffer(),
       },
       featureList: [
         "Remboursement jusqu'à 90 % des loyers impayés",

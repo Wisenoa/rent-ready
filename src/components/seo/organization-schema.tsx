@@ -1,4 +1,5 @@
 import { SchemaMarkup } from "./schema-markup";
+import { FOUNDING_YEAR, SAME_AS } from "@/data/entity";
 
 export function OrganizationSchema() {
   const schema = {
@@ -7,9 +8,9 @@ export function OrganizationSchema() {
     name: "RentReady",
     alternateName: "RentReady SAS",
     url: "https://www.rentready.fr",
-    logo: "https://www.rentready.fr/logo.png",
+    logo: "https://www.rentready.fr/logo.svg",
     description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-    foundingDate: "2024",
+    foundingDate: String(FOUNDING_YEAR),
     address: {
       "@type": "PostalAddress",
       addressCountry: "FR",
@@ -21,10 +22,7 @@ export function OrganizationSchema() {
       email: "contact@rentready.fr",
       availableLanguage: "French",
     },
-    sameAs: [
-      "https://twitter.com/rentready_fr",
-      "https://www.linkedin.com/company/rentready",
-    ],
+    sameAs: SAME_AS,
     knowsAbout: [
       "Gestion locative",
       "Quittance de loyer",
@@ -44,11 +42,6 @@ export function WebSiteSchema() {
     "@type": "WebSite",
     name: "RentReady",
     url: "https://www.rentready.fr",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://www.rentready.fr/recherche?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
   };
 
   return <SchemaMarkup data={schema} />;

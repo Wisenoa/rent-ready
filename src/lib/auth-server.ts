@@ -8,6 +8,19 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  /**
+   * Better Auth rate-limits auth endpoints PER IP by default. The E2E suite
+   * registers a fresh account per test — 35 of them in a full run, all from
+   * 127.0.0.1 — so the limit is reached mid-suite and registration silently
+   * hangs on /register with no error, which is what several tests were failing
+   * on rather than on anything they claimed to test.
+   *
+   * Disabled outside production only. In production it stays on: brute-forcing a
+   * password is a real attack, and the limit is part of the defence.
+   */
+  rateLimit: {
+    enabled: process.env.NODE_ENV === "production",
+  },
   // Better Auth rejects a callback whose origin is not listed here. Hardcoding
   // "http://localhost:3000" meant that on any other port the CSRF origin check
   // failed, so sign-in and magic links were refused with a bare 403. Accept the

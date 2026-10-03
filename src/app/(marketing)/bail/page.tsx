@@ -3,7 +3,7 @@ import Link from "next/link";
 import dynamicImport from "next/dynamic";
 import React from "react";
 import cities from "@/data/cities.json";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
@@ -169,12 +169,7 @@ const BAIL_SCHEMA = {
       description:
         "Créez, suivez et renouvelez vos contrats de location facilement. Modèles de baux conformes loi Alur et ÉLAN, assistant guidée, signature électronique.",
       offers: {
-        "@type": "Offer",
-        price: "15.00",
-        priceCurrency: "EUR",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        url: "https://www.rentready.fr/register",
+        ...paidOffer(),
       },
       featureList: [
         "Création de bail guidée conforme loi 1989",
@@ -201,11 +196,6 @@ const BAIL_SCHEMA = {
       "@id": "https://www.rentready.fr/#website",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://www.rentready.fr/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "FAQPage",

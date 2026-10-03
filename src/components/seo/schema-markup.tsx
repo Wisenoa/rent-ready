@@ -3,6 +3,14 @@
  * Render as <script type="application/ld+json"> in any page.
  */
 
+import {
+  FEATURE_LIST,
+  PRICE_VALID_UNTIL,
+  SITE_DESCRIPTION,
+  SITE_URL,
+  getEntryPrice,
+} from "@/data/entity";
+
 interface SchemaMarkupProps {
   data: Record<string, unknown>;
 }
@@ -10,7 +18,6 @@ interface SchemaMarkupProps {
 export function SchemaMarkup({ data }: SchemaMarkupProps) {
   return (
     <script
-      
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
@@ -19,6 +26,26 @@ export function SchemaMarkup({ data }: SchemaMarkupProps) {
 
 /* ─── Pre-built schema factories ─── */
 
+/**
+ * The standard paid-offer shape.
+ *
+ * The price used to be a literal "15.00" repeated in eleven files while the
+ * cheapest plan cost 9 €/mois, so every page advertised a price that did not
+ * exist. It is now derived from `PLANS`, and `pricing-consistency.test.ts`
+ * fails the build if a page reintroduces a hand-typed price.
+ */
+export function paidOffer(overrides?: Record<string, unknown>) {
+  return {
+    "@type": "Offer",
+    price: getEntryPrice().toFixed(2),
+    priceCurrency: "EUR",
+    priceValidUntil: PRICE_VALID_UNTIL,
+    availability: "https://schema.org/InStock",
+    url: `${SITE_URL}/register`,
+    ...overrides,
+  };
+}
+
 export function softwareApplicationSchema(overrides?: Record<string, unknown>) {
   return {
     "@context": "https://schema.org",
@@ -26,25 +53,10 @@ export function softwareApplicationSchema(overrides?: Record<string, unknown>) {
     name: "RentReady",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    url: "https://www.rentready.fr",
-    description:
-      "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-    offers: {
-      "@type": "Offer",
-      price: "15.00",
-      priceCurrency: "EUR",
-      priceValidUntil: "2027-12-31",
-      availability: "https://schema.org/InStock",
-      url: "https://www.rentready.fr/register",
-    },
-    featureList: [
-      "Quittances conformes loi du 6 juillet 1989",
-      "Détection automatique des virements via Open Banking DSP2",
-      "Révision IRL connectée à l'INSEE",
-      "Portail locataire avec gestion de la maintenance",
-      "OCR factures artisans par intelligence artificielle",
-      "Conformité Factur-X et e-reporting B2C 2027",
-    ],
+    url: SITE_URL,
+    description: SITE_DESCRIPTION,
+    offers: paidOffer(),
+    featureList: FEATURE_LIST,
     ...overrides,
   };
 }
@@ -83,11 +95,7 @@ export function serviceSchema(city?: {
       name: "RentReady",
       url: "https://www.rentready.fr",
     },
-    offers: {
-      "@type": "Offer",
-      price: "15.00",
-      priceCurrency: "EUR",
-    },
+    offers: paidOffer(),
     areaServed: city
       ? {
           "@type": "City",

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
 import dynamicImport from "next/dynamic";
 import React from "react";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
@@ -115,18 +116,13 @@ const QUITTANCES_SCHEMA = {
       "@type": "WebSite",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://www.rentready.fr/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "Organization",
       name: "RentReady",
       alternateName: "RentReady SAS",
       url: "https://www.rentready.fr",
-      logo: "https://www.rentready.fr/logo.png",
+      logo: "https://www.rentready.fr/logo.svg",
       description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
       foundingDate: "2024",
       address: {
@@ -140,10 +136,7 @@ const QUITTANCES_SCHEMA = {
         email: "contact@rentready.fr",
         availableLanguage: "French",
       },
-      sameAs: [
-        "https://twitter.com/rentready_fr",
-        "https://www.linkedin.com/company/rentready",
-      ],
+      sameAs: SAME_AS,
     },
     {
       "@type": "BreadcrumbList",
@@ -172,12 +165,7 @@ const QUITTANCES_SCHEMA = {
       description:
         "Générez des quittances de loyer conformes à la loi du 6 juillet 1989 en 1 clic. PDF automatique, mention IRL INSEE, envoi automatique au locataire.",
       offers: {
-        "@type": "Offer",
-        price: "15.00",
-        priceCurrency: "EUR",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        url: "https://www.rentready.fr/register",
+        ...paidOffer(),
       },
       featureList: [
         "Génération de quittance en 1 clic",

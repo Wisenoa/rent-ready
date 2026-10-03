@@ -256,11 +256,6 @@ function buildGliVilleSchema(city: City) {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       {
         "@type": "Organization",
@@ -286,7 +281,7 @@ function buildGliVilleSchema(city: City) {
         "@type": "HowTo",
         name: `Comment se protéger des loyers impayés à ${city.name}`,
         description: `Guide complet : évaluation du risque, souscription GLI, détection automatique et déclaration de sinistre pour un bien locatif à ${city.name}.`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,

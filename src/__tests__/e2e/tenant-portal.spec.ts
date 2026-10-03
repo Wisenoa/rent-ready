@@ -13,7 +13,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
     await page.fill('[id="addressLine1"]', '10 Rue du Portal')
     await page.fill('[id="city"]', 'Nice')
     await page.fill('[id="postalCode"]', '06000')
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
     await expect(page.getByText('Appartement Portal')).toBeVisible({ timeout: 10_000 })
 
     // Create a tenant
@@ -23,7 +23,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
     await page.fill('[id="firstName"]', 'TenantPortal')
     await page.fill('[id="lastName"]', 'User')
     await page.fill('[id="email"]', `tenantportal.${Date.now()}@example.com`)
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
     await expect(page.getByText('TenantPortal User')).toBeVisible({ timeout: 10_000 })
 
     return accountEmail

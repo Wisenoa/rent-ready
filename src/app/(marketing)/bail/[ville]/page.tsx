@@ -261,11 +261,6 @@ function buildBailVilleSchema(city: City) {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       /* Organization */
       {
@@ -294,7 +289,7 @@ function buildBailVilleSchema(city: City) {
         "@type": "HowTo",
         name: `Comment rédiger un bail de location à ${city.name}`,
         description: `Guide pour rédiger un bail de location conforme à ${city.name}. Téléchargement gratuit du modèle, étapes de personnalisation, annexes obligatoires, signature.${ctx.isZoneTendue ? " Inclut les obligations d'encadrement des loyers en zone tendue." : ""}`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import cities from "@/data/cities.json";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
@@ -232,11 +232,6 @@ function buildQuittanceVilleSchema(city: City) {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       /* Organization */
       {
@@ -265,7 +260,7 @@ function buildQuittanceVilleSchema(city: City) {
         "@type": "HowTo",
         name: `Comment générer une quittance de loyer à ${city.name}`,
         description: `Générez une quittance de loyer conforme à ${city.name} en 1 clic avec RentReady. PDF automatique, mention IRL INSEE, envoi email instantané.`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,
@@ -306,12 +301,7 @@ function buildQuittanceVilleSchema(city: City) {
         url: `https://www.rentready.fr/quittances/${city.slug}`,
         description: `Générez des quittances de loyer conformes à la loi en 1 clic pour vos biens à ${city.name}. PDF automatique, mention IRL INSEE, envoi email instantané.${ctx.isZoneTendue ? " Zone tendue : mention loyer de référence intégrée." : ""}`,
         offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+          ...paidOffer(),
         },
         featureList: features.map((f) => f.title),
         areaServed: {

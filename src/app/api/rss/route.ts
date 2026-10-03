@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
     <webMaster>tech@rentready.fr (RentReady)</webMaster>
     <atom:link href="${BASE_URL}/api/rss" rel="self" type="application/rss+xml" />
     <image>
-      <url>${BASE_URL}/og-image.png</url>
+      <url>${BASE_URL}/opengraph-image</url>
       <title>${escapeXml(SITE_TITLE)}</title>
       <link>${BASE_URL}/blog</link>
     </image>

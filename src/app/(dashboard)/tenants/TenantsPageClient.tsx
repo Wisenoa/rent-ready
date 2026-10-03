@@ -165,16 +165,23 @@ export function TenantsPageClient({
                 href={`/tenants/${tenant.id}`}
                 className="block"
                 onClick={(e) => {
-                  // Don't navigate if clicking action buttons
+                  // Cancel only when the click was meant for a NESTED control —
+                  // the edit and delete buttons, or the « Dernier reçu » link.
+                  //
+                  // `target.closest("a")` used to be part of this test, and it
+                  // matched THIS Link too: a `<Link>` IS an `<a>`, so
+                  // `closest` walked up to it and the default was always
+                  // prevented. Clicking a tenant card therefore reloaded the list
+                  // instead of opening the card, with no error anywhere.
                   const target = e.target as HTMLElement;
-                  if (
-                    target.closest("button") ||
-                    target.closest('[role="button"]') ||
-                    target.closest("a")
-                  ) {
+                  const nested = target.closest(
+                    'button, [role="button"], a:not([data-tenant-card])',
+                  );
+                  if (nested && nested !== e.currentTarget) {
                     e.preventDefault();
                   }
                 }}
+                data-tenant-card=""
               >
               <Card
                 className="shadow-sm border-border/50 hover:shadow-md transition-shadow h-full"

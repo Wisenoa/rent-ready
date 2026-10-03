@@ -42,13 +42,19 @@ export const PLANS = {
   },
   ANNUAL: {
     name: "RentReady Pro Annuel",
-    price: 14400, // 144.00 € in cents — 2 months free vs 12 × 15
+    // 149 €/an — 2 mois offerts sur 12 × 15 €. This matched the pricing page.
+    // It read 144,00 € before, which is what happens when the number is edited
+    // on the marketing page and not here. Checkout never charges from this
+    // field (it uses `priceId` from the environment); the real amount must
+    // equal what the pricing page promises or the landlord is charged a
+    // different sum than the one they agreed to.
+    price: 14900,
     currency: "eur",
     interval: "year" as const,
     priceIdEnv: "STRIPE_PRO_ANNUAL_PRICE_ID",
     description: "Gestion locative complète — facturé annuellement, 2 mois offerts",
-    pricePerMonth: 1200, // effective monthly cost in cents (14400/12)
-    savings: "2 mois gratuits",
+    pricePerMonth: 1241, // effective monthly cost in cents (14900/12)
+    savings: "2 mois offerts",
     features: [
       "Jusqu'à 10 biens",
       "Quittances automatiques illimitées",

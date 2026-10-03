@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import cities from "@/data/cities.json";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
@@ -279,7 +279,7 @@ function buildGestionLocativeVilleSchema(city: City) {
         "@type": "HowTo",
         name: `Comment gérer ses locations à ${city.name} avec RentReady`,
         description: `Guide complet pour gérer vos locations à ${city.name} : quittances, suivi des paiements, révision IRL, encadrement des loyers${ctx.isZoneTendue ? " et conformité en zone tendue" : ""}.`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,
@@ -315,12 +315,7 @@ function buildGestionLocativeVilleSchema(city: City) {
         url: `https://www.rentready.fr/gestion-locative/${city.slug}`,
         description: `Logiciel de gestion locative pour propriétaires bailleurs à ${city.name} (${city.department}). Quittances conformes, détection des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
         offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+          ...paidOffer(),
         },
         areaServed: {
           "@type": "City",
@@ -339,7 +334,7 @@ function buildGestionLocativeVilleSchema(city: City) {
         name: `RentReady — Gestion locative ${city.name}`,
         description: `Service de gestion locative en ligne pour propriétaires bailleurs à ${city.name} (département ${city.department}, ${city.region}). Automatisation des quittances, suivi des paiements, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
         url: `https://www.rentready.fr/gestion-locative/${city.slug}`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         ...(avgRentPerSqm ? {
           priceRange: `€€`,
           hasOfferCatalog: {
@@ -417,11 +412,6 @@ function buildGestionLocativeVilleSchema(city: City) {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
     ],
   };

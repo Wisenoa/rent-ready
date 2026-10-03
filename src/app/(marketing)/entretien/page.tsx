@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { paidOffer } from "@/components/seo/schema-markup";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -146,12 +147,7 @@ function MaintenanceJsonLd() {
         description:
           "Gérez les demandes de réparation et maintenance de vos locations : déclaration en ligne, priorisation automatique, historique par bien, suivi en temps réel.",
         offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+          ...paidOffer(),
         },
         featureList: [
           "Déclaration de maintenance en ligne",

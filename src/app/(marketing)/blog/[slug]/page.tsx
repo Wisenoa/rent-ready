@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -249,21 +250,13 @@ export default async function BlogPostPage({ params }: PageProps) {
       "@type": "Organization",
       name: articleAuthor,
       url: "https://www.rentready.fr",
-      sameAs: [
-        "https://www.linkedin.com/company/rentready",
-        "https://twitter.com/rentready_fr",
-        "https://www.facebook.com/rentready.fr",
-      ],
+      sameAs: SAME_AS,
     },
     publisher: {
       "@type": "Organization",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      sameAs: [
-        "https://www.linkedin.com/company/rentready",
-        "https://twitter.com/rentready_fr",
-        "https://www.facebook.com/rentready.fr",
-      ],
+      sameAs: SAME_AS,
     },
     url: `https://www.rentready.fr/blog/${slug}`,
     mainEntityOfPage: {

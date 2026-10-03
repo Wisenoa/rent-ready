@@ -10,6 +10,8 @@
  * All objects use French locale (fr-FR) where applicable.
  */
 
+import { SAME_AS } from "@/data/entity";
+
 const BASE_URL = "https://www.rentready.fr";
 const SITE_NAME = "RentReady";
 
@@ -75,18 +77,14 @@ export function buildOrganizationSchema(input: OrganizationSchemaInput = {}) {
     url: input.url ?? BASE_URL,
     logo: input.logo ?? {
       "@type": "ImageObject",
-      url: `${BASE_URL}/logo.png`,
+      url: `${BASE_URL}/logo.svg`,
       width: 512,
       height: 512,
     },
     description:
       input.description ??
       "RentReady est le logiciel de gestion locative nouvelle génération pour propriétaires bailleurs indépendants en France. Quittances conformes, détection automatique des paiements, révision IRL, portail locataire.",
-    sameAs: input.sameAs ?? [
-      "https://www.linkedin.com/company/rentready",
-      "https://twitter.com/rentready_fr",
-      "https://www.facebook.com/rentready.fr",
-    ],
+    sameAs: input.sameAs ?? SAME_AS,
     contactPoint: input.contact ?? {
       "@type": "ContactPoint",
       email: "contact@rentready.fr",
@@ -115,14 +113,10 @@ export function buildWebSiteSchema(name?: string, url?: string) {
     "@type": "WebSite",
     name: name ?? SITE_NAME,
     url: url ?? BASE_URL,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${BASE_URL}/recherche?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
+    // No `potentialAction` / SearchAction. It used to point at
+    // `/recherche?q={search_term_string}`, and RentReady has no such route —
+    // every page declaring it was advertising a search box that 404s. Declaring
+    // a capability the site does not have is worse than declaring nothing.
   };
 }
 

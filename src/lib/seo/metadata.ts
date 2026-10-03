@@ -7,7 +7,15 @@
 
 export const BASE_URL = "https://www.rentready.fr";
 export const SITE_NAME = "RentReady";
-export const DEFAULT_OG_IMAGE = "https://www.rentready.fr/og-image.png";
+/**
+ * Fallback social image.
+ *
+ * It used to point at `/og-image.png`, a static file that has never existed in
+ * `public/`, so every page without a per-page `ogType` advertised a 404 image
+ * in link previews. `src/app/opengraph-image.tsx` is a Next.js file convention:
+ * Next serves it at `/opengraph-image`, so that is the real URL.
+ */
+export const DEFAULT_OG_IMAGE = "https://www.rentready.fr/opengraph-image";
 
 /** Supported locales — IETF BCP 47 format (required for hreflang) */
 export const LOCALES = ["fr", "fr-FR"] as const;

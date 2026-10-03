@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="RentReady">
+  <rect width="512" height="512" rx="96" fill="#1a1a2e"/>
+  <!-- roof: the property half of property → tenant → lease → rent → receipt -->
+  <path d="M256 108 L404 216 L366 216 L366 372 L146 372 L146 216 L108 216 Z"
+        fill="none" stroke="#ffffff" stroke-width="26"
+        stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- a checked rent receipt: the product pays out the document -->
+  <path d="M210 262 L246 298 L314 226" fill="none" stroke="#4ade80"
+        stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

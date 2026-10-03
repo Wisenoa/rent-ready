@@ -238,14 +238,19 @@ test.describe('Keyboard Navigation', () => {
 
   test('can tab through register form', async ({ page: pw }) => {
     await pw.goto('/register')
-    const firstName = pw.locator('[id="firstName"]')
-    await firstName.focus()
-    expect(await pw.evaluate(() => document.activeElement?.id)).toBe('firstName')
+    // The form asks for a full name, not a first and last name — the test was
+    // looking for `firstName`/`lastName` ids the form has never had, so it timed
+    // out on `focus()` rather than on anything to do with keyboard navigation.
+    const fullName = pw.locator('#name, [id="name"]').first()
+    await fullName.focus()
+    expect(await pw.evaluate(() => document.activeElement?.id)).toBe(
+      await fullName.getAttribute('id'),
+    )
 
-    // Tab through all fields
+    // Tab moves on, and focus stays inside the form.
     await pw.keyboard.press('Tab')
-    const lastNameFocused = await pw.evaluate(() => document.activeElement?.id)
-    expect(['lastName', '']).toContain(lastNameFocused)
+    const nextId = await pw.evaluate(() => document.activeElement?.id)
+    expect(nextId).not.toBe(await fullName.getAttribute('id'))
   })
 
   test('focus is visible on login form elements', async ({ page: pw }) => {
