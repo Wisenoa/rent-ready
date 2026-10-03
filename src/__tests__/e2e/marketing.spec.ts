@@ -1,4 +1,5 @@
 import { test, expect } from './helpers/fixtures'
+import { realErrors } from './helpers/console'
 
 test.describe('Marketing Pages', () => {
   test('homepage loads without JS errors', async ({ page }) => {
@@ -16,14 +17,7 @@ test.describe('Marketing Pages', () => {
     await expect(page.locator('body')).not.toBeEmpty()
 
     // No fatal JS errors (filter out non-critical ones)
-    const criticalErrors = errors.filter(
-      (e) =>
-        !e.includes('favicon') &&
-        !e.includes('404') &&
-        !e.includes('hydration') &&
-        !e.includes('Warning')
-    )
-    expect(criticalErrors).toHaveLength(0)
+    expect(realErrors(errors)).toHaveLength(0)
   })
 
   test('pricing page loads', async ({ page }) => {

@@ -8,6 +8,120 @@ export function uniqueEmail(prefix = 'e2e'): string {
 export const DEFAULT_PASSWORD = 'RentReady!2026'
 
 /**
+ * Sign the current user out through the UI.
+ *
+ * Navigating to /login is NOT a logout: the session cookie is still there, so the
+ * route redirects back to /dashboard and any `fill()` then waits on the onboarding
+ * wizard until the test times out. Sign-out only exists in the user menu, so it has
+ * to go through it.
+ */
+export async function logoutTestUser(page: Page): Promise<void> {
+  await page.goto('/dashboard')
+  await dismissOnboarding(page)
+
+  // Located by its slot, not by role: the wizard dialog traps focus, and while it
+  // is mounted the trigger is technically visible but not actionable, so a
+  // role-based click waits forever. `dismissOnboarding` above is what clears it;
+  // the slot is used because it survives whichever way the dialog closes.
+  const menu = page.locator('[data-slot="dropdown-menu-trigger"]').first()
+  // `force` for the same reason as the dialog close: the dashboard animates, so
+  // the trigger is never "stable" for Playwright and the wait ends in a timeout
+  // that names nothing.
+  await menu.click({ timeout: 15_000, force: true })
+
+  // Waited on the ITEM, not on a sleep and not on the trigger's `aria-expanded`:
+  // measured under a parallel run, the trigger reported expanded while the popup
+  // had not mounted, so waiting on it passed and the item was still absent.
+  // The item existing IS the fact.
+  await page
+    .locator('[data-slot="dropdown-menu-item"]')
+    .first()
+    .waitFor({ state: 'visible', timeout: 15_000 })
+    .catch(async () => {
+      throw new Error(
+        `le menu du compte ne s'est pas ouvert (trigger aria-expanded=` +
+          `${await menu.getAttribute('aria-expanded')}, url=${page.url()})`,
+      )
+    })
+
+  // The onboarding dialog's OVERLAY covers the whole page. The menu opens
+  // underneath it, so a click on « Se déconnecter » reaches the overlay and
+  // nothing else — no handler runs, no error is raised, and the session survives.
+  // Measured: elementFromPoint at the item's centre returned
+  // `<DIV slot=dialog-overlay>`, not the item.
+  //
+  // The dismissal is written to localStorage by the wizard's own close handler, so
+  // it is set here as well: this helper's job is to get the menu reachable, not
+  // to re-test the wizard.
+  await page.evaluate(() => {
+    localStorage.setItem('onboarding_wizard_dismissed', '1')
+  })
+  await dismissOnboarding(page)
+
+  // Base UI's menu items are plain elements, not `role="menuitem"` — measured on
+  // the DOM, not assumed — so the text is the reliable handle.
+  const signOut = page.getByText(/se d[eé]connecter/i).first()
+  await signOut.waitFor({ state: 'visible', timeout: 10_000 })
+  await signOut.click({ force: true })
+  // Leaving the dashboard is the proof the session ended: /dashboard redirects a
+  // signed-out visitor to /login, so a URL that stays put means the cookie is
+  // still there, whatever the client believes.
+  await page
+  .waitForURL((url) => !url.pathname.startsWith('/dashboard'), { timeout: 20_000 })
+  .catch(async () => {
+    const cookies = await page.context().cookies()
+    throw new Error(
+      `deconnexion : bloque sur ${page.url()} | cookies=${cookies
+        .map((c) => c.name)
+        .join(",")}`,
+    )
+  })
+  await page.waitForTimeout(500)
+  // Measured, not assumed: sign-out does not necessarily land on /login, and a
+  // wrong expectation here fails with a bare timeout that names nothing.
+  await page
+    .waitForURL((url) => !url.pathname.startsWith('/dashboard'), { timeout: 30_000 })
+    .catch(() => {
+      throw new Error(
+        `deconnexion : toujours sur ${page.url()} — le menu s'ouvre mais la session reste active`,
+      )
+    })
+}
+
+/**
+ * Close the onboarding wizard if it opened.
+ *
+ * It auto-shows 300ms after landing on /dashboard for an account with no
+ * property, and an open modal makes every later `fill()` on the same tab wait
+ * for actionability until the test times out — with no message about why. That
+ * is what made six E2E tests fail on a timeout rather than on a real defect.
+ *
+ * No-op when the wizard never mounted, so it is safe to call unconditionally.
+ */
+export async function dismissOnboarding(page: Page): Promise<void> {
+  // By slot, not by accessible name: the wizard's close control carries only a
+  // visually-hidden « Close », and Base UI's animated mount means a
+  // visibility-based lookup races the animation.
+  //
+  // `force: true` because the dialog's open/close transition never settles on a
+  // dev build under test, and Playwright otherwise waits for stability until the
+  // whole test times out — with nothing pointing at the actual blocker.
+  const close = page.locator('[data-slot="dialog-close"]').first();
+  try {
+    if (await close.isVisible({ timeout: 2_000 })) {
+      await close.click({ force: true });
+      await page.waitForFunction(
+        () => document.querySelectorAll('[data-slot="dialog-close"]').length === 0,
+        undefined,
+        { timeout: 5_000 },
+      ).catch(() => {});
+    }
+  } catch {
+    // The wizard is optional. A test that needs it opens it itself.
+  }
+}
+
+/**
  * Kept for the existing specs that import it. Its email is no longer shared
  * between tests — registerTestUser generates a fresh address per call — so this
  * is a placeholder for specs that want a known identity rather than a default.
@@ -44,7 +158,8 @@ export async function registerTestUser(
   password = DEFAULT_PASSWORD,
   name = 'Jean Dupont',
 ): Promise<{ email: string; password: string; name: string }> {
-  await page.goto('/register')
+  await dismissOnboarding(page);
+  await page.goto('/register');
 
   await page.getByLabel(/nom complet/i).fill(name)
   await page.getByLabel(/adresse email/i).fill(email)
@@ -66,6 +181,12 @@ export async function loginTestUser(
   email: string,
   password = DEFAULT_PASSWORD,
 ): Promise<void> {
+  // The onboarding wizard auto-opens 300ms after landing on /dashboard for an
+  // account with no properties, and a modal left open makes every later
+  // `fill()` on this page wait forever for actionability. Navigating away does
+  // not close it — it is the same tab, and the dismissal is only written when the
+  // user closes it. Dismissed here so a login test is not testing the wizard.
+  await dismissOnboarding(page);
   await page.goto('/login')
   await page.getByLabel(/adresse email/i).fill(email)
   await page.getByLabel(/mot de passe/i).fill(password)

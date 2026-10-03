@@ -1,5 +1,5 @@
 import { test, expect } from './helpers/fixtures'
-import { TEST_USER, loginTestUser, registerTestUser, uniqueEmail } from './helpers/auth'
+import { TEST_USER, loginTestUser, registerTestUser, uniqueEmail, logoutTestUser } from './helpers/auth'
 
 test.describe('Authentication Flow', () => {
   test('login page loads correctly', async ({ page }) => {
@@ -33,8 +33,9 @@ test.describe('Authentication Flow', () => {
     // First register a user
     const accountEmail = uniqueEmail('login')
         await registerTestUser(page, accountEmail)
-    // Logout
-    await page.goto('/login')
+    // Sign out through the UI — see the other test: a `goto('/login')` here keeps
+    // the session and redirects straight back to the dashboard.
+    await logoutTestUser(page)
 
     // Now login with the registered user
     await loginTestUser(page, accountEmail, 'TestPassword123!')
@@ -46,8 +47,10 @@ test.describe('Authentication Flow', () => {
     // Register first
     await registerTestUser(page, accountEmail)
 
-    // Logout and try with wrong password
-    await page.goto('/login')
+    // Sign out THROUGH THE UI: navigating to /login keeps the session, redirects
+    // back to /dashboard, and the test then timed out on the onboarding wizard
+    // rather than on the password it meant to check.
+    await logoutTestUser(page)
     await page.fill('[id="email"]', accountEmail)
     await page.fill('[id="password"]', 'WrongPassword123!')
     await page.click('[type="submit"]')
