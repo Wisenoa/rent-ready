@@ -2613,13 +2613,14 @@ L'INSEE publie un nouvel IRL chaque trimestre :
 
 ### Les valeurs de l'IRL en 2026
 
-Les dernières valeurs connues de l'IRL (à vérifier auprès de l'INSEE) :
-- IRL Q4 2025 : environ 145,0 (base 100 au T4 2023)
-- IRL Q3 2025 : environ 144,2
-- IRL Q2 2025 : environ 143,5
-- IRL Q1 2025 : environ 142,8
+Les dernières valeurs publiées par l'INSEE (série 001515333, base 100 au T4 1998) :
+- IRL T4 2025 : 145,78
+- IRL T3 2025 : 145,77
+- IRL T2 2025 : 146,68
+- IRL T1 2025 : 145,47
+- IRL T2 2026 : 148,37 (dernier indice publié, INSEE du 10/07/2026, JO du 12/07/2026)
 
-L'évolution de l'IRL sur un an (Q4 2025 vs Q4 2024) est d'environ +2,0% à +2,5%, refleétant le ralentissement de l'inflation par rapport aux années précédentes.
+L'évolution de l'IRL sur un an (T4 2025 : 145,78 contre T4 2024 : 144,64) est de +0,79 %.
 
 ## La formule de calcul de la révision du loyer
 
@@ -2637,15 +2638,14 @@ Prenons un exemple concret :
 - Loyer actuel : 800 €/mois
 - Date d'anniversaire du bail : 1er mars
 - Trimestre de référence dans le bail : Q1 (janvier-mars)
-- IRL Q1 2025 (même trimestre année précédente) : 142,8
-- IRL Q1 2026 (trimestre de référence) : 144,0
+- IRL T1 2025 (même trimestre, année précédente) : 145,47
+- IRL T1 2026 (trimestre de référence) : 146,60
 
 Calcul :
-Nouveau loyer = 800 × (144,0 / 142,8)
-Nouveau loyer = 800 × 1,0084
-Nouveau loyer = 806,72 €/mois
+Nouveau loyer = 800 × (146,60 / 145,47)
+Nouveau loyer = 806,21 €/mois
 
-Soit une augmentation de 6,72 €/mois, ou 80,64 € par an.
+Soit une augmentation de 6,21 €/mois, ou 74,52 € par an, soit +0,78 %.
 
 ## Les conditions de la révision
 
@@ -4118,7 +4118,7 @@ L'IRL est publié au Journal officiel et disponible sur le site de l'INSEE. Les 
 
 ### Les valeurs de l'IRL en 2025-2026
 
-Les dernières valeurs de l'IRL publiées : IRL Q3 2025 (publié octobre 2025) : environ 146,2. IRL Q4 2025 (publié janvier 2026) : environ 146,5. IRL Q1 2026 (publié avril 2026) : disponible sur insee.fr.
+Les dernières valeurs de l'IRL publiées par l'INSEE : IRL T3 2025 (JO du 17/10/2025) : 145,77. IRL T4 2025 (JO du 16/01/2026) : 145,78. IRL T1 2026 (JO du 16/04/2026) : 146,60. IRL T2 2026 (JO du 12/07/2026) : 148,37.
 
 Pour obtenir l'IRL exact du trimestre concerné, consultez le site de l'INSEE ou votre logiciel de gestion locative.
 
@@ -4703,7 +4703,7 @@ Paris est le marché locatif le plus réglementé de France. Les propriétaires 
 
 Paris est la première ville de France à avoir été soumise à l'encadrement des loyers. Chaque arrondissement dispose d'un loyer de référence et d'un loyer de référence majoré (+20%).
 
-Les logements avec une étiquette DPE en F ou G (très mauvaise performance énergétique) ne peuvent plus être mis en location depuis 2023.
+Les logements avec une étiquette DPE en G (très mauvaise performance énergétique) ne peuvent plus être mis en location depuis le 1er janvier 2025. Les logements classés F resteront louables jusqu'au 1er janvier 2028, et les logements classés E jusqu'au 1er janvier 2034. Les baux conclus avant l'échéance restent valides.
 
 ## FAQ — Gestion locative à Paris
 
@@ -4711,9 +4711,9 @@ Les logements avec une étiquette DPE en F ou G (très mauvaise performance éne
 
 Consultez le simulateur de loyer de la Préfecture de Paris.
 
-**Mon appartement a un DPE en F, puis-je quand même le louer ?**
+**Mon logement a un DPE en F : puis-je quand même le louer ?**
 
-Non, les logements F et G sont interdits à la location.
+Oui, en 2026. Seuls les logements classés G sont interdits à la location depuis le 1er janvier 2025. L'interdiction s'étendra aux logements classés F le 1er janvier 2028, puis aux logements E le 1er janvier 2034.
 
 [CTA : Gérez vos biens parisiens en toute conformité avec RentReady — essai gratuit 14 jours]`
   },
@@ -10901,7 +10901,7 @@ Ce motif couvre les situations où le locataire a manqué à ses obligations : i
 
 ## Les délais de préavis
 
-En zone tendue, le délai de préavis est de 6 mois pour le congé donné par le bailleur. Pour le locataire, le délai est toujours réduit.
+Le bailleur donne congé avec un délai de préavis de 6 mois, et le locataire avec 3 mois (article 15 de la loi du 6 juillet 1989). Ces délais ne changent pas selon que la commune est en zone tendue ou non. Le délai du locataire est ramené à 1 mois en cas de première embauche, de mutation, de perte d'emploi ou de nouvel emploi consécutif à une perte d'emploi, ainsi que pour les locataires de plus de 60 ans dont l'état de santé le justifie et les bénéficiaires du revenu minimum d'insertion.
 
 ## FAQ — Congé donné par le bailleur
 
@@ -10985,7 +10985,7 @@ Le locataire assure l'entretien du logement : ménage, entretien de la chaudièr
 
 ## Le préavis et la fin du bail
 
-En zone tendue, le délai de préavis est de 3 mois. En zone non tendue, il est de 1 mois.
+Le locataire donne congé avec un délai de préavis de 3 mois (article 15 de la loi du 6 juillet 1989). Ce délai est ramené à 1 mois dans trois cas : première obtaining d'emploi, mutation, perte d'emploi ou nouvel emploi consécutif à une perte d'emploi, ainsi que pour les locataires de plus de 60 ans dont l'état de santé justifie un changement de domicile, et pour les bénéficiaires du revenu minimum d'insertion. La zone tendue ne modifie pas ce délai : c'est une erreur fréquente.
 
 ## FAQ — Droits et obligations du locataire
 
@@ -11030,9 +11030,9 @@ Le bailleur doit garantir le locataire contre les défauts cachés qui rendent l
 
 ## FAQ — Droits et obligations du bailleur
 
-### Le bailleur peut-il être tenu responsable des dégradations causées par le locataire ?
+### Qui répond des dégradations causées par le locataire ?
 
-Oui, le dépôt de garantie peut être conservé pour couvrir les travaux de remise en état.
+Le locataire, pas le bailleur. Le locataire est tenu de remettre le logement en l'état de livraison et répond des dégradations imputables à son usage, usure normale exceptée. Le dépôt de garantie sert précisément à couvrir ces travaux de remise en état, à condition de justifier chaque retenue avec un état des lieux de sortie comparatif et les factures correspondantes.
 
 ### Le bailleur peut-il s'opposer à la sous-location ?
 
@@ -11209,7 +11209,7 @@ Au-delà de deux mois d'impayé, saisine du tribunal. En dernier recours, procé
 
 ### Peut-on réclamer des intérêts de retard ?
 
-Oui, au taux légal de 5 % en 2026.
+Oui, au taux légal. Au second semestre 2026, il est de 6,84 % pour un créancier particulier (arrêté du 26 juin 2026, JO du 30 juin 2026) et de 2,75 % dans les autres cas. Le taux change au 1er janvier et au 1er juillet de chaque année : vérifiez celui de la période litigieuse.
 
 [CTA : Protégez-vous contre les loyers impayés avec RentReady — essai gratuit]`
   },
@@ -11224,7 +11224,7 @@ Oui, au taux légal de 5 % en 2026.
     readTime: "6 min",
     content: `## Comment Calculer les Intérêts de Retard sur Loyer Impayé
 
-Les intérêts de retard courent à partir de la mise en demeure. Le taux applicable est de 5 % en 2026.
+Les intérêts de retard courent à partir de la mise en demeure. Le taux applicable est celui fixé par arrêté semestriel. Au second semestre 2026 : 6,84 % pour un créancier particulier, 2,75 % dans les autres cas (arrêté du 26 juin 2026).
 
 ## Formule
 
@@ -11391,11 +11391,11 @@ Visale est une garantie gratuite qui couvre les bailleurs contre les loyers impa
 
 ## Conditions d'éligibilité
 
-Locataire de moins de 30 ans ou en CDD de moins de 6 mois. Loyer charges comprises jusqu'à 1 500 € en Île-de-France ou 1 300 € en province.
+Locataire de moins de 30 ans ou en CDD de moins de 6 mois. Loyer, charges comprises, plafonné depuis le 6 janvier 2026 à 1 940 € en Île-de-France, 1 575 € dans les agglomérations de plus de 100 000 habitants (ainsi qu'en Corse, dans les départements et régions d'outre-mer et à Saint-Pierre-et-Miquelon), et 1 365 € ailleurs. Pour un locataire étudiant : 1 000 € en Île-de-France et 680 € ailleurs.
 
 ## Ce qui est couvert
 
-Loyers et charges impayés jusqu'à 36 mois, dégradations (limite 2 mois de loyer), frais de procédure.
+Loyers et charges impayés pendant les 36 premiers mois du bail (les 3 premières années) : au-delà, la garantie n'est plus acquise. Dégradations (limite 2 mois de loyer) et frais de procédure.
 
 ## Procédure
 

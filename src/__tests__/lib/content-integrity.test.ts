@@ -642,6 +642,12 @@ describe("content integrity", () => {
     const EXAMPLE = /(\d[\d\s]*)\s*(?:€)?\s*×\s*\(?(\d{1,3},\d{2})\s*[/÷]\s*(\d{1,3},\d{2})\)?\s*=\s*(\d[\d\s]*,\d{2})/g;
     for (const file of files) {
       const rel = relative(process.cwd(), file);
+      // Skip this suite's own source. It quotes the fabricated figures it was
+      // written to catch ("environ 145,0") in its explanatory comment, and a
+      // guard that fires on the text describing the guard is useless.
+      // `rel` is "src/__tests__/…", so the test is an `includes`, not a
+      // `startsWith` — the earlier form silently matched nothing.
+      if (rel.includes("__tests__")) continue;
       const source = readFileSync(file, "utf8");
       for (const m of source.matchAll(EXAMPLE)) {
         const rent = parseFloat(m[1].replace(/\s/g, ""));
@@ -664,10 +670,17 @@ describe("content integrity", () => {
     // 2025 : 145,47". Matching any number within 160 characters also catches
     // the result of a calculation ("800 x (146,60 / 145,47) = 806,21"), which
     // is not an index.
-    const IRL_MENTION = /\bIRL\b[^\n]{0,40}?[\s:=-](?:[A-Za-z]\d\s*)?(\d{2,3},\d{2})\b/g;
+    //
+    // The number pattern accepts ONE decimal as well as two. It used to require
+    // two, and that is precisely how an article published four invented
+    // indices in a row ("IRL Q4 2025 : environ 145,0", "environ 144,2",
+    // "environ 143,5", "environ 142,8"): the guard never fired on a
+    // one-decimal value, so a fabricated index passed as review. One decimal is
+    // in fact a warning sign on its own — INSEE always publishes two.
+    const IRL_MENTION = /\bIRL\b[^\n]{0,40}?[\s:=-](?:[A-Za-z]\d\s*)?(\d{2,3},\d{1,2})\b/g;
     for (const file of files) {
       const rel = relative(process.cwd(), file);
-      if (rel.startsWith("__tests__")) continue;
+      if (rel.includes("__tests__")) continue;
       const source = readFileSync(file, "utf8");
       for (const m of source.matchAll(IRL_MENTION)) {
         const value = m[1];
