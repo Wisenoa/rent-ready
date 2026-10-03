@@ -30,13 +30,15 @@ const { prismaMock, allocateMock, pdfMock } = vi.hoisted(() => ({
 
 vi.mock("@/lib/prisma", () => ({ prisma: prismaMock }));
 vi.mock("@/lib/auth", () => ({ getCurrentUserId: async () => "landlord-1" }));
-// quittance-generator.tsx is JSX and cannot be parsed by the vitest import
-// analyser (the same constraint receipt-integrity.test.ts documents). Only
-// determineReceiptTypeCumulative is reachable from here, and only after the
-// address guard, so stubbing the module cannot affect what is being asserted.
-vi.mock("@/lib/quittance-generator", () => ({
-  determineReceiptTypeCumulative: () => "QUITTANCE",
-}));
+// @/lib/quittance-generator is deliberately NOT mocked: it is JSX (@react-pdf),
+// but vitest resolves it thanks to @vitejs/plugin-react (vitest.config.ts:23)
+// plus the `@react-pdf/renderer` test alias (vitest.config.ts:40), which is what
+// makes `@react-pdf` analysable. An earlier version of this file mocked it on the
+// false belief that the vitest import analyser could not parse it; that was
+// refuted by importing the module for real, and the mock is now gone — the
+// address guard runs before determineReceiptTypeCumulative anyway. Do not
+// "restore" or remove that alias on the belief it exists for another reason —
+// it is the only thing letting this module load.
 vi.mock("@/lib/receipt-number", () => ({
   allocateReceiptNumber: allocateMock,
 }));
