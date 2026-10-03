@@ -12,8 +12,8 @@ import {
   Download,
 } from "lucide-react";
 
-import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
+import { getFiscalDeclaration, isValidFiscalYear } from "@/lib/queries/fiscal-prepare";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -56,104 +56,18 @@ export default async function FiscalPreparePage({
   const { year: yearParam } = await searchParams;
   const now = new Date();
   const defaultYear = now.getFullYear() - 1;
-  const year =
-    parseInt(yearParam ?? String(defaultYear), 10) || defaultYear;
+  const parsed = parseInt(yearParam ?? String(defaultYear), 10);
+  const year = isValidFiscalYear(parsed) ? parsed : defaultYear;
   const userId = await getAuthenticatedUserId();
-  const periodStart = new Date(year, 0, 1);
-  const periodEnd = new Date(year + 1, 0, 1);
 
-  const properties = await prisma.property.findMany({
-    where: { userId },
-    include: {
-      leases: {
-        where: { status: "ACTIVE" },
-        include: {
-          transactions: {
-            where: {
-              status: { in: ["PAID", "PARTIAL"] },
-              periodStart: { gte: periodStart, lt: periodEnd },
-            },
-            select: {
-              id: true,
-              amount: true,
-              rentPortion: true,
-              chargesPortion: true,
-              paidAt: true,
-              periodStart: true,
-            },
-          },
-          tenant: { select: { firstName: true, lastName: true } },
-        },
-      },
-      expenses: {
-        where: { date: { gte: periodStart, lt: periodEnd } },
-        select: {
-          id: true,
-          amount: true,
-          category: true,
-          description: true,
-          vendorName: true,
-          date: true,
-        },
-      },
-    },
-  });
-
-  const propertyReports = properties.map((property) => {
-    const activeLease = property.leases[0];
-    const txList = activeLease?.transactions ?? [];
-
-    const totalRentReceived = txList.reduce((sum, tx) => sum + Number(tx.rentPortion), 0);
-    const totalChargesReceived = txList.reduce(
-      (sum, tx) => sum + Number(tx.chargesPortion),
-      0
-    );
-    const totalReceived = totalRentReceived + totalChargesReceived;
-
-    const expensesByCategory: Record<string, number> = {};
-    for (const exp of property.expenses) {
-      expensesByCategory[exp.category] =
-        (expensesByCategory[exp.category] ?? 0) + Number(exp.amount);
-    }
-    const totalExpenses = Object.values(expensesByCategory).reduce(
-      (s, v) => s + v,
-      0
-    );
-
-    const netIncome = totalRentReceived - totalExpenses;
-
-    const monthsWithPayment = new Set(
-      txList
-        .filter((tx) => tx.paidAt)
-        .map((tx) => {
-          const d = new Date(tx.paidAt!);
-          return `${d.getFullYear()}-${d.getMonth()}`;
-        })
-    ).size;
-
-    return {
-      property,
-      activeLease,
-      txList,
-      totalRentReceived,
-      totalChargesReceived,
-      totalReceived,
-      expensesByCategory,
-      totalExpenses,
-      netIncome,
-      occupancyMonths: monthsWithPayment,
-    };
-  });
-
-  const globalTotalRent = propertyReports.reduce(
-    (s, p) => s + p.totalRentReceived,
-    0
-  );
-  const globalTotalExpenses = propertyReports.reduce(
-    (s, p) => s + p.totalExpenses,
-    0
-  );
-  const globalNetIncome = globalTotalRent - globalTotalExpenses;
+  // The selection rule (which leases a declared year covers, why the current
+  // lease status must not decide it, why every lease of the year is summed) is
+  // documented in the query. This page and /api/fiscal/prepare read it, so the
+  // screen and the export cannot disagree on a figure that goes on a tax form.
+  const declaration = await getFiscalDeclaration(userId, year);
+  const propertyReports = declaration.properties;
+  const { globalTotalRent, globalTotalExpenses, globalNetIncome } =
+    declaration.summary;
 
   return (
     <div className="space-y-6">
@@ -247,8 +161,23 @@ export default async function FiscalPreparePage({
         </Card>
       ) : (
         <div className="space-y-6">
-          {propertyReports.map(({ property, activeLease, txList, totalRentReceived, totalChargesReceived, totalReceived, expensesByCategory, totalExpenses, netIncome, occupancyMonths }) => (
-            <Card key={property.id}>
+          {propertyReports.map(({
+            propertyId,
+            propertyName,
+            addressLine1,
+            postalCode,
+            city,
+            cadastralRef,
+            leases,
+            totalRentReceived,
+            totalChargesReceived,
+            expensesByCategory,
+            totalExpenses,
+            netIncome,
+            occupancyMonths,
+            transactionDetails: txList,
+          }) => (
+            <Card key={propertyId}>
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
@@ -257,16 +186,16 @@ export default async function FiscalPreparePage({
                     </div>
                     <div>
                       <CardTitle className="text-base">
-                        {property.name}
+                        {propertyName}
                       </CardTitle>
                       <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
                         <MapPin className="size-3" />
-                        {property.addressLine1}, {property.postalCode}{" "}
-                        {property.city}
+                        {addressLine1}, {postalCode}{" "}
+                        {city}
                       </p>
-                      {property.cadastralRef && (
+                      {cadastralRef && (
                         <p className="text-xs text-muted-foreground font-mono mt-0.5">
-                          Ref. cadastrale: {property.cadastralRef}
+                          Ref. cadastrale: {cadastralRef}
                         </p>
                       )}
                     </div>
@@ -314,8 +243,13 @@ export default async function FiscalPreparePage({
                       {formatCurrency(netIncome)}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {activeLease
-                        ? `Locataire: ${activeLease.tenant.firstName} ${activeLease.tenant.lastName}`
+                      {/* Every lease covering the year, not just the current
+                          one: a property re-let mid-year had two tenants, and
+                          naming only the first misrepresented the year. */}
+                      {leases.length > 0
+                        ? `Locataire${leases.length > 1 ? "s" : ""}: ${leases
+                            .map((lease) => lease.tenantName)
+                            .join(", ")}`
                         : "Aucun locataire"}
                     </p>
                   </div>
