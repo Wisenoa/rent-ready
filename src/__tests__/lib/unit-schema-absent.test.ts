@@ -80,7 +80,10 @@ describe("unitSchema — champs facultatifs non renseigne", () => {
 });
 
 describe("unitSchema — refus reels, en francais", () => {
-  it("refuse une surface negative ou nulle explicitement signee", () => {
+  // Le nom dit ce que le test fait : 0 n'est PAS dans cette liste, parce que
+  // 0 surface vaut « non renseigne » (voir le test 0-surface ci-dessus). Un nom
+  // qui promet « nulle » sans la tester ment sur sa propre couverture.
+  it("refuse une surface negative explicitement signee", () => {
     for (const surface of [-10, "-10", 0.0001 * -1]) {
       const parsed = unitSchema.safeParse({ ...required, surface });
       expect(parsed.success, `surface=${JSON.stringify(surface)}`).toBe(false);
