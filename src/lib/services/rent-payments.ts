@@ -558,13 +558,23 @@ export async function cancelRentPayment(input: {
     if (outstanding.gt(0)) {
       const rent = new Decimal(row.lease.rentAmount).toDecimalPlaces(2);
       const charges = new Decimal(row.lease.chargesAmount ?? 0).toDecimalPlaces(2);
+      // The month is INVOICED at rent + charges, whatever is left of it. Only
+      // `amount` — the balance — is reduced by what came back.
+      //
+      // Prorating the portions onto the balance made this row claim the month had
+      // only ever been billed for what remained: a 900 EUR month with 400 already
+      // received reopened as rent 500 + charges 0, so the collectable ceiling
+      // computed from those figures was 500 - 400 = 100 instead of 500. Measured on
+      // this database, re-collecting after the cancellation was refused with
+      // « Le montant dépasse le reste à payer (100,00 €) » on a 500 EUR balance —
+      // the landlord could never finish paying a month they had already paid off.
       const reopened = await tx.transaction.create({
         data: {
           userId: row.userId,
           leaseId: row.leaseId,
           amount: outstanding.toNumber(),
-          rentPortion: Decimal.min(rent, outstanding).toNumber(),
-          chargesPortion: Decimal.max(Decimal.min(charges, Decimal.max(outstanding.minus(rent), new Decimal(0))), new Decimal(0)).toNumber(),
+          rentPortion: rent.toNumber(),
+          chargesPortion: charges.toNumber(),
           periodStart: row.periodStart,
           periodEnd: row.periodEnd,
           dueDate: row.dueDate,
