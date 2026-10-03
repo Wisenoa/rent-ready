@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './helpers/fixtures'
 import {
   registerTestUser,
   createProperty,
@@ -72,6 +72,21 @@ async function setupLandlord(page: Parameters<typeof registerTestUser>[0]): Prom
   await page.locator('#startDate').fill(iso(start))
   await page.locator('#endDate').fill(iso(end))
   await page.getByRole('button', { name: /cr[ée]er le bail/i }).click()
+
+  // Wait for the lease to actually exist.
+  //
+  // The click returns as soon as the button is dispatched, while `createLease`
+  // is still running server-side: it writes the Lease, generates the rent
+  // periods for every month owed, and only then renders the bail PDF. Without
+  // this wait the fixture returns while the URL is still /leases/new, /billing
+  // finds no lease, `ensureRentPeriods` has nothing to generate, and « Marquer
+  // payé » does not exist — the page honestly says « Aucune transaction ».
+  //
+  // Waiting on the LIST page the form redirects to, not on a sleep. Note the
+  // redirect target matters: waiting for the tenant's name would match the
+  // « Sophie Bernard » OPTION already on /leases/new and return immediately,
+  // which is the race this line exists to close.
+  await page.waitForURL(/\/leases(\?|$)/, { timeout: 30_000 })
 }
 
 /**

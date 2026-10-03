@@ -50,12 +50,10 @@ export async function registerTestUser(
   await page.getByLabel(/adresse email/i).fill(email)
   await page.getByLabel(/mot de passe/i).fill(password)
 
-  // The cookie banner can sit over the submit button.
-  const accept = page.getByRole('button', { name: /accepter/i })
-  if (await accept.isVisible().catch(() => false)) {
-    await accept.click()
-  }
-
+  // No cookie-banner handling here. The banner mounts only after DELAY_MS
+  // (1500ms), so "is it visible yet?" was a race: the check ran on page N and
+  // the banner appeared on page N+1, over the next button. It is now settled
+  // before the first navigation by helpers/fixtures.ts, so it never mounts.
   await page.getByRole('button', { name: /cr[ée]er mon compte/i }).click()
   await page.waitForURL('**/dashboard**', { timeout: 30_000 })
 
@@ -71,11 +69,6 @@ export async function loginTestUser(
   await page.goto('/login')
   await page.getByLabel(/adresse email/i).fill(email)
   await page.getByLabel(/mot de passe/i).fill(password)
-
-  const accept = page.getByRole('button', { name: /accepter/i })
-  if (await accept.isVisible().catch(() => false)) {
-    await accept.click()
-  }
 
   await page.getByRole('button', { name: /se connecter/i }).click()
   await page.waitForURL('**/dashboard**', { timeout: 30_000 })

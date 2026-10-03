@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './helpers/fixtures'
 import { TEST_USER, loginTestUser, registerTestUser } from './helpers/auth'
 
 test.describe('Authentication Flow', () => {

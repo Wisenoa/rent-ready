@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './helpers/fixtures'
 import { registerTestUser } from './helpers/auth'
 
 test.describe('Tenant Management', () => {
