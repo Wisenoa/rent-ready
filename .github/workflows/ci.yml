@@ -231,10 +231,42 @@ jobs:
       # calls APIs directly, which is how registration could be broken twice (the
       # account was created and the user was left stranded on /register) and four
       # dashboard CTAs could 404 while all of it stayed green.
+      # `quittances.spec.ts` runs right after it because it is the only coverage
+      # of the "Marquer payé" wire: reportMarkPaid is called with the action's
+      # real result and the toast claims a receipt only when one was produced.
+      # That wiring exists solely in the browser, so no unit test can catch its
+      # regression and an unconditional toast.success would have left the whole
+      # pipeline green while the UI announced a receipt that was never made.
+      #
+      # TWO steps, not one filtered run. Both specs register a user per test and
+      # Better Auth's built-in rate limiter allows only ~3 sign-ups per sliding
+      # window, answering 429 with x-retry-after: 10 (measured on a production
+      # build). Back to back they cannot fit, and the failure is deceptive:
+      # sign-up succeeds, only the automatic sign-in is refused, register-form
+      # redirects to /login, and registerTestUser expires on
+      # waitForURL('**/dashboard') — a red dashboard navigation that has nothing
+      # to do with the specs. The wait below covers the 10s retry-after with a
+      # wide margin; if this step goes red on that wait, suspect the limit before
+      # suspecting the test.
+      #
+      # The RATE_LIMITED_ACTIONS table in src/app/api/auth/[...all]/route.ts does
+      # NOT produce that 429: it is keyed on the last path segment, and the
+      # endpoints the form calls are /sign-up/email and /sign-in/email, so no key
+      # ever matches it.
+      #
+      # One filter argument per run, not two. Playwright takes a single file-path
+      # regexp, so `playwright test golden-path quittances` treats the second
+      # word as a name filter matching nothing and collects all 68 tests in the
+      # directory instead of the 6 intended.
       - name: Golden path (browser)
         run: |
           pnpm exec playwright install --with-deps chromium
-          PLAYWRIGHT_BASE_URL="http://localhost:3111" pnpm exec playwright test golden-path
+          PLAYWRIGHT_BASE_URL="http://localhost:3111" pnpm exec playwright test "golden-path"
+
+      - name: Quittance receipt (browser)
+        run: |
+          sleep 70
+          PLAYWRIGHT_BASE_URL="http://localhost:3111" pnpm exec playwright test "quittances"
 
       - name: Shots
         if: failure()
