@@ -366,7 +366,7 @@ export default function FeaturesPage() {
                 locations sans stress
               </span>
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-500 sm:text-xl">
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600 sm:text-xl">
               Quitances, bancauterie automatique, révision IRL, portail
               locataire, maintenance — tout est inclus dans un seul abonnement
               à 15 €/mois.
@@ -404,7 +404,7 @@ export default function FeaturesPage() {
       {/* ── Quick feature scan ── */}
       <section className="border-y border-stone-200 bg-white">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-          <p className="mb-8 text-center text-sm font-semibold uppercase tracking-[0.15em] text-stone-400">
+          <p className="mb-8 text-center text-sm font-semibold uppercase tracking-[0.15em] text-stone-600">
             Tout ce dont vous avez besoin
           </p>
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -447,7 +447,7 @@ export default function FeaturesPage() {
                   >
                     {group.title}
                   </h2>
-                  <p className="mt-4 text-lg text-stone-500">{group.description}</p>
+                  <p className="mt-4 text-lg text-stone-600">{group.description}</p>
 
                   {/* Feature bullets */}
                   <ul className="mt-8 space-y-5">
@@ -460,7 +460,7 @@ export default function FeaturesPage() {
                           </span>
                           <div>
                             <p className="font-semibold text-stone-800">{feat.title}</p>
-                            <p className="mt-0.5 text-sm text-stone-500">{feat.detail}</p>
+                            <p className="mt-0.5 text-sm text-stone-600">{feat.detail}</p>
                           </div>
                         </li>
                       );
@@ -488,7 +488,7 @@ export default function FeaturesPage() {
       {/* ── Integration strip ── */}
       <section className="border-y border-stone-200 bg-white">
         <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
-          <p className="mb-10 text-center text-sm font-semibold uppercase tracking-[0.15em] text-stone-400">
+          <p className="mb-10 text-center text-sm font-semibold uppercase tracking-[0.15em] text-stone-600">
             Écosystème & Conformité
           </p>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -500,7 +500,7 @@ export default function FeaturesPage() {
             ].map((item) => (
               <div key={item.label} className="text-center">
                 <p className="text-base font-semibold text-stone-800">{item.label}</p>
-                <p className="mt-1 text-sm text-stone-400">{item.sub}</p>
+                <p className="mt-1 text-sm text-stone-600">{item.sub}</p>
               </div>
             ))}
           </div>

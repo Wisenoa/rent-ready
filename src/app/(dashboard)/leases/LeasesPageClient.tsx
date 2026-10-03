@@ -210,7 +210,7 @@ export function LeasesPageClient({ leases, properties, tenants }: LeasesPageClie
                           <span
                             className={
                               lastTx.status === "PAID"
-                                ? "text-emerald-600"
+                                ? "text-emerald-700"
                                 : lastTx.status === "LATE"
                                   ? "text-red-600"
                                   : ""

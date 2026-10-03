@@ -284,7 +284,7 @@ export default async function LeaseRevisionPage({
                     {revision.difference >= 0 ? (
                       <TrendingUp className="size-5 text-destructive" />
                     ) : (
-                      <TrendingDown className="size-5 text-emerald-600" />
+                      <TrendingDown className="size-5 text-emerald-700" />
                     )}
                     <div className="text-right">
                       <p className="text-sm text-muted-foreground">Nouveau loyer</p>
@@ -304,7 +304,7 @@ export default async function LeaseRevisionPage({
                     className={`font-semibold text-sm ${
                       revision.cappedDifference >= 0
                         ? "text-destructive"
-                        : "text-emerald-600"
+                        : "text-emerald-700"
                     }`}
                   >
                     {revision.cappedDifference >= 0 ? "+" : ""}

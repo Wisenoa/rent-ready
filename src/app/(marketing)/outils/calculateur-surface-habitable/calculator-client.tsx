@@ -193,7 +193,7 @@ export function SurfaceHabitableClient() {
         <button
           type="button"
           onClick={addRoom}
-          className="w-full border-2 border-dashed border-stone-300 hover:border-blue-400 text-stone-500 hover:text-blue-600 font-semibold py-3 rounded-xl transition-colors"
+          className="w-full border-2 border-dashed border-stone-300 hover:border-blue-400 text-stone-600 hover:text-blue-600 font-semibold py-3 rounded-xl transition-colors"
         >
           + Ajouter une pièce
         </button>
@@ -207,7 +207,7 @@ export function SurfaceHabitableClient() {
                 {habitableSurface.toFixed(2)} m²
               </span>
             </div>
-            <p className="text-xs text-stone-400 mt-2">
+            <p className="text-xs text-stone-600 mt-2">
               Surface après déduction des parties de moins de 1.80m de hauteur.
               Ne comprend pas : murs, cloisons, marches, gaines, ni annexes (balcon, cave, parking).
             </p>
@@ -246,7 +246,7 @@ export function SurfaceHabitableClient() {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
         <Link href="/outils/calculateur-loyer" className="text-blue-600 hover:underline">Calculateur de loyer →</Link>
         <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">Modèle état des lieux →</Link>
         <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>

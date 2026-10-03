@@ -318,7 +318,7 @@ export default function BailVidePage() {
             <div className="space-y-3">
               {["Partie 1 — Identité des parties et description du bien", "Partie 2 — Conditions financières et durée", "Partie 3 — Clauses obligatoires et annexes", "DPE et état des risques intégrés"].map((line, i) => (
                 <div key={i} className="flex items-center gap-3 rounded-lg bg-white px-4 py-2 text-sm text-stone-700 border border-stone-100">
-                  <span className="text-emerald-600 font-bold">✓</span>
+                  <span className="text-emerald-700 font-bold">✓</span>
                   {line}
                 </div>
               ))}
@@ -430,7 +430,7 @@ export default function BailVidePage() {
               "DPE obligatoire (diagnostic performance énergétique)",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-stone-600">
-                <span className="text-emerald-600">✓</span>
+                <span className="text-emerald-700">✓</span>
                 <span>{item}</span>
               </li>
             ))}

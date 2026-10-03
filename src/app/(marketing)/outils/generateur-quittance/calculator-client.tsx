@@ -130,7 +130,7 @@ export function GenerateurQuittanceClient() {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
             <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
             <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
             <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>

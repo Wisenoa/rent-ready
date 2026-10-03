@@ -62,12 +62,12 @@ export function PricingSection() {
                   <span className="text-6xl font-extrabold tracking-tighter text-stone-900">
                     15
                   </span>
-                  <span className="ml-1 text-xl font-semibold text-stone-500">
+                  <span className="ml-1 text-xl font-semibold text-stone-600">
                     €
                   </span>
-                  <span className="ml-1.5 text-base text-stone-500">/mois</span>
+                  <span className="ml-1.5 text-base text-stone-600">/mois</span>
                 </div>
-                <p className="mt-3 text-sm text-stone-500">
+                <p className="mt-3 text-sm text-stone-600">
                   ou{" "}
                   <strong className="text-stone-700">150&nbsp;€/an</strong>{" "}
                   <span className="ml-1 inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700">
@@ -110,7 +110,7 @@ export function PricingSection() {
                 </motion.span>
               </Link>
               {/* Trust micro-strip */}
-              <p className="mt-3 text-center text-[12px] text-stone-500">
+              <p className="mt-3 text-center text-[12px] text-stone-600">
                 Sans carte bancaire · Annulation libre · Sans engagement
               </p>
               {/* Trust badges row */}
@@ -122,9 +122,9 @@ export function PricingSection() {
                 ].map((label, i) => (
                   <span
                     key={label}
-                    className="inline-flex items-center gap-1 text-[11px] text-stone-500"
+                    className="inline-flex items-center gap-1 text-[11px] text-stone-600"
                   >
-                    <svg className="size-3 text-emerald-600 shrink-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <svg className="size-3 text-emerald-700 shrink-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M2 6l2.5 2.5L10 3.5" />
                     </svg>
                     {label}
@@ -135,7 +135,7 @@ export function PricingSection() {
 
             {/* Mini cost comparison table */}
             <div className="mb-8 rounded-2xl border border-stone-100 bg-stone-50/80 p-5">
-              <p className="mb-3 text-[11px] font-semibold uppercase tracking-wide text-stone-500">
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-wide text-stone-600">
                 Comparaison annuelle — 1 bien à 1 000 €/mois
               </p>
               <div className="space-y-2.5">
@@ -153,7 +153,7 @@ export function PricingSection() {
                     <span className={row.accent ? "font-semibold text-blue-700" : "text-stone-600"}>
                       {row.label}
                     </span>
-                    <span className={row.accent ? "font-semibold text-blue-700" : "text-stone-500"}>
+                    <span className={row.accent ? "font-semibold text-blue-700" : "text-stone-600"}>
                       {row.value}
                     </span>
                   </div>

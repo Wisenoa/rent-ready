@@ -180,7 +180,7 @@ export default function RentReadyVsImmotop() {
                 </tr>
               </tbody>
             </table>
-            <p className="mt-2 text-xs text-stone-400 text-center">
+            <p className="mt-2 text-xs text-stone-600 text-center">
               ✓ Inclus &nbsp; ✗ Non disponible &nbsp; − Partiellement
             </p>
           </div>
@@ -196,7 +196,7 @@ export default function RentReadyVsImmotop() {
                 </span>
               </div>
               <p className="mt-1 text-sm font-medium text-stone-700">
-                15 €/mois <span className="font-normal text-stone-400">tout compris jusqu'à 10 biens</span>
+                15 €/mois <span className="font-normal text-stone-600">tout compris jusqu'à 10 biens</span>
               </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div>
@@ -237,7 +237,7 @@ export default function RentReadyVsImmotop() {
             <div className="flex-1">
               <h3 className="text-lg font-bold text-stone-900">Immotop</h3>
               <p className="mt-1 text-sm font-medium text-stone-700">
-                15-35 €/mois <span className="font-normal text-stone-400">selon les modules</span>
+                15-35 €/mois <span className="font-normal text-stone-600">selon les modules</span>
               </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div>
@@ -265,7 +265,7 @@ export default function RentReadyVsImmotop() {
               </div>
             </div>
             <div className="shrink-0">
-              <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-400 cursor-not-allowed">
+              <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-600 cursor-not-allowed">
                 Consulter le site →
               </span>
             </div>
@@ -279,7 +279,7 @@ export default function RentReadyVsImmotop() {
               <details key={faq.name} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">+</span>
+                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <p className="mt-3 text-stone-600 leading-relaxed">{faq.acceptedAnswer.text}</p>
               </details>

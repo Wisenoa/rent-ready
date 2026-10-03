@@ -274,7 +274,7 @@ export function QuittanceGeneratorForm() {
   const total = (parseFloat(loyer) || 0) + (parseFloat(charges) || 0);
 
   const inputClass =
-    "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors";
+    "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm text-stone-900 placeholder:text-stone-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors";
   const labelClass = "block text-sm font-medium text-stone-700 mb-1";
 
   return (
@@ -406,7 +406,7 @@ export function QuittanceGeneratorForm() {
       {/* Total preview */}
       {total > 0 && (
         <div className="rounded-lg bg-stone-50 p-3 text-center">
-          <span className="text-sm text-stone-500">Total à acquitter : </span>
+          <span className="text-sm text-stone-600">Total à acquitter : </span>
           <span className="text-base font-semibold text-stone-900">
             {formatMontant(total)} €
           </span>

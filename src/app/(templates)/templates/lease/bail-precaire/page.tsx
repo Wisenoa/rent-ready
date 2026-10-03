@@ -212,7 +212,7 @@ export default function BailPrecairePage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Modèle de Bail Précaire
             <br />
-            <span className="text-orange-600">Location Temporaire 2026</span>
+            <span className="text-orange-700">Location Temporaire 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail précaire pour occupation temporaire justifiée par un motif
@@ -269,7 +269,7 @@ export default function BailPrecairePage() {
           <div className="space-y-4">
             {motifs.map((m) => (
               <div key={m.motif} className="flex items-start gap-4 rounded-xl border border-orange-200 bg-white p-4">
-                <Check className="mt-0.5 size-5 shrink-0 text-orange-600" />
+                <Check className="mt-0.5 size-5 shrink-0 text-orange-700" />
                 <div>
                   <h3 className="text-sm font-semibold text-stone-900">{m.motif}</h3>
                   <p className="mt-1 text-sm text-stone-600">{m.desc}</p>
@@ -380,7 +380,7 @@ export default function BailPrecairePage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-orange-600 hover:underline"
+                className="text-sm text-orange-700 hover:underline"
               >
                 {link.label}
               </Link>
@@ -390,13 +390,13 @@ export default function BailPrecairePage() {
 
         {/* Navigation */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/lease/bail-saisonnier" className="text-orange-600 hover:underline">
+          <Link href="/templates/lease/bail-saisonnier" className="text-orange-700 hover:underline">
             Bail saisonnier →
           </Link>
-          <Link href="/templates/lease/bail-etudiant" className="text-orange-600 hover:underline">
+          <Link href="/templates/lease/bail-etudiant" className="text-orange-700 hover:underline">
             Bail étudiant →
           </Link>
-          <Link href="/templates/lease/acte-caution" className="text-orange-600 hover:underline">
+          <Link href="/templates/lease/acte-caution" className="text-orange-700 hover:underline">
             Acte de caution →
           </Link>
           <Link href="/templates/lease" className="text-blue-600 hover:underline">

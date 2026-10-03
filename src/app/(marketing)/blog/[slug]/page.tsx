@@ -305,7 +305,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Breadcrumb */}
-        <nav className="mb-8 text-sm text-stone-500">
+        <nav className="mb-8 text-sm text-stone-600">
           <Link href="/" className="hover:text-stone-700">Accueil</Link>
           <span className="mx-2">›</span>
           <Link href="/blog" className="hover:text-stone-700">Blog</Link>
@@ -333,7 +333,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <p className="mb-6 text-xl text-stone-600 leading-relaxed">
             {article.excerpt}
           </p>
-          <div className="flex items-center gap-4 text-sm text-stone-500">
+          <div className="flex items-center gap-4 text-sm text-stone-600">
             <span className="inline-flex items-center gap-1.5">
               <Calendar className="h-4 w-4" />
               {new Date(article.date).toLocaleDateString("fr-FR", {
@@ -361,7 +361,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:scroll-mt-24
                 prose-p:text-stone-700 prose-p:leading-relaxed
                 prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-700
-                prose-ul:text-stone-700 prose-li:marker:text-stone-400
+                prose-ul:text-stone-700 prose-li:marker:text-stone-600
                 prose-strong:text-stone-900
                 prose-blockquote:border-l-blue-500 prose-blockquote:text-stone-600
                 prose-code:text-blue-700 prose-code:bg-stone-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
@@ -370,7 +370,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 <ReactMarkdown>{article.content}</ReactMarkdown>
               </div>
             ) : (
-              <p className="text-stone-500">Contenu en cours de rédaction.</p>
+              <p className="text-stone-600">Contenu en cours de rédaction.</p>
             )}
 
             {/* Glossary terms section */}
@@ -405,7 +405,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <aside className="lg:w-56 lg:shrink-0">
             {tocItems.length > 0 && (
               <div className="sticky top-8 rounded-xl border border-stone-200 bg-stone-50 p-4">
-                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-500">
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-600">
                   Dans cet article
                 </h3>
                 <nav className="space-y-1">
@@ -431,7 +431,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <h3 className="mb-3 text-xl font-bold text-white">
             Gérez votre location efficacement avec RentReady
           </h3>
-          <p className="mb-6 text-stone-400">
+          <p className="mb-6 text-stone-300">
             Logiciel tout-en-un pour propriétaires — essai gratuit 30 jours.
           </p>
           <Link
@@ -461,10 +461,10 @@ export default async function BlogPostPage({ params }: PageProps) {
                   <h3 className="mb-2 font-semibold text-stone-900 group-hover:text-blue-700 transition-colors line-clamp-2">
                     {related.title}
                   </h3>
-                  <p className="text-sm text-stone-500 line-clamp-2">
+                  <p className="text-sm text-stone-600 line-clamp-2">
                     {related.excerpt}
                   </p>
-                  <div className="mt-3 flex items-center gap-3 text-xs text-stone-400">
+                  <div className="mt-3 flex items-center gap-3 text-xs text-stone-600">
                     <span className="inline-flex items-center gap-1">
                       <Calendar className="h-3.5 w-3.5" />
                       {new Date(related.date).toLocaleDateString("fr-FR", {

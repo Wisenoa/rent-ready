@@ -116,7 +116,7 @@ export function MarketingFooter() {
                 RentReady
               </span>
             </Link>
-            <p className="text-[13px] text-stone-500 leading-relaxed max-w-[200px]">
+            <p className="text-[13px] text-stone-600 leading-relaxed max-w-[200px]">
               Le pilotage automatique de la gestion locative pour propriétaires bailleurs.
             </p>
             <div className="mt-5 flex gap-3">
@@ -124,7 +124,7 @@ export function MarketingFooter() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-500 hover:text-stone-300 transition-colors"
+                className="text-stone-600 hover:text-stone-800 transition-colors"
                 aria-label="Twitter"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -135,7 +135,7 @@ export function MarketingFooter() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-500 hover:text-stone-300 transition-colors"
+                className="text-stone-600 hover:text-stone-800 transition-colors"
                 aria-label="LinkedIn"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -156,7 +156,7 @@ export function MarketingFooter() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-[13px] text-stone-500 hover:text-stone-700 transition-colors"
+                      className="text-[13px] text-stone-600 hover:text-stone-800 transition-colors"
                       {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     >
                       {link.label}
@@ -170,10 +170,10 @@ export function MarketingFooter() {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-stone-200/60 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[12px] text-stone-500">
+          <p className="text-[12px] text-stone-600">
             © {new Date().getFullYear()} RentReady. Tous droits réservés.
           </p>
-          <p className="text-[12px] text-stone-500">
+          <p className="text-[12px] text-stone-600">
             Conçu en France &middot; Données hébergées en Europe
           </p>
         </div>

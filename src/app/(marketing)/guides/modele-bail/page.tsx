@@ -70,7 +70,7 @@ export default function ModeleBailGuidePage() {
       />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
-        <nav className="mb-6 text-sm text-stone-500">
+        <nav className="mb-6 text-sm text-stone-600">
           <Link href="/" className="hover:text-stone-700">Accueil</Link>
           <span className="mx-2">›</span>
           <Link href="/guides" className="hover:text-stone-700">Guides pratiques</Link>
@@ -111,7 +111,7 @@ export default function ModeleBailGuidePage() {
               <Download className="size-4" />
               Télécharger le modèle
             </Link>
-            <p className="text-xs text-stone-500">Word (.docx) · Mis à jour avril 2026</p>
+            <p className="text-xs text-stone-600">Word (.docx) · Mis à jour avril 2026</p>
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@ export default function ModeleBailGuidePage() {
             <div key={bail.type} className="rounded-xl border border-stone-200 bg-white p-5">
               <h3 className="font-semibold text-stone-900">{bail.type}</h3>
               <p className="mt-1 text-sm text-stone-600">{bail.desc}</p>
-              <div className="mt-3 flex gap-4 text-xs text-stone-500">
+              <div className="mt-3 flex gap-4 text-xs text-stone-600">
                 <span>⏱ {bail.dur}</span>
                 <span>💰 Dépôt {bail.depot}</span>
               </div>

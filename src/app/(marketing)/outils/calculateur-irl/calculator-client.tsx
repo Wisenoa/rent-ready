@@ -149,7 +149,7 @@ export function IRLCalculatorClient() {
           {/* IRL Table */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-stone-900 mb-1">Historique des IRL</h2>
-            <p className="text-sm text-stone-500 mb-6">Derniers trimestres publies par l'INSEE</p>
+            <p className="text-sm text-stone-600 mb-6">Derniers trimestres publies par l'INSEE</p>
 
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -171,7 +171,7 @@ export function IRLCalculatorClient() {
                         className={`border-b border-stone-100 hover:bg-stone-50 cursor-pointer ${selectedQuarter.quarter === q.quarter ? "bg-blue-50" : ""}`}
                         onClick={() => setSelectedQuarter(q)}
                       >
-                        <td className="py-3 px-4 font-medium text-stone-900">{q.quarter} <span className="text-stone-400 text-xs">({q.date})</span></td>
+                        <td className="py-3 px-4 font-medium text-stone-900">{q.quarter} <span className="text-stone-600 text-xs">({q.date})</span></td>
                         <td className="py-3 px-4 text-right font-mono font-semibold text-stone-900">{q.value}</td>
                         <td className={`py-3 px-4 text-right font-semibold ${pct && parseFloat(pct) >= 0 ? "text-green-600" : "text-red-500"}`}>
                           {pct ? `${parseFloat(pct) >= 0 ? "+" : ""}${pct}%` : "—"}
@@ -189,16 +189,16 @@ export function IRLCalculatorClient() {
             <h2 className="text-xl font-bold text-stone-900 mb-4">Trimestre selectionne : {selectedQuarter.quarter}</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-stone-50 rounded-xl p-4 text-center">
-                <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Valeur IRL</div>
+                <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Valeur IRL</div>
                 <div className="text-2xl font-bold text-stone-900">{selectedQuarter.value}</div>
               </div>
               <div className="bg-stone-50 rounded-xl p-4 text-center">
-                <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Date de publication</div>
+                <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Date de publication</div>
                 <div className="text-2xl font-bold text-stone-900">{selectedQuarter.date}</div>
               </div>
               {variation && (
                 <div className="bg-stone-50 rounded-xl p-4 text-center">
-                  <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Variation 1 an</div>
+                  <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Variation 1 an</div>
                   <div className={`text-2xl font-bold ${parseFloat(variation) >= 0 ? "text-green-600" : "text-red-500"}`}>
                     {parseFloat(variation) >= 0 ? "+" : ""}{variation}%
                   </div>
@@ -229,7 +229,7 @@ export function IRLCalculatorClient() {
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
                     <span className="font-semibold text-stone-900">{faq.question}</span>
-                    <svg className="size-5 text-stone-400 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
                   </summary>
@@ -247,28 +247,28 @@ export function IRLCalculatorClient() {
                 <span className="text-2xl">📈</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur de Révision de Loyer</div>
-                  <div className="text-sm text-stone-500">Apply the IRL to your rent</div>
+                  <div className="text-sm text-stone-600">Apply the IRL to your rent</div>
                 </div>
               </Link>
               <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-500">Bail conforme avec clause IRL</div>
+                  <div className="text-sm text-stone-600">Bail conforme avec clause IRL</div>
                 </div>
               </Link>
               <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
                   <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-500">Toutes les definitions legales</div>
+                  <div className="text-sm text-stone-600">Toutes les definitions legales</div>
                 </div>
               </Link>
               <Link href="/outils/calculateur-caution" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">🔐</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur Caution</div>
-                  <div className="text-sm text-stone-500">Deposit maximum legal</div>
+                  <div className="text-sm text-stone-600">Deposit maximum legal</div>
                 </div>
               </Link>
             </div>

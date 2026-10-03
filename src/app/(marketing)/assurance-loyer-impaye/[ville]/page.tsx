@@ -384,7 +384,7 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
               </Link>
               <Link
                 href="/assurance-loyer-impaye"
-                className="text-sm font-medium text-stone-500 transition-colors hover:text-stone-700"
+                className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-700"
               >
                 Voir toutes les villes →
               </Link>
@@ -512,7 +512,7 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
                   className="rounded-lg border border-stone-200/80 bg-[#f8f7f4] p-5 text-center shadow-sm"
                 >
                   <p className="text-2xl font-bold text-stone-900">{stat.value}</p>
-                  <p className="mt-1 text-sm text-stone-500">{stat.label}</p>
+                  <p className="mt-1 text-sm text-stone-600">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -631,7 +631,7 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
                 <details key={faq.question} className="group py-5">
                   <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                     {faq.question}
-                    <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                    <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>

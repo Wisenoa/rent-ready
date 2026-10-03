@@ -191,7 +191,7 @@ export default async function PropertyDetailPage({ params }: Props) {
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-100">
-                    <Euro className="size-4 text-emerald-600" />
+                    <Euro className="size-4 text-emerald-700" />
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">
@@ -377,7 +377,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                     <p className="text-xs text-muted-foreground">
                       Total perçu
                     </p>
-                    <p className="text-sm font-semibold font-mono text-emerald-600">
+                    <p className="text-sm font-semibold font-mono text-emerald-700">
                       {formatCurrency(totalPaid)}
                     </p>
                   </div>

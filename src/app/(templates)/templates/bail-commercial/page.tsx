@@ -182,7 +182,7 @@ export default function BailCommercialPage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Modèle de Bail Commercial
             <br />
-            <span className="text-emerald-600">3 / 6 / 9 Ans</span>
+            <span className="text-emerald-700">3 / 6 / 9 Ans</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail commercial conforme au Code de commerce. Gérez la valeur
@@ -240,7 +240,7 @@ export default function BailCommercialPage() {
               "Dépôt de garantie librement négociable",
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
-                <Check className="size-5 text-emerald-600" />
+                <Check className="size-5 text-emerald-700" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}

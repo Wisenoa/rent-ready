@@ -241,7 +241,7 @@ export default function MaintenancePage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((item) => (
               <div key={item.step} className="rounded-xl border border-stone-200 bg-white p-6">
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-lg font-bold text-orange-600">
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-lg font-bold text-orange-700">
                   {item.step}
                 </div>
                 <h3 className="mb-2 text-base font-semibold text-stone-900">
@@ -272,7 +272,7 @@ export default function MaintenancePage() {
               <span>Réparation électroménager, fuite mineure, joint</span>
             </li>
             <li className="flex items-start gap-2 text-sm text-stone-600">
-              <span className="text-stone-400 font-bold">Cosmétique —</span>
+              <span className="text-stone-600 font-bold">Cosmétique —</span>
               <span>Peinture, joint légèrement abimé, petites retouches</span>
             </li>
           </ul>
@@ -296,7 +296,7 @@ export default function MaintenancePage() {
         </section>
 
         {/* Internal links */}
-        <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+        <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
           <Link
             href="/bail"
             className="text-blue-600 hover:underline"

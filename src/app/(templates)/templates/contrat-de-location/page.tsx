@@ -311,7 +311,7 @@ export default function ContratDeLocationPage() {
               "✓ Export PDF prêt à signer",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-stone-700">
-                <span className="text-emerald-600">{item.split(" ")[0]}</span>
+                <span className="text-emerald-700">{item.split(" ")[0]}</span>
                 <span>{item.substring(2)}</span>
               </li>
             ))}

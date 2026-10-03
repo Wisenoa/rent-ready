@@ -238,7 +238,7 @@ export function ChecklistEDLClient() {
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-bold text-stone-900">Progression</h2>
-              <span className="text-sm text-stone-500">{totalOk + totalKo} / {totalItems} items vérifiés</span>
+              <span className="text-sm text-stone-600">{totalOk + totalKo} / {totalItems} items vérifiés</span>
             </div>
             <div className="w-full bg-stone-200 rounded-full h-3 mb-4">
               <div
@@ -271,7 +271,7 @@ export function ChecklistEDLClient() {
                   <span className="text-3xl">{room.icon}</span>
                   <div className="flex-1">
                     <h2 className="text-xl font-bold text-stone-900">{room.label}</h2>
-                    <p className="text-sm text-stone-500">
+                    <p className="text-sm text-stone-600">
                       {progress.total} / {progress.totalItems} vérifiés
                       {progress.ko > 0 && (
                         <span className="text-red-500 ml-2">— {progress.ko} dégradation(s)</span>
@@ -344,12 +344,12 @@ export function ChecklistEDLClient() {
                 <div className="space-y-2">
                   <input type="text" placeholder="Nom prénom" className="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm" />
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-stone-500">Date:</span>
+                    <span className="text-sm text-stone-600">Date:</span>
                     <input type="date" className="flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm" />
                   </div>
                   <div className="border-t border-stone-200 pt-3 mt-3">
-                    <p className="text-xs text-stone-400 italic">Signature (upload photo ou numérique)</p>
-                    <div className="h-16 border-2 border-dashed border-stone-200 rounded-lg flex items-center justify-center text-stone-400 text-sm mt-2">
+                    <p className="text-xs text-stone-600 italic">Signature (upload photo ou numérique)</p>
+                    <div className="h-16 border-2 border-dashed border-stone-200 rounded-lg flex items-center justify-center text-stone-600 text-sm mt-2">
                       Zone signature
                     </div>
                   </div>
@@ -360,12 +360,12 @@ export function ChecklistEDLClient() {
                 <div className="space-y-2">
                   <input type="text" placeholder="Nom prénom" className="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm" />
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-stone-500">Date:</span>
+                    <span className="text-sm text-stone-600">Date:</span>
                     <input type="date" className="flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm" />
                   </div>
                   <div className="border-t border-stone-200 pt-3 mt-3">
-                    <p className="text-xs text-stone-400 italic">Signature (upload photo ou numérique)</p>
-                    <div className="h-16 border-2 border-dashed border-stone-200 rounded-lg flex items-center justify-center text-stone-400 text-sm mt-2">
+                    <p className="text-xs text-stone-600 italic">Signature (upload photo ou numérique)</p>
+                    <div className="h-16 border-2 border-dashed border-stone-200 rounded-lg flex items-center justify-center text-stone-600 text-sm mt-2">
                       Zone signature
                     </div>
                   </div>
@@ -395,7 +395,7 @@ export function ChecklistEDLClient() {
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
                     <span className="font-semibold text-stone-900">{faq.question}</span>
-                    <svg className="size-5 text-stone-400 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
                   </summary>
@@ -413,28 +413,28 @@ export function ChecklistEDLClient() {
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle Officiel État des Lieux</div>
-                  <div className="text-sm text-stone-500">Modèle légal à télécharger</div>
+                  <div className="text-sm text-stone-600">Modèle légal à télécharger</div>
                 </div>
               </Link>
               <Link href="/templates/protocol-etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📋</span>
                 <div>
                   <div className="font-semibold text-stone-900">Protocole État des Lieux</div>
-                  <div className="text-sm text-stone-500">Guide complet et détaillé</div>
+                  <div className="text-sm text-stone-600">Guide complet et détaillé</div>
                 </div>
               </Link>
               <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
                   <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-500">Toutes les définitions légales</div>
+                  <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
               <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📝</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-500">Bail conforme à la loi 1989</div>
+                  <div className="text-sm text-stone-600">Bail conforme à la loi 1989</div>
                 </div>
               </Link>
             </div>

@@ -484,7 +484,7 @@ export default async function GestionLocativeVille({ params }: Props) {
               </Link>
               <Link
                 href="/gestion-locative"
-                className="text-sm font-medium text-stone-500 transition-colors hover:text-stone-700"
+                className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-700"
               >
                 Voir toutes les villes&nbsp;→
               </Link>
@@ -496,7 +496,7 @@ export default async function GestionLocativeVille({ params }: Props) {
         {rentData && (
           <section className="bg-white border-y border-stone-200 px-4 py-8 sm:px-6">
             <div className="mx-auto max-w-4xl">
-              <p className="mb-4 text-center text-sm font-medium text-stone-500 uppercase tracking-wide">
+              <p className="mb-4 text-center text-sm font-medium text-stone-600 uppercase tracking-wide">
                 Loyer moyen à {city.name} — estimation {rentData.source}
               </p>
               <div className="grid gap-3 sm:grid-cols-3">
@@ -507,11 +507,11 @@ export default async function GestionLocativeVille({ params }: Props) {
                 ].map((r) => (
                   <div key={r.label} className="rounded-lg bg-[#f8f7f4] border border-stone-200 p-4 text-center">
                     <p className="text-lg font-bold text-stone-900">{r.value}</p>
-                    <p className="mt-1 text-sm text-stone-500">{r.label}</p>
+                    <p className="mt-1 text-sm text-stone-600">{r.label}</p>
                   </div>
                 ))}
               </div>
-              <p className="mt-3 text-center text-xs text-stone-400">
+              <p className="mt-3 text-center text-xs text-stone-600">
                 Estimation indicative — le loyer réel dépend de l&apos;état, de l&apos;emplacement et des équipements du bien.
                 {ctx.isZoneTendue && ` Plafonds de loyer en zone tendue : consultez l'arrêté préfectoral du ${city.department}.`}
               </p>
@@ -568,7 +568,7 @@ export default async function GestionLocativeVille({ params }: Props) {
                   className="rounded-lg border border-stone-200/80 bg-white p-5 text-center shadow-sm"
                 >
                   <p className="text-2xl font-bold text-stone-900">{stat.value}</p>
-                  <p className="mt-1 text-sm text-stone-500">{stat.label}</p>
+                  <p className="mt-1 text-sm text-stone-600">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -690,7 +690,7 @@ export default async function GestionLocativeVille({ params }: Props) {
                 <details key={faq.question} className="group py-5">
                   <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                     {faq.question}
-                    <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                    <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>

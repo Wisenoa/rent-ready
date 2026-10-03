@@ -87,7 +87,7 @@ export default async function OwnerDashboardPage() {
       value: occupiedProperties,
       subtitle: "avec bail actif",
       icon: CheckCircle2,
-      color: "text-emerald-600",
+      color: "text-emerald-700",
       bgColor: "bg-emerald-50",
     },
     {
@@ -103,7 +103,7 @@ export default async function OwnerDashboardPage() {
       value: formatPercent(occupancyRate),
       subtitle: "taux actuel",
       icon: Percent,
-      color: occupancyRate >= 90 ? "text-emerald-600" : occupancyRate >= 70 ? "text-amber-600" : "text-red-600",
+      color: occupancyRate >= 90 ? "text-emerald-700" : occupancyRate >= 70 ? "text-amber-600" : "text-red-600",
       bgColor: occupancyRate >= 90 ? "bg-emerald-50" : occupancyRate >= 70 ? "bg-amber-50" : "bg-red-50",
     },
   ];
@@ -123,7 +123,7 @@ export default async function OwnerDashboardPage() {
       value: formatCurrency(monthlyExpenses),
       subtitle: "dépenses déclarées",
       icon: PieChart,
-      color: "text-orange-600",
+      color: "text-orange-700",
       bgColor: "bg-orange-50",
     },
     {
@@ -131,7 +131,7 @@ export default async function OwnerDashboardPage() {
       value: formatCurrency(monthlyNOI),
       subtitle: "résultat net d'exploitation",
       icon: TrendingUp,
-      color: monthlyNOI >= 0 ? "text-emerald-600" : "text-red-600",
+      color: monthlyNOI >= 0 ? "text-emerald-700" : "text-red-600",
       bgColor: monthlyNOI >= 0 ? "bg-emerald-50" : "bg-red-50",
     },
     {
@@ -139,7 +139,7 @@ export default async function OwnerDashboardPage() {
       value: formatCurrency(yearlyNOI),
       subtitle: "cumul depuis janvier",
       icon: BarChart3,
-      color: yearlyNOI >= 0 ? "text-emerald-600" : "text-red-600",
+      color: yearlyNOI >= 0 ? "text-emerald-700" : "text-red-600",
       bgColor: yearlyNOI >= 0 ? "bg-emerald-50" : "bg-red-50",
     },
   ];
@@ -241,7 +241,7 @@ export default async function OwnerDashboardPage() {
                 <p className="text-2xl font-bold tracking-tight">{card.value}</p>
                 <div className="flex items-center gap-2 mt-1">
                   {card.change !== undefined && (
-                    <div className={`flex items-center gap-1 text-xs ${card.change >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+                    <div className={`flex items-center gap-1 text-xs ${card.change >= 0 ? "text-emerald-700" : "text-red-600"}`}>
                       {card.change >= 0 ? (
                         <ArrowUpRight className="size-3" />
                       ) : (
@@ -281,7 +281,7 @@ export default async function OwnerDashboardPage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Revenus locatifs annuels</span>
-                <span className="font-semibold text-emerald-600">{formatCurrency(annualReturn)}</span>
+                <span className="font-semibold text-emerald-700">{formatCurrency(annualReturn)}</span>
               </div>
               <div className="border-t border-border/50 pt-4 flex items-center justify-between">
                 <span className="text-sm font-medium">Rendement brut estimé</span>
@@ -400,13 +400,13 @@ export default async function OwnerDashboardPage() {
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Loyers reçus ce mois</span>
-                    <span className="font-medium text-emerald-600">{formatCurrency(monthlyRevenue)}</span>
+                    <span className="font-medium text-emerald-700">{formatCurrency(monthlyRevenue)}</span>
                   </div>
                 </div>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-6 text-center">
-                <CheckCircle2 className="size-10 text-emerald-600 mb-3" />
+                <CheckCircle2 className="size-10 text-emerald-700 mb-3" />
                 <p className="text-sm font-medium text-emerald-900">
                   Tous vos biens sont occupés
                 </p>
@@ -429,7 +429,7 @@ export default async function OwnerDashboardPage() {
           <CardContent>
             {openTickets === 0 ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">
-                <CheckCircle2 className="size-10 text-emerald-600 mb-3" />
+                <CheckCircle2 className="size-10 text-emerald-700 mb-3" />
                 <p className="text-sm font-medium text-muted-foreground">
                   Aucune intervention en cours
                 </p>

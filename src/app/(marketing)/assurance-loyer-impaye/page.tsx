@@ -179,7 +179,7 @@ export default function AssuranceLoyerImpayéIndex() {
                           {city.name}
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-stone-400">
+                          <span className="text-xs text-stone-600">
                             {formatPopulation(city.population)} hab.
                           </span>
                           {ZONES_TENDUES.has(city.slug) && (

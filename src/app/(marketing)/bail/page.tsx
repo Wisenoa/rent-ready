@@ -304,27 +304,27 @@ dépôt de garantie, etc.).
 </p>
 <ul className="grid gap-3 sm:grid-cols-2">
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Loi Alur</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Loi ÉLAN</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Encadrement des loyers</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>État des lieux obligatoire</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Diagnostic énergétique (DPE)</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Clause résolutoire</span>
 </li>
 </ul>
@@ -356,7 +356,7 @@ dépôt de garantie, etc.).
                         <span className="text-sm font-medium text-stone-700 group-hover:text-blue-700">
                           {city.name}
                         </span>
-                        <span className="text-xs text-stone-400">
+                        <span className="text-xs text-stone-600">
                           {formatPopulation(city.population)} hab.
                         </span>
                       </Link>
@@ -385,7 +385,7 @@ dépôt de garantie, etc.).
       </section>
 
       {/* Internal links */}
-<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/locations"
 className="text-blue-600 hover:underline"

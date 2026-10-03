@@ -217,7 +217,7 @@ export function LoyerCalculatorClient() {
                 </span>
               ))}
             </div>
-            <p className="text-xs text-stone-500 mt-4">
+            <p className="text-xs text-stone-600 mt-4">
               Source : liste officielle des zones tendues. Vérifiez sur service-public.fr pour votre commune exacte.
             </p>
           </div>
@@ -230,7 +230,7 @@ export function LoyerCalculatorClient() {
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
                     <span className="font-semibold text-stone-900">{faq.question}</span>
-                    <svg className="size-5 text-stone-400 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
                   </summary>
@@ -248,28 +248,28 @@ export function LoyerCalculatorClient() {
                 <span className="text-2xl">🔐</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur de Caution</div>
-                  <div className="text-sm text-stone-500">Dépôt de garantie maximum</div>
+                  <div className="text-sm text-stone-600">Dépôt de garantie maximum</div>
                 </div>
               </Link>
               <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-500">Bail conforme à la loi 1989</div>
+                  <div className="text-sm text-stone-600">Bail conforme à la loi 1989</div>
                 </div>
               </Link>
               <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
                   <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-500">Toutes les définitions légales</div>
+                  <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
               <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📈</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur de Révision IRL</div>
-                  <div className="text-sm text-stone-500">Révision légale du loyer</div>
+                  <div className="text-sm text-stone-600">Révision légale du loyer</div>
                 </div>
               </Link>
             </div>

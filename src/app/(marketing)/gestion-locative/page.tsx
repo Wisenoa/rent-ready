@@ -171,7 +171,7 @@ export default function GestionLocativeIndex() {
                       <span className="font-medium text-stone-800 group-hover:text-blue-700">
                         {city.name}
                       </span>
-                      <span className="text-xs text-stone-400">
+                      <span className="text-xs text-stone-600">
                         {formatPopulation(city.population)}&nbsp;hab.
                       </span>
                     </Link>

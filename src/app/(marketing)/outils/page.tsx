@@ -254,7 +254,7 @@ export default function OutilsPage() {
                 <h2 className="text-lg font-bold text-stone-900 mb-2 group-hover:text-blue-600 transition-colors">
                   {tool.title}
                 </h2>
-                <p className="text-stone-500 text-sm leading-relaxed flex-1">
+                <p className="text-stone-600 text-sm leading-relaxed flex-1">
                   {tool.description}
                 </p>
                 <div className="mt-4 text-sm font-semibold text-blue-600 group-hover:underline">

@@ -56,7 +56,7 @@ export function TestimonialsSection() {
     <section className="py-24 sm:py-32 lg:py-40">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <ScrollReveal className="mx-auto mb-16 max-w-xl text-center">
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-400">
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-600">
             Le fonctionnement
           </p>
           <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
@@ -109,7 +109,7 @@ export function TestimonialsSection() {
           {[
             {
               icon: (
-                <svg className="size-3.5 text-stone-400 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <svg className="size-3.5 text-stone-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="8" cy="8" r="6.5" />
                   <path d="M5.5 8l1.8 1.8L10.5 6.5" />
                 </svg>
@@ -118,7 +118,7 @@ export function TestimonialsSection() {
             },
             {
               icon: (
-                <svg className="size-3.5 text-stone-400 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <svg className="size-3.5 text-stone-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="7" width="10" height="7" rx="1.5" />
                   <path d="M5.5 7V5a2.5 2.5 0 015 0v2" />
                 </svg>
@@ -127,7 +127,7 @@ export function TestimonialsSection() {
             },
             {
               icon: (
-                <svg className="size-3.5 text-stone-400 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <svg className="size-3.5 text-stone-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="2" width="10" height="12" rx="1.5" />
                   <path d="M6 6h4M6 9h4M6 12h2" />
                 </svg>
@@ -137,11 +137,11 @@ export function TestimonialsSection() {
           ].map((badge, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-1.5 text-[12px] text-stone-400"
+              className="inline-flex items-center gap-1.5 text-[12px] text-stone-600"
             >
               {badge.icon}
               {badge.text}
-              {i < 2 && <span className="hidden sm:inline ml-2 text-stone-300">·</span>}
+              {i < 2 && <span className="hidden sm:inline ml-2 text-stone-700">·</span>}
             </span>
           ))}
         </motion.div>

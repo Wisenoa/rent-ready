@@ -85,7 +85,7 @@ export function SocialProof() {
               <p className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
                 {item.value}
               </p>
-              <p className="mt-1 text-[12px] sm:text-[13px] text-stone-500">
+              <p className="mt-1 text-[12px] sm:text-[13px] text-stone-600">
                 {item.label}
               </p>
             </motion.div>
@@ -93,7 +93,7 @@ export function SocialProof() {
         </div>
 
         {/* Integration badges */}
-        <h2 className="mb-6 text-center text-[12px] font-medium uppercase tracking-[0.2em] text-stone-400">
+        <h2 className="mb-6 text-center text-[12px] font-medium uppercase tracking-[0.2em] text-stone-600">
           Intégrations &amp; conformité
         </h2>
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
@@ -110,7 +110,7 @@ export function SocialProof() {
               <span className="text-[13px] font-semibold text-stone-700">
                 {item.label}
               </span>
-              <span className="hidden sm:block text-[11px] text-stone-400">
+              <span className="hidden sm:block text-[11px] text-stone-600">
                 {item.sub}
               </span>
             </motion.div>

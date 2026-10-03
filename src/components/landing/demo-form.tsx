@@ -99,7 +99,7 @@ export function DemoForm() {
         <p className="text-lg font-semibold text-emerald-800">
           Demande envoyée !
         </p>
-        <p className="mt-2 text-sm text-emerald-600">
+        <p className="mt-2 text-sm text-emerald-700">
           Nous vous répondrons sous 24h pour fixer un créneau de 30 minutes.
         </p>
       </div>
@@ -183,7 +183,7 @@ export function DemoForm() {
         {loading ? "Envoi en cours..." : "Demander ma démo gratuite"}
       </button>
 
-      <p className="text-center text-xs text-stone-500">
+      <p className="text-center text-xs text-stone-600">
         Sans engagement · Réponse sous 24h
       </p>
     </form>

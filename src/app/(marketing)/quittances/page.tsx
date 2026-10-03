@@ -276,7 +276,7 @@ définies par la loi du 6 juillet 1989 :
 <ul className="grid gap-2 sm:grid-cols-2">
 {legalRequirements.map((req) => (
 <li key={req} className="flex items-center gap-2 text-sm text-stone-700">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>{req}</span>
 </li>
 ))}
@@ -334,7 +334,7 @@ interopérable.
 <h2 className="text-2xl font-bold sm:text-3xl">
 Générez votre première quittance gratuitement
 </h2>
-<p className="mx-auto mt-3 max-w-xl text-stone-300">
+<p className="mx-auto mt-3 max-w-xl text-stone-700">
 Essai 14 jours sans carte bancaire. Créez vos quittances, envoyez-les à
 vos locataires.
 </p>
@@ -347,7 +347,7 @@ Essai gratuit 14 jours
 </section>
 
 {/* Internal links */}
-<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/locations"
 className="text-blue-600 hover:underline"

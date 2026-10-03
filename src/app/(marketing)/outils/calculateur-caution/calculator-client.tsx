@@ -113,7 +113,7 @@ function DepositCalculatorInner() {
                 className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
                   zoneType === "tendue"
                     ? "border-blue-600 bg-blue-50 text-blue-700"
-                    : "border-stone-200 text-stone-500 hover:border-blue-300"
+                    : "border-stone-200 text-stone-600 hover:border-blue-300"
                 }`}
               >
                 Zone tendue
@@ -124,7 +124,7 @@ function DepositCalculatorInner() {
                 className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
                   zoneType === "non-tendue"
                     ? "border-blue-600 bg-blue-50 text-blue-700"
-                    : "border-stone-200 text-stone-500 hover:border-blue-300"
+                    : "border-stone-200 text-stone-600 hover:border-blue-300"
                 }`}
               >
                 Zone non tendue
@@ -143,7 +143,7 @@ function DepositCalculatorInner() {
                 className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
                   !isFurnished
                     ? "border-blue-600 bg-blue-50 text-blue-700"
-                    : "border-stone-200 text-stone-500 hover:border-blue-300"
+                    : "border-stone-200 text-stone-600 hover:border-blue-300"
                 }`}
               >
                 Location vide
@@ -154,7 +154,7 @@ function DepositCalculatorInner() {
                 className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
                   isFurnished
                     ? "border-blue-600 bg-blue-50 text-blue-700"
-                    : "border-stone-200 text-stone-500 hover:border-blue-300"
+                    : "border-stone-200 text-stone-600 hover:border-blue-300"
                 }`}
               >
                 Location meublée
@@ -273,7 +273,7 @@ export function DepositCalculatorClient() {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
             <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
             <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
             <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>

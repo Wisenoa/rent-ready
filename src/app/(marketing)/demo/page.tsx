@@ -203,14 +203,14 @@ export default function DemoPage() {
             <ul className="mt-10 space-y-6">
               {benefits.map((b) => (
                 <li key={b.title} className="flex gap-4">
-                  <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] text-emerald-600">
+                  <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] text-emerald-700">
                     \u2713
                   </span>
                   <div>
                     <strong className="text-sm font-semibold text-stone-900">
                       {b.title}
                     </strong>
-                    <p className="mt-1 text-sm text-stone-500">{b.description}</p>
+                    <p className="mt-1 text-sm text-stone-600">{b.description}</p>
                   </div>
                 </li>
               ))}
@@ -223,7 +223,7 @@ export default function DemoPage() {
               <ul className="mt-4 space-y-2">
                 {agendaItems.map((item, i) => (
                   <li key={i} className="flex gap-3 text-sm text-stone-600">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-stone-100 text-[10px] font-semibold text-stone-500">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-stone-100 text-[10px] font-semibold text-stone-600">
                       {i + 1}
                     </span>
                     {item}
@@ -239,7 +239,7 @@ export default function DemoPage() {
               <h2 className="text-2xl font-bold text-stone-900">
                 R\u00e9servez votre cr\u00e9neau
               </h2>
-              <p className="mt-2 text-sm text-stone-500">
+              <p className="mt-2 text-sm text-stone-600">
                 On vous envoie un lien visio par email.
               </p>
 

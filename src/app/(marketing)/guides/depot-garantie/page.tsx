@@ -70,7 +70,7 @@ export default function DepotGarantieGuidePage() {
       />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
-        <nav className="mb-6 text-sm text-stone-500">
+        <nav className="mb-6 text-sm text-stone-600">
           <Link href="/" className="hover:text-stone-700">Accueil</Link>
           <span className="mx-2">›</span>
           <Link href="/guides" className="hover:text-stone-700">Guides pratiques</Link>

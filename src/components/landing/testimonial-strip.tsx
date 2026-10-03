@@ -55,7 +55,7 @@ export function TestimonialStrip() {
               </div>
               <div>
                 <p className="text-[13px] font-semibold text-stone-900">{title}</p>
-                <p className="mt-1 text-[12px] leading-relaxed text-stone-500">
+                <p className="mt-1 text-[12px] leading-relaxed text-stone-600">
                   {text}
                 </p>
               </div>

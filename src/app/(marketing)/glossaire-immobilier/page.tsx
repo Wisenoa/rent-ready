@@ -2761,14 +2761,14 @@ export default function GlossaireImmobilierPage() {
                         <dd className="text-stone-600">
                           <p className="mb-3">{item.definition}</p>
                           {item.related && item.related.length > 0 && (
-                            <p className="text-sm text-stone-500">
+                            <p className="text-sm text-stone-600">
                               Voir aussi:{" "}
                               {item.related.map((rel, i) => (
                                 <span key={rel}>
                                   {i > 0 && " • "}
                                   <a
                                     href={`#${rel[0].toUpperCase()}`}
-                                    className="text-blue-600 hover:underline"
+                                    className="text-blue-600 underline underline-offset-2 hover:text-blue-800"
                                   >
                                     {rel}
                                   </a>

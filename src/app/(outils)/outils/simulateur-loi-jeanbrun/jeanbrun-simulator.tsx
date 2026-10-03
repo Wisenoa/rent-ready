@@ -351,7 +351,7 @@ export function JeanbrunSimulator() {
                   <td
                     className={`px-4 py-2.5 text-right font-medium ${
                       row.economie > 0
-                        ? "text-emerald-600"
+                        ? "text-emerald-700"
                         : row.economie < 0
                           ? "text-red-500"
                           : "text-stone-500"
@@ -371,7 +371,7 @@ export function JeanbrunSimulator() {
                 <td
                   className={`px-4 py-3 text-right ${
                     totalEconomie > 0
-                      ? "text-emerald-600"
+                      ? "text-emerald-700"
                       : totalEconomie < 0
                         ? "text-red-500"
                         : "text-stone-700"

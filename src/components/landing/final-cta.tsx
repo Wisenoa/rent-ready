@@ -28,7 +28,7 @@ export function FinalCta() {
                 <br className="hidden sm:block" />
                 être une source de stress.
               </h2>
-              <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-stone-400 sm:text-lg">
+              <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-stone-300 sm:text-lg">
                 Rejoignez les propriétaires qui ont mis leur gestion locative en
                 pilote automatique.
               </p>

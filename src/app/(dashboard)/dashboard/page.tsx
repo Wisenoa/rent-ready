@@ -109,7 +109,7 @@ export default async function DashboardPage() {
       value: formatCurrency(stats.revenue.currentMonth),
       description: format(now, "MMMM yyyy", { locale: fr }),
       icon: CreditCard,
-      accentColor: "text-emerald-600",
+      accentColor: "text-emerald-700",
       bgColor: "bg-emerald-50",
     },
     {
@@ -315,7 +315,7 @@ export default async function DashboardPage() {
                         <StatusIcon
                           className={`size-4 ${
                             tx.status === "PAID"
-                              ? "text-emerald-600"
+                              ? "text-emerald-700"
                               : tx.status === "LATE"
                                 ? "text-amber-500"
                                 : "text-muted-foreground"

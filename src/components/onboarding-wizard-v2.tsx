@@ -966,7 +966,7 @@ function SuccessStepV2({
       {/* Celebration */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 mb-2">
-          <PartyPopper className="size-8 text-emerald-600" />
+          <PartyPopper className="size-8 text-emerald-700" />
         </div>
         <h2 className="text-xl font-semibold">Félicitations ! 🎉</h2>
         <p className="text-sm text-muted-foreground">
@@ -978,7 +978,7 @@ function SuccessStepV2({
       <div className="space-y-2">
         {propertyId && !propertySkipped && (
           <div className="flex items-center gap-3 p-3 bg-emerald-50 rounded-lg border border-emerald-100">
-            <CheckCircle2 className="size-5 text-emerald-600 shrink-0" />
+            <CheckCircle2 className="size-5 text-emerald-700 shrink-0" />
             <div>
               <p className="text-sm font-medium text-emerald-900">Bien ajouté</p>
               <p className="text-xs text-emerald-700">Votre premier bien est enregistré</p>
@@ -987,7 +987,7 @@ function SuccessStepV2({
         )}
         {tenantId && !tenantSkipped && (
           <div className="flex items-center gap-3 p-3 bg-emerald-50 rounded-lg border border-emerald-100">
-            <CheckCircle2 className="size-5 text-emerald-600 shrink-0" />
+            <CheckCircle2 className="size-5 text-emerald-700 shrink-0" />
             <div>
               <p className="text-sm font-medium text-emerald-900">Locataire ajouté</p>
               <p className="text-xs text-emerald-700">Prêt pour le bail</p>

@@ -400,7 +400,7 @@ export default function BailMeublePage() {
               "DPE obligatoire (diagnostic performance énergétique)",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-stone-600">
-                <span className="text-emerald-600">✓</span>
+                <span className="text-emerald-700">✓</span>
                 <span>{item}</span>
               </li>
             ))}

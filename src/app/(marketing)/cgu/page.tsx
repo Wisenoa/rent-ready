@@ -82,7 +82,7 @@ export default function CguPage() {
       <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
         Conditions Générales d&apos;Utilisation
       </h1>
-      <p className="mt-4 text-sm text-stone-400">
+      <p className="mt-4 text-sm text-stone-600">
         Dernière mise à jour : mars 2026
       </p>
 

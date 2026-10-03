@@ -721,7 +721,7 @@ function LeaseStep({
         <div className="rounded-lg bg-muted/60 p-3 text-sm">
           <p className="font-medium">
             Total mensuel :{" "}
-            <span className="text-emerald-600">
+            <span className="text-emerald-700">
               {new Intl.NumberFormat("fr-FR", {
                 style: "currency",
                 currency: "EUR",
@@ -854,7 +854,7 @@ function SuccessStep({
           style={{ width: "6rem", height: "6rem" }}
         />
         <div className="size-16 rounded-full bg-emerald-100 flex items-center justify-center relative z-10">
-          <CheckCircle2 className="size-8 text-emerald-600" />
+          <CheckCircle2 className="size-8 text-emerald-700" />
         </div>
         <div className="absolute -top-1 -right-1 z-20">
           <PartyPopper className="size-6 text-amber-500" />
@@ -878,7 +878,7 @@ function SuccessStep({
         <div className="space-y-2">
           <div className="flex items-start gap-2.5">
             <div className="size-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5 flex-shrink-0">
-              <CheckCircle2 className="size-3 text-emerald-600" />
+              <CheckCircle2 className="size-3 text-emerald-700" />
             </div>
             <p className="text-sm">Premier bail créé — bien joué !</p>
           </div>
@@ -1110,7 +1110,7 @@ export function OnboardingWizard({
               <div className="flex items-center gap-2 text-xs text-muted-foreground -mt-2 mb-2">
                 <Clock className="size-3.5" />
                 <span>{currentStepInfo.timeEstimate}</span>
-                <span className="text-emerald-600 font-medium">
+                <span className="text-emerald-700 font-medium">
                   · 95% des bailleurs terminent en moins de 5 min
                 </span>
               </div>

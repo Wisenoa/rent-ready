@@ -222,13 +222,13 @@ export default function AssuranceLoyerImpayé() {
                       <h3 className={`text-lg font-bold ${solution.iconColor}`}>
                         {solution.name}
                       </h3>
-                      <p className="text-sm font-medium text-stone-500">
+                      <p className="text-sm font-medium text-stone-600">
                         {solution.verdict}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-bold text-stone-700">{solution.cost}</p>
-                      <p className="text-xs text-stone-400">{solution.bestFor}</p>
+                      <p className="text-xs text-stone-600">{solution.bestFor}</p>
                     </div>
                   </div>
                   <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -255,7 +255,7 @@ export default function AssuranceLoyerImpayé() {
                             {solution.name === "Aucune protection" ? (
                               <X className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
                             ) : (
-                              <X className="mt-0.5 h-4 w-4 shrink-0 text-stone-300" />
+                              <X className="mt-0.5 h-4 w-4 shrink-0 text-stone-700" />
                             )}
                             {con}
                           </li>
@@ -291,7 +291,7 @@ export default function AssuranceLoyerImpayé() {
               <details key={faq.name} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>

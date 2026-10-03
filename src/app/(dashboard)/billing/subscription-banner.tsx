@@ -108,7 +108,7 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
         <CardContent className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100">
-              <ShieldCheck className="size-5 text-emerald-600" />
+              <ShieldCheck className="size-5 text-emerald-700" />
             </div>
             <div>
               <p className="font-semibold text-emerald-900">Abonnement actif</p>
@@ -272,7 +272,7 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
         <CardContent className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100">
-              <AlertTriangle className="size-5 text-orange-600" />
+              <AlertTriangle className="size-5 text-orange-700" />
             </div>
             <div>
               <p className="font-semibold text-orange-900">Paiement en retard</p>

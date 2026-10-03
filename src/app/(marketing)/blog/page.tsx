@@ -141,7 +141,7 @@ export default function BlogPage() {
               key={post.slug}
               className="group rounded-xl border border-stone-200/60 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
             >
-              <div className="mb-3 flex items-center gap-3 text-xs text-stone-500">
+              <div className="mb-3 flex items-center gap-3 text-xs text-stone-600">
                 <span
                   className={`rounded-full px-2 py-0.5 ${
                     post.category === "Gestion"

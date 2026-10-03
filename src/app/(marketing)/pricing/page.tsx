@@ -303,7 +303,7 @@ export default function PricingPage() {
                   <th className="px-6 py-4 text-center font-semibold text-blue-600">
                     Starter
                   </th>
-                  <th className="px-6 py-4 text-center font-semibold text-emerald-600">
+                  <th className="px-6 py-4 text-center font-semibold text-emerald-700">
                     Pro
                   </th>
                   <th className="px-6 py-4 text-center font-semibold text-amber-600">
@@ -318,7 +318,7 @@ export default function PricingPage() {
                     <td className="px-6 py-4 text-center text-blue-600">
                       {row.starter}
                     </td>
-                    <td className="px-6 py-4 text-center text-emerald-600">
+                    <td className="px-6 py-4 text-center text-emerald-700">
                       {row.pro}
                     </td>
                     <td className="px-6 py-4 text-center text-amber-600">

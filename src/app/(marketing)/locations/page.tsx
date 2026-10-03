@@ -302,7 +302,7 @@ données pour la comptabilité.
 <h2 className="text-2xl font-bold sm:text-3xl">
 Commencez à gérer vos locations en 5 minutes
 </h2>
-<p className="mx-auto mt-3 max-w-xl text-stone-300">
+<p className="mx-auto mt-3 max-w-xl text-stone-700">
 Ajoutez vos biens, vos locataires, générez vos premières quittances.
 Simple et rapide.
 </p>
@@ -315,7 +315,7 @@ Essai gratuit 14 jours
 </section>
 
 {/* Internal links */}
-<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/bail"
 className="text-blue-600 hover:underline"

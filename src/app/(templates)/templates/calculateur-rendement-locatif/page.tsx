@@ -194,7 +194,7 @@ export default function CalculateurRendementPage() {
               </p>
             </div>
             <div className="rounded-xl bg-white p-4">
-              <div className="mb-2 text-2xl font-bold text-emerald-600">+5%</div>
+              <div className="mb-2 text-2xl font-bold text-emerald-700">+5%</div>
               <p className="text-xs text-stone-500">Objectif net recommandé</p>
               <p className="mt-2 text-sm text-stone-600">
                 Un rendement net de 5%+ apres vacance et charges est un bon investissement.

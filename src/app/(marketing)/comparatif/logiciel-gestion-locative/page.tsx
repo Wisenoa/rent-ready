@@ -298,7 +298,7 @@ export default function ComparatifLogicielGestionLocative() {
                 </tr>
               </tbody>
             </table>
-            <p className="mt-2 text-xs text-stone-400 text-center">
+            <p className="mt-2 text-xs text-stone-600 text-center">
               ✓ Inclus &nbsp; ✗ Non disponible &nbsp; − Partiellement
             </p>
           </div>
@@ -326,9 +326,9 @@ export default function ComparatifLogicielGestionLocative() {
                     )}
                   </div>
                   <p className="mt-1 text-sm font-medium text-stone-700">
-                    {alt.price} <span className="font-normal text-stone-400">— {alt.priceDetail}</span>
+                    {alt.price} <span className="font-normal text-stone-600">— {alt.priceDetail}</span>
                   </p>
-                  <p className="mt-1 text-sm text-stone-500">Recommandé pour : {alt.bestFor}</p>
+                  <p className="mt-1 text-sm text-stone-600">Recommandé pour : {alt.bestFor}</p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wide text-green-700 mb-1">
@@ -367,7 +367,7 @@ export default function ComparatifLogicielGestionLocative() {
                       Essai gratuit →
                     </Link>
                   ) : (
-                    <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-400 cursor-not-allowed">
+                    <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-600 cursor-not-allowed">
                       Voir le site →
                     </span>
                   )}
@@ -387,7 +387,7 @@ export default function ComparatifLogicielGestionLocative() {
               <details key={faq.name} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>

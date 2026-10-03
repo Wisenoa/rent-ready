@@ -187,7 +187,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Back navigation */}
         <Link
           href="/glossaire-immobilier"
-          className="mb-8 inline-flex items-center gap-1.5 text-sm text-stone-500 hover:text-blue-600 transition-colors"
+          className="mb-8 inline-flex items-center gap-1.5 text-sm text-stone-600 hover:text-blue-600 transition-colors"
         >
           <ArrowLeft className="size-4" />
           Glossaire immobilier
@@ -230,7 +230,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Related terms */}
         {resolvedRelated.length > 0 && (
           <div className="mt-6 rounded-xl border border-stone-200 bg-stone-50 p-6">
-            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-stone-500">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-stone-600">
               Termes liés
             </h3>
             <div className="flex flex-wrap gap-2">

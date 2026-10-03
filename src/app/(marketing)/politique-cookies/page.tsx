@@ -92,7 +92,7 @@ export default function PolitiqueCookiesPage() {
         <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
           Politique de Cookies
         </h1>
-        <p className="mt-4 text-sm text-stone-400">
+        <p className="mt-4 text-sm text-stone-600">
           Derniere mise a jour : mars 2026
         </p>
 

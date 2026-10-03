@@ -36,7 +36,7 @@ const items: BentoItem[] = [
     description:
       "L'article 21 de la loi n° 89-462 du 6 juillet 1989 impose au bailleur de transmettre gratuitement une quittance pour tout loyer intégralement réglé. RentReady distingue automatiquement le loyer de base des provisions pour charges sur deux lignes séparées. Si le paiement est partiel, un reçu est émis à la place, mentionnant le solde restant dû — jamais une quittance.",
     accent: "from-emerald-500/10 to-emerald-600/5",
-    iconBg: "bg-emerald-50 text-emerald-600",
+    iconBg: "bg-emerald-50 text-emerald-700",
   },
   {
     icon: TrendingUp,
@@ -104,7 +104,7 @@ function BentoCard({
           {item.title}
         </h3>
         <p
-          className={`mt-2 leading-relaxed text-stone-500 ${
+          className={`mt-2 leading-relaxed text-stone-600 ${
             large ? "text-[15px] sm:text-base" : "text-[14px]"
           }`}
         >

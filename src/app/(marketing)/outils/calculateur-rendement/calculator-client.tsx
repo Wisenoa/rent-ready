@@ -153,7 +153,7 @@ function YieldCalculatorInner() {
             onChange={(e) => setAnnualCharges(e.target.value)}
             className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-          <p className="text-xs text-stone-400 mt-1">
+          <p className="text-xs text-stone-600 mt-1">
             Inclut : taxe foncière, assurance, frais de gestion, chargesCopro non récupérables.
           </p>
         </div>
@@ -172,7 +172,7 @@ function YieldCalculatorInner() {
             onChange={(e) => setVacancyRate(e.target.value)}
             className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-          <p className="text-xs text-stone-400 mt-1">
+          <p className="text-xs text-stone-600 mt-1">
             Defaut: 8% — ajustez selon votre marché local.
           </p>
         </div>
@@ -266,13 +266,13 @@ export function YieldCalculatorClient() {
                     <tr key={b.city} className="border-b border-stone-100 hover:bg-stone-50">
                       <td className="py-2 px-3 font-semibold text-stone-800">{b.city}</td>
                       <td className="py-2 px-3 text-right font-mono text-green-700">{b.netYield}</td>
-                      <td className="py-2 px-3 text-stone-500">{b.note}</td>
+                      <td className="py-2 px-3 text-stone-600">{b.note}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <p className="text-xs text-stone-400 mt-3">
+            <p className="text-xs text-stone-600 mt-3">
               Benchmarks indicatifs basés sur les données marché 2024-2025.
             </p>
           </div>
@@ -307,7 +307,7 @@ export function YieldCalculatorClient() {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
             <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
             <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
             <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>

@@ -29,7 +29,7 @@ export function MaintenanceEmptyState({ hasTenants, hasProperties }: Maintenance
             </svg>
           </div>
           <div className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100">
-            <CheckCircle2 className="size-3.5 text-emerald-600" />
+            <CheckCircle2 className="size-3.5 text-emerald-700" />
           </div>
         </div>
       </div>

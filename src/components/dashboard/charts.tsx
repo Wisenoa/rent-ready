@@ -186,11 +186,11 @@ export function NOISummary({ noi }: { noi: { currentMonth: number; previousMonth
         <div className="space-y-4">
           <div>
             <p className="text-sm text-muted-foreground">Ce mois</p>
-            <p className={`text-2xl font-bold ${isPositive ? "text-emerald-600" : "text-red-600"}`}>
+            <p className={`text-2xl font-bold ${isPositive ? "text-emerald-700" : "text-red-600"}`}>
               {formatCurrency(noi.currentMonth)}
             </p>
             {noi.previousMonth !== 0 && (
-              <p className={`text-xs ${trend >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+              <p className={`text-xs ${trend >= 0 ? "text-emerald-700" : "text-red-600"}`}>
                 {trend >= 0 ? "+" : ""}{trend.toFixed(1)}% vs mois précédent
               </p>
             )}

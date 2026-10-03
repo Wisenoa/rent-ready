@@ -449,7 +449,7 @@ export default async function BailVillePage({ params }: Props) {
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/bail"
-                className="text-sm font-medium text-stone-500 transition-colors hover:text-stone-700"
+                className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-700"
               >
                 ← Tous les modèles de bail
               </Link>
@@ -467,7 +467,7 @@ export default async function BailVillePage({ params }: Props) {
         {rentData && (
           <section className="bg-white border-y border-stone-200 px-4 py-8 sm:px-6">
             <div className="mx-auto max-w-4xl">
-              <p className="mb-4 text-center text-sm font-medium text-stone-500 uppercase tracking-wide">
+              <p className="mb-4 text-center text-sm font-medium text-stone-600 uppercase tracking-wide">
                 Loyer moyen à {city.name} — estimation {rentData.source}
               </p>
               <div className="grid gap-3 sm:grid-cols-3">
@@ -478,7 +478,7 @@ export default async function BailVillePage({ params }: Props) {
                 ].map((r) => (
                   <div key={r.label} className="rounded-lg bg-[#f8f7f4] border border-stone-200 p-4 text-center">
                     <p className="text-lg font-bold text-stone-900">{r.value}</p>
-                    <p className="mt-1 text-sm text-stone-500">{r.label}</p>
+                    <p className="mt-1 text-sm text-stone-600">{r.label}</p>
                   </div>
                 ))}
               </div>
@@ -523,14 +523,14 @@ export default async function BailVillePage({ params }: Props) {
                     <h3 className="text-base font-semibold text-stone-900">
                       {card.type}
                     </h3>
-                    <span className="rounded border border-stone-300 bg-white px-2 py-0.5 text-xs text-stone-500">
+                    <span className="rounded border border-stone-300 bg-white px-2 py-0.5 text-xs text-stone-600">
                       {card.badge}
                     </span>
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-stone-600">
                     {card.description}
                   </p>
-                  <dl className="mt-4 grid grid-cols-2 gap-2 text-xs text-stone-500">
+                  <dl className="mt-4 grid grid-cols-2 gap-2 text-xs text-stone-600">
                     <div>
                       <dt className="font-medium text-stone-700">Durée</dt>
                       <dd>{card.duration}</dd>
@@ -551,7 +551,7 @@ export default async function BailVillePage({ params }: Props) {
             </div>
 
             {/* Internal links */}
-            <div className="mt-10 flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+            <div className="mt-10 flex flex-wrap justify-center gap-4 text-sm text-stone-600">
               <Link href="/quittances" className="text-blue-600 hover:underline">
                 Générer une quittance →
               </Link>
@@ -594,7 +594,7 @@ export default async function BailVillePage({ params }: Props) {
                   className="rounded-lg border border-stone-200/80 bg-white p-5 text-center shadow-sm"
                 >
                   <p className="text-2xl font-bold text-stone-900">{stat.value}</p>
-                  <p className="mt-1 text-sm text-stone-500">{stat.label}</p>
+                  <p className="mt-1 text-sm text-stone-600">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -716,7 +716,7 @@ export default async function BailVillePage({ params }: Props) {
                 <details key={faq.question} className="group py-5">
                   <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                     {faq.question}
-                    <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                    <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>

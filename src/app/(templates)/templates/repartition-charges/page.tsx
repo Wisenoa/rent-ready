@@ -150,7 +150,7 @@ export default function RepartitionChargesPage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Répartition des Charges Locatives
             <br />
-            <span className="text-emerald-600">Provisions et Régularisation Annuelle</span>
+            <span className="text-emerald-700">Provisions et Régularisation Annuelle</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Téléchargez notre modèle de répartition des charges. Provisions mensuelles, régularisation annuelle, justificatifs. Conforme loi ALUR et décret 2024.
@@ -195,7 +195,7 @@ export default function RepartitionChargesPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {modalitesRegul.map((m) => (
               <div key={m.titre} className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50 p-4">
-                <span className="mt-0.5 text-emerald-600 font-bold">✓</span>
+                <span className="mt-0.5 text-emerald-700 font-bold">✓</span>
                 <div>
                   <p className="font-semibold text-stone-900">{m.titre}</p>
                   <p className="text-sm text-stone-600">{m.detail}</p>

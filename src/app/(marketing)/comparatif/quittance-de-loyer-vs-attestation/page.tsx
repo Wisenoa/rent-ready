@@ -172,7 +172,7 @@ export default function QuittanceVsAttestation() {
               <tr className="border-b border-stone-200 text-left">
                 <th className="py-3 pr-4 font-semibold text-stone-900">Critère</th>
                 <th className="py-3 px-4 text-center font-semibold text-green-700">Quittance ✓</th>
-                <th className="py-3 px-4 text-center font-semibold text-stone-500">Attestation ✗</th>
+                <th className="py-3 px-4 text-center font-semibold text-stone-600">Attestation ✗</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100">
@@ -183,9 +183,9 @@ export default function QuittanceVsAttestation() {
                     {row.quittance === true ? (
                       <Check className="mx-auto h-5 w-5 text-green-600" />
                     ) : row.quittance === false ? (
-                      <X className="mx-auto h-5 w-5 text-stone-300" />
+                      <X className="mx-auto h-5 w-5 text-stone-700" />
                     ) : (
-                      <span className="text-xs text-stone-500">{row.quittance}</span>
+                      <span className="text-xs text-stone-600">{row.quittance}</span>
                     )}
                   </td>
                   <td className="py-3 px-4 text-center">
@@ -194,14 +194,14 @@ export default function QuittanceVsAttestation() {
                     ) : row.attestation === false ? (
                       <X className="mx-auto h-5 w-5 text-red-400" />
                     ) : (
-                      <span className="text-xs text-stone-500">{row.attestation}</span>
+                      <span className="text-xs text-stone-600">{row.attestation}</span>
                     )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <p className="mt-2 text-xs text-stone-400 text-center">
+          <p className="mt-2 text-xs text-stone-600 text-center">
             ✓ Oui &nbsp; ✗ Non
           </p>
         </section>
@@ -227,7 +227,7 @@ export default function QuittanceVsAttestation() {
               légale</strong> au sens de la loi de 1989 et ne remplace pas la quittance. Utile comme
               reçu interne mais insuffisante en cas de litige.
             </p>
-            <p className="mt-3 text-sm text-stone-500">
+            <p className="mt-3 text-sm text-stone-600">
               ⇒ Ne répond pas à l'obligation légale de quittance
             </p>
           </div>
@@ -243,7 +243,7 @@ export default function QuittanceVsAttestation() {
               <details key={faq.name} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>

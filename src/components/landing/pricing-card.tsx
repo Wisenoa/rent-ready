@@ -36,7 +36,7 @@ const highlightStyles = {
 
 const checkStyles = {
   blue: "bg-blue-100 text-blue-600",
-  emerald: "bg-emerald-100 text-emerald-600",
+  emerald: "bg-emerald-100 text-emerald-700",
   amber: "bg-amber-100 text-amber-600",
 };
 
@@ -98,10 +98,10 @@ export function PricingCard({
         <div className="mb-2">
           <h3 className="text-xl font-bold text-stone-900">{name}</h3>
           {propertyLimit && (
-            <p className="mt-0.5 text-sm text-stone-500">{propertyLimit}</p>
+            <p className="mt-0.5 text-sm text-stone-600">{propertyLimit}</p>
           )}
         </div>
-        <p className="mb-8 text-sm text-stone-500 leading-relaxed">
+        <p className="mb-8 text-sm text-stone-600 leading-relaxed">
           {description}
         </p>
 
@@ -125,13 +125,13 @@ export function PricingCard({
               <span
                 className={`text-xl font-semibold ${
                   isHighlighted && highlightColor === "emerald"
-                    ? "text-emerald-600"
-                    : "text-stone-400"
+                    ? "text-emerald-700"
+                    : "text-stone-600"
                 }`}
               >
                 €
               </span>
-              <span className="text-base text-stone-400">{period}</span>
+              <span className="text-base text-stone-600">{period}</span>
             </div>
           ) : (
             <div className="text-4xl font-extrabold tracking-tight text-stone-900">
@@ -140,14 +140,14 @@ export function PricingCard({
           )}
 
           {isAnnual && monthlyPrice && annualPrice && (
-            <p className="mt-1.5 text-sm font-medium text-emerald-600">
+            <p className="mt-1.5 text-sm font-medium text-emerald-700">
               Soit{" "}
               {Math.round(annualPrice / 12)} €/mois · Économie de{" "}
               {monthlyPrice * 12 - annualPrice} €/an
             </p>
           )}
           {!isAnnual && monthlyPrice && (
-            <p className="mt-1.5 text-sm text-stone-500">
+            <p className="mt-1.5 text-sm text-stone-600">
               Sans engagement · Résiliez quand vous voulez
             </p>
           )}
@@ -173,7 +173,7 @@ export function PricingCard({
         {/* CTA */}
         {cta}
         {ctaNote && (
-          <p className="mt-3 text-center text-xs text-stone-400">{ctaNote}</p>
+          <p className="mt-3 text-center text-xs text-stone-600">{ctaNote}</p>
         )}
       </div>
     </motion.div>

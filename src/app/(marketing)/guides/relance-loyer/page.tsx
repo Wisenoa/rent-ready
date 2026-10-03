@@ -129,7 +129,7 @@ export default function RelanceLoyerGuidePage() {
       />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
-        <nav className="mb-6 text-sm text-stone-500">
+        <nav className="mb-6 text-sm text-stone-600">
           <Link href="/" className="hover:text-stone-700">Accueil</Link>
           <span className="mx-2">›</span>
           <Link href="/guides" className="hover:text-stone-700">Guides pratiques</Link>
@@ -266,7 +266,7 @@ export default function RelanceLoyerGuidePage() {
             <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">
               <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-stone-900 hover:text-red-600">
                 {item.q}
-                <span className="shrink-0 text-stone-400 transition-transform group-open:rotate-180">
+                <span className="shrink-0 text-stone-600 transition-transform group-open:rotate-180">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>

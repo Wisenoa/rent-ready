@@ -183,7 +183,7 @@ function ChargesCalculatorInner() {
                     onChange={(e) => handleCatChange(cat.label, e.target.value)}
                     className="flex-1 border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  <span className="text-xs text-stone-400 w-40 shrink-0">/{cat.note}</span>
+                  <span className="text-xs text-stone-600 w-40 shrink-0">/{cat.note}</span>
                 </div>
               ))}
             </div>
@@ -307,7 +307,7 @@ export function ChargesCalculatorClient() {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
             <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
             <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
             <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>

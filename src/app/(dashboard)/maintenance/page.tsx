@@ -38,7 +38,7 @@ const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
 const PRIORITY_CONFIG: Record<string, { label: string; className: string }> = {
   LOW: { label: "Basse", className: "bg-slate-50 text-slate-600 border-slate-200" },
   MEDIUM: { label: "Moyenne", className: "bg-blue-50 text-blue-600 border-blue-200" },
-  HIGH: { label: "Haute", className: "bg-orange-50 text-orange-600 border-orange-200" },
+  HIGH: { label: "Haute", className: "bg-orange-50 text-orange-700 border-orange-200" },
   URGENT: { label: "Urgente", className: "bg-red-50 text-red-600 border-red-200" },
 };
 

@@ -202,7 +202,7 @@ export default function BailParkingPage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Modèle de Bail Parking
             <br />
-            <span className="text-emerald-600">Gratuit &amp; Conforme 2026</span>
+            <span className="text-emerald-700">Gratuit &amp; Conforme 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail de parking, garage ou box conforme au Code civil. Téléchargez
@@ -259,7 +259,7 @@ export default function BailParkingPage() {
           <div className="space-y-3">
             {obligations.map((item) => (
               <div key={item} className="flex items-start gap-3">
-                <Check className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+                <Check className="mt-0.5 size-4 shrink-0 text-emerald-700" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}
@@ -384,7 +384,7 @@ export default function BailParkingPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-emerald-600 hover:underline"
+                className="text-sm text-emerald-700 hover:underline"
               >
                 {link.label}
               </Link>
@@ -394,13 +394,13 @@ export default function BailParkingPage() {
 
         {/* Navigation */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/lease/bail-saisonnier" className="text-emerald-600 hover:underline">
+          <Link href="/templates/lease/bail-saisonnier" className="text-emerald-700 hover:underline">
             Bail saisonnier →
           </Link>
-          <Link href="/templates/lease/bail-etudiant" className="text-emerald-600 hover:underline">
+          <Link href="/templates/lease/bail-etudiant" className="text-emerald-700 hover:underline">
             Bail étudiant →
           </Link>
-          <Link href="/templates/lease/acte-caution" className="text-emerald-600 hover:underline">
+          <Link href="/templates/lease/acte-caution" className="text-emerald-700 hover:underline">
             Acte de caution →
           </Link>
           <Link href="/templates/lease" className="text-blue-600 hover:underline">

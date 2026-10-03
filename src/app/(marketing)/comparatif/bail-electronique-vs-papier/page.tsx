@@ -178,7 +178,7 @@ export default function BailElectroniqueVsPapier() {
               <tr className="border-b border-stone-200 text-left">
                 <th className="py-3 pr-4 font-semibold text-stone-900">Critère</th>
                 <th className="py-3 px-4 text-center font-semibold text-blue-700">Bail électronique ✓</th>
-                <th className="py-3 px-4 text-center font-semibold text-stone-500">Bail papier</th>
+                <th className="py-3 px-4 text-center font-semibold text-stone-600">Bail papier</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100">
@@ -186,20 +186,20 @@ export default function BailElectroniqueVsPapier() {
                 <tr key={row.feature} className="hover:bg-stone-50">
                   <td className="py-3 pr-4">
                     <span className="font-medium text-stone-700">{row.feature}</span>
-                    <p className="text-xs text-stone-400 mt-0.5">{row.note}</p>
+                    <p className="text-xs text-stone-600 mt-0.5">{row.note}</p>
                   </td>
                   <td className="py-3 px-4 text-center">
                     {row.electronic ? (
                       <Check className="mx-auto h-5 w-5 text-green-600" />
                     ) : (
-                      <X className="mx-auto h-5 w-5 text-stone-300" />
+                      <X className="mx-auto h-5 w-5 text-stone-700" />
                     )}
                   </td>
                   <td className="py-3 px-4 text-center">
                     {row.paper ? (
                       <Check className="mx-auto h-5 w-5 text-green-600" />
                     ) : (
-                      <X className="mx-auto h-5 w-5 text-stone-300" />
+                      <X className="mx-auto h-5 w-5 text-stone-700" />
                     )}
                   </td>
                 </tr>
@@ -253,7 +253,7 @@ export default function BailElectroniqueVsPapier() {
               <details key={faq.name} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>

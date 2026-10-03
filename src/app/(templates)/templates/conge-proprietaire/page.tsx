@@ -148,7 +148,7 @@ export default function CongeProprietairePage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Congé Donné par le Propriétaire
             <br />
-            <span className="text-orange-600">Motif Obligatoire</span>
+            <span className="text-orange-700">Motif Obligatoire</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Le propriétaire met fin au bail de son locataire avec un motif
@@ -219,7 +219,7 @@ export default function CongeProprietairePage() {
               "Article 472 du Code de procédure civile (contestations)",
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
-                <Check className="size-5 text-orange-600" />
+                <Check className="size-5 text-orange-700" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}
