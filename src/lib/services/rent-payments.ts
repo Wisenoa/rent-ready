@@ -236,39 +236,34 @@ export async function recordRentPayment(
         .reduce((sum, p) => sum.plus(new Decimal(p.amount)), new Decimal(0))
         .toDecimalPlaces(2);
 
-      // What the month still owes, from the lease's own contractual rent and
-      // charges. This is the authority on the ceiling, NOT the period row's
-      // amount: a row written before `settleRentPeriod` started reducing it still
-      // carries the FULL month next to a sibling receipt, so trusting it would
-      // accept 970.55 on top of 400 already received and book 1370.55 against a
-      // 970.55 debt.
       // What the month still owes. Prefer the PERIOD ROW's own invoiced figures
       // over the lease's current ones: a month that took a payment keeps the
-      // figures it was billed at when the rent is revised (see
-      // `rerateUnpaidRentPeriods`), so `lease.rentAmount` described a February
-      // invoiced at 800 as owing 900 and re-invoiced a month whose instalment had
-      // already been issued against 800. `rentPortion` / `chargesPortion` are
-      // written at generation and left alone while the month is open, so together
-      // they are what was actually asked for.
+      // figures it was billed at when the rent OR THE CHARGES are revised (see
+      // `rerateUnpaidRentPeriods`), so the lease described a February invoiced at
+      // 800 + 100 as owing 900 + 300 and stamped the revised charges onto the
+      // receipts of a month that had already been billed at 100. `rentPortion` /
+      // `chargesPortion` are NOT NULL, are written at generation by
+      // `generateRentPeriodsForLease`, and are left alone while the month is open,
+      // so together they are what was actually asked for.
       //
-      // With no materialised period the lease is all there is, which is correct:
-      // a month the generator has not reached carries no figures of its own yet.
-      // The charges column is the discriminator, for the same reason as in
-      // `settleRentPeriod`: a row carrying the whole obligation in `rentPortion`
-      // with `chargesPortion` at zero still sums correctly, and believing it would
-      // move the charges into the rent column. When the row's charges agree with
-      // the lease's, it is describing the month's split and is authoritative even
-      // after a revision; when they disagree, it predates the split.
+      // A materialised row is therefore the sole authority on its own month. It is
+      // never second-guessed against the lease: comparing the row's charges with
+      // the lease's and falling back when they disagree was exactly backwards,
+      // because a charges revision IS a disagreement, and it made the receipts of
+      // an already-billed month print the revised figures.
+      //
+      // The lease is the fallback only when NO period row exists, which is
+      // correct: a month the generator has not reached carries no figures of its
+      // own yet. Same rule as in `settleRentPeriod`.
       //
       // Wrapped before use, because a caller may pass a Prisma client or a
       // stand-in whose Decimals arrive as plain strings.
-      const leaseCharges = new Decimal(lease.chargesAmount ?? 0);
-      const rowCharges = new Decimal(period?.chargesPortion ?? 0);
-      const rowIsAuthoritative = Boolean(period) && rowCharges.eq(leaseCharges);
-      const invoicedCharges = rowIsAuthoritative ? rowCharges : leaseCharges;
-      const invoicedRent = rowIsAuthoritative
-        ? new Decimal(period?.rentPortion ?? 0)
-        : new Decimal(lease.rentAmount);
+      const invoicedCharges = period
+        ? new Decimal(period.chargesPortion).toDecimalPlaces(2)
+        : new Decimal(lease.chargesAmount ?? 0).toDecimalPlaces(2);
+      const invoicedRent = period
+        ? new Decimal(period.rentPortion).toDecimalPlaces(2)
+        : new Decimal(lease.rentAmount).toDecimalPlaces(2);
       const invoicedTotal = invoicedRent.plus(invoicedCharges).toDecimalPlaces(2);
       const contractualTotal = invoicedTotal;
       const owedAfterReceipts = Decimal.max(

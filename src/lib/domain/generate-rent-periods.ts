@@ -486,10 +486,11 @@ export async function settleRentPeriod(
         periodStart: true,
         periodEnd: true,
         // What the MONTH was invoiced at, as distinct from what the lease says
-        // today. See the note on the freeze below.
+        // today. See the note on the freeze below. These two columns are the
+        // only figures read for the month's split — the lease is deliberately not
+        // selected, so nothing can quietly reintroduce a fallback to it.
         rentPortion: true,
         chargesPortion: true,
-        lease: { select: { rentAmount: true, chargesAmount: true } },
       },
     });
 
@@ -526,40 +527,31 @@ export async function settleRentPeriod(
     // What the MONTH owes, which is not always what the lease says TODAY.
     //
     // A month that took a payment keeps the figures it was invoiced at when the
-    // rent is revised (see `rerateUnpaidRentPeriods`), so `lease.rentAmount` is
-    // the wrong source for it: it described a February invoiced at 800 as owing
-    // 900, and the receipt froze 900 for a month whose first instalment had been
-    // issued against 800. The period row carries the month's own split —
-    // `rentPortion` + `chargesPortion` are written at generation and left alone
-    // while the month stays open, so together they are what was invoiced.
+    // rent or the charges are revised (see `rerateUnpaidRentPeriods`), so the
+    // lease's current amounts are the wrong source for it: they described a
+    // February invoiced at 800 + 100 as owing 900 + 300, and both receipts issued
+    // after that correction froze the revised charges onto a month already billed
+    // at 100 — moving 200 EUR from the rent column to the charges column on the
+    // 2577 report.
     //
-    // The lease remains the fallback for a row that predates that split, which is
-    // the only case where the two can disagree and the row has nothing to say.
-    // The row's split is trusted only when it ADDS UP to what the lease says the
-    // month owes. A row written before the split existed carries the whole
-    // obligation in `rentPortion` with `chargesPortion` at zero, and believing that
-    // would move 120.05 EUR of charges into the rent column on the 2577 report.
-    // The lease stays the fallback for those, and for any row whose figures
-    // disagree with it — which is precisely the case where the row is not
-    // describing the month's obligation.
+    // The period row carries the month's own split. `rentPortion` and
+    // `chargesPortion` are NOT NULL and are written at generation by
+    // `generateRentPeriodsForLease`, which has always written both columns; they
+    // are left alone while the month stays open, so together they are what was
+    // invoiced. A materialised row is therefore the ONLY authority on its own
+    // month, unconditionally — it is never second-guessed against the lease.
+    // (Both columns being NOT NULL is what rules out the "row predating the split"
+    // shape this code once fell back to for; no such row exists in the database.)
+    //
+    // There is no fallback here because `period` is guaranteed non-null above: a
+    // payment can only be settled against a materialised month. Callers that may
+    // have no row at all fall back to the lease themselves — see
+    // `recordRentPayment` in src/lib/services/rent-payments.ts.
     //
     // Everything is wrapped before use: a caller may pass a Prisma client or a
     // stand-in whose Decimals arrive as plain strings.
-    const leaseCharges = new Decimal(period.lease.chargesAmount ?? 0);
-    const rowCharges = new Decimal(period.chargesPortion ?? 0);
-    // The charges column is the discriminator. Checking only that the row's two
-    // columns add up to the month's total is not enough: a row that carries the
-    // WHOLE obligation in `rentPortion` with `chargesPortion` at zero still sums
-    // correctly, and believing it moves every euro of charges into the rent
-    // column — which is the 2577 fiscal line. When the row's charges agree with the
-    // lease's, the row is describing the month's split and is authoritative even
-    // when the lease has since been revised; when they disagree, the row predates
-    // the split and the lease is the only source there is.
-    const rowIsAuthoritative = rowCharges.eq(leaseCharges);
-    const invoicedCharges = rowIsAuthoritative ? rowCharges : leaseCharges;
-    const invoicedRent = rowIsAuthoritative
-      ? new Decimal(period.rentPortion)
-      : new Decimal(period.lease.rentAmount);
+    const invoicedRent = new Decimal(period.rentPortion);
+    const invoicedCharges = new Decimal(period.chargesPortion);
 
     const settlement = settlePeriodPayments({
       rentAmount: invoicedRent,

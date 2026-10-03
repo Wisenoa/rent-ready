@@ -127,7 +127,11 @@ function newStore(): Store {
         },
       },
     ],
-    rows: [periodRow({ amount: TOTAL_DUE })],
+    // The split the month was INVOICED at, stated explicitly. Leaving it out would
+    // put the whole 970.55 in the rent column — a shape `generateRentPeriodsForLease`
+    // never writes, and one this file's own subject (a document that reproduces
+    // the month as billed) must not be asserting against.
+    rows: [periodRow({ amount: TOTAL_DUE, invoicedRent: "850.50", invoicedCharges: "120.05" })],
     landlord: landlordRow,
   });
   storeRef.current = store;
