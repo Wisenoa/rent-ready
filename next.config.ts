@@ -407,5 +407,10 @@ export default withSentryConfig(config, {
   org: process.env.SENTRY_ORG || 'wisenoa',
   project: 'rent-ready',
   widenClientFileUpload: false,
-  tunnelRoute: '/api/sentry-error',
+  // No tunnel option here on purpose. Sentry 10's `SentryBuildOptions` has no
+  // `tunnelUrl`/`tunnelRoute` field at all — `tsc` rejects both — so the previous
+  // `tunnelRoute: '/api/sentry-error'` was not misnamed, it was removed from the
+  // API. The tunnel is now wired where Sentry 10 reads it: the client SDK's
+  // `transport`, in sentry.client.config.ts. The route it posts to lives at
+  // src/app/api/sentry-error/route.ts.
 });
