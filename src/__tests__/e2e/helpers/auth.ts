@@ -192,7 +192,30 @@ export async function loginTestUser(
   await page.getByLabel(/mot de passe/i).fill(password)
 
   await page.getByRole('button', { name: /se connecter/i }).click()
-  await page.waitForURL('**/dashboard**', { timeout: 30_000 })
+
+  // Waited on LEAVING /login, not on arriving at /dashboard.
+  //
+  // `waitForURL('**\/dashboard**')` is satisfied instantly if the browser is
+  // already on /dashboard, so it passes without any session existing. That is
+  // not hypothetical: `auth.spec.ts` signed in with a password that did not match
+  // the one the account was created with, and this predicate plus
+  // `toHaveURL(/\/dashboard/)` let it report green while authentication was
+  // never exercised.
+  //
+  // Leaving /login is the fact: on a wrong password the page stays put, which is
+  // what the failure message then describes.
+  await page
+    .waitForURL((url) => !url.pathname.startsWith('/login'), { timeout: 30_000 })
+    .catch(async () => {
+      const visible = await page
+        .getByTestId('login-error')
+        .textContent()
+        .catch(() => null);
+      throw new Error(
+        `connexion : toujours sur ${page.url()} — le mot de passe a ete rejete` +
+          (visible ? ` (« ${visible.trim()} »)` : ' sans message a l ecran'),
+      );
+    })
 }
 
 /** Create a property through its dialog on /properties. */
