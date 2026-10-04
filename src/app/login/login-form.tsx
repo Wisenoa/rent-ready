@@ -8,6 +8,7 @@ import { z } from "zod/v4";
 import { Loader2, Mail, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { signIn } from "@/lib/auth-client";
+import { authErrorMessage } from "@/lib/auth-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +25,15 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get("callbackUrl") ?? "/dashboard";
   const [isLoading, setIsLoading] = useState(false);
+  /**
+   * Held in state, not only raised as a toast.
+   *
+   * Measured on the running app: the error toast was gone 4 seconds after the
+   * click. Someone who mistypes a password, looks away and comes back finds a
+   * form that appears to have done nothing, with no explanation anywhere. The
+   * toast is kept for immediacy; this is what remains.
+   */
+  const [formError, setFormError] = useState<string | null>(null);
 
   const {
     register,
@@ -35,19 +45,24 @@ export function LoginForm() {
 
   async function onSubmit(data: LoginValues) {
     setIsLoading(true);
+    setFormError(null);
     try {
       const result = await signIn.email({
         email: data.email,
         password: data.password,
       });
       if (result.error) {
-        toast.error(result.error.message ?? "Identifiants incorrects");
+        const message = authErrorMessage(result.error);
+        setFormError(message);
+        toast.error(message);
         return;
       }
       router.push(callbackUrl);
       router.refresh();
-    } catch {
-      toast.error("Une erreur est survenue lors de la connexion");
+    } catch (error) {
+      const message = authErrorMessage(error);
+      setFormError(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -95,6 +110,19 @@ export function LoginForm() {
             <p className="text-xs text-destructive">{errors.password.message}</p>
           )}
         </div>
+
+        {formError && (
+          // role="alert" so a screen reader announces it; it sits inside the form
+          // so it is read in the same context as the fields it is about, and it
+          // stays until the next attempt rather than expiring.
+          <p
+            role="alert"
+            data-testid="login-error"
+            className="rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-2 text-sm text-destructive"
+          >
+            {formError}
+          </p>
+        )}
 
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? (

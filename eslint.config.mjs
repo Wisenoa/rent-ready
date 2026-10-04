@@ -18,6 +18,10 @@ import nextPlugin from "eslint-config-next";
 const eslintConfig = defineConfig([
   globalIgnores([
     ".next/**",
+    // The dev server builds here since it was moved off `.next` (see distDir in
+    // next.config.ts). ESLint started reporting 13 errors inside the generated
+    // webpack runtime — `module = ...` in framework output, not project code.
+    ".next-dev/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
