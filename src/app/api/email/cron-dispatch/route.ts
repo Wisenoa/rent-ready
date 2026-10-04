@@ -25,11 +25,30 @@ const RequestBodySchema = z.object({
 export async function POST(request: NextRequest) {
   // ── Auth ────────────────────────────────────────────────────────────────────
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
-    const authHeader = request.headers.get("authorization");
-    if (authHeader !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  // Fail CLOSED, like /api/cron/rent-periods and /api/cron/revision-check.
+  //
+  // This was `if (cronSecret) { …check… }`, so with no CRON_SECRET configured the
+  // check was skipped entirely and the endpoint was open to anyone. CRON_SECRET is
+  // absent from .env and commented out in .env.example, so this was the default
+  // state. Demonstrated before the fix, with no Authorization header:
+  //
+  //   POST {"type":"rent-reminder","transactionId":"inexistant-test"}
+  //   -> 200 {"sent":true,...}
+  //
+  // A missing secret is a misconfiguration, and a misconfiguration must not widen
+  // access. It fails the request instead.
+  if (!cronSecret) {
+    console.error(
+      "[cron-dispatch] CRON_SECRET absent — requete refusee (configuration)",
+    );
+    return NextResponse.json(
+      { error: "Cron non configuré" },
+      { status: 500 },
+    );
+  }
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${cronSecret}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   // ── Parse body ──────────────────────────────────────────────────────────────
@@ -57,7 +76,15 @@ export async function POST(request: NextRequest) {
           { status: 422 }
         );
       }
-      await emailService.sendRentReminderEmail(transactionId, tone);
+      const result = await emailService.sendRentReminderEmail(transactionId, tone);
+      // Reflect what happened. `sent: true` for a transaction that does not
+      // exist told the operator the reminders had gone out when nothing had.
+      if (result.status !== "sent") {
+        return NextResponse.json(
+          { sent: false, type, transactionId, reason: result.status, detail: result.detail },
+          { status: 404 },
+        );
+      }
       return NextResponse.json({ sent: true, type, transactionId, tone }, { status: 200 });
     }
 

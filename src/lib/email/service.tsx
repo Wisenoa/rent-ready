@@ -141,6 +141,23 @@ async function sendTenantInvitationEmail(
 }
 
 /**
+ * Outcome of a send attempt.
+ *
+ * `sent` means an email was handed to the provider. Every other value means
+ * nothing left the building, and must never be reported as a success.
+ *
+ * The function returned `void` and `return`ed early when the transaction did not
+ * exist or the tenant had no email address, so a caller could not tell that from a
+ * real send: `/api/email/cron-dispatch` answered `{"sent": true}` for a
+ * transaction that does not exist, reproduced with a fabricated id.
+ */
+export type SendResult =
+  | { status: "sent" }
+  | { status: "not_found"; detail: string }
+  | { status: "no_email"; detail: string }
+  | { status: "failed"; detail: string };
+
+/**
  * Send a rent payment reminder email to a tenant.
  * Call this from a cron job that scans for overdue transactions.
  *
@@ -150,7 +167,7 @@ async function sendTenantInvitationEmail(
 async function sendRentReminderEmail(
   transactionId: string,
   tone: "friendly" | "formal" | "legal" = "friendly"
-): Promise<void> {
+): Promise<SendResult> {
   const tx = await prisma.transaction.findUnique({
     where: { id: transactionId },
     include: {
@@ -166,7 +183,7 @@ async function sendRentReminderEmail(
 
   if (!tx) {
     console.warn("[email/service] sendRentReminderEmail: transaction not found", transactionId);
-    return;
+    return { status: "not_found", detail: "transaction introuvable" };
   }
 
   const { lease, user } = tx;
@@ -174,7 +191,7 @@ async function sendRentReminderEmail(
 
   if (!tenant.email) {
     console.warn("[email/service] sendRentReminderEmail: tenant has no email", tenant.id);
-    return;
+    return { status: "no_email", detail: "le locataire n'a aucune adresse email" };
   }
 
   const daysLate = Math.floor(
@@ -213,6 +230,8 @@ async function sendRentReminderEmail(
     relatedEntityId: tx.id,
     relatedEntityType: "Transaction",
   });
+
+  return { status: "sent" };
 }
 
 /**
