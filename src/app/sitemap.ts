@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-import { readFileSync, statSync } from "fs";
-import { join } from "path";
+
 
 import { SITE_URL as BASE_URL } from "@/data/entity";
 
@@ -10,7 +9,7 @@ const { articleMeta } = require("../data/articles-meta") as {
   articleMeta: Array<{ slug: string; date: string; updatedAt: string }>;
 };
 
-const APP_DIR = join(process.cwd(), "src", "app");
+
 
 /**
  * Static routes come from `src/data/routes.ts`, generated at build time by
@@ -35,19 +34,6 @@ const APP_DIR = join(process.cwd(), "src", "app");
  * traced `.ts` modules into the standalone output, whereas a JSON written by a
  * pre-build step was not traced and would have been missing in Docker.
  */
-
-/** Newest mtime under a directory, used for the city-page entries. */
-function newestMtime(dir: string): Date {
-  let newestMs = 0;
-  for (const entry of require("fs").readdirSync(dir)) {
-    const full = join(dir, entry);
-    const mtime = statSync(full).isDirectory()
-      ? newestMtime(full).getTime()
-      : statSync(full).mtimeMs;
-    if (mtime > newestMs) newestMs = mtime;
-  }
-  return new Date(newestMs);
-}
 
 type Entry = MetadataRoute.Sitemap[number];
 
@@ -102,13 +88,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     );
   }
 
-  const staticEntries: Entry[] = routes.map(({ path, mtime }) => {
+  const staticEntries: Entry[] = routes.map(({ path, mtime, priority, family }) => {
     const lastModified = new Date(mtime);
     return {
       url: `${BASE_URL}${path}`,
       lastModified: Number.isNaN(lastModified.getTime()) ? now : lastModified,
-      changeFrequency: changeFrequencyFor(path),
-      priority: priorityFor(path),
+      // City pages carry a `family`; their template mtime is shared across the
+      // whole family and they only change when the template does, so a monthly
+      // frequency is the honest claim. Everything else follows the path table.
+      changeFrequency: family
+        ? ("monthly" as const)
+        : changeFrequencyFor(path),
+      // The generator supplies the priority for city and glossary entries
+      // because it is the only place that knows the family list.
+      priority: priority ?? priorityFor(path),
     };
   });
 
@@ -120,50 +113,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  // City pages — bail, gestion-locative, quittances, assurance impayé.
-  const cities = require("../data/cities.json") as Array<{ slug: string }>;
-  const CITY_FAMILIES = [
-    { prefix: "/gestion-locative", priority: 0.8 },
-    { prefix: "/bail", priority: 0.8 },
-    { prefix: "/quittances", priority: 0.7 },
-    { prefix: "/assurance-loyer-impaye", priority: 0.7 },
-  ];
-  /**
-   * These pages are rendered from a single template per family, so their real
-   * last-modified date is the template's mtime. Stamping them with `now` made
-   * all 200 city URLs claim a fresh date on every build, which tells Google
-   * "re-crawl me" for content that has not changed.
-   */
-  const cityMtime = (prefix: string): Date => {
-    const mtime = newestMtime(join(APP_DIR, "(marketing)", prefix));
-    return Number.isNaN(mtime.getTime()) ? now : mtime;
-  };
-  const cityEntries: Entry[] = cities.flatMap((city) =>
-    CITY_FAMILIES.map(({ prefix, priority }) => ({
-      url: `${BASE_URL}${prefix}/${city.slug}`,
-      lastModified: cityMtime(prefix),
-      changeFrequency: "monthly" as const,
-      priority,
-    }))
-  );
+  // City pages and glossary entries come from `routes.ts` too: the generator
+  // reads `src/app/(marketing)/<family>` and `src/data/glossary.json` at build
+  // time and writes the mtime out. Nothing here touches the filesystem.
+  //
+  // It used to. That was safe only because the sitemap is prerendered — the day
+  // anything makes it dynamic, `newestMtime()` hits ENOENT in the Docker image,
+  // where `src/app` does not exist, and the sitemap 500s and disappears.
 
-  const glossaryRaw = readFileSync(
-    join(process.cwd(), "src", "data", "glossary.json"),
-    "utf-8"
-  );
-  const glossarySlugs: string[] = Array.from(
-    glossaryRaw.matchAll(/"slug":\s*"([^"]+)"/g),
-    (m) => m[1]
-  );
-  const glossaryMtime = statSync(join(process.cwd(), "src", "data", "glossary.json")).mtime;
-  const glossaryEntries: Entry[] = glossarySlugs.map((slug) => ({
-    url: `${BASE_URL}/glossaire-immobilier/${slug}`,
-    lastModified: glossaryMtime,
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
-  const all = [...staticEntries, ...blogEntries, ...cityEntries, ...glossaryEntries];
+  const all = [...staticEntries, ...blogEntries];
 
   // A sitemap must not contain duplicates or redirect sources.
   const seen = new Set<string>();

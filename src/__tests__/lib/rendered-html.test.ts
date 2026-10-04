@@ -22,7 +22,7 @@
  */
 
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { spawn, type ChildProcess } from "child_process";
 
@@ -334,6 +334,92 @@ describe.runIf(existsSync(SERVER))("rendered structured data", () => {
  * preview a landlord shares in a WhatsApp group to a colleague would have shown
  * nothing.
  */
+describe("sitemap source has no filesystem dependency", () => {
+  /**
+   * `sitemap.ts` used to read `src/app/(marketing)/<family>` and
+   * `src/data/glossary.json` at request time to compute `lastModified`.
+   *
+   * Safe only by luck: the sitemap is prerendered
+   * (`initialRevalidateSeconds: false`), so `sitemap()` never runs in
+   * production. The Docker image copies `.next/standalone` to `/app`, which has
+   * `src/{components,data,lib}` and no route tree — so the first build that made
+   * the sitemap dynamic would have thrown ENOENT and the sitemap would have
+   * 500'd and vanished.
+   *
+   * Verified by temporarily forcing `dynamic = "force-dynamic"`, building, and
+   * serving the standalone bundle with no `src/app` present: 200, 417 URLs, no
+   * ENOENT. That is the state this test now keeps.
+   */
+  it("reads no files at request time", () => {
+    const source = readFileSync(
+      join(process.cwd(), "src", "app", "sitemap.ts"),
+      "utf8"
+    );
+
+    // Strip comments: the file explains at length why it must not do this.
+    const code = source
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/^\s*\/\/.*$/gm, "");
+
+    expect(code, "sitemap.ts must not import fs").not.toMatch(
+      /from\s+["'](fs|node:fs|path|node:path)["']/
+    );
+    expect(code, "sitemap.ts must not require fs at runtime").not.toMatch(
+      /require\(\s*["'](fs|node:fs)["']\s*\)/
+    );
+    expect(code, "sitemap.ts must not touch the filesystem").not.toMatch(
+      /\b(readFileSync|writeFileSync|statSync|readdirSync|existsSync|newestMtime|APP_DIR)\b/
+    );
+    // Everything it needs has to come from generated data.
+    expect(code, "sitemap.ts should read from the generated routes").toMatch(
+      /from\s+["']@\/data\/routes["']/
+    );
+  });
+
+  it("routes.ts covers every city page and glossary term", () => {
+    const routes = readFileSync(
+      join(process.cwd(), "src", "data", "routes.ts"),
+      "utf8"
+    );
+    const paths: string[] = [...routes.matchAll(/"path":\s*"([^"]+)"/g)].map(
+      (m) => m[1]
+    );
+
+    const cityCount = (
+      JSON.parse(
+        readFileSync(join(process.cwd(), "src", "data", "cities.json"), "utf8")
+      ) as unknown[]
+    ).length;
+
+    for (const family of [
+      "bail",
+      "gestion-locative",
+      "quittances",
+      "assurance-loyer-impaye",
+    ]) {
+      const found = paths.filter((p) => p.startsWith(`/${family}/`)).length;
+      expect(found, `/${family}/ — expected ${cityCount} city pages`).toBe(
+        cityCount
+      );
+    }
+
+    const glossary = (
+      JSON.parse(
+        readFileSync(
+          join(process.cwd(), "src", "data", "glossary.json"),
+          "utf8"
+        )
+      ) as Array<{ slug: string }>
+    ).length;
+    const glossaryPaths = paths.filter((p) =>
+      p.startsWith("/glossaire-immobilier/")
+    ).length;
+    expect(glossaryPaths, "every glossary term belongs in the sitemap").toBe(
+      glossary
+    );
+  });
+});
+
 describe.runIf(existsSync(SERVER))("social images", () => {
   it.each(["default", "website", "article", "feature", "pricing", "outil", "location"])(
     "renders a real PNG for the %s template",
