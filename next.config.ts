@@ -3,6 +3,25 @@ import { withSentryConfig } from '@sentry/nextjs';
 
 const config: NextConfig = {
   // ========================================
+  // Build directory
+  // ========================================
+  // `next dev` and `next build` write to the same directory by default, and they
+  // do not tolerate each other: a dev server holding `.next` open while a build
+  // rewrites it fails with
+  //
+  //   PageNotFoundError: Cannot find module for page: /_document
+  //
+  // which reads like an application bug and is not one. `playwright.config.ts`
+  // starts `pnpm dev` as its `webServer`, so the sequence "one agent runs the
+  // E2E suite, another runs a build" reproduced it.
+  //
+  // The dev server therefore builds into `.next-dev`. `next build` keeps `.next`,
+  // because that is the path the Dockerfile copies (`/app/.next/standalone`) and
+  // the one every script and test reads. Override with NEXT_DIST_DIR when a
+  // second build really needs its own directory.
+  distDir: process.env.NEXT_DIST_DIR || '.next',
+
+  // ========================================
   // Static generation concurrency
   // ========================================
   // Next defaults to (CPU count - 1) static-generation workers. On a 14-core

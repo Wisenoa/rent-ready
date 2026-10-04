@@ -4,8 +4,8 @@
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "dev": "next dev",
-    "build": "pnpm gen:routes && next build",
+    "dev": "NEXT_DIST_DIR=.next-dev next dev",
+    "build": "pnpm gen:routes && node scripts/with-build-lock.mjs next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
@@ -23,7 +23,8 @@
     "cwuv:monitor:slack": "node scripts/monitor-cwuv.mjs --alert-slack",
     "gsc:monitor": "node scripts/monitor-gsc.mjs",
     "gsc:monitor:slack": "node scripts/monitor-gsc.mjs --alert-slack",
-    "gen:routes": "node scripts/gen-routes.mjs"
+    "gen:routes": "node scripts/gen-routes.mjs",
+    "serve:prod": "node scripts/with-prod-server.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.48",

@@ -16,6 +16,13 @@
 # next.js
 /.next/
 /out/
+# Dev server builds here, not into .next, so a dev server cannot corrupt a
+# production build in the same worktree (see distDir in next.config.ts).
+/.next-dev/
+# Build lock: created and removed by scripts/with-build-lock.mjs. It should
+# never survive a build, but an ignore keeps a stale one out of `git add -A`
+# rather than committing infrastructure noise.
+.next-build.lock/
 
 # per-card git worktrees (Hermes Kanban: workspace_kind=worktree)
 # Each card builds its own .next and node_modules symlink inside its tree;
