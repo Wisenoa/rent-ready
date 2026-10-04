@@ -212,6 +212,46 @@ describe.runIf(existsSync(SERVER))("rendered structured data", () => {
     ).toEqual([]);
   });
 
+  /**
+   * Google's Article guidelines require `image` and `publisher.logo`. Both were
+   * absent: the markup was syntactically valid and would have been silently
+   * discarded as ineligible for an article rich result.
+   */
+  it("Article markup carries the properties Google requires", async () => {
+    if (!available) return;
+    const html = await fetchHtml("/blog/comment-gerer-loyers-impayes");
+
+    const nodes = [
+      ...html.matchAll(
+        /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g
+      ),
+    ].flatMap((m) => {
+      const parsed = JSON.parse(m[1]);
+      return (parsed["@graph"] as Record<string, unknown>[]) ?? [parsed];
+    });
+
+    const article = nodes.find((n) => n["@type"] === "Article");
+    expect(article, "no Article node on the article page").toBeDefined();
+
+    // image: required, and must be an absolute URL.
+    const image = article!["image"];
+    const images = Array.isArray(image) ? image : [image];
+    expect(images, "Article.image missing").not.toContain(undefined);
+    for (const url of images) {
+      expect(String(url)).toMatch(/^https:\/\/www\.rentready\.fr\//);
+    }
+
+    // publisher.logo: required.
+    const publisher = article!["publisher"] as Record<string, unknown>;
+    expect(publisher?.logo, "Article.publisher.logo missing").toBeDefined();
+    const logo = publisher.logo as Record<string, unknown>;
+    expect(String(logo.url ?? logo)).toMatch(/^https:\/\/www\.rentready\.fr\//);
+
+    // Dates are already correct; keep them honest.
+    expect(article!["datePublished"], "datePublished").toBeTruthy();
+    expect(article!["dateModified"], "dateModified").toBeTruthy();
+  });
+
   it("the money page declares SoftwareApplication with the real entry price", async () => {
     if (!available) return;
     const html = await fetchHtml("/gestion-locative");
@@ -245,6 +285,37 @@ describe.runIf(existsSync(SERVER))("rendered structured data", () => {
       ).not.toMatch(/\/og-image\.png|\/opengraph-image\.png|\/logo\.png/);
     }
   });
+});
+
+/**
+ * Every social image on the site comes from this route.
+ *
+ * It returned 500 for all seven templates: satori (the renderer behind
+ * `ImageResponse`) rejects `width: "fit-content"` with "Invalid value fit-content
+ * for setWidth", and one unsupported CSS length failed the whole response. Every
+ * `og:image` and `twitter:image` in the site pointed at a broken URL — the link
+ * preview a landlord shares in a WhatsApp group to a colleague would have shown
+ * nothing.
+ */
+describe.runIf(existsSync(SERVER))("social images", () => {
+  it.each(["default", "website", "article", "feature", "pricing", "outil", "location"])(
+    "renders a real PNG for the %s template",
+    async (type) => {
+      if (!available) return;
+      const res = await fetch(`${ORIGIN}/api/og?title=RentReady&type=${type}`, {
+        signal: AbortSignal.timeout(20_000),
+      });
+      expect(res.status, `/api/og?type=${type}`).toBe(200);
+      expect(res.headers.get("content-type")).toContain("image/png");
+
+      const body = Buffer.from(await res.arrayBuffer());
+      // PNG magic number, then the IHDR width/height.
+      expect(body.subarray(0, 4).toString("hex")).toBe("89504e47");
+      expect(body.length, "image is suspiciously small").toBeGreaterThan(1000);
+      expect(body.readUInt32BE(16), "width").toBe(1200);
+      expect(body.readUInt32BE(20), "height").toBe(630);
+    }
+  );
 });
 
 describe.runIf(existsSync(SERVER))("robots and sitemap", () => {

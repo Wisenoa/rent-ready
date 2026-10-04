@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SAME_AS } from "@/data/entity";
+import { SAME_AS, SITE_URL } from "@/data/entity";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -7,7 +7,7 @@ import { Calendar, Clock, ArrowLeft, BookOpen } from "lucide-react";
 import { articles } from "@/data/articles";
 import { articleMeta } from "@/data/articles-meta";
 
-import { baseMetadata } from "@/lib/seo/metadata";
+import { baseMetadata, buildOgImageUrl } from "@/lib/seo/metadata";
 import glossaryData from "@/data/glossary.json";
 
 /**
@@ -251,14 +251,38 @@ export default async function BlogPostPage({ params }: PageProps) {
     ],
   };
 
-  // Article schema with enhanced author (Organization with sameAs)
+  const articleUrl = `https://www.rentready.fr/blog/${slug}`;
+
+  /**
+   * Article schema.
+   *
+   * `image` and `publisher.logo` are both required by Google's Article
+   * structured-data guidelines; without them the markup is ineligible for an
+   * article rich result, which is the whole point of emitting it. Neither was
+   * present — the dates were correct, the two mandatory media properties were
+   * simply missing.
+   *
+   * The image points at the dynamic OG renderer, which produces a 1200×630 PNG
+   * per article title — the minimum Google asks for is 1200×675 for wide
+   * images, and 1200×630 is what every other RentReady page already serves.
+   */
+  // `buildOgImageUrl` returns a path, which is correct for a <meta og:image> tag
+  // because Next resolves it against metadataBase. Structured data has no such
+  // resolution: schema.org requires an absolute URL, so prefix it here.
+  const articleImage = `${SITE_URL}${buildOgImageUrl({
+    title: article.title,
+    type: "article",
+  })}`;
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
+    image: [articleImage],
     datePublished: article.date,
     dateModified: article.updatedAt,
+    inLanguage: "fr-FR",
     author: {
       "@type": "Organization",
       name: articleAuthor,
@@ -269,12 +293,16 @@ export default async function BlogPostPage({ params }: PageProps) {
       "@type": "Organization",
       name: "RentReady",
       url: "https://www.rentready.fr",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo.svg`,
+      },
       sameAs: SAME_AS,
     },
-    url: `https://www.rentready.fr/blog/${slug}`,
+    url: articleUrl,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://www.rentready.fr/blog/${slug}`,
+      "@id": articleUrl,
     },
   };
 

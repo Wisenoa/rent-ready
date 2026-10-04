@@ -16,7 +16,7 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-04T00:07:54.868Z"
+    "mtime": "2026-10-04T00:13:57.850Z"
   },
   {
     "path": "/assurance-loyer-impaye",
@@ -28,7 +28,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/blog",
-    "mtime": "2026-10-04T00:07:54.868Z"
+    "mtime": "2026-10-04T00:11:55.894Z"
   },
   {
     "path": "/cgu",
