@@ -130,6 +130,56 @@ plutôt que de reconstruire à l'identique.
 
 ⸻
 
+## 3bis. Workspace par carte — verrou mécanique
+
+⸻
+
+UN AGENT QUI ECRIT = UNE CARTE = UNE BRANCHE = UN WORKTREE
+
+Interdit : ecrire dans le worktree principal partage, reserve au landing et a
+l'inspection. Deux agents qui y ecrivent partagent un `.git/index`, un working
+tree et un `.next`.
+
+Ce n'est pas une theorie. Deux fois en une session, l'agent B a lance `git add`
+et a embarque dans SON commit les fichiers non committes de l'agent A :
+
+  08f9b74 « Un seul prix pour l'entite »   -> + correction carte locataire,
+                                               rate-limit, 4 specs E2E
+  11862c7 « Choisir un bien »               -> + 2 specs E2E
+
+Le code etait correct ; l'historique, non. Le message decrivait autre chose, et
+l'agent ayant ecrit les fichiers a decouvert « nothing added to commit ».
+
+AVANT TOUTE ECRITURE :
+
+    scripts/workspace-guard.sh --task <id> --write --profile <nom>
+
+Sort en 3 dans le main checkout, en 4 dans le worktree d'une autre carte, en 5
+si la branche ne porte pas l'id de la carte. Pas de mode avertissement : pour
+un agent qui va modifier le depot, un mauvais workspace impose l'arret.
+
+PREUVE :
+
+    scripts/workspace-guard-proof.sh
+
+Deux worktrees jetables, A laisse sale, B commite avec `git add -A`, et
+verification que le commit de B ne contient aucun fichier de A.
+
+Cycle d'une carte :
+
+    git worktree add .worktrees/<id> -b kanban/<id>
+    scripts/kanban-workspace.sh          # lie node_modules + .env
+    scripts/workspace-guard.sh --task <id> --write   # avant d'ecrire
+    scripts/kanban-land.sh               # fast-forward vers master
+    scripts/worktree-safe-remove.sh <branche>       # refuse si travail unique
+
+Un worktree abandonne sale n'est jamais supprime automatiquement : le travail
+d'un agent mort doit rester visible.
+
+⸻
+
+⸻
+
 4. Next.js
 
 <!-- BEGIN:nextjs-agent-rules -->
