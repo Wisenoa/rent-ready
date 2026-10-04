@@ -12,8 +12,17 @@ import { NextRequest, NextResponse } from "next/server";
  * 6. Graceful 404 — never expose internal errors
  */
 
+/**
+ * Paths that must stay reachable without a session — the crawl surface.
+ *
+ * Not read by this middleware: the auth redirect is driven by PRIVATE_PATHS, so
+ * an unknown URL 404s rather than bouncing to /login. Exported so a test can
+ * assert that every family in the sitemap is reachable here, which is the real
+ * invariant — a public page missing from this list would one day be treated as
+ * unknown.
+ */
 // Paths that are always public (no auth required)
-const PUBLIC_PATHS = [
+export const PUBLIC_PATHS = [
   "/",
   "/login",
   "/register",
@@ -57,12 +66,56 @@ const PUBLIC_PATHS = [
   "/assurance-loyer-impaye",
 ];
 
-function isPublicPath(pathname: string): boolean {
-  return PUBLIC_PATHS.some(
-    (publicPath) =>
-      pathname === publicPath || pathname.startsWith(`${publicPath}/`)
+/**
+ * The authenticated application surface — the only paths that may bounce an
+ * anonymous visitor to /login.
+ *
+ * This list replaces the previous logic, which redirected *anything* not in
+ * PUBLIC_PATHS. That made every URL this app does not serve answer `307 →
+ * /login` instead of `404`: a soft 404. A crawler following a bad internal link,
+ * or a mistyped URL, was redirected and could index /login as the destination.
+ * It also sent a human who mistyped a URL to a sign-in form instead of telling
+ * them the page does not exist.
+ *
+ * Anything not listed here falls through to the router, which serves
+ * `not-found.tsx` with a real 404. That is the correct answer for an unknown
+ * URL and the one Google expects.
+ *
+ * Deliberately NOT in this list, though they are excluded from the sitemap:
+ *
+ *   /login, /register  the sign-in and sign-up pages. Gating them sends an
+ *                       anonymous visitor to /login?callbackUrl=/login, which
+ *                       is still private, which redirects again — an infinite
+ *                       redirect loop on the page you need to sign in.
+ *   /api               handlers authenticate themselves via `auth.api.getSession`,
+ *                       and Better Auth's own routes live under /api/auth.
+ *   /portal            reached with a per-tenant token, not a session cookie.
+ *
+ * This list is about "needs a session", so it is narrower than the sitemap's
+ * PRIVATE_PREFIXES in `scripts/gen-routes.mjs`, which is about "must not be
+ * indexed". Both belong in gen-routes.mjs; keep the narrower one in sync.
+ */
+export const PRIVATE_PATHS = [
+  "/billing",
+  "/dashboard",
+  "/expenses",
+  "/fiscal",
+  "/leases",
+  "/maintenance",
+  "/offline",
+  "/properties",
+  "/settings",
+  "/tenants",
+];
+
+function isPrivatePath(pathname: string): boolean {
+  return PRIVATE_PATHS.some(
+    (privatePath) =>
+      pathname === privatePath || pathname.startsWith(`${privatePath}/`)
   );
 }
+
+
 
 /**
  * Check if a URL contains uppercase characters.
@@ -96,7 +149,7 @@ export default function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  if (!sessionToken && !isPublicPath(pathname)) {
+  if (!sessionToken && isPrivatePath(pathname)) {
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
