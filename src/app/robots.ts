@@ -28,6 +28,7 @@ export default function robots(): MetadataRoute.Robots {
           "/expenses",
           "/fiscal",
           "/portal",
+      "/settings",
           // Auth routes — no search value, must not be indexed.
           "/login",
           "/register",

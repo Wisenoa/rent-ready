@@ -252,6 +252,43 @@ describe.runIf(existsSync(SERVER))("rendered structured data", () => {
     expect(article!["dateModified"], "dateModified").toBeTruthy();
   });
 
+  /**
+   * `/comparatif/logiciel-gestion-locative` carried three hardcoded "15 €/mois"
+   * claims while the product costs 9 €. Two of them were plain double-quoted
+   * strings, so replacing the price with `${formatEntryPrice()}` had no effect:
+   * the rendered JSON-LD published the literal string "{formatEntryPrice()}".
+   *
+   * The answer engine read "à {formatEntryPrice()} sans commission" as RentReady's
+   * price. A structured-data fact that no test ever checked is a fact nothing
+   * keeps honest.
+   */
+  it("never renders a JavaScript placeholder into visible copy or schema", async () => {
+    if (!available) return;
+
+    const pages = [
+      "/comparatif/logiciel-gestion-locative",
+      "/gestion-locative",
+      "/pricing",
+      "/blog/travaux-locataire-proprietaire",
+    ];
+
+    const problems: string[] = [];
+    for (const path of pages) {
+      const html = await fetchHtml(path);
+      // ${...} is already valid inside a template literal; a bare {name()} means
+      // the interpolation was written into a string that does not evaluate it.
+      for (const m of html.matchAll(/\$\{[a-zA-Z]/g)) {
+        const line = html.slice(0, m.index).split("\n").length;
+        problems.push(`${path}:${line} — literal ${m[0]} in output`);
+      }
+    }
+
+    expect(
+      problems,
+      `JavaScript placeholders reached the rendered page:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+
   it("the money page declares SoftwareApplication with the real entry price", async () => {
     if (!available) return;
     const html = await fetchHtml("/gestion-locative");

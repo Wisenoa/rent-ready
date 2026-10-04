@@ -4,6 +4,7 @@ import { Check, X, Minus } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { formatEntryPrice } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -31,7 +32,7 @@ const faqSchema = {
       name: "Quel est le meilleur logiciel de gestion locative en 2026 ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Le meilleur dépend de votre parc. RentReady offre le meilleur rapport prix-fonctionnalités pour les propriétaires de 1 à 10 biens, à 15 €/mois sans commission. Pour les agences ou grands parcs, des solutions comme Gestions.net ou Tecoo offrent plus de modules comptables mais à des tarifs plus élevés.",
+        text: `Le meilleur dépend de votre parc. RentReady offre le meilleur rapport prix-fonctionnalités pour les propriétaires de 1 à 10 biens, à ${formatEntryPrice()} sans commission. Pour les agences ou grands parcs, des solutions comme Gestions.net ou Tecoo offrent plus de modules comptables mais à des tarifs plus élevés.`,
       },
     },
     {
@@ -39,7 +40,7 @@ const faqSchema = {
       name: "Combien coûte un logiciel de gestion locative ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Les tarifs varient de 0 € (tableur) à plus de 100 €/mois pour les agences. Un propietario indépendant paie généralement entre 10 et 30 €/mois. Attention aux offres à bas coût qui facturent des modules essentiels (quittances, relances) en option.",
+        text: "Les tarifs varient de 0 € (tableur) à plus de 100 €/mois pour les agences. Un propriétaire indépendant paie généralement entre 10 et 30 €/mois. Attention aux offres à bas coût qui facturent des modules essentiels (quittances, relances) en option.",
       },
     },
     {
@@ -72,7 +73,7 @@ const faqSchema = {
 const alternatives = [
   {
     name: "RentReady",
-    price: "15 €/mois",
+    price: formatEntryPrice(),
     priceDetail: "tout inclus jusqu'à 10 biens",
     pros: [
       "Quittances légales automatiques",
@@ -406,7 +407,7 @@ export default function ComparatifLogicielGestionLocative() {
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
             Aucune carte bancaire. Aucune commission. Accès complet à toutes les fonctionnalités
-            pendant 14 jours, puis 15 €/mois pour tout votre parc.
+            pendant 14 jours, puis ${formatEntryPrice()} pour tout votre parc.
           </p>
           <Link
             href="/register"

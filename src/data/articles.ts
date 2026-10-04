@@ -124,10 +124,10 @@ La lettre de relance doit mentionner le montant dû, la date d'échéance révol
 ## FAQ — Loyer impaye
 **Que faire quand un locataire ne paie plus son loyer ?**
 
-En cas de loyer impaye, la demarche est : 1) envoyer une lettre de relance des le premier jour de retard, 2) adresser une mise en demeure en recommandee apres 8 jours, 3) engager une procédure judiciaire au-dela de 2 mois d'impaye. Ne procédez jamais a l'expulsion vous-meme : seule une decision de justice autorise la force publique. Souscrire une assurance GLI en amont reste la protection la plus efficace.
+En cas de loyer impaye, la demarche est : 1) envoyer une lettre de relance des le premier jour de retard, 2) adresser une mise en demeure en recommandee après 8 jours, 3) engager une procédure judiciaire au-dela de 2 mois d'impaye. Ne procédez jamais a l'expulsion vous-meme : seule une decision de justice autorise la force publique. Souscrire une assurance GLI en amont reste la protection la plus efficace.
 **Au bout de combien de mois peut-on expulser un locataire pour impaye ?**
 
-Techniquement, la procédure d'expulsion peut etre engage des 2 mois d'impaye (un mois en procédure de refe). En pratique, comptez 4 a 6 mois minimum entre le premier impaye et l'expulsion effective, du fait des delais de procédure judiciaire et de la treve hivernale (1er novembre au 31 mars) pendant laquelle les prefets peuvent suspendre les expulsions locatives.
+Techniquement, la procédure d'expulsion peut etre engage des 2 mois d'impaye (un mois en procédure de refe). En pratique, comptez 4 a 6 mois minimum entre le premier impaye et l'expulsion effective, du fait des délais de procédure judiciaire et de la treve hivernale (1er novembre au 31 mars) pendant laquelle les prefets peuvent suspendre les expulsions locatives.
 **Peut-on saisir le salaire d'un locataire pour recuperer un loyer impaye ?**
 
 Oui, si le locataire est salarie, vous pouvez demander au tribunal une saisie sur salaire. Le montant preleve est encadre par la loi et correspond a une fraction du salaire net, generalement entre 1/20e et 1/10e. Le locataire conserve toujours le minimum vital. Cette procédure est souvent plus efficace qu'une saisie sur compte bancaire car le flux de revenus est regulier et previsible.
@@ -339,7 +339,7 @@ L'état des lieux de sortie constitue la preuve principale de l'état du logemen
 
 ### Le locataire peut-il déduire les réparations de son dépôt de garantie ?
 
-Non, le locataire ne peut pas procéder à une déduction unilatérale sur le dépôt de garantie. En cas de désaccord sur l'état du logement, le propriétaire restitue le dépôt en totalité puis conteste les éventuelles réparations devant la commission de conciliation ou le tribunal.
+Non, le locataire ne peut pas procéder à une déduction unilatérale sur le dépôt de garantie. En cas de désaccord sur l'état du logement, le propriétaire restitué le dépôt en totalité puis conteste les éventuelles réparations devant la commission de conciliation ou le tribunal.
 
 
 
@@ -356,7 +356,7 @@ Oui, mais uniquement pour compenser les dégradations constatées dans l'état d
 **Comment calculer le dépôt de garantie pour une location meublée ?**
 
 Pour une location meublée, le dépôt de garantie ne peut pas dépasser 2 mois de loyer hors charges (contre 1 mois pour une location vide). Ce plafond est imposé par la loi et s'applique sur tout le territoire français, sans exception même en zone tendue. Ce montant est inscrit dans le bail et restitué selon les mêmes délais que pour une location vide.
-**Que faire si le propriétaire ne restitue pas le dépôt de garantie ?**
+**Que faire si le propriétaire ne restitué pas le dépôt de garantie ?**
 
 En cas de non-restitution dans les délais légaux, le montant du dépôt restant dû au locataire est majoré de 10 % du loyer mensuel (hors charges) par mois de retard commencé (art. 22 de la loi du 6 juillet 1989) : cette pénalité est due par le locataire, pas par le bailleur. Le locataire peut d'abord tenter une mise en demeure par courrier recommandé, puis saisir la commission départementale de conciliation (gratuite), ou le tribunal judiciaire si échec de la médiation. Conservez tous les échanges écrits.
 
@@ -368,14 +368,14 @@ En cas de non-restitution dans les délais légaux, le montant du dépôt restan
 Le délai de restitution du dépôt de garantie est de 2 mois a compter de la remise des cles, ramene a 1 mois lorsque l'état des lieux de sortie est conforme a celui d'entree. Ce délai court a partir de la remise des cles par le locataire. En cas de retenue, le solde doit être accompagné d'un relevé détaillé des sommes déduites, avec justificatifs (devis, factures).
 **Quelles retenues sont legales sur le dépôt de garantie ?**
 
-Seules sont legales les retenues correspondant a des degradations reellement constatees dans l'état des lieux de sortie, ou a des travaux de remise en etat imputables au locataire (et non a l'usure normale). Le bailleur ne peut pas retenir de somme au titre de mois d'impayes. Les eventuelles reparations sont plafonnees au cout reel, sans majoration.
-**Le proprietaire peut-il garder le dépôt de garantie en cas de degradations ?**
+Seules sont legales les retenues correspondant a des degradations reellement constatees dans l'état des lieux de sortie, ou a des travaux de remise en état imputables au locataire (et non a l'usure normale). Le bailleur ne peut pas retenir de somme au titre de mois d'impayes. Les eventuelles réparations sont plafonnees au cout reel, sans majoration.
+**Le propriétaire peut-il garder le dépôt de garantie en cas de degradations ?**
 
-Oui, mais uniquement pour compenser les degradations constatees dans l'état des lieux de sortie et imputables au locataire. L'usure normale n'est pas une degradation. Le depot ne peut pas servir a couvrir des loyers impayes. Pour contester le montant reclame, le locataire dispose de 3 mois apres la restitution pour saisir la commission departmentale de conciliation (CDC).
+Oui, mais uniquement pour compenser les degradations constatees dans l'état des lieux de sortie et imputables au locataire. L'usure normale n'est pas une degradation. Le depot ne peut pas servir a couvrir des loyers impayes. Pour contester le montant reclame, le locataire dispose de 3 mois après la restitution pour saisir la commission departmentale de conciliation (CDC).
 **Comment calculer le dépôt de garantie pour une location meublee ?**
 
-Pour une location meublee, le dépôt de garantie ne peut pas depasser 2 mois de loyer hors charges (contre 1 mois pour une location vide). Ce plafond est impose par la loi et s'applique sur tout le territoire francais, sans exception meme en zone tendue. Ce montant est inscrit dans le bail et restitue selon les memes delais que pour une location vide.
-**Que faire si le proprietaire ne restitue pas le dépôt de garantie ?**
+Pour une location meublee, le dépôt de garantie ne peut pas depasser 2 mois de loyer hors charges (contre 1 mois pour une location vide). Ce plafond est impose par la loi et s'applique sur tout le territoire francais, sans exception meme en zone tendue. Ce montant est inscrit dans le bail et restitué selon les memes délais que pour une location vide.
+**Que faire si le propriétaire ne restitué pas le dépôt de garantie ?**
 
 En cas de non-restitution dans les délais légaux, le montant du dépôt restant dû au locataire est majoré de 10 % du loyer mensuel (hors charges) par mois de retard commencé (art. 22 de la loi du 6 juillet 1989) : cette pénalité est due par le locataire, pas par le bailleur. Le locataire peut d'abord tenter une mise en demeure par courrier recommande, puis saisir la commission departmentale de conciliation (gratuite), ou le tribunal judiciaire si echec de la mediation. Conservez tous les echanges ecrits.
 `,
@@ -480,7 +480,7 @@ Le dépôt de garantie est conçu pour couvrir les éventuelles dégradations co
 
 [CTA : Réalisez vos états des lieux automatiquement avec photos et comparaison'entrée/sortie sur RentReady — essai gratuit 14 jours]
 
-## FAQ — Etat des lieux
+## FAQ — état des lieux
 **L'état des lieux est-il obligatoire et quelle forme doit-il prendre ?**
 
 Oui, l'état des lieux est obligatoire en France, tant a l'entree qu'a la sortie du locataire. Depuis 2016, il doit etre realise de maniere contradictoire (bailleur et locataire ensemble) et de facon methodique, piece par piece. La forme peut etre manuscrite sur formulaire ou numerique (application), mais chaque partie doit en conserver un exemplaire. Un état des lieux incomplet est sanctionne en cas de litige.
@@ -489,11 +489,11 @@ Oui, l'état des lieux est obligatoire en France, tant a l'entree qu'a la sortie
 En cas de desaccord sur l'état des lieux, chaque partie peut faire appel a un huissier de justice pour un constat professionnel (a frais partage) ou saisir la commission departmentale de conciliation (CDC) dans le mois suivant la sortie. Conservez des photos horodatees avec metadonnees GPS, prises en lumiere naturelle, pour etayer vos observations en cas de contestation.
 **Peut-on contester un état des lieux etabli par le bailleur seul ?**
 
-Oui, le locataire dispose d'un mois apres la signature pour contester un état des lieux qui lui semble inexact. Il doit envoyer un courrier recommande avec AR au bailleur detalillant les contestations. En cas de desaccord persistant, la commission departmentale de conciliation peut etre saisie. Au-dela du mois, l'état des lieux est considere comme accepte par les deux parties.
+Oui, le locataire dispose d'un mois après la signature pour contester un état des lieux qui lui semble inexact. Il doit envoyer un courrier recommande avec AR au bailleur detalillant les contestations. En cas de desaccord persistant, la commission departmentale de conciliation peut etre saisie. Au-dela du mois, l'état des lieux est considere comme accepte par les deux parties.
 **Quelles sont les mentions obligatoires dans un état des lieux ?**
 
-L'état des lieux doit mentionner : l'identite des parties, l'adresse du bien, la date, l'etat de chaque piece (murs, sols, plafonds, fenetres, equipements), les compteurs (electricite, gaz, eau), les cles et acces remis. Pour chaque element, l'etat de conservation doit etre decrit (etat neuf, bon, moyen, degrade). Les documents sont signes par les deux parties a chaque etape.
-**Etat des lieux et dépôt de garantie : quelle relation ?**
+L'état des lieux doit mentionner : l'identite des parties, l'adresse du bien, la date, l'état de chaque piece (murs, sols, plafonds, fenetres, equipements), les compteurs (electricite, gaz, eau), les cles et acces remis. Pour chaque element, l'état de conservation doit etre decrit (état neuf, bon, moyen, degrade). Les documents sont signes par les deux parties a chaque etape.
+**état des lieux et dépôt de garantie : quelle relation ?**
 
 Le dépôt de garantie est concu pour couvrir les eventuelles degradations constates a la sortie par rapport a l'état des lieux d'entree. Sans état des lieux, le bailleur perd cette protection : il ne peut pas prouver que les degradations sont imputables au locataire. Un état des lieux minutieux a l'entree est donc la meilleure assurance contre les litiges de dépôt de garantie a la sortie.
 `,
@@ -845,15 +845,15 @@ Les frais d'huissier sont a la charge du bailleur, mais ils peuvent etre ajoutes
 
 ### Les intérêts de retard en cas d'impaye
 
-En cas de loyer impaye, le bailleur peut reclamer des intérêts de retard a compter du jour suivant l'echeance du paiement. Le taux d'intérêt legal s'applique, majore le cas echeant par stipulation dans le bail.
+En cas de loyer impaye, le bailleur peut reclamer des intérêts de retard a compter du jour suivant l'échéance du paiement. Le taux d'intérêt legal s'applique, majore le cas echeant par stipulation dans le bail.
 
-Ces intérêts s'accumulent jour apres jour et peuvent representer une somme significative si l'impaye traine pendant plusieurs mois. C'est pourquoi une action rapide est essentielle des le premier jour de retard.
+Ces intérêts s'accumulent jour après jour et peuvent representer une somme significative si l'impaye traine pendant plusieurs mois. C'est pourquoi une action rapide est essentielle des le premier jour de retard.
 
 ### Le FICP : une consequence meconnue pour le locataire
 
 Un locataire faisant l'objet d'une procédure judiciaire pour impaye de loyer risque d'etre inscrit au FICP (Fichier des Incidents de Remboursement des Credits aux Particuliers), gere par la Banque de France. Cette inscription complique fortement l'acces au credit pour le locataire concerne pendant une duree de 5 a 7 ans.
 
-Cette consequence justifie d'elle seule l'importance d'agir rapidement et de tenter un reglement amiable avant d'engager une procédure judiciaire, qui laissera une trace formelle dans la vie du locataire.
+Cette consequence justifie d'elle seule l'importance d'agir rapidement et de tenter un règlement amiable avant d'engager une procédure judiciaire, qui laissera une trace formelle dans la vie du locataire.
 
 ## Questions fréquentes
 
@@ -1496,10 +1496,10 @@ Oui, en moyenne le loyer d'un meublé est supérieur de 10 % à 20 % à celui d'
 
 Un logement meublé doit contenir les éléments nécessaires pour dormir, manger, et prendre ses repas, ainsi que des équipements wc et de cuisson. La liste minimale légale comprend : literie avec couette ou couverture, plaques de cuisson, four ou micro-ondes, réfrigérateur, ustensiles de cuisine, table et chaises, étagères de rangement, luminaires, matériel d'entretien ménager. Le décret de 2015 précise cette liste.
 
-Les delais de preavis different selon la partie qui donne conge (art. 25-8 I loi 89-462). Le locataire doit respecter un preavis d'1 mois : il peut partir a tout moment en le respectant. Le bailleur doit, lui, respecter un preavis de 3 mois, et ne peut pas allonger le délai du locataire par une clause du bail. Pour le bail mobilite (1 a 10 mois), le locataire respecte egalement un preavis d'1 mois, et le bailleur ne peut pas donner conge en cours de bail.
+Les délais de préavis different selon la partie qui donne conge (art. 25-8 I loi 89-462). Le locataire doit respecter un préavis d'1 mois : il peut partir a tout moment en le respectant. Le bailleur doit, lui, respecter un préavis de 3 mois, et ne peut pas allonger le délai du locataire par une clause du bail. Pour le bail mobilite (1 a 10 mois), le locataire respecte egalement un préavis d'1 mois, et le bailleur ne peut pas donner conge en cours de bail.
 **La revision de loyer s'applique-t-elle aux locations meublees ?**
 
-Oui, la revision de loyer s'applique aux locations meublees selon les memes règles que pour les locations vides : elle doit etre prevue dans le bail, peut intervenir une fois par an a la date d'anniversaire, et utiliser l'IRL du trimestre de reference. En zone tendue, le loyer revisé ne peut pas depasser le loyer de reference majore publie par l'Etat.
+Oui, la revision de loyer s'applique aux locations meublees selon les memes règles que pour les locations vides : elle doit etre prévue dans le bail, peut intervenir une fois par an a la date d'anniversaire, et utiliser l'IRL du trimestre de reference. En zone tendue, le loyer revisé ne peut pas depasser le loyer de reference majore publie par l'état.
 `,
   },
   {
@@ -1858,17 +1858,17 @@ Lorsque le congé est donné pour la vente du logement, aucune indemnité de pr�
 
 [CTA : Calculez votre préavis et générez votre lettre de congé avec RentReady — essayer gratuitement]
 
-## FAQ — Preavis de depart
-**Quel est le délai de preavis pour un locataire qui donne conge ?**
+## FAQ — préavis de depart
+**Quel est le délai de préavis pour un locataire qui donne conge ?**
 
-Le délai de preavis standard est de 3 mois pour une location vide et de 1 mois pour une location meublee. Ce délai court a partir de la date de reception de la lettre de conge par le bailleur (ou de la date de signification par huissier). En cas de courrier envoye par recommandee avec AR, la date de premiere presentation du courrier fait foi, meme si le bailleur ne va pas le chercher.
-**Le locataire peut-il beneficier d'un preavis reduit de 1 mois ?**
+Le délai de préavis standard est de 3 mois pour une location vide et de 1 mois pour une location meublee. Ce délai court a partir de la date de reception de la lettre de conge par le bailleur (ou de la date de signification par huissier). En cas de courrier envoye par recommandee avec AR, la date de premiere presentation du courrier fait foi, meme si le bailleur ne va pas le chercher.
+**Le locataire peut-il beneficier d'un préavis reduit de 1 mois ?**
 
-Oui, le locataire peut beneficier d'un preavis reduit de 1 mois (au lieu de 3) dans certains cas prevus par l'article 15 II de la loi du 6 juillet 1989 : obtention d'un premier emploi, mutation, perte d'emploi involontaire (licenciement, fin de CDD) ou nouvel emploi consecutif a une perte d'emploi ; etat de sante constate par un certificat medical justifiant un changement de domicile ; benefice du revenu de solidarite active ou de l'allocation adulte handicapee ; attribution d'un logement au sens de l'article L. 351-2 du code de la construction et de l'habitation. La zone geographique reste un critere : le délai tombe a 1 mois sans justification dans les zones mentionnees au premier alinea du I de l'article 17.
-**Le proprietaire peut-il refuser le conge du locataire ?**
+Oui, le locataire peut beneficier d'un préavis reduit de 1 mois (au lieu de 3) dans certains cas prévus par l'article 15 II de la loi du 6 juillet 1989 : obtention d'un premier emploi, mutation, perte d'emploi involontaire (licenciement, fin de CDD) ou nouvel emploi consecutif a une perte d'emploi ; état de sante constate par un certificat medical justifiant un changement de domicile ; benefice du revenu de solidarite active ou de l'allocation adulte handicapee ; attribution d'un logement au sens de l'article L. 351-2 du code de la construction et de l'habitation. La zone geographique reste un critere : le délai tombe a 1 mois sans justification dans les zones mentionnees au premier alinea du I de l'article 17.
+**Le propriétaire peut-il refuser le conge du locataire ?**
 
-Non, le proprietaire ne peut pas refuser le conge du locataire. Le locataire a le droit de partir a tout moment, quel que soit le terme du bail, en respectant le délai de preavis. Refuser le conge du locataire constitue une entrave au droit de propriete garanti par la Constitution. Seul le locataire reste redevable du loyer pendant toute la duree du preavis.
-**Le locataire doit-il payer le loyer pendant le preavis ?**
+Non, le propriétaire ne peut pas refuser le conge du locataire. Le locataire a le droit de partir a tout moment, quel que soit le terme du bail, en respectant le délai de préavis. Refuser le conge du locataire constitue une entrave au droit de propriete garanti par la Constitution. Seul le locataire reste redevable du loyer pendant toute la duree du préavis.
+**Le locataire doit-il payer le loyer pendant le préavis ?**
 
 Oui, le locataire doit payer le loyer pendant toute la durée du préavis, même s'il n'occupe plus le logement. C'est le cas même si le préavis est réduit à 1 mois. Le locataire ne peut pas cesser de payer pour accélérer son départ. En revanche, il peut partir dès le lendemain de la fin du préavis et ne paie alors plus rien au titre de ce logement.
 
@@ -2314,12 +2314,12 @@ Le locataire est tenu de prendre en charge l'entretien courant du logement et de
 
 Le locataire est également responsable des petites réparations listées dans le décret de 1987 :
 
-- Menues réparations liées à l'usage normal des équipements :
-  - Serrures, clef, visserie, clef de compteur d'eau
-  - Menus entretiens de plomberie : remplacement de joints, robinets, flexibles de douche
+- Menus réparations liées à l'usage normal des équipements :
+  - Serrures, clefs, visserie, clef de compteur d'eau
+  - Menus entretien de plomberie : remplacement de joints, robinets, flexibles de douche
   - Petites réparations électriques : prises, interrupteurs, ampoules
-  - Menus travaux de pintura et de tapisserie
-  - Remplacement desvitres cassées (si la taille est inférieure à 30 cm)
+  - Menus travaux de peinture et de tapisserie
+  - Remplacement des vitres cassées (si la taille est inférieure à 30 cm)
   - Réfection des joints de carrelage
 
 ### Le décret de 1987 : la liste exhaustive
@@ -2338,7 +2338,7 @@ Le décret n° 87-713 du 26 août 1987 établit une liste précise des réparati
 - Réfection des petites pièces usées
 
 **Peinture et tapisserie**
-- Menues reparations avant remise en état des murs lors du départ
+- Menus réparations avant remise en état des murs lors du départ
 
 **Jardinage**
 - Entretien courant des espaces verts (tonte, taille des haies, ramassage des feuilles)
@@ -3090,7 +3090,7 @@ Le bailleur doit délivrer la quittance dans un délai raisonnable suivant la de
 
 Depuis 2024, pour les paiements par prélèvements automatiques, le bailleur peut délivrer une quittance dématérialisée, sous réserve de l'accord du locataire.
 
-## Le modele de quittance de loyer
+## Le modèle de quittance de loyer
 
 ### Mentions légales à inclure
 
@@ -3746,7 +3746,7 @@ L'usure normale correspond a ce qui se passe dans un logement lors d'une occupat
 
 Les dégradations correspondent a des dommages causes par négligence ou accident : brûlure sur un plan de travail, vitre cassée, serrure forcée. Ces dégradations peuvent etre déduites du dépôt de garantie.
 
-En cas de litige sur la qualification d'une dégradation, le juge peut etre saisi pour trancher. Une expertise peut etre ordonnée pour évaluer les travaux de remise en etat.
+En cas de litige sur la qualification d'une dégradation, le juge peut etre saisi pour trancher. Une expertise peut etre ordonnée pour évaluer les travaux de remise en état.
 
 ### Dépôt de garantie en colocation meublée
 
@@ -3818,7 +3818,7 @@ Le coût de l'expertise est généralement avance par la partie qui la demande, 
 
 Le propriétaire qui constate des dégradations lors de l'état des lieux de sortie doit pouvoir prouver l'état antérieur du logement. Cela passe par un état des lieux d'entrée précis et détaille, des photos datees de chaque pièce et équipement, et les factures d'achat des équipements signalés comme dégradés.
 
-Si le dépôt de garantie ne suffit pas a couvrir les travaux de remise en etat, le propriétaire peut demander au locataire le versement des sommes supplementaires. Cette demande doit etre faite dans les 2 mois suivant la remise des clés.
+Si le dépôt de garantie ne suffit pas a couvrir les travaux de remise en état, le propriétaire peut demander au locataire le versement des sommes supplementaires. Cette demande doit etre faite dans les 2 mois suivant la remise des clés.
 
 ### Délais de prescription et d'action
 
@@ -3834,7 +3834,7 @@ L'état des lieux doit etre signé par les deux parties. Chaque partie conserve 
 
 ### Astuces pour éviter les litiges sur le dépôt de garantie
 
-Pour le propriétaire : rédigez un état des lieux d'entrée le plus détaille possible, envoyez le dépôt de garantie dans les 2 mois avec un reçu détaille, conservez les factures des travaux pour prouver les coûts de remise en etat, et souscrivez une GLI pour couvrir les risques.
+Pour le propriétaire : rédigez un état des lieux d'entrée le plus détaille possible, envoyez le dépôt de garantie dans les 2 mois avec un reçu détaille, conservez les factures des travaux pour prouver les coûts de remise en état, et souscrivez une GLI pour couvrir les risques.
 
 Pour le locataire : faites-vous remettre une copie de l'état des lieux d'entrée signé, photographiez chaque pièce des l'entrée et conservez les photos, payez vos loyers et charges intégralement jusqu'a la sortie, et en cas de départ anticipe, anticipez les sommes qui pourraient etre réclamées.
 
@@ -3844,7 +3844,7 @@ Pour le locataire : faites-vous remettre une copie de l'état des lieux d'entré
 
 **Le bailleur peut-il retenir le dépôt de garantie pour des travaux de peinture ?**
 
-Seules les dégradations constatées a l'état des lieux de sortie peuvent justifier une retenue. L'usure normale (peinture jaunie, murs marques) est a la charge du propriétaire. Toutefois, si le locataire a cause des marques importantes (tâches, griffures profondes), le bailleur peut déduire les coûts de remise en etat.
+Seules les dégradations constatées a l'état des lieux de sortie peuvent justifier une retenue. L'usure normale (peinture jaunie, murs marques) est a la charge du propriétaire. Toutefois, si le locataire a cause des marques importantes (tâches, griffures profondes), le bailleur peut déduire les coûts de remise en état.
 
 **Que faire si le bailleur ne répond pas a ma réclamation ?**
 
@@ -4064,7 +4064,7 @@ Pour éviter d'en arriver a la saisie sur salaire, le bailleur peut vérifier la
 
 **Le bailleur peut-il faire saisir directement le salaire du locataire ?**
 
-Non, le bailleur doit d'abord obtenir un titre exécutoire (jugement) auprès du tribunal. Ce n'est qu'apres l'obtention de ce titre que l'huissier peut etre saisi pour mettre en œuvre la saisie sur salaire.
+Non, le bailleur doit d'abord obtenir un titre exécutoire (jugement) auprès du tribunal. Ce n'est qu'après l'obtention de ce titre que l'huissier peut etre saisi pour mettre en œuvre la saisie sur salaire.
 
 **Que se passe-t-il si le locataire quitte son emploi ?**
 
@@ -4808,7 +4808,7 @@ Non, le bail de location n'a pas besoin d'être notarié.
     updatedAt: "2026-04-18",
     content: `## Loyer charges récupérables : liste exhaustive et calcul
 
-Dans une location, le locataire paie generalement un loyer minor e d'un dépôt de garantie et verse mensuellement des provisions pour charges recuperables. Ces charges, listées de manière limitative par le décret n° 87-713 du 26 août 1987, peuvent etre repercutees sur le locataire en plus du loyer. Comprendre cette liste et le mecanisme de recuperation est essentiel pour proprietaires comme pour locataires.
+Dans une location, le locataire paie generalement un loyer minor e d'un dépôt de garantie et verse mensuellement des provisions pour charges récupérables. Ces charges, listées de manière limitative par le décret n° 87-713 du 26 août 1987, peuvent etre repercutees sur le locataire en plus du loyer. Comprendre cette liste et le mecanisme de recuperation est essentiel pour propriétaires comme pour locataires.
 
 ## Qu'est-ce que les charges récupérables ?
 
@@ -4904,7 +4904,7 @@ Le locataire doit etre informe du montant des provisions pour charges des la sig
 
 ### Transmission de l'annexe de charges
 
-Dans les deux mois suivant l'assemblée générale annuelle de copropriété, le bailleur doit transmettre au locataire un etat de rapprochement des provisions et des charges réelles. Ce document récapitule les différentes catégories de charges et leur ventilation.
+Dans les deux mois suivant l'assemblée générale annuelle de copropriété, le bailleur doit transmettre au locataire un état de rapprochement des provisions et des charges réelles. Ce document récapitule les différentes catégories de charges et leur ventilation.
 
 ### Délai de restitution
 
@@ -4918,7 +4918,7 @@ Le bailleur doit etre en mesure de justifier l'ensemble des charges réclamées 
 
 **Comment savoir si une charge est récupérable ou non ?**
 
-La liste des charges recuperables est limitative et definie par le décret n° 87-713 du 26 août 1987. Si une charge n'y figure pas, elle n'est pas recuperable. En cas de doute, vous pouvez consulter le decret complet ou demander conseil a un professionnel de l'immobilier.
+La liste des charges récupérables est limitative et definie par le décret n° 87-713 du 26 août 1987. Si une charge n'y figure pas, elle n'est pas recuperable. En cas de doute, vous pouvez consulter le decret complet ou demander conseil a un professionnel de l'immobilier.
 
 **Comment sont réparties les charges en cas de colocation ?**
 
@@ -5858,15 +5858,15 @@ Le bail reconduit tacitement reprend les mêmes conditions que le bail initial, 
 ### Le congé donné par le propriétaire
 
 Le propriétaire peut donner congé à la fin du bail pour :
-- Reprendre le logement pour habiter (avec preavis de 6 mois)
-- Vendre le bien (avec preavis de 6 mois)
+- Reprendre le logement pour habiter (avec préavis de 6 mois)
+- Vendre le bien (avec préavis de 6 mois)
 - Motif légitime et sérieux (impayés, troubles de voisinage, etc.)
 
 Le congé doit être délivré par lettre recommandée avec accusé de réception, par acte d'huissier, ou remis en main propre contre récépissé.
 
 ### Le congé donné par le locataire
 
-Le locataire peut donner congé à tout moment, sans avoir à justifier d'un motif. Le délai de preavis est de **3 mois** (réduit à 1 mois dans certains cas : mutation, perte d'emploi, première installation).
+Le locataire peut donner congé à tout moment, sans avoir à justifier d'un motif. Le délai de préavis est de **3 mois** (réduit à 1 mois dans certains cas : mutation, perte d'emploi, première installation).
 
 ## Le bail de location meublée
 
@@ -5879,7 +5879,7 @@ Pour une location meublée, la durée minimale du bail est de **1 an**. Cette du
 Depuis la loi ELAN de 2018, un bail meublé spécifique existe pour les personnes en mobilité professionnelle :
 - Durée : 1 à 10 mois
 - Renouvellement : possible sans limitation
-- Congé : à tout moment avec preavis de 1 mois
+- Congé : à tout moment avec préavis de 1 mois
 - Conditions : être en formation professionnelle, en mutation professionnelle, ou nouvelle embauche
 
 Ce bail ne peut pas être renouvelé plus de deux fois (soit 30 mois maximum).
@@ -9653,7 +9653,7 @@ Consultez le réglement de copropriété : il définit souvent les règles de vi
 
 ### Le syndic de copropriété
 
-En cas de troubles dans une copropriété, le syndic peut intervenir en jouant le rôle de médiateur. Il peut aussi évoquer les sanctions prevues par le réglement.
+En cas de troubles dans une copropriété, le syndic peut intervenir en jouant le rôle de médiateur. Il peut aussi évoquer les sanctions prévues par le réglement.
 
 ### Le conciliateur de justice
 
@@ -9667,7 +9667,7 @@ Des organismes spécialisés proposent des médiations payantes mais efficaces p
 
 ### Le maire et la police municipale
 
-En cas de tapage nocturne ou de nuisances régulières, le maire peut être saisi. La police municipale peut dresser des procès-verbaux en cas de non-respect des reglements.
+En cas de tapage nocturne ou de nuisances régulières, le maire peut être saisi. La police municipale peut dresser des procès-verbaux en cas de non-respect des règlements.
 
 ### La préfecture
 
@@ -9693,7 +9693,7 @@ En cas d'urgence (danger, nuisance intolérable), le juge des référés peut in
 
 Le propriétaire peut être tenu responsable des troubles causés par son locataire si ceux-ci affectent le fonds voisin. Le voisin peut agir contre le propriétaire.
 
-### Assurance du proprietaire
+### Assurance du propriétaire
 
 L'assurance habitation du propriétaire couvre généralement sa responsabilité civile. Elle peut indemniser les victimes d'un trouble causé par son locataire.
 
@@ -9703,7 +9703,7 @@ L'assurance habitation du propriétaire couvre généralement sa responsabilité
 
 Conservez un calendrier des nuisances avec dates, heures et descriptions précises. Des enregistrements audio ou vidéo peuvent servir de preuve. Des temoignages de tiers sont aussi acceptables.
 
-**Le proprietaire peut-il expulser un locataire perturbateur ?**
+**Le propriétaire peut-il expulser un locataire perturbateur ?**
 
 Oui, si le locataire cause des troubles de voisinage caractérisés, le bailleur peut engager une procédure d'expulsion pour manquement aux obligations du bail.
 
@@ -9721,13 +9721,13 @@ L'action en justice se prescribe par 5 ans à compter de la cessation du trouble
     category: "Juridique",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    content: `## Assurance proprietaire non-occupant (PNO) : ce qu'il faut savoir en 2026
+    content: `## Assurance propriétaire non-occupant (PNO) : ce qu'il faut savoir en 2026
 
 L'assurance Propriétaire Non-Occupant (PNO) est souvent mal connue des bailleurs. Elle est pourtant devenue incontournable, voire obligatoire dans certains cas. Ce guide détaille les obligations, les couvertures et les conseils pour bien choisir votre assurance PNO.
 
 ## Qu'est-ce que l'assurance PNO ?
 
-L'assurance PNO protège le propriétaire contre les risques liés à sa qualité de bailleur. Contrairement à l'assurance habitation classique (qui couvre l'occupant), la PNO couvre le proprietaire en tant que propriétaire du bien.
+L'assurance PNO protège le propriétaire contre les risques liés à sa qualité de bailleur. Contrairement à l'assurance habitation classique (qui couvre l'occupant), la PNO couvre le propriétaire en tant que propriétaire du bien.
 
 ### Différence avec l'assuranceGLI
 
@@ -9751,7 +9751,7 @@ Même sans crédit et sans copropriété, l'assurance PNO est fortement recomman
 
 ### La garantie Responsabilité Civile Propriétaire
 
-Cette garantie couvre les dommages causés aux tiers par le bien ou par le propietario :
+Cette garantie couvre les dommages causés aux tiers par le bien ou par le locataire :
 - Dommages causés à un voisin (inondation, incendie)
 - Dommages causés à un locataire ou à ses visiteurs
 - Dommages dans les parties communes
@@ -9829,7 +9829,7 @@ Les tarifs varient de 100 à 400 € par an selon la valeur du bien, sa localisa
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    content: `## Protection du bailleur : guide des assurances pour proprietaires bailleurs 2026
+    content: `## Protection du bailleur : guide des assurances pour propriétaires bailleurs 2026
 
 Un propriétaire bailleur faces à de nombreux risques : impayés, dégradations, litiges, sinistres. Ce guide passe en revue les différentes assurances et protections disponibles pour sécuriser votre investissement locatif.
 
@@ -9937,7 +9937,7 @@ L'agence assure un suivi professionnel et une intervención rapide. En contrepar
     category: "Gestion",
     date: "2026-04-20",
     updatedAt: "2026-04-20",
-    content: `## GLI ou protection juridique : guide comparatif pour le proprietaire bailleur
+    content: `## GLI ou protection juridique : guide comparatif pour le propriétaire bailleur
 
 Garantie Loyer Impayé (GLI) et protection juridique sont deux assurances distinctes que les propriétaires bailleurs doivent souvent choisir entre elles. Ce guide compare ces deux protections pour vous aider à faire le bon choix.
 
@@ -10588,13 +10588,13 @@ Le locataire peut donner son congé à tout moment, sans justifier d'un motif :
 - Pour acheter
 - Pour des raisons personnelles
 
-### Delais de preavis
+### délais de préavis
 
 - Bail meublé : 1 mois
 - Bail nu : 3 mois
 - Bail mobilité : pas de préavis (durée maximale du bail)
 
-### Motifs de reduction du preavis
+### Motifs de reduction du préavis
 
 Le locataire peut bénéficier d'un préavis réduit (1 mois) dans certains cas :
 - Perte d'emploi involontaire
@@ -10603,7 +10603,7 @@ Le locataire peut bénéficier d'un préavis réduit (1 mois) dans certains cas 
 - Obtention d'un premier emploi
 - état de santé nécessitant un changement de logement (sur justification)
 
-### Forme du preavis
+### Forme du préavis
 
 Le congé doit être adressé :
 - Par lettre recommandée avec accusé de réception
@@ -10621,7 +10621,7 @@ Le bailleur peut donner congé à l'échéance :
 - Pour vendre le logement
 - Pour un motif légitime et sérieux (non-paiement, troubles de voisinage, etc.)
 
-### Delais à respecter
+### délais à respecter
 
 - 6 mois avant le terme pour un congé pour habiter ou vendre
 - 3 mois avant le terme pour un congé pour motif légitime (impayés, etc.)
@@ -10653,7 +10653,7 @@ Certaines protections s'appliquent :
 
 ## La restitution du dépôt de garantie
 
-### Delai de restitution
+### délai de restitution
 
 Le dépôt de garantie doit être restitué dans les 2 mois suivant l'état des lieux de sortie.
 

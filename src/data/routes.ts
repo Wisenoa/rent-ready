@@ -16,7 +16,7 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-04T00:18:56.268Z"
+    "mtime": "2026-10-04T00:30:26.990Z"
   },
   {
     "path": "/assurance-loyer-impaye",
@@ -36,7 +36,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/comparatif",
-    "mtime": "2026-10-04T00:18:56.268Z"
+    "mtime": "2026-10-04T00:30:26.990Z"
   },
   {
     "path": "/comparatif/assurance-loyer-impaye",
@@ -48,7 +48,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/comparatif/logiciel-gestion-locative",
-    "mtime": "2026-10-04T00:04:19.628Z"
+    "mtime": "2026-10-04T00:30:26.990Z"
   },
   {
     "path": "/comparatif/quittance-de-loyer-vs-attestation",

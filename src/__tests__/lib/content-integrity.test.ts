@@ -697,3 +697,209 @@ describe("content integrity", () => {
     ).toEqual([]);
   });
 });
+
+describe("French copy is actually French", () => {
+  const ARTICLES_FILE = join(SRC, "data", "articles.ts");
+
+  /** Article `content:` template literals, paired with their slug. */
+  function articleBodies(): { slug: string; content: string }[] {
+    const source = readFileSync(ARTICLES_FILE, "utf8");
+    const out: { slug: string; content: string }[] = [];
+
+    let cursor = 0;
+    while (true) {
+      const slugAt = source.indexOf('slug: "', cursor);
+      if (slugAt < 0) break;
+      const slug = /slug: "([^"]+)"/.exec(source.slice(slugAt, slugAt + 200))![1];
+
+      const keyAt = source.indexOf("content: `", slugAt);
+      if (keyAt < 0) {
+        cursor = slugAt + 1;
+        continue;
+      }
+      const start = keyAt + "content: `".length;
+      const end = source.indexOf("`", start);
+      if (end < 0) break;
+
+      out.push({ slug, content: source.slice(start, end) });
+      cursor = end;
+    }
+    return out;
+  }
+
+  /**
+   * `travaux-locataire-proprietaire` shipped a list of the 1987 decree
+   * maintenance obligations reading "Menus travaux de pintura et de tapisserie"
+   * and "Remplacement desvitres cassées" — machine translation from Spanish, left
+   * in a French article. Nothing caught it: the foreign-script guard passes on
+   * Spanish, because Spanish uses Latin letters like French does.
+   */
+  it("contains no untranslated Spanish, Italian or Portuguese", () => {
+    // Each is either wrong French or meaningless in this context, and none is a
+    // legitimate French word.
+    const FOREIGN = [
+      /\bpintura\b/gi,
+      /\bventanas\b/gi,
+      /\binquilino\b/gi,
+      /\bpropietario\b/gi,
+      /\bcuidado\b/gi,
+      /\bmanutenzione\b/gi,
+      /\briparazioni\b/gi,
+    ];
+
+    const problems: string[] = [];
+    for (const file of FILES) {
+      const rel = relative(process.cwd(), file);
+      if (rel.includes("__tests__")) continue;
+      const source = readFileSync(file, "utf8");
+      for (const pattern of FOREIGN) {
+        for (const m of source.matchAll(pattern)) {
+          const line = source.slice(0, m.index).split("\n").length;
+          problems.push(`${rel}:${line} — "${m[0]}" is not French`);
+        }
+      }
+    }
+
+    expect(
+      problems,
+      `untranslated copy in French content:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+
+  /**
+   * 40 of the 119 articles had lost accents on legal vocabulary: "preavis",
+   * "delais", "etat des lieux", "proprietaire", "restitue", "recuperables".
+   * Correct French is "préavis", "délais", "état des lieux", "propriétaire",
+   * "restitué", "récupérables".
+   *
+   * Scoped to article bodies only. Slugs stay unaccented on purpose — they are
+   * URLs, and /modele-bail must not become /modèle-bail.
+   */
+  it("keeps accents on legal vocabulary inside article bodies", () => {
+    const MUST_BE_ACCENTED: Record<string, string> = {
+      preavis: "préavis",
+      delai: "délai",
+      delais: "délais",
+      proprietaire: "propriétaire",
+      proprietaires: "propriétaires",
+      restitue: "restitué",
+      recuperables: "récupérables",
+      echeance: "échéance",
+      echeances: "échéances",
+      prelevement: "prélèvement",
+      reglement: "règlement",
+      verification: "vérification",
+      apres: "après",
+      deja: "déjà",
+      prealable: "préalable",
+      prevu: "prévu",
+      prevue: "prévue",
+      prevus: "prévus",
+      prevues: "prévues",
+      cree: "créé",
+      creee: "créée",
+      genere: "généré",
+      depose: "déposé",
+      interet: "intérêt",
+      cheque: "chèque",
+      cheques: "chèques",
+      reparations: "réparations",
+      reparation: "réparation",
+      evenement: "événement",
+      evenements: "événements",
+      // "etat" is deliberately absent: it also appears inside correct forms like
+      // "restituee" in other scripts, and "Etat" starts some proper nouns. The
+      // specific phrase is checked separately below.
+    };
+
+    const problems: string[] = [];
+    for (const article of articleBodies()) {
+      for (const [wrong, right] of Object.entries(MUST_BE_ACCENTED)) {
+        const pattern = new RegExp(
+          `(?<![\\wà-ÿ])${wrong}(?![\\wà-ÿ])`,
+          "i"
+        );
+        const match = article.content.match(pattern);
+        if (match) {
+          problems.push(`${article.slug} — "${match[0]}" should be "${right}"`);
+        }
+      }
+    }
+
+    expect(
+      problems,
+      `missing accents in article bodies:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("writes \"état des lieux\" with its accents", () => {
+    const problems: string[] = [];
+    for (const article of articleBodies()) {
+      const match = article.content.match(/(?<![\wà-ÿ])etat des lieux(?![\wà-ÿ])/i);
+      if (match) problems.push(`${article.slug} — "${match[0]}" should be "état des lieux"`);
+    }
+    expect(
+      problems,
+      `missing accents in article bodies:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+
+  /**
+   * URLs are ASCII, without exception.
+   *
+   * Fixing the missing accents applied the same map to article bodies, and the
+   * bodies contain markdown links — so `/guides/modele-bail` became
+   * `/guides/modèle-bail` and `/templates/etat-des-lieux` became
+   * `/templates/état-des-lieux`. Seven links in four articles pointed at pages
+   * that do not exist: accents stripped, links broken. The existing dead-link
+   * guard is what caught it.
+   */
+  it("keeps internal links ASCII, because slugs are", () => {
+    const problems: string[] = [];
+
+    for (const file of FILES) {
+      const rel = relative(process.cwd(), file);
+      if (rel.includes("__tests__")) continue;
+      const source = readFileSync(file, "utf8");
+
+      for (const m of source.matchAll(/\]\((\/[^)\s]*)\)/g)) {
+        if ([...m[1]].some((c) => c.charCodeAt(0) > 127)) {
+          const line = source.slice(0, m.index).split("\n").length;
+          problems.push(`${rel}:${line} — link "${m[1]}" contains non-ASCII`);
+        }
+      }
+    }
+
+    expect(
+      problems,
+      `accents inside a URL make it a dead link:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("does not fuse a French article with the next word", () => {
+    // Machine translation also dropped the space: "desvitres" for "des vitres",
+    // "Remplacement desvitres cassées".
+    //
+    // Scoped to "des" + a known French noun. A bare `des[a-z]{4,}` rule matches
+    // perfectly good French — "desaccord", "dessous", "Description" — so it
+    // reports noise rather than the defect it was written for.
+    const NOUNS = [
+      "vitres", "lieux", "reparations", "charges", "loyers", "locataires",
+      "biens", "cles", "communes", "parties", "travaux", "comptes",
+    ];
+
+    const problems: string[] = [];
+    for (const article of articleBodies()) {
+      for (const noun of NOUNS) {
+        const pattern = new RegExp(`(?<![\\wà-ÿ])des${noun}(?![\\wà-ÿ])`, "i");
+        const match = article.content.match(pattern);
+        if (match) problems.push(`${article.slug} — "${match[0]}" should be "des ${noun}"`);
+      }
+    }
+
+    expect(
+      problems,
+      `words fused together, usually by machine translation:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+});
