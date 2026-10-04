@@ -35,22 +35,6 @@ const comparatifs = [
     badgeColor: "bg-blue-100 text-blue-700",
   },
   {
-    title: "RentReady vs Gerclegeo",
-    description:
-      "Comparatif détaillé : tarifs, fonctionnalités, conformité loi Alur. Quel logiciel choisir pour votre parc locatif ?",
-    href: "/comparatif/rentready-vs-gerclegeo",
-    badge: "Nouveau",
-    badgeColor: "bg-red-100 text-red-700",
-  },
-  {
-    title: "RentReady vs Immotop",
-    description:
-      "Comparez RentReady et Immotop : détection paiements, quittances automatiques, révision IRL, tarifs réels.",
-    href: "/comparatif/rentready-vs-immotop",
-    badge: "Nouveau",
-    badgeColor: "bg-red-100 text-red-700",
-  },
-  {
     title: "RentReady vs LegalPlace",
     description:
       "Gestion locative vs services juridiques : comment utiliser les deux ensemble pour vos locations.",

@@ -5,7 +5,7 @@
  * sitemap can set a truthful lastModified. Run `pnpm gen:routes` after adding,
  * renaming or deleting a page; `pnpm build` does it for you.
  *
- * 70 routes.
+ * 68 routes.
  */
 export interface RouteEntry {
   path: string;
@@ -16,7 +16,7 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-04T00:13:57.850Z"
+    "mtime": "2026-10-04T00:18:56.268Z"
   },
   {
     "path": "/assurance-loyer-impaye",
@@ -36,7 +36,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/comparatif",
-    "mtime": "2026-10-04T00:04:19.629Z"
+    "mtime": "2026-10-04T00:18:56.268Z"
   },
   {
     "path": "/comparatif/assurance-loyer-impaye",
@@ -53,14 +53,6 @@ export const routes: RouteEntry[] = [
   {
     "path": "/comparatif/quittance-de-loyer-vs-attestation",
     "mtime": "2026-10-04T00:04:19.627Z"
-  },
-  {
-    "path": "/comparatif/rentready-vs-gerclegeo",
-    "mtime": "2026-10-04T00:04:19.629Z"
-  },
-  {
-    "path": "/comparatif/rentready-vs-immotop",
-    "mtime": "2026-10-04T00:04:19.628Z"
   },
   {
     "path": "/comparatif/rentready-vs-legalplace",

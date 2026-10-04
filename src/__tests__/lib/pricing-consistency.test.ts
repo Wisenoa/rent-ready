@@ -13,7 +13,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { readFileSync, readdirSync, statSync } from "fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "fs";
 import { join, relative } from "path";
 import {
   PLANS,
@@ -155,6 +155,75 @@ describe("no page hard-codes a price", () => {
       const idx = pricing.indexOf(plan.name);
       expect(idx, `plan ${plan.name} missing from /pricing`).toBeGreaterThan(-1);
     }
+  });
+});
+
+/**
+ * A comparison page asserts facts about a *named, real* company.
+ *
+ * `/comparatif/rentready-vs-gerclegeo` stated "Gerclegeo facture généralement
+ * entre 20 et 40 €/mois selon les modules" — inside FAQPage structured data,
+ * which is the form an answer engine reads. No company by that name operates in
+ * French rental management; the closest real name is "Gererseul". Publishing a
+ * specific price for a business that cannot be checked is fabricated claims
+ * about a named third party, which is a legal exposure as well as a reason for a
+ * source to be discarded.
+ *
+ * The rule: a head-to-head page may only exist for a competitor whose name is
+ * listed here, having been confirmed to exist.
+ */
+const VERIFIED_COMPETITORS = ["legalplace"];
+
+describe("comparison pages only target real companies", () => {
+  it("every head-to-head page names a verified competitor", () => {
+    const dir = join(SRC, "app", "(marketing)", "comparatif");
+    const offenders: string[] = [];
+
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const match = /^rentready-vs-(.+)$/.exec(entry.name);
+      if (!entry.isDirectory() || !match) continue;
+
+      const competitor = match[1];
+      if (!VERIFIED_COMPETITORS.includes(competitor)) {
+        offenders.push(
+          `/comparatif/rentready-vs-${competitor} — "${competitor}" is not a verified competitor`
+        );
+      }
+    }
+
+    expect(
+      offenders,
+      `A comparison page asserts facts about a named company. Verify the competitor exists, then add it to VERIFIED_COMPETITORS:\n${offenders.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("no live page states a price for an unverified competitor", () => {
+    const dir = join(SRC, "app", "(marketing)", "comparatif");
+    const offenders: string[] = [];
+
+    for (const entry of readdirSync(dir)) {
+      const file = join(dir, entry, "page.tsx");
+      if (!existsSync(file)) continue;
+
+      const source = stripComments(readFileSync(file, "utf8"));
+      const rivals = [
+        ...new Set(
+          [...source.matchAll(/Gerclegeo|Gercl[eé]geo|Immotop/gi)].map((m) => m[0])
+        ),
+      ];
+      if (rivals.length === 0) continue;
+
+      // A rival named on a page that is not a verified competitor must not be
+      // given a price or a feature claim.
+      const priced = /€|gratuit|essai|\bfacture\b/i.test(source);
+      if (priced) {
+        offenders.push(
+          `${entry}/page.tsx — states pricing or plan facts about ${rivals.join(", ")}`
+        );
+      }
+    }
+
+    expect(offenders, offenders.join("\n")).toEqual([]);
   });
 });
 

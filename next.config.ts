@@ -266,6 +266,35 @@ const config: NextConfig = {
       },
 
       // ────────────────────────────────────────
+      // Comparisons against companies that do not exist
+      // ────────────────────────────────────────
+      // `/comparatif/rentready-vs-gerclegeo` and `-vs-immotop` published a
+      // detailed feature and pricing comparison against two companies that are
+      // not French rental-management software. Searched on 2026-10-04: no SaaS
+      // by either name operates in this market.
+      //
+      // What made this worse than a wasted page: the claims were published as
+      // FAQPage structured data, which is the form an answer engine reads.
+      // "Gerclegeo facture généralement entre 20 et 40 €/mois selon les modules"
+      // is a specific price asserted about a company nobody can check —
+      // fabricated claims about named businesses. That is a legal exposure and a
+      // direct reason for a source to be distrusted.
+      //
+      // `/comparatif/logiciel-gestion-locative` answers the same search intent
+      // ("comparatif logiciel gestion locative") against competitors that do
+      // exist, so the signal goes there.
+      {
+        source: '/comparatif/rentready-vs-gerclegeo',
+        destination: '/comparatif/logiciel-gestion-locative',
+        permanent: true,
+      },
+      {
+        source: '/comparatif/rentready-vs-immotop',
+        destination: '/comparatif/logiciel-gestion-locative',
+        permanent: true,
+      },
+
+      // ────────────────────────────────────────
       // Slugs d'articles corrigés
       // ────────────────────────────────────────
       // /blog/assurance-loyer-impaye-GLI is deliberately NOT redirected: Next
