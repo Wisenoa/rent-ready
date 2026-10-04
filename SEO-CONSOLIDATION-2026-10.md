@@ -63,6 +63,13 @@ L'infrastructure SEO existe déjà (`seo-checks/`, `seo:all`, `monitor-gsc`,
 | 11 | **Important** | `sameAs` pointant sur deux profils 404 (Twitter, LinkedIn) | vérifié en direct |
 | 12 | **Important** | `/comparatif/*` non liées depuis la nav ni le footer | 8 pages dont 3 comparatifs directs |
 | 13 | **Mineur** | `stripe.ts` annonçait 144 €/an contre 149 €/an vendus | métadonnée, pas le montant facturé |
+| 14 | **Bloquant** | **2 récursions infinies** : `/outils/calculateur-caution` et `/outils/calculateur-rendement` | 8,7 Mo de HTML, 714 `<h1>` ; le serveur **meurt** |
+| 15 | **Bloquant** | **Home absente du sitemap** (418 URLs sans `/`) ; `priorityFor("/")` était du code mort | `walk()` n'enregistrait que des répertoires |
+| 16 | **Bloquant** | **Sitemap vide en production** | l'image Docker n'a pas `src/app` ; le parcours n'avait rien à lire |
+| 17 | **Important** | **`<title>` et `<canonical>` dans le `<body>`**, pas dans le `<head>` | 78 pages `force-dynamic` ; sur `/pricing`, titre à l'octet 68 927, `</head>` à 2 171 |
+| 18 | **Important** | **Schéma dupliqué sur 11 pages sur 13** | Organization, WebSite, BreadcrumbList, WebApplication en double |
+| 19 | **Important** | **`/api/og` en erreur 500 sur ses 7 gabarits** | `width: "fit-content"` rejeté par satori → **toutes les images de partage du site** |
+| 20 | **Important** | **JSON-LD Article sans `image` ni `publisher.logo`** | rich result Article inéligible |
 
 ### 1.3 Un mot sur l'outillage de vérification existant
 
@@ -296,8 +303,23 @@ classement × proximité produit × défendabilité ÷ coût.
 ### Structured data / entité
 - Logo créé (`public/logo.svg`), 18 références repointées.
 - `SearchAction` mort retiré de 27 fichiers.
-- `sameAs` réduit aux profils qui répondent (Facebook seul).
+- `sameAs` réduit aux profils qui répondent (Twitter et LinkedIn renvoyaient 404).
 - 11 blocs Offer dédupliqués autour d'un helper dérivé des plans.
+- Déduplication des nœuds site dans `SchemaMarkup` : le layout racine redevient
+  l'unique source de l'entité, sur les 30+ fichiers qui le déclaraient aussi.
+- `buildGraphSchema` aplatit au lieu d'imbriquer les graphes.
+- JSON-LD `Article` : `image` et `publisher.logo` ajoutés (rich result).
+
+### Rendu
+- 78 pages `force-dynamic` → ISR. Les métadonnées étaient streamées **après**
+  `</head>` ; elles sont maintenant dans le HTML initial.
+- `generateStaticParams` ajouté à `/blog/[slug]` : 356 → **475 pages statiques**.
+- `/api/og` réparé : les 7 gabarits rendent un PNG 1200×630 valide.
+
+### Sitemap
+- Routes générées au build (`scripts/gen-routes.mjs` → `src/data/routes.ts`).
+  La home y est ; plus de dépendance au système de fichiers au runtime.
+- Vérifié dans une **simulation Docker** : 419 URLs, home incluse.
 
 ### Tests ajoutés
 | Fichier | Tests | Protège |
@@ -306,17 +328,23 @@ classement × proximité produit × défendabilité ÷ coût.
 | `pricing-consistency.test.ts` | 12 | prix, sameAs, logo, SearchAction, images |
 | `article-readtime-honesty.test.ts` | 5 | durée de lecture, sync, épaisseur du corpus |
 | `irl-calculator.test.ts` (étendu) | 46 | valeurs INSEE épinglées, ordre, formule |
+| `rendered-html.test.ts` | 168 | HTML **rendu** : titre/canonical dans le `<head>`, schéma sans doublon, 1 H1, noindex, sitemap (419 URLs), images sociales (7 gabarits PNG valides) |
+| `no-self-recursive-component.test.ts` | 2 | aucun composant qui se rend lui-même |
 
 ---
 
 ## 10. Ce qui reste à faire, par ordre
 
 **Vague 1 bis** (rapide, fort impact)
-1. `/gestion-locative` → vraie page produit.
-2. Connecter `/comparatif` et `/outils` à la navigation.
-3. Corriger ou retirer `rentready-vs-gerclegeo` / `-immotop` (concurrent
-   inexistant — c'est une page qui ment).
-4. Réparer `seo-checks/meta-validator.js` et `link-checker.js`, ou les supprimer.
+1. Corriger ou retirer `rentready-vs-gerclegeo` / `-immotop` (concurrent
+   inexistant — c'est une page qui ment). **Non traité.**
+2. Réparer `seo-checks/meta-validator.js` et `link-checker.js`, ou les supprimer.
+   Non traité.
+3. Faire pointer le domaine.
+
+_Fait en vague 1 : la money page `/gestion-locative`, la connexion de
+`/comparatif` et `/outils` à la navigation, le déplacement de l'annuaire vers
+`/villes`._
 
 **Vague 2** — outils à forte demande (prorata, restitution de dépôt, loyer
 révisé réel, régularisation de charges), auteur identifiable, purge des 30
@@ -332,7 +360,30 @@ donné des données à celles qui existent.
 
 ---
 
-## 11. Ce qui n'a pas été fait, et pourquoi
+## 11. Vérification
+
+Chaque affirmation ci-dessus a été contrôlée dans le code, contre une source
+primaire, ou dans le HTML rendu — jamais dans le seul JSX.
+
+```
+pnpm test        998 tests, 74 fichiers
+npx tsc --noEmit 0 erreur
+pnpm lint        0 erreur
+pnpm build       475 pages statiques, aucun OOM
+```
+
+Contrôlé au `curl` sur le serveur de production (build standalone), pas en dev :
+29 pages — suffixe de titre, nœud de schéma dupliqué, un seul H1, `<title>` et
+canonical dans le `<head>`, absence de `noindex`.
+
+Sitemap : 419 URLs, toutes uniques, home présente en priorité 1.0, aucune route
+authentifiée, aucune route supprimée. Vérifié aussi dans une **simulation
+Docker** (mêmes copies que le Dockerfile, `node server.js` depuis la racine du
+bundle, sans `src/app`).
+
+---
+
+## 12. Ce qui n'a pas été fait, et pourquoi
 
 - **Aucun nouveau contenu publié.** Écrire avant d'avoir consolidé aurait
   ajouté de la cannibalisation, pas du trafic.
