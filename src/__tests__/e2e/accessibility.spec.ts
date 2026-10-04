@@ -47,6 +47,23 @@ test.describe('Marketing Pages — Accessibility Audit', () => {
 
       await pw.goto(page.url, { waitUntil: 'networkidle' })
 
+      // Marketing pages fade sections in. axe measures the COMPUTED colour, so an
+      // element mid-fade reads as blended into the background: `text-stone-600`
+      // measured 1.1:1 at 15 % opacity against a 7.12:1 once settled. Those were
+      // failures a user never sees, and the block had lost this wait.
+      //
+      // Waiting on the animation API rather than on a global opacity check: some
+      // elements never reach opacity 1 (a permanently translucent overlay), so
+      // the proxy always timed out and cost 10s on every marketing page.
+      await pw
+        .waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'),
+          undefined,
+          { timeout: 5_000 },
+        )
+        .catch(() => {
+          // An animation that never ends must not silently skip the audit: the
+          // checks below still run, and axe reports whatever it can see.
+        })
 
       const result = await new AxeBuilder({ page: pw })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
