@@ -33,7 +33,14 @@ test.describe('Tenant Invitation and Portal Access', () => {
     await dialog.locator('#city').fill('Bordeaux')
     await dialog.locator('#postalCode').fill('33000')
     await dialog.locator('button[type="submit"]').click()
-    await expect(page.getByRole('heading', { name: 'TenantPortal User' })).toBeVisible({ timeout: 10_000 })
+    // Measure, on this page: the tenant card is a LINK whose name is the card.
+    // Asserting a `heading` here passed only by catching a transient state —
+    // the app briefly showed the new tenant's own page, which has an <h1>, then
+    // the list settled back with no heading at all (measured: 0 headings named
+    // "TenantPortal User", 1 link, and the name sitting in a div > div > div).
+    await expect(page.getByRole('link', { name: 'TenantPortal User' })).toBeVisible({
+      timeout: 10_000,
+    })
 
     return accountEmail
   }

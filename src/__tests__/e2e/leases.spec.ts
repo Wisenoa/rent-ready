@@ -41,15 +41,13 @@ test.describe('Lease Creation', () => {
     // The tenant's name sits in a `CardTitle`, which renders a <div
     // data-slot="card-title"> — not a heading. `getByRole('heading', …)` can
     // therefore never match on this page, and the commit that replaced
-    // getByText with getByRole broke this assertion: the role change is right on
-    // the tenant DETAIL page, where the name is an <h1>, and wrong here.
-    //
-    // Scoped to the card by its slot rather than by text alone, so it cannot
-    // collide with the route announcer — which is the whole reason the earlier
-    // getByText was abandoned.
-    await expect(
-      page.locator('[data-slot="card-title"]', { hasText: 'Pierre Durand' }).first()
-    ).toBeVisible({ timeout: 10_000 })
+    // Measured on this page: the tenant card is a LINK whose accessible name is
+    // the card; the name itself sits in a div, and there is no heading carrying
+    // it. `card-title` + `.first()` was a name lookup that silently took whichever
+    // card came first — correct only while this account has one tenant.
+    await expect(page.getByRole('link', { name: 'Pierre Durand' })).toBeVisible({
+      timeout: 10_000,
+    })
   }
 
   test('leases page loads and shows empty state', async ({ page }) => {

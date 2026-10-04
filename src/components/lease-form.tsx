@@ -101,6 +101,24 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
    * disabled — and a disabled button never submits, so the field-level errors
    * below it cannot appear either. The reason is therefore spelled out here.
    */
+  /**
+   * Value → label maps for the two Selects.
+   *
+   * base-ui resolves a closed trigger's text from `items`. Without it the trigger
+   * falls back to the raw value, which for these fields is the row's CUID —
+   * measured in the browser: after choosing, the trigger read
+   * `cmuu2gpot000a7dmsip294u8h` instead of « Studio Lyon — Lyon ».
+   *
+   * That is worse than ugly in the middle of the core flow: the landlord picks a
+   * property and cannot tell from the field whether they picked the right one.
+   */
+  const propertyLabelById: Record<string, string> = Object.fromEntries(
+    properties.map((p) => [p.id, `${p.name} — ${p.city}`])
+  );
+  const tenantLabelById: Record<string, string> = Object.fromEntries(
+    tenants.map((t) => [t.id, `${t.firstName} ${t.lastName}`])
+  );
+
   const missingProperty = properties.length === 0;
   const missingTenant = tenants.length === 0;
   const blockedByMissingPrerequisite = missingProperty || missingTenant;
@@ -168,6 +186,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
               <Select
                 value={selectedPropertyId ?? undefined}
                 onValueChange={(val) => setValue("propertyId", val as string, { shouldValidate: true })}
+                items={propertyLabelById}
               >
                 <SelectTrigger id="propertyId">
                   <SelectValue placeholder="Sélectionner un bien" />
@@ -196,6 +215,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
               <Select
                 value={selectedTenantId ?? undefined}
                 onValueChange={(val) => setValue("tenantId", val as string, { shouldValidate: true })}
+                items={tenantLabelById}
               >
                 <SelectTrigger id="tenantId">
                   <SelectValue placeholder="Sélectionner un locataire" />
