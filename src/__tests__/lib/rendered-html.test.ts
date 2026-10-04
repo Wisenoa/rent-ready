@@ -237,4 +237,47 @@ describe.runIf(existsSync(SERVER))("robots and sitemap", () => {
       "sitemap contains duplicate URLs"
     ).toBe(0);
   });
+
+  /**
+   * The homepage was absent from the sitemap for as long as the route list was
+   * derived by walking the filesystem: `walk` recorded only *directories*
+   * containing a `page.tsx`, and `src/app/page.tsx` is the one route that is a
+   * file at the root. The file shipped 418 URLs with no `/` among them, and
+   * `priorityFor("/") => 1.0` was unreachable code.
+   *
+   * Nobody noticed because the sitemap had 400+ other URLs and looked full.
+   */
+  it("includes the homepage", async () => {
+    if (!available) return;
+    const xml = await (await fetch(`${ORIGIN}/sitemap.xml`)).text();
+    expect(xml).toContain("<loc>https://www.rentready.fr/</loc>");
+  });
+
+  it("never advertises an authenticated or deleted route", async () => {
+    if (!available) return;
+    const xml = await (await fetch(`${ORIGIN}/sitemap.xml`)).text();
+    const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+
+    const PRIVATE = [
+      "/dashboard", "/api/", "/login", "/register", "/properties", "/leases",
+      "/tenants", "/portal", "/settings", "/billing", "/fiscal", "/expenses",
+      "/maintenance", "/offline",
+    ];
+    for (const prefix of PRIVATE) {
+      const leaked = urls.filter((u) => u.includes(`rentready.fr${prefix}`));
+      expect(leaked, `${prefix} must not be indexed`).toEqual([]);
+    }
+
+    // Pages removed in the cannibalisation pass, replaced by a 301.
+    const REMOVED = [
+      "/outils/calculateur-caution",
+      "/templates/calculateur-rendement-locatif",
+      "/outils/modele-bail-location",
+    ];
+    for (const path of REMOVED) {
+      expect(urls, `${path} is deleted and 301s`).not.toContain(
+        `https://www.rentready.fr${path}`
+      );
+    }
+  });
 });

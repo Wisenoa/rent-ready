@@ -1,113 +1,52 @@
 import type { MetadataRoute } from "next";
-import { readdirSync, readFileSync, existsSync, statSync } from "fs";
-import { join, relative, sep } from "path";
- 
+import { readFileSync, statSync } from "fs";
+import { join } from "path";
+
+import { SITE_URL as BASE_URL } from "@/data/entity";
+
+import { routes } from "@/data/routes";
+
 const { articleMeta } = require("../data/articles-meta") as {
   articleMeta: Array<{ slug: string; date: string; updatedAt: string }>;
 };
 
-const BASE_URL = "https://www.rentready.fr";
 const APP_DIR = join(process.cwd(), "src", "app");
 
 /**
- * Route groups — `(marketing)`, `(templates)`, `(outils)` — do not create URL
- * segments. Strip them when deriving routes from the filesystem.
- */
-const ROUTE_GROUPS = new Set(["(dashboard)", "(marketing)", "(outils)", "(templates)"]);
-
-/** Prefixes that must never appear in the sitemap. */
-const PRIVATE_PREFIXES = [
-  "/dashboard",
-  "/leases",
-  "/properties",
-  "/tenants",
-  "/billing",
-  "/expenses",
-  "/fiscal",
-  "/maintenance",
-  "/login",
-  "/register",
-  "/portal",
-  "/offline",
-  "/api",
-];
-
-function isPrivate(path: string): boolean {
-  return PRIVATE_PREFIXES.some(
-    (p) => path === p || path.startsWith(`${p}/`)
-  );
-}
-
-type DiscoveredRoute = {
-  /** URL path, e.g. "/templates/bail-vide" */
-  path: string;
-  /** Newest mtime of the route's files, used as lastModified. */
-  mtime: Date;
-};
-
-/**
- * Walk the app directory and return every static page route.
+ * Static routes come from `src/data/routes.ts`, generated at build time by
+ * `scripts/gen-routes.mjs`.
  *
- * The sitemap used to be a 400-line hand-maintained list, which had drifted
- * out of sync with the real routes: it advertised `/modeles/*` pages that are
- * now 301-redirected, `/outils/calculateur-revision-irl` and
- * `/outils/calculateur-irl-2026` (both 301s to `/outils/calculateur-irl`), and
- * `/templates/colocation` (301 to `/templates/bail-colocation`), while omitting
- * live pages such as `/outils/modele-quittance-loyer-pdf` and
- * `/outils/simulateur-loi-jeanbrun`. Deriving the list from the filesystem
- * makes that class of drift impossible.
+ * This used to walk `process.cwd()/src/app` on every request. Two problems,
+ * both discovered by rendering the site rather than reading it:
+ *
+ *   - **It missed the homepage.** The walk recorded only *directories*
+ *     containing a `page.tsx`, and `src/app/page.tsx` is the one route that is a
+ *     file at the root. The shipped sitemap had 418 URLs and no `/` among them,
+ *     and `priorityFor("/") => 1.0` was unreachable code.
+ *
+ *   - **It would have shipped an empty sitemap in production.** The Docker image
+ *     copies `.next/standalone` to `/app`, which contains `src/{components,lib,data}`
+ *     but not the route tree, and starts with `CMD ["node", "server.js"]` from
+ *     `/app`. `src/app` does not exist there, so the walk had nothing to read.
+ *
+ * Enumerating routes is a build-time fact; this file is now a formatter.
+ *
+ * It is a generated TypeScript module rather than a JSON file: Next bundles
+ * traced `.ts` modules into the standalone output, whereas a JSON written by a
+ * pre-build step was not traced and would have been missing in Docker.
  */
 
-/**
- * Newest mtime anywhere beneath `dir`.
- *
- * Compare timestamps, not a Date against a number: a directory's mtime is
- * already a Date and was being compared with `>`, which is never true, so a
- * directory's own mtime was discarded in favour of any file mtime beneath it.
- */
+/** Newest mtime under a directory, used for the city-page entries. */
 function newestMtime(dir: string): Date {
   let newestMs = 0;
-  for (const entry of readdirSync(dir)) {
+  for (const entry of require("fs").readdirSync(dir)) {
     const full = join(dir, entry);
-    const stats = statSync(full);
-    const mtimeMs = stats.isDirectory() ? newestMtime(full).getTime() : stats.mtimeMs;
-    if (mtimeMs > newestMs) newestMs = mtimeMs;
+    const mtime = statSync(full).isDirectory()
+      ? newestMtime(full).getTime()
+      : statSync(full).mtimeMs;
+    if (mtime > newestMs) newestMs = mtime;
   }
   return new Date(newestMs);
-}
-
-function discoverStaticRoutes(): DiscoveredRoute[] {
-  const found: DiscoveredRoute[] = [];
-
-  function walk(dir: string, segments: string[]) {
-    for (const entry of readdirSync(dir)) {
-      const full = join(dir, entry);
-
-      if (ROUTE_GROUPS.has(entry)) {
-        walk(full, segments);
-        continue;
-      }
-
-      // [slug] / [ville] style params are handled separately from static data.
-      if (entry.startsWith("[")) continue;
-
-      if (!statSync(full).isDirectory()) continue;
-
-      const next = [...segments, entry];
-
-      if (existsSync(join(full, "page.tsx"))) {
-        const path = next.length ? `/${next.join("/")}` : "/";
-        const newest = newestMtime(full);
-        found.push({ path, mtime: newest });
-      }
-
-      walk(full, next);
-    }
-  }
-
-
-  walk(APP_DIR, []);
-  return found;
 }
 
 type Entry = MetadataRoute.Sitemap[number];
@@ -152,18 +91,26 @@ function changeFrequencyFor(path: string): Entry["changeFrequency"] {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Fall back to a build-time stamp if the filesystem walk yields nothing
-  // (e.g. a trimmed deployment image). An empty sitemap is worse than a stale one.
   const now = new Date();
 
-  const staticEntries: Entry[] = discoverStaticRoutes()
-    .filter((r) => !isPrivate(r.path))
-    .map(({ path, mtime }) => ({
+  if (routes.length === 0) {
+    // routes.ts is written by `pnpm gen:routes`, wired into `pnpm build`.
+    // An empty sitemap is worse than a stale one, so say so loudly rather than
+    // shipping a file that quietly asks a crawler to index nothing.
+    throw new Error(
+      "src/data/routes.ts is empty. Run `pnpm gen:routes` before building."
+    );
+  }
+
+  const staticEntries: Entry[] = routes.map(({ path, mtime }) => {
+    const lastModified = new Date(mtime);
+    return {
       url: `${BASE_URL}${path}`,
-      lastModified: Number.isNaN(mtime.getTime()) ? now : mtime,
+      lastModified: Number.isNaN(lastModified.getTime()) ? now : lastModified,
       changeFrequency: changeFrequencyFor(path),
       priority: priorityFor(path),
-    }));
+    };
+  });
 
   // Blog posts — use real article data so the sitemap stays in sync with content.
   const blogEntries: Entry[] = articleMeta.map((post) => ({
