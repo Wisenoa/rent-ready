@@ -34,6 +34,46 @@ done
 
 die() { echo "kanban-land: $*" >&2; exit 1; }
 
+# Reclaim this card's worktree once its work is on the trunk.
+#
+# This replaces a line that said "Remember: 'git worktree remove' …". That
+# sentence is why 35 worktrees piled up in a sibling repo holding 16 GB: the card
+# lifecycle had no closing step, so reclaiming depended on an agent remembering
+# the last line of a script. A reminder is not a mechanism.
+#
+# worktree-safe-remove.sh is a GUARD, not a remover — it reports a verdict and
+# exits. So it is consulted first, and the removal happens here, only when the
+# guard returns 0. A dirty card is never removed: its work stays visible.
+reclaim_worktree() {
+  if [[ -z "${ROOT:-}" || "$ROOT" == "$MAIN" || ! -d "$ROOT" ]]; then
+    echo "note: nothing to reclaim — this card runs in the main checkout."
+    return 0
+  fi
+  # The guard log lives OUTSIDE the worktree. Inside it, `worktree-safe-remove.sh`
+  # reads the log file itself as uncommitted work and refuses to remove anything —
+  # the guard would veto its own bookkeeping.
+  local guard
+  guard="$(mktemp -t kanban-land-guard.XXXXXX)"
+  if ! "$ROOT/scripts/worktree-safe-remove.sh" "$BRANCH" > "$guard" 2>&1; then
+    local rc=$?
+    echo "worktree KEPT ($ROOT, guard exit $rc) — uncommitted work, or commits not"
+    echo "  yet on the trunk. Nothing was deleted; the work stays visible."
+    sed 's/^/  | /' "$guard" | tail -10
+    rm -f "$guard"
+    echo "  Review it, land it, then re-run: scripts/worktree-safe-remove.sh $BRANCH"
+    return 0
+  fi
+  if git -C "$MAIN" worktree remove --force "$ROOT" 2>/dev/null; then
+    git -C "$MAIN" branch -d "$BRANCH" 2>/dev/null || true
+    git -C "$MAIN" worktree prune 2>/dev/null || true
+    rm -f "$guard"
+    echo "worktree removed: $ROOT"
+  else
+    rm -f "$guard"
+    echo "worktree KEPT ($ROOT) — 'git worktree remove' refused. Nothing was deleted."
+  fi
+}
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 MAIN="$(dirname "$(git -C "$ROOT" rev-parse --path-format=absolute --git-common-dir)")"
 TRUNK="$(git -C "$MAIN" symbolic-ref --quiet --short HEAD || true)"
@@ -65,7 +105,12 @@ BASE="$(git -C "$MAIN" symbolic-ref --quiet --short HEAD || true)"
 [[ -n "$BASE" ]] || die "the main checkout ($MAIN) is on a detached HEAD — check it out before landing."
 
 if git -C "$MAIN" merge-base --is-ancestor "$BRANCH" "$BASE" 2>/dev/null; then
-  echo "kanban-land: '$BRANCH' is already contained in '$BASE' — nothing to do."
+  echo "kanban-land: '$BRANCH' is already contained in '$BASE' — nothing to land."
+  # Still reclaim. This is the path a card takes when it was already landed (a
+  # re-run, or a card whose merge landed by another route), and it used to be the
+  # path that guaranteed the worktree stayed on disk forever. Landing and
+  # reclaiming are separate jobs: the second must not depend on the first firing.
+  reclaim_worktree
   exit 0
 fi
 
@@ -98,4 +143,4 @@ echo "landing '$BRANCH' onto '$BASE':"
 git -C "$MAIN" log --oneline "$BASE..$BRANCH" | sed 's/^/  /'
 git -C "$MAIN" merge --ff-only "$BRANCH"
 echo "ok — '$BASE' is now at $(git -C "$MAIN" rev-parse --short HEAD)."
-echo "Remember: 'git worktree remove' on a finished card frees ~2 GB of .next."
+reclaim_worktree
