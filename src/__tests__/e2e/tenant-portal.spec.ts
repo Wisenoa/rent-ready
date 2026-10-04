@@ -33,7 +33,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
     await dialog.locator('#city').fill('Bordeaux')
     await dialog.locator('#postalCode').fill('33000')
     await dialog.locator('button[type="submit"]').click()
-    await expect(page.getByText('TenantPortal User')).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByRole('heading', { name: 'TenantPortal User' })).toBeVisible({ timeout: 10_000 })
 
     return accountEmail
   }
@@ -43,7 +43,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
 
     // Go to tenants page and click on the tenant
     await page.goto('/tenants')
-    await page.getByText('TenantPortal User').click()
+    await page.getByRole('link', { name: 'TenantPortal User' }).click()
     await page.waitForURL(/tenants\/.+/, { timeout: 10_000 }).catch(() => {
       // May open in a dialog
     })
@@ -52,7 +52,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
     // Look for: inviter, envoyer, email, portail, contact
     const body = await page.textContent('body')
     // The page should contain the tenant name
-    await expect(page.getByText(/tenantportal/i)).toBeVisible()
+    await expect(page.getByRole('heading', { name: /tenantportal/i })).toBeVisible()
   })
 
   test('can invite tenant via email from tenant detail', async ({ page }) => {
@@ -60,7 +60,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
 
     // Navigate to the tenant
     await page.goto('/tenants')
-    await page.getByText('TenantPortal User').click()
+    await page.getByRole('link', { name: 'TenantPortal User' }).click()
     await page.waitForURL(/tenants\/.+/, { timeout: 10_000 }).catch(() => {})
 
     // Look for an "Inviter" or "Envoyer" button
@@ -79,7 +79,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
     } else {
       // If no invite button exists, that's ok for this version
       // Just verify the tenant detail loaded correctly
-      await expect(page.getByText('TenantPortal User')).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'TenantPortal User' })).toBeVisible()
     }
   })
 
@@ -122,7 +122,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
 
     // Go to tenant detail
     await page.goto('/tenants')
-    await page.getByText('TenantPortal User').click()
+    await page.getByRole('link', { name: 'TenantPortal User' }).click()
     await page.waitForURL(/tenants\/.+/, { timeout: 10_000 }).catch(() => {})
 
     // Check if there is a "réenvoyer" option

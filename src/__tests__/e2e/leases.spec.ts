@@ -38,7 +38,7 @@ test.describe('Lease Creation', () => {
     // and « Ajouter » (the submit) all match /créer|ajouter/i, and strict mode
     // refuses to choose between them.
     await page.getByRole('dialog').locator('button[type="submit"]').click()
-    await expect(page.getByText('Pierre Durand')).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByRole('heading', { name: 'Pierre Durand' })).toBeVisible({ timeout: 10_000 })
   }
 
   test('leases page loads and shows empty state', async ({ page }) => {
@@ -109,6 +109,8 @@ test.describe('Lease Creation', () => {
     await page.getByRole('button', { name: /créer|enregistrer|valider/i }).click()
 
     // Should see success and lease in list
-    await expect(page.getByText(/studio lyon/i).or(page.getByText(/pierre durand/i))).toBeVisible({ timeout: 10_000 })
+    await expect(
+      page.getByRole('heading', { name: /studio lyon|pierre durand/i }),
+    ).toBeVisible({ timeout: 10_000 })
   })
 })
