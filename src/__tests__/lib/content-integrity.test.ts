@@ -698,6 +698,77 @@ describe("content integrity", () => {
   });
 });
 
+
+describe("the glossary hub reflects the glossary", () => {
+  /**
+   * `src/app/(marketing)/glossaire-immobilier/page.tsx` carried a hardcoded array
+   * of 437 terms. Only 5 of them matched a real `/glossaire-immobilier/<slug>`
+   * page. The hub contained exactly one `<Link>`, to `/register`, so it pointed at
+   * none of its 30 glossary pages and left all 30 orphaned from their own hub.
+   *
+   * The leftovers included machine-generated English: `Depositdang`,
+   * `Fallaitrace`, `Frameworthiness`, `Change of roommate`. All 437 were asserted
+   * as ItemList JSON-LD and the first 20 as FAQPage, so the garbage was published
+   * as structured data as well.
+   *
+   * The hub now renders `glossary.json`, so the terms it lists and the pages that
+   * exist are the same set by construction.
+   */
+  const HUB = join(SRC, "app", "(marketing)", "glossaire-immobilier", "page.tsx");
+
+  /** Comments quote the old terms on purpose, so they must not read as content. */
+  const withoutComments = (s: string) =>
+    s.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/^\s*\/\/.*$/gm, " ");
+
+  it("reads the shared glossary instead of hardcoding a term list", () => {
+    const glossary = JSON.parse(
+      readFileSync(join(SRC, "data", "glossary.json"), "utf8")
+    ) as unknown[];
+    expect(glossary.length, "glossary.json should not be empty").toBeGreaterThan(10);
+
+    const hub = readFileSync(HUB, "utf8");
+
+    expect(hub, "the hub must import glossary.json").toMatch(
+      /from\s+["']@\/data\/glossary\.json["']/
+    );
+    expect(
+      withoutComments(hub),
+      "the hub must not hardcode a term array any more"
+    ).not.toMatch(/const\s+glossaryTerms\s*(?::[^=]+)?=\s*\[/);
+
+    // Linking each term to its page is the orphaning fix; without it the 30
+    // glossary pages stay unreachable from the hub.
+    expect(
+      hub,
+      "each term must link to its page, or the glossary pages stay orphaned"
+    ).toMatch(/href=\{`\/glossaire-immobilier\/\$\{[^}]+\}`\}/);
+  });
+
+  it("publishes no machine-generated term", () => {
+    const artifacts = [
+      /Depositdang/i,
+      /Fallaitrac/i,
+      /Frameworthiness/i,
+      /Change of roommate/i,
+    ];
+
+    const problems: string[] = [];
+    for (const file of walk(SRC)) {
+      const rel = relative(process.cwd(), file);
+      if (rel.includes("__tests__")) continue;
+      const source = withoutComments(readFileSync(file, "utf8"));
+      for (const pattern of artifacts) {
+        if (pattern.test(source)) problems.push(`${rel} — ${pattern}`);
+      }
+    }
+
+    expect(
+      problems,
+      `machine-generated terms still in content:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+});
+
 describe("French copy is actually French", () => {
   const ARTICLES_FILE = join(SRC, "data", "articles.ts");
 
