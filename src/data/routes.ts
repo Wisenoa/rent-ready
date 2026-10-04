@@ -23,7 +23,7 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-04T00:42:03.152Z"
+    "mtime": "2026-10-04T00:48:03.681Z"
   },
   {
     "path": "/assurance-loyer-impaye",
@@ -1229,7 +1229,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/outils/simulateur-loi-jeanbrun",
-    "mtime": "2026-10-04T00:04:19.634Z"
+    "mtime": "2026-10-04T00:48:03.681Z"
   },
   {
     "path": "/outils/simulateur-pret-immobilier",

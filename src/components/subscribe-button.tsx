@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { createSubscriptionCheckout } from "@/lib/actions/subscription-actions";
@@ -8,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function SubscribeButton() {
+  const router = useRouter();
   const { data: session, isPending: sessionPending } = useSession();
   const [transitionPending, startTransition] = useTransition();
   const [showLoading, setShowLoading] = useState(false);
@@ -42,8 +44,9 @@ export function SubscribeButton() {
               if (result.success && result.data?.url) {
                 window.location.href = result.data.url;
               } else {
-                // Fallback: navigate to billing page
-                window.location.href = "/billing";
+                // Fallback: an internal route, so use the router rather than
+                // reloading the whole app.
+                router.push("/billing");
               }
             });
           }}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { createSubscriptionCheckout } from "@/lib/actions/subscription-actions";
@@ -16,6 +17,7 @@ export function AnnualSubscribeButton({
   annualPriceLabel = "S'abonner — 144 €/an",
   badgeLabel = "2 mois gratuits",
 }: AnnualSubscribeButtonProps) {
+  const router = useRouter();
   const { data: session, isPending: sessionPending } = useSession();
   const [transitionPending, startTransition] = useTransition();
   const [showLoading, setShowLoading] = useState(false);
@@ -56,7 +58,7 @@ export function AnnualSubscribeButton({
                 if (result.success && result.data?.url) {
                   window.location.href = result.data.url;
                 } else {
-                  window.location.href = "/billing";
+                  router.push("/billing");
                 }
               });
             }}

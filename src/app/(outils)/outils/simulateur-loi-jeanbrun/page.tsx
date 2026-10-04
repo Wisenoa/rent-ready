@@ -397,10 +397,9 @@ export default function SimulateurJeanbrunPage() {
             Ressources complémentaires
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
-            <a
+            <Link
               href="/blog/statut-lmnp-2026-guide-complet"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30"
-            >
+              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30">
               <span className="text-2xl">📄</span>
               <div>
                 <p className="font-medium text-stone-800">
@@ -408,11 +407,10 @@ export default function SimulateurJeanbrunPage() {
                 </p>
                 <p className="text-sm text-stone-500">Article de blog</p>
               </div>
-            </a>
-            <a
+            </Link>
+            <Link
               href="/blog/lmnp-declaration-fiscale-2026"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30"
-            >
+              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30">
               <span className="text-2xl">📊</span>
               <div>
                 <p className="font-medium text-stone-800">
@@ -420,11 +418,10 @@ export default function SimulateurJeanbrunPage() {
                 </p>
                 <p className="text-sm text-stone-500">Article de blog</p>
               </div>
-            </a>
-            <a
+            </Link>
+            <Link
               href="/templates/bail-vide"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30"
-            >
+              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30">
               <span className="text-2xl">📄</span>
               <div>
                 <p className="font-medium text-stone-800">
@@ -432,11 +429,10 @@ export default function SimulateurJeanbrunPage() {
                 </p>
                 <p className="text-sm text-stone-500">Téléchargement gratuit</p>
               </div>
-            </a>
-            <a
+            </Link>
+            <Link
               href="/glossaire-immobilier"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30"
-            >
+              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30">
               <span className="text-2xl">📖</span>
               <div>
                 <p className="font-medium text-stone-800">
@@ -444,7 +440,7 @@ export default function SimulateurJeanbrunPage() {
                 </p>
                 <p className="text-sm text-stone-500">Tous les termes</p>
               </div>
-            </a>
+            </Link>
           </div>
         </section>
 
