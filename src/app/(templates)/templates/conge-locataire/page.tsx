@@ -368,8 +368,8 @@ export default function CongeLocatairePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: "/guides/relance-loyer", label: "Guide : relancer un locataire pour impayés →" },
-              { href: "/blog/preavis-location-delais-etapes", label: "Préavis de location : délais et étapes →" },
-              { href: "/blog/droit-preemption-locataire", label: "Droit de préemption du locataire : mode d'emploi →" },
+              { href: "/blog/preavis-depart-locataire", label: "Préavis de location : délais et étapes →" },
+              { href: "/blog/notice-conge-locataire", label: "Congé du locataire : la notice et le délai à respecter →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
             ].map((link) => (
               <Link

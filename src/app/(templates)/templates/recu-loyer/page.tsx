@@ -243,7 +243,7 @@ export default function RecuLoyerPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: "/guides/quittance-loyer", label: "Guide : quittance de loyer →" },
-              { href: "/blog/gestion-locative-debutant-guide", label: "Guide de la gestion locative pour débutants →" },
+              { href: "/blog/investir-immobilier-locatif-guide-debutant-2026", label: "Guide de la gestion locative pour débutants →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
             ].map((link) => (
               <Link

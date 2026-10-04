@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { spring } from "./motion-config";
 import { ScrollReveal } from "./scroll-reveal";
+import { formatEntryPrice, formatProPrice } from "@/data/entity";
 
 interface FaqItem {
   question: string;
@@ -62,7 +63,7 @@ const faqs: FaqItem[] = [
     question:
       "Combien coûte RentReady et y a-t-il un engagement ?",
     answer:
-      "RentReady coûte 15 € par mois sans engagement, ou 150 € par an (soit 2 mois offerts). Ce tarif unique inclut la gestion de 10 biens maximum, un nombre illimité de locataires, toutes les fonctionnalités (quittancement, détection des virements, révision IRL, portail locataire, OCR des factures artisans par IA, simulateur fiscal) et les mises à jour légales et réglementaires. Vous bénéficiez d'un essai gratuit de 14 jours sans carte bancaire. Il n'y a aucun frais caché, aucune commission sur les loyers encaissés, et vous pouvez résilier en un clic depuis votre espace.",
+      `RentReady part à ${formatEntryPrice()} par mois sans engagement pour 3 biens, et ${formatProPrice()} pour 10 biens (149 € par an, soit 2 mois offerts). Chaque palier inclut un nombre illimité de locataires, toutes les fonctionnalités (quittancement, détection des virements, révision IRL, portail locataire, OCR des factures artisans par IA, simulateur fiscal) et les mises à jour légales et réglementaires. Vous bénéficiez d'un essai gratuit de 14 jours sans carte bancaire. Il n'y a aucun frais caché, aucune commission sur les loyers encaissés, et vous pouvez résilier en un clic depuis votre espace.`,
   },
 ];
 

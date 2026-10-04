@@ -854,6 +854,46 @@ describe("French copy is actually French", () => {
    * that do not exist: accents stripped, links broken. The existing dead-link
    * guard is what caught it.
    */
+  /**
+   * Ten internal links pointed at five article slugs that do not exist, across
+   * seven template pages: `/blog/difference-bail-meuble-bail-vide`,
+   * `/blog/gestion-locative-debutant-guide`, `/blog/droit-preemption-locataire`,
+   * `/blog/preavis-location-delays-etapes`, `/blog/equipement-minimum-bail-meuble`.
+   *
+   * They sat in a "Ressources complémentaires" list at the bottom of each page, so
+   * a crawl of the hubs never followed them. They are now repointed at the real
+   * slugs. Nothing about them was structurally wrong, which is why they survived:
+   * a link is just a string until something checks the target.
+   */
+  it("has no internal link pointing at a slug that does not exist", () => {
+    const meta = readFileSync(join(SRC, "data", "articles-meta.ts"), "utf8");
+    const known = new Set(
+      [...meta.matchAll(/"slug":"([^"]+)"/g)].map((m) => m[1])
+    );
+    expect(known.size, "failed to parse articles-meta").toBeGreaterThan(100);
+
+    const problems: string[] = [];
+    for (const file of FILES) {
+      if (!file.endsWith(".tsx")) continue;
+      const rel = relative(process.cwd(), file);
+      if (rel.includes("__tests__")) continue;
+      const source = readFileSync(file, "utf8");
+
+      for (const m of source.matchAll(/["'`]\/blog\/([a-z0-9-]+)["'`]/g)) {
+        const slug = m[1];
+        if (slug && !known.has(slug)) {
+          const line = source.slice(0, m.index).split("\n").length;
+          problems.push(`${rel}:${line} — /blog/${slug} has no article`);
+        }
+      }
+    }
+
+    expect(
+      problems,
+      `links to articles that do not exist:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+
   it("keeps internal links ASCII, because slugs are", () => {
     const problems: string[] = [];
 

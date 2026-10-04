@@ -25,9 +25,9 @@ export function PricingSection() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <ScrollReveal className="mx-auto mb-16 max-w-xl text-center sm:mb-20">
           <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
-            Un prix unique.
+            Un prix clair, sans surprise.
             <br />
-            Zéro mauvaise surprise.
+            Résiliable à tout moment.
           </h2>
         </ScrollReveal>
 

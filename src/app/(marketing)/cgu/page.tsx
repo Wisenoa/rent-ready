@@ -74,6 +74,8 @@ function CguJsonLd() {
   );
 }
 
+import { formatProPrice, formatProAnnualPrice } from "@/data/entity";
+
 export default function CguPage() {
   return (
     <>
@@ -129,7 +131,7 @@ export default function CguPage() {
           <h2>4. Abonnement et tarification</h2>
           <p>
             Le service est accessible moyennant un abonnement mensuel de
-            15 € TTC ou annuel de 150 € TTC (soit 2 mois offerts). Un essai
+            {formatProPrice().replace(" €", "")} TTC ou annuel de {formatProAnnualPrice()} TTC (soit 2 mois offerts). Un essai
             gratuit de 14 jours est proposé sans engagement ni carte bancaire.
           </p>
           <p className="mt-2">

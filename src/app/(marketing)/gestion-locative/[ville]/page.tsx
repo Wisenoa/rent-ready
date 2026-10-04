@@ -5,6 +5,7 @@ import cities from "@/data/cities.json";
 import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { formatEntryPrice, formatProPrice, formatProAnnualPrice } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -185,7 +186,7 @@ function getFaqs(city: City) {
     },
     {
       question: `Combien coûte la gestion locative à ${city.name} avec RentReady ?`,
-      answer: `RentReady coûte 15 € par mois (ou 150 € par an, soit 2 mois offerts) quel que soit le nombre de biens (jusqu'à 10). C'est 4 à 5 fois moins cher qu'une agence immobilière à ${city.name} qui facture en moyenne 7 % du loyer annuel, soit environ ${ctx.avgRent * 70} € par an pour un loyer de ${ctx.avgRent * 1000 / 10} € mensuels. Essai gratuit de 14 jours sans carte bancaire.`,
+      answer: `RentReady coûte ${formatEntryPrice()} par mois pour 3 biens, ou ${formatProPrice()} pour 10 biens (${formatProAnnualPrice()} par an, soit 2 mois offerts). C'est 4 à 5 fois moins cher qu'une agence immobilière à ${city.name} qui facture en moyenne 7 % du loyer annuel, soit environ ${ctx.avgRent * 70} € par an pour un loyer de ${ctx.avgRent * 1000 / 10} € mensuels. Essai gratuit de 14 jours sans carte bancaire.`,
     },
     {
       question: `Comment démarrer la gestion locative de mes biens à ${city.name} ?`,

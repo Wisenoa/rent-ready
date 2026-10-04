@@ -29,7 +29,7 @@
  * Run: pnpm gen:routes   (wired into `pnpm build`)
  */
 
-import { readdirSync, statSync, existsSync } from "node:fs";
+import { readdirSync, statSync, existsSync, readFileSync } from "node:fs";
 import { writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
@@ -74,6 +74,56 @@ function isPrivate(path) {
   return PRIVATE_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`));
 }
 
+/**
+ * URLs that `next.config.ts` permanently redirects away.
+ *
+ * The sitemap is the list of URLs to index, so a redirect source must never
+ * appear in it: Google reports it as "Redirected URL" in Search Console and the
+ * crawl budget is spent for nothing. `sitemap.ts` asserts this in a comment, and
+ * the comment used to be the only enforcement — when
+ * `/comparatif/rentready-vs-gerclegeo` was deleted and given a 301, the route
+ * generator kept publishing it, because the generator only knew about
+ * PRIVATE_PREFIXES and `next.config.ts` is TypeScript that cannot be imported.
+ *
+ * So the sources are parsed out of the config as text. That is deliberate: a
+ * regex over the file is more robust here than an eval, and the shape of a
+ * redirect rule is stable. The sitemap test fails if this list ever drifts out of
+ * sync with the config.
+ */
+function redirectSources() {
+  const configPath = join(ROOT, "next.config.ts");
+  if (!existsSync(configPath)) return [];
+
+  const config = readFileSync(configPath, "utf8");
+  const sources = new Set();
+
+  // A redirect rule is `{ source: '…', destination: '…', permanent: true }`.
+  const blocks = config.split(/\{\s*source:/).slice(1);
+  for (const block of blocks) {
+    const source = /source:\s*'([^']+)'/.exec(`source:${block}`);
+    if (!source) continue;
+    // Stop at the end of this rule rather than matching a later one.
+    const nextRule = block.search(/\{\s*source:/);
+    const scope = nextRule >= 0 ? block.slice(0, nextRule) : block;
+    sources.add(source[1]);
+  }
+
+  return [...sources];
+}
+
+const REDIRECT_SOURCES = redirectSources();
+
+function isRedirectSource(path) {
+  return REDIRECT_SOURCES.some((s) => {
+    if (s.includes(":") || s.includes("*")) {
+      // Skip dynamic patterns (`/:id`, `/blog/*`); this generator only walks
+      // concrete filesystem routes, so they cannot collide with a literal path.
+      return false;
+    }
+    return path === s;
+  });
+}
+
 const routes = [];
 
 // The homepage: the only route that is a file at the root rather than a
@@ -113,7 +163,7 @@ walk(APP_DIR, []);
 
 const seen = new Set();
 const unique = routes
-  .filter((r) => !isPrivate(r.path))
+  .filter((r) => !isPrivate(r.path) && !isRedirectSource(r.path))
   .filter((r) => (seen.has(r.path) ? false : (seen.add(r.path), true)))
   .sort((a, b) => a.path.localeCompare(b.path));
 

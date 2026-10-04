@@ -227,6 +227,108 @@ describe("comparison pages only target real companies", () => {
   });
 });
 
+/**
+ * The homepage FAQ answered "Combien coûte RentReady ?" with "15 € par mois … ce
+ * tarif unique inclut 10 biens maximum". Two things were wrong: PLANS has had
+ * three tiers since the start, so there is no single price; and the annual figure
+ * next to it was 150 € while PLANS says 149 €.
+ *
+ * The old guard only matched `/[ÀA] partir de (\d+)€/`, so a bare "15 €/mois" in
+ * prose or inside a FAQPage answer passed straight through. A price a visitor can
+ * read has to be one of the real plans.
+ */
+describe("every price a visitor can read is a real plan price", () => {
+  /** Prices that legitimately appear: plan prices, and rents/charges in examples. */
+  const PLAN_PRICES = new Set(
+    PLANS.flatMap((p) =>
+      [p.monthlyPrice, p.annualPrice]
+        .filter((v): v is number => typeof v === "number")
+        .map((v) => `${v}`)
+    )
+  );
+
+  it("PLANS exposes at least the tiers the site advertises", () => {
+    // If this fails, either the pricing changed or a helper is pointing at a
+    // plan that no longer exists.
+    expect(PLAN_PRICES.has("9")).toBe(true);
+    expect(PLAN_PRICES.has("15")).toBe(true);
+    expect(PLAN_PRICES.has("149")).toBe(true);
+  });
+
+  it("finds no invented RentReady price in user-facing copy", () => {
+    // Scoped deliberately narrow.
+    //
+    // The first attempt flagged 16 hits and every one was a false positive:
+    // "plus de 100 €/mois pour les agences" (someone else's price), "20 €/mois"
+    // for a GLI insurance premium, "800 €/mois" as a rent example, and — because
+    // a comma is not a digit boundary — "15 000 € par an" read as "000 € par an",
+    // which is the micro-foncier ceiling.
+    //
+    // So the rule is: a price is only RentReady's if the sentence talks about
+    // RentReady. Market prices, rents, deposits and tax ceilings are not ours to
+    // validate.
+    const problems: string[] = [];
+
+    for (const file of FILES) {
+      const rel = relative(process.cwd(), file);
+
+      const source = stripComments(readFileSync(file, "utf8"));
+
+      // Split on sentence-ish boundaries so "our" can be judged per sentence.
+      for (const sentence of source.split(/(?<=[.!?;:\\n])/)) {
+        if (!/RentReady/i.test(sentence)) continue;
+
+        // "3 000 €" and "15 000 €" are not prices we sell; keep the group intact.
+        for (const m of sentence.matchAll(
+          /(?<![\\d.,])(\\d{1,2}(?:[  ]\\d{3})?|\\d{3,4})\s*(?:€|EUR|euros?)(?:\s*(?:\/\s*mois|par\s*mois|par\s*an|TTC|HT))?/gi
+        )) {
+          const amount = m[1].replace(/\s/g, "");
+
+          if (PLAN_PRICES.has(amount)) continue;
+
+          problems.push(
+            `${rel} — "${m[0].trim()}" attributed to RentReady but not a plan price ` +
+              `(${[...PLAN_PRICES].join(", ")})`
+          );
+          break;
+        }
+      }
+    }
+
+    expect(
+      problems,
+      `prices attributed to RentReady that do not come from PLANS:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("does not describe a multi-tier pricing as a single price", () => {
+    // "ce tarif unique" is only true if PLANS has one priced tier.
+    const pricedTiers = PLANS.filter((p) => p.monthlyPrice !== null).length;
+    expect(pricedTiers, "guard is meaningless with a single tier").toBeGreaterThan(1);
+
+    const problems: string[] = [];
+    for (const file of FILES) {
+      const rel = relative(process.cwd(), file);
+      if (rel.includes("__tests__")) continue;
+      const source = stripComments(readFileSync(file, "utf8"));
+
+      for (const m of source.matchAll(
+        /(tarif\s+unique|prix\s+unique|juste\s+un\s+prix|un\s+seul\s+prix)/gi
+      )) {
+        const line = source.slice(0, m.index).split("\n").length;
+        problems.push(
+          `${rel}:${line} — "${m[0]}" but there are ${pricedTiers} priced tiers`
+        );
+      }
+    }
+
+    expect(
+      problems,
+      `copy calling a multi-tier pricing a single price:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+});
+
 describe("entity facts are consistent", () => {
   it("declares only sameAs profiles that exist", () => {
     // Verified live on 2026-10-04: twitter.com/rentready_fr and

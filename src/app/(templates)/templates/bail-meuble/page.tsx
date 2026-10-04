@@ -548,8 +548,8 @@ export default function BailMeublePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: "/guides/modele-bail", label: "Guide : modèle de bail de location →" },
-              { href: "/blog/difference-bail-meuble-bail-vide", label: "Bail meublé vs bail vide : que choisir ? →" },
-              { href: "/blog/equipement-minimum-bail-meuble", label: "Équipement minimum pour un bail meublé →" },
+              { href: "/blog/bail-meuble-vs-bail-vide-difference", label: "Bail meublé vs bail vide : que choisir ? →" },
+              { href: "/blog/bail-meuble-ou-vide-que-choisir-investisseur", label: "Équipement minimum pour un bail meublé →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
             ].map((link) => (
               <Link

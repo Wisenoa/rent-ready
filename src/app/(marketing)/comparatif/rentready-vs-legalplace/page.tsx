@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { formatProPrice } from "@/data/entity";
 import Link from "next/link";
 import { Check, X, Minus } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
@@ -229,7 +230,7 @@ export default function RentReadyVsLegalPlace() {
                 </span>
               </div>
               <p className="mt-1 text-sm font-medium text-stone-700">
-                15 €/mois <span className="font-normal text-stone-600">tout compris jusqu'à 10 biens</span>
+                {formatProPrice()} <span className="font-normal text-stone-600">tout compris jusqu'à 10 biens</span>
               </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div>

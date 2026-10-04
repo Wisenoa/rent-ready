@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { formatProPrice, formatProAnnualPrice } from "@/data/entity";
 import Link from "next/link";
 import {
   FileText,
@@ -82,7 +83,7 @@ const featureFaqs = [
   {
     question: "Combien de biens puis-je gérer avec RentReady ?",
     answer:
-      "L'abonnement à 15 €/mois permet de gérer jusqu'à 10 biens immobiliers avec locataires illimités. L'abonnement annuel à 150 € vous offre 2 mois gratuits.",
+      `L'abonnement à ${formatProPrice()} permet de gérer jusqu'à 10 biens immobiliers avec locataires illimités. L'abonnement annuel à ${formatProAnnualPrice()} vous offre 2 mois gratuits.`,
   },
 ];
 
@@ -121,7 +122,7 @@ function FeaturesJsonLd() {
       offers: [
         {
           name: "Abonnement mensuel",
-          description: "15 €/mois pour gérer jusqu'à 10 biens",
+          description: `${formatProPrice()} pour gérer jusqu'à 10 biens`,
           price: "15.00",
           priceCurrency: "EUR",
         },

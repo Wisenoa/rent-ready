@@ -16,7 +16,7 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-04T00:30:26.990Z"
+    "mtime": "2026-10-04T00:34:58.873Z"
   },
   {
     "path": "/assurance-loyer-impaye",
@@ -32,11 +32,11 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/cgu",
-    "mtime": "2026-10-04T00:04:19.629Z"
+    "mtime": "2026-10-04T00:34:26.191Z"
   },
   {
     "path": "/comparatif",
-    "mtime": "2026-10-04T00:30:26.990Z"
+    "mtime": "2026-10-04T00:34:32.330Z"
   },
   {
     "path": "/comparatif/assurance-loyer-impaye",
@@ -56,7 +56,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/comparatif/rentready-vs-legalplace",
-    "mtime": "2026-10-04T00:04:19.628Z"
+    "mtime": "2026-10-04T00:34:32.330Z"
   },
   {
     "path": "/demo",
@@ -68,11 +68,11 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/features",
-    "mtime": "2026-10-04T00:04:19.626Z"
+    "mtime": "2026-10-04T00:34:26.190Z"
   },
   {
     "path": "/gestion-locative",
-    "mtime": "2026-10-04T00:04:19.626Z"
+    "mtime": "2026-10-04T00:34:58.873Z"
   },
   {
     "path": "/glossaire-immobilier",
@@ -212,11 +212,11 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/templates/bail-meuble",
-    "mtime": "2026-10-04T00:04:19.611Z"
+    "mtime": "2026-10-04T00:33:25.210Z"
   },
   {
     "path": "/templates/bail-mobilite",
-    "mtime": "2026-10-04T00:04:19.619Z"
+    "mtime": "2026-10-04T00:33:25.150Z"
   },
   {
     "path": "/templates/bail-professionnel",
@@ -224,15 +224,15 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/templates/bail-vide",
-    "mtime": "2026-10-04T00:04:19.621Z"
+    "mtime": "2026-10-04T00:33:25.151Z"
   },
   {
     "path": "/templates/conge-locataire",
-    "mtime": "2026-10-04T00:04:19.619Z"
+    "mtime": "2026-10-04T00:33:35.809Z"
   },
   {
     "path": "/templates/conge-proprietaire",
-    "mtime": "2026-10-04T00:04:19.603Z"
+    "mtime": "2026-10-04T00:33:35.808Z"
   },
   {
     "path": "/templates/contrat-de-location",
@@ -272,7 +272,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/templates/recu-loyer",
-    "mtime": "2026-10-04T00:04:19.620Z"
+    "mtime": "2026-10-04T00:33:25.151Z"
   },
   {
     "path": "/templates/relance-loyer-impaye",

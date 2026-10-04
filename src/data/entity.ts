@@ -86,6 +86,34 @@ export function getEntryPrice(): number {
 }
 
 /** "9 €/mois" — for prose. */
+/**
+ * The plan most landlords end up on — up to 10 properties, which is the upper
+ * bound of the target audience (1–10 biens).
+ *
+ * Several pages describe this tier in prose ("15 €/mois", "149 €/an"). Those
+ * strings used to be typed, and one FAQ went further and called it "ce tarif
+ * unique" — a single price — while PLANS has had three tiers since the start.
+ */
+export function getProPrice(): number {
+  const plan = PLANS.find((p) => p.id === "pro");
+  if (!plan || plan.monthlyPrice === null) {
+    throw new Error("The pro plan has no monthly price");
+  }
+  return plan.monthlyPrice;
+}
+
+export function formatProAnnualPrice(): string {
+  const plan = PLANS.find((p) => p.id === "pro");
+  if (!plan || plan.annualPrice === null) {
+    throw new Error("The pro plan has no annual price");
+  }
+  return `${plan.annualPrice} €`;
+}
+
+export function formatProPrice(): string {
+  return `${getProPrice().toLocaleString("fr-FR")} €/mois`;
+}
+
 export function formatEntryPrice(): string {
   return `${getEntryPrice()} €/mois`;
 }
