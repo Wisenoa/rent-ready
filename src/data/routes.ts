@@ -23,7 +23,7 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-04T00:48:03.681Z"
+    "mtime": "2026-10-04T10:11:37.927Z"
   },
   {
     "path": "/assurance-loyer-impaye",
@@ -983,7 +983,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/glossaire-immobilier",
-    "mtime": "2026-10-04T00:04:19.633Z"
+    "mtime": "2026-10-04T10:11:37.927Z"
   },
   {
     "path": "/glossaire-immobilier/apport-personnel",
