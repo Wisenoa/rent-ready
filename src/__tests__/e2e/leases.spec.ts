@@ -38,7 +38,18 @@ test.describe('Lease Creation', () => {
     // and « Ajouter » (the submit) all match /créer|ajouter/i, and strict mode
     // refuses to choose between them.
     await page.getByRole('dialog').locator('button[type="submit"]').click()
-    await expect(page.getByRole('heading', { name: 'Pierre Durand' })).toBeVisible({ timeout: 10_000 })
+    // The tenant's name sits in a `CardTitle`, which renders a <div
+    // data-slot="card-title"> — not a heading. `getByRole('heading', …)` can
+    // therefore never match on this page, and the commit that replaced
+    // getByText with getByRole broke this assertion: the role change is right on
+    // the tenant DETAIL page, where the name is an <h1>, and wrong here.
+    //
+    // Scoped to the card by its slot rather than by text alone, so it cannot
+    // collide with the route announcer — which is the whole reason the earlier
+    // getByText was abandoned.
+    await expect(
+      page.locator('[data-slot="card-title"]', { hasText: 'Pierre Durand' }).first()
+    ).toBeVisible({ timeout: 10_000 })
   }
 
   test('leases page loads and shows empty state', async ({ page }) => {
@@ -102,15 +113,30 @@ test.describe('Lease Creation', () => {
     // the fallback matched ANY listbox on the page — two elements here, which
     // Playwright's strict mode refuses. The test passed alone and failed in the
     // suite, where a neighbouring dialog changed what was on screen.
+    // `paymentDay` is an <Input type="number">, not a select. The option click
+    // that used to follow was left over from an earlier form where the field was
+    // a dropdown of « 1er, 2, 3… »; with a number input there are no options, so
+    // Playwright waited on a listbox that could never appear and the test timed
+    // out after 120s naming a locator that was never going to resolve.
     await page.locator('#paymentDay').fill('5')
-    await page.getByRole('option', { name: /1ᵉʳ|1/i }).first().click()
 
     // Submit
     await page.getByRole('button', { name: /créer|enregistrer|valider/i }).click()
 
-    // Should see success and lease in list
-    await expect(
-      page.getByRole('heading', { name: /studio lyon|pierre durand/i }),
-    ).toBeVisible({ timeout: 10_000 })
+    // The lease list renders each card's title in a `CardTitle`, which is a
+    // <div data-slot="card-title"> — not a heading. A role-based lookup for a
+    // heading can therefore never match, and did not: the lease was created and
+    // the test still failed. The `.or()` alternative in the previous version was
+    // treating a symptom.
+    //
+    // Both the property name and the tenant name appear on the card, and both
+    // prove the lease exists, so the assertion checks them on the same card
+    // rather than resolving them anywhere on the page.
+    const leaseCard = page
+      .locator('[data-slot="card"]')
+      .filter({ hasText: /studio lyon/i })
+      .first()
+    await expect(leaseCard).toBeVisible({ timeout: 10_000 })
+    await expect(leaseCard).toContainText(/pierre durand/i)
   })
 })
