@@ -77,7 +77,9 @@ test.describe('Lease Creation', () => {
     await page.getByRole('option', { name: /studio lyon/i }).click()
 
     // Select tenant
-    const tenantSelect = page.locator('[id="tenantId"]').or(page.locator('[aria-label*="locataire" i]')).or(page.locator('[aria-haspopup="listbox"]').nth(1))
+    // Same reasoning as #paymentDay: the fallback matched any listbox on the
+    // page, so it resolved to several elements instead of describing the field.
+    const tenantSelect = page.locator('#tenantId')
     await tenantSelect.click()
     await page.getByRole('option', { name: /pierre durand/i }).click()
 
@@ -96,8 +98,11 @@ test.describe('Lease Creation', () => {
     await page.fill('[id="endDate"]', formatDate(endDate))
 
     // Select payment day
-    const paymentDaySelect = page.locator('[id="paymentDay"]').or(page.locator('[aria-haspopup="listbox"]').nth(2))
-    await paymentDaySelect.click()
+    // No `.or()` fallback: `#paymentDay` is a number input, not a combobox, and
+    // the fallback matched ANY listbox on the page — two elements here, which
+    // Playwright's strict mode refuses. The test passed alone and failed in the
+    // suite, where a neighbouring dialog changed what was on screen.
+    await page.locator('#paymentDay').fill('5')
     await page.getByRole('option', { name: /1ᵉʳ|1/i }).first().click()
 
     // Submit
