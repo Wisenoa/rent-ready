@@ -96,6 +96,20 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
     },
   });
 
+  /**
+   * A lease needs a property and a tenant. Without them the submit button is
+   * disabled — and a disabled button never submits, so the field-level errors
+   * below it cannot appear either. The reason is therefore spelled out here.
+   */
+  const missingProperty = properties.length === 0;
+  const missingTenant = tenants.length === 0;
+  const blockedByMissingPrerequisite = missingProperty || missingTenant;
+  const missingPrerequisiteMessage = missingProperty
+    ? "Ajoutez d'abord un bien : un bail doit être rattaché à un logement."
+    : missingTenant
+      ? "Ajoutez d'abord un locataire : un bail doit être conclu avec quelqu'un."
+      : "";
+
   const selectedPropertyId = watch("propertyId");
   const selectedTenantId = watch("tenantId");
   const selectedLeaseType = watch("leaseType");
@@ -388,6 +402,28 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
             </div>
           )}
 
+          {/*
+            Why the submit button is unavailable, stated where it is disabled.
+
+            The button was `disabled` whenever the account had no property or no
+            tenant, with nothing on screen to say why. A disabled button submits
+            nothing, so the form's own validation never runs either — the error
+            copy for `propertyId` and `tenantId` was already written and simply
+            could not appear. The result was a dialog the user could click at
+            repeatedly with no result and no explanation, which is the failure
+            mode: it looks like a broken application rather than a missing
+            prerequisite.
+          */}
+          {blockedByMissingPrerequisite && (
+            <p
+              role="status"
+              data-testid="lease-prerequisite"
+              className="rounded-lg border border-amber-500/40 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+            >
+              {missingPrerequisiteMessage}
+            </p>
+          )}
+
           <div className="flex justify-end gap-3 pt-2">
             <Button
               type="button"
@@ -397,7 +433,11 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
             >
               Annuler
             </Button>
-            <Button type="submit" disabled={isPending || properties.length === 0 || tenants.length === 0}>
+            <Button
+              type="submit"
+              disabled={isPending || blockedByMissingPrerequisite}
+              aria-describedby={blockedByMissingPrerequisite ? "lease-prerequisite" : undefined}
+            >
               {isPending && <Loader2 className="size-4 mr-2 animate-spin" />}
               Créer le bail
             </Button>
