@@ -15,7 +15,11 @@ test.describe('Lease Creation', () => {
     await page.fill('[id="addressLine1"]', '8 Rue de la République')
     await page.fill('[id="city"]', 'Lyon')
     await page.fill('[id="postalCode"]', '69001')
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
+    // Scoped to the dialog and to `type="submit"`: the trigger is called
+    // « Ajouter … » and the dialog holds « Annuler » next to « Ajouter », so a
+    // page-wide /créer|ajouter/ matched three elements and strict mode
+    // refused to choose.
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
     await expect(page.getByText('Studio Lyon')).toBeVisible({ timeout: 10_000 })
 
     // Create a tenant
@@ -30,7 +34,10 @@ test.describe('Lease Creation', () => {
     await page.fill('[id="addressLine1"]', '5 avenue Foch')
     await page.fill('[id="city"]', 'Paris')
     await page.fill('[id="postalCode"]', '75016')
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
+    // Scoped to the dialog: « Ajouter un locataire » (the trigger), « Annuler »
+    // and « Ajouter » (the submit) all match /créer|ajouter/i, and strict mode
+    // refuses to choose between them.
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
     await expect(page.getByText('Pierre Durand')).toBeVisible({ timeout: 10_000 })
   }
 
@@ -59,17 +66,14 @@ test.describe('Lease Creation', () => {
       await emptyCta.first().click()
     }
 
-    // Dialog/form should appear - wait for property select
-    // Scoped to the heading: a bare `getByText(/propriété|bien/i)` matches the
-    // breadcrumb, the empty-state sentence and the form label, and Playwright's
-    // strict mode refuses to guess between them.
-    await expect(
-      page.getByRole('heading', { name: /propriété|bien/i }).first(),
-    ).toBeVisible({ timeout: 5000 })
+    // The property field, not a heading. This page has no « Bien » title: the
+    // field is a labelled control (« Bien immobilier * » bound to #propertyId),
+    // and looking for a heading here tested a role the page does not use.
+    const propertyField = page.locator('#propertyId')
+    await expect(propertyField).toBeVisible({ timeout: 5000 })
 
     // Select property (Studio Lyon)
-    const propertySelect = page.locator('[id="propertyId"]').or(page.locator('[aria-label*="propriété" i]')).or(page.locator('[aria-haspopup="listbox"]').first())
-    await propertySelect.click()
+    await propertyField.click()
     await page.getByRole('option', { name: /studio lyon/i }).click()
 
     // Select tenant

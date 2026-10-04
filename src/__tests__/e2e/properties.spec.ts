@@ -49,7 +49,11 @@ test.describe('Property Management', () => {
     await page.fill('[id="rooms"]', String(testProperty.rooms))
 
     // Submit form
-    await page.getByRole('button', { name: /créer|ajouter|enregistrer/i }).click()
+    // Scoped to the dialog and to `type="submit"`: the trigger is called
+    // « Ajouter … » and the dialog holds « Annuler » next to « Ajouter », so a
+    // page-wide /créer|ajouter/ matched three elements and strict mode
+    // refused to choose.
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
 
     // Should see success feedback and property in list
     await expect(page.getByText(testProperty.name)).toBeVisible({ timeout: 10_000 })
@@ -68,7 +72,11 @@ test.describe('Property Management', () => {
     await page.fill('[id="addressLine1"]', testProperty.addressLine1)
     await page.fill('[id="city"]', testProperty.city)
     await page.fill('[id="postalCode"]', testProperty.postalCode)
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
+    // Scoped to the dialog and to `type="submit"`: the trigger is called
+    // « Ajouter … » and the dialog holds « Annuler » next to « Ajouter », so a
+    // page-wide /créer|ajouter/ matched three elements and strict mode
+    // refused to choose.
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
     await expect(page.getByText(testProperty.name)).toBeVisible({ timeout: 10_000 })
 
     // Click on the property to view detail.

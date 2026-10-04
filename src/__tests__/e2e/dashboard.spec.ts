@@ -47,7 +47,11 @@ test.describe('Dashboard Analytics', () => {
     await page.fill('[id="addressLine1"]', '5 Avenue des Champs')
     await page.fill('[id="city"]', 'Bordeaux')
     await page.fill('[id="postalCode"]', '33000')
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
+    // Scoped to the dialog and to `type="submit"`: the trigger is called
+    // « Ajouter … » and the dialog holds « Annuler » next to « Ajouter », so a
+    // page-wide /créer|ajouter/ matched three elements and strict mode
+    // refused to choose.
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
     await expect(page.getByText('Maison Dashboard')).toBeVisible({ timeout: 10_000 })
 
     // Go to dashboard - stats should update

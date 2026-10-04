@@ -20,10 +20,19 @@ test.describe('Tenant Invitation and Portal Access', () => {
     await page.goto('/tenants')
     await page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first().click()
     await expect(page.getByText(/nouveau locataire/i)).toBeVisible({ timeout: 5000 })
-    await page.fill('[id="firstName"]', 'TenantPortal')
-    await page.fill('[id="lastName"]', 'User')
-    await page.fill('[id="email"]', `tenantportal.${Date.now()}@example.com`)
-    await page.getByRole('dialog').locator('button[type="submit"]').click()
+    // The tenant form REQUIRES adresse, ville and code postal, and refuses to
+    // submit otherwise — saying so in French, in place. Filling only three of
+    // seven left the dialog open, so every test below failed looking for a
+    // tenant that was never created. The product was right.
+    const dialog = page.getByRole('dialog')
+    await dialog.locator('#firstName').fill('TenantPortal')
+    await dialog.locator('#lastName').fill('User')
+    await dialog.locator('#email').fill(`tenantportal.${Date.now()}@example.com`)
+    await dialog.locator('#phone').fill('0655443322')
+    await dialog.locator('#addressLine1').fill('22 rue du Portail')
+    await dialog.locator('#city').fill('Bordeaux')
+    await dialog.locator('#postalCode').fill('33000')
+    await dialog.locator('button[type="submit"]').click()
     await expect(page.getByText('TenantPortal User')).toBeVisible({ timeout: 10_000 })
 
     return accountEmail
