@@ -5,7 +5,7 @@ import { baseMetadata } from "@/lib/seo/metadata";
 // ~135-page content suite exhausted the Node heap during `next build`
 // ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
 // per request costs ~ms and every URL keeps working.
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`

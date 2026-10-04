@@ -11,7 +11,7 @@ import { baseMetadata } from "@/lib/seo/metadata";
 // ~135-page content suite exhausted the Node heap during `next build`
 // ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
 // per request costs ~ms and every URL keeps working.
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP

@@ -16,282 +16,282 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-03T23:59:00.873Z"
+    "mtime": "2026-10-04T00:07:54.868Z"
   },
   {
     "path": "/assurance-loyer-impaye",
-    "mtime": "2026-10-03T23:36:29.121Z"
+    "mtime": "2026-10-04T00:04:19.632Z"
   },
   {
     "path": "/bail",
-    "mtime": "2026-10-03T23:36:29.110Z"
+    "mtime": "2026-10-04T00:04:19.623Z"
   },
   {
     "path": "/blog",
-    "mtime": "2026-10-03T23:19:27.397Z"
+    "mtime": "2026-10-04T00:07:54.868Z"
   },
   {
     "path": "/cgu",
-    "mtime": "2026-10-03T23:19:27.398Z"
+    "mtime": "2026-10-04T00:04:19.629Z"
   },
   {
     "path": "/comparatif",
-    "mtime": "2026-10-03T23:36:29.118Z"
+    "mtime": "2026-10-04T00:04:19.629Z"
   },
   {
     "path": "/comparatif/assurance-loyer-impaye",
-    "mtime": "2026-10-03T23:36:29.118Z"
+    "mtime": "2026-10-04T00:04:19.628Z"
   },
   {
     "path": "/comparatif/bail-electronique-vs-papier",
-    "mtime": "2026-10-03T23:36:29.117Z"
+    "mtime": "2026-10-04T00:04:19.628Z"
   },
   {
     "path": "/comparatif/logiciel-gestion-locative",
-    "mtime": "2026-10-03T23:36:29.118Z"
+    "mtime": "2026-10-04T00:04:19.628Z"
   },
   {
     "path": "/comparatif/quittance-de-loyer-vs-attestation",
-    "mtime": "2026-10-03T23:36:29.117Z"
+    "mtime": "2026-10-04T00:04:19.627Z"
   },
   {
     "path": "/comparatif/rentready-vs-gerclegeo",
-    "mtime": "2026-10-03T23:36:29.118Z"
+    "mtime": "2026-10-04T00:04:19.629Z"
   },
   {
     "path": "/comparatif/rentready-vs-immotop",
-    "mtime": "2026-10-03T23:36:29.117Z"
+    "mtime": "2026-10-04T00:04:19.628Z"
   },
   {
     "path": "/comparatif/rentready-vs-legalplace",
-    "mtime": "2026-10-03T23:36:29.118Z"
+    "mtime": "2026-10-04T00:04:19.628Z"
   },
   {
     "path": "/demo",
-    "mtime": "2026-10-03T23:19:27.398Z"
+    "mtime": "2026-10-04T00:04:19.622Z"
   },
   {
     "path": "/entretien",
-    "mtime": "2026-10-03T23:19:27.398Z"
+    "mtime": "2026-10-04T00:04:19.632Z"
   },
   {
     "path": "/features",
-    "mtime": "2026-10-03T23:23:13.023Z"
+    "mtime": "2026-10-04T00:04:19.626Z"
   },
   {
     "path": "/gestion-locative",
-    "mtime": "2026-10-03T23:36:29.117Z"
+    "mtime": "2026-10-04T00:04:19.626Z"
   },
   {
     "path": "/glossaire-immobilier",
-    "mtime": "2026-10-03T23:36:29.122Z"
+    "mtime": "2026-10-04T00:04:19.633Z"
   },
   {
     "path": "/guides",
-    "mtime": "2026-10-03T13:07:27.415Z"
+    "mtime": "2026-10-04T00:04:19.631Z"
   },
   {
     "path": "/guides/depot-garantie",
-    "mtime": "2026-10-03T13:07:27.399Z"
+    "mtime": "2026-10-04T00:04:19.630Z"
   },
   {
     "path": "/guides/irl-2026",
-    "mtime": "2026-10-03T13:07:27.415Z"
+    "mtime": "2026-10-04T00:04:19.631Z"
   },
   {
     "path": "/guides/modele-bail",
-    "mtime": "2026-10-03T13:07:27.404Z"
+    "mtime": "2026-10-04T00:04:19.630Z"
   },
   {
     "path": "/guides/quittance-loyer",
-    "mtime": "2026-10-03T13:07:27.409Z"
+    "mtime": "2026-10-04T00:04:19.631Z"
   },
   {
     "path": "/guides/relance-loyer",
-    "mtime": "2026-10-03T13:07:27.392Z"
+    "mtime": "2026-10-04T00:04:19.630Z"
   },
   {
     "path": "/locations",
-    "mtime": "2026-10-03T23:36:29.120Z"
+    "mtime": "2026-10-04T00:04:19.631Z"
   },
   {
     "path": "/mentions-legales",
-    "mtime": "2026-10-03T23:19:27.399Z"
+    "mtime": "2026-10-04T00:04:19.629Z"
   },
   {
     "path": "/outils",
-    "mtime": "2026-10-03T23:43:23.064Z"
+    "mtime": "2026-10-04T00:04:19.626Z"
   },
   {
     "path": "/outils/calculateur-charges-locatives",
-    "mtime": "2026-10-03T23:36:29.112Z"
+    "mtime": "2026-10-04T00:04:19.625Z"
   },
   {
     "path": "/outils/calculateur-depot-garantie",
-    "mtime": "2026-10-03T23:40:58.111Z"
+    "mtime": "2026-10-04T00:04:19.624Z"
   },
   {
     "path": "/outils/calculateur-irl",
-    "mtime": "2026-10-03T23:34:43.830Z"
+    "mtime": "2026-10-04T00:04:19.624Z"
   },
   {
     "path": "/outils/calculateur-loyer",
-    "mtime": "2026-10-03T23:36:29.112Z"
+    "mtime": "2026-10-04T00:04:19.624Z"
   },
   {
     "path": "/outils/calculateur-plus-value",
-    "mtime": "2026-10-03T23:36:29.115Z"
+    "mtime": "2026-10-04T00:04:19.625Z"
   },
   {
     "path": "/outils/calculateur-preavis",
-    "mtime": "2026-10-03T23:36:29.115Z"
+    "mtime": "2026-10-04T00:04:19.625Z"
   },
   {
     "path": "/outils/calculateur-rendement",
-    "mtime": "2026-10-03T23:43:23.064Z"
+    "mtime": "2026-10-04T00:04:19.625Z"
   },
   {
     "path": "/outils/calculateur-surface-habitable",
-    "mtime": "2026-10-03T23:36:29.111Z"
+    "mtime": "2026-10-04T00:04:19.624Z"
   },
   {
     "path": "/outils/checklist-etat-lieux",
-    "mtime": "2026-10-03T23:36:29.114Z"
+    "mtime": "2026-10-04T00:04:19.625Z"
   },
   {
     "path": "/outils/generateur-conge-vente",
-    "mtime": "2026-10-03T23:36:29.114Z"
+    "mtime": "2026-10-04T00:04:19.625Z"
   },
   {
     "path": "/outils/generateur-quittance",
-    "mtime": "2026-10-03T23:34:43.831Z"
+    "mtime": "2026-10-04T00:04:19.625Z"
   },
   {
     "path": "/outils/lettre-relance-loyer",
-    "mtime": "2026-10-03T23:36:29.116Z"
+    "mtime": "2026-10-04T00:04:19.626Z"
   },
   {
     "path": "/outils/modele-quittance-loyer-pdf",
-    "mtime": "2026-10-01T18:47:13.577Z"
+    "mtime": "2026-10-04T00:04:19.634Z"
   },
   {
     "path": "/outils/simulateur-fiscalite-lmnp",
-    "mtime": "2026-10-03T23:36:29.111Z"
+    "mtime": "2026-10-04T00:04:19.624Z"
   },
   {
     "path": "/outils/simulateur-loi-jeanbrun",
-    "mtime": "2026-10-03T22:43:16.439Z"
+    "mtime": "2026-10-04T00:04:19.634Z"
   },
   {
     "path": "/outils/simulateur-pret-immobilier",
-    "mtime": "2026-10-03T23:36:29.114Z"
+    "mtime": "2026-10-04T00:04:19.625Z"
   },
   {
     "path": "/politique-confidentialite",
-    "mtime": "2026-10-03T23:19:27.400Z"
+    "mtime": "2026-10-04T00:04:19.629Z"
   },
   {
     "path": "/politique-cookies",
-    "mtime": "2026-10-03T23:19:27.400Z"
+    "mtime": "2026-10-04T00:04:19.622Z"
   },
   {
     "path": "/pricing",
-    "mtime": "2026-10-03T23:23:13.022Z"
+    "mtime": "2026-10-04T00:04:19.632Z"
   },
   {
     "path": "/quittances",
-    "mtime": "2026-10-03T23:36:29.108Z"
+    "mtime": "2026-10-04T00:04:19.622Z"
   },
   {
     "path": "/templates",
-    "mtime": "2026-10-03T13:07:27.426Z"
+    "mtime": "2026-10-04T00:04:19.631Z"
   },
   {
     "path": "/templates/augmentation-de-loyer",
-    "mtime": "2026-10-02T06:03:45.087Z"
+    "mtime": "2026-10-04T00:04:19.612Z"
   },
   {
     "path": "/templates/bail-colocation",
-    "mtime": "2026-10-01T20:50:30.689Z"
+    "mtime": "2026-10-04T00:04:19.580Z"
   },
   {
     "path": "/templates/bail-commercial",
-    "mtime": "2026-10-03T22:54:24.364Z"
+    "mtime": "2026-10-04T00:04:19.603Z"
   },
   {
     "path": "/templates/bail-meuble",
-    "mtime": "2026-10-03T23:19:27.401Z"
+    "mtime": "2026-10-04T00:04:19.611Z"
   },
   {
     "path": "/templates/bail-mobilite",
-    "mtime": "2026-10-03T22:54:24.367Z"
+    "mtime": "2026-10-04T00:04:19.619Z"
   },
   {
     "path": "/templates/bail-professionnel",
-    "mtime": "2026-10-01T20:50:30.689Z"
+    "mtime": "2026-10-04T00:04:19.579Z"
   },
   {
     "path": "/templates/bail-vide",
-    "mtime": "2026-10-03T23:19:27.401Z"
+    "mtime": "2026-10-04T00:04:19.621Z"
   },
   {
     "path": "/templates/conge-locataire",
-    "mtime": "2026-10-03T22:54:24.367Z"
+    "mtime": "2026-10-04T00:04:19.619Z"
   },
   {
     "path": "/templates/conge-proprietaire",
-    "mtime": "2026-10-03T22:54:24.364Z"
+    "mtime": "2026-10-04T00:04:19.603Z"
   },
   {
     "path": "/templates/contrat-de-location",
-    "mtime": "2026-10-03T13:28:05.650Z"
+    "mtime": "2026-10-04T00:04:19.611Z"
   },
   {
     "path": "/templates/etat-des-lieux",
-    "mtime": "2026-10-03T22:54:24.366Z"
+    "mtime": "2026-10-04T00:04:19.611Z"
   },
   {
     "path": "/templates/lease",
-    "mtime": "2026-10-03T22:54:24.366Z"
+    "mtime": "2026-10-04T00:04:19.605Z"
   },
   {
     "path": "/templates/lease/acte-caution",
-    "mtime": "2026-10-03T22:54:24.365Z"
+    "mtime": "2026-10-04T00:04:19.604Z"
   },
   {
     "path": "/templates/lease/bail-etudiant",
-    "mtime": "2026-10-03T22:54:24.365Z"
+    "mtime": "2026-10-04T00:04:19.605Z"
   },
   {
     "path": "/templates/lease/bail-parking",
-    "mtime": "2026-10-03T22:54:24.365Z"
+    "mtime": "2026-10-04T00:04:19.604Z"
   },
   {
     "path": "/templates/lease/bail-precaire",
-    "mtime": "2026-10-03T22:54:24.365Z"
+    "mtime": "2026-10-04T00:04:19.605Z"
   },
   {
     "path": "/templates/lease/bail-saisonnier",
-    "mtime": "2026-10-03T22:54:24.366Z"
+    "mtime": "2026-10-04T00:04:19.605Z"
   },
   {
     "path": "/templates/protocol-etat-des-lieux",
-    "mtime": "2026-10-01T20:50:30.690Z"
+    "mtime": "2026-10-04T00:04:19.602Z"
   },
   {
     "path": "/templates/recu-loyer",
-    "mtime": "2026-10-01T18:47:13.576Z"
+    "mtime": "2026-10-04T00:04:19.620Z"
   },
   {
     "path": "/templates/relance-loyer-impaye",
-    "mtime": "2026-10-01T20:50:30.689Z"
+    "mtime": "2026-10-04T00:04:19.578Z"
   },
   {
     "path": "/templates/repartition-charges",
-    "mtime": "2026-10-03T13:28:05.650Z"
+    "mtime": "2026-10-04T00:04:19.621Z"
   },
   {
     "path": "/villes",
-    "mtime": "2026-10-03T23:36:29.110Z"
+    "mtime": "2026-10-04T00:04:19.623Z"
   }
 ];

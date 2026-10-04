@@ -5,19 +5,32 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { Calendar, Clock, ArrowLeft, BookOpen } from "lucide-react";
 import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
+
 import { baseMetadata } from "@/lib/seo/metadata";
 import glossaryData from "@/data/glossary.json";
 
-// Rendered on demand. SEO/marketing content, not product surface: prerendering the
-// ~135-page content suite exhausted the Node heap during `next build`
-// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
-// per request costs ~ms and every URL keeps working.
-export const dynamic = "force-dynamic";
+/**
+ * Every article is prerendered, then revalidated hourly at the edge.
+ *
+ * `generateStaticParams` is what makes this possible. Without it a dynamic
+ * segment falls back to on-demand rendering even with `revalidate` set, and in
+ * that mode Next streams the metadata *after* `</head>`: on this page `</head>`
+ * closed at byte 1 849 while `<title>` appeared at byte 39 719. Google reads it;
+ * crawlers and link previewers that parse only the head see neither the title
+ * nor the canonical.
+ *
+ * The article list is local (`src/data/articles-meta.ts`, which holds no bodies),
+ * so enumerating 119 slugs at build time costs nothing at runtime.
+ */
+export const revalidate = 3600;
 
-// Rendered on demand. SEO/marketing content, not product surface: prerendering the
-// ~135-page content suite exhausted the Node heap during `next build`
-// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
-// per request costs ~ms and every URL keeps working.
+export function generateStaticParams() {
+  // `articles-meta`, not `articles`: this runs at build time and only needs the
+  // slugs. The bodies live in a 636 KB module that exists in `articles-meta.ts`
+  // precisely so listing components do not pull it into the build graph.
+  return articleMeta.map((post) => ({ slug: post.slug }));
+}
 
 /** Extract Q&A pairs from a FAQ section in article markdown */
 function extractFAQ(content: string): { question: string; answer: string }[] {

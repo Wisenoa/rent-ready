@@ -138,6 +138,40 @@ describe.runIf(existsSync(SERVER))("rendered titles", () => {
     const h1s = html.match(/<h1[\s>]/g) ?? [];
     expect(h1s.length, `${path} has ${h1s.length} H1`).toBe(1);
   });
+
+  /**
+   * Metadata must be in `<head>`, not streamed into the body.
+   *
+   * Every marketing page declared `export const dynamic = "force-dynamic"`,
+   * which overrode the layout's `revalidate = 3600` and left it dead config. In
+   * a fully dynamic render Next streams metadata *after* `</head>`: on `/pricing`
+   * `</head>` closed at byte 2 171 while `<title>` appeared at byte 68 927, past
+   * a Suspense boundary. Google reads it; crawlers and link previewers that only
+   * parse the head see no title and no canonical.
+   *
+   * Measured on the current build, every page below has both inside the head.
+   */
+  it.each(PAGES)("%s puts title and canonical inside <head>", async (path) => {
+    if (!available) return;
+    const html = await fetchHtml(path);
+
+    const headEnd = html.indexOf("</head>");
+    expect(headEnd, `${path}: no </head>`).toBeGreaterThan(-1);
+
+    const titleAt = html.indexOf("<title>");
+    expect(titleAt, `${path}: no <title>`).toBeGreaterThan(-1);
+    expect(
+      titleAt,
+      `${path}: <title> at byte ${titleAt} is after </head> at ${headEnd}`
+    ).toBeLessThan(headEnd);
+
+    const canonicalAt = html.indexOf('rel="canonical"');
+    expect(canonicalAt, `${path}: no canonical`).toBeGreaterThan(-1);
+    expect(
+      canonicalAt,
+      `${path}: canonical at byte ${canonicalAt} is after </head> at ${headEnd}`
+    ).toBeLessThan(headEnd);
+  });
 });
 
 describe.runIf(existsSync(SERVER))("rendered structured data", () => {

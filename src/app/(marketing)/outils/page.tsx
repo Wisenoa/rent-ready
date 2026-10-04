@@ -11,7 +11,7 @@ import { buildOrganizationSchema, buildWebSiteSchema, buildGraphSchema } from "@
 // ~135-page content suite exhausted the Node heap during `next build`
 // ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
 // per request costs ~ms and every URL keeps working.
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export async function generateMetadata() {
   return baseMetadata({
