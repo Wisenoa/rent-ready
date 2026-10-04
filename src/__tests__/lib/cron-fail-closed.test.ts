@@ -50,10 +50,14 @@ describe("les crons echouent fermes", () => {
 
     // The failure mode: a bare `if (cronSecret) {` skips the check when the
     // variable is unset. What is required is the negated form.
+    // The bare `if (cronSecret) {` form — the skip-the-check case — must not
+    // appear at all. Matching the negated form is enough and avoids the `s` flag,
+    // which needs an es2018 target and this project compiles for es2017.
+    const skipsCheck = /if\s*\(\s*cronSecret\s*\)\s*\{/;
     expect(
       code,
       `${relativePath} skips the auth check when CRON_SECRET is absent — use "if (!cronSecret)" so it fails closed`
-    ).not.toMatch(/if\s*\(\s*!?\s*cronSecret\s*\)\s*\{?\s*(?!.*(?:500|Unauthorized))/s);
+    ).not.toMatch(skipsCheck);
 
     // And the fail-closed form must exist, returning a server error.
     expect(
