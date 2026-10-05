@@ -35,8 +35,8 @@ const ZONES_TENDUES = new Set([
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Assurance loyer impayé (GLI) — 50 villes en France",
-    description: "Garantie des Loyers Impayés (GLI) dans les 50 plus grandes villes de France. Protégez vos revenus locatifs contre les impayés. Couverture jusqu'à 90 %, frais d'expulsion pris en charge.",
+    title: "Loyer impayé : détecter, relancer, facturer — 50 villes en France",
+    description: "La GLI est une assurance souscrite auprès d'un assureur : RentReady ne la vend pas. Ce que nous faisons : détecter les loyers impayés et déclencher la relance, ville par ville.",
     url: "/assurance-loyer-impaye",
     ogType: "feature",
   });
@@ -71,20 +71,25 @@ const GLI_SCHEMA = {
     },
     {
       "@type": "SoftwareApplication",
-      name: "RentReady — Assurance loyer impayé (GLI)",
+      name: "RentReady — Suivi des loyers impayés",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
       url: "https://www.rentready.fr/assurance-loyer-impaye",
-      description: "Garantie des Loyers Impayés (GLI) pour propriétaires bailleurs. Couverture jusqu'à 90 % des loyers impayés, prise en charge des frais d'expulsion, détection automatique des paiements.",
+      description:
+        "Logiciel de gestion locative : RentReady rapproche les échéances des paiements, signale les loyers non réglés et prépare la relance. RentReady ne vend pas d'assurance et ne souscrit pas de Garantie des Loyers Impayés : la GLI est un produit d'assurance, souscrite auprès d'un assureur.",
       offers: {
         ...paidOffer(),
       },
+      // What the software actually does on this page's subject. The previous
+      // list described an insurance product: reimbursement of unpaid rent,
+      // expulsion costs, simplified claim declaration. There is no insurer, no
+      // mandate, no broker anywhere in the repository, and no GLI in the product
+      // or on /pricing — so those were promises nothing could honour.
       featureList: [
-        "Remboursement jusqu'à 90 % des loyers impayés",
-        "Frais d'expulsion pris en charge",
-        "Détection automatique des paiements",
-        "Alerte impayé en temps réel",
-        "Déclaration de sinistre simplifiée",
+        "Détection des échéances de loyer non réglées",
+        "Liste des impayés et balance par bien",
+        "Lettre de relance et mise en demeure générées depuis les données réelles",
+        "Suivi des relances déjà envoyées",
       ],
     },
   ],

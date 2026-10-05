@@ -3,6 +3,7 @@ import { SAME_AS, SITE_URL } from "@/data/entity";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import { splitEditorialCTA } from "@/lib/editorial-cta";
 import { Calendar, Clock, ArrowLeft, BookOpen } from "lucide-react";
 import { articles } from "@/data/articles";
 import { articleMeta } from "@/data/articles-meta";
@@ -401,7 +402,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 prose-code:text-blue-700 prose-code:bg-stone-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
                 prose-pre:bg-stone-900 prose-pre:text-stone-100
               ">
-                <ReactMarkdown>{article.content}</ReactMarkdown>
+                <ReactMarkdown>{splitEditorialCTA(article.content).body}</ReactMarkdown>
               </div>
             ) : (
               <p className="text-stone-600">Contenu en cours de rédaction.</p>
@@ -463,10 +464,11 @@ export default async function BlogPostPage({ params }: PageProps) {
         {/* CTA */}
         <div className="mt-16 rounded-2xl bg-stone-900 px-8 py-10 text-center">
           <h3 className="mb-3 text-xl font-bold text-white">
-            Gérez votre location efficacement avec RentReady
+            {splitEditorialCTA(article.content).cta ??
+              "Gérez votre location efficacement avec RentReady"}
           </h3>
           <p className="mb-6 text-stone-300">
-            Logiciel tout-en-un pour propriétaires — essai gratuit 30 jours.
+            Logiciel tout-en-un pour propriétaires — essai gratuit 14 jours.
           </p>
           <Link
             href="/register"
