@@ -11,11 +11,14 @@ import { Button } from "@/components/ui/button";
 interface AnnualSubscribeButtonProps {
   annualPriceLabel?: string; // e.g. "144 € / an"
   badgeLabel?: string;       // e.g. "2 mois gratuits"
+  /** Which plan was clicked. Same reason as SubscribeButton: see its note. */
+  plan?: "starter" | "pro";
 }
 
 export function AnnualSubscribeButton({
   annualPriceLabel = "S'abonner — 144 €/an",
   badgeLabel = "2 mois gratuits",
+  plan = "pro",
 }: AnnualSubscribeButtonProps) {
   const router = useRouter();
   const { data: session, isPending: sessionPending } = useSession();
@@ -54,7 +57,7 @@ export function AnnualSubscribeButton({
             onClick={() => {
               setShowLoading(true);
               startTransition(async () => {
-                const result = await createSubscriptionCheckout("year");
+                const result = await createSubscriptionCheckout(plan, "year");
                 if (result.success && result.data?.url) {
                   window.location.href = result.data.url;
                 } else {
