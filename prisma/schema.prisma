@@ -22,6 +22,26 @@ model User {
   city                 String             @default("")
   postalCode           String             @default("")
   country              String             @default("France")
+
+  // First-touch attribution.
+  //
+  // The marketing pages have always tagged their internal links
+  // (`utm_campaign=bail-paris`, `utm_medium=organic`, …) and nothing ever read
+  // them: the register form read no query string, and this row had nowhere to put
+  // the answer. So "which SEO asset produced this activated landlord?" had no
+  // answer at all — traffic could be generated but not attributed.
+  //
+  // FIRST touch, deliberately, written once. A last-touch cookie that every
+  // subsequent page overwrites is what makes attribution useless: the asset that
+  // brought the visitor is the one worth knowing, and it is recorded before any
+  // navigation happens. Nullable, so an account created by any other means
+  // carries null rather than a fabricated origin.
+  utmSource             String?
+  utmMedium             String?
+  utmCampaign           String?
+  landingPage           String?
+  referrer              String?
+
   // Stripe
   stripeCustomerId     String?            @unique
   stripeSubscriptionId String?            @unique

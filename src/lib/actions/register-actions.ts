@@ -60,10 +60,7 @@ export async function registerWithStripeCustomer({
 
     return { success: true, userId: result.user?.id };
   } catch (error: unknown) {
-    // The full error stays in the server log. What crosses to the browser is the
-    // classified message: with the database down, `error.message` was
-    // `could not open file "global/pg_filenode.map": I/O error`, and the
-    // registration form displayed it verbatim to the visitor.
+    // The full error stays in the server log.
     console.error("[register] Error:", error);
     return { success: false, error: registerErrorMessage(error) };
   }
