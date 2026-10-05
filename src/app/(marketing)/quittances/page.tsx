@@ -6,6 +6,9 @@ import React from "react";
 import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+import cities from "@/data/cities.json";
+
+type City = (typeof cities)[number];
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -19,6 +22,16 @@ const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
+
+
+/** Cities grouped by region, as the other three hubs do. */
+function groupByRegion(list: City[]) {
+  return list.reduce<Record<string, City[]>>((acc, city) => {
+    (acc[city.region] ??= []).push(city);
+    return acc;
+  }, {});
+}
+
 
 export async function generateMetadata() {
   return baseMetadata({
@@ -356,6 +369,47 @@ Tarifs →
 </Link>
 </nav>
 </article>
+
+
+      {/* Cities.
+          These 50 URLs are in the sitemap but nothing linked to them: this hub is
+          the only one of the four that did not import `cities`, so every
+          /quittances/<city> page was reachable only from its own breadcrumb. The
+          other three hubs (bail, gestion-locative, assurance-loyer-impaye) all
+          linked theirs. A page nothing links to is a page a crawler has no reason
+          to keep, and the sitemap alone is not a recommendation.
+          Same grouping by region, same Link pattern, so the hubs stay
+          consistent rather than four slightly different lists. */}
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <h2 className="text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+          Quittances de loyer par ville
+        </h2>
+        <p className="mt-3 max-w-2xl text-stone-600">
+          Modèles et mentions obligatoires adaptés aux pratiques locales de
+          l'état des lieux dans votre commune.
+        </p>
+        <div className="mt-10 space-y-10">
+          {Object.entries(groupByRegion(cities)).map(([region, regionCities]) => (
+            <div key={region}>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-stone-500">
+                {region}
+              </h3>
+              <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3 lg:grid-cols-4">
+                {regionCities.map((city) => (
+                  <li key={city.slug}>
+                    <Link
+                      href={`/quittances/${city.slug}`}
+                      className="text-sm text-stone-700 underline-offset-4 hover:text-stone-900 hover:underline"
+                    >
+                      Quittance de loyer {city.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
 
 <FinalCta />
 </div>
