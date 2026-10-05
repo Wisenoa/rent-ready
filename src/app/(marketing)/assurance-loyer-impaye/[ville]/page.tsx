@@ -58,8 +58,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const city = cities.find((c) => c.slug === ville);
   if (!city) return {};
 
-  const title = `Assurance loyer impayé à ${city.name} (GLI) — Protégez vos revenus 2026`;
-  const description = `Souscrivez une Garantie des Loyers Impayés (GLI) pour votre bien à ${city.name}. Couverture jusqu'à 90 % des loyers impayés, prise en charge des frais d'expulsion. Comparatif et devis en ligne.`;
+  // RentReady ne vend PAS de GLI et n'a aucun assureur partenaire. L'ecriture
+  // d'origine annoncait « Souscrivez une Garantie des Loyers Impayés » et
+  // « Protégez vos revenus », avec des CTA « Comparer les GLI » et « Demander un
+  // devis » qui menaient a /register. Un visiteur qui demandait un devis
+  // d'assurance obtenait un formulaire d'inscription a un logiciel : la pire
+  // conversion possible sur cette intention, et une promesse que rien dans le
+  // produit ne tient.
+  //
+  // Ce que RentReady fait reellement est deterter l'impaye. La page le dit.
+  const title = `Loyer impayé à ${city.name} : le détecter, la relancer, le facturer`;
+  const description = `RentReady détecte les loyers impayés et déclenche les relances. La GLI reste une assurance à souscrire auprès d'un assureur : nous ne la vendons pas.`;
 
   return baseMetadata({
     title,
@@ -139,43 +148,32 @@ function getFeatures(city: City) {
 /* ---------- Coverage tiers ---------- */
 
 function getCoverageTiers(city: City) {
+    // RentReady ne vend pas de GLI. Ces trois cartes annoncaient « GLI Standard
+  // ~2-3 % », « GLI Premium ~3-4 % » et « Protection Juridique ~10-20 €/mois »,
+  // avec des garanties et des franchises inventees, et un CTA « Demander un
+  // devis » qui menait a /register. Aucun assureur, aucun produit d'assurance et
+  // aucune(GLI sur /pricing ou dans le produit : c'etait un catalogue fictif
+  // presente comme une offre.
+  //
+  // Ce qui remplace les cartes est une liste de ce que fait reellement RentReady,
+  // sur ce besoin precis. Une page qui ne peut pas servir l'intention doit le
+  // dire, pas rediriger la demande vers une autre vente.
   return [
     {
-      name: "GLI Standard",
-      price: "~2-3 % du loyer annuel",
-      description: `Pour un bien à ${city.name} avec locataire en CDI. Couverture de base : remboursement loyers + charges impayés.`,
-      features: [
-        "Remboursement jusqu'à 80 % des loyers impayés",
-        "Frais d'avocat jusqu'à 1 500 €",
-        "Délai de carence de 1 à 2 mois",
-        "Franchise de 1 mois par sinistre",
-      ],
-      cta: "Comparer les GLI",
+      name: "Détection automatique des impayés",
+      description: `Chaque mois, RentReady rapproche les échéances des paiements et signale les loyers non réglés à ${city.name}.`,
+      cta: "Voir les impayés",
     },
     {
-      name: "GLI Premium",
-      price: "~3-4 % du loyer annuel",
-      description: `Couverture étendue pour les propriétaires de ${city.name} souhaitant une protection maximale.`,
-      features: [
-        "Remboursement jusqu'à 90 % des loyers impayés",
-        "Frais d'expulsion et avocat illimités",
-        "Garantie dégradations incluse",
-        "Délai de carence réduit à 1 mois",
-        "Sans franchise",
-      ],
-      cta: "Demander un devis",
+      name: "Relances envoyées sans que vous les écriviez",
+      description: "Lettre de relance puis mise en demeure, générées depuis les données réelles du dossier.",
+      cta: "Voir la lettre de relance",
     },
     {
-      name: "Protection Juridique",
-      price: "~10-20 €/mois",
-      description: `Accompagnement procédural seul — ne rembourse pas les loyers. À combiner avec une GLI ou l'auto-assurance à ${city.name}.`,
-      features: [
-        "Prise en charge des frais d'avocat",
-        "Accompagnement en cas de litige",
-        "Ne rembourse PAS les loyers impayés",
-        "Couverture large (voisinage, contractuel)",
-      ],
-      cta: "En savoir plus",
+      name: "La GLI, c'est chez un assureur",
+      description:
+        "RentReady ne vend pas et ne souscrit pas de garantie des loyers impayés. C'est un produit d'assurance : comparez les offres auprès d'un assureur ou d'un courtier, et utilisez RentReady pour savoir quand et combien déclencher.",
+      cta: "Comprendre la procédure",
     },
   ];
 }
@@ -295,12 +293,10 @@ function buildGliVilleSchema(city: City) {
         totalTime: "PT30M",
         supply: [
           { "@type": "HowToSupply", name: "Documents du locataire (fiches de paie, avis d'imposition)" },
-          { "@type": "HowToSupply", name: `Contrat GLI souscrit` },
           { "@type": "HowToSupply", name: `Compte RentReady (essai gratuit 14 jours)` },
         ],
         tool: [
           { "@type": "HowToTool", name: "RentReady — Détection automatique des paiements" },
-          { "@type": "HowToTool", name: `Comparateur GLI` },
         ],
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
@@ -316,7 +312,7 @@ function buildGliVilleSchema(city: City) {
       {
         "@type": "WebPage",
         name: `Assurance loyer impayé à ${city.name} — GLI 2026`,
-        description: `Souscrivez une GLI pour votre bien à ${city.name}. Couverture jusqu'à 90 % des loyers impayés, frais d'expulsion pris en charge. Détection automatique des paiements avec RentReady.${ctx.isZoneTendue ? ` ${city.name} est en zone tendue — la GLI est fortement recommandée.` : ""}`,
+        description: `RentReady détecte les impayés et déclenche les relances à ${city.name}. La GLI est une assurance souscrite auprès d’un assureur : nous ne la vendons pas.`,
         url: `https://www.rentready.fr/assurance-loyer-impaye/${city.slug}`,
         isPartOf: { "@type": "WebSite", name: "RentReady", url: "https://www.rentready.fr" },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
@@ -360,7 +356,7 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
               GLI à&nbsp;{city.name}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-stone-600">
-              Garantie des Loyers Impayés pour votre bien à {city.name}. Remboursement jusqu'à 90 % des loyers impayés, frais d'expulsion pris en charge.
+              Garantie des Loyers Impayés pour votre bien à {city.name}.  frais d'expulsion pris en charge.
             </p>
             {ctx.isZoneTendue && (
               <div className="mx-auto mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-4 py-2 text-sm text-amber-800">
@@ -461,16 +457,7 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
                   className="rounded-xl border border-stone-200/80 bg-white p-6 shadow-sm"
                 >
                   <h3 className="text-lg font-bold text-stone-900">{tier.name}</h3>
-                  <p className="mt-1 text-2xl font-bold text-blue-600">{tier.price}</p>
                   <p className="mt-3 text-sm text-stone-600">{tier.description}</p>
-                  <ul className="mt-4 space-y-2">
-                    {tier.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-sm text-stone-600">
-                        <span className="mt-0.5 text-green-500">✓</span>
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
                   <Link
                     href="/register"
                     className="mt-6 inline-block rounded-lg border border-blue-600 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50"
@@ -641,7 +628,7 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-2xl rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
             <h2 className="text-2xl font-bold sm:text-3xl">
-              Protégez vos revenus locatifs à {city.name}
+              Repérez vos impayés à {city.name}, relancez sans y passer vos soirées
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
               Ne laissez pas un impayé mettre en péril votre investissement. Combinez GLI et gestion intelligente avec RentReady.
