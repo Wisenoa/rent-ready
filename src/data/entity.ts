@@ -17,8 +17,33 @@
  * bug, and `pricing-consistency.test.ts` fails the build when one appears.
  */
 
-/** Canonical origin. Used for canonical URLs, schema `url`, sitemap, robots. */
-export const SITE_URL = "https://www.rentready.fr";
+/**
+ * Canonical origin: what we tell a search engine the site IS.
+ *
+ * NOT derived from NEXT_PUBLIC_APP_URL. That variable answers "where is this
+ * deployment running", which in a preview or a branch is the preview URL — and a
+ * sitemap full of preview hostnames is worse than a hardcoded origin: it invites
+ * the wrong pages to be indexed, under the wrong address, and the error is not
+ * visible in the app, only in a search console months later. Canonical and
+ * deployment are two different questions and get two different variables.
+ *
+ * NEXT_PUBLIC_SITE_URL exists so the domain can be changed in one place the day
+ * one is chosen. Its default is the assumed origin, which is what every build
+ * falls back to — so a forgotten variable degrades to the intended value rather
+ * than to `undefined` leaking into 400 URLs.
+ *
+ * The whole SEO surface hangs off this: `robots.txt` names it as the sitemap host
+ * and `sitemap.ts` builds every URL from it. The previous state was 372 hardcoded
+ * literals across 76 files while this constant was imported by exactly one file:
+ * itself. `no-hardcoded-origin.test.ts` now counts them so that cannot regress
+ * silently.
+ *
+ * A trailing slash is stripped, so `${SITE_URL}/sitemap.xml` never yields a
+ * double slash that a crawler could read as a distinct path.
+ */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rentready.fr"
+).replace(/\/+$/, "");
 
 export const SITE_NAME = "RentReady";
 
