@@ -9,6 +9,7 @@ import { Loader2, Mail, Lock, User, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { signIn } from "@/lib/auth-client";
 import { registerWithStripeCustomer } from "@/lib/actions/register-actions";
+import { visitorSafe } from "@/lib/register-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -59,7 +60,11 @@ export function RegisterForm() {
       });
 
       if (!registerResult.success) {
-        const message = registerResult.error ?? "Erreur lors de l'inscription";
+        // The action already classifies what may reach the browser. visitorSafe is
+        // a second, independent guard: it only asks whether the text looks like
+        // machine output, so a correct message survives and a leaked database
+        // error cannot.
+        const message = visitorSafe(registerResult.error);
         setFormError(message);
         toast.error(message);
         return;

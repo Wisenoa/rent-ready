@@ -19,7 +19,7 @@
  */
 
 /** Codes we have seen or that Better Auth documents for the auth routes. */
-const AUTH_ERROR_MESSAGES: Record<string, string> = {
+export const AUTH_ERROR_MESSAGES: Readonly<Record<string, string>> = {
   // sign-in / sign-up
   INVALID_EMAIL_OR_PASSWORD:
     "Adresse email ou mot de passe incorrect.",
@@ -53,7 +53,7 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
 };
 
 /** Shown when an error arrives with no code we recognise. */
-const GENERIC_MESSAGE =
+export const GENERIC_MESSAGE =
   "Connexion impossible. Vérifiez votre adresse email et votre mot de passe.";
 
 export interface AuthErrorLike {

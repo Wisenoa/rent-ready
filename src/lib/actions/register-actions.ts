@@ -4,10 +4,14 @@ import { auth } from "@/lib/auth-server";
 import { getStripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import type { ActionResult } from "./property-actions";
+import { registerErrorMessage } from "@/lib/register-error";
 
 export interface RegisterResult extends ActionResult {
   userId?: string;
 }
+
+
+
 
 /**
  * Register a new user via better-auth (handles password hashing internally)
@@ -55,10 +59,13 @@ export async function registerWithStripeCustomer({
     }
 
     return { success: true, userId: result.user?.id };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    // The full error stays in the server log. What crosses to the browser is the
+    // classified message: with the database down, `error.message` was
+    // `could not open file "global/pg_filenode.map": I/O error`, and the
+    // registration form displayed it verbatim to the visitor.
     console.error("[register] Error:", error);
-    const message = error?.message ?? "Erreur lors de la création du compte.";
-    return { success: false, error: message };
+    return { success: false, error: registerErrorMessage(error) };
   }
 }
 

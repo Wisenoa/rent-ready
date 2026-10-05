@@ -101,14 +101,60 @@ describe("registerWithStripeCustomer", () => {
     expect(body.name).toBe("");
   });
 
-  it("reports a thrown failure to the caller instead of swallowing it", async () => {
+  it("reports a thrown failure instead of swallowing it, without leaking it", async () => {
     // A registration that throws must not look like a no-op on the form.
-    signUpEmail.mockRejectedValue(new Error("Le service d'authentification est indisponible."));
+    //
+    // This assertion used to expect the thrown text to reach the caller verbatim:
+    //
+    //   expect(result.error).toBe("Le service d'authentification est indisponible.");
+    //
+    // That encoded the defect this change fixes. With the database stopped,
+    // Prisma's message reached the browser and the form rendered
+    // `could not open file "global/pg_filenode.map": I/O error` to the visitor.
+    // The intent — do not swallow — is kept; the leak is not.
+    signUpEmail.mockRejectedValue(
+      new Error("Le service d'authentification est indisponible.")
+    );
 
     const result = await registerWithStripeCustomer(CREDENTIALS);
 
     expect(result.success).toBe(false);
-    expect(result.error).toBe("Le service d'authentification est indisponible.");
+    // Reported, not swallowed…
+    expect(result.error).toBeTruthy();
+    expect(result.error).not.toBe("");
+    // …but classified.
+    expect(result.error).toBe(
+      "Le service est momentanément indisponible. Réessayez dans un instant."
+    );
+  });
+
+  it("never returns a database error to the caller", async () => {
+    // The exact failure observed when the postgres container was stopped, and
+    // the one Playwright captured rendered inside the registration page.
+    signUpEmail.mockRejectedValue(
+      new Error('could not open file "global/pg_filenode.map": I/O error')
+    );
+
+    const result = await registerWithStripeCustomer(CREDENTIALS);
+
+    expect(result.success).toBe(false);
+    expect(result.error).not.toContain("pg_filenode");
+    expect(result.error).not.toContain("I/O error");
+    expect(result.error).not.toContain("global/");
+    expect(result.error).not.toMatch(/["']/);
+  });
+
+  it("keeps a Better Auth code actionable", async () => {
+    signUpEmail.mockRejectedValue(
+      Object.assign(new Error("User already exists. Use another email."), {
+        code: "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL",
+      })
+    );
+
+    const result = await registerWithStripeCustomer(CREDENTIALS);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBe("Un compte existe déjà avec cette adresse email.");
   });
 
   it("still succeeds when the background Stripe customer creation fails", async () => {
