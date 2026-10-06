@@ -7,7 +7,15 @@
 
 export const BASE_URL = "https://www.rentready.fr";
 export const SITE_NAME = "RentReady";
-export const DEFAULT_OG_IMAGE = "https://www.rentready.fr/og-image.png";
+/**
+ * Fallback social image.
+ *
+ * It used to point at `/og-image.png`, a static file that has never existed in
+ * `public/`, so every page without a per-page `ogType` advertised a 404 image
+ * in link previews. `src/app/opengraph-image.tsx` is a Next.js file convention:
+ * Next serves it at `/opengraph-image`, so that is the real URL.
+ */
+export const DEFAULT_OG_IMAGE = "https://www.rentready.fr/opengraph-image";
 
 /** Supported locales — IETF BCP 47 format (required for hreflang) */
 export const LOCALES = ["fr", "fr-FR"] as const;
@@ -59,6 +67,19 @@ export function buildTitle(page: string, city?: string): string {
 }
 
 /**
+ * Strip a trailing brand suffix that the root layout would append a second time.
+ *
+ * `src/app/layout.tsx` declares `title.template = "%s | RentReady"`, so any
+ * page whose own title already ends in the brand produces
+ * "… — RentReady | RentReady". Four pages rendered exactly that, and the brand
+ * name in a title is a signal Google discounts, so it is worth fixing once here
+ * rather than page by page.
+ */
+function dedupeBrandSuffix(title: string): string {
+  return title.replace(/\s*\|\s*RentReady\s*$/, "").trim() || title;
+}
+
+/**
  * Default metadata shape for generateMetadata().
  * Override title/description as needed per page.
  *
@@ -88,7 +109,7 @@ export function baseMetadata({
     : DEFAULT_OG_IMAGE;
 
   return {
-    title,
+    title: dedupeBrandSuffix(title),
     description,
     keywords,
     alternates: {
@@ -98,7 +119,7 @@ export function baseMetadata({
       ),
     },
     openGraph: {
-      title,
+      title: dedupeBrandSuffix(title),
       description,
       type,
       url: `${BASE_URL}${url}`,
@@ -114,7 +135,7 @@ export function baseMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: dedupeBrandSuffix(title),
       description,
       images: [ogImageUrl],
     },

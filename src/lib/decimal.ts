@@ -15,7 +15,7 @@
 
 import Decimal from "decimal.js";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export function toNumber(value: any): number {
   if (value === null || value === undefined) return 0;
   if (Decimal.isDecimal(value)) return value.toNumber();

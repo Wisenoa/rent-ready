@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SmartHeaderCta } from "@/components/smart-header-cta";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export default function TemplatesLayout({
   children,
@@ -44,7 +44,7 @@ export default function TemplatesLayout({
               Documents
             </Link>
             <Link
-              href="/templates/calculateur-rendement-locatif"
+              href="/outils/calculateur-rendement"
               className="hidden text-sm text-stone-500 transition-colors hover:text-stone-800 sm:inline"
             >
               Calculateurs

@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 
-function getUtmParams(): {
+type UtmParams = {
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
-} {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
+};
+
+function parseUtms(search: string): UtmParams {
+  const params = new URLSearchParams(search);
   return {
     utm_source: params.get("utm_source") ?? undefined,
     utm_medium: params.get("utm_medium") ?? undefined,
@@ -16,19 +17,51 @@ function getUtmParams(): {
   };
 }
 
+/**
+ * UTM params come from an external mutable source (the URL), not from props
+ * or another piece of state.
+ *
+ * The previous version mirrored that URL into state via setUtms() called
+ * synchronously in a mount effect, which react-hooks/set-state-in-effect
+ * rejects: it costs an extra render pass on mount.
+ *
+ * useSyncExternalStore is the sanctioned way to read such a source: the value is
+ * read during render (no effect, no cascade), and it resubscribes for updates.
+ * popstate is enough here — it is what fires for back/forward, so a visitor who
+ * lands on /demo?utm_source=a and then navigates back to ?utm_source=b still
+ * gets the params of the entry they are looking at.
+ */
+function subscribeToLocation(onStoreChange: () => void) {
+  window.addEventListener("popstate", onStoreChange);
+  return () => window.removeEventListener("popstate", onStoreChange);
+}
+
+function getSearchSnapshot(): string {
+  return window.location.search;
+}
+
+/** SSR and the hydration render must match: the query string is unknown there. */
+function getServerSearchSnapshot(): string {
+  return "";
+}
+
+function useUtmParams(): UtmParams {
+  // The snapshot is the raw query string — a primitive, compared by value, so
+  // getSnapshot needs no caching (returning a fresh object each call would make
+  // React re-render forever). Parsing is derived from that string during render.
+  const search = useSyncExternalStore(
+    subscribeToLocation,
+    getSearchSnapshot,
+    getServerSearchSnapshot
+  );
+  return useMemo(() => parseUtms(search), [search]);
+}
+
 export function DemoForm() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [utms, setUtms] = useState<{
-    utm_source?: string;
-    utm_medium?: string;
-    utm_campaign?: string;
-  }>({});
-
-  useEffect(() => {
-    setUtms(getUtmParams());
-  }, []);
+  const utms = useUtmParams();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -66,7 +99,7 @@ export function DemoForm() {
         <p className="text-lg font-semibold text-emerald-800">
           Demande envoyée !
         </p>
-        <p className="mt-2 text-sm text-emerald-600">
+        <p className="mt-2 text-sm text-emerald-700">
           Nous vous répondrons sous 24h pour fixer un créneau de 30 minutes.
         </p>
       </div>
@@ -150,7 +183,7 @@ export function DemoForm() {
         {loading ? "Envoi en cours..." : "Demander ma démo gratuite"}
       </button>
 
-      <p className="text-center text-xs text-stone-500">
+      <p className="text-center text-xs text-stone-600">
         Sans engagement · Réponse sous 24h
       </p>
     </form>

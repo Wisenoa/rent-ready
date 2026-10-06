@@ -2,26 +2,43 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { RelatedContent } from "@/components/seo/related-links";
 
 // IRL — latest values from INSEE 2025
+/**
+ * Official INSEE indices, métropole series, base 100 = Q4 1998.
+ * Source: insee.fr série 001515333, values as published in the Journal officiel.
+ *
+ * This list previously held values that the INSEE never published
+ * (146,02 for T1 2025, 145,77 for T4 2024, and so on), which meant the
+ * calculator below produced a wrong revised rent for anyone who used it.
+ * A calculator that silently returns a wrong figure is worse than none.
+ */
 const IRL_DATA = [
-  { quarter: "T1 2025", value: 146.02, date: "Jan 2025" },
-  { quarter: "T4 2024", value: 145.77, date: "Oct 2024" },
-  { quarter: "T3 2024", value: 145.48, date: "Jul 2024" },
-  { quarter: "T2 2024", value: 145.25, date: "Apr 2024" },
-  { quarter: "T1 2024", value: 144.65, date: "Jan 2024" },
-  { quarter: "T4 2023", value: 143.83, date: "Oct 2023" },
-  { quarter: "T3 2023", value: 143.41, date: "Jul 2023" },
-  { quarter: "T2 2023", value: 143.02, date: "Apr 2023" },
-  { quarter: "T1 2023", value: 141.10, date: "Jan 2023" },
-  { quarter: "T4 2022", value: 138.89, date: "Oct 2022" },
-  { quarter: "T3 2022", value: 137.38, date: "Jul 2022" },
-  { quarter: "T2 2022", value: 135.84, date: "Apr 2022" },
+  { quarter: "T2 2026", value: 148.37, date: "Juil 2026" },
+  { quarter: "T1 2026", value: 146.60, date: "Avr 2026" },
+  { quarter: "T4 2025", value: 145.78, date: "Jan 2026" },
+  { quarter: "T3 2025", value: 145.77, date: "Oct 2025" },
+  { quarter: "T2 2025", value: 146.68, date: "Juil 2025" },
+  { quarter: "T1 2025", value: 145.47, date: "Avr 2025" },
+  { quarter: "T4 2024", value: 144.64, date: "Jan 2025" },
+  { quarter: "T3 2024", value: 144.51, date: "Oct 2024" },
+  { quarter: "T2 2024", value: 145.17, date: "Juil 2024" },
+  { quarter: "T1 2024", value: 143.46, date: "Avr 2024" },
+  { quarter: "T4 2023", value: 142.06, date: "Jan 2024" },
+  { quarter: "T3 2023", value: 141.03, date: "Oct 2023" },
+  { quarter: "T2 2023", value: 140.59, date: "Juil 2023" },
+  { quarter: "T1 2023", value: 138.61, date: "Avr 2023" },
+  { quarter: "T4 2022", value: 137.26, date: "Jan 2023" },
+  { quarter: "T3 2022", value: 136.27, date: "Oct 2022" },
+  { quarter: "T2 2022", value: 135.84, date: "Juil 2022" },
+  { quarter: "T1 2022", value: 133.93, date: "Avr 2022" },
+  { quarter: "T4 2021", value: 132.62, date: "Jan 2022" },
+  { quarter: "T3 2021", value: 131.67, date: "Oct 2021" },
 ];
+
 
 const faqData = [
   {
@@ -42,7 +59,7 @@ const faqData = [
   {
     question: "Quelle est la valeur actuelle de l'IRL ?",
     answer:
-      "Au T1 2025, l'IRL s'établit à 146,02. La variation sur un an (T1 2024 à T1 2025) est de +0,95%. Utilisez notre calculateur de révision de loyer pour appliquer cette hausse à votre bail.",
+      "Au T1 2025, l'IRL s'établit à 145,47. La variation sur un an (T1 2024 à T1 2025) est de +1,40%. Utilisez notre calculateur de révision de loyer pour appliquer cette hausse à votre bail.",
   },
   {
     question: "Le loyer peut-il baisse si l'IRL baisse ?",
@@ -57,43 +74,18 @@ const breadcrumbItems = [
   { label: "Calculateur IRL", href: "/outils/calculateur-irl" },
 ];
 
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Calculateur IRL — Indice de Référence des Loyers",
-      description: "Consultez l'historique des IRL et la variation annuelle. Outil gratuit pour propriétaires et locataires.",
-      url: "https://www.rentready.fr/outils/calculateur-irl",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://www.rentready.fr${item.href}`,
-      })),
-    },
-  ],
-};
+;
 
 export function IRLCalculatorClient() {
   const [selectedQuarter, setSelectedQuarter] = useState(IRL_DATA[0]);
 
-  const previousYearQuarter = IRL_DATA.find(
-    (q) => q.quarter === selectedQuarter.quarter.replace("2025", "2024").replace("T1 2025", "T1 2024")
-  );
+  // A rent is revised against the SAME quarter one year earlier. Deriving that
+// from the label with a string replace only ever worked for 2025, so picking
+// any other year silently produced "no variation available".
+  const previousYearQuarter = IRL_DATA.find((q) => {
+    const [qtr, year] = selectedQuarter.quarter.split(" ");
+    return q.quarter === `${qtr} ${Number(year) - 1}`;
+  });
 
   const variation =
     previousYearQuarter && previousYearQuarter.value !== 0
@@ -102,7 +94,6 @@ export function IRLCalculatorClient() {
 
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-5xl mx-auto px-4 py-12">
@@ -127,7 +118,7 @@ export function IRLCalculatorClient() {
           {/* IRL Table */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-stone-900 mb-1">Historique des IRL</h2>
-            <p className="text-sm text-stone-500 mb-6">Derniers trimestres publies par l'INSEE</p>
+            <p className="text-sm text-stone-600 mb-6">Derniers trimestres publies par l'INSEE</p>
 
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -149,7 +140,7 @@ export function IRLCalculatorClient() {
                         className={`border-b border-stone-100 hover:bg-stone-50 cursor-pointer ${selectedQuarter.quarter === q.quarter ? "bg-blue-50" : ""}`}
                         onClick={() => setSelectedQuarter(q)}
                       >
-                        <td className="py-3 px-4 font-medium text-stone-900">{q.quarter} <span className="text-stone-400 text-xs">({q.date})</span></td>
+                        <td className="py-3 px-4 font-medium text-stone-900">{q.quarter} <span className="text-stone-600 text-xs">({q.date})</span></td>
                         <td className="py-3 px-4 text-right font-mono font-semibold text-stone-900">{q.value}</td>
                         <td className={`py-3 px-4 text-right font-semibold ${pct && parseFloat(pct) >= 0 ? "text-green-600" : "text-red-500"}`}>
                           {pct ? `${parseFloat(pct) >= 0 ? "+" : ""}${pct}%` : "—"}
@@ -167,16 +158,16 @@ export function IRLCalculatorClient() {
             <h2 className="text-xl font-bold text-stone-900 mb-4">Trimestre selectionne : {selectedQuarter.quarter}</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-stone-50 rounded-xl p-4 text-center">
-                <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Valeur IRL</div>
+                <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Valeur IRL</div>
                 <div className="text-2xl font-bold text-stone-900">{selectedQuarter.value}</div>
               </div>
               <div className="bg-stone-50 rounded-xl p-4 text-center">
-                <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Date de publication</div>
+                <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Date de publication</div>
                 <div className="text-2xl font-bold text-stone-900">{selectedQuarter.date}</div>
               </div>
               {variation && (
                 <div className="bg-stone-50 rounded-xl p-4 text-center">
-                  <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Variation 1 an</div>
+                  <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Variation 1 an</div>
                   <div className={`text-2xl font-bold ${parseFloat(variation) >= 0 ? "text-green-600" : "text-red-500"}`}>
                     {parseFloat(variation) >= 0 ? "+" : ""}{variation}%
                   </div>
@@ -191,7 +182,7 @@ export function IRLCalculatorClient() {
             <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
               <p className="text-sm text-yellow-800">
                 <strong>Pour réviser un loyer :</strong> utilisez le{' '}
-                <Link href="/outils/calculateur-revision-irl" className="font-semibold underline hover:no-underline">
+                <Link href="/outils/calculateur-irl" className="font-semibold underline hover:no-underline">
                   Calculateur de Révision de Loyer
                 </Link>{' '}
                 avec la valeur IRL ci-dessus et la formule légale : nouveau loyer = loyer actuel × (nouvel IRL / ancien IRL).
@@ -207,7 +198,7 @@ export function IRLCalculatorClient() {
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
                     <span className="font-semibold text-stone-900">{faq.question}</span>
-                    <svg className="size-5 text-stone-400 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
                   </summary>
@@ -221,32 +212,32 @@ export function IRLCalculatorClient() {
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-stone-900 mb-4">Outils complémentaires</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/outils/calculateur-revision-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📈</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur de Révision de Loyer</div>
-                  <div className="text-sm text-stone-500">Apply the IRL to your rent</div>
+                  <div className="text-sm text-stone-600">Apply the IRL to your rent</div>
                 </div>
               </Link>
-              <Link href="/modeles/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-500">Bail conforme avec clause IRL</div>
+                  <div className="text-sm text-stone-600">Bail conforme avec clause IRL</div>
                 </div>
               </Link>
               <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
                   <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-500">Toutes les definitions legales</div>
+                  <div className="text-sm text-stone-600">Toutes les definitions legales</div>
                 </div>
               </Link>
-              <Link href="/outils/calculateur-caution" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-depot-garantie" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">🔐</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur Caution</div>
-                  <div className="text-sm text-stone-500">Deposit maximum legal</div>
+                  <div className="text-sm text-stone-600">Deposit maximum legal</div>
                 </div>
               </Link>
             </div>

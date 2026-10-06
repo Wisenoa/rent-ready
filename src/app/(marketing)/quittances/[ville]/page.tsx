@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import cities from "@/data/cities.json";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-// ISR: city pages use static city data — revalidate monthly
-export const revalidate = 2592000;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 /* ---------- Types ---------- */
 
@@ -46,6 +49,11 @@ const ZONES_TENDUES = new Set([
   "marseille", "nice", "toulouse", "nantes", "strasbourg",
   "rennes", "grenoble",
 ]);
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 /* ---------- Helpers ---------- */
 
@@ -87,7 +95,7 @@ function getLocalParagraphs(city: City) {
 
   const intro =
     pop > 500000
-      ? `${city.name} est l'une des principales métropoles françaises avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif y est très actif — chaque mois, des milliers de propriétaires doivent générer des quittances de loyer conformes à la loi du 6 juillet 1989. Le loyer moyen au m² à ${city.name} se situe autour de ${rentData ? `${rentData.studio}-${rentData.t2}` : "15-25"} €/m².`
+      ? `${city.name} est l'une des principales métropoles françaises avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif y est très actif — chaque mois, des milliers de propriétaires doivent générer des quittances de loyer conformes à la loi du 6 juillet 1989. Le loyer moyen au m² y${rentData ? ` se situe autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " se situe au-dessus de la moyenne nationale"}`
       : pop > 200000
         ? `Avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants, ${city.name} (département ${city.department}, ${city.region}) possède un marché locatif dynamique. Propriétaires et gestionnaires doivent y produire des quittances régulières pour chaque paiement reçu.`
         : pop > 100000
@@ -171,7 +179,7 @@ function getFaqs(city: City) {
       question: `L'encadrement des loyers impacte-t-il les quittances à ${city.name} ?`,
       answer: ctx.isZoneTendue
         ? `Oui. ${city.name} étant en zone tendue, toute quittance relative à un nouveau bail ou un renouvellement doit mentionner le loyer de référence et un éventuel complément pour atypie. En cas de dépassement du plafond, vous risquez un redressement. RentReady intègre automatiquement ces mentions.`
-        : `${city.name} n'est actuellement pas soumise à l'encadrement des loyers à la relocation. Vous êtes libre de fixer le loyer dans les limites de la loi, sans plafonnement spécifique sur la quittance.`,
+        : `Nous ne pouvons pas l'affirmer pour ${city.name} : un « non » serait trompeur. L'encadrement à la relocation vaut pour toute commune en zone tendue, et le plafonnement du niveau des loyers exige un arrêté préfectoral, propre à uneudisaine de communes seulement. Vérifiez l'arrêté du ${city.department} : s'il fixe un loyer de référence majoré, mentionnez-le sur la quittance, sinon aucun champ dédié n'est requis.`,
     },
     {
       question: `La quittance numérique est-elle valable à ${city.name} ?`,
@@ -224,11 +232,6 @@ function buildQuittanceVilleSchema(city: City) {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       /* Organization */
       {
@@ -257,7 +260,7 @@ function buildQuittanceVilleSchema(city: City) {
         "@type": "HowTo",
         name: `Comment générer une quittance de loyer à ${city.name}`,
         description: `Générez une quittance de loyer conforme à ${city.name} en 1 clic avec RentReady. PDF automatique, mention IRL INSEE, envoi email instantané.`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,
@@ -298,12 +301,7 @@ function buildQuittanceVilleSchema(city: City) {
         url: `https://www.rentready.fr/quittances/${city.slug}`,
         description: `Générez des quittances de loyer conformes à la loi en 1 clic pour vos biens à ${city.name}. PDF automatique, mention IRL INSEE, envoi email instantané.${ctx.isZoneTendue ? " Zone tendue : mention loyer de référence intégrée." : ""}`,
         offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+          ...paidOffer(),
         },
         featureList: features.map((f) => f.title),
         areaServed: {
@@ -370,7 +368,7 @@ export default async function QuittanceVillePage({ params }: Props) {
 
   return (
     <>
-      <SchemaMarkup data={buildQuittanceVilleSchema(city)} />
+      <SchemaMarkup data={buildQuittanceVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },
@@ -410,7 +408,7 @@ export default async function QuittanceVillePage({ params }: Props) {
               </Link>
               <Link
                 href="/quittances"
-                className="text-sm font-medium text-stone-500 transition-colors hover:text-stone-700"
+                className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-700"
               >
                 Voir toutes les villes →
               </Link>
@@ -422,7 +420,7 @@ export default async function QuittanceVillePage({ params }: Props) {
         {rentData && (
           <section className="bg-white border-y border-stone-200 px-4 py-8 sm:px-6">
             <div className="mx-auto max-w-4xl">
-              <p className="mb-4 text-center text-sm font-medium text-stone-500 uppercase tracking-wide">
+              <p className="mb-4 text-center text-sm font-medium text-stone-600 uppercase tracking-wide">
                 Loyer moyen à {city.name} — estimation {rentData.source}
               </p>
               <div className="grid gap-3 sm:grid-cols-3">
@@ -433,7 +431,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                 ].map((r) => (
                   <div key={r.label} className="rounded-lg bg-[#f8f7f4] border border-stone-200 p-4 text-center">
                     <p className="text-lg font-bold text-stone-900">{r.value}</p>
-                    <p className="mt-1 text-sm text-stone-500">{r.label}</p>
+                    <p className="mt-1 text-sm text-stone-600">{r.label}</p>
                   </div>
                 ))}
               </div>
@@ -493,7 +491,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                   className="rounded-lg border border-stone-200/80 bg-white p-5 text-center shadow-sm"
                 >
                   <p className="text-2xl font-bold text-stone-900">{stat.value}</p>
-                  <p className="mt-1 text-sm text-stone-500">{stat.label}</p>
+                  <p className="mt-1 text-sm text-stone-600">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -511,7 +509,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                     { name: "18e (Montmartre)", detail: "Encadrement loyers 2025", zone: "Zone tendue" },
                     { name: "12e (Bercy)", detail: "Marché moins tendu", zone: "Zone modérée" },
                     { name: "10e (Canal)", detail: "Très tendu — plafond bas", zone: "Zone tendue" },
-                    { name: "15e (Vaugirard)", detail: "Moins tendu — plus自由的 marché", zone: "Zone modérée" },
+                    { name: "15e (Vaugirard)", detail: "Moins tendu — marché plus libre", zone: "Zone modérée" },
                   ].map((q) => (
                     <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
                       <div className="flex items-start justify-between">
@@ -610,7 +608,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                 <details key={faq.question} className="group py-5">
                   <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                     {faq.question}
-                    <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                    <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>

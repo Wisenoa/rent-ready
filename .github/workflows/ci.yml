@@ -1,307 +1,277 @@
 name: CI
 
+# Deliberately small. Previous pipelines were deleted three times for cost, and
+# duplicated `pnpm install` across every job. This runs one install, then the
+# gates that actually protect the golden path:
+#
+#   Property -> Tenant -> Lease -> Rent -> Payment -> Receipt
+#
+# The runtime scripts under scripts/verify-*.py exercise that path against a real
+# Postgres. They are the reason this file exists: the golden path was broken for
+# months and every existing check passed anyway.
+
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
-    branches: [main]
+    branches: [main, master]
+
+# A new push to the same branch makes an in-flight run obsolete.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
-  SENTRY_ORG: ${{ vars.SENTRY_ORG }}
-  SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
-  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  NODE_VERSION: '22'
+  # The verification scripts need a reachable database; migrations must succeed
+  # from an empty database, which is exactly what the shipped migrations were
+  # failing to do.
+  DATABASE_URL: postgresql://rentready:rentready@localhost:5432/rentready?schema=public
+  # Present so `import { Resend } from "resend"` resolves at build time. No email
+  # is sent in CI; see src/lib/email.ts, which throws only when a send is
+  # actually attempted.
+  RESEND_API_KEY: re_ci_placeholder
+  # `src/lib/stripe.ts` throws at module load without it, and the registration
+  # path creates a Stripe customer, so every browser spec that registers a user
+  # dies here otherwise. A placeholder is enough: the key is never used for an
+  # assertion, and no request reaches Stripe in CI.
+  STRIPE_SECRET_KEY: sk_test_ci_placeholder
+  BETTER_AUTH_SECRET: ci-secret-not-used-for-assertions
+  # Trusted by Better Auth's origin check (src/lib/auth-server.ts). In production
+  # only this exact origin is accepted — the loopback wildcard is development
+  # only — so it MUST match the port the app is actually served on below.
+  # Mismatched, every sign-in is refused with INVALID_ORIGIN and the browser job
+  # below fails at the first registration.
+  NEXT_PUBLIC_APP_URL: http://localhost:3111
 
 jobs:
-  # ------------------------------------------------------------
-  # Quality Gates — runs in parallel
-  # ------------------------------------------------------------
-  typecheck:
-    name: Type Check
+  verify:
+    name: Lint, types, tests, build, golden path
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    timeout-minutes: 20
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: rentready
+          POSTGRES_PASSWORD: rentready
+          POSTGRES_DB: rentready
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
         with:
           version: 10.33.0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      # No postinstall: it only runs `prisma generate`, which needs no database
+      # and is covered by the migrate step's own generate.
+      - name: Install
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Prisma generate
+        run: pnpm prisma generate
 
-      - name: Type check
-        run: pnpm exec tsc --noEmit 2>&1 | grep "^src/" || true
-        # Filter to project errors only (pre-existing node_modules noise)
-
-      # Fail if tsc exits non-zero
-      - name: Type check (strict)
-        run: pnpm exec tsc --noEmit
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      # Fails loudly if the migration chain cannot build a schema from nothing.
+      # This is the check that would have caught StripeWebhookEvent being created
+      # twice and Conversation/Message/UserProductPurchase having no migration.
+      - name: Migrate from an empty database
+        run: pnpm prisma migrate deploy
 
       - name: Lint
         run: pnpm lint
 
-  test-unit:
-    name: Unit Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run migrations
-        run: pnpm exec prisma migrate deploy
+      # `next build` sets ignoreBuildErrors, so type errors are invisible unless
+      # checked separately.
+      #
+      # 14 errors are pre-existing, concentrated in portal-actions.tsx, analytics.ts
+      # and the email templates.
+      #
+      # No error involves Decimal any more. Money is Decimal throughout and is
+      # converted exactly once, at a boundary that genuinely needs a number: a
+      # JSON DTO, an RSC prop, an AI prompt, an email template. That class of
+      # error had been hiding real bugs — the quittance PDF, two dashboard pages
+      # and the transactions dashboard all did arithmetic with `+`/`+=` on
+      # Decimals, which concatenates ("700" + "40.50" = "70040.5", and
+      # reduce(..., 0) rendered a property total as "0740.5300.25"). tsc reported
+      # every one of them and `next build` discarded the report.
+      #
+      # A missing Prisma relation is invisible to tsc here — the row type widens and
+      # the error only appears at runtime, which is how both /api/reminders routes
+      # returned 500. reminder-lease-relation.test.ts pins that invariant instead.
+      #
+      # Note the trap this ratchet cannot see: changing a declared type to Decimal
+      # while leaving the initialiser as 0 type-checks perfectly and still throws
+      # "totalCollected.plus is not a function" at runtime. The runtime checks
+      # below are what caught that.
+      # A gate that always fails trains everyone to ignore red, so instead this
+      # BLOCKS ON REGRESSION: the count may go down, never up. Lower `max` as debt
+      # is cleared; the gate tightens on its own with no further change.
+      # The Decimal-vs-number class (TS2322 on Prisma Decimal reaching a component
+      # or a `number` parameter) is the dangerous one and is what this is watching.
+      - name: Type check
+        run: |
+          # Zero tolerance. This was a budget of 119 errors, ratcheted down as they
+          # were fixed, and now requires none. `next.config.ts` no longer sets
+          # ignoreBuildErrors, so the build enforces this too — this step exists to
+          # report the failures readably rather than to be the only gate.
+          pnpm tsc --noEmit > /tmp/tsc.log 2>&1 || true
+          count=$(grep -c 'error TS' /tmp/tsc.log || true)
+          if [ "$count" -ne 0 ]; then
+            echo "::error title=Type errors::$count type errors. The build fails on these too."
+            grep 'error TS' /tmp/tsc.log | head -40
+            exit 1
+          fi
+          echo "TypeScript: 0 errors."
 
       - name: Unit tests
         run: pnpm test
 
-  test-e2e:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    # Prevent duplicate runs on the same PR
-    concurrency:
-      group: e2e-${{ github.ref }}
-      cancel-in-progress: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      # articles-meta.ts is generated from articles.ts, and the test above only
+      # compares their counts. Deleting or adding an article without regenerating
+      # it fails the suite with an opaque "expected 124, received 123" instead of
+      # naming the cause, so check it directly and say what to run.
+      - name: Article metadata is in sync
+        run: |
+          set +e
+          pnpm gen:article-meta > /tmp/gen.log 2>&1
+          if ! git diff --quiet -- src/data/articles-meta.ts; then
+            echo "::error file=src/data/articles-meta.ts::Out of sync with articles.ts. Run 'pnpm gen:article-meta' and commit the result."
+            git diff --stat -- src/data/articles-meta.ts
+            exit 1
+          fi
+          echo "in sync"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.0
+      - name: Build
+        run: pnpm build
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
+      # `next build` loads every page module to collect page data. Anything that
+      # throws at import time kills the build — and the message names whichever
+      # page's worker lost the race first, so the same underlying cause surfaces
+      # as /billing, /expenses, /_document, /login, /_not-found or /tenants on
+      # different runs. Two causes were confirmed here:
+      #
+      #   1. DATABASE_URL unset -> src/lib/prisma.ts:11 throws on import.
+      #      Fixed for CI by the env block above; do not drop those vars.
+      #   2. Authenticated dashboard routes were being prerendered. The layout
+      #      calls SubscriptionGate, which reads the session cookie, so building
+      #      raised "Headers is required" from better-auth. Fixed in
+      #      src/app/(dashboard)/layout.tsx with `dynamic = "force-dynamic"`.
+      #
+      # If this step fails, read the page name in the error as a symptom, not a
+      # cause: the real fault is a module that throws during collection.
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install chromium --with-deps
-
-      - name: Run Prisma migrations
-        run: pnpm exec prisma migrate deploy
-
-      # Start the Next.js server in the background
-      - name: Start server
+      # Exercises the golden path end to end against the live server, including
+      # cross-tenant isolation. Each script exits non-zero on failure.
+      - name: Start the app
         run: pnpm start &
         env:
-          PORT: 3003
-          NEXT_PUBLIC_APP_URL: http://localhost:3003
+          PORT: '3111'
 
-      # Wait for server to be ready
-      - name: Wait for server
+      - name: Wait for the app
         run: |
-          for i in $(seq 1 30); do
-            curl -sf http://localhost:3003/health > /dev/null && echo "Server ready" && break
-            echo "Waiting for server... ($i)"
+          for i in $(seq 1 60); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3111/login || true)
+            if [ "$code" = "200" ]; then echo "ready"; exit 0; fi
             sleep 2
           done
+          echo "app did not become ready"
+          exit 1
 
-      - name: Run Playwright tests
-        env:
-          PLAYWRIGHT_BASE_URL: http://localhost:3003
-        run: pnpm test:e2e
+      - name: Golden path and tenant isolation
+        run: python3 scripts/smoke-golden-path.py
 
-      - name: Upload Playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
+      - name: Rent periods are generated and settled in place
+        run: python3 scripts/verify-rent-generation.py
 
-      - name: Upload Playwright traces
+      - name: Arrears are visible to the landlord
+        run: python3 scripts/verify-arrears-visible.py
+
+      - name: Receipts are real, downloadable PDFs
+        run: python3 scripts/verify-receipt.py
+
+      # A period settled in instalments must still produce a quittance on the
+      # payment that completes it. This was a legal-compliance bug: the receipt
+      # type was decided from one payment's amount, so a tenant paying rent in
+      # two parts could never obtain a quittance.
+      - name: A period paid in instalments still yields a quittance
+        run: python3 scripts/verify-receipt-cumulative.py
+
+      # The period-level PAID status, through the API that creates a row per
+      # payment. Before this was centralised, four write paths each judged
+      # settlement from a single payment's amount, so a period paid in instalments
+      # stayed PARTIAL forever and every arrears figure counted it as still owed.
+      - name: A period paid in instalments still reaches PAID
+        run: python3 scripts/verify-period-settlement.py
+
+      # The tenant portal's only credential is its access token. This asserts that
+      # authorisation is bound to the token presented, not to a bare tenantId that
+      # any caller could supply to a server action.
+      - name: Portal authorisation is bound to the presented token
+        run: python3 scripts/verify-portal-token.py
+
+      - name: Dashboard money is exact
+        run: python3 scripts/verify-dashboard-money.py
+
+      # The golden path, driven through the UI. Everything else in this workflow
+      # calls APIs directly, which is how registration could be broken twice (the
+      # account was created and the user was left stranded on /register) and four
+      # dashboard CTAs could 404 while all of it stayed green.
+      # `quittances.spec.ts` runs right after it because it is the only coverage
+      # of the "Marquer payé" wire: reportMarkPaid is called with the action's
+      # real result and the toast claims a receipt only when one was produced.
+      # That wiring exists solely in the browser, so no unit test can catch its
+      # regression and an unconditional toast.success would have left the whole
+      # pipeline green while the UI announced a receipt that was never made.
+      #
+      # TWO steps, not one filtered run. Both specs register a user per test and
+      # Better Auth's built-in rate limiter allows only ~3 sign-ups per sliding
+      # window, answering 429 with x-retry-after: 10 (measured on a production
+      # build). Back to back they cannot fit, and the failure is deceptive:
+      # sign-up succeeds, only the automatic sign-in is refused, register-form
+      # redirects to /login, and registerTestUser expires on
+      # waitForURL('**/dashboard') — a red dashboard navigation that has nothing
+      # to do with the specs. The wait below covers the 10s retry-after with a
+      # wide margin; if this step goes red on that wait, suspect the limit before
+      # suspecting the test.
+      #
+      # The RATE_LIMITED_ACTIONS table in src/app/api/auth/[...all]/route.ts does
+      # NOT produce that 429: it is keyed on the last path segment, and the
+      # endpoints the form calls are /sign-up/email and /sign-in/email, so no key
+      # ever matches it.
+      #
+      # One filter argument per run, not two. Playwright takes a single file-path
+      # regexp, so `playwright test golden-path quittances` treats the second
+      # word as a name filter matching nothing and collects all 68 tests in the
+      # directory instead of the 6 intended.
+      - name: Golden path (browser)
+        run: |
+          pnpm exec playwright install --with-deps chromium
+          PLAYWRIGHT_BASE_URL="http://localhost:3111" pnpm exec playwright test "golden-path"
+
+      - name: Quittance receipt (browser)
+        run: |
+          sleep 70
+          PLAYWRIGHT_BASE_URL="http://localhost:3111" pnpm exec playwright test "quittances"
+
+      - name: Shots
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-traces
-          path: .playwright/trace/
-          retention-days: 14
-
-  # ------------------------------------------------------------
-  # Lighthouse CI — performance budget gate
-  # ------------------------------------------------------------
-  lighthouse:
-    name: Lighthouse CI
-    runs-on: ubuntu-latest
-    concurrency:
-      group: lighthouse-${{ github.ref }}
-      cancel-in-progress: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Lighthouse CI
-        run: pnpm add -D @lhci/cli@0.14.0
-
-      # Start Next.js in production mode (must build first)
-      - name: Build
-        run: pnpm build
-        env:
-          NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
-
-      - name: Run Lighthouse CI
-        run: pnpm exec lhci autorun
-        env:
-          LHCI_BUILD_TOKEN: ${{ secrets.LHCI_BUILD_TOKEN }}
-
-  # ------------------------------------------------------------
-  # Deploy to Preview — runs after quality gates on PRs
-  # ------------------------------------------------------------
-  deploy-preview:
-    name: Deploy Preview
-    runs-on: ubuntu-latest
-    needs: [typecheck, lint, test-unit]
-    if: github.event_name == 'pull_request'
-    environment:
-      name: preview
-      url: ${{ steps.deploy.outputs.preview_url }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Deploy to Vercel (Preview)
-        id: deploy
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod=false'
-          working-directory: ./
-
-  # ------------------------------------------------------------
-  # Deploy to Production — runs after quality gates on main
-  # ------------------------------------------------------------
-  deploy-production:
-    name: Deploy Production
-    runs-on: ubuntu-latest
-    needs: [typecheck, lint, test-unit, test-e2e]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment:
-      name: production
-      url: ${{ steps.deploy.outputs.preview_url }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Deploy to Vercel (Production)
-        id: deploy
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          working-directory: ./
-
-      # Upload source maps to Sentry for production deploys
-      - name: Create Sentry Release
-        if: success()
-        run: |
-          pnpm exec sentry-cli releases new "rentready@${GITHUB_SHA::8}" \
-            --org "$SENTRY_ORG" \
-            --project "$SENTRY_PROJECT" \
-            --ignore-missing
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
-      - name: Upload Sentry Source Maps
-        if: success()
-        run: |
-          pnpm exec sentry-cli releases files "rentready@${GITHUB_SHA::8}" upload-proef \
-            --org "$SENTRY_ORG" \
-            --project "$SENTRY_PROJECT" \
-            .next/
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
-      - name: Finalize Sentry Release
-        if: success()
-        run: |
-          pnpm exec sentry-cli releases finalize "rentready@${GITHUB_SHA::8}" \
-            --org "$SENTRY_ORG" \
-            --project "$SENTRY_PROJECT"
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
-      # Notify Slack on production deploy (optional — set SLACK_WEBHOOK_URL secret)
-      - name: Notify Slack
-        if: always() && vars.SLACK_WEBHOOK_URL != ''
-        uses: slackapi/slack-github-action@v1
-        with:
-          payload: |
-            {
-              "text": "${{ job.status == 'success' && '✅' || '❌' }} RentReady production deploy ${{ job.status }}",
-              "blocks": [{
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*RentReady Production Deploy*\nStatus: ${{ job.status }}\nCommit: `${{ github.sha }}`\nAuthor: ${{ github.actor }}\nURL: ${{ steps.deploy.outputs.preview_url }}"
-                }
-              }]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ vars.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          name: logs-on-failure
+          path: |
+            .next/**/*.log
+          retention-days: 7
+          if-no-files-found: ignore

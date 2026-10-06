@@ -5,9 +5,14 @@ import { useState } from "react";
 
 const FOOTER_LINKS = {
   Produit: [
-    { href: "/gestion-locative", label: "Fonctionnalités" },
+    { href: "/gestion-locative", label: "Logiciel de gestion locative" },
     { href: "/features", label: "Fonctionnalités détaillées" },
-    { href: "/locations", label: "Gestion locative" },
+    { href: "/locations", label: "Gestion de mes locations" },
+    // `/comparatif` was listed nowhere in the footer or the nav: the three
+    // head-to-head pages (Gercleo, ImmoTop, LegalPlace) were only reachable by
+    // typing the URL.
+    { href: "/comparatif", label: "Comparatifs" },
+    { href: "/villes", label: "Villes couvertes" },
     { href: "/bail", label: "Baux" },
     { href: "/quittances", label: "Quittances" },
     { href: "/entretien", label: "Entretien" },
@@ -34,13 +39,17 @@ const FOOTER_LINKS = {
     { href: "https://github.com/Wisenoa/rent-ready/blob/master/docs/API_OPENAPI_SPEC.yaml", label: "API Spec" },
   ],
   Outils: [
-    { href: "/guides/irl-2026", label: "Révision IRL 2026" },
-    { href: "/outils/calculateur-loyer", label: "Calculateur de loyer" },
+    // The real calculators, not the decorative ones. `/outils/calculateur-loyer`
+    // was promoted here while multiplying a surface by a price — the "zone
+    // tendue" field it collects was never read by the calculation.
+    { href: "/outils/calculateur-irl", label: "Calculateur IRL" },
+    { href: "/outils/calculateur-charges-locatives", label: "Charges locatives" },
     { href: "/outils/calculateur-depot-garantie", label: "Dépôt de garantie" },
+    { href: "/outils/generateur-quittance", label: "Générer une quittance" },
     { href: "/outils/calculateur-rendement", label: "Rendement locatif" },
     { href: "/outils/lettre-relance-loyer", label: "Lettre de relance" },
     { href: "/templates/bail-vide", label: "Modèle bail PDF" },
-    { href: "/templates/quittance-de-loyer", label: "Quittance PDF" },
+    { href: "/templates/recu-loyer", label: "Quittance PDF" },
   ],
   Légal: [
     { href: "/mentions-legales", label: "Mentions légales" },
@@ -116,7 +125,7 @@ export function MarketingFooter() {
                 RentReady
               </span>
             </Link>
-            <p className="text-[13px] text-stone-500 leading-relaxed max-w-[200px]">
+            <p className="text-[13px] text-stone-600 leading-relaxed max-w-[200px]">
               Le pilotage automatique de la gestion locative pour propriétaires bailleurs.
             </p>
             <div className="mt-5 flex gap-3">
@@ -124,7 +133,7 @@ export function MarketingFooter() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-500 hover:text-stone-300 transition-colors"
+                className="text-stone-600 hover:text-stone-800 transition-colors"
                 aria-label="Twitter"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -135,7 +144,7 @@ export function MarketingFooter() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-500 hover:text-stone-300 transition-colors"
+                className="text-stone-600 hover:text-stone-800 transition-colors"
                 aria-label="LinkedIn"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -156,7 +165,7 @@ export function MarketingFooter() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-[13px] text-stone-500 hover:text-stone-700 transition-colors"
+                      className="text-[13px] text-stone-600 hover:text-stone-800 transition-colors"
                       {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     >
                       {link.label}
@@ -170,10 +179,10 @@ export function MarketingFooter() {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-stone-200/60 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[12px] text-stone-500">
+          <p className="text-[12px] text-stone-600">
             © {new Date().getFullYear()} RentReady. Tous droits réservés.
           </p>
-          <p className="text-[12px] text-stone-500">
+          <p className="text-[12px] text-stone-600">
             Conçu en France &middot; Données hébergées en Europe
           </p>
         </div>

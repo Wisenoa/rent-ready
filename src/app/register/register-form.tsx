@@ -9,6 +9,7 @@ import { Loader2, Mail, Lock, User, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { signIn } from "@/lib/auth-client";
 import { registerWithStripeCustomer } from "@/lib/actions/register-actions";
+import { visitorSafe } from "@/lib/register-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +25,15 @@ type RegisterValues = z.infer<typeof registerSchema>;
 export function RegisterForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  /**
+   * Kept in state as well as raised as a toast.
+   *
+   * Same defect as the login form, measured there: the toast was gone 4 seconds
+   * after the click, leaving a form that looks inert with no explanation on
+   * screen. Someone who mistypes their email, looks away and returns has no way
+   * to tell what happened.
+   */
+  const [formError, setFormError] = useState<string | null>(null);
 
   const {
     register,
@@ -35,6 +45,7 @@ export function RegisterForm() {
 
   async function onSubmit(data: RegisterValues) {
     setIsLoading(true);
+    setFormError(null);
     try {
       // Split name into firstName and lastName
       const nameParts = data.name.trim().split(" ");
@@ -49,7 +60,13 @@ export function RegisterForm() {
       });
 
       if (!registerResult.success) {
-        toast.error(registerResult.error ?? "Erreur lors de l'inscription");
+        // The action already classifies what may reach the browser. visitorSafe is
+        // a second, independent guard: it only asks whether the text looks like
+        // machine output, so a correct message survives and a leaked database
+        // error cannot.
+        const message = visitorSafe(registerResult.error);
+        setFormError(message);
+        toast.error(message);
         return;
       }
 
@@ -59,7 +76,10 @@ export function RegisterForm() {
       });
 
       if (signInResult.error) {
-        toast.error("Compte créé mais connexion automatique impossible. Veuillez vous connecter.");
+        const message =
+          "Compte créé mais connexion automatique impossible. Veuillez vous connecter.";
+        setFormError(message);
+        toast.error(message);
         router.push("/login");
         return;
       }
@@ -174,6 +194,18 @@ export function RegisterForm() {
             <p className="text-xs text-destructive">{errors.password.message}</p>
           )}
         </div>
+
+        {formError && (
+          // role="alert" so a screen reader announces it. It persists until the
+          // next attempt, unlike the toast, which expires after 4 seconds.
+          <p
+            role="alert"
+            data-testid="register-error"
+            className="rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-2 text-sm text-destructive"
+          >
+            {formError}
+          </p>
+        )}
 
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? (

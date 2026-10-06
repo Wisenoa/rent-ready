@@ -115,7 +115,7 @@ function ArticleOG({ title, description }: { title: string; description?: string
           borderRadius: "8px",
           fontSize: "18px",
           fontWeight: 600,
-          width: "fit-content",
+          
         }}
       >
         Essai gratuit 14 jours
@@ -226,7 +226,7 @@ function TemplateOG({ title, description }: { title: string; description?: strin
           borderRadius: "8px",
           fontSize: "18px",
           fontWeight: 600,
-          width: "fit-content",
+          
         }}
       >
         Télécharger gratuitement
@@ -312,7 +312,7 @@ function FeatureOG({ title, description }: { title: string; description?: string
           borderRadius: "8px",
           fontSize: "18px",
           fontWeight: 600,
-          width: "fit-content",
+          
         }}
       >
         Découvrir la fonctionnalité
@@ -398,7 +398,7 @@ function PricingOG({ title, description }: { title: string; description?: string
           borderRadius: "8px",
           fontSize: "18px",
           fontWeight: 600,
-          width: "fit-content",
+          
         }}
       >
         Essai gratuit 14 jours — Sans carte bancaire
@@ -484,7 +484,7 @@ function OutilOG({ title, description }: { title: string; description?: string }
           borderRadius: "8px",
           fontSize: "18px",
           fontWeight: 600,
-          width: "fit-content",
+          
         }}
       >
         Utiliser gratuitement
@@ -570,7 +570,7 @@ function LocationOG({ title, description }: { title: string; description?: strin
           borderRadius: "8px",
           fontSize: "18px",
           fontWeight: 600,
-          width: "fit-content",
+          
         }}
       >
         Essai gratuit 14 jours
@@ -634,7 +634,7 @@ function DefaultOG({ title, description }: { title: string; description?: string
           borderRadius: "8px",
           fontSize: "20px",
           fontWeight: 600,
-          width: "fit-content",
+          
         }}
       >
         Essai gratuit 14 jours

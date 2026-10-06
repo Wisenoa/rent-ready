@@ -14,11 +14,11 @@ import { nanoid } from "nanoid";
 import { sendEmail } from "./sender";
 import { prisma } from "@/lib/prisma";
 import { fromEmail } from "@/lib/email";
-import { WelcomeEmail } from "../../../emails/welcome";
-import { PasswordResetEmail } from "../../../emails/password-reset";
-import { TenantInvitationEmail } from "../../../emails/tenant-invitation";
-import { PaymentReminderEmail } from "../../../emails/payment-reminder";
-import { LeaseExpiryEmail } from "../../../emails/lease-expiry";
+import { WelcomeEmail } from "../../emails/welcome";
+import { PasswordResetEmail } from "../../emails/password-reset";
+import { TenantInvitationEmail } from "../../emails/tenant-invitation";
+import { PaymentReminderEmail } from "../../emails/payment-reminder";
+import { LeaseExpiryEmail } from "../../emails/lease-expiry";
 import type { EmailType } from "@prisma/client";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -141,6 +141,23 @@ async function sendTenantInvitationEmail(
 }
 
 /**
+ * Outcome of a send attempt.
+ *
+ * `sent` means an email was handed to the provider. Every other value means
+ * nothing left the building, and must never be reported as a success.
+ *
+ * The function returned `void` and `return`ed early when the transaction did not
+ * exist or the tenant had no email address, so a caller could not tell that from a
+ * real send: `/api/email/cron-dispatch` answered `{"sent": true}` for a
+ * transaction that does not exist, reproduced with a fabricated id.
+ */
+export type SendResult =
+  | { status: "sent" }
+  | { status: "not_found"; detail: string }
+  | { status: "no_email"; detail: string }
+  | { status: "failed"; detail: string };
+
+/**
  * Send a rent payment reminder email to a tenant.
  * Call this from a cron job that scans for overdue transactions.
  *
@@ -150,7 +167,7 @@ async function sendTenantInvitationEmail(
 async function sendRentReminderEmail(
   transactionId: string,
   tone: "friendly" | "formal" | "legal" = "friendly"
-): Promise<void> {
+): Promise<SendResult> {
   const tx = await prisma.transaction.findUnique({
     where: { id: transactionId },
     include: {
@@ -166,7 +183,7 @@ async function sendRentReminderEmail(
 
   if (!tx) {
     console.warn("[email/service] sendRentReminderEmail: transaction not found", transactionId);
-    return;
+    return { status: "not_found", detail: "transaction introuvable" };
   }
 
   const { lease, user } = tx;
@@ -174,7 +191,7 @@ async function sendRentReminderEmail(
 
   if (!tenant.email) {
     console.warn("[email/service] sendRentReminderEmail: tenant has no email", tenant.id);
-    return;
+    return { status: "no_email", detail: "le locataire n'a aucune adresse email" };
   }
 
   const daysLate = Math.floor(
@@ -202,7 +219,7 @@ async function sendRentReminderEmail(
         landlordFirstName={user.firstName}
         landlordLastName={user.lastName}
         propertyAddress={propertyAddress}
-        amountDue={tx.amount}
+        amountDue={tx.amount.toDecimalPlaces(2).toNumber()}
         dueDate={tx.dueDate}
         daysLate={Math.max(0, daysLate)}
         tone={tone}
@@ -213,6 +230,8 @@ async function sendRentReminderEmail(
     relatedEntityId: tx.id,
     relatedEntityType: "Transaction",
   });
+
+  return { status: "sent" };
 }
 
 /**
@@ -339,7 +358,19 @@ async function sendLeaseExpiryEmail(leaseId: string): Promise<void> {
     return;
   }
 
-  const propertyAddress = `${lease.property.addressLine1}, ${lease.postalCode} ${lease.property.city}`;
+  // A lease without an end date is an open-ended tenancy: there is no expiry to
+  // remind anyone about, and endDate is nullable, so reading .getTime() threw.
+  if (!lease.endDate) {
+    console.warn(
+      "[email/service] sendLeaseExpiryEmail: lease has no endDate, skipping",
+      leaseId
+    );
+    return;
+  }
+
+  // postalCode is selected on `property`, not on the lease; reading
+  // `lease.postalCode` rendered "undefined" in the recipient's address.
+  const propertyAddress = `${lease.property.addressLine1}, ${lease.property.postalCode} ${lease.property.city}`;
   const daysUntilExpiry = Math.floor(
     (lease.endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
   );

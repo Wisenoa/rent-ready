@@ -50,7 +50,10 @@ export async function POST(request: NextRequest) {
       const ticket = await prisma.maintenanceTicket.findFirst({
         where: {
           id: ticketId,
-          property: { userId },
+          // authUserId, not `userId`: the latter is nullable because it feeds the
+          // rate-limit decision, and using it here widened the ownership filter to
+          // `string | null`. The two are the same value once authenticated.
+          property: { is: { userId: authUserId } },
         },
         include: {
           property: {
@@ -87,7 +90,7 @@ export async function POST(request: NextRequest) {
     // Get property info if propertyId provided
     if (propertyId && !propertyInfo) {
       const property = await prisma.property.findFirst({
-        where: { id: propertyId, userId },
+        where: { id: propertyId, userId: authUserId },
         select: { type: true, surface: true, rooms: true },
       });
       if (property) {

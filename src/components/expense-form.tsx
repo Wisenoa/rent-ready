@@ -105,7 +105,7 @@ export function ExpenseForm({
     reset,
     formState: { errors },
   } = useForm<ExpenseFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(expenseSchema) as any,
     defaultValues: defaults,
   });
@@ -147,8 +147,16 @@ export function ExpenseForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<span />}>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      {/* The trigger RENDERS the button rather than wrapping one of its own
+          around the caller's: Base UI's native <button> wrapping a <Button> is
+          `<button><button/></button>`, which React rejects, and
+          `nativeButton={false}` expects a NON-button, so it warns in turn.
+          Rendering is the one form all three accept. The caller therefore passes
+          button CONTENT (icon + label), not a <Button>. */}
+      <DialogTrigger render={<Button variant="outline" size="sm" />}>
+        {trigger}
+      </DialogTrigger>
+<DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {isEditing ? "Modifier la dépense" : "Ajouter une dépense"}

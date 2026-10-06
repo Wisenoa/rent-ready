@@ -188,7 +188,7 @@ export function PlusValueClient() {
               onChange={(e) => setWorksAmount(e.target.value)}
               className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <p className="text-xs text-stone-400 mt-1">
+            <p className="text-xs text-stone-600 mt-1">
               Travaux de construction, reconstruction, extension ou amélioration (non déjà déductibles).
             </p>
           </div>
@@ -280,7 +280,7 @@ export function PlusValueClient() {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
         <Link href="/outils/calculateur-rendement" className="text-blue-600 hover:underline">Calculateur rendement →</Link>
         <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
       </div>

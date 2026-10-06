@@ -9,9 +9,20 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur IRL 2026 — Indice de Référence des Loyers | RentReady",
+    title: "Calculateur IRL 2026 — Indice de Référence des Loyers",
     description:
       "Calculez la révision de loyer avec l'IRL 2026. Historique des indices INSEE, formule officielle et simulateur gratuit pour propriétaires et locataires.",
     url: "/outils/calculateur-irl",
@@ -57,7 +68,7 @@ function CalculateurIRLJsonLd() {
       ],
     })
   );
-  return <SchemaMarkup data={schema} />;
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
 export default function CalculateurIRLPage() {

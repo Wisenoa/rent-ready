@@ -7,11 +7,14 @@ import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { baseMetadata } from "@/lib/seo/metadata";
 import glossaryData from "@/data/glossary.json";
-import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
 import { Calendar, Clock } from "lucide-react";
 
-// ISR: glossary term pages are static reference content — revalidate weekly
-export const revalidate = 604800;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 /* ─── Types ─── */
 
@@ -53,6 +56,11 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 /* ─── Static generation ─── */
 
 export function generateStaticParams() {
@@ -89,7 +97,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!entry) return {};
 
   return baseMetadata({
-    title: `${entry.term} — Définition complète | RentReady`,
+    title: `${entry.term} — Définition complète`,
     description: `${entry.shortDefinition} En savoir plus sur ${entry.term} dans le glossaire immobilier RentReady.`,
     url: `/glossaire-immobilier/${entry.slug}`,
     ogType: "article",
@@ -158,9 +166,9 @@ export default async function GlossaryTermPage({ params }: Props) {
   // Related articles for this glossary term
   const relatedArticleSlugs = GLOSSARY_TO_ARTICLES[slug] ?? [];
   const relatedArticles = relatedArticleSlugs
-    .map((aSlug) => articles.find((a) => a.slug === aSlug))
+    .map((aSlug) => articleMeta.find((a) => a.slug === aSlug))
     .filter(Boolean)
-    .slice(0, 3) as typeof articles;
+    .slice(0, 3) as typeof articleMeta;
 
   const breadcrumbItems = [
     { label: "Accueil", href: "https://www.rentready.fr" },
@@ -173,13 +181,13 @@ export default async function GlossaryTermPage({ params }: Props) {
 
   return (
     <>
-      <SchemaMarkup data={buildGlossarySchema(entry)} />
+      <SchemaMarkup data={buildGlossarySchema(entry)} breadcrumbRenderedByComponent />
 
       <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
         {/* Back navigation */}
         <Link
           href="/glossaire-immobilier"
-          className="mb-8 inline-flex items-center gap-1.5 text-sm text-stone-500 hover:text-blue-600 transition-colors"
+          className="mb-8 inline-flex items-center gap-1.5 text-sm text-stone-600 hover:text-blue-600 transition-colors"
         >
           <ArrowLeft className="size-4" />
           Glossaire immobilier
@@ -222,7 +230,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Related terms */}
         {resolvedRelated.length > 0 && (
           <div className="mt-6 rounded-xl border border-stone-200 bg-stone-50 p-6">
-            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-stone-500">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-stone-600">
               Termes liés
             </h3>
             <div className="flex flex-wrap gap-2">

@@ -4,22 +4,26 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
+  AlertCircle,
+  ArrowLeft,
   Building2,
-  Users,
   Calendar,
+  CreditCard,
+  Download,
   Euro,
   FileText,
-  Scale,
-  Download,
-  ArrowLeft,
-  Phone,
-  Mail,
   Home,
-  CreditCard,
+  Mail,
+  Phone,
+  Scale,
   Shield,
+  Users,
 } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
+import { summariseLease } from "@/lib/domain/lease-summary";
+import { formatCurrency } from "@/lib/format";
+import { presentTransaction } from "@/lib/domain/period-presentation";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -65,13 +69,6 @@ const LEASE_STATUS_CONFIG: Record<string, { label: string; className: string }> 
   TERMINATED: { label: "Résilié", className: "bg-gray-100 text-gray-600 border-gray-200" },
 };
 
-const TX_STATUS_CONFIG: Record<string, { label: string; className: string }> = {
-  PENDING: { label: "En attente", className: "bg-amber-100 text-amber-700" },
-  PAID: { label: "Payé", className: "bg-emerald-100 text-emerald-700" },
-  PARTIAL: { label: "Partiel", className: "bg-blue-100 text-blue-700" },
-  LATE: { label: "En retard", className: "bg-red-100 text-red-700" },
-};
-
 const PAYMENT_METHOD_LABELS: Record<string, string> = {
   TRANSFER: "Virement bancaire",
   CHECK: "Chèque",
@@ -80,13 +77,6 @@ const PAYMENT_METHOD_LABELS: Record<string, string> = {
   OTHER: "Autre",
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-  }).format(amount);
-}
 
 export default async function LeaseDetailPage({ params }: Props) {
   const { id } = await params;
@@ -112,13 +102,13 @@ export default async function LeaseDetailPage({ params }: Props) {
   const statusCfg = LEASE_STATUS_CONFIG[lease.status] ?? LEASE_STATUS_CONFIG.DRAFT;
   const totalMonthly = Number(lease.rentAmount) + Number(lease.chargesAmount);
 
-  // Compute payment stats
-  const totalPaid = lease.transactions
-    .filter((tx) => tx.status === "PAID" || tx.status === "PARTIAL")
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
-
-  const totalDue = lease.transactions.reduce((sum, tx) => sum + Number(tx.amount), 0);
-  const lateCount = lease.transactions.filter((tx) => tx.status === "LATE").length;
+  // Payment position for this lease, derived from the due dates.
+  //
+  // This used to sum `amount` across transactions as "total due" (which is the
+  // money received, not what was owed) and counted `status === "LATE"`, which
+  // nothing ever writes. None of it was rendered; arrears were simply invisible on
+  // the page a landlord actually works from.
+  const position = summariseLease(lease.transactions);
 
   return (
     <div className="space-y-6">
@@ -188,7 +178,7 @@ export default async function LeaseDetailPage({ params }: Props) {
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-100">
-                <Euro className="size-4 text-emerald-600" />
+                <Euro className="size-4 text-emerald-700" />
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Loyer HC</p>
@@ -434,7 +424,31 @@ export default async function LeaseDetailPage({ params }: Props) {
             </CardContent>
           </Card>
 
-          {/* Payment history */}
+          {/* Arrears callout — the reason a landlord opens this page */}
+          {position.overdueCount > 0 && (
+            <div
+              role="status"
+              className="flex flex-wrap items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+            >
+              <AlertCircle className="size-4 shrink-0" aria-hidden="true" />
+              <span>
+                <strong className="font-semibold">
+                  {formatCurrency(position.overdueAmount)}
+                </strong>{" "}
+                impayés sur {position.overdueCount} mois
+                {position.overdueCount > 1 ? "" : ""} — le plus ancien a{" "}
+                {position.oldestOverdueDays} jours de retard.
+              </span>
+              <Link
+                href="/billing"
+                className="ml-auto shrink-0 font-medium underline"
+              >
+                Enregistrer un paiement
+              </Link>
+            </div>
+          )}
+
+{/* Payment history */}
           <Card>
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
@@ -444,13 +458,22 @@ export default async function LeaseDetailPage({ params }: Props) {
                 </CardTitle>
                 <div className="flex items-center gap-4 text-xs text-muted-foreground">
                   <span>
-                    <span className="font-medium text-foreground">{formatCurrency(totalPaid)}</span> perçu
+                    <span className="font-medium text-foreground">
+                      {formatCurrency(position.collected)}
+                    </span>{" "}
+                    perçu
                   </span>
                   <span>
-                    <span className="font-medium text-foreground">{formatCurrency(totalDue)}</span> dû
+                    <span className="font-medium text-foreground">
+                      {formatCurrency(position.outstanding)}
+                    </span>{" "}
+                    dû
                   </span>
-                  {lateCount > 0 && (
-                    <span className="text-red-600 font-medium">{lateCount} en retard</span>
+                  {position.overdueCount > 0 && (
+                    <span className="font-medium text-red-600">
+                      {formatCurrency(position.overdueAmount)} en retard (
+                      {position.oldestOverdueDays} j)
+                    </span>
                   )}
                 </div>
               </div>
@@ -473,14 +496,14 @@ export default async function LeaseDetailPage({ params }: Props) {
                   </TableHeader>
                   <TableBody>
                     {lease.transactions.map((tx) => {
-                      const txStatus = TX_STATUS_CONFIG[tx.status] ?? TX_STATUS_CONFIG.PENDING;
+                      const txStatus = presentTransaction(tx);
                       return (
                         <TableRow key={tx.id}>
                           <TableCell className="text-sm">
                             {format(new Date(tx.periodStart), "MMM yyyy", { locale: fr })}
                           </TableCell>
                           <TableCell className="font-mono text-sm font-medium">
-                            {formatCurrency(Number(tx.amount))}
+                            {formatCurrency(tx.amount)}
                           </TableCell>
                           <TableCell>
                             <Badge variant="secondary" className={txStatus.className}>

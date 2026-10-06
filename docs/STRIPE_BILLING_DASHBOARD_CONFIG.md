@@ -167,20 +167,17 @@ ORDER BY 1 DESC;
 
 ---
 
-## 4. KPI Digest Cron (Recommended Enhancement)
+## 4. Weekly KPI digest — removed
 
-Create a **weekly KPI digest email** to CEO using the existing cron infrastructure:
+There used to be a `/api/cron/kpi-digest` route emailing leadership a weekly
+digest. It was deleted: it was never scheduled in `vercel.json`, it had no
+caller, and most of what it reported was not measurable in this deployment (MRR
+without a Stripe key, trial conversion with no trial concept in the schema,
+Core Web Vitals, which Plausible does not report at all). Sending leadership a
+digest full of zeros and unmeasured fields is worse than sending none.
 
-**Endpoint:** `POST /api/cron/kpi-digest`
-
-Already exists at `src/app/api/cron/kpi-digest/route.ts`. Verify it outputs:
-- MRR (current + MoM change)
-- Trial-to-paid rate (last 7 days)
-- Churned customers (last 7 days)
-- New signups
-- Expansion revenue (upgrades this week)
-
-If not already sending to CEO email, update the cron to trigger via Resend email.
+Read revenue from the Stripe dashboard directly. If a digest becomes a real need,
+it should report figures that exist, and say "N/C" for the ones that do not.
 
 ---
 
@@ -190,7 +187,6 @@ If not already sending to CEO email, update the cron to trigger via Resend email
 - [ ] **Create CFO Dashboard** with 8 tiles above in Stripe Dashboard
 - [ ] **Share CFO Dashboard** with CEO as read-only
 - [ ] **Review webhook handler** at `src/app/api/webhooks/stripe/route.ts` — confirm all 7 events handled
-- [ ] **Check `kpi-digest` cron** — confirm it emails CEO weekly with MRR, churn, conversion
 - [ ] **Verify trial tracking** — 14-day trials already set in `createCheckoutSession` (trial_period_days: 14)
 - [ ] **Confirm annual plan** correctly shows as 12-month commitment in Stripe Dashboard
 

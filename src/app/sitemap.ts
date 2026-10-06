@@ -1,513 +1,133 @@
 import type { MetadataRoute } from "next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const cities = require("../data/cities.json") as Array<{ slug: string }>;
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { articles } = require("../data/articles") as { articles: Array<{ slug: string; date: string; updatedAt?: string }> };
 
-const BASE_URL = "https://www.rentready.fr";
+
+import { SITE_URL as BASE_URL } from "@/data/entity";
+
+import { routes } from "@/data/routes";
+
+const { articleMeta } = require("../data/articles-meta") as {
+  articleMeta: Array<{ slug: string; date: string; updatedAt: string }>;
+};
+
+
+
+/**
+ * Static routes come from `src/data/routes.ts`, generated at build time by
+ * `scripts/gen-routes.mjs`.
+ *
+ * This used to walk `process.cwd()/src/app` on every request. Two problems,
+ * both discovered by rendering the site rather than reading it:
+ *
+ *   - **It missed the homepage.** The walk recorded only *directories*
+ *     containing a `page.tsx`, and `src/app/page.tsx` is the one route that is a
+ *     file at the root. The shipped sitemap had 418 URLs and no `/` among them,
+ *     and `priorityFor("/") => 1.0` was unreachable code.
+ *
+ *   - **It would have shipped an empty sitemap in production.** The Docker image
+ *     copies `.next/standalone` to `/app`, which contains `src/{components,lib,data}`
+ *     but not the route tree, and starts with `CMD ["node", "server.js"]` from
+ *     `/app`. `src/app` does not exist there, so the walk had nothing to read.
+ *
+ * Enumerating routes is a build-time fact; this file is now a formatter.
+ *
+ * It is a generated TypeScript module rather than a JSON file: Next bundles
+ * traced `.ts` modules into the standalone output, whereas a JSON written by a
+ * pre-build step was not traced and would have been missing in Docker.
+ */
+
+type Entry = MetadataRoute.Sitemap[number];
+
+/**
+ * Priorities by depth. The homepage and the money pages matter; legal pages
+ * exist to be findable, not to rank.
+ */
+function priorityFor(path: string): number {
+  if (path === "/") return 1.0;
+  if (["/pricing", "/features", "/gestion-locative", "/templates", "/outils"].includes(path)) {
+    return 0.9;
+  }
+  if (path === "/blog" || path === "/guides" || path === "/locations" || path === "/bail" || path === "/quittances") {
+    return 0.8;
+  }
+  if (path.startsWith("/comparatif")) return 0.7;
+  if (path.startsWith("/glossaire-immobilier/")) return 0.6;
+  if (
+    path.startsWith("/mentions-legales") ||
+    path.startsWith("/politique-") ||
+    path.startsWith("/cgu")
+  ) {
+    return 0.3;
+  }
+  return 0.7;
+}
+
+function changeFrequencyFor(path: string): Entry["changeFrequency"] {
+  if (
+    path.startsWith("/mentions-legales") ||
+    path.startsWith("/politique-") ||
+    path.startsWith("/cgu")
+  ) {
+    return "yearly";
+  }
+  // Regulatory values (IRL, thresholds) can change; the rest is stable copy.
+  if (path.includes("irl") || path.includes("loyer") || path.includes("bail") || path.includes("depot")) {
+    return "monthly";
+  }
+  return "weekly";
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: BASE_URL,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 1.0,
-    },
-    {
-      url: `${BASE_URL}/gestion-locative`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/locations`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/bail`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/quittances`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/entretien`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/pricing`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/features`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/demo`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/blog`,
-      lastModified: now,
-      changeFrequency: "daily",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/glossaire-immobilier`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    // Glossary term pages (30 terms — rich internal linking hub)
-    ...(["quittance-loyer","bail-location","caution-locative","garant-loyer","etat-des-lieux","irl-indice-reference-loyers","loyer-nu","charges-recuperables","conge-location","preavis-loyer","depot-garantie","visale","colocation","location-vide","location-meuble","bail-mobilite","encadrement-loyer","loyer-ccai","revision-loyer","apport-personnel","rendement-locatif","vacance-locative","surface-habitable","loi-carrez","declaration-impot","taxe-fonciere","gerance-immobiliere","maintenance-locative","impaye-loyer","relance-loyer"] as const).map((slug) => ({
-      url: `${BASE_URL}/glossaire-immobilier/${slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    })),
-    // Template library listing page (tool pages with interactive forms)
-    {
-      url: `${BASE_URL}/templates`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    // Modeles library listing page (static reference documents)
-    {
-      url: `${BASE_URL}/modeles`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    // Guides listing + individual guide pages
-    {
-      url: `${BASE_URL}/guides`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/guides/modele-bail`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/guides/quittance-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/guides/depot-garantie`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/guides/irl-2026`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/guides/relance-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    // Template library (/modeles — marketing template pages)
-    {
-      url: `${BASE_URL}/modeles/bail-meuble`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-vide`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-mobilite`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-commercial`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-colocation`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/etat-des-lieux`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/quittance-de-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/modeles/augmentation-de-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/modeles/bail-professionnel`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/modeles/conge-locataire`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/modeles/conge-proprietaire`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/modeles/contrat-de-location`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/modeles/protocol-etat-des-lieux`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/modeles/relance-loyer-impaye`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/modeles/repartition-charges`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    // Template detail pages (/templates — detailed template tools)
-    {
-      url: `${BASE_URL}/templates/bail-vide`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/bail-meuble`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/bail-mobilite`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/bail-colocation`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/bail-commercial`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/etat-des-lieux`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/recu-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/relance-loyer-impaye`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/conge-locataire`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/conge-proprietaire`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/augmentation-de-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/templates/calculateur-rendement-locatif`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/templates/colocation`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    // Tools / Calculators
-    {
-      url: `${BASE_URL}/outils/calculateur-revision-irl`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-rendement`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-caution`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/generateur-quittance`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-charges-locatives`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/modele-bail-location`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/lettre-relance-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-irl`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-loyer`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-depot-garantie`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-preavis`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/checklist-etat-lieux`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-plus-value`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/outils/calculateur-surface-habitable`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/outils/generateur-conge-vente`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/outils/simulateur-fiscalite-lmnp`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/outils/simulateur-pret-immobilier`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    // Legal pages
-    {
-      url: `${BASE_URL}/mentions-legales`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${BASE_URL}/politique-confidentialite`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${BASE_URL}/politique-cookies`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${BASE_URL}/cgu`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    // Comparatif / alternative pages
-    {
-      url: `${BASE_URL}/comparatif`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/comparatif/logiciel-gestion-locative`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/comparatif/quittance-de-loyer-vs-attestation`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/comparatif/bail-electronique-vs-papier`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/comparatif/assurance-loyer-impaye`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/comparatif/rentready-vs-gerclegeo`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/comparatif/rentready-vs-immotop`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/comparatif/rentready-vs-legalplace`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-  ];
+  if (routes.length === 0) {
+    // routes.ts is written by `pnpm gen:routes`, wired into `pnpm build`.
+    // An empty sitemap is worse than a stale one, so say so loudly rather than
+    // shipping a file that quietly asks a crawler to index nothing.
+    throw new Error(
+      "src/data/routes.ts is empty. Run `pnpm gen:routes` before building."
+    );
+  }
 
-  // Blog posts — use real article data so sitemap stays in sync with content
-  const blogPages: MetadataRoute.Sitemap = articles.map((post) => ({
+  const staticEntries: Entry[] = routes.map(({ path, mtime, priority, family }) => {
+    const lastModified = new Date(mtime);
+    return {
+      url: `${BASE_URL}${path}`,
+      lastModified: Number.isNaN(lastModified.getTime()) ? now : lastModified,
+      // City pages carry a `family`; their template mtime is shared across the
+      // whole family and they only change when the template does, so a monthly
+      // frequency is the honest claim. Everything else follows the path table.
+      changeFrequency: family
+        ? ("monthly" as const)
+        : changeFrequencyFor(path),
+      // The generator supplies the priority for city and glossary entries
+      // because it is the only place that knows the family list.
+      priority: priority ?? priorityFor(path),
+    };
+  });
+
+  // Blog posts — use real article data so the sitemap stays in sync with content.
+  const blogEntries: Entry[] = articleMeta.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(post.date),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
-  // City/region pages — bail and gestion-locative
-  const cityPages: MetadataRoute.Sitemap = (
-    cities as Array<{ slug: string }>
-  ).flatMap((city) => [
-    {
-      url: `${BASE_URL}/gestion-locative/${city.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/bail/${city.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-  ]);
+  // City pages and glossary entries come from `routes.ts` too: the generator
+  // reads `src/app/(marketing)/<family>` and `src/data/glossary.json` at build
+  // time and writes the mtime out. Nothing here touches the filesystem.
+  //
+  // It used to. That was safe only because the sitemap is prerendered — the day
+  // anything makes it dynamic, `newestMtime()` hits ENOENT in the Docker image,
+  // where `src/app` does not exist, and the sitemap 500s and disappears.
 
-  return [...staticPages, ...blogPages, ...cityPages];
+  const all = [...staticEntries, ...blogEntries];
+
+  // A sitemap must not contain duplicates or redirect sources.
+  const seen = new Set<string>();
+  return all.filter((entry) => {
+    if (seen.has(entry.url)) return false;
+    seen.add(entry.url);
+    return true;
+  });
 }

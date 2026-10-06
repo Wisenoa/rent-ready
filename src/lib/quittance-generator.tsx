@@ -1,8 +1,17 @@
 import React from "react";
-// Re-export pure utilities so existing imports continue to work
-export { determineReceiptType, generateReceiptNumber } from "@/lib/payment-utils";
+import Decimal from "decimal.js";
+// Re-export pure utilities so existing imports continue to work.
+// determineReceiptTypeCumulative must be re-exported too: quittance-actions
+// imports it from here, and a named import that is missing resolves to undefined
+// at runtime rather than failing the build.
+export {
+  determineReceiptType,
+  determineReceiptTypeCumulative,
+  generateReceiptNumber,
+} from "@/lib/payment-utils";
 import {
   determineReceiptType,
+  determineReceiptTypeCumulative,
   generateReceiptNumber,
 } from "@/lib/payment-utils";
 import {
@@ -36,9 +45,34 @@ export interface QuittanceData {
     postalCode: string;
   };
   propertyAddress: string;
-  rentAmount: number;
-  chargesAmount: number;
-  totalAmount: number;
+  /**
+   * Decimal, not number. The action builds this object straight from the lease
+   * and transaction rows, so these arrive as Prisma Decimals. Declaring `number`
+   * made `tsc` report a mismatch that `next build` discarded via
+   * ignoreBuildErrors, and the arithmetic below then concatenated instead of
+   * adding.
+   */
+  rentAmount: Decimal;
+  chargesAmount: Decimal;
+  /**
+   * Money received BY THIS PAYMENT. The receipt attests one event, so this is
+   * the amount of that event, not the month's total — a 570,55 instalment that
+   * closes a 970,55 month prints 570,55 here.
+   */
+  totalAmount: Decimal;
+  /**
+   * What the period still OWED once this payment is counted, decided by the
+   * domain (`settlePeriodPayments`) and handed to the document.
+   *
+   * It used to be derived here as `rent + charges - this payment`, which is
+   * wrong on every period paid in instalments: on a 970,55 month paid 300 + 300
+   * the second receipt announced 670,55 instead of 370,55, so a legal document
+   * told the tenant they owed 300 EUR more than they did — and contradicted the
+   * `remainingDue` of GET /api/transactions/[id]/receipt on the same payment. A
+   * document consumes established figures (AGENTS.md 11 and 14); it does not
+   * recompute them.
+   */
+  remainingAmount: Decimal;
   periodStart: Date;
   periodEnd: Date;
   paidAt: Date;
@@ -238,8 +272,14 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
     ? "Quittance de Loyer"
     : "Reçu de Paiement Partiel";
 
-  const expectedTotal = data.rentAmount + data.chargesAmount;
-  const remainingBalance = expectedTotal - data.totalAmount;
+  // Decimal arithmetic throughout. With `+`, 700 + 40.50 evaluated to the STRING
+  // "70040.5" and the balance line printed 69 300 on a fully paid period.
+  const expectedTotal = new Decimal(data.rentAmount).plus(data.chargesAmount);
+  // The balance is NOT derived here: it is what the domain decided for the
+  // period once this payment is counted (see `remainingAmount` on
+  // QuittanceData). `expectedTotal - totalAmount` ignores the earlier
+  // instalments of the same period and overstated what the tenant owed.
+  const remainingBalance = new Decimal(data.remainingAmount);
 
   return (
     <Document
@@ -348,7 +388,7 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
               </Text>
             </View>
             {/* Remaining balance for partial payment */}
-            {!data.isFullPayment && remainingBalance > 0 && (
+            {!data.isFullPayment && remainingBalance.gt(0) && (
               <View style={styles.remainingRow}>
                 <Text style={styles.remainingLabel}>
                   Solde restant dû

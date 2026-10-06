@@ -12,6 +12,8 @@ import {
   Text,
 } from "@react-email/components";
 
+import { formatCurrency } from "@/lib/format";
+
 interface PaymentReminderEmailProps {
   tenantFirstName: string;
   landlordFirstName: string;
@@ -24,12 +26,6 @@ interface PaymentReminderEmailProps {
   letterUrl: string;
 }
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat("fr-FR", {

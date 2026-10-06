@@ -78,7 +78,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
     setValue,
     formState: { errors },
   } = useForm<LeaseFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(leaseSchema) as any,
     defaultValues: {
       propertyId: "",
@@ -96,6 +96,38 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
     },
   });
 
+  /**
+   * A lease needs a property and a tenant. Without them the submit button is
+   * disabled — and a disabled button never submits, so the field-level errors
+   * below it cannot appear either. The reason is therefore spelled out here.
+   */
+  /**
+   * Value → label maps for the two Selects.
+   *
+   * base-ui resolves a closed trigger's text from `items`. Without it the trigger
+   * falls back to the raw value, which for these fields is the row's CUID —
+   * measured in the browser: after choosing, the trigger read
+   * `cmuu2gpot000a7dmsip294u8h` instead of « Studio Lyon — Lyon ».
+   *
+   * That is worse than ugly in the middle of the core flow: the landlord picks a
+   * property and cannot tell from the field whether they picked the right one.
+   */
+  const propertyLabelById: Record<string, string> = Object.fromEntries(
+    properties.map((p) => [p.id, `${p.name} — ${p.city}`])
+  );
+  const tenantLabelById: Record<string, string> = Object.fromEntries(
+    tenants.map((t) => [t.id, `${t.firstName} ${t.lastName}`])
+  );
+
+  const missingProperty = properties.length === 0;
+  const missingTenant = tenants.length === 0;
+  const blockedByMissingPrerequisite = missingProperty || missingTenant;
+  const missingPrerequisiteMessage = missingProperty
+    ? "Ajoutez d'abord un bien : un bail doit être rattaché à un logement."
+    : missingTenant
+      ? "Ajoutez d'abord un locataire : un bail doit être conclu avec quelqu'un."
+      : "";
+
   const selectedPropertyId = watch("propertyId");
   const selectedTenantId = watch("tenantId");
   const selectedLeaseType = watch("leaseType");
@@ -105,7 +137,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
     if (!isOpen) reset();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   function onSubmit(values: any) {
     startTransition(async () => {
       const formData = new FormData();
@@ -129,7 +161,15 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger render={<span />}>{children}</DialogTrigger>
+      {/* The trigger RENDERS the button rather than wrapping one of its own
+          around the caller's: Base UI's native <button> wrapping a <Button> is
+          `<button><button/></button>`, which React rejects, and
+          `nativeButton={false}` expects a NON-button, so it warns in turn.
+          Rendering is the one form all three accept. The caller therefore passes
+          button CONTENT (icon + label), not a <Button>. */}
+      <DialogTrigger render={<Button variant="outline" size="sm" />}>
+        {children}
+      </DialogTrigger>
       <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>Créer un bail</DialogTitle>
@@ -146,6 +186,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
               <Select
                 value={selectedPropertyId ?? undefined}
                 onValueChange={(val) => setValue("propertyId", val as string, { shouldValidate: true })}
+                items={propertyLabelById}
               >
                 <SelectTrigger id="propertyId">
                   <SelectValue placeholder="Sélectionner un bien" />
@@ -174,6 +215,7 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
               <Select
                 value={selectedTenantId ?? undefined}
                 onValueChange={(val) => setValue("tenantId", val as string, { shouldValidate: true })}
+                items={tenantLabelById}
               >
                 <SelectTrigger id="tenantId">
                   <SelectValue placeholder="Sélectionner un locataire" />
@@ -380,6 +422,28 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
             </div>
           )}
 
+          {/*
+            Why the submit button is unavailable, stated where it is disabled.
+
+            The button was `disabled` whenever the account had no property or no
+            tenant, with nothing on screen to say why. A disabled button submits
+            nothing, so the form's own validation never runs either — the error
+            copy for `propertyId` and `tenantId` was already written and simply
+            could not appear. The result was a dialog the user could click at
+            repeatedly with no result and no explanation, which is the failure
+            mode: it looks like a broken application rather than a missing
+            prerequisite.
+          */}
+          {blockedByMissingPrerequisite && (
+            <p
+              role="status"
+              data-testid="lease-prerequisite"
+              className="rounded-lg border border-amber-500/40 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+            >
+              {missingPrerequisiteMessage}
+            </p>
+          )}
+
           <div className="flex justify-end gap-3 pt-2">
             <Button
               type="button"
@@ -389,7 +453,11 @@ export function LeaseForm({ properties, tenants, children }: LeaseFormProps) {
             >
               Annuler
             </Button>
-            <Button type="submit" disabled={isPending || properties.length === 0 || tenants.length === 0}>
+            <Button
+              type="submit"
+              disabled={isPending || blockedByMissingPrerequisite}
+              aria-describedby={blockedByMissingPrerequisite ? "lease-prerequisite" : undefined}
+            >
               {isPending && <Loader2 className="size-4 mr-2 animate-spin" />}
               Créer le bail
             </Button>

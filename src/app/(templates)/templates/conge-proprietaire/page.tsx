@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Modèle Congé Donné par le Propriétaire 2026 — Motif & Délai Légal",
@@ -35,7 +41,7 @@ const faqData = [
   {
     question: "Le motif est-il obligatoire dans un congé propriétaire ?",
     answer:
-      "Oui. Depuis la loi ALUR de 2014, le propriétaire doit indiquer le motif du congé. Les motifs acceptés sont : la reprise pour habiter, la vente du bien, ou un motif légitime et sérieux (troubles de voisinage avérés, impayés persistants). Ne pas указать de motif expose le propriétaire à des sanctions financières.",
+      "Oui. Depuis la loi ALUR de 2014, le propriétaire doit indiquer le motif du congé. Les motifs acceptés sont : la reprise pour habiter, la vente du bien, ou un motif légitime et sérieux (troubles de voisinage avérés, impayés persistants). Ne pas indiquer de motif expose le propriétaire à des sanctions financières.",
   },
   {
     question: "Le congé pour vendre nécessite-t-il une promesse de vente ?",
@@ -59,13 +65,10 @@ const orgSchema = {
   "@id": "https://www.rentready.fr/#organization",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.png",
+  logo: "https://www.rentready.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-  sameAs: [
-    "https://twitter.com/rentready_fr",
-    "https://www.linkedin.com/company/rentready",
-  ],
+  sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -78,12 +81,12 @@ const webSiteSchema = {
   "@id": "https://www.rentready.fr/#website",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.rentready.fr/recherche?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function CongeProprietaireJsonLd() {
   const data = {
@@ -138,7 +141,7 @@ export default function CongeProprietairePage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Congé Donné par le Propriétaire
             <br />
-            <span className="text-orange-600">Motif Obligatoire</span>
+            <span className="text-orange-700">Motif Obligatoire</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Le propriétaire met fin au bail de son locataire avec un motif
@@ -209,7 +212,7 @@ export default function CongeProprietairePage() {
               "Article 472 du Code de procédure civile (contestations)",
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
-                <Check className="size-5 text-orange-600" />
+                <Check className="size-5 text-orange-700" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}
@@ -316,7 +319,7 @@ export default function CongeProprietairePage() {
               Essai gratuit 14 jours
             </Link>
             <Link
-              href="/outils/calculateur-irl-2026"
+              href="/outils/calculateur-irl"
               className="inline-block rounded-lg border border-orange-500 px-6 py-3 font-medium text-orange-300 transition-colors hover:bg-orange-800"
             >
               Simulateur IRL →
@@ -355,8 +358,8 @@ export default function CongeProprietairePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: "/guides/relance-loyer", label: "Guide : relancer un locataire pour impayés →" },
-              { href: "/blog/preavis-location-delais-etapes", label: "Préavis de location : délais et étapes à suivre →" },
-              { href: "/blog/droit-preemption-locataire", label: "Droit de préemption du locataire : mode d'emploi →" },
+              { href: "/blog/preavis-depart-locataire", label: "Préavis de location : délais et étapes à suivre →" },
+              { href: "/blog/notice-conge-locataire", label: "Congé du locataire : la notice et le délai à respecter →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
             ].map((link) => (
               <Link

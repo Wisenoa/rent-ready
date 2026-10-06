@@ -10,6 +10,8 @@
  * All objects use French locale (fr-FR) where applicable.
  */
 
+import { SAME_AS } from "@/data/entity";
+
 const BASE_URL = "https://www.rentready.fr";
 const SITE_NAME = "RentReady";
 
@@ -75,18 +77,14 @@ export function buildOrganizationSchema(input: OrganizationSchemaInput = {}) {
     url: input.url ?? BASE_URL,
     logo: input.logo ?? {
       "@type": "ImageObject",
-      url: `${BASE_URL}/logo.png`,
+      url: `${BASE_URL}/logo.svg`,
       width: 512,
       height: 512,
     },
     description:
       input.description ??
       "RentReady est le logiciel de gestion locative nouvelle génération pour propriétaires bailleurs indépendants en France. Quittances conformes, détection automatique des paiements, révision IRL, portail locataire.",
-    sameAs: input.sameAs ?? [
-      "https://www.linkedin.com/company/rentready",
-      "https://twitter.com/rentready_fr",
-      "https://www.facebook.com/rentready.fr",
-    ],
+    sameAs: input.sameAs ?? SAME_AS,
     contactPoint: input.contact ?? {
       "@type": "ContactPoint",
       email: "contact@rentready.fr",
@@ -115,14 +113,10 @@ export function buildWebSiteSchema(name?: string, url?: string) {
     "@type": "WebSite",
     name: name ?? SITE_NAME,
     url: url ?? BASE_URL,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${BASE_URL}/recherche?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
+    // No `potentialAction` / SearchAction. It used to point at
+    // `/recherche?q={search_term_string}`, and RentReady has no such route —
+    // every page declaring it was advertising a search box that 404s. Declaring
+    // a capability the site does not have is worse than declaring nothing.
   };
 }
 
@@ -423,97 +417,41 @@ export function buildItemListSchema(input: ItemListSchemaInput) {
 }
 
 /* ─────────────────────────────────────────────
-   buildReviewSchema + buildAggregateRatingSchema
-   Used on: Homepage (testimonials section)
-───────────────────────────────────────────── */
-
-export interface ReviewItem {
-  name: string;
-  reviewBody: string;
-  ratingValue: number;
-  bestRating?: number;
-  worstRating?: number;
-  datePublished?: string;
-  author: {
-    name: string;
-    description?: string;
-  };
-}
-
-export interface AggregateRatingSchemaInput {
-  itemReviewed: {
-    name: string;
-    description?: string;
-  };
-  ratingValue: number;
-  bestRating?: number;
-  worstRating?: number;
-  reviewCount: number;
-}
-
-/**
- * Individual Review schema for a single testimonial.
- * Google Rich Results supports Person or Organization as reviewer.
- */
-export function buildReviewSchema(review: ReviewItem) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Review",
-    reviewRating: {
-      "@type": "Rating",
-      ratingValue: String(review.ratingValue),
-      bestRating: String(review.bestRating ?? 5),
-      worstRating: String(review.worstRating ?? 1),
-    },
-    author: {
-      "@type": "Person",
-      name: review.author.name,
-      description: review.author.description,
-    },
-    reviewBody: review.reviewBody,
-    datePublished: review.datePublished,
-    itemReviewed: {
-      "@type": "SoftwareApplication",
-      name: "RentReady",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-      url: `${BASE_URL}`,
-    },
-  };
-}
-
-/**
- * AggregateRating schema for the SoftwareApplication.
- * Shows the overall rating derived from multiple individual reviews.
- */
-export function buildAggregateRatingSchema(input: AggregateRatingSchemaInput) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "AggregateRating",
-    itemReviewed: {
-      "@type": "SoftwareApplication",
-      name: input.itemReviewed.name,
-      description: input.itemReviewed.description,
-      url: `${BASE_URL}`,
-    },
-    ratingValue: String(input.ratingValue),
-    bestRating: String(input.bestRating ?? 5),
-    worstRating: String(input.worstRating ?? 1),
-    reviewCount: String(input.reviewCount),
-    ratingCount: String(input.reviewCount),
-  };
-}
-
-/* ─────────────────────────────────────────────
    buildGraphSchema
    Combines multiple schemas into a @graph array for a single <script> tag.
    Use for pages that need multiple schema types (e.g., pricing page).
 ───────────────────────────────────────────── */
 
+/**
+ * Compose several schema objects into one `@graph`.
+ *
+ * The builders return either a single node or their own `{ "@graph": [...] }`
+ * wrapper. This used to nest those wrappers inside the outer graph, so a page
+ * calling `buildBreadcrumbSchema`, `buildWebApplicationSchema` and
+ * `buildHowToSchema` produced a graph containing two nested graphs — and the
+ * crawler saw the same `@type` twice, which reads as two competing entities
+ * rather than one page describing one tool.
+ *
+ * Flattening here means a page-level graph holds one flat list of nodes, and
+ * `SchemaMarkup` can also drop the site-level duplicates it strips.
+ */
 export function buildGraphSchema(...schemas: unknown[]) {
+  const nodes: unknown[] = [];
+
+  for (const schema of schemas) {
+    if (schema === null || schema === undefined) continue;
+
+    const record = schema as Record<string, unknown>;
+    if (Array.isArray(record["@graph"])) {
+      nodes.push(...(record["@graph"] as unknown[]));
+    } else {
+      nodes.push(schema);
+    }
+  }
+
   return {
     "@context": "https://schema.org",
-    "@graph": schemas,
+    "@graph": nodes,
   };
 }
 

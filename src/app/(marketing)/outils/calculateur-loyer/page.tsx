@@ -9,9 +9,20 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur de Loyer au m² — Gratuit | RentReady",
+    title: "Calculateur de Loyer au m² — Gratuit",
     description:
       "Estimez le loyer de votre bien selon la surface et le prix au m². Applicable en zone tendue et non tendue. Outil gratuit — mis à jour 2026.",
     url: "/outils/calculateur-loyer",

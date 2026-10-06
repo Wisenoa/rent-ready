@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 
 import { TrustLogos } from "@/components/seo/TrustLogos";
@@ -9,19 +9,15 @@ import { baseMetadata } from "@/lib/seo/metadata";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { SocialProof } from "@/components/landing/social-proof";
 
-// ISR: revalidate marketing pages at CDN edge every hour
-// Keeps content fresh while serving cached HTML for TTFB < 100ms
-export const revalidate = 3600;
-
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
 // Dynamic import: interactive pricing (uses client state — framer-motion)
-const PricingSectionWrapper = dynamic(
+const PricingSectionWrapper = dynamicImport(
   () =>
     import("@/components/landing/pricing-section-wrapper").then(
       (mod) => mod.PricingSectionWrapper
@@ -44,9 +40,9 @@ const PricingSectionWrapper = dynamic(
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Tarifs RentReady 2026 — À partir de 9 €/mois | Essai gratuit sans engagement",
+      "Tarifs RentReady 2026 — à partir de 9 €/mois, essai gratuit sans engagement",
     description:
-      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, détection loyers DSP2, IRL automatique. 127 propriétaires. Essai gratuit 14 jours.",
+      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, détection des loyers par DSP2, révision IRL automatique. Essai gratuit 14 jours.",
     url: "/pricing",
     ogType: "pricing",
   });
@@ -62,6 +58,12 @@ import {
   buildBreadcrumbSchema,
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 const pricingFaqs = [
   {
@@ -242,6 +244,11 @@ const comparisonData = [
   },
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
@@ -296,10 +303,10 @@ export default function PricingPage() {
                   <th className="px-6 py-4 text-center font-semibold text-blue-600">
                     Starter
                   </th>
-                  <th className="px-6 py-4 text-center font-semibold text-emerald-600">
+                  <th className="px-6 py-4 text-center font-semibold text-emerald-700">
                     Pro
                   </th>
-                  <th className="px-6 py-4 text-center font-semibold text-amber-600">
+                  <th className="px-6 py-4 text-center font-semibold text-amber-700">
                     Agency
                   </th>
                 </tr>
@@ -311,10 +318,10 @@ export default function PricingPage() {
                     <td className="px-6 py-4 text-center text-blue-600">
                       {row.starter}
                     </td>
-                    <td className="px-6 py-4 text-center text-emerald-600">
+                    <td className="px-6 py-4 text-center text-emerald-700">
                       {row.pro}
                     </td>
-                    <td className="px-6 py-4 text-center text-amber-600">
+                    <td className="px-6 py-4 text-center text-amber-700">
                       {row.agency}
                     </td>
                   </tr>

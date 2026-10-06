@@ -4,10 +4,14 @@ import { auth } from "@/lib/auth-server";
 import { getStripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import type { ActionResult } from "./property-actions";
+import { registerErrorMessage } from "@/lib/register-error";
 
 export interface RegisterResult extends ActionResult {
   userId?: string;
 }
+
+
+
 
 /**
  * Register a new user via better-auth (handles password hashing internally)
@@ -32,11 +36,18 @@ export async function registerWithStripeCustomer({
     }
 
     // Use better-auth's server-side signUp to properly hash the password
-    const result = await auth.api.signUp.email({
+    // The server-side endpoint is `signUpEmail`, not `signUp.email`. `signUp` is
+    // undefined on the server API, so every registration threw
+    // "Cannot read properties of undefined (reading 'email')" and the form showed
+    // nothing. Verified in the browser against a running server, and against this
+    // version's own route types.
+    const result = await auth.api.signUpEmail({
       body: {
         email,
         password,
-        name: `${firstName} ${lastName}`,
+        name: `${firstName} ${lastName}`.trim(),
+        // The app's own user model carries these; Better Auth's body type is a
+        // ZodRecord intersection, so additional fields are accepted.
         firstName,
         lastName,
       },
@@ -48,10 +59,10 @@ export async function registerWithStripeCustomer({
     }
 
     return { success: true, userId: result.user?.id };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    // The full error stays in the server log.
     console.error("[register] Error:", error);
-    const message = error?.message ?? "Erreur lors de la création du compte.";
-    return { success: false, error: message };
+    return { success: false, error: registerErrorMessage(error) };
   }
 }
 

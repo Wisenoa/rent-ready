@@ -1,18 +1,23 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
+import {
+  displayStatus,
+  daysLate as daysPastDue,
+} from "@/lib/domain/period-presentation";
+import { recordRentPayment, cancelRentPayment } from "@/lib/services/rent-payments";
 import { getCurrentUserId } from "@/lib/auth";
 import { transactionSchema } from "@/lib/validations/transaction";
-import { determineReceiptType } from "@/lib/quittance-generator";
 import { generateQuittance } from "@/lib/actions/quittance-actions";
+import { describeQuittanceOutcome } from "@/lib/domain/quittance-outcome";
 import { generateRentFollowUpDraft } from "@/lib/ai/lease-analyzer";
 import { resend, fromEmail } from "@/lib/email";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { ActionResult } from "./property-actions";
-import { toNumber, round2, toDecimal } from "@/lib/decimal";
-import Decimal from "decimal.js";
+import { toNumber } from "@/lib/decimal";
 
 export async function createTransaction(formData: FormData): Promise<ActionResult> {
   try {
@@ -25,113 +30,129 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
       return { success: false, error: parsed.error.issues[0]?.message ?? "Données invalides" };
     }
 
-    // Verify lease belongs to user
-    const lease = await prisma.lease.findUnique({ where: { id: parsed.data.leaseId } });
-    if (!lease || lease.userId !== userId) {
-      return { success: false, error: "Bail introuvable ou accès non autorisé." };
-    }
-
-    // Determine receipt type based on payment amount vs expected
-    // Use Decimal.js for precise financial arithmetic
-    const rentNum = toNumber(lease.rentAmount);
-    const chargesNum = toNumber(lease.chargesAmount);
-    const amountNum = parsed.data.amount; // already a number from z.coerce
-    const totalDue = new Decimal(rentNum).plus(chargesNum);
-    const isFullPayment = amountNum >= totalDue.toNumber();
-    const receiptType = determineReceiptType(amountNum, rentNum, chargesNum);
-
-    // Calculate rent/charges portions proportionally using Decimal.js
-    const rentPortionDecimal = isFullPayment
-      ? new Decimal(rentNum)
-      : new Decimal(amountNum).times(rentNum).dividedBy(totalDue).toDecimalPlaces(2);
-    const chargesPortionDecimal = isFullPayment
-      ? new Decimal(chargesNum)
-      : new Decimal(amountNum).minus(rentPortionDecimal).toDecimalPlaces(2);
-
-    const status = isFullPayment ? "PAID" : "PARTIAL";
-
-    const transaction = await prisma.transaction.create({
-      data: {
-        userId,
-        leaseId: parsed.data.leaseId,
-        amount: toDecimal(parsed.data.amount),
-        rentPortion: rentPortionDecimal,
-        chargesPortion: chargesPortionDecimal,
-        periodStart: new Date(parsed.data.periodStart),
-        periodEnd: new Date(parsed.data.periodEnd),
-        dueDate: new Date(parsed.data.dueDate),
-        paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
-        paymentMethod: parsed.data.paymentMethod ?? null,
-        status,
-        isFullPayment,
-        receiptType,
-        notes: parsed.data.notes || null,
-      },
+    // Every write goes through the one door (src/lib/services/rent-payments.ts):
+    // it resolves the period from the database, derives the settlement and caps
+    // the amount at what is still collectable. This action only validates and
+    // revalidates — it holds no version of the rule of its own.
+    const result = await recordRentPayment({
+      userId,
+      leaseId: parsed.data.leaseId,
+      duePeriodId: parsed.data.duePeriodId || null,
+      periodStart: new Date(parsed.data.periodStart),
+      periodEnd: new Date(parsed.data.periodEnd),
+      dueDate: new Date(parsed.data.dueDate),
+      amount: parsed.data.amount,
+      paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
+      paymentMethod: parsed.data.paymentMethod ?? null,
+      notes: parsed.data.notes || null,
     });
+
+    if (!result.ok) {
+      return { success: false, error: result.error };
+    }
 
     revalidatePath("/billing");
     revalidatePath("/dashboard");
-    return { success: true, data: { id: transaction.id, receiptType } };
+    revalidatePath("/leases");
+    return { success: true, data: { id: result.transactionId, receiptType: result.receiptType } };
   } catch (error) {
     console.error("createTransaction error:", error);
     return { success: false, error: "Impossible d'enregistrer le paiement." };
   }
 }
 
+/**
+ * Cancel a receipt that was recorded in error (wrong amount, wrong lease, money
+ * that came back). The month becomes collectable again.
+ */
+export async function cancelTransaction(id: string): Promise<ActionResult> {
+  try {
+    const userId = await getCurrentUserId();
+    const result = await cancelRentPayment({ userId, transactionId: id });
+
+    if (!result.ok) {
+      return { success: false, error: result.error };
+    }
+
+    revalidatePath("/billing");
+    revalidatePath("/dashboard");
+    revalidatePath("/leases");
+    return {
+      success: true,
+      data: { id, collectable: result.collectable, reopenedPeriodId: result.reopenedPeriodId },
+    };
+  } catch (error) {
+    console.error("cancelTransaction error:", error);
+    return { success: false, error: "Impossible d'annuler ce paiement." };
+  }
+}
+
+/**
+ * « Marquer payé » on a period row.
+ *
+ * The `amount` argument used to be written straight onto the row, straight from
+ * the browser, with no ceiling and no relation to the period: a crafted call
+ * marked a 970.55 EUR month paid for 0.01 EUR, and the dashboard then showed a
+ * settled month whose receipts summed to nothing.
+ *
+ * The amount is therefore no longer the browser's to choose. What is settled is
+ * the row's REAL balance; a `amount` argument is still accepted for the button's
+ * signature but only as a claim, validated against that balance — a different
+ * value is refused rather than silently overwriting the ledger.
+ */
 export async function markTransactionPaid(
   id: string,
-  amount: number,
+  amount?: number,
   paidAt?: string
 ): Promise<ActionResult> {
   try {
     const userId = await getCurrentUserId();
 
-    const transaction = await prisma.transaction.findUnique({
-      where: { id },
-      include: { lease: true },
+    const transaction = await prisma.transaction.findFirst({
+      where: { id, userId },
+      select: { id: true, leaseId: true, amount: true },
     });
 
-    if (!transaction || transaction.userId !== userId) {
+    if (!transaction) {
       return { success: false, error: "Transaction introuvable ou accès non autorisé." };
     }
 
-    const lease = transaction.lease;
-    const rentNum = toNumber(lease.rentAmount);
-    const chargesNum = toNumber(lease.chargesAmount);
-    const totalDue = new Decimal(rentNum).plus(chargesNum);
-    const isFullPayment = amount >= totalDue.toNumber();
-    const receiptType = determineReceiptType(amount, rentNum, chargesNum);
-
-    const rentPortionDecimal = isFullPayment
-      ? new Decimal(rentNum)
-      : new Decimal(amount).times(rentNum).dividedBy(totalDue).toDecimalPlaces(2);
-    const chargesPortionDecimal = isFullPayment
-      ? new Decimal(chargesNum)
-      : new Decimal(amount).minus(rentPortionDecimal).toDecimalPlaces(2);
-
-    await prisma.transaction.update({
-      where: { id },
-      data: {
-        amount: toDecimal(amount),
-        rentPortion: rentPortionDecimal,
-        chargesPortion: chargesPortionDecimal,
-        status: isFullPayment ? "PAID" : "PARTIAL",
-        isFullPayment,
-        receiptType,
-        paidAt: paidAt ? new Date(paidAt) : new Date(),
-      },
+    const result = await recordRentPayment({
+      userId,
+      leaseId: transaction.leaseId,
+      duePeriodId: id,
+      paidAt: paidAt ? new Date(paidAt) : new Date(),
+      ...(amount === undefined ? {} : { amount }),
     });
 
-    // Auto-generate PDF quittance after marking as paid
-    const quittanceResult = await generateQuittance(id);
+    if (!result.ok) {
+      return { success: false, error: result.error };
+    }
+
+    // Auto-generate PDF quittance after marking as paid.
+    //
+    // The payment IS recorded at this point, so a receipt failure must not fail
+    // the action — but it must not be silent either. generateQuittance refuses
+    // when the landlord's own address is incomplete, which is the default state
+    // of every account created before the profile page existed. Reporting plain
+    // success there would claim a receipt was issued when none was, so the
+    // reason travels back as `quittanceError` (AGENTS.md §21, §37).
+    const outcome = describeQuittanceOutcome(
+      await generateQuittance(result.transactionId)
+    );
+
+    if (outcome.warning) {
+      console.error("markTransactionPaid: quittance not generated:", outcome.warning);
+    }
 
     revalidatePath("/billing");
     revalidatePath("/dashboard");
     return {
       success: true,
       data: {
-        receiptType,
-        receiptUrl: quittanceResult.success ? (quittanceResult.data as { receiptUrl?: string })?.receiptUrl : undefined,
+        receiptType: result.receiptType,
+        receiptUrl: outcome.receiptUrl,
+        ...(outcome.warning ? { quittanceError: outcome.warning } : {}),
       },
     };
   } catch (error) {
@@ -164,15 +185,31 @@ export async function sendPaymentReminder(
       return { success: false, error: "Transaction introuvable ou accès non autorisé." };
     }
 
-    if (transaction.status !== "LATE" && transaction.status !== "PENDING") {
-      return { success: false, error: "Cette transaction n'est pas en retard." };
+    // Refuse on the DERIVED state, not the stored status.
+    //
+    // The guard used to accept only `LATE` and `PENDING`. Nothing in the codebase
+    // ever writes `LATE`, and a partially paid month keeps `PARTIAL` — so the one
+    // case a relance exists for, a month that is both late AND partially paid,
+    // was answered "Cette transaction n'est pas en retard" by a button that had
+    // just told the landlord it was 40 days late. Same class of bug as /billing
+    // showing overdue rent as "En attente".
+    if (transaction.paidAt) {
+      return { success: false, error: "Cette période de loyer est déjà réglée." };
+    }
+    if (displayStatus(transaction) !== "OVERDUE") {
+      return {
+        success: false,
+        error: "Cette période de loyer n'est pas encore échue.",
+      };
     }
 
     const { lease, user } = transaction;
     const { property, tenant } = lease;
-    const daysLate = Math.floor(
-      (Date.now() - transaction.dueDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    // The row carries the balance still owed, which is below rent+charges once a
+    // partial payment has landed. Chasing the month's full rent would demand
+    // money the tenant has already paid.
+    const amountDue = new Decimal(transaction.amount).toDecimalPlaces(2);
+    const daysLate = daysPastDue(transaction.dueDate);
 
     // Generate AI draft letter for formal/legal tones
     let letterText: string | null = null;
@@ -190,7 +227,7 @@ export async function sendPaymentReminder(
       const draft = await generateRentFollowUpDraft(
         `${tenant.firstName} ${tenant.lastName}`,
         `${property.addressLine1}, ${property.postalCode} ${property.city}`,
-        toNumber(transaction.amount),
+        amountDue.toNumber(),
         dueDateFormatted,
         daysLate,
         previousAttempts,
@@ -206,22 +243,22 @@ export async function sendPaymentReminder(
       : undefined;
 
     // Dynamic imports to prevent Next.js build analysis of React Email components
-    const [{ renderToBuffer }, { PaymentReminderEmail }] = await Promise.all([
-      import("@react-pdf/renderer"),
-      import("../../../emails/payment-reminder"),
+    const [{ render }, { PaymentReminderEmail }] = await Promise.all([
+      import("@react-email/components"),
+      import("../../emails/payment-reminder"),
     ]);
 
-    const emailHtml = await renderToBuffer(
+    const emailHtml = await render(
       <PaymentReminderEmail
         tenantFirstName={tenant.firstName}
         landlordFirstName={user.firstName}
         landlordLastName={user.lastName}
         propertyAddress={`${property.addressLine1}, ${property.postalCode} ${property.city}`}
-        amountDue={toNumber(transaction.amount)}
+        amountDue={amountDue.toNumber()}
         dueDate={transaction.dueDate}
         daysLate={daysLate}
         tone={tone}
-        letterUrl={letterUrl}
+          letterUrl={letterUrl ?? `${portalBaseUrl}/portal`}
       />
     );
 
@@ -234,12 +271,12 @@ export async function sendPaymentReminder(
           : tone === "formal"
             ? `Relance pour loyer impayé - ${property.addressLine1}`
             : "Rappel : votre loyer en attente",
-      html: emailHtml.toString(),
+      html: emailHtml,
     });
 
     if (emailResult.error) {
       console.error("Email send error:", emailResult.error);
-      return { success: false, error: "Échec de l'envoi de l'email de relanc." };
+      return { success: false, error: "Échec de l'envoi de l'email de relance." };
     }
 
     // Log reminder sent
@@ -254,11 +291,12 @@ export async function sendPaymentReminder(
             : tone === "formal"
               ? "Relance formelle envoyée"
               : "Rappel envoyé",
-        body: `Relance ${tone} envoyée à ${tenant.firstName} ${tenant.lastName} pour ${toNumber(transaction.amount)} €`,
+        body: `Relance ${tone} envoyée à ${tenant.firstName} ${tenant.lastName} pour ${amountDue.toFixed(2)} €`,
       },
     });
 
     revalidatePath("/billing");
+    revalidatePath("/dashboard");
     return {
       success: true,
       data: {
@@ -269,7 +307,7 @@ export async function sendPaymentReminder(
     };
   } catch (error) {
     console.error("sendPaymentReminder error:", error);
-    return { success: false, error: "Impossible d'envoyer la relanc." };
+    return { success: false, error: "Impossible d'envoyer la relance." };
   }
 }
 
@@ -290,7 +328,9 @@ export async function getOverdueTransactions(): Promise<
   const transactions = await prisma.transaction.findMany({
     where: {
       userId,
-      status: { in: ["LATE", "PENDING"] },
+      // Unpaid and past due. Deriving this from the date matters: no code writes a
+      // LATE status, so filtering on it returned an empty relance list every time.
+      paidAt: null,
       dueDate: { lt: now },
     },
     include: {

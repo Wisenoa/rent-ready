@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Modèle Bail Mobilité Gratuit 2026 — Sans Garantie Loyer",
@@ -16,7 +22,7 @@ export const metadata: Metadata = {
     "bail stage",
   ],
   openGraph: {
-    title: "Modèle Bail Mobilité 2026 — Sans Garantie | RentReady",
+    title: "Modèle Bail Mobilité 2026 — Sans Garantie",
     description:
       "Bail mobilité 1-10 mois sans garantie loyer. Téléchargez et personnalisez en ligne. Mise à jour 2026.",
     type: "website",
@@ -93,13 +99,10 @@ const orgSchema = {
   "@id": "https://www.rentready.fr/#organization",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.png",
+  logo: "https://www.rentready.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-  sameAs: [
-    "https://twitter.com/rentready_fr",
-    "https://www.linkedin.com/company/rentready",
-  ],
+  sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -112,12 +115,12 @@ const webSiteSchema = {
   "@id": "https://www.rentready.fr/#website",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.rentready.fr/recherche?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function BailMobiliteJsonLd() {
   const data = {
@@ -322,7 +325,7 @@ export default function BailMobilitePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: "/guides/modele-bail", label: "Guide : modèle de bail de location →" },
-              { href: "/blog/gestion-locative-debutant-guide", label: "Guide de la gestion locative pour débutants →" },
+              { href: "/blog/investir-immobilier-locatif-guide-debutant-2026", label: "Guide de la gestion locative pour débutants →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
             ].map((link) => (
               <Link
@@ -343,7 +346,7 @@ export default function BailMobilitePage() {
           <Link href="/templates/bail-commercial" className="text-blue-600 hover:underline">
             Bail commercial →
           </Link>
-          <Link href="/templates/colocation" className="text-blue-600 hover:underline">
+          <Link href="/templates/bail-colocation" className="text-blue-600 hover:underline">
             Colocation →
           </Link>
           <Link href="/templates" className="text-blue-600 hover:underline">

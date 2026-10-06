@@ -5,7 +5,11 @@ import { baseMetadata } from "@/lib/seo/metadata";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
-export const revalidate = 86400;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
@@ -100,7 +104,7 @@ const solutions = [
       "Accompagnement procedure en cas de litige",
       "Coût modéré (10 à 30 €/mois)",
       "Couverture large (litiges contractuels, voisins, etc.)",
-      "Aide à la prescription des等级的",
+      "Aide à la prescription des dégâts",
     ],
     cons: [
       "Ne rembourse PAS les loyers impayés",
@@ -156,10 +160,15 @@ const solutions = [
   },
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export default function AssuranceLoyerImpayé() {
   return (
     <>
-      <SchemaMarkup data={faqSchema} />
+      <SchemaMarkup data={faqSchema} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },
@@ -213,13 +222,13 @@ export default function AssuranceLoyerImpayé() {
                       <h3 className={`text-lg font-bold ${solution.iconColor}`}>
                         {solution.name}
                       </h3>
-                      <p className="text-sm font-medium text-stone-500">
+                      <p className="text-sm font-medium text-stone-600">
                         {solution.verdict}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-bold text-stone-700">{solution.cost}</p>
-                      <p className="text-xs text-stone-400">{solution.bestFor}</p>
+                      <p className="text-xs text-stone-600">{solution.bestFor}</p>
                     </div>
                   </div>
                   <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -246,7 +255,7 @@ export default function AssuranceLoyerImpayé() {
                             {solution.name === "Aucune protection" ? (
                               <X className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
                             ) : (
-                              <X className="mt-0.5 h-4 w-4 shrink-0 text-stone-300" />
+                              <X className="mt-0.5 h-4 w-4 shrink-0 text-stone-700" />
                             )}
                             {con}
                           </li>
@@ -282,7 +291,7 @@ export default function AssuranceLoyerImpayé() {
               <details key={faq.name} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>

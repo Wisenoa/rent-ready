@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata() {
   return baseMetadata({
     title: "Conditions Générales d'Utilisation — RentReady",
@@ -10,6 +16,11 @@ export async function generateMetadata() {
   });
 }
 ;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function CguJsonLd() {
   const data = {
@@ -63,6 +74,8 @@ function CguJsonLd() {
   );
 }
 
+import { formatProPrice, formatProAnnualPrice } from "@/data/entity";
+
 export default function CguPage() {
   return (
     <>
@@ -71,7 +84,7 @@ export default function CguPage() {
       <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
         Conditions Générales d&apos;Utilisation
       </h1>
-      <p className="mt-4 text-sm text-stone-400">
+      <p className="mt-4 text-sm text-stone-600">
         Dernière mise à jour : mars 2026
       </p>
 
@@ -118,7 +131,7 @@ export default function CguPage() {
           <h2>4. Abonnement et tarification</h2>
           <p>
             Le service est accessible moyennant un abonnement mensuel de
-            15 € TTC ou annuel de 150 € TTC (soit 2 mois offerts). Un essai
+            {formatProPrice().replace(" €", "")} TTC ou annuel de {formatProAnnualPrice()} TTC (soit 2 mois offerts). Un essai
             gratuit de 14 jours est proposé sans engagement ni carte bancaire.
           </p>
           <p className="mt-2">

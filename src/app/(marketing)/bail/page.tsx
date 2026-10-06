@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 import cities from "@/data/cities.json";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 type City = (typeof cities)[number];
 
@@ -23,14 +29,10 @@ function formatPopulation(n: number) {
   return new Intl.NumberFormat("fr-FR").format(n);
 }
 
-// ISR: revalidate marketing pages at CDN edge every hour
-// Keeps content fresh while serving cached HTML for TTFB < 100ms
-export const revalidate = 3600;
-
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
 // Type assertion needed due to TypeScript inference mismatch with typeof import()
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
@@ -38,7 +40,7 @@ const FinalCta = dynamic(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Gestion des Baux 2026 — Créer, Suivre & Renouveler | RentReady",
+      "Gestion des Baux 2026 — Créer, Suivre & Renouveler",
     description:
       "Logiciel gestion des baux 2026 : création contrats, renouvellement, préavis, documents légaux. Simplifiez la gestion de vos locations. Essai gratuit.",
     url: "/bail",
@@ -167,12 +169,7 @@ const BAIL_SCHEMA = {
       description:
         "Créez, suivez et renouvelez vos contrats de location facilement. Modèles de baux conformes loi Alur et ÉLAN, assistant guidée, signature électronique.",
       offers: {
-        "@type": "Offer",
-        price: "15.00",
-        priceCurrency: "EUR",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        url: "https://www.rentready.fr/register",
+        ...paidOffer(),
       },
       featureList: [
         "Création de bail guidée conforme loi 1989",
@@ -199,11 +196,6 @@ const BAIL_SCHEMA = {
       "@id": "https://www.rentready.fr/#website",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://www.rentready.fr/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "FAQPage",
@@ -220,10 +212,15 @@ const BAIL_SCHEMA = {
   ],
 };
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export default function BailPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <SchemaMarkup data={BAIL_SCHEMA} />
+      <SchemaMarkup data={BAIL_SCHEMA} breadcrumbRenderedByComponent />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
 {/* Breadcrumb */}
@@ -297,27 +294,27 @@ dépôt de garantie, etc.).
 </p>
 <ul className="grid gap-3 sm:grid-cols-2">
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Loi Alur</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Loi ÉLAN</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Encadrement des loyers</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>État des lieux obligatoire</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Diagnostic énergétique (DPE)</span>
 </li>
 <li className="flex items-center gap-2 text-sm text-stone-600">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>Clause résolutoire</span>
 </li>
 </ul>
@@ -349,7 +346,7 @@ dépôt de garantie, etc.).
                         <span className="text-sm font-medium text-stone-700 group-hover:text-blue-700">
                           {city.name}
                         </span>
-                        <span className="text-xs text-stone-400">
+                        <span className="text-xs text-stone-600">
                           {formatPopulation(city.population)} hab.
                         </span>
                       </Link>
@@ -378,7 +375,7 @@ dépôt de garantie, etc.).
       </section>
 
       {/* Internal links */}
-<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/locations"
 className="text-blue-600 hover:underline"

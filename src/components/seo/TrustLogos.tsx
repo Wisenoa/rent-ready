@@ -66,7 +66,7 @@ export function TrustLogos({
   return (
     <div className={`${className}`}>
       {/* Section label */}
-      <p className="mb-4 text-center text-[11px] font-medium uppercase tracking-[0.2em] text-stone-400">
+      <p className="mb-4 text-center text-[11px] font-medium uppercase tracking-[0.2em] text-stone-600">
         Sécurisé &amp; Conforme
       </p>
 
@@ -101,7 +101,7 @@ export function TrustLogos({
       {/* Media mentions strip */}
       {showMedia && variant === "full" && (
         <>
-          <p className="mb-3 mt-6 text-center text-[11px] font-medium uppercase tracking-[0.2em] text-stone-400">
+          <p className="mb-3 mt-6 text-center text-[11px] font-medium uppercase tracking-[0.2em] text-stone-600">
             Mentions presse
           </p>
           <ul

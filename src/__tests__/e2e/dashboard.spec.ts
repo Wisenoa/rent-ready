@@ -1,17 +1,10 @@
-import { test, expect } from '@playwright/test'
-import { TEST_USER } from './helpers/auth'
+import { test, expect } from './helpers/fixtures'
+import { TEST_USER, registerTestUser, uniqueEmail } from './helpers/auth'
 
 test.describe('Dashboard Analytics', () => {
   test('dashboard page loads with stats cards', async ({ page }) => {
-    const uniqueEmail = `e2e.dash.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Dashboard')
-    await page.fill('[id="lastName"]', 'Test')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    const accountEmail = uniqueEmail('dash')
+    await registerTestUser(page, accountEmail)
 
     // Should load without JS errors
     await expect(page).toHaveURL(/\/dashboard/)
@@ -23,15 +16,8 @@ test.describe('Dashboard Analytics', () => {
   })
 
   test('dashboard shows quick action cards', async ({ page }) => {
-    const uniqueEmail = `e2e.dash.quick.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Quick')
-    await page.fill('[id="lastName"]', 'Action')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    const accountEmail = uniqueEmail('dash.quick')
+    await registerTestUser(page, accountEmail)
 
     // Quick action cards should be present
     // Look for: Ajouter un bien, Ajouter un locataire, Générer une quittance
@@ -48,27 +34,24 @@ test.describe('Dashboard Analytics', () => {
   })
 
   test('dashboard stats render for user with data', async ({ page }) => {
-    const uniqueEmail = `e2e.dash.stats.${Date.now()}@rentready.io`
+    const accountEmail = uniqueEmail('dash.stats')
 
     // Register
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Stats')
-    await page.fill('[id="lastName"]', 'User')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    await registerTestUser(page, accountEmail)
 
     // Add a property
     await page.goto('/properties')
-    await page.getByRole('button', { name: /ajouter un bien/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
     await expect(page.getByText(/nouveau bien/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="name"]', 'Maison Dashboard')
     await page.fill('[id="addressLine1"]', '5 Avenue des Champs')
     await page.fill('[id="city"]', 'Bordeaux')
     await page.fill('[id="postalCode"]', '33000')
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
+    // Scoped to the dialog and to `type="submit"`: the trigger is called
+    // « Ajouter … » and the dialog holds « Annuler » next to « Ajouter », so a
+    // page-wide /créer|ajouter/ matched three elements and strict mode
+    // refused to choose.
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
     await expect(page.getByText('Maison Dashboard')).toBeVisible({ timeout: 10_000 })
 
     // Go to dashboard - stats should update
@@ -90,15 +73,8 @@ test.describe('Dashboard Analytics', () => {
   })
 
   test('empty dashboard state — no properties shows onboarding', async ({ page }) => {
-    const uniqueEmail = `e2e.dash.empty.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Empty')
-    await page.fill('[id="lastName"]', 'Dash')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
+    const accountEmail = uniqueEmail('dash.empty')
+    await registerTestUser(page, accountEmail)
 
     await page.goto('/dashboard')
 

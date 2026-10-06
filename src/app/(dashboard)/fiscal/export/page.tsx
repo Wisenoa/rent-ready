@@ -115,7 +115,7 @@ export default async function FiscalExportPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className={`text-2xl font-bold ${totalRevenue - totalExpenses >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+            <p className={`text-2xl font-bold ${totalRevenue - totalExpenses >= 0 ? "text-emerald-700" : "text-red-600"}`}>
               {((totalRevenue - totalExpenses) / 100).toLocaleString("fr-FR", {
                 style: "currency",
                 currency: "EUR",

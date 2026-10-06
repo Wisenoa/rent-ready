@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-// ISR: template library is static reference content — revalidate weekly
-export const revalidate = 604800;
 
 import Link from "next/link";
 import { ArrowRight, FileText, Check } from "lucide-react";
@@ -12,10 +10,16 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Modèles Gratuits de Location 2026 | Bail, Quittance, Courrier | RentReady",
+      "Modèles Gratuits de Location 2026 | Bail, Quittance, Courrier",
     description:
       "Téléchargez gratuitement nos modèles de bail, quittances de loyer, lettres de relance et plus. Documents conformes loi 1989, personnalisables et gratuits.",
     url: "/templates",
@@ -61,6 +65,11 @@ const templateCategories = [
     ],
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function TemplatesPageJsonLd() {
   const allItems = templateCategories.flatMap((cat) =>
@@ -110,7 +119,7 @@ export default function TemplatesPage() {
                 {category.name}
               </h2>
             </div>
-            <p className="mb-6 text-sm text-stone-500">{category.description}</p>
+            <p className="mb-6 text-sm text-stone-600">{category.description}</p>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {category.templates.map((template) => (
@@ -123,12 +132,12 @@ export default function TemplatesPage() {
                     <div className="flex size-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
                       <FileText className="size-4" />
                     </div>
-                    <ArrowRight className="size-4 text-stone-400 transition-transform group-hover:translate-x-1 group-hover:text-blue-600" />
+                    <ArrowRight className="size-4 text-stone-600 transition-transform group-hover:translate-x-1 group-hover:text-blue-600" />
                   </div>
                   <h3 className="mb-1 font-semibold text-stone-900 group-hover:text-blue-700">
                     {template.title}
                   </h3>
-                  <p className="text-sm text-stone-500">{template.desc}</p>
+                  <p className="text-sm text-stone-600">{template.desc}</p>
                 </Link>
               ))}
             </div>

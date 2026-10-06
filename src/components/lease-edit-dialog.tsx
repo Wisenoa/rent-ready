@@ -86,7 +86,7 @@ export function LeaseEditDialog({ lease }: LeaseEditDialogProps) {
     formState: { errors },
   } = useForm<LeaseFormValues>({
     // @hookform/resolvers v5 + Zod v4 has a known type mismatch on optional coerce fields
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(leaseSchema) as any,
     defaultValues: {
       propertyId: lease.propertyId,
@@ -128,11 +128,13 @@ export function LeaseEditDialog({ lease }: LeaseEditDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (o) reset(); }}>
-      <DialogTrigger>
-        <Button variant="outline" size="sm">
-          <Pencil className="size-3.5 mr-1.5" />
-          Modifier
-        </Button>
+      {/* The child is a real <Button>, so Base UI's own native <button> must
+          RENDER it rather than wrap it — otherwise this is
+          `<button><button/></button>`, which React rejects. `transaction-form`
+          already does it this way. */}
+      <DialogTrigger render={<Button variant="outline" size="sm" />}>
+        <Pencil className="size-3.5 mr-1.5" />
+        Modifier
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>

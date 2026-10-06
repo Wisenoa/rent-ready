@@ -45,6 +45,29 @@ const PROPERTY_TYPES = [
   { value: "OTHER", label: "Autre" },
 ] as const;
 
+/**
+ * Message d'erreur d'un champ, rendu dans le DOM.
+ *
+ * `id` fait le lien entre le champ (`aria-describedby`) et son message : sans
+ * lui, un lecteur d'ecran passe devant un champ invalide sans rien entendre.
+ * On rend aussi le role `alert` pour que l'erreur soit annoncee quand elle
+ * apparait au submit.
+ */
+function FieldError({
+  id,
+  message,
+}: {
+  id: string;
+  message?: string;
+}) {
+  if (!message) return null;
+  return (
+    <p id={id} role="alert" className="text-xs text-destructive">
+      {message}
+    </p>
+  );
+}
+
 type PropertyData = {
   id: string;
   name: string;
@@ -81,7 +104,7 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
     reset,
     formState: { errors },
   } = useForm<PropertyFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(propertySchema) as any,
     defaultValues: {
       name: property?.name ?? "",
@@ -124,8 +147,16 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<span />}>{trigger}</DialogTrigger>
-      <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      {/* The trigger RENDERS the button rather than wrapping one of its own
+          around the caller's: Base UI's native <button> wrapping a <Button> is
+          `<button><button/></button>`, which React rejects, and
+          `nativeButton={false}` expects a NON-button, so it warns in turn.
+          Rendering is the one form all three accept. The caller therefore passes
+          button CONTENT (icon + label), not a <Button>. */}
+      <DialogTrigger render={<Button variant="outline" size="sm" />}>
+        {trigger}
+      </DialogTrigger>
+<DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
             {isEditing ? "Modifier le bien" : "Ajouter un bien"}
@@ -137,8 +168,17 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
           </DialogDescription>
         </DialogHeader>
 
+        {/*
+          noValidate : c'est le schema (propertySchema) qui parle, via
+          react-hook-form. Sans lui, le navigateur peut bloquer le submit sur
+          `min="0"` des champs nombre et n'afficher que sa bulle native — un
+          message qu'on ne peut ni styler, ni relire en test, ni rattacher au
+          champ. Les deux sources de verite se contredisaient ; il n'y en a plus
+          qu'une, et elle est rendue dans le DOM.
+        */}
         <form
           onSubmit={handleSubmit(onSubmit)}
+          noValidate
           className="grid gap-4 py-2"
         >
           {/* Name */}
@@ -147,14 +187,12 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
             <Input
               id="name"
               placeholder="Ex: Appartement Rue de Rivoli"
+              maxLength={200}
               aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? "name-error" : undefined}
               {...register("name")}
             />
-            {errors.name && (
-              <p className="text-xs text-destructive">
-                {errors.name.message}
-              </p>
-            )}
+            <FieldError id="name-error" message={errors.name?.message} />
           </div>
 
           {/* Type */}
@@ -168,7 +206,11 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
                 setValue("type", typed, { shouldValidate: true });
               }}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger
+                className="w-full"
+                aria-invalid={!!errors.type}
+                aria-describedby={errors.type ? "type-error" : undefined}
+              >
                 <SelectValue placeholder="Sélectionner un type" />
               </SelectTrigger>
               <SelectContent>
@@ -179,8 +221,12 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
                 ))}
               </SelectContent>
             </Select>
-            {errors.type && (
-              <p className="text-xs text-destructive">
+            {errors.type?.message && (
+              <p
+                id="type-error"
+                role="alert"
+                className="text-xs text-destructive"
+              >
                 {errors.type.message}
               </p>
             )}
@@ -192,14 +238,15 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
             <Input
               id="addressLine1"
               placeholder="Numéro et rue"
+              maxLength={500}
               aria-invalid={!!errors.addressLine1}
+              aria-describedby={errors.addressLine1 ? "addressLine1-error" : undefined}
               {...register("addressLine1")}
             />
-            {errors.addressLine1 && (
-              <p className="text-xs text-destructive">
-                {errors.addressLine1.message}
-              </p>
-            )}
+            <FieldError
+              id="addressLine1-error"
+              message={errors.addressLine1?.message}
+            />
           </div>
 
           <div className="grid gap-2">
@@ -207,7 +254,14 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
             <Input
               id="addressLine2"
               placeholder="Bâtiment, étage, etc."
+              maxLength={500}
+              aria-invalid={!!errors.addressLine2}
+              aria-describedby={errors.addressLine2 ? "addressLine2-error" : undefined}
               {...register("addressLine2")}
+            />
+            <FieldError
+              id="addressLine2-error"
+              message={errors.addressLine2?.message}
             />
           </div>
 
@@ -218,32 +272,39 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
               <Input
                 id="city"
                 placeholder="Paris"
+                maxLength={200}
                 aria-invalid={!!errors.city}
+                aria-describedby={errors.city ? "city-error" : undefined}
                 {...register("city")}
               />
-              {errors.city && (
-                <p className="text-xs text-destructive">
-                  {errors.city.message}
-                </p>
-              )}
+              <FieldError id="city-error" message={errors.city?.message} />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="postalCode">Code postal *</Label>
               <Input
                 id="postalCode"
                 placeholder="75001"
+                maxLength={10}
                 aria-invalid={!!errors.postalCode}
+                aria-describedby={errors.postalCode ? "postalCode-error" : undefined}
                 {...register("postalCode")}
               />
-              {errors.postalCode && (
-                <p className="text-xs text-destructive">
-                  {errors.postalCode.message}
-                </p>
-              )}
+              <FieldError
+                id="postalCode-error"
+                message={errors.postalCode?.message}
+              />
             </div>
           </div>
 
           {/* Surface + Rooms */}
+          {/*
+            Ces deux champs sont facultatifs, donc leurs erreurs etaient
+            silencieusement absentes : `zodResolver` bloquait le submit cote
+            client, aucune server action n'etait appelee, aucun toast n'etait
+            emis, et le composant ne rendait rien — l'utilisateur cliquait
+            « Ajouter » et ne pouvait ni voir ni corriger. On rend donc la
+            meme chose que pour les champs requis : aria-invalid + message.
+          */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="grid gap-2">
               <Label htmlFor="surface">Surface (m²)</Label>
@@ -253,8 +314,11 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
                 step="0.1"
                 min="0"
                 placeholder="65"
+                aria-invalid={!!errors.surface}
+                aria-describedby={errors.surface ? "surface-error" : undefined}
                 {...register("surface")}
               />
+              <FieldError id="surface-error" message={errors.surface?.message} />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="rooms">Nombre de pièces</Label>
@@ -262,9 +326,13 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
                 id="rooms"
                 type="number"
                 min="0"
+                step="1"
                 placeholder="3"
+                aria-invalid={!!errors.rooms}
+                aria-describedby={errors.rooms ? "rooms-error" : undefined}
                 {...register("rooms")}
               />
+              <FieldError id="rooms-error" message={errors.rooms?.message} />
             </div>
           </div>
 
@@ -275,7 +343,14 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
               id="description"
               placeholder="Description du bien..."
               rows={3}
+              maxLength={2000}
+              aria-invalid={!!errors.description}
+              aria-describedby={errors.description ? "description-error" : undefined}
               {...register("description")}
+            />
+            <FieldError
+              id="description-error"
+              message={errors.description?.message}
             />
           </div>
 

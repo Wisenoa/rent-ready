@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{minHeight:400}} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Modèle Relance Loyer Impayé — Gratuit | RentReady",
+    title: "Modèle Relance Loyer Impayé — Gratuit",
     description: "Modèle de lettre de relance pour loyer impayé. Étapes légales et modèle gratuit pour réclamer le paiement du loyer en toute légalité.",
     url: "/templates/relance-loyer-impaye",
     ogType: "template",
@@ -73,6 +79,11 @@ const faqData = [
       "Après 2 mois d'impayé, le bailleur peut engager une procédure d'expulsion. Cela passe par l'activation de la clause résolutoire dans le bail, puis une assignation au tribunal. Attention : la trêve hivernale suspend toute procédure entre novembre et mars. Un délai de grâce peut aussi être accordé au locataire.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function RelanceLoyerJsonLd() {
   const data = {
@@ -159,7 +170,7 @@ export default function RelanceLoyerImpayePage() {
               Utiliser le modèle →
             </Link>
             <Link
-              href="/blog/charges-locatives-guide-complet"
+              href="/blog/charges-locatives-recuperables-liste-2026"
               className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto"
             >
               Guide charges locatives

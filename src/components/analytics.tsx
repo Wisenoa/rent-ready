@@ -3,6 +3,19 @@
 import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
+declare global {
+  interface Window {
+    /**
+     * Plausible injects this function via its script tag. It is optional at
+     * runtime — the component guards for it — so the type reflects that.
+     */
+    plausible?: (
+      event: string,
+      options?: { props?: Record<string, string | number | boolean> }
+    ) => void;
+  }
+}
+
 function getUtmParams(): {
   utm_source?: string;
   utm_medium?: string;

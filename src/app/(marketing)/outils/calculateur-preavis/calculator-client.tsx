@@ -37,7 +37,7 @@ const faqData = [
   {
     question: "Le locataire doit-il payer le loyer pendant le préavis ?",
     answer:
-      "Oui, le locataire est tenu de payer le loyer et les charges jusqu'à la fin du préavis, même s'il a trouvé un nouveau locataire entre-temps. Cependant, si le propriétaire reloue le logement avant la fin du préavis, il peut essere tenu de reverser une partie du dépôt au locataire sortant.",
+      "Oui, le locataire est tenu de payer le loyer et les charges jusqu'à la fin du préavis, même s'il a trouvé un nouveau locataire entre-temps. Cependant, si le propriétaire reloue le logement avant la fin du préavis, il peut être tenu de reverser une partie du dépôt au locataire sortant.",
   },
 ];
 
@@ -115,7 +115,7 @@ export function PreavisCalculatorClient() {
     } else {
       months = 3;
       legalBasis = "Zone non tendue + location vide : préavis de 3 mois (loi 1989, art. 15)";
-      explanation = "Pour une location vide en zone non tendue, le préavis légal est de 3 mois. Vous pouvez partir avant en négociant avec le bailleur.";
+      explanation = "Pour une location vide en zone non tendue, le préavis légal est de 3 mois. Vous pouvez partir avant en négociant avec le locataire.";
     }
 
     // Calculate end date
@@ -128,7 +128,7 @@ export function PreavisCalculatorClient() {
 
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
+      <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-5xl mx-auto px-4 py-12">
@@ -221,7 +221,7 @@ export function PreavisCalculatorClient() {
                       }`}
                     >
                       <div className="font-semibold text-stone-900">{option.label}</div>
-                      <div className="text-xs text-stone-500 mt-0.5">{option.desc}</div>
+                      <div className="text-xs text-stone-600 mt-0.5">{option.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -241,19 +241,19 @@ export function PreavisCalculatorClient() {
           {result && (
             <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
               <div className="text-center mb-6">
-                <div className="text-xs text-stone-500 uppercase tracking-wide mb-2">Durée de préavis légale</div>
+                <div className="text-xs text-stone-600 uppercase tracking-wide mb-2">Durée de préavis légale</div>
                 <div className="text-5xl font-bold text-blue-700">{result.months} <span className="text-2xl">mois</span></div>
               </div>
 
               <div className="space-y-4">
                 <div className="bg-stone-50 rounded-xl p-4">
-                  <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Date de fin de préavis (estimation)</div>
+                  <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Date de fin de préavis (estimation)</div>
                   <div className="text-lg font-bold text-stone-900">À partir du {result.endDate}</div>
-                  <p className="text-sm text-stone-500 mt-1">Le préavis commence dès réception de votre lettre recommandée par le bailleur.</p>
+                  <p className="text-sm text-stone-600 mt-1">Le préavis commence dès réception de votre lettre recommandée par le bailleur.</p>
                 </div>
 
                 <div className="bg-stone-50 rounded-xl p-4">
-                  <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Base légale</div>
+                  <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Base légale</div>
                   <div className="text-sm text-stone-700 font-medium">{result.legalBasis}</div>
                 </div>
 
@@ -268,7 +268,7 @@ export function PreavisCalculatorClient() {
                       <div>
                         <p className="text-sm text-yellow-800 font-semibold">Astuce</p>
                         <p className="text-sm text-yellow-700 mt-1">
-                          Si vous trouvez un locataire qui reprend le bail avant la fin du préavis, le propriétaire peut être tenu de vous libérer du loyers剩余部分. Négociez avec votre bailleur.
+                          Si vous trouvez un locataire qui reprend le bail avant la fin du préavis, le propriétaire peut être tenu de vous libérer du loyer restant. Négociez avec votre locataire.
                         </p>
                       </div>
                     </div>
@@ -291,7 +291,7 @@ export function PreavisCalculatorClient() {
                 </span>
               ))}
             </div>
-            <p className="text-xs text-stone-500 mt-4">
+            <p className="text-xs text-stone-600 mt-4">
               Source : décret zones tendues. Vérifiez le classement exact de votre commune sur service-public.fr.
             </p>
           </div>
@@ -304,7 +304,7 @@ export function PreavisCalculatorClient() {
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
                     <span className="font-semibold text-stone-900">{faq.question}</span>
-                    <svg className="size-5 text-stone-400 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
                   </summary>
@@ -318,32 +318,32 @@ export function PreavisCalculatorClient() {
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-stone-900 mb-4">Outils complémentaires</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/modeles/conge-locataire" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/conge-locataire" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Congé Locataire</div>
-                  <div className="text-sm text-stone-500">Lettre de résiliation de bail</div>
+                  <div className="text-sm text-stone-600">Lettre de résiliation de bail</div>
                 </div>
               </Link>
               <Link href="/outils/lettre-relance-loyer" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">✉️</span>
                 <div>
                   <div className="font-semibold text-stone-900">Lettre de Relance Loyer</div>
-                  <div className="text-sm text-stone-500">Avant de partir, vérifiez vos paiements</div>
+                  <div className="text-sm text-stone-600">Avant de partir, vérifiez vos paiements</div>
                 </div>
               </Link>
               <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
                   <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-500">Toutes les définitions légales</div>
+                  <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/modeles/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📝</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-500">Conforme à la loi 1989</div>
+                  <div className="text-sm text-stone-600">Conforme à la loi 1989</div>
                 </div>
               </Link>
             </div>

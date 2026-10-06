@@ -50,8 +50,15 @@ export async function POST(req: NextRequest) {
       }),
     );
 
-    // Send email notification to the sales team
-    const emailResult = await emailService.sendDemoRequestNotification({
+    // Send email notification to the sales team.
+    //
+    // This returns void: there is no result to inspect, so the previous
+    // `emailResult.ok` / `emailResult.error` read properties of undefined, threw,
+    // and turned every demo request into a 500. The email is non-critical, so a
+    // failure is logged and the request still succeeds.
+    let emailResult: { ok: boolean; error?: unknown } = { ok: true };
+    try {
+      await emailService.sendDemoRequestNotification({
       name: body.name,
       email: body.email,
       properties: body.properties,
@@ -60,6 +67,11 @@ export async function POST(req: NextRequest) {
       utmMedium: body.utm_medium,
       utmCampaign: body.utm_campaign,
     });
+    } catch (emailError) {
+      // Non-critical: the lead is already captured, so log and continue.
+      emailResult = { ok: false, error: emailError };
+    }
+
 
     if (!emailResult.ok) {
       console.error("[lead/demo] Failed to send demo request email:", emailResult.error);

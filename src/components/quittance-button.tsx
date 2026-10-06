@@ -3,59 +3,52 @@
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { Download, Loader2 } from "lucide-react";
-import { generateQuittance } from "@/lib/actions/quittance-actions";
 import { Button } from "@/components/ui/button";
-import type { QuittanceData } from "@/lib/quittance-generator";
 
+/**
+ * Download the receipt for a payment.
+ *
+ * This used to call the `generateQuittance` server action and then re-render the
+ * PDF IN THE BROWSER with @react-pdf/renderer + Factur-X, from the figures the
+ * action returned. The file the landlord got was therefore a fresh rendering, not
+ * the document RentReady archived: if the number or the template changed between
+ * the click and the render, the two differed, and the copy that had actually been
+ * checked was never the one downloaded.
+ *
+ * It now downloads the archived document through
+ * `/api/transactions/[id]/receipt/download`, which serves the persisted bytes.
+ * That route also generates the receipt when none exists yet, so this button is
+ * the whole flow and holds no PDF code — a receipt cannot be rendered on the
+ * client that the server never produced.
+ */
 export function QuittanceButton({ transactionId }: { transactionId: string }) {
   const [isPending, startTransition] = useTransition();
 
   function handleClick() {
     startTransition(async () => {
       try {
-        const result = await generateQuittance(transactionId);
+        const response = await fetch(
+          `/api/transactions/${transactionId}/receipt/download`
+        );
 
-        if (!result.success || !result.data) {
-          toast.error(result.error ?? "Impossible de générer le document");
+        if (!response.ok) {
+          // Say what actually went wrong: the server refuses (for instance an
+          // incomplete landlord address) with a reason the user can act on.
+          const body = (await response.json().catch(() => null)) as {
+            error?: string;
+          } | null;
+          toast.error(body?.error ?? "Impossible de télécharger le document");
           return;
         }
 
-        const quittanceData = result.data.quittanceData as QuittanceData;
-
-        // Restore Date objects from serialised JSON
-        quittanceData.periodStart = new Date(quittanceData.periodStart);
-        quittanceData.periodEnd = new Date(quittanceData.periodEnd);
-        quittanceData.paidAt = new Date(quittanceData.paidAt);
-
-        // Dynamic import — @react-pdf/renderer is client-only
-        const { pdf } = await import("@react-pdf/renderer");
-        const { QuittancePDF } = await import("@/lib/quittance-generator");
-
-        const blob = await pdf(<QuittancePDF data={quittanceData} />).toBlob();
-
-        // Factur-X: embed structured XML into the PDF
-        const { generateFacturXml } = await import("@/lib/facturx");
-        const { embedFacturX } = await import("@/lib/facturx-pdf");
-
-        const facturXml = generateFacturXml(quittanceData);
-        const basePdfBytes = new Uint8Array(await blob.arrayBuffer());
-
-        const documentTitle = quittanceData.isFullPayment
-          ? "Quittance de Loyer"
-          : "Reçu de Paiement Partiel";
-
-        const enhancedPdf = await embedFacturX(basePdfBytes, facturXml, {
-          title: documentTitle,
-          author: `${quittanceData.landlord.firstName} ${quittanceData.landlord.lastName}`,
-          subject: `${documentTitle} - ${quittanceData.receiptNumber}`,
-        });
-
-        const facturXBlob = new Blob([enhancedPdf.buffer as ArrayBuffer], { type: "application/pdf" });
-        const url = URL.createObjectURL(facturXBlob);
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
 
         const link = document.createElement("a");
         link.href = url;
-        link.download = `${(result.data.receiptNumber as string) ?? "quittance"}.pdf`;
+        link.download =
+          dispositionFileName(response.headers.get("Content-Disposition")) ??
+          "quittance.pdf";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -63,7 +56,7 @@ export function QuittanceButton({ transactionId }: { transactionId: string }) {
 
         toast.success("Document téléchargé");
       } catch {
-        toast.error("Erreur lors de la génération du PDF");
+        toast.error("Erreur lors du téléchargement du document");
       }
     });
   }
@@ -85,4 +78,15 @@ export function QuittanceButton({ transactionId }: { transactionId: string }) {
       )}
     </Button>
   );
+}
+
+/**
+ * The filename the server named the document, so the downloaded file keeps its
+ * receipt reference. Returns null when the header is absent or carries no name,
+ * and the caller falls back rather than saving a file called "download".
+ */
+function dispositionFileName(header: string | null): string | null {
+  if (!header) return null;
+  const match = /filename="?([^";]+)"?/.exec(header);
+  return match?.[1] ?? null;
 }

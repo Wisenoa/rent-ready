@@ -92,19 +92,20 @@ function StarterCTA({ isAnnual }: { isAnnual: boolean }) {
       />
     );
   }
-  return <SubscribeButton />;
+  return <SubscribeButton plan="starter" />;
 }
 
 function ProCTA({ isAnnual }: { isAnnual: boolean }) {
   if (isAnnual) {
     return (
       <AnnualSubscribeButton
+        plan="pro"
         annualPriceLabel="S'abonner — 149 €/an"
         badgeLabel="2 mois gratuits"
       />
     );
   }
-  return <SubscribeButton />;
+  return <SubscribeButton plan="pro" />;
 }
 
 export function PricingSectionWrapper() {

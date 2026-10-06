@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import Decimal from "decimal.js";
+import type { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { transactionSchema } from "@/lib/validations/transaction";
-import { determineReceiptType, computePaymentSplit } from "@/lib/payment-utils";
+import { recordRentPayment } from "@/lib/services/rent-payments";
+import { rateLimit, setRateLimitHeaders } from "@/lib/rate-limit";
 
 // ============================================================
 // GET /api/payments — List payments
@@ -74,13 +77,15 @@ export async function GET(request: NextRequest) {
             _sum: { amount: true },
             _count: true,
           }),
+          // Lateness is derived from the due date: nothing writes a LATE status, so
+          // these counters were permanently zero and arrears looked settled.
           prisma.transaction.aggregate({
-            where: { ...baseWhere, status: "PENDING" },
+            where: { ...baseWhere, paidAt: null, dueDate: { gte: new Date() } },
             _sum: { amount: true },
             _count: true,
           }),
           prisma.transaction.aggregate({
-            where: { ...baseWhere, status: "LATE" },
+            where: { ...baseWhere, paidAt: null, dueDate: { lt: new Date() } },
             _sum: { amount: true },
             _count: true,
           }),
@@ -96,15 +101,21 @@ export async function GET(request: NextRequest) {
       })(),
     ]);
 
+    // Prisma returns `Decimal` aggregates. Coercing them with `Math.round(x * 100)`
+    // performs binary floating-point arithmetic on money (850.1 * 100 = 85009.99…),
+    // so the totals can be off by a cent. Reduce with decimal.js instead.
+    const money = (value: Prisma.Decimal | Decimal | number | null | undefined) =>
+      new Decimal(value ?? 0).toDecimalPlaces(2).toNumber();
+
     return NextResponse.json({
       data: payments,
       pagination: { page, limit, total, pages: Math.ceil(total / limit) },
       summary: {
-        collected: Math.round((summaryResult.totalCollected ?? 0) * 100) / 100,
+        collected: money(summaryResult.totalCollected),
         collectedCount: summaryResult.totalCollectedCount,
-        pending: Math.round((summaryResult.totalPending ?? 0) * 100) / 100,
+        pending: money(summaryResult.totalPending),
         pendingCount: summaryResult.totalPendingCount,
-        overdue: Math.round((summaryResult.totalOverdue ?? 0) * 100) / 100,
+        overdue: money(summaryResult.totalOverdue),
         overdueCount: summaryResult.totalOverdueCount,
         currency: "EUR",
       },
@@ -125,6 +136,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Rate limit on the authenticated user ID, same budget as
+    // POST /api/transactions. This route writes money and had none.
+    const limit = await rateLimit(session.user.id, { limit: 30, window: 3600 });
+    if (!limit.success) {
+      const res = NextResponse.json(
+        { error: "Trop de paiements enregistrés. Veuillez patienter." },
+        { status: 429 }
+      );
+      setRateLimitHeaders(res, limit);
+      return res;
+    }
+
     const body = await request.json();
     const parsed = transactionSchema.safeParse(body);
 
@@ -135,38 +158,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify lease ownership
-    const lease = await prisma.lease.findUnique({ where: { id: parsed.data.leaseId } });
-    if (!lease || lease.userId !== session.user.id) {
-      return NextResponse.json({ error: "Bail introuvable ou accès non autorisé" }, { status: 404 });
+    // The one door (src/lib/services/rent-payments.ts): it owns ownership, the
+    // period resolution, the settlement rule and the collectable ceiling, so this
+    // route cannot drift from the payment form.
+    //
+    // This used to settle a generated period itself and had NO server-side
+    // ceiling (only `.positive()` in the Zod schema), which is how a crafted POST
+    // booked more than the month ever asked for.
+    const result = await recordRentPayment({
+      userId: session.user.id,
+      leaseId: parsed.data.leaseId,
+      duePeriodId: parsed.data.duePeriodId || null,
+      periodStart: new Date(parsed.data.periodStart),
+      periodEnd: new Date(parsed.data.periodEnd),
+      dueDate: new Date(parsed.data.dueDate),
+      amount: parsed.data.amount,
+      paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
+      paymentMethod: parsed.data.paymentMethod ?? null,
+      notes: parsed.data.notes || null,
+    });
+
+    if (!result.ok) {
+      // A lease that is not the caller's, and an amount above the balance, are
+      // both refusals, but only one is "not yours" — the code says which, so a
+      // reword of the French message cannot turn a 404 into a 400.
+      const status = result.code === "LEASE_NOT_FOUND" ? 404 : 400;
+      return NextResponse.json({ error: result.error }, { status });
     }
 
-    const { rentPortion, chargesPortion, isFullPayment } = computePaymentSplit(
-      parsed.data.amount,
-      lease.rentAmount,
-      lease.chargesAmount,
-    );
-    const receiptType = determineReceiptType(parsed.data.amount, lease.rentAmount, lease.chargesAmount);
-
-    const status = isFullPayment ? "PAID" : "PARTIAL";
-
-    const payment = await prisma.transaction.create({
-      data: {
-        userId: session.user.id,
-        leaseId: parsed.data.leaseId,
-        amount: parsed.data.amount,
-        rentPortion,
-        chargesPortion,
-        periodStart: new Date(parsed.data.periodStart),
-        periodEnd: new Date(parsed.data.periodEnd),
-        dueDate: new Date(parsed.data.dueDate),
-        paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
-        paymentMethod: parsed.data.paymentMethod ?? null,
-        status,
-        isFullPayment,
-        receiptType,
-        notes: parsed.data.notes || null,
-      },
+    const payment = await prisma.transaction.findUniqueOrThrow({
+      where: { id: result.transactionId },
       include: {
         lease: {
           select: {

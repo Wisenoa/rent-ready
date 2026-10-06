@@ -45,7 +45,11 @@ export async function GET(request: NextRequest) {
 
     const where: Record<string, unknown> = {
       userId: session.user.id,
-      status: { in: ["PAID", "PARTIAL", "PENDING", "LATE"] },
+      // Lateness is derived from dueDate; no LATE status is ever stored.
+      OR: [
+        { status: { in: ["PAID", "PARTIAL"] } },
+        { paidAt: null },
+      ],
       dueDate: { gte: rangeStart, lte: rangeEnd },
     };
 
@@ -86,9 +90,11 @@ export async function GET(request: NextRequest) {
         label: string;
         start: string;
         end: string;
-        totalCollected: number;
-        totalExpected: number;
-        totalOutstanding: number;
+        // Decimal until the response is built. These were `number` and summed with
+        // `+=`, which string-concatenated the first Decimal into them.
+        totalCollected: Decimal;
+        totalExpected: Decimal;
+        totalOutstanding: Decimal;
         collectionRate: number;
         paidCount: number;
         partialCount: number;
@@ -103,9 +109,9 @@ export async function GET(request: NextRequest) {
         label: p.label,
         start: p.start.toISOString(),
         end: p.end.toISOString(),
-        totalCollected: 0,
-        totalExpected: 0,
-        totalOutstanding: 0,
+        totalCollected: new Decimal(0),
+        totalExpected: new Decimal(0),
+        totalOutstanding: new Decimal(0),
         collectionRate: 0,
         paidCount: 0,
         partialCount: 0,
@@ -121,12 +127,16 @@ export async function GET(request: NextRequest) {
       });
       if (!monthlyData[periodKey]) continue;
 
-      const expected = new Decimal(tx.lease.rentAmount).plus(tx.lease.chargesAmount).toNumber();
+      const expected = new Decimal(tx.lease.rentAmount).plus(tx.lease.chargesAmount);
 
       if (tx.status === "PAID" || tx.status === "PARTIAL") {
-        monthlyData[periodKey].totalCollected += tx.amount;
+        monthlyData[periodKey].totalCollected = monthlyData[periodKey].totalCollected.plus(
+          tx.amount
+        );
       }
-      monthlyData[periodKey].totalExpected += expected;
+      monthlyData[periodKey].totalExpected = monthlyData[periodKey].totalExpected.plus(
+        expected
+      );
 
       if (tx.status === "PAID") {
         monthlyData[periodKey].paidCount++;
@@ -134,23 +144,31 @@ export async function GET(request: NextRequest) {
         monthlyData[periodKey].partialCount++;
       } else if (tx.status === "LATE") {
         monthlyData[periodKey].lateCount++;
-        monthlyData[periodKey].totalOutstanding += expected;
+        monthlyData[periodKey].totalOutstanding = monthlyData[periodKey].totalOutstanding.plus(
+          expected
+        );
       } else if (tx.status === "PENDING") {
         monthlyData[periodKey].pendingCount++;
-        monthlyData[periodKey].totalOutstanding += expected;
+        monthlyData[periodKey].totalOutstanding = monthlyData[periodKey].totalOutstanding.plus(
+          expected
+        );
       }
     }
 
     // Compute collection rates and round
     const monthlyBreakdown = Object.values(monthlyData).map((m) => ({
       ...m,
-      totalCollected: Math.round(m.totalCollected * 100) / 100,
-      totalExpected: Math.round(m.totalExpected * 100) / 100,
-      totalOutstanding: Math.round(m.totalOutstanding * 100) / 100,
-      collectionRate:
-        m.totalExpected > 0
-          ? Math.round((m.totalCollected / m.totalExpected) * 10000) / 100
-          : 0,
+      // Reduce once, at the JSON boundary, and round to the cent there.
+      totalCollected: m.totalCollected.toDecimalPlaces(2).toNumber(),
+      totalExpected: m.totalExpected.toDecimalPlaces(2).toNumber(),
+      totalOutstanding: m.totalOutstanding.toDecimalPlaces(2).toNumber(),
+      collectionRate: m.totalExpected.gt(0)
+        ? m.totalCollected
+            .dividedBy(m.totalExpected)
+            .times(100)
+            .toDecimalPlaces(2)
+            .toNumber()
+        : 0,
     }));
 
     // ── Grand totals ──────────────────────────────────────
@@ -178,8 +196,10 @@ export async function GET(request: NextRequest) {
       {
         propertyId: string;
         propertyName: string;
-        totalCollected: number;
-        totalOutstanding: number;
+        // Decimal, like the monthly map: these were `number` and summed with `+=`,
+        // which string-concatenated the first Decimal into them.
+        totalCollected: Decimal;
+        totalOutstanding: Decimal;
         activeLeases: number;
       }
     > = {};
@@ -190,8 +210,10 @@ export async function GET(request: NextRequest) {
         propertyMap[pid] = {
           propertyId: pid,
           propertyName: lease.property.name,
-          totalCollected: 0,
-          totalOutstanding: 0,
+          // Must be Decimal, not 0: the accumulator is added to with .plus(), and
+          // tsc checks the declared type, not the literal that was there.
+          totalCollected: new Decimal(0),
+          totalOutstanding: new Decimal(0),
           activeLeases: 0,
         };
       }
@@ -202,15 +224,18 @@ export async function GET(request: NextRequest) {
       if (tx.status === "PAID" || tx.status === "PARTIAL") {
         const pid = tx.lease.property.id;
         if (propertyMap[pid]) {
-          propertyMap[pid].totalCollected += tx.amount;
+          propertyMap[pid].totalCollected = propertyMap[pid].totalCollected.plus(
+            tx.amount
+          );
         }
       }
     }
 
     const byProperty = Object.values(propertyMap).map((p) => ({
       ...p,
-      totalCollected: Math.round(p.totalCollected * 100) / 100,
-      totalOutstanding: Math.round(p.totalOutstanding * 100) / 100,
+      // Reduce once, at the JSON boundary. The accumulator is Decimal; multiplying it
+      totalCollected: p.totalCollected.toDecimalPlaces(2).toNumber(),
+      totalOutstanding: p.totalOutstanding.toDecimalPlaces(2).toNumber(),
     }));
 
     // ── Recent transactions ─────────────────────────────────

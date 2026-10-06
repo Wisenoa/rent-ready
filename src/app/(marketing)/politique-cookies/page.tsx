@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title: "Politique de Cookies — RentReady",
@@ -39,11 +50,6 @@ function PolitiqueCookiesJsonLd() {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       {
         "@type": "BreadcrumbList",
@@ -81,7 +87,7 @@ export default function PolitiqueCookiesPage() {
         <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
           Politique de Cookies
         </h1>
-        <p className="mt-4 text-sm text-stone-400">
+        <p className="mt-4 text-sm text-stone-600">
           Derniere mise a jour : mars 2026
         </p>
 

@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-// ISR: revalidate marketing pages at CDN edge every hour
-// Keeps content fresh while serving cached HTML for TTFB < 100ms
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 export const revalidate = 3600;
 
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
@@ -20,7 +23,7 @@ const FinalCta = dynamic(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Gestion Locations 2026 — Tableau de bord unifié | RentReady",
+      "Gestion Locations 2026 — Tableau de bord unifié",
     description:
       "Gérez tous vos biens locatifs avec RentReady : tableau de bord temps réel, suivi loyers, portail locataire et documents centralisés. Essai gratuit 2026.",
     url: "/locations",
@@ -100,18 +103,13 @@ const LOCATIONS_SCHEMA = {
       "@type": "WebSite",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://www.rentready.fr/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "Organization",
       name: "RentReady",
       alternateName: "RentReady SAS",
       url: "https://www.rentready.fr",
-      logo: "https://www.rentready.fr/logo.png",
+      logo: "https://www.rentready.fr/logo.svg",
       description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
       foundingDate: "2024",
       address: {
@@ -125,10 +123,7 @@ const LOCATIONS_SCHEMA = {
         email: "contact@rentready.fr",
         availableLanguage: "French",
       },
-      sameAs: [
-        "https://twitter.com/rentready_fr",
-        "https://www.linkedin.com/company/rentready",
-      ],
+      sameAs: SAME_AS,
     },
     {
       "@type": "BreadcrumbList",
@@ -157,12 +152,7 @@ const LOCATIONS_SCHEMA = {
       description:
         "Gérez tous vos biens locatifs : suivi des loyers en temps réel, état des lieux, documents centralisés, portail locataire intégré. Logiciel pour propriétaires bailleurs.",
       offers: {
-        "@type": "Offer",
-        price: "15.00",
-        priceCurrency: "EUR",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        url: "https://www.rentready.fr/register",
+        ...paidOffer(),
       },
       featureList: [
         "Tableau de bord unifié",
@@ -199,10 +189,15 @@ const LOCATIONS_SCHEMA = {
   ],
 };
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export default function LocationsPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <SchemaMarkup data={LOCATIONS_SCHEMA} />
+      <SchemaMarkup data={LOCATIONS_SCHEMA} breadcrumbRenderedByComponent />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
 {/* Breadcrumb */}
@@ -295,7 +290,7 @@ données pour la comptabilité.
 <h2 className="text-2xl font-bold sm:text-3xl">
 Commencez à gérer vos locations en 5 minutes
 </h2>
-<p className="mx-auto mt-3 max-w-xl text-stone-300">
+<p className="mx-auto mt-3 max-w-xl text-stone-700">
 Ajoutez vos biens, vos locataires, générez vos premières quittances.
 Simple et rapide.
 </p>
@@ -308,7 +303,7 @@ Essai gratuit 14 jours
 </section>
 
 {/* Internal links */}
-<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/bail"
 className="text-blue-600 hover:underline"

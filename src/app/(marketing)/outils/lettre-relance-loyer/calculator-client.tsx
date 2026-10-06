@@ -110,7 +110,7 @@ export function LettreRelanceClient() {
 
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
+      <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-3xl mx-auto px-4 py-12">
@@ -140,7 +140,7 @@ export function LettreRelanceClient() {
                     className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
                       letterType === "relance"
                         ? "border-blue-600 bg-blue-50 text-blue-700"
-                        : "border-stone-200 text-stone-500 hover:border-blue-300"
+                        : "border-stone-200 text-stone-600 hover:border-blue-300"
                     }`}
                   >
                     Relance amiable
@@ -151,13 +151,13 @@ export function LettreRelanceClient() {
                     className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
                       letterType === "miseEnDemeurer"
                         ? "border-red-600 bg-red-50 text-red-700"
-                        : "border-stone-200 text-stone-500 hover:border-red-300"
+                        : "border-stone-200 text-stone-600 hover:border-red-300"
                     }`}
                   >
                     Mise en demeure
                   </button>
                 </div>
-                <p className="text-xs text-stone-500 mt-2">
+                <p className="text-xs text-stone-600 mt-2">
                   {letterType === "relance"
                     ? "Courrier informel pour les premiers retards. Pas de valeur juridique contraignante."
                     : "Courrier formel avec délai de grâce de 30 jours. Point de départ de la procédure judiciaire."}
@@ -285,10 +285,10 @@ export function LettreRelanceClient() {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
             <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
             <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
-            <Link href="/modeles" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
+            <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
             <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
           </div>
 

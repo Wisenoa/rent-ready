@@ -10,9 +10,15 @@ import {
   buildHowToSchema,
 } from "@/lib/seo/structured-data";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur Plus-Value Immobilière 2026 — Gratuit | RentReady",
+    title: "Calculateur Plus-Value Immobilière 2026 — Gratuit",
     description: "Estimez votre plus-value immobilière et l'impôt à payer lors de la vente d'un bien. Outil gratuit avec tous les abattements légaux applicables.",
     url: "/outils/calculateur-plus-value",
     ogType: "outil",
@@ -24,6 +30,11 @@ const breadcrumbItems = [
   { label: "Outils", href: "/outils" },
   { label: "Calculateur Plus-Value", href: "/outils/calculateur-plus-value" },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function PlusValueJsonLd() {
   const schema = buildGraphSchema(
@@ -63,7 +74,7 @@ function PlusValueJsonLd() {
       ],
     })
   );
-  return <SchemaMarkup data={schema} />;
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
 export default function PlusValuePage() {

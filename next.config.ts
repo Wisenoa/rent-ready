@@ -3,18 +3,76 @@ import { withSentryConfig } from '@sentry/nextjs';
 
 const config: NextConfig = {
   // ========================================
+  // Build directory
+  // ========================================
+  // `next dev` and `next build` write to the same directory by default, and they
+  // do not tolerate each other: a dev server holding `.next` open while a build
+  // rewrites it fails with
+  //
+  //   PageNotFoundError: Cannot find module for page: /_document
+  //
+  // which reads like an application bug and is not one. `playwright.config.ts`
+  // starts `pnpm dev` as its `webServer`, so the sequence "one agent runs the
+  // E2E suite, another runs a build" reproduced it.
+  //
+  // The dev server therefore builds into `.next-dev`. `next build` keeps `.next`,
+  // because that is the path the Dockerfile copies (`/app/.next/standalone`) and
+  // the one every script and test reads. Override with NEXT_DIST_DIR when a
+  // second build really needs its own directory.
+  distDir: process.env.NEXT_DIST_DIR || '.next',
+
+  // ========================================
+  // Static generation concurrency
+  // ========================================
+  // Next defaults to (CPU count - 1) static-generation workers. On a 14-core
+  // machine that is 13 concurrent page renders, and peak heap exceeded the
+  // default ~4 GB limit part-way through prerendering — the build died with
+  // "Ineffective mark-compacts near heap limit" at ~101/135 pages. Bisecting
+  // showed no single page is at fault; it is aggregate concurrency (114 static
+  // pages passed, 115 failed). Capping workers trades a little wall-clock for a
+  // build that reliably completes. Raise via NEXT_BUILD_WORKERS if desired.
+  experimental: {
+    // Enable optimized package imports
+    optimizePackageImports: ['lucide-react', 'date-fns', 'recharts'],
+    cpus: Math.max(
+      1,
+      Number.parseInt(process.env.NEXT_BUILD_WORKERS ?? '', 10) || 4
+    ),
+  },
+
+  // ========================================
   // TypeScript Configuration
   // ========================================
+  // Type errors now fail the build. `ignoreBuildErrors: true` was set to get past
+  // a pre-existing backlog, and it hid eight real bugs that tsc had reported
+  // plainly and the build discarded:
+  //
+  //   - the quittance PDF did `rentAmount + chargesAmount` on Decimals, printing
+  //     "70040.5" as the total and a 69 300 EUR balance on a paid lease
+  //   - four email routes called auth.getSession, which does not exist, and
+  //     returned 500 on every request
+  //   - the KPI digest queried prisma.subscription, a model that never existed
+  //   - both /api/reminders routes included a Prisma relation that was not
+  //     declared, so they threw on every request
+  //   - the bank webhook matched an incoming transfer against the earliest
+  //     pending invoice regardless of amount, so a 12 EUR grocery payment was
+  //     recorded against an 850 EUR rent invoice and issued a receipt
+  //   - the email sender read the Resend id from the wrong field, so every
+  //     delivered email returned ok: false
+  //   - registration called auth.api.signUp, which is undefined: nobody could
+  //     create an account, and POST /register still returned 200
+  //
+  // The CI type-check step ratchets the count, so a regression is caught before
+  // the build anyway.
   typescript: {
-    // Pre-existing TS configuration issues in node_modules - skip in CI
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
 
   // ========================================
   // Lint Configuration
   // ========================================
   eslint: {
-    // ESLint 9 + rushstack patch incompatibility — lint is handled by CI
+    // `pnpm lint` runs as its own step; see eslint.config.mjs.
     ignoreDuringBuilds: true,
   },
 
@@ -157,6 +215,161 @@ const config: NextConfig = {
         destination: '/',
         permanent: true,
       },
+
+      // ────────────────────────────────────────
+      // Doublon exact : deux articles, un seul titre
+      // ────────────────────────────────────────
+      // Both articles carried the exact same title, "Augmentation de loyer :
+      // règles et procédure". The thin one (1,994 chars) covered a subset of
+      // what the rich one (8,999 chars) already had — same IRL explanation,
+      // same zone-tendue limit, same procedure, same pitfalls, same FAQ — so
+      // there was nothing to merge. The file is deleted, so this rule is the
+      // only thing that keeps the old URL alive.
+      {
+        // Second exact title collision found in the same pass: "Comment
+        // rédiger un contrat de location en 2026", one version ending in
+        // ": guide complet". Bodies only shared 2.3% of their text, but the
+        // titles were indistinguishable in a SERP, which is the point.
+        source: '/blog/comment-rediger-contrat-location',
+        destination: '/blog/rediger-contrat-location',
+        permanent: true,
+      },
+
+      {
+        source: '/blog/augmentation-loyer-regles-et-procedure',
+        destination: '/blog/augmentation-loyer-regles-procedure',
+        permanent: true,
+      },
+
+      // ────────────────────────────────────────
+      // Duplicate deposit calculators: one crashed, one was correct
+      // ────────────────────────────────────────
+      // `/outils/calculateur-caution` and `/outils/calculateur-depot-garantie`
+      // answered the same question ("what is the maximum legal deposit?") with
+      // the same two inputs, so they competed for the same intent.
+      //
+      // The "caution" one was broken twice over:
+      //   1. `calculator-client.tsx` rendered `<DepositCalculatorClient />`
+      //      inside `DepositCalculatorClient`, so the page recursed until the
+      //      React stack blew and visitors saw a blank page;
+      //   2. its rule returned 2 months in any non-tendue zone, ignoring
+      //      whether the lease was furnished. The law caps an unfurnished
+      //      (non-meublé) deposit at 1 month everywhere.
+      //
+      // `/outils/calculateur-depot-garantie` asks for the zone *and* whether
+      // the lease is furnished and applies the cap correctly, so it becomes the
+      // single canonical page. The file is deleted; this redirect keeps the old
+      // URL and hands its signal over.
+      {
+        source: '/outils/calculateur-caution',
+        destination: '/outils/calculateur-depot-garantie',
+        permanent: true,
+      },
+
+      // Same intent as /outils/calculateur-rendement ("rentability locative"),
+      // which lives under /templates even though it calculates nothing and the
+      // real calculator is the one under /outils. One URL per intent.
+      {
+        source: '/templates/calculateur-rendement-locatif',
+        destination: '/outils/calculateur-rendement',
+        permanent: true,
+      },
+
+      // A static article sitting in /outils/, cannibalising /templates/bail-vide.
+      // /outils is meant to hold things that compute or generate; this one only
+      // describes a model that already has a canonical home.
+      {
+        source: '/outils/modele-bail-location',
+        destination: '/templates/bail-vide',
+        permanent: true,
+      },
+
+      // ────────────────────────────────────────
+      // Comparisons against companies that do not exist
+      // ────────────────────────────────────────
+      // `/comparatif/rentready-vs-gerclegeo` and `-vs-immotop` published a
+      // detailed feature and pricing comparison against two companies that are
+      // not French rental-management software. Searched on 2026-10-04: no SaaS
+      // by either name operates in this market.
+      //
+      // What made this worse than a wasted page: the claims were published as
+      // FAQPage structured data, which is the form an answer engine reads.
+      // "Gerclegeo facture généralement entre 20 et 40 €/mois selon les modules"
+      // is a specific price asserted about a company nobody can check —
+      // fabricated claims about named businesses. That is a legal exposure and a
+      // direct reason for a source to be distrusted.
+      //
+      // `/comparatif/logiciel-gestion-locative` answers the same search intent
+      // ("comparatif logiciel gestion locative") against competitors that do
+      // exist, so the signal goes there.
+      {
+        source: '/comparatif/rentready-vs-gerclegeo',
+        destination: '/comparatif/logiciel-gestion-locative',
+        permanent: true,
+      },
+      {
+        source: '/comparatif/rentready-vs-immotop',
+        destination: '/comparatif/logiciel-gestion-locative',
+        permanent: true,
+      },
+
+      // ────────────────────────────────────────
+      // Slugs d'articles corrigés
+      // ────────────────────────────────────────
+      // /blog/assurance-loyer-impaye-GLI is deliberately NOT redirected: Next
+      // matches redirect sources after normalising the path to lowercase, so a
+      // source spelled with an uppercase letter also matches the lowercase URL
+      // and sends it back to itself in an endless 308. The slug is now
+      // lowercase and resolves, and Next lowercases incoming paths before the
+      // page looks the article up, so old mixed-case links still land here.
+      // A 301 for the accented slug keeps that inbound link working and hands
+      // the signal to the new URL.
+      {
+        // Next lowercases the path before matching a redirect source, so the
+        // literal accented form never matches: the encoded slug arrives as
+        // %c3%a9. Both spellings are registered.
+        source: '/blog/gestion-compte-banque-s%c3%a9par%c3%a9',
+        destination: '/blog/gestion-compte-banque-separe',
+        permanent: true,
+      },
+      {
+        source: '/blog/gestion-compte-banque-séparé',
+        destination: '/blog/gestion-compte-banque-separe',
+        permanent: true,
+      },
+
+      // ────────────────────────────────────────
+      // /modeles → /templates consolidation
+      // ────────────────────────────────────────
+      // Two parallel template libraries served the same intents ("modèle bail
+      // vide" existed at both /modeles/bail-vide and /templates/bail-vide).
+      // Google had to pick one, and the nav/footer only ever linked to
+      // /templates, so /modeles was the orphan copy. One canonical destination
+      // per intent: 301 the losers. The corresponding page files were deleted,
+      // so these rules are the only thing that serves the old URLs.
+      { source: '/modeles/augmentation-de-loyer', destination: '/templates/augmentation-de-loyer', permanent: true },
+      { source: '/modeles/bail-colocation', destination: '/templates/bail-colocation', permanent: true },
+      { source: '/modeles/bail-commercial', destination: '/templates/bail-commercial', permanent: true },
+      { source: '/modeles/bail-meuble', destination: '/templates/bail-meuble', permanent: true },
+      { source: '/modeles/bail-mobilite', destination: '/templates/bail-mobilite', permanent: true },
+      { source: '/modeles/bail-vide', destination: '/templates/bail-vide', permanent: true },
+      { source: '/modeles/conge-locataire', destination: '/templates/conge-locataire', permanent: true },
+      { source: '/modeles/conge-proprietaire', destination: '/templates/conge-proprietaire', permanent: true },
+      { source: '/modeles/etat-des-lieux', destination: '/templates/etat-des-lieux', permanent: true },
+      { source: '/modeles/quittance-de-loyer', destination: '/templates/recu-loyer', permanent: true },
+      { source: '/modeles/relance-loyer-impaye', destination: '/templates/relance-loyer-impaye', permanent: true },
+      { source: '/modeles/bail-professionnel', destination: '/templates/bail-professionnel', permanent: true },
+      { source: '/modeles/contrat-de-location', destination: '/templates/contrat-de-location', permanent: true },
+      { source: '/modeles/protocol-etat-des-lieux', destination: '/templates/protocol-etat-des-lieux', permanent: true },
+      { source: '/modeles/repartition-charges', destination: '/templates/repartition-charges', permanent: true },
+      { source: '/modeles', destination: '/templates', permanent: true },
+
+      // Same intent, same document under two slugs. The descriptive slug wins.
+      { source: '/templates/colocation', destination: '/templates/bail-colocation', permanent: true },
+
+      // Both IRL calculators rendered the same component under two URLs.
+      { source: '/outils/calculateur-revision-irl', destination: '/outils/calculateur-irl', permanent: true },
+      { source: '/outils/calculateur-irl-2026', destination: '/outils/calculateur-irl', permanent: true },
     ];
   },
 
@@ -170,14 +383,6 @@ const config: NextConfig = {
         destination: '/api/webhooks/bank/:path*',
       },
     ];
-  },
-
-  // ========================================
-  // Experimental Features
-  // ========================================
-  experimental: {
-    // Enable optimized package imports
-    optimizePackageImports: ['lucide-react', 'date-fns', 'recharts'],
   },
 
   // ========================================
@@ -202,5 +407,10 @@ export default withSentryConfig(config, {
   org: process.env.SENTRY_ORG || 'wisenoa',
   project: 'rent-ready',
   widenClientFileUpload: false,
-  tunnelRoute: '/api/sentry-error',
+  // No tunnel option here on purpose. Sentry 10's `SentryBuildOptions` has no
+  // `tunnelUrl`/`tunnelRoute` field at all — `tsc` rejects both — so the previous
+  // `tunnelRoute: '/api/sentry-error'` was not misnamed, it was removed from the
+  // API. The tunnel is now wired where Sentry 10 reads it: the client SDK's
+  // `transport`, in sentry.client.config.ts. The route it posts to lives at
+  // src/app/api/sentry-error/route.ts.
 });

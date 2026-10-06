@@ -1,8 +1,24 @@
 import { Suspense } from "react";
 
-// ISR: revalidate marketing pages every hour at the CDN edge
-// This dramatically improves TTFB (cache hit at Vercel Edge) while
-// keeping content fresh. Googlebot sees cached HTML = faster crawl budget.
+/**
+ * Marketing pages are ISR, revalidated hourly at the edge.
+ *
+ * This was declared here all along and overridden by `export const dynamic =
+ * "force-dynamic"` on every page below, which made it dead configuration. The
+ * override was added when prerendering the content suite exhausted the Node heap
+ * during `next build`; `next.config.ts` now caps static-generation workers
+ * (`experimental.cpus`), which is the actual fix for that.
+ *
+ * Why it matters beyond TTFB: in a fully dynamic render, Next streams metadata
+ * *after* `</head>` — `<title>` and `<link rel="canonical">` were landing tens of
+ * thousands of bytes into the body, past a Suspense boundary. Google tolerates
+ * it; secondary crawlers and link previewers that read only the head see no title
+ * and no canonical at all. With ISR both are in the initial HTML.
+ *
+ * Nothing under this layout needs per-request data: it reads local modules
+ * (`articles.ts`, `cities.json`, `glossary.json`, `routes.ts`) and no page calls
+ * `cookies()`, `headers()` or `useSearchParams`.
+ */
 export const revalidate = 3600;
 import { GlassNav } from "@/components/landing/glass-nav";
 import { MarketingFooter } from "@/components/landing/marketing-footer";

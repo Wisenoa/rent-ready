@@ -28,19 +28,12 @@ import { ExpenseForm } from "@/components/expense-form";
 import { ExpenseOcrDialog } from "@/components/expense-ocr-dialog";
 import { ExpenseActions } from "@/components/expense-actions";
 import { ExpensesEmptyState } from "@/components/expenses-empty-state";
+import { formatCurrency } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Dépenses",
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
-}
 
 export default async function ExpensesPage() {
   const userId = await getAuthenticatedUserId();

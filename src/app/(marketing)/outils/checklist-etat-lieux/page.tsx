@@ -9,9 +9,20 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Checklist État des Lieux — Interactive | RentReady",
+    title: "Checklist État des Lieux — Interactive",
     description:
       "Checklist interactive pour réaliser un état des lieux entrée ou sortie conforme à la loi. Parcourez chaque pièce, cochez les éléments, et générez un reçu récapitulatif.",
     url: "/outils/checklist-etat-lieux",

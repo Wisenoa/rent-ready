@@ -13,7 +13,7 @@ import { ZodError } from "zod";
 export async function POST(request: Request) {
   try {
     // Validate session — only authenticated users can trigger their own welcome email
-    const session = await auth.getSession(request);
+    const session = await auth.api.getSession({ headers: request.headers });
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: "Unauthorized" },

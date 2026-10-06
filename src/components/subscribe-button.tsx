@@ -1,13 +1,24 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { createSubscriptionCheckout } from "@/lib/actions/subscription-actions";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function SubscribeButton() {
+/**
+ * The plan must be passed explicitly. It used to take no argument at all, which
+ * is how a "9 €/mois" Starter click ended up at the Pro price: there was nothing
+ * for the button to say which plan it stood for.
+ */
+export function SubscribeButton({
+  plan = "pro",
+}: {
+  plan?: "starter" | "pro";
+}) {
+  const router = useRouter();
   const { data: session, isPending: sessionPending } = useSession();
   const [transitionPending, startTransition] = useTransition();
   const [showLoading, setShowLoading] = useState(false);
@@ -38,12 +49,13 @@ export function SubscribeButton() {
           onClick={() => {
             setShowLoading(true);
             startTransition(async () => {
-              const result = await createSubscriptionCheckout();
+              const result = await createSubscriptionCheckout(plan);
               if (result.success && result.data?.url) {
                 window.location.href = result.data.url;
               } else {
-                // Fallback: navigate to billing page
-                window.location.href = "/billing";
+                // Fallback: an internal route, so use the router rather than
+                // reloading the whole app.
+                router.push("/billing");
               }
             });
           }}

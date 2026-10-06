@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
+import { formatProPrice } from "@/data/entity";
 import Link from "next/link";
 import { Check, X, Minus } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
-export const revalidate = 86400;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
@@ -76,6 +81,11 @@ const criteria = [
   "Conseil juridique",
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 function getScore(software: string, criterion: string): "check" | "cross" | "minus" {
   const scores: Record<string, Record<string, "check" | "cross" | "minus">> = {
     RentReady: {
@@ -107,7 +117,7 @@ export default function RentReadyVsLegalPlace() {
 
   return (
     <>
-      <SchemaMarkup data={faqSchema} />
+      <SchemaMarkup data={faqSchema} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },
@@ -171,7 +181,7 @@ export default function RentReadyVsLegalPlace() {
                 </tr>
               </tbody>
             </table>
-            <p className="mt-2 text-xs text-stone-400 text-center">
+            <p className="mt-2 text-xs text-stone-600 text-center">
               ✓ Inclus &nbsp; ✗ Non disponible &nbsp; − Partiellement
             </p>
           </div>
@@ -220,13 +230,13 @@ export default function RentReadyVsLegalPlace() {
                 </span>
               </div>
               <p className="mt-1 text-sm font-medium text-stone-700">
-                15 €/mois <span className="font-normal text-stone-400">tout compris jusqu'à 10 biens</span>
+                {formatProPrice()} <span className="font-normal text-stone-600">tout compris jusqu'à 10 biens</span>
               </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div>
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-green-700">Avantages</p>
                   <ul className="space-y-1">
-                    {["Quittances légales全自动", "Détection paiements via Open Banking", "Relance automatique impayés", "Portail locataire inclus", "Essai gratuit 14 jours"].map((pro) => (
+                    {["Quittances légales automatiques", "Détection paiements via Open Banking", "Relance automatique impayés", "Portail locataire inclus", "Essai gratuit 14 jours"].map((pro) => (
                       <li key={pro} className="flex items-start gap-2 text-sm text-stone-600">
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
                         {pro}
@@ -252,7 +262,7 @@ export default function RentReadyVsLegalPlace() {
             <div className="flex-1">
               <h3 className="text-lg font-bold text-stone-900">LegalPlace</h3>
               <p className="mt-1 text-sm font-medium text-stone-700">
-                Payant à l'acte <span className="font-normal text-stone-400">consultation et rédaction</span>
+                Payant à l'acte <span className="font-normal text-stone-600">consultation et rédaction</span>
               </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div>
@@ -280,7 +290,7 @@ export default function RentReadyVsLegalPlace() {
               </div>
             </div>
             <div className="shrink-0">
-              <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-400 cursor-not-allowed">
+              <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-600 cursor-not-allowed">
                 Consulter LegalPlace →
               </span>
             </div>
@@ -294,7 +304,7 @@ export default function RentReadyVsLegalPlace() {
               <details key={faq.name} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">+</span>
+                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <p className="mt-3 text-stone-600 leading-relaxed">{faq.acceptedAnswer.text}</p>
               </details>

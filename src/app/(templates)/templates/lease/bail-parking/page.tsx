@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Modèle Bail Parking Gratuit 2026 — Garage, Box, Place de Parking",
@@ -83,12 +89,12 @@ const faqData = [
   {
     question: "Le bail de parking est-il encadré par la loi de 1989 ?",
     answer:
-      "Non. La loi du 6 juillet 1989 sur les baux d'habitation ne s'applique pas aux locations de places de parking ou garages à usage exclusif. Ces bails sont dits 'hors champ' de la loi de 1989 et sont donc librement régis par le Code civil. Cela signifie que les conditions (loyer, durée, dépôt de garantie) sont librement fixées entre les parties, sauf dispositions locales (encadrement de certains loyer en zone tendue).",
+      "Non. La loi du 6 juillet 1989 sur les baux d'habitation ne s'applique pas aux locations de places de parking ou garages à usage exclusif. Ces bails sont dits 'hors champ' de la loi de 1989 et sont donc librement régis par le Code civil. Cela signifie que les conditions (loyer, durée, dépôt de garantie) sont librement fixées entre les parties. Attention : l\'encadrement des loyers en zone tendue ne concerne que les baux d\'habitation — un parking loué selon le droit commun n\'est pas plafonné de ce fait.",
   },
   {
     question: "Peut-on demander un dépôt de garantie pour un parking ?",
     answer:
-      "Oui. Contrairement aux baux d'habitation où le dépôt est limité, le bail de parking n'est pas soumis à ces restrictions légales. Le dépôt de garantie est librement fixé entre les parties (souvent l'équivalent de 1 à 3 mois de loyer). Il doit être restitué à la fin du bail déduction faite des éventuelles dégradations.",
+      "Cela dépend de la façon dont le parking est loué. S'il est loué indépendamment de tout logement, à un autre bailleur ou sans lien avec un bail d'habitation, le contrat relève du droit commun du louage (art. 1713 et suivants du Code civil) : les parties fixent librement le montant du dépôt. Mais si le garage est mentionné dans le bail d'habitation, ou loué simultanément au même locataire par le même bailleur dans la même résidence, il est accessoire au logement et relève alors de la loi du 6 juillet 1989 : le dépôt est plafonné à un mois de loyer hors charges (art. 22). La Cour de cassation retient que la simple mention du garage dans le bail suffit (3e civ., 11 juillet 2007). Le dépôt doit être restitué à la fin du bail, déduction faite des dégradations justifiées — le bailleur doit les prouver.",
   },
   {
     question: "Quelle durée pour un bail de parking ?",
@@ -112,13 +118,10 @@ const orgSchema = {
   "@id": "https://www.rentready.fr/#organization",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.png",
+  logo: "https://www.rentready.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-  sameAs: [
-    "https://twitter.com/rentready_fr",
-    "https://www.linkedin.com/company/rentready",
-  ],
+  sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -131,12 +134,12 @@ const webSiteSchema = {
   "@id": "https://www.rentready.fr/#website",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.rentready.fr/recherche?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function BailParkingJsonLd() {
   const data = {
@@ -192,7 +195,7 @@ export default function BailParkingPage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Modèle de Bail Parking
             <br />
-            <span className="text-emerald-600">Gratuit &amp; Conforme 2026</span>
+            <span className="text-emerald-700">Gratuit &amp; Conforme 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail de parking, garage ou box conforme au Code civil. Téléchargez
@@ -249,7 +252,7 @@ export default function BailParkingPage() {
           <div className="space-y-3">
             {obligations.map((item) => (
               <div key={item} className="flex items-start gap-3">
-                <Check className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+                <Check className="mt-0.5 size-4 shrink-0 text-emerald-700" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}
@@ -374,7 +377,7 @@ export default function BailParkingPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-emerald-600 hover:underline"
+                className="text-sm text-emerald-700 hover:underline"
               >
                 {link.label}
               </Link>
@@ -384,13 +387,13 @@ export default function BailParkingPage() {
 
         {/* Navigation */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/lease/bail-saisonnier" className="text-emerald-600 hover:underline">
+          <Link href="/templates/lease/bail-saisonnier" className="text-emerald-700 hover:underline">
             Bail saisonnier →
           </Link>
-          <Link href="/templates/lease/bail-etudiant" className="text-emerald-600 hover:underline">
+          <Link href="/templates/lease/bail-etudiant" className="text-emerald-700 hover:underline">
             Bail étudiant →
           </Link>
-          <Link href="/templates/lease/acte-caution" className="text-emerald-600 hover:underline">
+          <Link href="/templates/lease/acte-caution" className="text-emerald-700 hover:underline">
             Acte de caution →
           </Link>
           <Link href="/templates/lease" className="text-blue-600 hover:underline">

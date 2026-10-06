@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
 
@@ -147,9 +148,11 @@ export async function GET(request: NextRequest) {
       tenantId: tx.lease.tenant.id,
       tenantName: `${tx.lease.tenant.firstName} ${tx.lease.tenant.lastName}`,
       propertyAddress: buildPropertyAddress(tx.lease.property),
-      rentAmount: tx.rentPortion,
-      chargesAmount: tx.chargesPortion,
-      totalAmount: tx.amount,
+      // Converted here: this becomes a tax declaration (e-reporting 2044), so
+      // the aggregation below must sum plain numbers, not Decimal objects.
+      rentAmount: tx.rentPortion.toDecimalPlaces(2).toNumber(),
+      chargesAmount: tx.chargesPortion.toDecimalPlaces(2).toNumber(),
+      totalAmount: tx.amount.toDecimalPlaces(2).toNumber(),
       paidAt: tx.paidAt!.toISOString(),
       receiptType: tx.receiptType ?? "NON_ÉMIS",
       receiptNumber: tx.receiptNumber,
@@ -182,9 +185,20 @@ export async function GET(request: NextRequest) {
 
     const aggregatedByTenant = Array.from(tenantMap.values());
 
-    const totalCollected = txList.reduce((s, t) => s + t.totalAmount, 0);
-    const totalRent = txList.reduce((s, t) => s + t.rentAmount, 0);
-    const totalCharges = txList.reduce((s, t) => s + t.chargesAmount, 0);
+    // Summing money in Decimal and rounding once, at the end: a float `+=` over
+    // many transactions drifts, and this total is reported to the tax authority.
+    const totalCollected = txList
+      .reduce((s, t) => s.plus(t.totalAmount), new Decimal(0))
+      .toDecimalPlaces(2)
+      .toNumber();
+    const totalRent = txList
+      .reduce((s, t) => s.plus(t.rentAmount), new Decimal(0))
+      .toDecimalPlaces(2)
+      .toNumber();
+    const totalCharges = txList
+      .reduce((s, t) => s.plus(t.chargesAmount), new Decimal(0))
+      .toDecimalPlaces(2)
+      .toNumber();
 
     const payload: EReportingExport = {
       metadata: {

@@ -17,6 +17,8 @@ import {
   Home,
 } from "lucide-react";
 
+import Decimal from "decimal.js";
+import { formatCurrency } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,13 +68,6 @@ const MAINTENANCE_STATUS_CONFIG: Record<string, { label: string; className: stri
   CLOSED: { label: "Fermé", className: "bg-gray-100 text-gray-600" },
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-  }).format(amount);
-}
 
 export default async function TenantDetailPage({ params }: Props) {
   const { id } = await params;
@@ -151,9 +146,7 @@ export default async function TenantDetailPage({ params }: Props) {
         </div>
         <div className="flex items-center gap-2">
           <TenantForm tenant={serialized}>
-            <Button variant="outline" size="sm">
-              Modifier
-            </Button>
+            Modifier
           </TenantForm>
           <DeleteTenantButton
             tenantId={tenant.id}
@@ -296,7 +289,7 @@ export default async function TenantDetailPage({ params }: Props) {
                 <div className="flex items-center justify-between font-semibold">
                   <span>Total</span>
                   <span className="font-mono">
-                    {formatCurrency(activeLease.rentAmount + activeLease.chargesAmount)}
+                    {formatCurrency(new Decimal(activeLease.rentAmount).plus(activeLease.chargesAmount))}
                     <span className="text-muted-foreground font-normal text-xs">/mois</span>
                   </span>
                 </div>

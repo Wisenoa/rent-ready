@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-export const revalidate = 604800;
 
 import Link from "next/link";
 import { ArrowRight, FileText, Download } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Comment Faire une Quittance de Loyer 2026 — Guide & Modèle Gratuit | RentReady",
+      "Comment Faire une Quittance de Loyer 2026 — Guide & Modèle Gratuit",
     description:
       "Guide complet : comment faire une quittance de loyer, mentions obligatoires, modèle gratuit à télécharger. Obligatoire sur simple demande du locataire.",
     url: "/guides/quittance-loyer",
@@ -106,6 +111,11 @@ const faqSchema = {
   ],
 };
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export default function QuittanceLoyerGuidePage() {
   return (
     <>
@@ -119,7 +129,7 @@ export default function QuittanceLoyerGuidePage() {
       />
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12">
-        <nav className="mb-6 text-sm text-stone-500">
+        <nav className="mb-6 text-sm text-stone-600">
           <Link href="/" className="hover:text-stone-700">Accueil</Link>
           <span className="mx-2">›</span>
           <Link href="/guides" className="hover:text-stone-700">Guides pratiques</Link>
@@ -252,7 +262,7 @@ export default function QuittanceLoyerGuidePage() {
             <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">
               <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-stone-900 hover:text-blue-600">
                 {item.q}
-                <span className="shrink-0 text-stone-400 transition-transform group-open:rotate-180">
+                <span className="shrink-0 text-stone-600 transition-transform group-open:rotate-180">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>

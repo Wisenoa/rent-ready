@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
@@ -40,36 +39,7 @@ const breadcrumbItems = [
   { label: "Calculateur Dépôt de Garantie", href: "/outils/calculateur-depot-garantie" },
 ];
 
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Calculateur de Dépôt de Garantie",
-      description: "Calculez le dépôt de garantie maximum légal pour votre location selon la zone et le type de bail.",
-      url: "https://www.rentready.fr/outils/calculateur-depot-garantie",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://www.rentready.fr${item.href}`,
-      })),
-    },
-  ],
-};
+;
 
 export function DepotGarantieCalculatorClient() {
   const [monthlyRent, setMonthlyRent] = useState("");
@@ -100,7 +70,6 @@ export function DepotGarantieCalculatorClient() {
 
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-5xl mx-auto px-4 py-12">
@@ -203,7 +172,7 @@ export function DepotGarantieCalculatorClient() {
                   <div className="text-4xl font-bold text-green-700">{result.maxDeposit.toLocaleString("fr-FR")} €</div>
                 </div>
                 <div className="bg-white rounded-lg p-4 mb-4">
-                  <div className="text-xs text-stone-500 uppercase tracking-wide mb-1">Base légale</div>
+                  <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Base légale</div>
                   <div className="text-sm text-stone-700">{result.legalBasis}</div>
                 </div>
                 <div className="flex items-start gap-2 text-sm text-green-700">
@@ -244,7 +213,7 @@ export function DepotGarantieCalculatorClient() {
                 </tbody>
               </table>
             </div>
-            <p className="text-xs text-stone-500 mt-4">Source : loi du 6 juillet 1989 (art. 22) et loi ALUR 2014. Base légale applicable en 2025.</p>
+            <p className="text-xs text-stone-600 mt-4">Source : loi du 6 juillet 1989 (art. 22) et loi ALUR 2014. Base légale applicable en 2025.</p>
           </div>
 
           {/* FAQ */}
@@ -255,7 +224,7 @@ export function DepotGarantieCalculatorClient() {
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
                     <span className="font-semibold text-stone-900">{faq.question}</span>
-                    <svg className="size-5 text-stone-400 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
                   </summary>
@@ -273,28 +242,28 @@ export function DepotGarantieCalculatorClient() {
                 <span className="text-2xl">🏠</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur de Loyer</div>
-                  <div className="text-sm text-stone-500">Estimez le loyer au m²</div>
+                  <div className="text-sm text-stone-600">Estimez le loyer au m²</div>
                 </div>
               </Link>
-              <Link href="/modeles/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-500">Conforme à la loi 1989</div>
+                  <div className="text-sm text-stone-600">Conforme à la loi 1989</div>
                 </div>
               </Link>
               <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
                   <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-500">Toutes les définitions légales</div>
+                  <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/modeles/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">🏠</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle État des Lieux</div>
-                  <div className="text-sm text-stone-500">Checklist entrée et sortie</div>
+                  <div className="text-sm text-stone-600">Checklist entrée et sortie</div>
                 </div>
               </Link>
             </div>

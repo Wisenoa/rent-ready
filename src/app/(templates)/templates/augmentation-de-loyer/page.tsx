@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{minHeight:400}} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Modèle Lettre Augmentation de Loyer — Gratuit | RentReady",
-    description: "Modèle de lettre pour augmenter le loyer en cours de bail. Calculs révision IRL et règles d'encadrement pour incrementer合法的租金.",
+    title: "Modèle Lettre Augmentation de Loyer — Gratuit",
+    description:
+      "Modèle de lettre pour augmenter le loyer en cours de bail. Calcul de la révision IRL et règles d'encadrement pour augmenter le loyer légalement.",
     url: "/templates/augmentation-de-loyer",
     ogType: "template",
   });
@@ -38,7 +45,7 @@ const conditionsAugmentation = [
   {
     titre: "Délai de prévenance",
     description:
-      "Le bailleur doit informer le locataire au moins 1 mois avant la date d'anniversaire du bail (ou 3 mois pour la location meublée).",
+      "Le bailleur doit informer le locataire au moins 1 mois avant la date anniversaire du bail, y compris pour une location meublée (art. 17-3 loi 89-462).",
   },
 ];
 
@@ -60,14 +67,12 @@ const faqData = [
     question:
       "Peut-on augmenter le loyer tous les ans ?",
     answer:
-      "Oui, la révision du loyer selon l'IRL peut avoir lieu une fois par an, à la date anniversaire du bail. Mais attention : en zone tendue, le montant du loyer ne peut pas dépasser le loyer de référence minoré (soit -5 % à -20 % selon les communes). Le bailleur ne peut pas pratiquer une hausse supérieure à l'IRL sous prétexte de 'mise à niveau'.",
+      "Oui, la révision du loyer selon l'IRL peut avoir lieu une fois par an, à la date anniversaire du bail. Attention : cette révision n'est pas plafonnée par le loyer de référence minoré. Le minoré (loyer de référence diminué de 30 %) est le seuil en dessous duquel le bailleur peut engager une action en réévaluation de loyer au renouvellement (art. 17-2 loi 89-462). Le bailleur ne peut pas pratiquer une hausse supérieure à l'IRL sous prétexte de 'mise à niveau'.",
   },
   {
     question:
       "Comment calculer l'augmentation avec l'IRL ?",
-    answer:
-      "La formule est simple : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL). Par exemple, pour un loyer de 800 € avec un IRL qui passe de 138,38 à 141,02 : 800 × (141,02 / 138,38) = 815,26 €. L'augmentation maximale est de 1,9 % dans cet exemple.",
-  },
+    answer: "La formule est simple : Nouveau loyer = Loyer actuel × (Nouvel IRL / Ancien IRL). Par exemple, pour un loyer de 800 € avec un IRL qui passe de 145,17 (T2 2024) à 146,68 (T2 2025) : 800 × (146,68 / 145,17) = 808,32 €, soit une hausse de 1,04 %. Attention : si le logement est classé F ou G au DPE, la révision et la majoration du loyer sont interdites (art. 17-1 III, loi Climat et Résilience du 22 août 2021) — n'appliquez pas cette formule dans ce cas."},
   {
     question:
       "Que se passe-t-il si le bail ne contient pas de clause de révision ?",
@@ -75,6 +80,11 @@ const faqData = [
       "Si le bail ne contient pas de clause de révision automatique du loyer, le bailleur ne peut pas imposer une augmentation en cours de bail. Il faudra attendre le renouvellement du bail pour négocier un nouveau loyer, ce qui est possible mais doit respecter l'encadrement en zone tendue.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function AugmentationLoyerJsonLd() {
   const data = {
@@ -178,7 +188,7 @@ export default function AugmentationDeLoyerPage() {
               Calculer et générer →
             </Link>
             <Link
-              href="/blog/charges-locatives-guide-complet"
+              href="/blog/charges-locatives-recuperables-liste-2026"
               className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto"
             >
               Guide sur les charges
@@ -250,9 +260,9 @@ export default function AugmentationDeLoyerPage() {
           <div className="rounded-xl border border-stone-200 bg-white p-6">
             <ul className="space-y-2 text-sm text-stone-700">
               <li>• Loyer actuel : <strong>800 €/mois</strong></li>
-              <li>• Ancien IRL (T2 2024) : <strong>138,38</strong></li>
-              <li>• Nouvel IRL (T2 2025) : <strong>141,02</strong></li>
-              <li>• Calcul : 800 × (141,02 ÷ 138,38) = <strong>815,26 €/mois</strong></li>
+              <li>• Ancien IRL (T2 2024) : <strong>145,17</strong></li>
+              <li>• Nouvel IRL (T2 2025) : <strong>146,68</strong></li>
+              <li>• Calcul : 800 × (146,68 ÷ 145,17) = <strong>808,32 €/mois</strong></li>
               <li>• Augmentation : <strong>+15,26 €/mois (+1,9 %)</strong></li>
             </ul>
           </div>
@@ -349,7 +359,7 @@ export default function AugmentationDeLoyerPage() {
                 loyer basée sur l'indice de référence des loyers (IRL).
               </p>
               <p className="mb-4">
-                Indice de référence : <strong>IRL T2 2025 = 141,02</strong>
+                Indice de référence : <strong>IRL T2 2025 = 146,68</strong>
                 <br />
                 Ancien loyer : <strong>800,00 €/mois</strong>
                 <br />

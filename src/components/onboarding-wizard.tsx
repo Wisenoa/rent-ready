@@ -179,7 +179,11 @@ function PropertyStep({
   onSkip: () => void;
 }) {
   const [isPending, startTransition] = useTransition();
-  const stepStartRef = useRef(Date.now());
+    // Start time for the duration metric. Held in state rather than a ref:
+  // a ref read from onSubmit is render-reachable through
+  // handleSubmit(onSubmit) in the JSX, which the compiler rejects. Written
+  // once on mount, so it never changes between renders.
+  const [stepStartAt] = useState(() => Date.now());
 
   const {
     register,
@@ -197,8 +201,10 @@ function PropertyStep({
   const propertyType = watch("type");
 
   function onSubmit(data: PropertyFormValues) {
-    const duration = Math.round((Date.now() - stepStartRef.current) / 1000);
     startTransition(async () => {
+    // Read inside the async callback: the compiler treats the body of
+    // onSubmit as render-reachable, so a clock read there is impure.
+    const duration = Math.round((Date.now() - stepStartAt) / 1000);
       const formData = new FormData();
       for (const [key, value] of Object.entries(data)) {
         if (value !== undefined && value !== null) {
@@ -220,7 +226,7 @@ function PropertyStep({
   }
 
   function handleSkip() {
-    const duration = Math.round((Date.now() - stepStartRef.current) / 1000);
+    const duration = Math.round((Date.now() - stepStartAt) / 1000);
     trackEvent("onboarding_step_1_skipped", { duration_seconds: duration });
     saveState({ propertySkipped: true });
     onSkip();
@@ -354,7 +360,11 @@ function TenantStep({
   onSkip: () => void;
 }) {
   const [isPending, startTransition] = useTransition();
-  const stepStartRef = useRef(Date.now());
+    // Start time for the duration metric. Held in state rather than a ref:
+  // a ref read from onSubmit is render-reachable through
+  // handleSubmit(onSubmit) in the JSX, which the compiler rejects. Written
+  // once on mount, so it never changes between renders.
+  const [stepStartAt] = useState(() => Date.now());
 
   const {
     register,
@@ -370,8 +380,10 @@ function TenantStep({
   });
 
   function onSubmit(data: TenantFormValues) {
-    const duration = Math.round((Date.now() - stepStartRef.current) / 1000);
     startTransition(async () => {
+    // Read inside the async callback: the compiler treats the body of
+    // onSubmit as render-reachable, so a clock read there is impure.
+    const duration = Math.round((Date.now() - stepStartAt) / 1000);
       const formData = new FormData();
       for (const [key, value] of Object.entries(data)) {
         if (value !== undefined && value !== null) {
@@ -393,7 +405,7 @@ function TenantStep({
   }
 
   function handleSkip() {
-    const duration = Math.round((Date.now() - stepStartRef.current) / 1000);
+    const duration = Math.round((Date.now() - stepStartAt) / 1000);
     trackEvent("onboarding_step_2_skipped", { duration_seconds: duration });
     saveState({ tenantSkipped: true });
     toast.info("Ajoutez un locataire plus tard depuis la page Locataires.");
@@ -536,7 +548,11 @@ function LeaseStep({
   onComplete: () => void;
 }) {
   const [isPending, startTransition] = useTransition();
-  const stepStartRef = useRef(Date.now());
+    // Start time for the duration metric. Held in state rather than a ref:
+  // a ref read from onSubmit is render-reachable through
+  // handleSubmit(onSubmit) in the JSX, which the compiler rejects. Written
+  // once on mount, so it never changes between renders.
+  const [stepStartAt] = useState(() => Date.now());
   const today = new Date().toISOString().split("T")[0];
   const oneYearLater = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
     .toISOString()
@@ -549,7 +565,7 @@ function LeaseStep({
     watch,
     formState: { errors },
   } = useForm<LeaseFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     resolver: zodResolver(leaseSchema) as any,
     defaultValues: {
       propertyId,
@@ -568,8 +584,10 @@ function LeaseStep({
   const rentAmount = watch("rentAmount");
 
   function onSubmit(data: LeaseFormValues) {
-    const duration = Math.round((Date.now() - stepStartRef.current) / 1000);
     startTransition(async () => {
+    // Read inside the async callback: the compiler treats the body of
+    // onSubmit as render-reachable, so a clock read there is impure.
+    const duration = Math.round((Date.now() - stepStartAt) / 1000);
       const formData = new FormData();
       for (const [key, value] of Object.entries(data)) {
         if (value !== undefined && value !== null) {
@@ -703,7 +721,7 @@ function LeaseStep({
         <div className="rounded-lg bg-muted/60 p-3 text-sm">
           <p className="font-medium">
             Total mensuel :{" "}
-            <span className="text-emerald-600">
+            <span className="text-emerald-700">
               {new Intl.NumberFormat("fr-FR", {
                 style: "currency",
                 currency: "EUR",
@@ -836,7 +854,7 @@ function SuccessStep({
           style={{ width: "6rem", height: "6rem" }}
         />
         <div className="size-16 rounded-full bg-emerald-100 flex items-center justify-center relative z-10">
-          <CheckCircle2 className="size-8 text-emerald-600" />
+          <CheckCircle2 className="size-8 text-emerald-700" />
         </div>
         <div className="absolute -top-1 -right-1 z-20">
           <PartyPopper className="size-6 text-amber-500" />
@@ -860,7 +878,7 @@ function SuccessStep({
         <div className="space-y-2">
           <div className="flex items-start gap-2.5">
             <div className="size-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5 flex-shrink-0">
-              <CheckCircle2 className="size-3 text-emerald-600" />
+              <CheckCircle2 className="size-3 text-emerald-700" />
             </div>
             <p className="text-sm">Premier bail créé — bien joué !</p>
           </div>
@@ -980,21 +998,39 @@ export function OnboardingWizard({
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [state, setState] = useState<WizardState>({});
-  const wizardStartRef = useRef(Date.now());
+    // Start time for the duration metric. Held in state rather than a ref:
+  // a ref read from onSubmit is render-reachable through
+  // handleSubmit(onSubmit) in the JSX, which the compiler rejects. Written
+  // once on mount, so it never changes between renders.
+  const [wizardStartAt] = useState(() => Date.now());
 
-  // Restore state on mount / re-open
+  // Restore saved progress when the wizard opens.
+  //
+  // The previous version called setState synchronously inside the effect body
+  // (react-hooks/set-state-in-effect): opening the wizard rendered once with
+  // empty state, then again with the restored step, so the form visibly jumped.
+  // `loadState()` is a pure read of localStorage, so the restored step is
+  // derived during render instead. `restoredFor` records that the derivation was
+  // made for the current open cycle, so it runs once per opening.
+  const [restoredFor, setRestoredFor] = useState(false);
+  if (open && !restoredFor) {
+    const saved = loadState();
+    if (saved.propertyId || saved.tenantId || saved.propertySkipped || saved.tenantSkipped) {
+      setState(saved);
+      if (saved.propertySkipped && saved.tenantSkipped) {
+        setCurrentStep(3);
+      } else if (saved.propertySkipped || saved.propertyId) {
+        setCurrentStep(saved.tenantId ? 3 : 2);
+      }
+    }
+    setRestoredFor(true);
+  }
+  if (!open && restoredFor) {
+    setRestoredFor(false);
+  }
+
   useEffect(() => {
     if (open) {
-      const saved = loadState();
-      if (saved.propertyId || saved.tenantId || saved.propertySkipped || saved.tenantSkipped) {
-        setState(saved);
-        // Jump to appropriate step based on saved progress
-        if (saved.propertySkipped && saved.tenantSkipped) {
-          setCurrentStep(3);
-        } else if (saved.propertySkipped || saved.propertyId) {
-          setCurrentStep(saved.tenantId ? 3 : 2);
-        }
-      }
       trackEvent("onboarding_started", {});
     }
   }, [open]);
@@ -1026,7 +1062,7 @@ export function OnboardingWizard({
   }
 
   function handleLeaseComplete() {
-    const duration = Math.round((Date.now() - wizardStartRef.current) / 1000);
+    const duration = Math.round((Date.now() - wizardStartAt) / 1000);
     trackEvent("onboarding_completed", {
       propertyId: state.propertyId,
       tenantId: state.tenantId,
@@ -1038,7 +1074,7 @@ export function OnboardingWizard({
   }
 
   function handleClose() {
-    const duration = Math.round((Date.now() - wizardStartRef.current) / 1000);
+    const duration = Math.round((Date.now() - wizardStartAt) / 1000);
     trackEvent("onboarding_abandoned", {
       step: currentStep,
       duration_seconds: duration,
@@ -1074,7 +1110,7 @@ export function OnboardingWizard({
               <div className="flex items-center gap-2 text-xs text-muted-foreground -mt-2 mb-2">
                 <Clock className="size-3.5" />
                 <span>{currentStepInfo.timeEstimate}</span>
-                <span className="text-emerald-600 font-medium">
+                <span className="text-emerald-700 font-medium">
                   · 95% des bailleurs terminent en moins de 5 min
                 </span>
               </div>

@@ -57,14 +57,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    const existing = await prisma.property.findFirst({
-      where: { id, userId: session.user.id, deletedAt: null },
-    });
-
-    if (!existing) {
-      return NextResponse.json({ error: "Bien introuvable" }, { status: 404 });
-    }
-
     const body = await request.json();
     const parsed = propertySchema.safeParse(body);
 
@@ -75,8 +67,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const updated = await prisma.property.update({
-      where: { id },
+    const result = await prisma.property.updateMany({
+      where: { id, userId: session.user.id, deletedAt: null },
       data: {
         name: parsed.data.name,
         type: parsed.data.type,
@@ -92,6 +84,11 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       },
     });
 
+    if (result.count === 0) {
+      return NextResponse.json({ error: "Bien introuvable" }, { status: 404 });
+    }
+
+    const updated = await prisma.property.findUnique({ where: { id } });
     return NextResponse.json({ data: updated });
   } catch (error) {
     console.error("PATCH /api/properties/[id] error:", error);
@@ -110,19 +107,17 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    const existing = await prisma.property.findFirst({
+
+    // Soft delete — set deletedAt instead of removing the record. Scoped, so a
+    // property id belonging to another landlord cannot be tombstoned.
+    const result = await prisma.property.updateMany({
       where: { id, userId: session.user.id, deletedAt: null },
-    });
-
-    if (!existing) {
-      return NextResponse.json({ error: "Bien introuvable" }, { status: 404 });
-    }
-
-    // Soft delete — set deletedAt instead of removing the record
-    await prisma.property.update({
-      where: { id },
       data: { deletedAt: new Date() },
     });
+
+    if (result.count === 0) {
+      return NextResponse.json({ error: "Bien introuvable" }, { status: 404 });
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -9,9 +9,20 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur de Préavis Locataire — Gratuit | RentReady",
+    title: "Calculateur de Préavis Locataire — Gratuit",
     description:
       "Calculez la durée de préavis légale pour votre départ de location selon la zone géographique, le type de bail, et votre situation. Outil gratuit — base légale 2026.",
     url: "/outils/calculateur-preavis",

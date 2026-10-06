@@ -65,7 +65,25 @@ export async function sendEmail(
   const recipientList = Array.isArray(to) ? to : [to];
 
   // ── 1. Try to send via Resend ─────────────────────────────────────────────
-  let resendResult: { id?: string; error?: { message: string; statusCode?: number } } | null = null;
+  // Resend 6 returns `{ data, error, headers }` — the message id lives in
+  // `data.id`, NOT at the top level. Reading `result.id` always yielded undefined,
+  // which left resendId null, so every successfully delivered email returned
+  // { ok: false } and its EmailLog row was written as PENDING instead of SENT.
+  // Verified against the installed SDK, and the type is derived from it rather
+  // than restated, so an SDK upgrade cannot silently reintroduce the mismatch.
+  // Only what this function consumes: the delivered message id and a classified
+  // failure. Deriving the SDK's whole return type would require reproducing
+  // `headers` and its closed error-code union, which this code neither reads nor
+  // can construct — so the id type is still taken from the SDK and the error is
+  // normalised to the fields classifyError uses.
+  type ResendMessageId = NonNullable<
+    Extract<Awaited<ReturnType<typeof resend.emails.send>>, { data: unknown }>["data"]
+  >["id"];
+  type ResendSendResult = {
+    data: { id: ResendMessageId } | null;
+    error: { message: string; statusCode: number | null; name: string } | null;
+  };
+  let resendResult: ResendSendResult | null = null;
   let resendId: string | null = null;
 
   if (process.env.RESEND_API_KEY) {
@@ -82,12 +100,21 @@ export async function sendEmail(
       if (resendResult.error) {
         console.error("[email/sender] Resend API error:", resendResult.error);
       } else {
-        resendId = resendResult.id ?? null;
+        resendId = resendResult.data?.id ?? null;
       }
     } catch (err) {
       // Network-level errors — these are retryable
       console.error("[email/sender] Unexpected Resend exception:", err);
-      resendResult = { error: { message: String(err), statusCode: 0 } };
+      resendResult = {
+        data: null,
+        // name must be one of Resend's own error codes; internal_server_error is
+        // the closest for a local exception (thrown before or during the HTTP call).
+        error: {
+          message: String(err),
+          statusCode: null,
+          name: "internal_server_error",
+        },
+      };
     }
   } else {
     console.warn("[email/sender] RESEND_API_KEY not set — skipping send, logging PENDING");
@@ -138,8 +165,13 @@ export async function sendEmail(
 }
 
 /** Classify a Resend error into retryable vs permanent. */
+/**
+ * Classify a send failure. Resend's ErrorResponse is
+ * `{ message: string; statusCode: number | null; name: <closed union> }` — note
+ * statusCode is nullable, not optional — so the parameter matches it exactly.
+ */
 function classifyError(
-  error: { message: string; statusCode?: number }
+  error: { message: string; statusCode: number | null; name: string }
 ): { message: string; retryable: boolean } {
   // Permanent errors — do not retry
   const permanentCodes = new Set([400, 401, 403, 404, 422]);

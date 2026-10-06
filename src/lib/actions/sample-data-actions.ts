@@ -258,7 +258,7 @@ export async function insertSampleData(): Promise<ActionResult> {
       data: {
         userId,
         propertyId: prop1.id,
-        vendorName: "Quali哲",
+        vendorName: "QualiTech Services",
         description: "Remplacement thermostat défectueux",
         amount: 320,
         category: "RENOVATION",

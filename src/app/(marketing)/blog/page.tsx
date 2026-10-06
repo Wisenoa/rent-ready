@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
-// ISR: blog listing changes infrequently — revalidate weekly
-export const revalidate = 604800;
+import { SAME_AS } from "@/data/entity";
 
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
-import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 // blog listing uses the articles data
-const blogPosts = articles;
+const blogPosts = articleMeta;
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Blog Gestion Locative — Conseils propriétaires bailleurs | RentReady",
+    title: "Blog Gestion Locative — Conseils propriétaires bailleurs",
     description:
       "Blog propriété : guides gestion locative, modèles gratuits, révision IRL, quittances, bail et entretien. Conseils d'experts et mises à jour légales 2026.",
     url: "/blog",
@@ -31,18 +36,13 @@ const schema = {
       "@type": "WebSite",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://www.rentready.fr/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "Organization",
       name: "RentReady",
       alternateName: "RentReady SAS",
       url: "https://www.rentready.fr",
-      logo: "https://www.rentready.fr/logo.png",
+      logo: "https://www.rentready.fr/logo.svg",
       description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
       foundingDate: "2024",
       address: {
@@ -56,10 +56,7 @@ const schema = {
         email: "contact@rentready.fr",
         availableLanguage: "French",
       },
-      sameAs: [
-        "https://twitter.com/rentready_fr",
-        "https://www.linkedin.com/company/rentready",
-      ],
+      sameAs: SAME_AS,
     },
     {
       "@type": "BreadcrumbList",
@@ -92,6 +89,11 @@ const schema = {
     },
   ],
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 export default function BlogPage() {
   return (
@@ -132,7 +134,7 @@ export default function BlogPage() {
               key={post.slug}
               className="group rounded-xl border border-stone-200/60 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
             >
-              <div className="mb-3 flex items-center gap-3 text-xs text-stone-500">
+              <div className="mb-3 flex items-center gap-3 text-xs text-stone-600">
                 <span
                   className={`rounded-full px-2 py-0.5 ${
                     post.category === "Gestion"

@@ -91,7 +91,7 @@
     "slug": "loyer-nu",
     "term": "Loyer nu",
     "shortDefinition": "Loyer hors charges — le montant de base du loyer sans les charges.",
-    "fullDefinition": "Le loyer nu (ou loyer hors charges) est le montant du loyer demandé par le bailleur pour l'occupation du bien,不包括 les charges. Les charges récupérables (eau, chauffage, ordures ménagères, etc.) sont facturées en supplément. Le loyer nu ne peut pas dépasser le plafond de loyer applicable dans certaines zones tendues (encadrement des loyers).",
+    "fullDefinition": "Le loyer nu (ou loyer hors charges) est le montant du loyer demandé par le bailleur pour l'occupation du bien, hors charges comprises. Les charges récupérables (eau, chauffage, ordures ménagères, etc.) sont facturées en supplément. Le loyer nu ne peut pas dépasser le plafond de loyer applicable dans certaines zones tendues (encadrement des loyers).",
     "relatedTerms": [
       "charges-recuperables",
       "encadrement-loyer",
@@ -106,7 +106,7 @@
     "slug": "charges-recuperables",
     "term": "Charges récupérables",
     "shortDefinition": "Charges de fonctionnement et d'entretien que le locataire rembourse au bailleur.",
-    "fullDefinition": "Les charges récupérables sont les dépenses engagées par le bailleur pour le compte du locataire et qui doivent être remboursées par ce dernier. Elles sont listées par le décret du 26 novembre 1987 et incluent : les charges de gardiennage, d'eau froide, de chauffage, d'ascenseur, d'entretien des parties communes, de除草机等. Le montant des provisions pour charges est régularisé une fois par an.",
+    "fullDefinition": "Les charges récupérables sont les dépenses engagées par le bailleur pour le compte du locataire et qui doivent être remboursées par ce dernier. Elles sont listées par le décret du 26 novembre 1987 et incluent : les charges de gardiennage, d'eau froide, de chauffage, d'ascenseur, d'entretien des parties communes, d'espaces verts, etc.. Le montant des provisions pour charges est régularisé une fois par an.",
     "relatedTerms": [
       "loyer-nu",
       "quittance-loyer"
@@ -149,7 +149,7 @@
     "slug": "depot-garantie",
     "term": "Dépôt de garantie",
     "shortDefinition": "Sommes versées par le locataire au bailleur pour garantir l'exécution du bail.",
-    "fullDefinition": "Le dépôt de garantie est une somme d'argent versée par le locataire au bailleur lors de la signature du bail. Son montant maximum est法律规定 : 1 mois de loyer hors charges pour une location vide, 2 mois pour une location meublée. Le dépôt de garantie doit être restitué dans les 2 mois suivant la remise des clés par le locataire, déduction faite des éventuelles dégradations constatées à l'état des lieux de sortie.",
+    "fullDefinition": "Le dépôt de garantie est une somme d'argent versée par le locataire au bailleur lors de la signature du bail. Son montant maximum est fixé par la loi : 1 mois de loyer hors charges pour une location vide, 2 mois pour une location meublée. Le dépôt de garantie doit être restitué dans les 2 mois suivant la remise des clés par le locataire, déduction faite des éventuelles dégradations constatées à l'état des lieux de sortie.",
     "relatedTerms": [
       "etat-des-lieux",
       "bail-location"
@@ -221,7 +221,7 @@
     "slug": "bail-mobilite",
     "term": "Bail de mobilité",
     "shortDefinition": "Contrat de location meublée de courte durée (1 à 10 mois) pour publics spécifiques.",
-    "fullDefinition": "Le bail de mobilité, créé par la loi Elan de 2018, est un contrat de location meublée réservé aux locataires en situation de mobilité professionnelle ou personnelle : mutation professionnelle, CDD, formation, stage, mission temporaire, etc. Sa durée est de 1 à 10 mois, sans tacite reconduction possible. Le dépôt de garantie est limité à 1 mois de loyer.",
+    "fullDefinition": "Le bail de mobilité, créé par la loi Elan de 2018, est un contrat de location meublée réservé aux locataires en situation de mobilité professionnelle ou personnelle : mutation professionnelle, CDD, formation, stage, mission temporaire, etc. Sa durée est de 1 à 10 mois, sans tacite reconduction possible. Aucun dépôt de garantie ne peut être exigé ; en revanche, le bailleur est autorisé à demander une caution, notamment la garantie Visale.",
     "relatedTerms": [
       "location-meuble",
       "bail-location"
@@ -235,7 +235,7 @@
     "slug": "encadrement-loyer",
     "term": "Encadrement des loyers",
     "shortDefinition": "Réglementation limitant les loyers dans les zones tendues à un montant maximum.",
-    "fullDefinition": "L'encadrement des loyers est une mesure visant à limiter les montants des loyers dans les zones où la demande de logement est très supérieure à l'offre (zones tendues). Initialement expérimenté à Paris, il a été pérennisé et étendu par la loi Climat et Résilience de 2021 à plus de 1 000 communes. Le loyer de relocation ne peut dépasser le loyer de référence majoré de 20%, sous peine de sanctions pour le bailleur.",
+    "fullDefinition": "L'encadrement des loyers est une mesure visant à limiter les montants des loyers dans les zones où la demande de logement est très supérieure à l'offre (zones tendues). Créé par la loi ALUR du 24 mars 2014 (art. 6), il a été repris et étendu par la loi ELAN du 23 novembre 2018 (art. 140), qui en a fait un dispositif expérimental dans les communes en zone tendue. Le loyer de relocation ne peut dépasser le loyer de référence majoré de 20%, sous peine de sanctions pour le bailleur.",
     "relatedTerms": [
       "loyer-nu",
       "IRL",
@@ -284,7 +284,7 @@
       "pret-immobilier"
     ],
     "seeFurtherLinks": [
-      "/templates/calculateur-rendement-locatif"
+      "/outils/calculateur-rendement"
     ],
     "updatedAt": "2026-04-15"
   },
@@ -298,7 +298,7 @@
       "vacance-locative"
     ],
     "seeFurtherLinks": [
-      "/templates/calculateur-rendement-locatif"
+      "/outils/calculateur-rendement"
     ],
     "updatedAt": "2026-04-15"
   },

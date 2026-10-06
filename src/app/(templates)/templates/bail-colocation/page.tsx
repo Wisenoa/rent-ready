@@ -1,17 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Modèle Bail Colocation — Gratuit | RentReady",
+    title: "Modèle Bail Colocation — Gratuit",
     description: "Téléchargez notre modèle de bail de colocation gratuit et conforme. Contrats pour plusieurs locataires avec clauses partagées et individuelles.",
     url: "/templates/bail-colocation",
     ogType: "template",
@@ -72,6 +78,11 @@ const faqData = [
       "Il n'y a pas de plafond légal national, mais certaines communes ont établi des règles minimales de surface par occupant (souvent 9m² minimum par chambre et 70m² minimum pour le logement entier). Vérifiez la réglementation locale.",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function BailColocJsonLd() {
   const data = {

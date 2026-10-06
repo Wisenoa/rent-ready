@@ -8,12 +8,14 @@ import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/lib/format";
+import Decimal from "decimal.js";
 
 export interface PortalPayment {
   id: string;
-  amount: number;
-  rentPortion: number;
-  chargesPortion: number;
+  amount: Decimal;
+  rentPortion: Decimal;
+  chargesPortion: Decimal;
   dueDate: string;
   periodStart: string;
   periodEnd: string;
@@ -21,19 +23,15 @@ export interface PortalPayment {
   propertyName: string;
 }
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 function PayButton({
   transactionId,
   tenantId,
+  token,
 }: {
   transactionId: string;
   tenantId: string;
+  token: string;
 }) {
   const [isPending, startTransition] = useTransition();
 
@@ -41,7 +39,7 @@ function PayButton({
     startTransition(async () => {
       try {
         const { initiatePayment } = await import("@/lib/actions/portal-actions");
-        const result = await initiatePayment(transactionId, tenantId);
+        const result = await initiatePayment(transactionId, tenantId, token);
 
         if (result.success && result.data?.url) {
           window.location.href = result.data.url;
@@ -74,9 +72,11 @@ function PayButton({
 export function PortalPayments({
   payments,
   tenantId,
+  token,
 }: {
   payments: PortalPayment[];
   tenantId: string;
+  token: string;
 }) {
   if (payments.length === 0) {
     return (
@@ -137,11 +137,11 @@ export function PortalPayments({
                   <p className="text-xs text-muted-foreground">
                    Dont{" "}
                     {formatCurrency(payment.rentPortion)} (loyer){" "}
-                    {payment.chargesPortion > 0 &&
+                    {payment.chargesPortion.gt(0) &&
                       `+ ${formatCurrency(payment.chargesPortion)} (charges)`}
                   </p>
                 </div>
-                <PayButton transactionId={payment.id} tenantId={tenantId} />
+                <PayButton transactionId={payment.id} tenantId={tenantId} token={token} />
               </div>
 
               <p className="text-xs text-muted-foreground">

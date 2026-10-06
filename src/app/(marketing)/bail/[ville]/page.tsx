@@ -6,8 +6,11 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-// ISR: city pages use static city data — revalidate monthly
-export const revalidate = 2592000;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 /* ---------- Types ---------- */
 
@@ -64,6 +67,11 @@ const PREFECTURE_URLS: Record<string, string> = {
   grenoble:    "https://www.isere.gouv.fr",
 };
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 /* ---------- Helpers ---------- */
 
 function getCityContext(city: City) {
@@ -104,11 +112,11 @@ function getLocalParagraphs(city: City) {
 
   const intro =
     pop > 500000
-      ? `${city.name} compte ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif de la ${city.region} est l'un des plus dynamiques de France, avec une demande locative portée par un bassin d'emploi diversifié, une population étudiante massive et des transports en commun denses. Trouver un locataire n'y est pas difficile — encore faut-il que le bail soit parfaitement rédigé. Le loyer moyen au m² à ${city.name} se situe autour de ${rentData ? `${rentData.studio}-${rentData.t2}` : "15-25"} €/m² selon le type de bien.`
+      ? `${city.name} compte ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif de la ${city.region} est l'un des plus dynamiques de France, avec une demande locative portée par un bassin d'emploi diversifié, une population étudiante massive et des transports en commun denses. Trouver un locataire n'y est pas difficile — encore faut-il que le bail soit parfaitement rédigé. Le loyer moyen au m² y${rentData ? ` se situe autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " se situe au-dessus de la moyenne nationale"}. `
       : pop > 200000
-        ? `Avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants, ${city.name} (département ${city.department}, ${city.region}) s'affirme comme une grande ville attractive. Son marché locatif est porté par une croissance démographique régulière et des projets urbains qui renforcent l'attractivité des quartiers résidentiels. Le loyer moyen à ${city.name} se situe aux alentours de ${rentData ? `${rentData.studio}-${rentData.t2}` : "11-15"} €/m².`
+        ? `Avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants, ${city.name} (département ${city.department}, ${city.region}) s'affirme comme une grande ville attractive. Son marché locatif est porté par une croissance démographique régulière et des projets urbains qui renforcent l'attractivité des quartiers résidentiels. Le loyer moyen au m² y${rentData ? ` se situe aux alentours de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " reste inférieur à celui des grandes métropoles"}.`
         : pop > 100000
-          ? `${city.name} (${new Intl.NumberFormat("fr-FR").format(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement locatif et stabilité pour les propriétaires bailleurs. Le loyer moyen au m² à ${city.name} tourne autour de ${rentData ? `${rentData.studio}-${rentData.t2}` : "9-12"} €/m².`
+          ? `${city.name} (${new Intl.NumberFormat("fr-FR").format(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement locatif et stabilité pour les propriétaires bailleurs. Le loyer moyen au m² y${rentData ? ` tourne autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " reste modéré par rapport aux métropoles"}. `
           : `Située dans le département ${city.department} (${city.region}), ${city.name} compte ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif local se caractérise par des loyers accessibles et un taux de vacance faible.`;
 
   const regulation = ctx.isZoneTendue
@@ -155,7 +163,7 @@ function getBailTypes(city: City) {
       description: `Location partagée à ${city.name} avec clause de solidarité ou contrat individuel au choix. Idéal pour les appartements familiaux ou les logements étudiants, avec état des lieux et annexes adaptés.`,
       duration: "3 ans (vide) / 1 an (meublé)",
       deposit: "max 2 mois × occupants",
-      href: "/templates/colocation",
+      href: "/templates/bail-colocation",
       popular: false,
     },
     {
@@ -191,8 +199,8 @@ function getFaqs(city: City) {
     {
       question: `L'encadrement des loyers s'applique-t-il à ${city.name} ?`,
       answer: ctx.isZoneTendue
-        ? `Oui. ${city.name} figure parmi les communes en zone tendue soumises à l'encadrement des loyers à la relocation. Lors de la mise en location ou au renouvellement, le loyer ne peut pas dépasser le loyer de référence majoré fixé par arrêté préfectoral. Un complément pour atypie est possible dans la limite de 20 % au-dessus du loyer de référence. Consultez les arrêtés sur le site de la préfecture du ${city.department}.`
-        : `Non. ${city.name} n'est actuellement pas soumise à l'encadrement des loyers à la relocation. Les propriétaires bailleurs sont libres de fixer le loyer dans le cadre de la loi du 6 juillet 1989, sans plafonnement spécifique.`,
+        ? `Oui, à deux titres. D'abord l'encadrement à la relocation : ${city.name} étant en zone tendue, le loyer ne peut pas augmenter lors d'une remise en location ou d'un renouvellement (sauf logement vacant plus de 18 mois ou travaux d'amélioration). Ensuite, un arrêté préfectoral annuel y fixe un loyer de référence majoré qui plafonne le loyer ; un complément pour atypie reste possible dans la limite de 20 % au-dessus du loyer de référence. Ces montants changent chaque année : vérifiez l'arrêté en vigueur sur le site de la préfecture du ${city.department}.`
+        : `Nous ne pouvons pas le confirmer pour ${city.name}, et vous répondre « non » serait trompeur. Deux dispositifs coexistent : l'encadrement à la relocation, qui vaut pour toute commune en zone tendue, et le plafonnement du niveau des loyers, qui exige un arrêté préfectoral et ne concerne qu'uneudisaine de communes (Paris, Lyon, Lille, Bordeaux, Montpellier, Grenoble, Nice, Marseille, Nantes, Strasbourg, Toulouse, Rennes). ${city.name} ne figure pas dans notre liste vérifiée des communes dotées d'un arrêté — ce qui ne préjuge ni de son classement en zone tendue, ni des communes limitrophes visées. Faites foi : l'arrêté préfectoral du ${city.department} et la liste publiée par le ministère.`,
     },
     {
       question: `Quel dépôt de garantie pour une location à ${city.name} ?`,
@@ -200,7 +208,7 @@ function getFaqs(city: City) {
     },
     {
       question: `Quelles annexes obligatoires pour un bail à ${city.name} ?`,
-      answer: `Tout bail de location à ${city.name} doit不可或缺的 annexes : le DPE (Diagnostic de Performance Énergétique), l'état des lieux d'entrée, les diagnostics amiante, plomb, termites et ERNMT (risques naturels). En zone tendue, le dossier de diagnostic technique doit être remis au locataire avant la signature.`,
+      answer: `Tout bail de location à ${city.name} doit être accompagné des annexes suivantes : le DPE (Diagnostic de Performance Énergétique), l'état des lieux d'entrée, les diagnostics amiante, plomb, termites et ERNMT (risques naturels). En zone tendue, le dossier de diagnostic technique doit être remis au locataire avant la signature.`,
     },
     {
       question: `Comment utiliser le modèle de bail pour ${city.name} ?`,
@@ -253,11 +261,6 @@ function buildBailVilleSchema(city: City) {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       /* Organization */
       {
@@ -286,7 +289,7 @@ function buildBailVilleSchema(city: City) {
         "@type": "HowTo",
         name: `Comment rédiger un bail de location à ${city.name}`,
         description: `Guide pour rédiger un bail de location conforme à ${city.name}. Téléchargement gratuit du modèle, étapes de personnalisation, annexes obligatoires, signature.${ctx.isZoneTendue ? " Inclut les obligations d'encadrement des loyers en zone tendue." : ""}`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,
@@ -406,7 +409,7 @@ export default async function BailVillePage({ params }: Props) {
 
   return (
     <>
-      <SchemaMarkup data={buildBailVilleSchema(city)} />
+      <SchemaMarkup data={buildBailVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },
@@ -441,7 +444,7 @@ export default async function BailVillePage({ params }: Props) {
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/bail"
-                className="text-sm font-medium text-stone-500 transition-colors hover:text-stone-700"
+                className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-700"
               >
                 ← Tous les modèles de bail
               </Link>
@@ -459,7 +462,7 @@ export default async function BailVillePage({ params }: Props) {
         {rentData && (
           <section className="bg-white border-y border-stone-200 px-4 py-8 sm:px-6">
             <div className="mx-auto max-w-4xl">
-              <p className="mb-4 text-center text-sm font-medium text-stone-500 uppercase tracking-wide">
+              <p className="mb-4 text-center text-sm font-medium text-stone-600 uppercase tracking-wide">
                 Loyer moyen à {city.name} — estimation {rentData.source}
               </p>
               <div className="grid gap-3 sm:grid-cols-3">
@@ -470,7 +473,7 @@ export default async function BailVillePage({ params }: Props) {
                 ].map((r) => (
                   <div key={r.label} className="rounded-lg bg-[#f8f7f4] border border-stone-200 p-4 text-center">
                     <p className="text-lg font-bold text-stone-900">{r.value}</p>
-                    <p className="mt-1 text-sm text-stone-500">{r.label}</p>
+                    <p className="mt-1 text-sm text-stone-600">{r.label}</p>
                   </div>
                 ))}
               </div>
@@ -515,14 +518,14 @@ export default async function BailVillePage({ params }: Props) {
                     <h3 className="text-base font-semibold text-stone-900">
                       {card.type}
                     </h3>
-                    <span className="rounded border border-stone-300 bg-white px-2 py-0.5 text-xs text-stone-500">
+                    <span className="rounded border border-stone-300 bg-white px-2 py-0.5 text-xs text-stone-600">
                       {card.badge}
                     </span>
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-stone-600">
                     {card.description}
                   </p>
-                  <dl className="mt-4 grid grid-cols-2 gap-2 text-xs text-stone-500">
+                  <dl className="mt-4 grid grid-cols-2 gap-2 text-xs text-stone-600">
                     <div>
                       <dt className="font-medium text-stone-700">Durée</dt>
                       <dd>{card.duration}</dd>
@@ -543,7 +546,7 @@ export default async function BailVillePage({ params }: Props) {
             </div>
 
             {/* Internal links */}
-            <div className="mt-10 flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+            <div className="mt-10 flex flex-wrap justify-center gap-4 text-sm text-stone-600">
               <Link href="/quittances" className="text-blue-600 hover:underline">
                 Générer une quittance →
               </Link>
@@ -554,7 +557,7 @@ export default async function BailVillePage({ params }: Props) {
                 Gestion locative →
               </Link>
               {ctx.isZoneTendue && (
-                <Link href="/guides/encadrement-loyers" className="text-amber-600 hover:underline">
+                <Link href="/blog/encadrement-des-loyers" className="text-amber-600 hover:underline">
                   Encadrement des loyers →
                 </Link>
               )}
@@ -586,7 +589,7 @@ export default async function BailVillePage({ params }: Props) {
                   className="rounded-lg border border-stone-200/80 bg-white p-5 text-center shadow-sm"
                 >
                   <p className="text-2xl font-bold text-stone-900">{stat.value}</p>
-                  <p className="mt-1 text-sm text-stone-500">{stat.label}</p>
+                  <p className="mt-1 text-sm text-stone-600">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -679,14 +682,14 @@ export default async function BailVillePage({ params }: Props) {
               <Link href="/quittances" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
                 📄 Quittances de loyer
               </Link>
-              <Link href="/guides/etat-des-lieux" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
+              <Link href="/templates/etat-des-lieux" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
                 📋 État des lieux
               </Link>
               <Link href="/outils/calculateur-surface-habitable" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
                 🧮 Calculateur surface habitable
               </Link>
               {ctx.isZoneTendue && (
-                <Link href="/guides/encadrement-loyers" className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100">
+                <Link href="/blog/encadrement-des-loyers" className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100">
                   ⚖️ Encadrement des loyers
                 </Link>
               )}
@@ -708,7 +711,7 @@ export default async function BailVillePage({ params }: Props) {
                 <details key={faq.question} className="group py-5">
                   <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                     {faq.question}
-                    <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                    <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>

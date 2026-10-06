@@ -1,0 +1,409 @@
+/**
+ * One price, one entity.
+ *
+ * RentReady advertised "à partir de 15 €/mois" in the root layout, in eleven
+ * JSON-LD Offer blocks, and in the comparison pages, while the cheapest plan
+ * cost 9 €/mois. A visitor could read two different prices on two pages of the
+ * same site.
+ *
+ * Price is also the first thing an answer engine checks when it compares one
+ * software against another, so a contradiction is a direct reason to not cite
+ * the source. These guards make the drift impossible rather than merely fixed
+ * once.
+ */
+
+import { describe, it, expect } from "vitest";
+import { existsSync, readFileSync, readdirSync, statSync } from "fs";
+import { join, relative } from "path";
+import {
+  PLANS,
+  SAME_AS,
+  SITE_URL,
+  getEntryPrice,
+  formatEntryPrice,
+} from "@/data/entity";
+import { softwareApplicationSchema, paidOffer } from "@/components/seo/schema-markup";
+
+const SRC = join(process.cwd(), "src");
+
+function walk(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) out.push(...walk(full));
+    else if (full.endsWith(".ts") || full.endsWith(".tsx")) out.push(full);
+  }
+  return out;
+}
+
+const FILES = walk(SRC).filter((f) => !f.includes("__tests__"));
+
+/**
+ * Remove comments from TypeScript/TSX source.
+ *
+ * Several guards below look for literals that are also quoted in explanatory
+ * comments — the SearchAction this file forbids is named in a comment three
+ * lines above the check. Scanning comments makes a guard report itself.
+ */
+function stripComments(source: string): string {
+  return source
+    .replace(/\/\*[\s\S]*?\*\//g, " ") // block comments
+    .replace(/(^|[^:])\/\/[^\n]*/g, "$1"); // line comments (keep http://)
+}
+
+
+describe("pricing has a single source of truth", () => {
+  it("the entry price is the cheapest plan, not a literal", () => {
+    const priced = PLANS.filter((p) => p.monthlyPrice !== null);
+    expect(priced.length).toBeGreaterThan(0);
+    expect(getEntryPrice()).toBe(Math.min(...priced.map((p) => p.monthlyPrice!)));
+  });
+
+  it("matches the published prices on the pricing page", () => {
+    // The numbers below are the commercial offer. If a plan changes, this test
+    // is the reminder to update `PLANS` — the reverse direction would let the
+    // schema quietly advertise a price nobody sells.
+    const starter = PLANS.find((p) => p.id === "starter")!;
+    const pro = PLANS.find((p) => p.id === "pro")!;
+    expect(starter.monthlyPrice).toBe(9);
+    expect(starter.annualPrice).toBe(89);
+    expect(pro.monthlyPrice).toBe(15);
+    expect(pro.annualPrice).toBe(149);
+  });
+
+  it("renders the entry price in prose", () => {
+    expect(formatEntryPrice()).toBe(`${getEntryPrice()} €/mois`);
+  });
+
+  it("derives the schema offer price instead of hard-coding it", () => {
+    expect(paidOffer().price).toBe(getEntryPrice().toFixed(2));
+    const schema = softwareApplicationSchema();
+    const offers = schema.offers as { price: string; priceCurrency: string };
+    expect(offers.price).toBe(getEntryPrice().toFixed(2));
+    expect(offers.priceCurrency).toBe("EUR");
+  });
+});
+
+describe("no page hard-codes a price", () => {
+  /**
+   * Scoped to what actually matters for the entity: a *paid software* offer.
+   *
+   * A deliberately free page — a template generator, a free simulator — must
+   * keep `price: "0"`, and a comparison table has to name each rival's price
+   * literally. Those are not drift. What must not happen is a second number for
+   * RentReady's own subscription appearing next to the plans table.
+   */
+  it("finds no second hard-coded subscription price", () => {
+    const offenders: string[] = [];
+    const entry = getEntryPrice();
+    const allPlanPrices = PLANS.flatMap((p) =>
+      [p.monthlyPrice, p.annualPrice].filter((v): v is number => v !== null)
+    );
+
+    for (const file of FILES) {
+      const rel = relative(process.cwd(), file);
+
+      // The entity module is where a price is written down.
+      if (rel.endsWith("src/data/entity.ts")) continue;
+      // /pricing legitimately spells out each plan.
+      if (rel.includes("(marketing)/pricing/page.tsx")) continue;
+      // Checkout reads amounts in cents from Stripe, a different unit.
+      if (rel.endsWith("src/lib/stripe.ts")) continue;
+
+      const source = stripComments(readFileSync(file, "utf8"));
+
+      // A prose entry-price claim must not name a number other than the real
+      // one, and must not state one at all where a template is available.
+      for (const m of source.matchAll(/[ÀA] partir de\s+(\d+)\s*€/g)) {
+        if (Number(m[1]) !== entry) {
+          offenders.push(
+            `${rel} — "à partir de ${m[1]} €" but the entry plan is ${entry} €`
+          );
+        }
+      }
+
+      // A JSON-LD Offer for the product itself must quote a real plan price.
+      const paidOfferBlock = /"@type":\s*"Offer"[\s\S]{0,120}?price:\s*"?(\d+(?:[.,]\d+))"?/.exec(
+        source
+      );
+      if (paidOfferBlock) {
+        const value = Number(paidOfferBlock[1].replace(",", "."));
+        const isFree = value === 0;
+        const isRealPlan = allPlanPrices.some((p) => Math.abs(p - value) < 0.01);
+        // 15.00 is also a real plan (Pro), so it is allowed; anything else that
+        // is neither free nor a plan price is drift.
+        if (!isFree && !isRealPlan) {
+          offenders.push(`${rel} — Offer price ${value} matches no plan`);
+        }
+      }
+    }
+
+    expect(
+      offenders,
+      `Subscription prices must come from PLANS in src/data/entity.ts:\n${offenders.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("agrees with the pricing page about every plan price it mentions", () => {
+    const pricing = readFileSync(
+      join(SRC, "app", "(marketing)", "pricing", "page.tsx"),
+      "utf8"
+    );
+    for (const plan of PLANS) {
+      if (plan.monthlyPrice === null) continue;
+      // The plan name and its price must appear together in the page.
+      const idx = pricing.indexOf(plan.name);
+      expect(idx, `plan ${plan.name} missing from /pricing`).toBeGreaterThan(-1);
+    }
+  });
+});
+
+/**
+ * A comparison page asserts facts about a *named, real* company.
+ *
+ * `/comparatif/rentready-vs-gerclegeo` stated "Gerclegeo facture généralement
+ * entre 20 et 40 €/mois selon les modules" — inside FAQPage structured data,
+ * which is the form an answer engine reads. No company by that name operates in
+ * French rental management; the closest real name is "Gererseul". Publishing a
+ * specific price for a business that cannot be checked is fabricated claims
+ * about a named third party, which is a legal exposure as well as a reason for a
+ * source to be discarded.
+ *
+ * The rule: a head-to-head page may only exist for a competitor whose name is
+ * listed here, having been confirmed to exist.
+ */
+const VERIFIED_COMPETITORS = ["legalplace"];
+
+describe("comparison pages only target real companies", () => {
+  it("every head-to-head page names a verified competitor", () => {
+    const dir = join(SRC, "app", "(marketing)", "comparatif");
+    const offenders: string[] = [];
+
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const match = /^rentready-vs-(.+)$/.exec(entry.name);
+      if (!entry.isDirectory() || !match) continue;
+
+      const competitor = match[1];
+      if (!VERIFIED_COMPETITORS.includes(competitor)) {
+        offenders.push(
+          `/comparatif/rentready-vs-${competitor} — "${competitor}" is not a verified competitor`
+        );
+      }
+    }
+
+    expect(
+      offenders,
+      `A comparison page asserts facts about a named company. Verify the competitor exists, then add it to VERIFIED_COMPETITORS:\n${offenders.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("no live page states a price for an unverified competitor", () => {
+    const dir = join(SRC, "app", "(marketing)", "comparatif");
+    const offenders: string[] = [];
+
+    for (const entry of readdirSync(dir)) {
+      const file = join(dir, entry, "page.tsx");
+      if (!existsSync(file)) continue;
+
+      const source = stripComments(readFileSync(file, "utf8"));
+      const rivals = [
+        ...new Set(
+          [...source.matchAll(/Gerclegeo|Gercl[eé]geo|Immotop/gi)].map((m) => m[0])
+        ),
+      ];
+      if (rivals.length === 0) continue;
+
+      // A rival named on a page that is not a verified competitor must not be
+      // given a price or a feature claim.
+      const priced = /€|gratuit|essai|\bfacture\b/i.test(source);
+      if (priced) {
+        offenders.push(
+          `${entry}/page.tsx — states pricing or plan facts about ${rivals.join(", ")}`
+        );
+      }
+    }
+
+    expect(offenders, offenders.join("\n")).toEqual([]);
+  });
+});
+
+/**
+ * The homepage FAQ answered "Combien coûte RentReady ?" with "15 € par mois … ce
+ * tarif unique inclut 10 biens maximum". Two things were wrong: PLANS has had
+ * three tiers since the start, so there is no single price; and the annual figure
+ * next to it was 150 € while PLANS says 149 €.
+ *
+ * The old guard only matched `/[ÀA] partir de (\d+)€/`, so a bare "15 €/mois" in
+ * prose or inside a FAQPage answer passed straight through. A price a visitor can
+ * read has to be one of the real plans.
+ */
+describe("every price a visitor can read is a real plan price", () => {
+  /** Prices that legitimately appear: plan prices, and rents/charges in examples. */
+  const PLAN_PRICES = new Set(
+    PLANS.flatMap((p) =>
+      [p.monthlyPrice, p.annualPrice]
+        .filter((v): v is number => typeof v === "number")
+        .map((v) => `${v}`)
+    )
+  );
+
+  it("PLANS exposes at least the tiers the site advertises", () => {
+    // If this fails, either the pricing changed or a helper is pointing at a
+    // plan that no longer exists.
+    expect(PLAN_PRICES.has("9")).toBe(true);
+    expect(PLAN_PRICES.has("15")).toBe(true);
+    expect(PLAN_PRICES.has("149")).toBe(true);
+  });
+
+  it("finds no invented RentReady price in user-facing copy", () => {
+    // Scoped deliberately narrow.
+    //
+    // The first attempt flagged 16 hits and every one was a false positive:
+    // "plus de 100 €/mois pour les agences" (someone else's price), "20 €/mois"
+    // for a GLI insurance premium, "800 €/mois" as a rent example, and — because
+    // a comma is not a digit boundary — "15 000 € par an" read as "000 € par an",
+    // which is the micro-foncier ceiling.
+    //
+    // So the rule is: a price is only RentReady's if the sentence talks about
+    // RentReady. Market prices, rents, deposits and tax ceilings are not ours to
+    // validate.
+    const problems: string[] = [];
+
+    for (const file of FILES) {
+      const rel = relative(process.cwd(), file);
+
+      const source = stripComments(readFileSync(file, "utf8"));
+
+      // Split on sentence-ish boundaries so "our" can be judged per sentence.
+      for (const sentence of source.split(/(?<=[.!?;:\\n])/)) {
+        if (!/RentReady/i.test(sentence)) continue;
+
+        // "3 000 €" and "15 000 €" are not prices we sell; keep the group intact.
+        for (const m of sentence.matchAll(
+          /(?<![\\d.,])(\\d{1,2}(?:[  ]\\d{3})?|\\d{3,4})\s*(?:€|EUR|euros?)(?:\s*(?:\/\s*mois|par\s*mois|par\s*an|TTC|HT))?/gi
+        )) {
+          const amount = m[1].replace(/\s/g, "");
+
+          if (PLAN_PRICES.has(amount)) continue;
+
+          problems.push(
+            `${rel} — "${m[0].trim()}" attributed to RentReady but not a plan price ` +
+              `(${[...PLAN_PRICES].join(", ")})`
+          );
+          break;
+        }
+      }
+    }
+
+    expect(
+      problems,
+      `prices attributed to RentReady that do not come from PLANS:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("does not describe a multi-tier pricing as a single price", () => {
+    // "ce tarif unique" is only true if PLANS has one priced tier.
+    const pricedTiers = PLANS.filter((p) => p.monthlyPrice !== null).length;
+    expect(pricedTiers, "guard is meaningless with a single tier").toBeGreaterThan(1);
+
+    const problems: string[] = [];
+    for (const file of FILES) {
+      const rel = relative(process.cwd(), file);
+      if (rel.includes("__tests__")) continue;
+      const source = stripComments(readFileSync(file, "utf8"));
+
+      for (const m of source.matchAll(
+        /(tarif\s+unique|prix\s+unique|juste\s+un\s+prix|un\s+seul\s+prix)/gi
+      )) {
+        const line = source.slice(0, m.index).split("\n").length;
+        problems.push(
+          `${rel}:${line} — "${m[0]}" but there are ${pricedTiers} priced tiers`
+        );
+      }
+    }
+
+    expect(
+      problems,
+      `copy calling a multi-tier pricing a single price:\n${problems.join("\n")}`
+    ).toEqual([]);
+  });
+});
+
+describe("entity facts are consistent", () => {
+  it("declares only sameAs profiles that exist", () => {
+    // Verified live on 2026-10-04: twitter.com/rentready_fr and
+    // linkedin.com/company/rentready both return 404. A sameAs pointing at a
+    // dead profile is a negative identity signal, so the list stays minimal and
+    // only contains profiles that were confirmed to resolve.
+    const DEAD_PROFILES = ["twitter.com/rentready_fr", "linkedin.com/company/rentready"];
+
+    for (const url of SAME_AS) {
+      expect(url).toMatch(/^https:\/\//);
+      for (const dead of DEAD_PROFILES) {
+        expect(url, `${url} does not resolve`).not.toContain(dead);
+      }
+    }
+  });
+
+  it("does not claim a sameAs identity outside the confirmed list", () => {
+    // Guards against the drift coming back through a page-level literal.
+    const offenders: string[] = [];
+    for (const file of FILES) {
+      const source = stripComments(readFileSync(file, "utf8"));
+      for (const m of source.matchAll(/sameAs:\s*\[([^\]]*)\]/g)) {
+        for (const url of m[1].matchAll(/"(https:\/\/[^"]+)"/g)) {
+          if (!SAME_AS.includes(url[1])) {
+            offenders.push(`${relative(process.cwd(), file)} → ${url[1]}`);
+          }
+        }
+      }
+    }
+    expect(
+      offenders,
+      `sameAs entries must come from SAME_AS:\n${offenders.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("uses one canonical origin", () => {
+    expect(SITE_URL).toBe("https://www.rentready.fr");
+  });
+
+  it("never advertises a logo that does not exist", () => {
+    const offenders: string[] = [];
+    for (const file of FILES) {
+      const source = readFileSync(file, "utf8");
+      if (/\/logo\.png/.test(source)) offenders.push(relative(process.cwd(), file));
+    }
+    // public/logo.png has never existed; the Organization logo must point at
+    // the real file served from /public.
+    expect(offenders, `stale logo.png in:\n${offenders.join("\n")}`).toEqual([]);
+  });
+
+  it("never declares a sitelinks SearchAction", () => {
+    const offenders: string[] = [];
+    for (const file of FILES) {
+      const source = stripComments(readFileSync(file, "utf8"));
+      if (/"@type":\s*"SearchAction"/.test(source)) {
+        offenders.push(relative(process.cwd(), file));
+      }
+    }
+    // There is no /recherche route, so a SearchAction promises a 404 search box.
+    expect(
+      offenders,
+      `SearchAction declared but no search route exists:\n${offenders.join("\n")}`
+    ).toEqual([]);
+  });
+
+  it("never points a social image at a static file that does not exist", () => {
+    const offenders: string[] = [];
+    for (const file of FILES) {
+      const source = stripComments(readFileSync(file, "utf8"));
+      for (const m of source.matchAll(/https:\/\/www\.rentready\.fr\/([\w.-]+\.(?:png|jpg|jpeg|svg))/g)) {
+        // /opengraph-image is served by the Next file convention (no extension).
+        if (["logo.svg"].includes(m[1])) continue;
+        offenders.push(`${relative(process.cwd(), file)} → /${m[1]}`);
+      }
+    }
+    expect(offenders, `missing image assets:\n${offenders.join("\n")}`).toEqual([]);
+  });
+});

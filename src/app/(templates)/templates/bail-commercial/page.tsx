@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Modèle Bail Commercial Gratuit 2026 — Bail Précaire Conforme",
@@ -93,13 +99,10 @@ const orgSchema = {
   "@id": "https://www.rentready.fr/#organization",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.png",
+  logo: "https://www.rentready.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-  sameAs: [
-    "https://twitter.com/rentready_fr",
-    "https://www.linkedin.com/company/rentready",
-  ],
+  sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -112,12 +115,12 @@ const webSiteSchema = {
   "@id": "https://www.rentready.fr/#website",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.rentready.fr/recherche?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function BailCommercialJsonLd() {
   const data = {
@@ -172,7 +175,7 @@ export default function BailCommercialPage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Modèle de Bail Commercial
             <br />
-            <span className="text-emerald-600">3 / 6 / 9 Ans</span>
+            <span className="text-emerald-700">3 / 6 / 9 Ans</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail commercial conforme au Code de commerce. Gérez la valeur
@@ -230,7 +233,7 @@ export default function BailCommercialPage() {
               "Dépôt de garantie librement négociable",
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
-                <Check className="size-5 text-emerald-600" />
+                <Check className="size-5 text-emerald-700" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}
@@ -305,7 +308,7 @@ export default function BailCommercialPage() {
           <Link href="/templates/bail-mobilite" className="text-blue-600 hover:underline">
             Bail mobilité →
           </Link>
-          <Link href="/templates/colocation" className="text-blue-600 hover:underline">
+          <Link href="/templates/bail-colocation" className="text-blue-600 hover:underline">
             Colocation →
           </Link>
           <Link href="/templates" className="text-blue-600 hover:underline">

@@ -8,13 +8,21 @@ import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { QuittanceData } from "@/lib/quittance-generator";
+import Decimal from "decimal.js";
+
+import { formatCurrency } from "@/lib/format";
 
 export interface PortalQuittance {
   id: string;
-  amount: number;
-  rentAmount: number;
-  chargesAmount: number;
+  amount: Decimal;
+  rentAmount: Decimal;
+  chargesAmount: Decimal;
+  /**
+   * The balance left after THIS payment, decided server-side by
+   * `settlePeriodPayments`. Passed rather than re-derived here: the tenant's copy
+   * is the same legal document as the landlord's and must carry the same figure.
+   */
+  remainingAmount: Decimal;
   periodStart: string;
   periodEnd: string;
   paidAt: string;
@@ -39,42 +47,61 @@ export interface PortalQuittance {
   propertyAddress: string;
 }
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
-function DownloadButton({ quittance }: { quittance: PortalQuittance }) {
+/**
+ * Download the tenant's own archived receipt.
+ *
+ * This used to import `@react-pdf/renderer` and `@/lib/quittance-generator` on
+ * the client and call `pdf(<QuittancePDF data={…} />).toBlob()`. The file the
+ * tenant received was therefore a NEW rendering assembled from the figures the
+ * page happened to carry — not the document RentReady archived. The tenant is the
+ * other party to that document (loi du 6 juillet 1989, art. 21), so their copy has
+ * to be the same bytes as the archived one; a template or number that moved
+ * between the archiving and the click made the two diverge, and neither proved
+ * which was authoritative.
+ *
+ * It now downloads through the portal download route, which checks the token's
+ * ownership in the query and serves `Document.content` verbatim. No PDF code is
+ * left here: a receipt cannot be rendered on the client that the server never
+ * produced.
+ */
+function DownloadButton({
+  quittance,
+  token,
+}: {
+  quittance: PortalQuittance;
+  token: string;
+}) {
   const [isPending, startTransition] = useTransition();
 
   function handleDownload() {
     startTransition(async () => {
       try {
-        const quittanceData: QuittanceData = {
-          landlord: quittance.landlord,
-          tenant: quittance.tenant,
-          propertyAddress: quittance.propertyAddress,
-          rentAmount: quittance.rentAmount,
-          chargesAmount: quittance.chargesAmount,
-          totalAmount: quittance.amount,
-          periodStart: new Date(quittance.periodStart),
-          periodEnd: new Date(quittance.periodEnd),
-          paidAt: new Date(quittance.paidAt),
-          receiptNumber: quittance.receiptNumber ?? "",
-          isFullPayment: quittance.receiptType === "QUITTANCE",
-        };
+        const response = await fetch(
+          `/api/portal/${token}/transactions/${quittance.id}/receipt/download`
+        );
 
-        const { pdf } = await import("@react-pdf/renderer");
-        const { QuittancePDF } = await import("@/lib/quittance-generator");
+        if (!response.ok) {
+          // Say what actually went wrong. This route does not generate on demand,
+          // so the realistic refusal is a receipt that was never archived — the
+          // tenant needs to be told to contact the landlord, not to retry.
+          const body = (await response.json().catch(() => null)) as {
+            error?: string;
+          } | null;
+          toast.error(
+            body?.error ?? "Impossible de télécharger le document"
+          );
+          return;
+        }
 
-        const blob = await pdf(<QuittancePDF data={quittanceData} />).toBlob();
+        const blob = await response.blob();
         const url = URL.createObjectURL(blob);
 
         const link = document.createElement("a");
         link.href = url;
-        link.download = `${quittance.receiptNumber ?? "quittance"}.pdf`;
+        link.download =
+          dispositionFileName(response.headers.get("Content-Disposition")) ??
+          `${quittance.receiptNumber ?? "quittance"}.pdf`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -82,7 +109,7 @@ function DownloadButton({ quittance }: { quittance: PortalQuittance }) {
 
         toast.success("Document téléchargé");
       } catch {
-        toast.error("Erreur lors de la génération du PDF");
+        toast.error("Erreur lors du téléchargement du document");
       }
     });
   }
@@ -108,8 +135,10 @@ function DownloadButton({ quittance }: { quittance: PortalQuittance }) {
 
 export function PortalQuittances({
   quittances,
+  token,
 }: {
   quittances: PortalQuittance[];
+  token: string;
 }) {
   if (quittances.length === 0) {
     return (
@@ -156,11 +185,22 @@ export function PortalQuittances({
                   {format(new Date(q.paidAt), "dd MMMM yyyy", { locale: fr })}
                 </p>
               </div>
-              <DownloadButton quittance={q} />
+              <DownloadButton quittance={q} token={token} />
             </div>
           </CardContent>
         </Card>
       ))}
     </div>
   );
+}
+
+/**
+ * The filename the server named the document, so the downloaded file keeps its
+ * receipt reference. Returns null when the header is absent or carries no name,
+ * and the caller falls back rather than saving a file called "download".
+ */
+function dispositionFileName(header: string | null): string | null {
+  if (!header) return null;
+  const match = /filename="?([^";]+)"?/.exec(header);
+  return match?.[1] ?? null;
 }

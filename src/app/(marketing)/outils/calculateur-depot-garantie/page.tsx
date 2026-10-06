@@ -9,9 +9,20 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur Dépôt de Garantie 2026 — Gratuit | RentReady",
+    title: "Calculateur Dépôt de Garantie 2026 — Gratuit",
     description:
       "Calculez le dépôt de garantie maximum légal pour votre location selon la zone géographique (tendue ou non) et le type de bail. Outil gratuit — base légale mise à jour 2026.",
     url: "/outils/calculateur-depot-garantie",
@@ -44,7 +55,7 @@ function CalculateurDepotGarantieJsonLd() {
         },
         {
           name: "Indiquez le montant mensuel du loyer charges comprises",
-          text: "Saisissez le montant du loyer charges comprises pour calculer le plafond对应的 dépôt.",
+          text: "Saisissez le montant du loyer charges comprises pour calculer le plafond correspondant du dépôt de garantie.",
         },
         {
           name: "Sélectionnez la zone géographique",
@@ -57,7 +68,7 @@ function CalculateurDepotGarantieJsonLd() {
       ],
     })
   );
-  return <SchemaMarkup data={schema} />;
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
 export default function CalculateurDepotGarantiePage() {

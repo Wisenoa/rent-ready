@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
-import { ArrowRight, Check, Shield, Clock, Users, Star, FileText } from "lucide-react";
+import { ArrowRight, Check, Shield, Clock, Users, FileText } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Modèle Bail Vide 2026 — Contrat Location Non Meublée Conforme",
@@ -141,6 +147,11 @@ const faqData = [
   },
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 function BailVideJsonLd() {
   const data = {
     "@context": "https://schema.org",
@@ -150,13 +161,10 @@ function BailVideJsonLd() {
         "@id": "https://www.rentready.fr/#organization",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        logo: "https://www.rentready.fr/logo.png",
+        logo: "https://www.rentready.fr/logo.svg",
         description:
           "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-        sameAs: [
-          "https://twitter.com/rentready_fr",
-          "https://www.linkedin.com/company/rentready",
-        ],
+        sameAs: SAME_AS,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
@@ -169,11 +177,6 @@ function BailVideJsonLd() {
         "@id": "https://www.rentready.fr/#website",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       {
         "@type": "SoftwareApplication",
@@ -308,7 +311,7 @@ export default function BailVidePage() {
             <div className="space-y-3">
               {["Partie 1 — Identité des parties et description du bien", "Partie 2 — Conditions financières et durée", "Partie 3 — Clauses obligatoires et annexes", "DPE et état des risques intégrés"].map((line, i) => (
                 <div key={i} className="flex items-center gap-3 rounded-lg bg-white px-4 py-2 text-sm text-stone-700 border border-stone-100">
-                  <span className="text-emerald-600 font-bold">✓</span>
+                  <span className="text-emerald-700 font-bold">✓</span>
                   {line}
                 </div>
               ))}
@@ -321,8 +324,8 @@ export default function BailVidePage() {
           {[
             { icon: <Shield className="size-5 text-blue-600" />, label: "Conforme loi 89-462" },
             { icon: <Clock className="size-5 text-blue-600" />, label: "Mis à jour 2026" },
-            { icon: <Users className="size-5 text-blue-600" />, label: "12 400+ bailleurs utilisent ce modèle" },
-            { icon: <Star className="size-5 text-amber-500" />, label: "4.9/5 basé sur 847 avis" },
+            { icon: <Users className="size-5 text-blue-600" />, label: "Bail conforme à la loi du 6 juillet 1989" },
+            { icon: <FileText className="size-5 text-blue-600" />, label: "PDF prêt à signer" },
           ].map((badge) => (
             <div key={badge.label} className="flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm text-stone-600">
               {badge.icon}
@@ -420,7 +423,7 @@ export default function BailVidePage() {
               "DPE obligatoire (diagnostic performance énergétique)",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-stone-600">
-                <span className="text-emerald-600">✓</span>
+                <span className="text-emerald-700">✓</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -534,7 +537,7 @@ export default function BailVidePage() {
               Essai gratuit 14 jours
             </Link>
             <Link
-              href="/outils/calculateur-irl-2026"
+              href="/outils/calculateur-irl"
               className="inline-block rounded-lg border border-blue-500 px-6 py-3 font-medium text-blue-300 transition-colors hover:bg-blue-800"
             >
               Simulateur IRL →
@@ -575,8 +578,8 @@ export default function BailVidePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: "/guides/modele-bail", label: "Guide : modèle de bail de location →" },
-              { href: "/blog/difference-bail-meuble-bail-vide", label: "Bail meublé vs bail vide : que choisir ? →" },
-              { href: "/blog/gestion-locative-debutant-guide", label: "Guide de la gestion locative pour débutants →" },
+              { href: "/blog/bail-meuble-vs-bail-vide-difference", label: "Bail meublé vs bail vide : que choisir ? →" },
+              { href: "/blog/investir-immobilier-locatif-guide-debutant-2026", label: "Guide de la gestion locative pour débutants →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
             ].map((link) => (
               <Link
@@ -600,7 +603,7 @@ export default function BailVidePage() {
               { href: "/templates/bail-meuble", label: "Bail meublé", emoji: "🛏️", desc: "Location meublée 1 an" },
               { href: "/templates/bail-mobilite", label: "Bail mobilité", emoji: "🏃", desc: "1-10 mois, sans dépôt" },
               { href: "/templates/etat-des-lieux", label: "État des lieux", emoji: "📋", desc: "Entrée et sortie" },
-              { href: "/templates/calculateur-rendement-locatif", label: "Rendement locatif", emoji: "📊", desc: "Simulateur gratuit" },
+              { href: "/outils/calculateur-rendement", label: "Rendement locatif", emoji: "📊", desc: "Simulateur gratuit" },
             ].map((t) => (
               <Link
                 key={t.href}

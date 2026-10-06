@@ -11,9 +11,15 @@ import {
   buildHowToSchema,
 } from "@/lib/seo/structured-data";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Simulateur Prêt Immobilier 2026 — Calcul Mensualité en Ligne | RentReady",
+    title: "Simulateur Prêt Immobilier 2026 — Calcul Mensualité en Ligne",
     description: "Calculez votre mensualité de prêt immobilier en ligne. Simulateur gratuit avec tableau d'amortissement, taux d'intérêt et durée personnalisables.",
     url: "/outils/simulateur-pret-immobilier",
     ogType: "outil",
@@ -25,6 +31,11 @@ const breadcrumbItems = [
   { label: "Outils", href: "/outils" },
   { label: "Simulateur Prêt Immobilier", href: "/outils/simulateur-pret-immobilier" },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function SimulateurPretJsonLd() {
   const schema = buildGraphSchema(
@@ -64,7 +75,7 @@ function SimulateurPretJsonLd() {
       ],
     })
   );
-  return <SchemaMarkup data={schema} />;
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
 export default function SimulateurPretPage() {

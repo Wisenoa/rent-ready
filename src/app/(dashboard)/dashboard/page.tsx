@@ -27,12 +27,14 @@ import { getAuthenticatedUserId } from "@/lib/auth";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { getDashboardStats, formatCurrency } from "@/lib/queries/dashboard-stats";
+import { ensureRentPeriods } from "@/lib/queries/rent-periods";
 import {
   RevenueExpenseChart,
   ExpenseByCategoryChart,
   NOISummary,
 } from "@/components/dashboard/charts";
 import { DashboardOnboardingWrapper } from "@/components/dashboard-onboarding-wrapper";
+import { ArrearsSection } from "./arrears-section";
 
 export const metadata: Metadata = {
   title: "Tableau de bord",
@@ -55,6 +57,10 @@ const transactionStatusConfig: Record<
 
 export default async function DashboardPage() {
   const userId = await getAuthenticatedUserId();
+
+  // Materialise the months owed before reading them: without this, the KPI and
+  // "activité récente" below only ever show the month a lease was created in.
+  await ensureRentPeriods(userId);
 
   const [stats, recentTransactions] = await Promise.all([
     getDashboardStats(userId),
@@ -103,7 +109,7 @@ export default async function DashboardPage() {
       value: formatCurrency(stats.revenue.currentMonth),
       description: format(now, "MMMM yyyy", { locale: fr }),
       icon: CreditCard,
-      accentColor: "text-emerald-600",
+      accentColor: "text-emerald-700",
       bgColor: "bg-emerald-50",
     },
     {
@@ -133,6 +139,11 @@ export default async function DashboardPage() {
           Vue d&apos;ensemble de votre patrimoine locatif
         </p>
       </div>
+
+      {/* Above the KPIs on purpose: this is the question the landlord came to
+          ask, and a total they did not ask for should not be the first thing on
+          the screen. Renders nothing when there is nothing to do. */}
+      <ArrearsSection userId={userId} />
 
       {/* Cartes KPI */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -304,7 +315,7 @@ export default async function DashboardPage() {
                         <StatusIcon
                           className={`size-4 ${
                             tx.status === "PAID"
-                              ? "text-emerald-600"
+                              ? "text-emerald-700"
                               : tx.status === "LATE"
                                 ? "text-amber-500"
                                 : "text-muted-foreground"
@@ -352,14 +363,14 @@ export default async function DashboardPage() {
         <CardContent>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/properties/new"
+              href="/properties"
               className="inline-flex items-center justify-center rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-stone-900/20 transition-all hover:bg-stone-800 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Home className="size-4 mr-2" />
               Ajouter un bien
             </Link>
             <Link
-              href="/tenants/new"
+              href="/tenants"
               className="inline-flex items-center justify-center rounded-xl border border-stone-200 bg-white px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm transition-all hover:bg-stone-50 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Plus className="size-4 mr-2" />

@@ -2,11 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { paidOffer } from "@/components/seo/schema-markup";
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Suivi Maintenance 2026 — Déclarez et résolvez les interventions | RentReady",
+      "Suivi Maintenance 2026 — Déclarez et résolvez les interventions",
     description:
       "Déclarez, suivez et résolvez les interventions de maintenance. Historique complet, photos, priorisation. Simplifiez la gestion locative 2026.",
     url: "/maintenance",
@@ -104,6 +111,11 @@ const faqData = [
   },
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 function MaintenanceJsonLd() {
   const data = {
     "@context": "https://schema.org",
@@ -135,12 +147,7 @@ function MaintenanceJsonLd() {
         description:
           "Gérez les demandes de réparation et maintenance de vos locations : déclaration en ligne, priorisation automatique, historique par bien, suivi en temps réel.",
         offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+          ...paidOffer(),
         },
         featureList: [
           "Déclaration de maintenance en ligne",
@@ -230,7 +237,7 @@ export default function MaintenancePage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((item) => (
               <div key={item.step} className="rounded-xl border border-stone-200 bg-white p-6">
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-lg font-bold text-orange-600">
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-lg font-bold text-orange-700">
                   {item.step}
                 </div>
                 <h3 className="mb-2 text-base font-semibold text-stone-900">
@@ -261,7 +268,7 @@ export default function MaintenancePage() {
               <span>Réparation électroménager, fuite mineure, joint</span>
             </li>
             <li className="flex items-start gap-2 text-sm text-stone-600">
-              <span className="text-stone-400 font-bold">Cosmétique —</span>
+              <span className="text-stone-600 font-bold">Cosmétique —</span>
               <span>Peinture, joint légèrement abimé, petites retouches</span>
             </li>
           </ul>
@@ -285,7 +292,7 @@ export default function MaintenancePage() {
         </section>
 
         {/* Internal links */}
-        <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+        <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
           <Link
             href="/bail"
             className="text-blue-600 hover:underline"

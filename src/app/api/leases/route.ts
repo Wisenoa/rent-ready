@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { leaseSchema } from "@/lib/validations/lease";
 import { generateAndUploadBailPdf } from "@/lib/actions/bail-pdf-server";
+import { generateRentPeriodsForLease } from "@/lib/domain/generate-rent-periods";
+import { isRevisable, nextRevisionDate } from "@/lib/domain/lease-revision";
 
 // ============================================================
 // GET /api/leases — List all leases
@@ -111,16 +113,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify property and tenant ownership
+    // Ownership is a constraint of the query, not a comparison afterwards: both
+    // the property and the tenant are looked up WITH the session's userId.
+    // `findUnique({ where: { id } })` followed by `property.userId !== session…`
+    // read another landlord's row before refusing — and a lease created from a
+    // foreign propertyId/tenantId would have corrupted their records.
     const [property, tenant] = await Promise.all([
-      prisma.property.findUnique({ where: { id: parsed.data.propertyId } }),
-      prisma.tenant.findUnique({ where: { id: parsed.data.tenantId } }),
+      prisma.property.findFirst({
+        where: { id: parsed.data.propertyId, userId: session.user.id },
+      }),
+      prisma.tenant.findFirst({
+        where: { id: parsed.data.tenantId, userId: session.user.id },
+      }),
     ]);
 
-    if (!property || property.userId !== session.user.id) {
+    if (!property) {
       return NextResponse.json({ error: "Bien introuvable ou accès non autorisé" }, { status: 404 });
     }
-    if (!tenant || tenant.userId !== session.user.id) {
+    if (!tenant) {
       return NextResponse.json({ error: "Locataire introuvable ou accès non autorisé" }, { status: 404 });
     }
 
@@ -140,7 +150,27 @@ export async function POST(request: NextRequest) {
       irlReferenceValue: parsed.data.irlReferenceValue ?? null,
     };
 
-    const lease = await prisma.lease.create({ data: leaseData });
+    const lease = await prisma.lease.create({
+      data: {
+        ...leaseData,
+        // The NEXT revision date. This route is the API twin of the createLease
+        // server action, and it left `revisionDate` null — so a lease created
+        // through the API had no revision date at all, which is one of the two
+        // reasons /api/cron/revision-check could never find anything. See
+        // `@/lib/domain/lease-revision`.
+        revisionDate: isRevisable(leaseData)
+          ? nextRevisionDate(leaseData.startDate, new Date(), leaseData.endDate ?? null)
+          : null,
+      },
+    });
+
+    // Materialise the rent owed from the lease start through the current month so
+    // arrears detection and the relance flow have data to work from.
+    try {
+      await generateRentPeriodsForLease(lease.id);
+    } catch (error) {
+      console.error("[leases] rent period generation failed:", error);
+    }
 
     // Fire-and-forget: generate bail PDF without blocking the response.
     // If PDF generation fails, the lease is still created successfully.

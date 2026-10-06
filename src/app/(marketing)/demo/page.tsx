@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-// ISR: revalidate marketing pages at CDN edge every hour
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 export const revalidate = 3600;
 
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 // DemoForm has form state + validation (client-heavy)
-const DemoForm = dynamic(
+const DemoForm = dynamicImport(
   () => import("@/components/landing/demo-form").then((mod) => mod.DemoForm),
   { loading: () => <div style={{ minHeight: 300 }} aria-hidden="true" /> }
 );
@@ -81,6 +84,11 @@ const faqData = [
   },
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 function DemoJsonLd() {
   const data = {
     "@context": "https://schema.org",
@@ -141,11 +149,6 @@ function DemoJsonLd() {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       {
         "@type": "FAQPage",
@@ -195,14 +198,14 @@ export default function DemoPage() {
             <ul className="mt-10 space-y-6">
               {benefits.map((b) => (
                 <li key={b.title} className="flex gap-4">
-                  <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] text-emerald-600">
+                  <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] text-emerald-700">
                     \u2713
                   </span>
                   <div>
                     <strong className="text-sm font-semibold text-stone-900">
                       {b.title}
                     </strong>
-                    <p className="mt-1 text-sm text-stone-500">{b.description}</p>
+                    <p className="mt-1 text-sm text-stone-600">{b.description}</p>
                   </div>
                 </li>
               ))}
@@ -215,7 +218,7 @@ export default function DemoPage() {
               <ul className="mt-4 space-y-2">
                 {agendaItems.map((item, i) => (
                   <li key={i} className="flex gap-3 text-sm text-stone-600">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-stone-100 text-[10px] font-semibold text-stone-500">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-stone-100 text-[10px] font-semibold text-stone-600">
                       {i + 1}
                     </span>
                     {item}
@@ -231,7 +234,7 @@ export default function DemoPage() {
               <h2 className="text-2xl font-bold text-stone-900">
                 R\u00e9servez votre cr\u00e9neau
               </h2>
-              <p className="mt-2 text-sm text-stone-500">
+              <p className="mt-2 text-sm text-stone-600">
                 On vous envoie un lien visio par email.
               </p>
 

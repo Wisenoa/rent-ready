@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { spring } from "./motion-config";
 import { ScrollReveal } from "./scroll-reveal";
+import { formatEntryPrice, formatProPrice } from "@/data/entity";
 
 interface FaqItem {
   question: string;
@@ -32,7 +33,7 @@ const faqs: FaqItem[] = [
     question:
       "Comment calculer la révision annuelle du loyer avec l'indice IRL de l'INSEE ?",
     answer:
-      "La révision annuelle du loyer en France est encadrée par l'Indice de Référence des Loyers (IRL) publié chaque trimestre par l'INSEE. La formule légale est : Nouveau loyer = Loyer actuel × (Nouvel IRL du trimestre de référence ÷ IRL de référence à la date de signature du bail). Par exemple, avec un loyer de 800 € et un IRL passant de 142,06 à 145,78 (4ᵉ trimestre 2025), le nouveau loyer serait de 800 × (145,78 ÷ 142,06) = 820,97 €. RentReady effectue ce calcul automatiquement en se connectant aux données officielles de l'INSEE et notifie le locataire de la révision.",
+      "La révision annuelle du loyer en France est encadrée par l'Indice de Référence des Loyers (IRL) publié chaque trimestre par l'INSEE. La formule légale est : Nouveau loyer = Loyer actuel × (Nouvel IRL du trimestre de référence ÷ IRL de référence à la date de signature du bail). Par exemple, avec un loyer de 800 € et un IRL passant de 144,64 (4ᵉ trimestre 2024) à 145,78 (4ᵉ trimestre 2025), le nouveau loyer serait de 800 × (145,78 ÷ 144,64) = 806,31 €. RentReady effectue ce calcul automatiquement en se connectant aux données officielles de l'INSEE et notifie le locataire de la révision.",
   },
   {
     question:
@@ -62,7 +63,7 @@ const faqs: FaqItem[] = [
     question:
       "Combien coûte RentReady et y a-t-il un engagement ?",
     answer:
-      "RentReady coûte 15 € par mois sans engagement, ou 150 € par an (soit 2 mois offerts). Ce tarif unique inclut la gestion de 10 biens maximum, un nombre illimité de locataires, toutes les fonctionnalités (quittancement, détection des virements, révision IRL, portail locataire, OCR des factures artisans par IA, simulateur fiscal) et les mises à jour légales et réglementaires. Vous bénéficiez d'un essai gratuit de 14 jours sans carte bancaire. Il n'y a aucun frais caché, aucune commission sur les loyers encaissés, et vous pouvez résilier en un clic depuis votre espace.",
+      `RentReady part à ${formatEntryPrice()} par mois sans engagement pour 3 biens, et ${formatProPrice()} pour 10 biens (149 € par an, soit 2 mois offerts). Chaque palier inclut un nombre illimité de locataires, toutes les fonctionnalités (quittancement, détection des virements, révision IRL, portail locataire, OCR des factures artisans par IA, simulateur fiscal) et les mises à jour légales et réglementaires. Vous bénéficiez d'un essai gratuit de 14 jours sans carte bancaire. Il n'y a aucun frais caché, aucune commission sur les loyers encaissés, et vous pouvez résilier en un clic depuis votre espace.`,
   },
 ];
 
@@ -71,7 +72,7 @@ export function FaqSection() {
     <section className="py-24 sm:py-32 lg:py-40">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <ScrollReveal className="mb-16 text-center sm:mb-20">
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-500">
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-600">
             Questions fréquentes
           </p>
           <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
@@ -104,7 +105,7 @@ export function FaqSection() {
             <p className="text-[14px] font-semibold text-stone-800">
               Vous avez une question spécifique ?
             </p>
-            <p className="mt-0.5 text-[13px] text-stone-500">
+            <p className="mt-0.5 text-[13px] text-stone-600">
               Notre équipe répond sous 24h ouvrées.
             </p>
           </div>

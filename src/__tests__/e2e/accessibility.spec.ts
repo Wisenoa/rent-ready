@@ -1,5 +1,9 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect } from './helpers/fixtures'
+import { type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+import { registerTestUser, uniqueEmail } from './helpers/auth'
+import { realErrors } from './helpers/console'
+
 
 /**
  * WCAG 2.1 AA Accessibility Audit
@@ -43,34 +47,49 @@ test.describe('Marketing Pages — Accessibility Audit', () => {
 
       await pw.goto(page.url, { waitUntil: 'networkidle' })
 
+      // Marketing pages fade sections in. axe measures the COMPUTED colour, so an
+      // element mid-fade reads as blended into the background: `text-stone-600`
+      // measured 1.1:1 at 15 % opacity against a 7.12:1 once settled. Those were
+      // failures a user never sees, and the block had lost this wait.
+      //
+      // Waiting on the animation API rather than on a global opacity check: some
+      // elements never reach opacity 1 (a permanently translucent overlay), so
+      // the proxy always timed out and cost 10s on every marketing page.
+      await pw
+        .waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'),
+          undefined,
+          { timeout: 5_000 },
+        )
+        .catch(() => {
+          // An animation that never ends must not silently skip the audit: the
+          // checks below still run, and axe reports whatever it can see.
+        })
+
       const result = await new AxeBuilder({ page: pw })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
         .analyze()
 
       // Log violations for debugging but don't fail on minor contrast warnings
+      // axe's impact values are minor | moderate | serious | critical. The
+      // previous `v.impact === 'violation'` could never match — "violation" is the
+      // name of the array, not an impact — so it was dead weight in the filter.
       const critical = result.violations.filter(
-        (v) =>
-          v.impact === 'critical' ||
-          v.impact === 'serious' ||
-          v.impact === 'violation'
+        (v) => v.impact === 'critical' || v.impact === 'serious'
       )
 
-      if (critical.length > 0) {
-        const summary = critical.map(
-          (v) => `[${v.impact}] ${v.id}: ${v.description} (${v.nodes.length} nodes)`
-        )
-        console.log(`Critical violations on ${page.url}:`, summary)
-      }
-
-      // No fatal JS errors
-      const criticalErrors = errors.filter(
-        (e) =>
-          !e.includes('favicon') &&
-          !e.includes('hydration') &&
-          !e.includes('Warning') &&
-          !e.includes('zod')
+      // Assert on the violations, not on console noise. The original version logged
+      // axe findings and then asserted that the console was clean, so a page with
+      // real accessibility failures passed as long as nothing logged — and every
+      // page failed on Next's own blocked debug script instead.
+      const summary = critical.map(
+        (v) => `[${v.impact}] ${v.id}: ${v.description} (${v.nodes.length} nodes)`
       )
-      expect(criticalErrors).toHaveLength(0)
+      expect(
+        critical,
+        `accessibility violations on ${page.url}:\n  ${summary.join('\n  ')}`
+      ).toEqual([])
+
+      expect(realErrors(errors)).toEqual([])
     })
   }
 
@@ -116,16 +135,10 @@ test.describe('Marketing Pages — Accessibility Audit', () => {
 // ─── App pages (authenticated) ────────────────────────────────────────────────
 
 test.describe('App Pages — Accessibility Audit', () => {
+  // The registration form has one `name` field and no confirmation, so the old
+  // inline fills here could never have worked.
   async function loginUser(pw: Page) {
-    const uniqueEmail = `e2e.a11y.${Date.now()}@rentready.io`
-    await pw.goto('/register')
-    await pw.fill('[id="firstName"]', 'Access')
-    await pw.fill('[id="lastName"]', 'Test')
-    await pw.fill('[id="email"]', uniqueEmail)
-    await pw.fill('[id="password"]', 'TestPassword123!')
-    await pw.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await pw.click('[type="submit"]')
-    await pw.waitForURL('**/dashboard**', { timeout: 20_000 })
+    await registerTestUser(pw, uniqueEmail('e2e.a11y'))
   }
 
   for (const page of APP_PAGES) {
@@ -138,6 +151,20 @@ test.describe('App Pages — Accessibility Audit', () => {
         })
 
         await pw.goto(page.url, { waitUntil: 'networkidle' })
+
+      // Marketing pages fade sections in on scroll. axe measures the computed
+      // colour, so an element still at opacity 0 is read as blended with the
+      // background and reported as a contrast failure that a user never sees.
+      // Let the animations settle before auditing.
+      await pw.waitForFunction(
+        () => Array.from(document.querySelectorAll('*')).every((el) => {
+          const o = Number(getComputedStyle(el).opacity)
+          return Number.isNaN(o) || o > 0.99
+        }),
+        undefined,
+        { timeout: 10_000 }
+      ).catch(() => { /* a permanently hidden element is itself worth reporting */ })
+      await pw.waitForTimeout(300)
 
         const result = await new AxeBuilder({ page: pw })
           .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
@@ -154,14 +181,7 @@ test.describe('App Pages — Accessibility Audit', () => {
           console.log(`Critical violations on ${page.url}:`, summary)
         }
 
-        const criticalErrors = errors.filter(
-          (e) =>
-            !e.includes('favicon') &&
-            !e.includes('hydration') &&
-            !e.includes('Warning') &&
-            !e.includes('zod')
-        )
-        expect(criticalErrors).toHaveLength(0)
+        expect(realErrors(errors)).toHaveLength(0)
       })
     } else {
       test(`${page.name} (${page.url}) has no critical WCAG violations (authenticated)`, async ({
@@ -176,6 +196,20 @@ test.describe('App Pages — Accessibility Audit', () => {
 
         await pw.goto(page.url, { waitUntil: 'networkidle' })
 
+      // Marketing pages fade sections in on scroll. axe measures the computed
+      // colour, so an element still at opacity 0 is read as blended with the
+      // background and reported as a contrast failure that a user never sees.
+      // Let the animations settle before auditing.
+      await pw.waitForFunction(
+        () => Array.from(document.querySelectorAll('*')).every((el) => {
+          const o = Number(getComputedStyle(el).opacity)
+          return Number.isNaN(o) || o > 0.99
+        }),
+        undefined,
+        { timeout: 10_000 }
+      ).catch(() => { /* a permanently hidden element is itself worth reporting */ })
+      await pw.waitForTimeout(300)
+
         const result = await new AxeBuilder({ page: pw })
           .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
           .analyze()
@@ -191,14 +225,7 @@ test.describe('App Pages — Accessibility Audit', () => {
           console.log(`Critical violations on ${page.url}:`, summary)
         }
 
-        const criticalErrors = errors.filter(
-          (e) =>
-            !e.includes('favicon') &&
-            !e.includes('hydration') &&
-            !e.includes('Warning') &&
-            !e.includes('zod')
-        )
-        expect(criticalErrors).toHaveLength(0)
+        expect(realErrors(errors)).toHaveLength(0)
       })
     }
   }
@@ -228,14 +255,19 @@ test.describe('Keyboard Navigation', () => {
 
   test('can tab through register form', async ({ page: pw }) => {
     await pw.goto('/register')
-    const firstName = pw.locator('[id="firstName"]')
-    await firstName.focus()
-    expect(await pw.evaluate(() => document.activeElement?.id)).toBe('firstName')
+    // The form asks for a full name, not a first and last name — the test was
+    // looking for `firstName`/`lastName` ids the form has never had, so it timed
+    // out on `focus()` rather than on anything to do with keyboard navigation.
+    const fullName = pw.locator('#name, [id="name"]').first()
+    await fullName.focus()
+    expect(await pw.evaluate(() => document.activeElement?.id)).toBe(
+      await fullName.getAttribute('id'),
+    )
 
-    // Tab through all fields
+    // Tab moves on, and focus stays inside the form.
     await pw.keyboard.press('Tab')
-    const lastNameFocused = await pw.evaluate(() => document.activeElement?.id)
-    expect(['lastName', '']).toContain(lastNameFocused)
+    const nextId = await pw.evaluate(() => document.activeElement?.id)
+    expect(nextId).not.toBe(await fullName.getAttribute('id'))
   })
 
   test('focus is visible on login form elements', async ({ page: pw }) => {

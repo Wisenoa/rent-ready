@@ -69,7 +69,7 @@ function CellValue({ value, highlight }: { value: string | boolean; highlight?: 
     return value ? (
       <Check
         className={`mx-auto size-[18px] ${
-          highlight ? "text-blue-600" : "text-stone-300"
+          highlight ? "text-blue-600" : "text-stone-700"
         }`}
         strokeWidth={2.5}
       />
@@ -80,7 +80,7 @@ function CellValue({ value, highlight }: { value: string | boolean; highlight?: 
   return (
     <span
       className={`text-[13px] ${
-        highlight ? "font-semibold text-blue-700" : "text-stone-500"
+        highlight ? "font-semibold text-blue-700" : "text-stone-600"
       }`}
     >
       {value}
@@ -120,12 +120,12 @@ export function ComparisonSection() {
             <table className="w-full text-left text-sm min-w-[560px]">
               <thead>
                 <tr>
-                  <th className="py-5 pl-6 pr-4 text-[12px] font-medium uppercase tracking-wider text-stone-400 w-[40%]" />
+                  <th className="py-5 pl-6 pr-4 text-[12px] font-medium uppercase tracking-wider text-stone-600 w-[40%]" />
                   <th className="py-5 px-4 text-center">
                     <span className="block text-[13px] font-semibold text-stone-600">
                       Agence
                     </span>
-                    <span className="block text-[11px] text-stone-400 mt-0.5">
+                    <span className="block text-[11px] text-stone-600 mt-0.5">
                       ~7 % du loyer
                     </span>
                   </th>
@@ -133,7 +133,7 @@ export function ComparisonSection() {
                     <span className="block text-[13px] font-semibold text-stone-600">
                       Excel
                     </span>
-                    <span className="block text-[11px] text-stone-400 mt-0.5">
+                    <span className="block text-[11px] text-stone-600 mt-0.5">
                       Gratuit
                     </span>
                   </th>

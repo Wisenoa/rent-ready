@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Modèle Bail Précaire 2026 — Location Temporaire avec Préavis Court",
@@ -84,7 +90,7 @@ const motifs = [
     desc: "Le bien doit être libéré pour permettre une destination différente (commerciale, agricole, etc.)",
   },
   {
-    motif: "Fin de права",
+    motif: "Fin de contrat",
     desc: "Le bail expire car le droit d'occupation du bailleur arrive à échéance (fin de bail rural, etc.)",
   },
 ];
@@ -93,7 +99,7 @@ const faqData = [
   {
     question: "Qu'est-ce qu'un bail précaire ?",
     answer:
-      "Le bail précaire (aussi appelé 'bail avec préavis' ou 'bail à待遇 réduite') est un contrat de location dont la durée est limitée et qui ne peut pas être renouvelé tacitement. Il est soumis à des conditions strictes : un motif légitime et temporaire doit justifier le recours à ce type de bail. Il ne peut pas servir à éviter les règles du bail d'habitation classique.",
+      "Le bail précaire (aussi appelé 'bail avec préavis' ou 'bail à durée réduite') est un contrat de location dont la durée est limitée et qui ne peut pas être renouvelé tacitement. Il est soumis à des conditions strictes : un motif légitime et temporaire doit justifier le recours à ce type de bail. Il ne peut pas servir à éviter les règles du bail d'habitation classique.",
   },
   {
     question: "Quand peut-on utiliser un bail précaire ?",
@@ -122,13 +128,10 @@ const orgSchema = {
   "@id": "https://www.rentready.fr/#organization",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.png",
+  logo: "https://www.rentready.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-  sameAs: [
-    "https://twitter.com/rentready_fr",
-    "https://www.linkedin.com/company/rentready",
-  ],
+  sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -141,12 +144,12 @@ const webSiteSchema = {
   "@id": "https://www.rentready.fr/#website",
   name: "RentReady",
   url: "https://www.rentready.fr",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.rentready.fr/recherche?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function BailPrecaireJsonLd() {
   const data = {
@@ -202,7 +205,7 @@ export default function BailPrecairePage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Modèle de Bail Précaire
             <br />
-            <span className="text-orange-600">Location Temporaire 2026</span>
+            <span className="text-orange-700">Location Temporaire 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail précaire pour occupation temporaire justifiée par un motif
@@ -259,7 +262,7 @@ export default function BailPrecairePage() {
           <div className="space-y-4">
             {motifs.map((m) => (
               <div key={m.motif} className="flex items-start gap-4 rounded-xl border border-orange-200 bg-white p-4">
-                <Check className="mt-0.5 size-5 shrink-0 text-orange-600" />
+                <Check className="mt-0.5 size-5 shrink-0 text-orange-700" />
                 <div>
                   <h3 className="text-sm font-semibold text-stone-900">{m.motif}</h3>
                   <p className="mt-1 text-sm text-stone-600">{m.desc}</p>
@@ -370,7 +373,7 @@ export default function BailPrecairePage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-orange-600 hover:underline"
+                className="text-sm text-orange-700 hover:underline"
               >
                 {link.label}
               </Link>
@@ -380,13 +383,13 @@ export default function BailPrecairePage() {
 
         {/* Navigation */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/lease/bail-saisonnier" className="text-orange-600 hover:underline">
+          <Link href="/templates/lease/bail-saisonnier" className="text-orange-700 hover:underline">
             Bail saisonnier →
           </Link>
-          <Link href="/templates/lease/bail-etudiant" className="text-orange-600 hover:underline">
+          <Link href="/templates/lease/bail-etudiant" className="text-orange-700 hover:underline">
             Bail étudiant →
           </Link>
-          <Link href="/templates/lease/acte-caution" className="text-orange-600 hover:underline">
+          <Link href="/templates/lease/acte-caution" className="text-orange-700 hover:underline">
             Acte de caution →
           </Link>
           <Link href="/templates/lease" className="text-blue-600 hover:underline">

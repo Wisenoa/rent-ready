@@ -63,10 +63,10 @@ export function PropertiesEmptyState({
         </Button>
         <PropertyForm
           trigger={
-            <Button variant="outline">
+            <>
               <Plus className="size-4 mr-2" />
               Ajouter un bien manuellement
-            </Button>
+            </>
           }
         />
       </div>

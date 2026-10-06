@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Modèle Bail Meublé Gratuit 2026 — Contrat Conforme Loi 1989",
@@ -127,6 +133,11 @@ const faqData = [
   },
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 function BailMeubleJsonLd() {
   const data = {
     "@context": "https://schema.org",
@@ -136,13 +147,10 @@ function BailMeubleJsonLd() {
         "@id": "https://www.rentready.fr/#organization",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        logo: "https://www.rentready.fr/logo.png",
+        logo: "https://www.rentready.fr/logo.svg",
         description:
           "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
-        sameAs: [
-          "https://twitter.com/rentready_fr",
-          "https://www.linkedin.com/company/rentready",
-        ],
+        sameAs: SAME_AS,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
@@ -155,11 +163,6 @@ function BailMeubleJsonLd() {
         "@id": "https://www.rentready.fr/#website",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
         isPartOf: {
           "@type": "WebSite",
           name: "RentReady",
@@ -390,7 +393,7 @@ export default function BailMeublePage() {
               "DPE obligatoire (diagnostic performance énergétique)",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-stone-600">
-                <span className="text-emerald-600">✓</span>
+                <span className="text-emerald-700">✓</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -504,7 +507,7 @@ export default function BailMeublePage() {
               Essai gratuit 14 jours
             </Link>
             <Link
-              href="/outils/calculateur-irl-2026"
+              href="/outils/calculateur-irl"
               className="inline-block rounded-lg border border-blue-500 px-6 py-3 font-medium text-blue-300 transition-colors hover:bg-blue-800"
             >
               Simulateur IRL →
@@ -545,8 +548,8 @@ export default function BailMeublePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: "/guides/modele-bail", label: "Guide : modèle de bail de location →" },
-              { href: "/blog/difference-bail-meuble-bail-vide", label: "Bail meublé vs bail vide : que choisir ? →" },
-              { href: "/blog/equipement-minimum-bail-meuble", label: "Équipement minimum pour un bail meublé →" },
+              { href: "/blog/bail-meuble-vs-bail-vide-difference", label: "Bail meublé vs bail vide : que choisir ? →" },
+              { href: "/blog/bail-meuble-ou-vide-que-choisir-investisseur", label: "Équipement minimum pour un bail meublé →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
             ].map((link) => (
               <Link

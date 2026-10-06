@@ -14,6 +14,19 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Every dashboard route requires a session: the layout calls SubscriptionGate,
+ * which reads the cookie via better-auth, and the pages query Prisma scoped to
+ * the signed-in user. Without this, `next build` tries to prerender them at
+ * build time with no request context. That fails non-deterministically —
+ * depending on which page's worker loses the race first — as
+ * "Cannot read properties of undefined (reading 'call')" in webpack-runtime, or
+ * as an "Headers is required" APIError from better-auth. Prerendering an
+ * authenticated page is also wrong regardless of the crash: the HTML would be
+ * one user's dashboard, cached and served to whoever requests the URL.
+ */
+export const dynamic = "force-dynamic";
+
 export default async function DashboardLayout({
   children,
 }: {

@@ -9,9 +9,20 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur Rendement Locatif — NET & BRUT 2026 | RentReady",
+    title: "Calculateur Rendement Locatif — NET & BRUT 2026",
     description:
       "Calculez votre rendement locatif NET et BRUT en quelques clics. Outil gratuit pour investisseurs immobiliers avec indicateurs détaillés.",
     url: "/outils/calculateur-rendement",

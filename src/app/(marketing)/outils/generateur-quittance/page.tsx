@@ -9,9 +9,20 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Générateur de Quittance de Loyer 2026 — PDF Conforme | RentReady",
+    title: "Générateur de Quittance de Loyer 2026 — PDF Conforme",
     description:
       "Générez des quittances de loyer personnalisées et conformes. Outil gratuit pour propriétaires avec calculs automatiques des montants et dates.",
     url: "/outils/generateur-quittance",
@@ -57,7 +68,7 @@ function GenerateurQuittanceJsonLd() {
       ],
     })
   );
-  return <SchemaMarkup data={schema} />;
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
 export default function GenerateurQuittancePage() {

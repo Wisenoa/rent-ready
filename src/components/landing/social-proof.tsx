@@ -1,13 +1,27 @@
+/**
+ * SocialProof — capability statements, not invented metrics.
+ *
+ * This component previously rendered "2 400+ propriétaires actifs", "98%
+ * satisfaction client" and a 4.9/127 AggregateRating in JSON-LD. None of those
+ * figures had a source, and unverifiable AggregateRating / review markup is a
+ * manual-action risk in Google's structured data guidelines. Inventing social
+ * proof is also exactly the "fake success" pattern the product principles
+ * forbid.
+ *
+ * What replaces it is what we can actually stand behind: the integrations the
+ * product genuinely uses, and the concrete constraints of the offer (no card,
+ * short setup). Marketing can still be specific without inventing a number.
+ */
 "use client";
 
 import { motion } from "framer-motion";
 import { ScrollReveal } from "./scroll-reveal";
 
-const stats = [
-  { value: "2 400+", label: "propriétaires actifs" },
-  { value: "98%", label: "satisfaction client" },
-  { value: "15 min", label: "temps moyen de setup" },
-  { value: "0", label: "carte bancaire pour commencer" },
+const commitments = [
+  { value: "0 €", label: "carte bancaire pour commencer" },
+  { value: "14 jours", label: "d'essai gratuit, sans engagement" },
+  { value: "15 min", label: "pour connecter votre première banque" },
+  { value: "100 %", label: "des quittances générées depuis vos données" },
 ];
 
 const integrations = [
@@ -36,7 +50,7 @@ const integrations = [
     sub: "Conformité e-reporting B2C",
     icon: (
       <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="2" width="10" height="12" rx="1.5" />
+        <rect x="6" y="2" width="10" height="12" rx="1.5" />
         <path d="M6 6h4M6 9h4M6 12h2" />
       </svg>
     ),
@@ -57,11 +71,11 @@ export function SocialProof() {
   return (
     <ScrollReveal className="py-16 sm:py-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        {/* Stats bar */}
+        {/* Commitment bar — each figure is a property of the offer, not a metric */}
         <div className="mb-14 grid grid-cols-2 gap-px rounded-2xl border border-stone-200/50 bg-stone-200/50 sm:grid-cols-4 overflow-hidden">
-          {stats.map((stat, i) => (
+          {commitments.map((item, i) => (
             <motion.div
-              key={stat.label}
+              key={item.label}
               className="bg-white/80 backdrop-blur-sm px-6 py-6 text-center sm:py-8"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -69,17 +83,17 @@ export function SocialProof() {
               transition={{ delay: i * 0.07, duration: 0.4 }}
             >
               <p className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
-                {stat.value}
+                {item.value}
               </p>
-              <p className="mt-1 text-[12px] sm:text-[13px] text-stone-500">
-                {stat.label}
+              <p className="mt-1 text-[12px] sm:text-[13px] text-stone-600">
+                {item.label}
               </p>
             </motion.div>
           ))}
         </div>
 
         {/* Integration badges */}
-        <h2 className="mb-6 text-center text-[12px] font-medium uppercase tracking-[0.2em] text-stone-400">
+        <h2 className="mb-6 text-center text-[12px] font-medium uppercase tracking-[0.2em] text-stone-600">
           Intégrations &amp; conformité
         </h2>
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
@@ -96,7 +110,7 @@ export function SocialProof() {
               <span className="text-[13px] font-semibold text-stone-700">
                 {item.label}
               </span>
-              <span className="hidden sm:block text-[11px] text-stone-400">
+              <span className="hidden sm:block text-[11px] text-stone-600">
                 {item.sub}
               </span>
             </motion.div>

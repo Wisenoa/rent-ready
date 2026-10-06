@@ -102,7 +102,11 @@ export async function GET(request: NextRequest) {
       prisma.transaction.count({ where: whereConditions }),
     ]);
 
-    // Group by month for easier display
+    // Group by month for easier display.
+    //
+    // The amounts are converted to numbers here because this is a JSON response:
+    // a Prisma Decimal serialises to a *string*, so a client would receive
+    // "740.50" rather than a number. The summary below already did this.
     const groupedByMonth: Record<string, Array<{
       id: string;
       periodStart: Date;
@@ -131,9 +135,9 @@ export async function GET(request: NextRequest) {
         id: transaction.id,
         periodStart: transaction.periodStart,
         periodEnd: transaction.periodEnd,
-        amount: transaction.amount,
-        rentPortion: transaction.rentPortion,
-        chargesPortion: transaction.chargesPortion,
+        amount: transaction.amount.toDecimalPlaces(2).toNumber(),
+        rentPortion: transaction.rentPortion.toDecimalPlaces(2).toNumber(),
+        chargesPortion: transaction.chargesPortion.toDecimalPlaces(2).toNumber(),
         status: transaction.status,
         paidAt: transaction.paidAt,
         receiptUrl: transaction.receiptUrl,
@@ -149,15 +153,19 @@ export async function GET(request: NextRequest) {
         .filter((t) => t.status === "PAID")
         .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       totalPending: transactions
-        .filter((t) => t.status === "PENDING")
+        .filter((t) => t.paidAt === null && new Date(t.dueDate) >= new Date())
         .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       totalLate: transactions
-        .filter((t) => t.status === "LATE")
+        .filter((t) => t.paidAt === null && new Date(t.dueDate) < new Date())
         .reduce((sum, t) => new Decimal(sum).plus(t.amount).toNumber(), 0),
       count: {
         paid: transactions.filter((t) => t.status === "PAID").length,
-        pending: transactions.filter((t) => t.status === "PENDING").length,
-        late: transactions.filter((t) => t.status === "LATE").length,
+        pending: transactions.filter(
+          (t) => t.paidAt === null && new Date(t.dueDate) >= new Date()
+        ).length,
+        late: transactions.filter(
+          (t) => t.paidAt === null && new Date(t.dueDate) < new Date()
+        ).length,
       },
     };
 

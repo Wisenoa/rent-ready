@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Home } from "lucide-react";
+import { SchemaMarkup } from "./schema-markup";
 
 export interface BreadcrumbItem {
   label: string;
@@ -115,18 +116,18 @@ export function Breadcrumb({ items, showHomeIcon = true, className = "", pageIte
   const pathname = usePathname();
   const crumbs = items ?? autoBreadcrumbs(pathname);
 
-  const schemaJson = JSON.stringify(breadcrumbListSchema(crumbs, pageItemId));
-
+  // Emitted through SchemaMarkup rather than a raw <script>, so a page that also
+  // declares a BreadcrumbList cannot ship two. Pages were doing both.
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: schemaJson }}
-      />
+      <SchemaMarkup data={breadcrumbListSchema(crumbs, pageItemId)} />
 
       <nav
         aria-label="Fil d'Ariane"
-        className={`flex items-center gap-1 text-sm text-stone-500 ${className}`}
+        // stone-500 measured 4.46:1 on the site's cream background — under the
+        // 4.5:1 AA threshold. stone-600 measures 7.1:1, and it is the resting
+        // state that has to pass, not the hover.
+        className={`flex items-center gap-1 text-sm text-stone-600 ${className}`}
       >
         {crumbs.map((crumb, index) => (
           <span key={crumb.href} className="flex items-center gap-1">

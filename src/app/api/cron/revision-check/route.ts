@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     const futureDate = new Date(now.getTime() + daysAhead * 24 * 60 * 60 * 1000);
 
     // Find leases approaching their revision date
-    // Revision date = anniversary of lease start date, 30 days before告知
+    // Revision date = anniversary of lease start date, 30 days before notification
     const approachingLeases = await prisma.lease.findMany({
       where: {
         status: "ACTIVE",

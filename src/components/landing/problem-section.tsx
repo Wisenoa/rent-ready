@@ -42,7 +42,7 @@ export function ProblemSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={spring.gentle}
         >
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-400">
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-600">
             Le problème que nous résolvons
           </p>
           <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
@@ -50,7 +50,7 @@ export function ProblemSection() {
             <br />
             c&apos;est un second emploi non rémunéré.
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-stone-500 sm:text-lg sm:leading-relaxed">
+          <p className="mt-5 text-base leading-relaxed text-stone-600 sm:text-lg sm:leading-relaxed">
             En France, plus de 2,5 millions de particuliers gèrent eux-mêmes
             leurs locations. Sans outil adapté, chaque propriétaire consacre en
             moyenne 6 heures par mois à des tâches répétitives et stressantes.
@@ -80,7 +80,7 @@ export function ProblemSection() {
                 <h3 className="mb-3 text-lg font-semibold tracking-tight text-stone-900">
                   {point.title}
                 </h3>
-                <p className="text-[15px] leading-relaxed text-stone-500">
+                <p className="text-[15px] leading-relaxed text-stone-600">
                   {point.text}
                 </p>
               </div>
@@ -96,7 +96,7 @@ export function ProblemSection() {
           viewport={{ once: true }}
           transition={{ ...spring.gentle, delay: 0.2 }}
         >
-          <p className="text-base leading-relaxed text-stone-500 sm:text-lg sm:leading-relaxed">
+          <p className="text-base leading-relaxed text-stone-600 sm:text-lg sm:leading-relaxed">
             <strong className="text-stone-800">
               RentReady supprime cette friction.
             </strong>{" "}

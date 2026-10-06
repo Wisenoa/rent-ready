@@ -2,12 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import cities from "@/data/cities.json";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { formatEntryPrice, formatProPrice, formatProAnnualPrice } from "@/data/entity";
 
-// ISR: city pages use static city data — revalidate monthly
-export const revalidate = 2592000;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 /* ---------- Types ---------- */
 
@@ -64,6 +68,11 @@ const PREFECTURE_URLS: Record<string, string> = {
   rennes:      "https://www.ille-et-vilaine.gouv.fr",
   grenoble:    "https://www.isere.gouv.fr",
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 /* ---------- Metadata ---------- */
 
@@ -164,7 +173,7 @@ function getFaqs(city: City) {
     {
       question: `Quel est le loyer moyen à ${city.name} en 2026 ?`,
       answer: rentData
-        ? `Le loyer moyen à ${city.name} se situe autour de ${rentData.studio} à ${rentData.t3} €/m² selon le type de bien (studio à T3). Ces chiffres sont donné à titre indicatif — le loyer réel dépend de l'état, de l'emplacement et des équipements. Source : ${rentData.source}.`
+        ? `Le loyer moyen à ${city.name} se situe autour de ${rentData.studio} à ${rentData.t3} €/m² selon le type de bien (studio à T3). Ces chiffres sont donnés à titre indicatif — le loyer réel dépend de l'état, de l'emplacement et des équipements. Source : ${rentData.source}.`
         : `Le marché locatif de ${city.name} offre des opportunités intéressant pour les propriétaires. Utilisez notre calculateur pour estimer le rendement de votre bien et comparer avec les standards du marché local.`,
     },
     {
@@ -177,7 +186,7 @@ function getFaqs(city: City) {
     },
     {
       question: `Combien coûte la gestion locative à ${city.name} avec RentReady ?`,
-      answer: `RentReady coûte 15 € par mois (ou 150 € par an, soit 2 mois offerts) quel que soit le nombre de biens (jusqu'à 10). C'est 4 à 5 fois moins cher qu'une agence immobilière à ${city.name} qui facture en moyenne 7 % du loyer annuel, soit environ ${ctx.avgRent * 70} € par an pour un loyer de ${ctx.avgRent * 1000 / 10} € mensuels. Essai gratuit de 14 jours sans carte bancaire.`,
+      answer: `RentReady coûte ${formatEntryPrice()} par mois pour 3 biens, ou ${formatProPrice()} pour 10 biens (${formatProAnnualPrice()} par an, soit 2 mois offerts). C'est 4 à 5 fois moins cher qu'une agence immobilière à ${city.name} qui facture en moyenne 7 % du loyer annuel, soit environ ${ctx.avgRent * 70} € par an pour un loyer de ${ctx.avgRent * 1000 / 10} € mensuels. Essai gratuit de 14 jours sans carte bancaire.`,
     },
     {
       question: `Comment démarrer la gestion locative de mes biens à ${city.name} ?`,
@@ -199,11 +208,9 @@ function getLocalParagraphs(city: City) {
 
   const intro =
     pop > 500000
-      ? `${city.name} est l'une des principales métropoles françaises, avec ${formatPopulation(pop)} habitants et un marché locatif parmi les plus dynamiques de la région ${city.region}. La demande locative y est soutenue par un bassin d'emploi diversifié, une population étudiante importante et un réseau de transports en commun dense. Le loyer moyen au m² à ${city.name} se situe autour de ${rentData ? `${rentData.studio}-${rentData.t2}` : "12-16"} €/m² selon le type de bien.`
-      : pop > 200000
-        ? `Avec ${formatPopulation(pop)} habitants, ${city.name} s'affirme comme une grande ville attractive de la région ${city.region} (département ${city.department}). Son marché locatif est porté par une croissance démographique régulière et des projets d'urbanisme qui renforcent l'attractivité des quartiers résidentiels. Le loyer moyen à ${city.name} se situe aux alentours de ${rentData ? `${rentData.studio}-${rentData.t2}` : "10-13"} €/m².`
+      ? `${city.name} est l'une des principales métropoles françaises, avec ${formatPopulation(pop)} habitants et un marché locatif parmi les plus dynamiques de la région ${city.region}. La demande locative y est soutenue par un bassin d'emploi diversifié, une population étudiante importante et un réseau de transports en commun dense. Le loyer moyen au m² y${rentData ? ` se situe autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " se situe au-dessus de la moyenne nationale"}`
         : pop > 100000
-          ? `${city.name} (${formatPopulation(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement et stabilité, avec une demande régulière portée par les actifs et les familles. Le loyer moyen au m² à ${city.name} tourne autour de ${rentData ? `${rentData.studio}-${rentData.t2}` : "8-11"} €/m².`
+          ? `${city.name} (${formatPopulation(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement et stabilité, avec une demande régulière portée par les actifs et les familles. Le loyer moyen au m² y${rentData ? ` tourne autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " reste modéré par rapport aux métropoles"}`
           : `Située dans le département ${city.department} (${city.region}), ${city.name} compte ${formatPopulation(pop)} habitants. Le marché locatif local se caractérise par des loyers modérés et un taux de vacance faible, ce qui en fait un territoire de choix pour les investisseurs locatifs à la recherche de rendements réguliers.`;
 
   const regulation = ctx.isZoneTendue
@@ -273,7 +280,7 @@ function buildGestionLocativeVilleSchema(city: City) {
         "@type": "HowTo",
         name: `Comment gérer ses locations à ${city.name} avec RentReady`,
         description: `Guide complet pour gérer vos locations à ${city.name} : quittances, suivi des paiements, révision IRL, encadrement des loyers${ctx.isZoneTendue ? " et conformité en zone tendue" : ""}.`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,
@@ -309,12 +316,7 @@ function buildGestionLocativeVilleSchema(city: City) {
         url: `https://www.rentready.fr/gestion-locative/${city.slug}`,
         description: `Logiciel de gestion locative pour propriétaires bailleurs à ${city.name} (${city.department}). Quittances conformes, détection des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
         offers: {
-          "@type": "Offer",
-          price: "15.00",
-          priceCurrency: "EUR",
-          priceValidUntil: "2027-12-31",
-          availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/register",
+          ...paidOffer(),
         },
         areaServed: {
           "@type": "City",
@@ -333,7 +335,7 @@ function buildGestionLocativeVilleSchema(city: City) {
         name: `RentReady — Gestion locative ${city.name}`,
         description: `Service de gestion locative en ligne pour propriétaires bailleurs à ${city.name} (département ${city.department}, ${city.region}). Automatisation des quittances, suivi des paiements, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
         url: `https://www.rentready.fr/gestion-locative/${city.slug}`,
-        image: "https://www.rentready.fr/og-image.png",
+        image: "https://www.rentready.fr/opengraph-image",
         ...(avgRentPerSqm ? {
           priceRange: `€€`,
           hasOfferCatalog: {
@@ -411,11 +413,6 @@ function buildGestionLocativeVilleSchema(city: City) {
         "@type": "WebSite",
         name: "RentReady",
         url: "https://www.rentready.fr",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.rentready.fr/recherche?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
     ],
   };
@@ -436,7 +433,7 @@ export default async function GestionLocativeVille({ params }: Props) {
 
   return (
     <>
-      <SchemaMarkup data={buildGestionLocativeVilleSchema(city)} />
+      <SchemaMarkup data={buildGestionLocativeVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },
@@ -478,7 +475,7 @@ export default async function GestionLocativeVille({ params }: Props) {
               </Link>
               <Link
                 href="/gestion-locative"
-                className="text-sm font-medium text-stone-500 transition-colors hover:text-stone-700"
+                className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-700"
               >
                 Voir toutes les villes&nbsp;→
               </Link>
@@ -490,7 +487,7 @@ export default async function GestionLocativeVille({ params }: Props) {
         {rentData && (
           <section className="bg-white border-y border-stone-200 px-4 py-8 sm:px-6">
             <div className="mx-auto max-w-4xl">
-              <p className="mb-4 text-center text-sm font-medium text-stone-500 uppercase tracking-wide">
+              <p className="mb-4 text-center text-sm font-medium text-stone-600 uppercase tracking-wide">
                 Loyer moyen à {city.name} — estimation {rentData.source}
               </p>
               <div className="grid gap-3 sm:grid-cols-3">
@@ -501,11 +498,11 @@ export default async function GestionLocativeVille({ params }: Props) {
                 ].map((r) => (
                   <div key={r.label} className="rounded-lg bg-[#f8f7f4] border border-stone-200 p-4 text-center">
                     <p className="text-lg font-bold text-stone-900">{r.value}</p>
-                    <p className="mt-1 text-sm text-stone-500">{r.label}</p>
+                    <p className="mt-1 text-sm text-stone-600">{r.label}</p>
                   </div>
                 ))}
               </div>
-              <p className="mt-3 text-center text-xs text-stone-400">
+              <p className="mt-3 text-center text-xs text-stone-600">
                 Estimation indicative — le loyer réel dépend de l&apos;état, de l&apos;emplacement et des équipements du bien.
                 {ctx.isZoneTendue && ` Plafonds de loyer en zone tendue : consultez l'arrêté préfectoral du ${city.department}.`}
               </p>
@@ -562,7 +559,7 @@ export default async function GestionLocativeVille({ params }: Props) {
                   className="rounded-lg border border-stone-200/80 bg-white p-5 text-center shadow-sm"
                 >
                   <p className="text-2xl font-bold text-stone-900">{stat.value}</p>
-                  <p className="mt-1 text-sm text-stone-500">{stat.label}</p>
+                  <p className="mt-1 text-sm text-stone-600">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -659,11 +656,11 @@ export default async function GestionLocativeVille({ params }: Props) {
                 🧮 Calculateur surface habitable
               </Link>
               {ctx.isZoneTendue && (
-                <Link href="/guides/encadrement-loyers" className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100">
+                <Link href="/blog/encadrement-des-loyers" className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100">
                   ⚖️ Encadrement des loyers
                 </Link>
               )}
-              <Link href="/guides/regime-fiscal-lmnp" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
+              <Link href="/blog/regime-micro-foncier" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
                 📊 Simulateur fiscal LMNP
               </Link>
               <Link href="/bail" className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900">
@@ -684,7 +681,7 @@ export default async function GestionLocativeVille({ params }: Props) {
                 <details key={faq.question} className="group py-5">
                   <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                     {faq.question}
-                    <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                    <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>

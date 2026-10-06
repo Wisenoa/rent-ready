@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Decimal from "decimal.js";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
@@ -24,38 +25,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TransactionForm } from "@/components/transaction-form";
+import {
+  presentTransaction,
+  daysLate as periodDaysLate,
+  STATUS_PRESENTATION,
+} from "@/lib/domain/period-presentation";
 import { QuittanceButton } from "@/components/quittance-button";
 import { MarkPaidButton } from "./mark-paid-button";
+import { CancelPaymentButton } from "./cancel-payment-button";
 import { SubscriptionBanner } from "./subscription-banner";
+import { formatCurrency } from "@/lib/format";
+import { toNumber } from "@/lib/decimal";
+import { ensureRentPeriods } from "@/lib/queries/rent-periods";
+import { getDuePeriodsByLease } from "@/lib/queries/due-periods";
 
 export const metadata: Metadata = {
   title: "Paiements",
-};
-
-const STATUS_CONFIG: Record<
-  string,
-  { label: string; className: string }
-> = {
-  PAID: {
-    label: "Payé",
-    className: "text-emerald-700 bg-emerald-50 border-emerald-200",
-  },
-  PENDING: {
-    label: "En attente",
-    className: "text-amber-700 bg-amber-50 border-amber-200",
-  },
-  LATE: {
-    label: "En retard",
-    className: "text-red-700 bg-red-50 border-red-200",
-  },
-  PARTIAL: {
-    label: "Partiel",
-    className: "text-orange-700 bg-orange-50 border-orange-200",
-  },
-  CANCELLED: {
-    label: "Annulé",
-    className: "text-gray-700 bg-gray-50 border-gray-200",
-  },
 };
 
 const RECEIPT_CONFIG: Record<string, { label: string; className: string }> = {
@@ -69,12 +54,6 @@ const RECEIPT_CONFIG: Record<string, { label: string; className: string }> = {
   },
 };
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 function isTrialExpired(trialEndsAt: Date | null): boolean {
   if (!trialEndsAt) return false;
@@ -84,13 +63,17 @@ function isTrialExpired(trialEndsAt: Date | null): boolean {
 export default async function BillingPage() {
   const userId = await getAuthenticatedUserId();
 
+  // The arrears and pending totals below only count periods that exist, so
+  // backfill before querying them.
+  await ensureRentPeriods(userId);
+
   // Current month boundaries
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 
   // Run all queries in parallel
-  const [user, transactions, totalPaid, totalPending, quittanceCount, recuCount, activeLeases] =
+  const [user, transactions, receivedByMonth, totalPaid, totalPending, quittanceCount, recuCount, activeLeases] =
     await Promise.all([
       prisma.user.findUnique({
         where: { id: userId },
@@ -114,12 +97,38 @@ export default async function BillingPage() {
         orderBy: { dueDate: "desc" },
         take: 50,
       }),
+      // Money already received, by month. The period row's `amount` is the
+      // balance still OWED once a partial payment has landed, so the table cannot
+      // render "570,55" as "the Montant" of a 970,55 month without this.
+      prisma.transaction.findMany({
+        where: {
+          userId,
+          paidAt: { not: null },
+          status: { not: "CANCELLED" },
+        },
+        select: { leaseId: true, periodStart: true, amount: true },
+      }),
+      // Money received this month, from EVERY row that holds money — not only the
+      // rows whose own status is PAID.
+      //
+      // A month paid in instalments is represented by two rows: the instalment
+      // (PARTIAL, 400) and the period row the closing payment settled (PAID, but
+      // carrying only its own 500, because a period row's `amount` is what was still
+      // owed just before it closed). Filtering on `status: "PAID"` therefore summed
+      // 500 for a month that had received 900, and the dashboard told a landlord
+      // they had collected half of what actually came in.
       prisma.transaction.aggregate({
-        where: { userId, status: "PAID", paidAt: { gte: monthStart, lte: monthEnd } },
+        where: {
+          userId,
+          paidAt: { gte: monthStart, lte: monthEnd },
+          status: { not: "CANCELLED" },
+        },
         _sum: { amount: true },
       }),
+      // Outstanding = unpaid and past due. Deriving from the date matters: no code
+      // writes a LATE status, so filtering on one reported zero rent arrears.
       prisma.transaction.aggregate({
-        where: { userId, status: "PENDING" },
+        where: { userId, paidAt: null, dueDate: { lt: new Date() } },
         _sum: { amount: true },
       }),
       prisma.transaction.count({
@@ -143,6 +152,34 @@ export default async function BillingPage() {
   const totalPaidAmount = Number(totalPaid._sum.amount ?? 0);
   const totalPendingAmount = Number(totalPending._sum.amount ?? 0);
   const hasTransactions = transactions.length > 0;
+
+  // What each month has already received, keyed by lease and calendar month —
+  // the same grouping `computeDuePeriods` uses, so a period row's balance and
+  // the month's receipts describe the same figures.
+  const receiptsByMonth = new Map<string, Decimal>();
+  for (const receipt of receivedByMonth) {
+    const key = `${receipt.leaseId}|${receipt.periodStart.toISOString().slice(0, 7)}`;
+    const previous = receiptsByMonth.get(key) ?? new Decimal(0);
+    receiptsByMonth.set(key, previous.plus(new Decimal(receipt.amount)));
+  }
+
+  // The payment dialog collects an existing obligation instead of asking the
+  // landlord to type dates, so it needs the periods this user can actually
+  // collect. Loaded here rather than in the dialog: one query on render, no
+  // fetch-after-render on a form a landlord opens to be quick.
+  const duePeriodsByLease = await getDuePeriodsByLease(
+    userId,
+    activeLeases.map((l) => l.id)
+  );
+
+  // Every active lease stays in the list: a lease with nothing to collect must
+  // still be selectable, so the dialog can say so rather than hiding it.
+  const leaseOptions = activeLeases.map((l) => ({
+    id: l.id,
+    property: l.property,
+    tenant: l.tenant,
+    duePeriods: duePeriodsByLease[l.id] ?? [],
+  }));
 
   const subscriptionStatus = user?.subscriptionStatus ?? "TRIAL";
   const trialEndsAt = user?.trialEndsAt ?? null;
@@ -168,7 +205,7 @@ export default async function BillingPage() {
             Suivi des loyers et génération de quittances
           </p>
         </div>
-        <TransactionForm leases={activeLeases.map(l => ({ ...l, rentAmount: Number(l.rentAmount), chargesAmount: Number(l.chargesAmount) }))} />
+        <TransactionForm leases={leaseOptions} />
       </div>
 
       {/* Summary cards */}
@@ -256,8 +293,33 @@ export default async function BillingPage() {
               </TableHeader>
               <TableBody>
                 {transactions.map((tx) => {
-                  const status = STATUS_CONFIG[tx.status] ?? STATUS_CONFIG.PENDING;
+                  // Derived from the due date, not the stored status: nothing
+                  // writes LATE, so this previously showed overdue rent as merely
+                  // "En attente".
+                  const status = presentTransaction(tx);
+                  const lateBy = periodDaysLate(tx.dueDate);
+                  const lateLabel = `${lateBy} jour${lateBy > 1 ? "s" : ""} de retard`;
                   const receipt = tx.receiptType ? RECEIPT_CONFIG[tx.receiptType] : null;
+                  // A period row carries the balance still OWED. Once a partial
+                  // payment has landed that balance is below the month's rent, and
+                  // rendering it alone under « Montant » showed a landlord who
+                  // received 400 EUR a table reading « 570,55 » against a month
+                  // worth 970,55 — indistinguishable from a cheaper flat. The
+                  // total is recovered from the month's receipts so the two are
+                  // never confused.
+                  // A SETTLED period row IS the receipt for the payment that
+                  // closed it, so it appears in the month's receipts under its own
+                  // id. Counting it would render every paid month as
+                  // "970,55 sur 1 941,10" — a total twice the rent.
+                  const monthKey = `${tx.leaseId}|${tx.periodStart.toISOString().slice(0, 7)}`;
+                  const ownAmount = new Decimal(tx.amount);
+                  const alreadyPaid = (
+                    receiptsByMonth.get(monthKey) ?? new Decimal(0)
+                  )
+                    .minus(tx.paidAt ? ownAmount : new Decimal(0))
+                    .toDecimalPlaces(2);
+                  const isPartial = alreadyPaid.gt(0);
+                  const periodTotal = new Decimal(tx.amount).plus(alreadyPaid);
 
                   return (
                     <TableRow key={tx.id}>
@@ -270,13 +332,33 @@ export default async function BillingPage() {
                       <TableCell className="text-sm text-muted-foreground">
                         {tx.lease.property?.name ?? ''}
                       </TableCell>
-                      <TableCell className="text-right font-mono text-sm font-semibold">
-                        {formatCurrency(Number(tx.amount))}
-                      </TableCell>
+                      <TableCell className="text-right">
+                                          {isPartial ? (
+                                            <>
+                                              <span className="font-mono text-sm font-semibold text-amber-700">
+                                                {formatCurrency(tx.amount)}
+                                              </span>
+                                              <span className="block text-xs text-muted-foreground">
+                                                sur {formatCurrency(periodTotal.toFixed(2))}
+                                              </span>
+                                            </>
+                                          ) : (
+                                            <span className="font-mono text-sm font-semibold">
+                                              {formatCurrency(tx.amount)}
+                                            </span>
+                                          )}
+                                        </TableCell>
                       <TableCell>
-                        <Badge variant="secondary" className={status.className}>
-                          {status.label}
-                        </Badge>
+                        <div className="flex flex-col items-start gap-0.5">
+                          <Badge variant="secondary" className={status.className}>
+                            {status.label}
+                          </Badge>
+                          {lateBy > 0 && status.label === "En retard" && (
+                            <span className="text-xs text-red-600">
+                              {lateLabel}
+                            </span>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell>
                         {receipt ? (
@@ -308,13 +390,27 @@ export default async function BillingPage() {
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-1">
                           {tx.status === "PENDING" && (
+                            /* The row carries the balance still owed, which drops
+                               below rent+charges once a partial payment has been
+                               recorded. Settling the lease's full rent here would
+                               book the outstanding balance twice. */
                             <MarkPaidButton
                               transactionId={tx.id}
-                              defaultAmount={Number(tx.lease.rentAmount) + Number(tx.lease.chargesAmount)}
+                              defaultAmount={toNumber(tx.amount)}
                             />
                           )}
                           {(tx.status === "PAID" || tx.status === "PARTIAL") && tx.receiptType && (
                             <QuittanceButton transactionId={tx.id} />
+                          )}
+                          {/* The correction path: a receipt recorded in error
+                              (97,00 instead of 970,00, wrong lease) had no way
+                              out — no deletion, no reversal — so the false
+                              amount stayed in the register for good. */}
+                          {tx.status !== "CANCELLED" && tx.paidAt && (
+                            <CancelPaymentButton
+                              transactionId={tx.id}
+                              amount={toNumber(tx.amount)}
+                            />
                           )}
                         </div>
                       </TableCell>
@@ -333,7 +429,7 @@ export default async function BillingPage() {
             <p className="text-muted-foreground text-sm mb-6">
               Commencez par enregistrer votre premier paiement.
             </p>
-            <TransactionForm leases={activeLeases.map(l => ({ ...l, rentAmount: Number(l.rentAmount), chargesAmount: Number(l.chargesAmount) }))} />
+            <TransactionForm leases={leaseOptions} />
           </CardContent>
         </Card>
       )}

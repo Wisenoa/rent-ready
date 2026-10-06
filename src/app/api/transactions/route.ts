@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { transactionSchema } from "@/lib/validations/transaction";
-import { computePaymentSplit, determineReceiptType } from "@/lib/payment-utils";
+import { recordRentPayment } from "@/lib/services/rent-payments";
 import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 // ============================================================
@@ -96,38 +96,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify lease ownership
-    const lease = await prisma.lease.findUnique({ where: { id: parsed.data.leaseId } });
-    if (!lease || lease.userId !== session.user.id) {
-      return NextResponse.json({ error: "Bail introuvable ou accès non autorisé" }, { status: 404 });
+    // This route used to insert a receipt row directly, without resolving the
+    // period or closing it. So when the month's period already existed as
+    // PENDING (money owed to the landlord), the POST added a receipt WITHOUT
+    // closing the period: the month was then counted twice, once as owed and
+    // once as received, and the dashboard showed « 970,55 EUR de reste du » for a
+    // month that had been paid.
+    //
+    // It now goes through the same door as the payment form, so a month is
+    // either still owed or closed, never both.
+    const recorded = await recordRentPayment({
+      userId: session.user.id,
+      leaseId: parsed.data.leaseId,
+      duePeriodId: parsed.data.duePeriodId || null,
+      periodStart: new Date(parsed.data.periodStart),
+      periodEnd: new Date(parsed.data.periodEnd),
+      dueDate: new Date(parsed.data.dueDate),
+      amount: parsed.data.amount,
+      paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
+      paymentMethod: parsed.data.paymentMethod ?? null,
+      notes: parsed.data.notes || null,
+    });
+
+    if (!recorded.ok) {
+      const status = recorded.code === "LEASE_NOT_FOUND" ? 404 : 400;
+      return NextResponse.json({ error: recorded.error }, { status });
     }
 
-    const { rentPortion, chargesPortion, isFullPayment } = computePaymentSplit(
-      parsed.data.amount,
-      lease.rentAmount,
-      lease.chargesAmount,
-    );
-    const receiptType = determineReceiptType(parsed.data.amount, lease.rentAmount, lease.chargesAmount);
-
-    const status = isFullPayment ? "PAID" : "PARTIAL";
-
-    const transaction = await prisma.transaction.create({
-      data: {
-        userId: session.user.id,
-        leaseId: parsed.data.leaseId,
-        amount: parsed.data.amount,
-        rentPortion,
-        chargesPortion,
-        periodStart: new Date(parsed.data.periodStart),
-        periodEnd: new Date(parsed.data.periodEnd),
-        dueDate: new Date(parsed.data.dueDate),
-        paidAt: parsed.data.paidAt ? new Date(parsed.data.paidAt) : new Date(),
-        paymentMethod: parsed.data.paymentMethod ?? null,
-        status,
-        isFullPayment,
-        receiptType,
-        notes: parsed.data.notes || null,
-      },
+    const transaction = await prisma.transaction.findUniqueOrThrow({
+      where: { id: recorded.transactionId },
       include: {
         lease: {
           select: {

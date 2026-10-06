@@ -52,14 +52,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    const existing = await prisma.tenant.findFirst({
-      where: { id, userId: session.user.id },
-    });
-
-    if (!existing) {
-      return NextResponse.json({ error: "Locataire introuvable" }, { status: 404 });
-    }
-
     const body = await request.json();
     const parsed = tenantSchema.safeParse(body);
 
@@ -70,8 +62,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const updated = await prisma.tenant.update({
-      where: { id },
+    // The owner is part of the write, not a check performed before it.
+    const result = await prisma.tenant.updateMany({
+      where: { id, userId: session.user.id },
       data: {
         firstName: parsed.data.firstName,
         lastName: parsed.data.lastName,
@@ -88,6 +81,11 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       },
     });
 
+    if (result.count === 0) {
+      return NextResponse.json({ error: "Locataire introuvable" }, { status: 404 });
+    }
+
+    const updated = await prisma.tenant.findUnique({ where: { id } });
     return NextResponse.json({ data: updated });
   } catch (error) {
     console.error("PATCH /api/tenants/[id] error:", error);
@@ -106,15 +104,13 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    const existing = await prisma.tenant.findFirst({
+    const deleted = await prisma.tenant.deleteMany({
       where: { id, userId: session.user.id },
     });
 
-    if (!existing) {
+    if (deleted.count === 0) {
       return NextResponse.json({ error: "Locataire introuvable" }, { status: 404 });
     }
-
-    await prisma.tenant.delete({ where: { id } });
 
     return NextResponse.json({ success: true });
   } catch (error) {

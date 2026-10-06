@@ -10,9 +10,15 @@ import {
   buildHowToSchema,
 } from "@/lib/seo/structured-data";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Calculateur de Surface Habitable — loi Boutin 2026 | RentReady",
+    title: "Calculateur de Surface Habitable — loi Boutin 2026",
     description: "Calculez la surface habitable d'un logement selon la loi Boutin. Outil gratuit pour vérifier la surface exacte et éviter les litiges avec le locataire.",
     url: "/outils/calculateur-surface-habitable",
     ogType: "outil",
@@ -24,6 +30,11 @@ const breadcrumbItems = [
   { label: "Outils", href: "/outils" },
   { label: "Calculateur Surface Habitable", href: "/outils/calculateur-surface-habitable" },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function SurfaceHabitableJsonLd() {
   const schema = buildGraphSchema(
@@ -63,7 +74,7 @@ function SurfaceHabitableJsonLd() {
       ],
     })
   );
-  return <SchemaMarkup data={schema} />;
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
 export default function SurfaceHabitablePage() {

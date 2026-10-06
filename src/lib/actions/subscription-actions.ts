@@ -1,7 +1,12 @@
 "use server";
 
 import { getCurrentUser } from "@/lib/auth";
-import { PLANS, createCheckoutSession, createPortalSession } from "@/lib/stripe";
+import {
+  resolvePlan,
+  type PlanKey,
+  createCheckoutSession,
+  createPortalSession,
+} from "@/lib/stripe";
 import type { ActionResult } from "./property-actions";
 
 /**
@@ -28,19 +33,37 @@ export async function checkSubscriptionStatus(): Promise<{
 }
 
 /**
- * Create a Stripe Checkout session for subscription.
- * @param interval "month" | "year" — defaults to "month"
+ * Create a Stripe Checkout session for a subscription.
+ *
+ * @param plan  which plan was clicked. This is a parameter and not a detail
+ *              derived from the interval because both Starter and Pro have a
+ *              monthly and an annual price, and only one of the four was
+ *              reachable: `PLANS` held Pro alone, so a Starter click created a Pro
+ *              checkout and the landlord was charged 15 €/mois for the 9 €/mois
+ *              they agreed to.
+ * @param interval "month" | "year"
  */
 export async function createSubscriptionCheckout(
+  plan: PlanKey = "pro",
   interval: "month" | "year" = "month"
 ): Promise<ActionResult & { data?: { url: string } }> {
   try {
     const user = await getCurrentUser();
-    const plan = interval === "year" ? PLANS.ANNUAL : PLANS.MONTHLY;
-    const priceId = process.env[plan.priceIdEnv];
+    const selected = resolvePlan(plan, interval);
+    const priceId = process.env[selected.priceIdEnv];
 
     if (!priceId) {
-      return { success: false, error: "Configuration Stripe incomplète." };
+      // Refuse the sale. Falling back to another plan here would be the exact
+      // defect this parameter exists to remove: a visitor who agreed to one sum
+      // must never be presented a checkout for another. Better no sale than a
+      // wrong one.
+      console.error(
+        `[subscription] ${selected.priceIdEnv} absent — refusing the ${plan}/${interval} checkout rather than substituting another plan`
+      );
+      return {
+        success: false,
+        error: `Le plan ${selected.name} n'est pas encore disponible. Écrivez-nous, nous l'activons.`,
+      };
     }
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";

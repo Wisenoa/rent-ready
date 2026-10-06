@@ -16,6 +16,18 @@
 # next.js
 /.next/
 /out/
+# Dev server builds here, not into .next, so a dev server cannot corrupt a
+# production build in the same worktree (see distDir in next.config.ts).
+/.next-dev/
+# Build lock: created and removed by scripts/with-build-lock.mjs. It should
+# never survive a build, but an ignore keeps a stale one out of `git add -A`
+# rather than committing infrastructure noise.
+.next-build.lock/
+
+# per-card git worktrees (Hermes Kanban: workspace_kind=worktree)
+# Each card builds its own .next and node_modules symlink inside its tree;
+# without this, every card's `git add -A` would try to stage sibling cards.
+/.worktrees/
 
 # production
 /build
@@ -30,8 +42,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files — secrets are ignored, the documented template is not.
+# `.env*` alone also matched `.env.example`, so a fresh clone had no example file
+# and no documented list of required variables.
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -43,3 +58,24 @@ next-env.d.ts
 /src/generated/prisma
 pages/
 pages/
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+
+# Scratch files from legal-source scraping. These are working copies of source
+# pages parked in the repo root while facts are being verified; they are not
+# product assets and were previously committable by accident.
+*.ts.lock
+/sp_*.html
+/l89462.pdf
+
+# Probe files created by agents while verifying behaviour against the real DB.
+# They contain throwaway credentials and one-off queries, are never product
+# assets, and must not reach a commit.
+/scripts/tmp/
+zz-probe-*
+zz-verify-*
+zz-timing*
+*.probe.mts

@@ -1,39 +1,48 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './helpers/fixtures'
+import { registerTestUser, uniqueEmail } from './helpers/auth'
 
 test.describe('Tenant Invitation and Portal Access', () => {
   async function setupLandlordWithPropertyAndTenant(page: any) {
-    const uniqueEmail = `e2e.portal.${Date.now()}@rentready.io`
-    await page.goto('/register')
-    await page.fill('[id="firstName"]', 'Landlord')
-    await page.fill('[id="lastName"]', 'Portal')
-    await page.fill('[id="email"]', uniqueEmail)
-    await page.fill('[id="password"]', 'TestPassword123!')
-    await page.fill('[id="confirmPassword"]', 'TestPassword123!')
-    await page.click('[type="submit"]')
-    await page.waitForURL('**/dashboard**', { timeout: 20_000 })
-
+    const accountEmail = uniqueEmail('portal')
+        await registerTestUser(page, accountEmail)
     // Create a property
     await page.goto('/properties')
-    await page.getByRole('button', { name: /ajouter un bien/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
     await expect(page.getByText(/nouveau bien/i)).toBeVisible({ timeout: 5000 })
     await page.fill('[id="name"]', 'Appartement Portal')
     await page.fill('[id="addressLine1"]', '10 Rue du Portal')
     await page.fill('[id="city"]', 'Nice')
     await page.fill('[id="postalCode"]', '06000')
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
+    await page.getByRole('dialog').locator('button[type="submit"]').click()
     await expect(page.getByText('Appartement Portal')).toBeVisible({ timeout: 10_000 })
 
     // Create a tenant
     await page.goto('/tenants')
-    await page.getByRole('button', { name: /ajouter un locataire/i }).click()
+    await page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first().click()
     await expect(page.getByText(/nouveau locataire/i)).toBeVisible({ timeout: 5000 })
-    await page.fill('[id="firstName"]', 'TenantPortal')
-    await page.fill('[id="lastName"]', 'User')
-    await page.fill('[id="email"]', `tenantportal.${Date.now()}@example.com`)
-    await page.getByRole('button', { name: /créer|ajouter/i }).click()
-    await expect(page.getByText('TenantPortal User')).toBeVisible({ timeout: 10_000 })
+    // The tenant form REQUIRES adresse, ville and code postal, and refuses to
+    // submit otherwise — saying so in French, in place. Filling only three of
+    // seven left the dialog open, so every test below failed looking for a
+    // tenant that was never created. The product was right.
+    const dialog = page.getByRole('dialog')
+    await dialog.locator('#firstName').fill('TenantPortal')
+    await dialog.locator('#lastName').fill('User')
+    await dialog.locator('#email').fill(`tenantportal.${Date.now()}@example.com`)
+    await dialog.locator('#phone').fill('0655443322')
+    await dialog.locator('#addressLine1').fill('22 rue du Portail')
+    await dialog.locator('#city').fill('Bordeaux')
+    await dialog.locator('#postalCode').fill('33000')
+    await dialog.locator('button[type="submit"]').click()
+    // Measure, on this page: the tenant card is a LINK whose name is the card.
+    // Asserting a `heading` here passed only by catching a transient state —
+    // the app briefly showed the new tenant's own page, which has an <h1>, then
+    // the list settled back with no heading at all (measured: 0 headings named
+    // "TenantPortal User", 1 link, and the name sitting in a div > div > div).
+    await expect(page.getByRole('link', { name: 'TenantPortal User' })).toBeVisible({
+      timeout: 10_000,
+    })
 
-    return uniqueEmail
+    return accountEmail
   }
 
   test('tenant detail page shows invitation option', async ({ page }) => {
@@ -41,7 +50,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
 
     // Go to tenants page and click on the tenant
     await page.goto('/tenants')
-    await page.getByText('TenantPortal User').click()
+    await page.getByRole('link', { name: 'TenantPortal User' }).click()
     await page.waitForURL(/tenants\/.+/, { timeout: 10_000 }).catch(() => {
       // May open in a dialog
     })
@@ -50,7 +59,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
     // Look for: inviter, envoyer, email, portail, contact
     const body = await page.textContent('body')
     // The page should contain the tenant name
-    await expect(page.getByText(/tenantportal/i)).toBeVisible()
+    await expect(page.getByRole('heading', { name: /tenantportal/i })).toBeVisible()
   })
 
   test('can invite tenant via email from tenant detail', async ({ page }) => {
@@ -58,7 +67,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
 
     // Navigate to the tenant
     await page.goto('/tenants')
-    await page.getByText('TenantPortal User').click()
+    await page.getByRole('link', { name: 'TenantPortal User' }).click()
     await page.waitForURL(/tenants\/.+/, { timeout: 10_000 }).catch(() => {})
 
     // Look for an "Inviter" or "Envoyer" button
@@ -77,7 +86,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
     } else {
       // If no invite button exists, that's ok for this version
       // Just verify the tenant detail loaded correctly
-      await expect(page.getByText('TenantPortal User')).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'TenantPortal User' })).toBeVisible()
     }
   })
 
@@ -120,7 +129,7 @@ test.describe('Tenant Invitation and Portal Access', () => {
 
     // Go to tenant detail
     await page.goto('/tenants')
-    await page.getByText('TenantPortal User').click()
+    await page.getByRole('link', { name: 'TenantPortal User' }).click()
     await page.waitForURL(/tenants\/.+/, { timeout: 10_000 }).catch(() => {})
 
     // Check if there is a "réenvoyer" option

@@ -1,3 +1,5 @@
+import Decimal from "decimal.js";
+
 import type { QuittanceData } from "@/lib/quittance-generator";
 
 function escapeXml(str: string): string {
@@ -9,8 +11,13 @@ function escapeXml(str: string): string {
     .replace(/'/g, "&apos;");
 }
 
-function formatAmount(amount: number): string {
-  return amount.toFixed(2);
+/**
+ * Format an amount for the Factur-X XML. Accepts Decimal because that is what
+ * the quittance data carries; `.toFixed` on a Decimal would not compile and
+ * `Number(...)` would reintroduce float rounding on a legal document.
+ */
+function formatAmount(amount: Decimal | number | string): string {
+  return new Decimal(amount).toDecimalPlaces(2).toFixed(2);
 }
 
 function formatDateYYYYMMDD(date: Date): string {

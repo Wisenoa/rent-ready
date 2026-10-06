@@ -4,8 +4,14 @@ import { revalidatePath } from "next/cache";
 import { writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { nanoid } from "nanoid";
+import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import { getCurrentUserId } from "@/lib/auth";
+import {
+  settlePeriodPayments,
+  paymentsBefore,
+} from "@/lib/domain/period-settlement";
 import { stripe } from "@/lib/stripe";
 import type { ActionResult } from "./property-actions";
 
@@ -107,7 +113,7 @@ export async function sendTenantInvitation(tenantId: string): Promise<ActionResu
 
     // Send email via Resend
     const { resend, fromEmail } = await import("@/lib/email");
-    const { TenantInvitationEmail } = await import("../../../emails/tenant-invitation");
+    const { TenantInvitationEmail } = await import("../../emails/tenant-invitation");
 
     const emailResult = await resend.emails.send({
       from: fromEmail,
@@ -223,30 +229,62 @@ export async function verifyPortalToken(token: string) {
 
 // ─── Portal Token Verification Helper ───
 
-async function verifyPortalAccess(tenantId: string): Promise<boolean> {
-  const token = await prisma.tenantAccessToken.findFirst({
+/**
+ * Authorise a portal request.
+ *
+ * The tenant's only credential is the access token in the portal URL, so the
+ * caller must present it and it must match this tenant. The previous version
+ * asked only whether *any* valid token existed for the tenant, which meant the
+ * server actions below — callable directly by any browser, without rendering the
+ * page — accepted a bare tenantId. Enumerating tenant ids would have exposed one
+ * landlord's rent records, maintenance tickets and messages to another.
+ *
+ * The token is compared in the query rather than fetched and string-compared, so
+ * an invalid or expired token cannot slip through and a timing difference does
+ * not reveal whether a token exists.
+ */
+async function verifyPortalAccess(tenantId: string, token: string): Promise<boolean> {
+  if (!tenantId || !token) return false;
+
+  const access = await prisma.tenantAccessToken.findFirst({
     where: {
       tenantId,
+      token,
       OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
     },
+    select: { id: true },
   });
-  return !!token;
+
+  if (!access) return false;
+
+  // Record use without blocking the request on a bookkeeping write.
+  await prisma.tenantAccessToken
+    .update({ where: { id: access.id }, data: { lastUsedAt: new Date() } })
+    .catch(() => {});
+
+  return true;
 }
 
 // ─── Quittances ───
 
 export async function getPortalQuittances(
   tenantId: string,
+  token: string,
   opts: { page?: number; limit?: number } = {}
 ) {
-  const hasAccess = await verifyPortalAccess(tenantId);
+  const hasAccess = await verifyPortalAccess(tenantId, token);
   if (!hasAccess) return { quittances: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
   const page = Math.max(1, opts.page ?? 1);
   const limit = Math.min(100, Math.max(1, opts.limit ?? 20));
   const skip = (page - 1) * limit;
 
-  const where = {
+  // Typed with Prisma's own input type. A bare const object widens `status` to
+  // `string`, which no longer matches the enum, and the resulting error cascaded:
+  // the whole query lost its `include` shape, so `tx.lease` and `tx.user` were
+  // reported as missing too. Inline literals infer correctly, which is why only
+  // the two extracted ones were broken.
+  const where: Prisma.TransactionWhereInput = {
     lease: { tenantId },
     status: "PAID",
     receiptType: { not: null },
@@ -271,42 +309,99 @@ export async function getPortalQuittances(
     prisma.transaction.count({ where }),
   ]);
 
+  // The PDF the tenant downloads must describe the PAYMENT, so it needs the same
+  // two things the landlord's copy does: the amounts frozen when the payment was
+  // recorded (the lease's current rent would print an IRL revision on a receipt
+  // for money received at the old price), and the balance the period really had
+  // left. Both come from `settlePeriodPayments`, in ONE extra query for the whole
+  // page rather than one per receipt.
+  const leaseIds = [...new Set(transactions.map((tx) => tx.leaseId))];
+  const siblingPayments = leaseIds.length
+    ? await prisma.transaction.findMany({
+        where: {
+          leaseId: { in: leaseIds },
+          paidAt: { not: null },
+          status: { not: "CANCELLED" },
+        },
+        select: {
+          id: true,
+          leaseId: true,
+          amount: true,
+          paidAt: true,
+          createdAt: true,
+          periodStart: true,
+          periodEnd: true,
+        },
+      })
+    : [];
+
+  /** The period a receipt describes: same lease, same month. */
+  const samePeriod = (a: { leaseId: string; periodStart: Date; periodEnd: Date }, b: typeof a) =>
+    a.leaseId === b.leaseId &&
+    a.periodStart.getTime() === b.periodStart.getTime() &&
+    a.periodEnd.getTime() === b.periodEnd.getTime();
+
   return {
-    quittances: transactions.map((tx) => ({
-    id: tx.id,
-    amount: tx.amount,
-    rentAmount: tx.lease.rentAmount,
-    chargesAmount: tx.lease.chargesAmount,
-    periodStart: tx.periodStart.toISOString(),
-    periodEnd: tx.periodEnd.toISOString(),
-    paidAt: tx.paidAt!.toISOString(),
-    receiptType: tx.receiptType!,
-    receiptNumber: tx.receiptNumber,
-    // Full data needed for PDF generation
-    landlord: {
-      firstName: tx.user.firstName,
-      lastName: tx.user.lastName,
-      addressLine1: tx.user.addressLine1,
-      addressLine2: tx.user.addressLine2 ?? undefined,
-      city: tx.user.city,
-      postalCode: tx.user.postalCode,
-    },
-    tenant: {
-      firstName: tx.lease.tenant.firstName,
-      lastName: tx.lease.tenant.lastName,
-      addressLine1: tx.lease.tenant.addressLine1,
-      addressLine2: tx.lease.tenant.addressLine2 ?? undefined,
-      city: tx.lease.tenant.city,
-      postalCode: tx.lease.tenant.postalCode,
-    },
-    propertyAddress: [
-      tx.lease.property.addressLine1,
-      tx.lease.property.addressLine2,
-      `${tx.lease.property.postalCode} ${tx.lease.property.city}`,
-    ]
-      .filter(Boolean)
-      .join(", "),
-  })),
+    quittances: transactions.map((tx) => {
+      const periodRent = tx.receiptRentAmount ?? tx.lease.rentAmount;
+      const periodCharges = tx.receiptChargesAmount ?? tx.lease.chargesAmount;
+
+      const asOf = paymentsBefore(
+        siblingPayments.filter((p) => samePeriod(p, tx)),
+        tx
+      );
+      const current = {
+        id: tx.id,
+        amount: tx.amount,
+        paidAt: tx.paidAt,
+        createdAt: tx.createdAt,
+      };
+      const settlement = settlePeriodPayments({
+        rentAmount: periodRent,
+        chargesAmount: periodCharges,
+        payments: [...asOf, current],
+        current,
+      });
+
+      return {
+        id: tx.id,
+        amount: tx.amount,
+        rentAmount: periodRent,
+        chargesAmount: periodCharges,
+        // What was left after THIS payment — the figure the document prints,
+        // decided once by the domain instead of being re-derived downstream.
+        remainingAmount: settlement.outstanding.toDecimalPlaces(2),
+        periodStart: tx.periodStart.toISOString(),
+        periodEnd: tx.periodEnd.toISOString(),
+        paidAt: tx.paidAt!.toISOString(),
+        receiptType: tx.receiptType!,
+        receiptNumber: tx.receiptNumber,
+        // Full data needed for PDF generation
+        landlord: {
+          firstName: tx.user.firstName,
+          lastName: tx.user.lastName,
+          addressLine1: tx.user.addressLine1,
+          addressLine2: tx.user.addressLine2 ?? undefined,
+          city: tx.user.city,
+          postalCode: tx.user.postalCode,
+        },
+        tenant: {
+          firstName: tx.lease.tenant.firstName,
+          lastName: tx.lease.tenant.lastName,
+          addressLine1: tx.lease.tenant.addressLine1,
+          addressLine2: tx.lease.tenant.addressLine2 ?? undefined,
+          city: tx.lease.tenant.city,
+          postalCode: tx.lease.tenant.postalCode,
+        },
+        propertyAddress: [
+          tx.lease.property.addressLine1,
+          tx.lease.property.addressLine2,
+          `${tx.lease.property.postalCode} ${tx.lease.property.city}`,
+        ]
+          .filter(Boolean)
+          .join(", "),
+      };
+    }),
     pagination: { page, limit, total, pages: Math.ceil(total / limit) },
   };
 }
@@ -318,6 +413,10 @@ export async function createMaintenanceTicket(
 ): Promise<ActionResult> {
   try {
     const tenantId = formData.get("tenantId") as string;
+    // The token is the tenant's only credential, so the form must carry it and it
+    // must be checked against the tenant. Previously only tenantId was verified,
+    // which any caller could supply.
+    const token = formData.get("token") as string;
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const priority = formData.get("priority") as string;
@@ -325,9 +424,11 @@ export async function createMaintenanceTicket(
     if (!tenantId || !title || !description) {
       return { success: false, error: "Veuillez remplir tous les champs obligatoires." };
     }
+    if (!token) {
+      return { success: false, error: "Accès non autorisé." };
+    }
 
-    // Verify the tenant has a valid portal access token
-    const hasAccess = await verifyPortalAccess(tenantId);
+    const hasAccess = await verifyPortalAccess(tenantId, token);
     if (!hasAccess) {
       return { success: false, error: "Accès non autorisé." };
     }
@@ -408,9 +509,10 @@ export async function createMaintenanceTicket(
 
 export async function getMaintenanceTickets(
   tenantId: string,
+  token: string,
   opts: { page?: number; limit?: number } = {}
 ) {
-  const hasAccess = await verifyPortalAccess(tenantId);
+  const hasAccess = await verifyPortalAccess(tenantId, token);
   if (!hasAccess) return { tickets: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
   const page = Math.max(1, opts.page ?? 1);
@@ -460,16 +562,20 @@ export async function getMaintenanceTickets(
 
 export async function getPendingPayments(
   tenantId: string,
+  token: string,
   opts: { page?: number; limit?: number } = {}
 ) {
-  const hasAccess = await verifyPortalAccess(tenantId);
+  const hasAccess = await verifyPortalAccess(tenantId, token);
   if (!hasAccess) return { payments: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
 
   const page = Math.max(1, opts.page ?? 1);
   const limit = Math.min(100, Math.max(1, opts.limit ?? 20));
   const skip = (page - 1) * limit;
 
-  const where = {
+  // Typed with Prisma's own input type: a bare const widens the enum to string,
+  // and `as const` over-corrects by making `in` a readonly tuple that Prisma
+  // rejects. This keeps the literals narrow and the array mutable.
+  const where: Prisma.TransactionWhereInput = {
     lease: { tenantId },
     status: { in: ["PENDING", "LATE"] },
   };
@@ -507,10 +613,11 @@ export async function getPendingPayments(
 
 export async function initiatePayment(
   transactionId: string,
-  tenantId: string
+  tenantId: string,
+  token: string
 ): Promise<ActionResult & { data?: { url: string } }> {
   try {
-    const hasAccess = await verifyPortalAccess(tenantId);
+    const hasAccess = await verifyPortalAccess(tenantId, token);
     if (!hasAccess) {
       return { success: false, error: "Accès non autorisé." };
     }
@@ -545,7 +652,10 @@ export async function initiatePayment(
               name: `Loyer ${tx.periodStart.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })} — ${tx.lease.property.name}`,
               description: `Paiement du loyer et charges pour ${tx.lease.property.name}`,
             },
-            unit_amount: Math.round(tx.amount * 100), // convert to cents
+            // Decimal * 100 produces a STRING ("74050"), and Stripe requires a
+            // number here, so the amount is multiplied through Decimal and
+            // reduced once.
+            unit_amount: new Decimal(tx.amount).times(100).toNumber(),
           },
           quantity: 1,
         },
@@ -584,8 +694,8 @@ async function getPortalTokenForTenant(tenantId: string): Promise<string> {
 
 // ─── Tenant-Landlord Messages ───
 
-export async function getOrCreateConversation(tenantId: string) {
-  const hasAccess = await verifyPortalAccess(tenantId);
+export async function getOrCreateConversation(tenantId: string, token: string) {
+  const hasAccess = await verifyPortalAccess(tenantId, token);
   if (!hasAccess) return null;
 
   const lease = await prisma.lease.findFirst({
@@ -648,10 +758,11 @@ export async function getOrCreateConversation(tenantId: string) {
 
 export async function sendMessage(
   tenantId: string,
+  token: string,
   content: string
 ): Promise<ActionResult> {
   try {
-    const hasAccess = await verifyPortalAccess(tenantId);
+    const hasAccess = await verifyPortalAccess(tenantId, token);
     if (!hasAccess) return { success: false, error: "Accès non autorisé." };
 
     if (!content.trim()) {

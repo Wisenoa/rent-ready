@@ -7,10 +7,16 @@ import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 import { buildOrganizationSchema, buildWebSiteSchema, buildGraphSchema } from "@/lib/seo/structured-data";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Outils Immobiliers Gratuits 2026 — Calculateurs & Générateurs | RentReady",
+      "Outils Immobiliers Gratuits 2026 — Calculateurs & Générateurs",
     description:
       "Accédez à nos calculateurs immobiliers gratuits 2026 : révision IRL, rendement, dépôt de garantie, charges locatives. Outils professionnels pour propriétaires bailleurs.",
     url: "/outils",
@@ -23,7 +29,7 @@ const TOOLS = [
     title: "Calculateur Révision IRL",
     description:
       "Calculez la nouvelle révision de loyer selon l'IRL 2026. Formule légale, historique INSEE inclus.",
-    href: "/outils/calculateur-revision-irl",
+    href: "/outils/calculateur-irl",
     icon: "📈",
     category: "Calculateurs",
     badge: "Populaire",
@@ -43,15 +49,6 @@ const TOOLS = [
       "Calculez le dépôt de garantie maximum selon la zone géographique et le type de bail.",
     href: "/outils/calculateur-depot-garantie",
     icon: "🔐",
-    category: "Calculateurs",
-    badge: null,
-  },
-  {
-    title: "Calculateur Caution de Loyer",
-    description:
-      "Calculez le dépôt de garantie maximum selon la zone tendue ou non tendue.",
-    href: "/outils/calculateur-caution",
-    icon: "🛡️",
     category: "Calculateurs",
     badge: null,
   },
@@ -167,7 +164,7 @@ const TOOLS = [
     title: "Modèle de Bail de Location",
     description:
       "Téléchargez un modèle de bail conforme à la loi 1989. Bail vide, meublé, mobilité, colocation.",
-    href: "/modeles",
+    href: "/templates",
     icon: "📄",
     category: "Modèles",
     badge: null,
@@ -176,7 +173,7 @@ const TOOLS = [
     title: "État des Lieux",
     description:
       "Modèle gratuit d'état des lieux entrada/sortie. Conforme aux exigences légales.",
-    href: "/modeles/etat-des-lieux",
+    href: "/templates/etat-des-lieux",
     icon: "🏠",
     category: "Modèles",
     badge: null,
@@ -188,6 +185,11 @@ const breadcrumbItems = [
   { label: "Outils", href: "/outils" },
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 function OutilsJsonLd() {
   const data = buildGraphSchema(
     buildOrganizationSchema(),
@@ -197,7 +199,7 @@ function OutilsJsonLd() {
       { name: "Outils", url: "https://www.rentready.fr/outils" },
     ])
   );
-  return <SchemaMarkup data={data} />;
+  return <SchemaMarkup data={data} breadcrumbRenderedByComponent />;
 }
 
 export default function OutilsPage() {
@@ -243,7 +245,7 @@ export default function OutilsPage() {
                 <h2 className="text-lg font-bold text-stone-900 mb-2 group-hover:text-blue-600 transition-colors">
                   {tool.title}
                 </h2>
-                <p className="text-stone-500 text-sm leading-relaxed flex-1">
+                <p className="text-stone-600 text-sm leading-relaxed flex-1">
                   {tool.description}
                 </p>
                 <div className="mt-4 text-sm font-semibold text-blue-600 group-hover:underline">

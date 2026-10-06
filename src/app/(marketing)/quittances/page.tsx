@@ -1,26 +1,42 @@
 import type { Metadata } from "next";
+import { SAME_AS } from "@/data/entity";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import React from "react";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+import cities from "@/data/cities.json";
 
-// ISR: revalidate marketing pages at CDN edge every hour
-// Keeps content fresh while serving cached HTML for TTFB < 100ms
+type City = (typeof cities)[number];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 export const revalidate = 3600;
 
 // Dynamic import: FinalCta uses framer-motion (heavy, below-fold)
 // → code-split so it doesn't block initial JS bundle or INP
-const FinalCta = dynamic(
+const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
 );
 
+
+/** Cities grouped by region, as the other three hubs do. */
+function groupByRegion(list: City[]) {
+  return list.reduce<Record<string, City[]>>((acc, city) => {
+    (acc[city.region] ??= []).push(city);
+    return acc;
+  }, {});
+}
+
+
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Quittances de Loyer 2026 — Génération Automatique PDF Conforme | RentReady",
+      "Quittances de Loyer 2026 — Génération Automatique PDF Conforme",
     description:
       "Générez des quittances de loyer conformes en 1 clic. PDF automatique avec mention légale INSEE, envoi direct au locataire. Essai gratuit sans engagement.",
     url: "/quittances",
@@ -113,18 +129,13 @@ const QUITTANCES_SCHEMA = {
       "@type": "WebSite",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://www.rentready.fr/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "Organization",
       name: "RentReady",
       alternateName: "RentReady SAS",
       url: "https://www.rentready.fr",
-      logo: "https://www.rentready.fr/logo.png",
+      logo: "https://www.rentready.fr/logo.svg",
       description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
       foundingDate: "2024",
       address: {
@@ -138,10 +149,7 @@ const QUITTANCES_SCHEMA = {
         email: "contact@rentready.fr",
         availableLanguage: "French",
       },
-      sameAs: [
-        "https://twitter.com/rentready_fr",
-        "https://www.linkedin.com/company/rentready",
-      ],
+      sameAs: SAME_AS,
     },
     {
       "@type": "BreadcrumbList",
@@ -170,12 +178,7 @@ const QUITTANCES_SCHEMA = {
       description:
         "Générez des quittances de loyer conformes à la loi du 6 juillet 1989 en 1 clic. PDF automatique, mention IRL INSEE, envoi automatique au locataire.",
       offers: {
-        "@type": "Offer",
-        price: "15.00",
-        priceCurrency: "EUR",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        url: "https://www.rentready.fr/register",
+        ...paidOffer(),
       },
       featureList: [
         "Génération de quittance en 1 clic",
@@ -212,10 +215,15 @@ const QUITTANCES_SCHEMA = {
   ],
 };
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 export default function QuittancesPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
-      <SchemaMarkup data={QUITTANCES_SCHEMA} />
+      <SchemaMarkup data={QUITTANCES_SCHEMA} breadcrumbRenderedByComponent />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
 {/* Breadcrumb */}
@@ -269,7 +277,7 @@ définies par la loi du 6 juillet 1989 :
 <ul className="grid gap-2 sm:grid-cols-2">
 {legalRequirements.map((req) => (
 <li key={req} className="flex items-center gap-2 text-sm text-stone-700">
-<span className="text-emerald-600">✓</span>
+<span className="text-emerald-700">✓</span>
 <span>{req}</span>
 </li>
 ))}
@@ -340,7 +348,7 @@ Essai gratuit 14 jours
 </section>
 
 {/* Internal links */}
-<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+<nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/locations"
 className="text-blue-600 hover:underline"
@@ -361,6 +369,47 @@ Tarifs →
 </Link>
 </nav>
 </article>
+
+
+      {/* Cities.
+          These 50 URLs are in the sitemap but nothing linked to them: this hub is
+          the only one of the four that did not import `cities`, so every
+          /quittances/<city> page was reachable only from its own breadcrumb. The
+          other three hubs (bail, gestion-locative, assurance-loyer-impaye) all
+          linked theirs. A page nothing links to is a page a crawler has no reason
+          to keep, and the sitemap alone is not a recommendation.
+          Same grouping by region, same Link pattern, so the hubs stay
+          consistent rather than four slightly different lists. */}
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <h2 className="text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+          Quittances de loyer par ville
+        </h2>
+        <p className="mt-3 max-w-2xl text-stone-600">
+          Modèles et mentions obligatoires adaptés aux pratiques locales de
+          l'état des lieux dans votre commune.
+        </p>
+        <div className="mt-10 space-y-10">
+          {Object.entries(groupByRegion(cities)).map(([region, regionCities]) => (
+            <div key={region}>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-stone-500">
+                {region}
+              </h3>
+              <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3 lg:grid-cols-4">
+                {regionCities.map((city) => (
+                  <li key={city.slug}>
+                    <Link
+                      href={`/quittances/${city.slug}`}
+                      className="text-sm text-stone-700 underline-offset-4 hover:text-stone-900 hover:underline"
+                    >
+                      Quittance de loyer {city.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
 
 <FinalCta />
 </div>

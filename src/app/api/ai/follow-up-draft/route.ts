@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         tenant: true,
         property: true,
         transactions: {
-          where: { status: { in: ["PENDING", "LATE", "PARTIAL"] } },
+          where: { paidAt: null, dueDate: { lt: new Date() } },
           orderBy: { dueDate: "asc" },
           take: 1,
         },
@@ -74,7 +74,8 @@ export async function POST(request: NextRequest) {
     const draft = await generateRentFollowUpDraft(
       `${lease.tenant.firstName} ${lease.tenant.lastName}`,
       lease.property.addressLine1,
-      overdueTransaction.amount,
+      // Interpolated into an AI prompt, so it must be a number.
+      overdueTransaction.amount.toDecimalPlaces(2).toNumber(),
       format(overdueTransaction.dueDate, "d MMMM yyyy", { locale: undefined }),
       daysLate,
       previousAttempts,

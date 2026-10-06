@@ -4,6 +4,11 @@ import { ArrowRight, Check } from "lucide-react";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { buildHreflang } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Modèle Quittance de Loyer Gratuit 2026 — Format Légal",
@@ -25,7 +30,6 @@ export const metadata: Metadata = {
   },
   alternates: buildHreflang("/templates/recu-loyer"),
 };
-
 
 /* ─── JSON-LD: FAQPage + BreadcrumbList ─── */
 function RecuLoyerJsonLd() {
@@ -80,6 +84,11 @@ const faqData = [
       "Oui. La quittance prouve que le loyer a été payé. En cas de litige, elle constitue une preuve de paiement. Elle permet aussi au locataire de justifier de ses charges locatives auprès des administrations (CAF, impôts).",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 export default function RecuLoyerPage() {
   return (
@@ -234,7 +243,7 @@ export default function RecuLoyerPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: "/guides/quittance-loyer", label: "Guide : quittance de loyer →" },
-              { href: "/blog/gestion-locative-debutant-guide", label: "Guide de la gestion locative pour débutants →" },
+              { href: "/blog/investir-immobilier-locatif-guide-debutant-2026", label: "Guide de la gestion locative pour débutants →" },
               { href: "/glossaire-immobilier", label: "Glossaire de la location immobilière →" },
             ].map((link) => (
               <Link

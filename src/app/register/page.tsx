@@ -10,19 +10,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const testimonials = [
-  {
-    text: "J'ai récupéré mes week-ends. La quittance part toute seule.",
-    name: "Marie-Claire D.",
-    role: "3 appartements LMNP",
-  },
-  {
-    text: "Pour 15 € par mois, c'est une assurance tranquillité.",
-    name: "Thomas R.",
-    role: "2 studios meublés",
-  },
-];
-
 export default function RegisterPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-background to-muted/20">
@@ -55,12 +42,12 @@ export default function RegisterPage() {
 
         {/* Social proof section */}
         <div className="space-y-4 pt-4">
-          {/* Mini stats bar */}
-          <div className="grid grid-cols-3 gap-px rounded-xl border border-border/50 bg-border/50 overflow-hidden">
+          {/* What the trial includes — factual, not social proof theatre */}
+          <div className="grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-border/50 bg-border/50">
             {[
-              { value: "2 400+", label: "propriétaires" },
-              { value: "98%", label: "satisfaits" },
-              { value: "15 min", label: "setup" },
+              { value: "14 jours", label: "d'essai gratuit" },
+              { value: "0 €", label: "carte bancaire" },
+              { value: "15 min", label: "pour le setup" },
             ].map((stat) => (
               <div key={stat.label} className="bg-card px-3 py-3 text-center">
                 <p className="text-lg font-bold text-foreground">{stat.value}</p>
@@ -69,29 +56,18 @@ export default function RegisterPage() {
             ))}
           </div>
 
-          {/* Testimonials */}
-          <div className="space-y-3">
-            {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="flex gap-3 rounded-xl border border-border/50 bg-card p-4"
-              >
-                <div className="mt-0.5 size-5 shrink-0 text-blue-500">
-                  <svg viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M6.5 1.5h4v4h-4v-4zm-5 9h4v4H1.5v-4zm7-1a3.5 3.5 0 014 4 3.5 3.5 0 01-4 4H8V6.5z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-[13px] italic text-muted-foreground">
-                    &ldquo;{t.text}&rdquo;
-                  </p>
-                  <p className="mt-1 text-[11px] font-medium text-muted-foreground/70">
-                    {t.name}, {t.role}
-                  </p>
-                </div>
-              </div>
+          <ul className="space-y-2 text-[13px] text-muted-foreground">
+            {[
+              "Quittances générées depuis vos données réelles, pas depuis un formulaire",
+              "Rapprochement automatique des virements reçus",
+              "Rappel de la révision IRL à la date anniversaire du bail",
+            ].map((item) => (
+              <li key={item} className="flex gap-2">
+                <span aria-hidden="true" className="text-blue-500">✓</span>
+                {item}
+              </li>
             ))}
-          </div>
+          </ul>
 
           {/* Trust badges */}
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">

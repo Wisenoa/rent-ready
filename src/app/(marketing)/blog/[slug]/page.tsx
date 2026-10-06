@@ -1,11 +1,37 @@
 import type { Metadata } from "next";
+import { SAME_AS, SITE_URL } from "@/data/entity";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import { splitEditorialCTA } from "@/lib/editorial-cta";
 import { Calendar, Clock, ArrowLeft, BookOpen } from "lucide-react";
 import { articles } from "@/data/articles";
-import { baseMetadata } from "@/lib/seo/metadata";
+import { articleMeta } from "@/data/articles-meta";
+
+import { baseMetadata, buildOgImageUrl } from "@/lib/seo/metadata";
 import glossaryData from "@/data/glossary.json";
+
+/**
+ * Every article is prerendered, then revalidated hourly at the edge.
+ *
+ * `generateStaticParams` is what makes this possible. Without it a dynamic
+ * segment falls back to on-demand rendering even with `revalidate` set, and in
+ * that mode Next streams the metadata *after* `</head>`: on this page `</head>`
+ * closed at byte 1 849 while `<title>` appeared at byte 39 719. Google reads it;
+ * crawlers and link previewers that parse only the head see neither the title
+ * nor the canonical.
+ *
+ * The article list is local (`src/data/articles-meta.ts`, which holds no bodies),
+ * so enumerating 119 slugs at build time costs nothing at runtime.
+ */
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+  // `articles-meta`, not `articles`: this runs at build time and only needs the
+  // slugs. The bodies live in a 636 KB module that exists in `articles-meta.ts`
+  // precisely so listing components do not pull it into the build graph.
+  return articleMeta.map((post) => ({ slug: post.slug }));
+}
 
 /** Extract Q&A pairs from a FAQ section in article markdown */
 function extractFAQ(content: string): { question: string; answer: string }[] {
@@ -29,6 +55,97 @@ function extractFAQ(content: string): { question: string; answer: string }[] {
   return qaPairs;
 }
 
+/**
+ * French words that carry no topic signal when scoring article similarity.
+ */
+const RELATION_STOPWORDS = new Set([
+  "le", "la", "les", "de", "des", "du", "un", "une", "et", "ou", "en", "au", "aux",
+  "pour", "avec", "sur", "dans", "par", "ce", "cette", "qui", "que", "quoi", "comment",
+  "guide", "complet", "modele", "tout", "sa", "son", "ses", "leur", "vous", "votre",
+  "est", "sont", "sans", "plus", "aussi", "entre", "sous", "fait", "etre", "the", "vs",
+]);
+
+/**
+ * Topic signals, grouped so that articles sharing a real subject score higher
+ * than articles that merely share a word.
+ */
+const RELATION_TOPICS: Record<string, string[]> = {
+  "loyer": ["loyer", "loyers", "IRL", "indexation", "revision", "encadrement", "reference"],
+  "quittance": ["quittance", "quittances", "recu", "regu", "paiement"],
+  "depot": ["depot", "caution", "garant", "retenue", "restitution"],
+  "bail": ["bail", "contrat", "location", "vide", "meuble", "duree", "preavis", "conge"],
+  "impaye": ["impaye", "impayes", "retard", "relance", "recouvrement", "demeure", "expulsion", "saisie"],
+  "charges": ["charges", "recuperable", "provision", "regularisation", "decompte"],
+  "etat-des-lieux": ["etat", "lieux", "constat", "degradation", "inventaire"],
+  "fiscal": ["fiscal", "fiscalite", "impot", "declaration", "revenus", "micro", "reel", "deficit", "LMNP", "LMP", "plus-value"],
+  "assurance": ["assurance", "PNO", "GLI", "VISALE", "protection", "juridique", "franchise"],
+  "travaux": ["travaux", "entretien", "renovation", "reparation", "amelioration", "amortissement"],
+  "colocation": ["colocation", "colocataire", "solidaire", "solidarite"],
+  "saisonnier": ["saisonnier", "saisonniere", "vacances", "tourisme", "residence"],
+  // 17 articles sit in this cluster (agency vs software, pricing, city guides).
+  // Without a topic they get no related links at all.
+  "gestion": ["gestion", "locative", "agence", "agences", "logiciel", "administratif", "investisseur", "investissement"],
+  "rentabilite": ["rentabilite", "rendement", "investissement", "immobilier", "neuf", "ancien"],
+  "recours": ["recours", "tribunal", "mediation", "litige", "procedural", "droits", "obligations"],
+  // Without this one the ALUR article — which cross-cuts every other topic —
+  // was the single article in the corpus with no related link at all.
+  "loi": ["loi", "ALUR", "alur", "legisl", "reglementation", "reforme"],
+};
+
+/**
+ * Pick the three articles most likely to be useful to a reader who just
+ * finished this one.
+ *
+ * The previous implementation selected by `category` alone. 54 of the 121
+ * articles share the "Juridique" category, so that linked an article about
+ * drafting a lease to an unrelated article about the ALUR law — technically
+ * a link, editorially noise. Scoring on shared topic vocabulary and on title
+ * overlap produces links a reader can actually follow.
+ */
+function pickRelatedArticles(slug: string) {
+  const source = articles.find((a) => a.slug === slug);
+  if (!source) return [];
+
+  const tokens = (text: string) =>
+    new Set(
+      (text.toLowerCase().match(/[a-zà-ÿ0-9]{3,}/g) ?? []).filter(
+        (w) => !RELATION_STOPWORDS.has(w)
+      )
+    );
+
+  const sourceTokens = tokens(`${source.slug} ${source.title} ${source.category}`);
+  const sourceTopics = new Set(
+    Object.entries(RELATION_TOPICS)
+      .filter(([, words]) => words.some((w) => sourceTokens.has(w.toLowerCase())))
+      .map(([topic]) => topic)
+  );
+
+  return articles
+    .filter((a) => a.slug !== slug)
+    .map((a) => {
+      const otherTokens = tokens(`${a.slug} ${a.title} ${a.category}`);
+      let shared = 0;
+      for (const t of sourceTokens) if (otherTokens.has(t)) shared++;
+
+      const otherTopics = new Set(
+        Object.entries(RELATION_TOPICS)
+          .filter(([, words]) => words.some((w) => otherTokens.has(w.toLowerCase())))
+          .map(([topic]) => topic)
+      );
+      let sharedTopics = 0;
+      for (const t of sourceTopics) if (otherTopics.has(t)) sharedTopics++;
+
+      // A shared topic is a much stronger signal than a shared word: one
+      // topic match outranks a pile of coincidental vocabulary overlaps.
+      const score = sharedTopics * 10 + shared;
+      return { article: a, score, sharedTopics };
+    })
+    .filter((r) => r.sharedTopics > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((r) => r.article);
+}
+
 /** Slugs of glossary terms that appear in each blog article */
 const ARTICLE_GLOSSARY_MAP: Record<string, string[]> = {
   "comment-gerer-loyers-impayes": ["quittance-loyer", "loyer-nu", "charges-recuperables", "impaye-loyer", "relance-loyer", "garant-loyer", "depot-garantie"],
@@ -40,11 +157,9 @@ const ARTICLE_GLOSSARY_MAP: Record<string, string[]> = {
   "quittance-loyer-pdf-gratuit": ["quittance-loyer", "bail-location", "charges-recuperables", "loyer-nu"],
   "lettre-relance-loyer-impaye-modele": ["relance-loyer", "impaye-loyer", "quittance-loyer"],
   "charges-locatives-decompte-annualise": ["charges-recuperables", "loyer-ccai", "quittance-loyer", "bail-location"],
-  "assurance-loyer-impaye-gli": ["impaye-loyer", "garant-loyer", "caution-locative", "depot-garantie"],
   "quittance-loyer-mentions-obligatoires": ["quittance-loyer", "bail-location", "charges-recuperables", "loyer-nu"],
   "calculer-rendement-locatif-brut-net": ["rendement-locatif", "loyer-nu", "taxe-fonciere", "vacance-locative"],
   "etat-des-lieux-proprietaire-modele": ["etat-des-lieux", "bail-location", "depot-garantie", "quittance-loyer"],
-  "bail-colocation-modele-clauses": ["colocation", "bail-location", "charges-recuperables", "depot-garantie"],
   "bail-location-vide-2026": ["bail-location", "loyer-nu", "etat-des-lieux", "depot-garantie", "charges-recuperables", "preavis-loyer", "encadrement-loyer"],
   "bail-location-meuble-2026": ["location-meuble", "bail-location", "loyer-nu", "bail-mobilite", "depot-garantie"],
   "garant-caution-solidaire": ["garant-loyer", "caution-locative", "depot-garantie", "visale"],
@@ -62,7 +177,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!article) return { title: "Article non trouvé" };
 
   return baseMetadata({
-    title: `${article.title} | Blog RentReady`,
+    title: `${article.title} | Blog`,
     description: article.excerpt,
     url: `/blog/${slug}`,
     ogType: "article",
@@ -74,9 +189,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const article = articles.find((a) => a.slug === slug);
   if (!article) notFound();
 
-  const relatedArticles = articles
-    .filter((a) => a.slug !== slug && a.category === article.category)
-    .slice(0, 3);
+  const relatedArticles = pickRelatedArticles(article.slug);
 
   // Extract h2/h3 headings from content for "In This Article" sidebar
   const tocItems: { id: string; text: string; level: number }[] = [];
@@ -102,7 +215,10 @@ export default async function BlogPostPage({ params }: PageProps) {
   // Extract FAQ Q&A pairs from article content
   const faqPairs = article.content ? extractFAQ(article.content) : [];
 
-  const articleAuthor = article.author ?? "RentReady";
+  // Articles carry no byline: the Article type has no author field, so the
+  // previous `article.author ?? "RentReady"` always took the fallback. The
+  // JSON-LD below attributes posts to the organisation either way.
+  const articleAuthor = "RentReady";
 
   // BreadcrumbList schema
   const breadcrumbSchema = {
@@ -136,38 +252,58 @@ export default async function BlogPostPage({ params }: PageProps) {
     ],
   };
 
-  // Article schema with enhanced author (Organization with sameAs)
+  const articleUrl = `https://www.rentready.fr/blog/${slug}`;
+
+  /**
+   * Article schema.
+   *
+   * `image` and `publisher.logo` are both required by Google's Article
+   * structured-data guidelines; without them the markup is ineligible for an
+   * article rich result, which is the whole point of emitting it. Neither was
+   * present — the dates were correct, the two mandatory media properties were
+   * simply missing.
+   *
+   * The image points at the dynamic OG renderer, which produces a 1200×630 PNG
+   * per article title — the minimum Google asks for is 1200×675 for wide
+   * images, and 1200×630 is what every other RentReady page already serves.
+   */
+  // `buildOgImageUrl` returns a path, which is correct for a <meta og:image> tag
+  // because Next resolves it against metadataBase. Structured data has no such
+  // resolution: schema.org requires an absolute URL, so prefix it here.
+  const articleImage = `${SITE_URL}${buildOgImageUrl({
+    title: article.title,
+    type: "article",
+  })}`;
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
+    image: [articleImage],
     datePublished: article.date,
     dateModified: article.updatedAt,
+    inLanguage: "fr-FR",
     author: {
       "@type": "Organization",
       name: articleAuthor,
       url: "https://www.rentready.fr",
-      sameAs: [
-        "https://www.linkedin.com/company/rentready",
-        "https://twitter.com/rentready_fr",
-        "https://www.facebook.com/rentready.fr",
-      ],
+      sameAs: SAME_AS,
     },
     publisher: {
       "@type": "Organization",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      sameAs: [
-        "https://www.linkedin.com/company/rentready",
-        "https://twitter.com/rentready_fr",
-        "https://www.facebook.com/rentready.fr",
-      ],
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo.svg`,
+      },
+      sameAs: SAME_AS,
     },
-    url: `https://www.rentready.fr/blog/${slug}`,
+    url: articleUrl,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://www.rentready.fr/blog/${slug}`,
+      "@id": articleUrl,
     },
   };
 
@@ -204,7 +340,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Breadcrumb */}
-        <nav className="mb-8 text-sm text-stone-500">
+        <nav className="mb-8 text-sm text-stone-600">
           <Link href="/" className="hover:text-stone-700">Accueil</Link>
           <span className="mx-2">›</span>
           <Link href="/blog" className="hover:text-stone-700">Blog</Link>
@@ -232,7 +368,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <p className="mb-6 text-xl text-stone-600 leading-relaxed">
             {article.excerpt}
           </p>
-          <div className="flex items-center gap-4 text-sm text-stone-500">
+          <div className="flex items-center gap-4 text-sm text-stone-600">
             <span className="inline-flex items-center gap-1.5">
               <Calendar className="h-4 w-4" />
               {new Date(article.date).toLocaleDateString("fr-FR", {
@@ -260,16 +396,16 @@ export default async function BlogPostPage({ params }: PageProps) {
                 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:scroll-mt-24
                 prose-p:text-stone-700 prose-p:leading-relaxed
                 prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-700
-                prose-ul:text-stone-700 prose-li:marker:text-stone-400
+                prose-ul:text-stone-700 prose-li:marker:text-stone-600
                 prose-strong:text-stone-900
                 prose-blockquote:border-l-blue-500 prose-blockquote:text-stone-600
                 prose-code:text-blue-700 prose-code:bg-stone-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
                 prose-pre:bg-stone-900 prose-pre:text-stone-100
               ">
-                <ReactMarkdown>{article.content}</ReactMarkdown>
+                <ReactMarkdown>{splitEditorialCTA(article.content).body}</ReactMarkdown>
               </div>
             ) : (
-              <p className="text-stone-500">Contenu en cours de rédaction.</p>
+              <p className="text-stone-600">Contenu en cours de rédaction.</p>
             )}
 
             {/* Glossary terms section */}
@@ -304,7 +440,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <aside className="lg:w-56 lg:shrink-0">
             {tocItems.length > 0 && (
               <div className="sticky top-8 rounded-xl border border-stone-200 bg-stone-50 p-4">
-                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-500">
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-600">
                   Dans cet article
                 </h3>
                 <nav className="space-y-1">
@@ -328,10 +464,11 @@ export default async function BlogPostPage({ params }: PageProps) {
         {/* CTA */}
         <div className="mt-16 rounded-2xl bg-stone-900 px-8 py-10 text-center">
           <h3 className="mb-3 text-xl font-bold text-white">
-            Gérez votre location efficacement avec RentReady
+            {splitEditorialCTA(article.content).cta ??
+              "Gérez votre location efficacement avec RentReady"}
           </h3>
-          <p className="mb-6 text-stone-400">
-            Logiciel tout-en-un pour propriétaires — essai gratuit 30 jours.
+          <p className="mb-6 text-stone-300">
+            Logiciel tout-en-un pour propriétaires — essai gratuit 14 jours.
           </p>
           <Link
             href="/register"
@@ -360,10 +497,10 @@ export default async function BlogPostPage({ params }: PageProps) {
                   <h3 className="mb-2 font-semibold text-stone-900 group-hover:text-blue-700 transition-colors line-clamp-2">
                     {related.title}
                   </h3>
-                  <p className="text-sm text-stone-500 line-clamp-2">
+                  <p className="text-sm text-stone-600 line-clamp-2">
                     {related.excerpt}
                   </p>
-                  <div className="mt-3 flex items-center gap-3 text-xs text-stone-400">
+                  <div className="mt-3 flex items-center gap-3 text-xs text-stone-600">
                     <span className="inline-flex items-center gap-1">
                       <Calendar className="h-3.5 w-3.5" />
                       {new Date(related.date).toLocaleDateString("fr-FR", {

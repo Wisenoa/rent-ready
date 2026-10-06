@@ -38,9 +38,24 @@ export default async function LeasesPage() {
     }),
   ]);
 
+  // This crosses the server/client boundary, and a Prisma Decimal serialises to a
+  // *string* in RSC props. Convert the money here so the client component receives
+  // the numbers its prop types declare.
+  const leases = leasesResult.map((lease) => ({
+    ...lease,
+    rentAmount: lease.rentAmount.toDecimalPlaces(2).toNumber(),
+    chargesAmount: lease.chargesAmount.toDecimalPlaces(2).toNumber(),
+    transactions: lease.transactions.map((tx) => ({
+      ...tx,
+      amount: tx.amount.toDecimalPlaces(2).toNumber(),
+      rentPortion: tx.rentPortion.toDecimalPlaces(2).toNumber(),
+      chargesPortion: tx.chargesPortion.toDecimalPlaces(2).toNumber(),
+    })),
+  }));
+
   return (
     <LeasesPageClient
-      leases={leasesResult}
+      leases={leases}
       properties={propertiesResult}
       tenants={tenantsResult}
     />

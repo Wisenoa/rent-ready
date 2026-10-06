@@ -8,6 +8,10 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? [['github'], ['html']] : [['html', { open: 'never' }]],
 
+  // Each test walks five routes, and a dev server compiles each on first
+  // request, so the default 30s is not enough for the golden path.
+  timeout: 120_000,
+  expect: { timeout: 15_000 },
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3003',
     trace: 'on-first-retry',
@@ -22,12 +26,21 @@ export default defineConfig({
     },
   ],
 
-  webServer: process.env.CI
+  // Only manage a server when one is not already provided. PLAYWRIGHT_BASE_URL
+  // points at a running instance (a CI service container, or a dev server on
+  // another port); without this the config still spawned `pnpm dev`, which failed
+  // with "Invalid project directory: --port" because `pnpm dev` passes its flags
+  // through differently.
+  // No `--` between `pnpm dev` and the flag: `next dev -- --port 3003` forwards the
+  // separator to Next, which then reads `--port` as a project directory and exits
+  // with "Invalid project directory provided". Every local `pnpm test:e2e` died
+  // there before running a single test.
+  webServer: process.env.CI || process.env.PLAYWRIGHT_BASE_URL
     ? undefined
     : {
-        command: 'pnpm dev -- --port 3003',
+        command: 'pnpm dev --port 3003',
         url: 'http://localhost:3003',
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer: true,
         timeout: 120_000,
       },
 })

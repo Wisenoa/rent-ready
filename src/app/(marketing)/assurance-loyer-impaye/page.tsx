@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import cities from "@/data/cities.json";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-// ISR: all-cities listing — revalidate monthly
-export const revalidate = 2592000;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 type City = (typeof cities)[number];
 
@@ -32,8 +35,8 @@ const ZONES_TENDUES = new Set([
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Assurance loyer impayé (GLI) — 50 villes en France",
-    description: "Garantie des Loyers Impayés (GLI) dans les 50 plus grandes villes de France. Protégez vos revenus locatifs contre les impayés. Couverture jusqu'à 90 %, frais d'expulsion pris en charge.",
+    title: "Loyer impayé : détecter, relancer, facturer — 50 villes en France",
+    description: "La GLI est une assurance souscrite auprès d'un assureur : RentReady ne la vend pas. Ce que nous faisons : détecter les loyers impayés et déclencher la relance, ville par ville.",
     url: "/assurance-loyer-impaye",
     ogType: "feature",
   });
@@ -46,11 +49,6 @@ const GLI_SCHEMA = {
       "@type": "WebSite",
       name: "RentReady",
       url: "https://www.rentready.fr",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://www.rentready.fr/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "Organization",
@@ -73,36 +71,41 @@ const GLI_SCHEMA = {
     },
     {
       "@type": "SoftwareApplication",
-      name: "RentReady — Assurance loyer impayé (GLI)",
+      name: "RentReady — Suivi des loyers impayés",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
       url: "https://www.rentready.fr/assurance-loyer-impaye",
-      description: "Garantie des Loyers Impayés (GLI) pour propriétaires bailleurs. Couverture jusqu'à 90 % des loyers impayés, prise en charge des frais d'expulsion, détection automatique des paiements.",
+      description:
+        "Logiciel de gestion locative : RentReady rapproche les échéances des paiements, signale les loyers non réglés et prépare la relance. RentReady ne vend pas d'assurance et ne souscrit pas de Garantie des Loyers Impayés : la GLI est un produit d'assurance, souscrite auprès d'un assureur.",
       offers: {
-        "@type": "Offer",
-        price: "15.00",
-        priceCurrency: "EUR",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        url: "https://www.rentready.fr/register",
+        ...paidOffer(),
       },
+      // What the software actually does on this page's subject. The previous
+      // list described an insurance product: reimbursement of unpaid rent,
+      // expulsion costs, simplified claim declaration. There is no insurer, no
+      // mandate, no broker anywhere in the repository, and no GLI in the product
+      // or on /pricing — so those were promises nothing could honour.
       featureList: [
-        "Remboursement jusqu'à 90 % des loyers impayés",
-        "Frais d'expulsion pris en charge",
-        "Détection automatique des paiements",
-        "Alerte impayé en temps réel",
-        "Déclaration de sinistre simplifiée",
+        "Détection des échéances de loyer non réglées",
+        "Liste des impayés et balance par bien",
+        "Lettre de relance et mise en demeure générées depuis les données réelles",
+        "Suivi des relances déjà envoyées",
       ],
     },
   ],
 };
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 export default function AssuranceLoyerImpayéIndex() {
   const regions = groupByRegion(cities);
 
   return (
     <>
-      <SchemaMarkup data={GLI_SCHEMA} />
+      <SchemaMarkup data={GLI_SCHEMA} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },
@@ -171,7 +174,7 @@ export default function AssuranceLoyerImpayéIndex() {
                           {city.name}
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-stone-400">
+                          <span className="text-xs text-stone-600">
                             {formatPopulation(city.population)} hab.
                           </span>
                           {ZONES_TENDUES.has(city.slug) && (

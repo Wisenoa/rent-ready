@@ -12,7 +12,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
     <div className="flex items-center justify-center gap-4">
       <span
         className={`text-sm font-medium transition-colors ${
-          !isAnnual ? "text-stone-900" : "text-stone-400"
+          !isAnnual ? "text-stone-900" : "text-stone-600"
         }`}
       >
         Mensuel
@@ -45,7 +45,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
       <span className="flex items-center gap-2">
         <span
           className={`text-sm font-medium transition-colors ${
-            isAnnual ? "text-stone-900" : "text-stone-400"
+            isAnnual ? "text-stone-900" : "text-stone-600"
           }`}
         >
           Annuel

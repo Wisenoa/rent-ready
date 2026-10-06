@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-// ISR: guides are static reference content — revalidate weekly
-export const revalidate = 604800;
 
 import Link from "next/link";
 import { ArrowRight, FileText, BookOpen, Download } from "lucide-react";
@@ -12,10 +10,16 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Guides Propriétaire Bailleur — Modèles gratuits,IRL, Bail 2026 | RentReady",
+      "Guides Propriétaire Bailleur — Modèles gratuits,IRL, Bail 2026",
     description:
       "Guides gratuits pour propriétaires : modèle de bail, quittance, dépôt de garantie, révision IRL, lettre de relance. Téléchargez et utilisez immédiatement — sans inscription.",
     url: "/guides",
@@ -55,7 +59,7 @@ const guides = [
     slug: "irl-2026",
     title: "Révision de loyer IRL 2026",
     excerpt:
-      "Indice de référence des loyers (IRL) 2026 : dernière valeur officielle INSEE, comment calculer la révision de loyer annuelle, délai et méthode正确e.",
+      "Indice de référence des loyers (IRL) 2026 : dernière valeur officielle INSEE, comment calculer la révision de loyer annuelle, délai et méthode corrects.",
     icon: BookOpen,
     href: "/guides/irl-2026",
     category: "IRL",
@@ -70,6 +74,11 @@ const guides = [
     category: "Impaye",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function GuidesPageJsonLd() {
   const schema = buildGraphSchema(

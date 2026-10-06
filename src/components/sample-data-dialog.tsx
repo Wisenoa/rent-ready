@@ -64,7 +64,7 @@ export function SampleDataDialog({ open, onOpenChange }: SampleDataDialogProps) 
                 <span className="text-amber-600 font-medium">Cette action est irréversible.</span> Vous pourrez supprimer ces données à tout moment.
               </>
             ) : (
-              <span className="flex items-center gap-2 text-emerald-600 font-medium">
+              <span className="flex items-center gap-2 text-emerald-700 font-medium">
                 <CheckCircle2 className="size-4" />
                 Données créées avec succès !
               </span>

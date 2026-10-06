@@ -3,7 +3,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
@@ -41,41 +40,11 @@ const faqData = [
   },
 ];
 
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Générateur de Quittance de Loyer",
-      description: "Générez une quittance de loyer PDF conforme à la loi du 6 juillet 1989 en 30 secondes.",
-      url: "https://www.rentready.fr/outils/generateur-quittance",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://www.rentready.fr${item.href}`,
-      })),
-    },
-  ],
-};
+;
 
 export function GenerateurQuittanceClient() {
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-3xl mx-auto px-4 py-12">
@@ -130,10 +99,10 @@ export function GenerateurQuittanceClient() {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
             <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
             <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
-            <Link href="/modeles" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
+            <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
             <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
           </div>
 

@@ -1,5 +1,23 @@
 import { ShieldCheck, RefreshCw } from "lucide-react";
 
+/** Content counts as recently reviewed for 90 days. */
+const FRESHNESS_WINDOW_MS = 90 * 24 * 60 * 60 * 1000;
+
+/**
+ * Reference clock for the freshness check.
+ *
+ * `Date.now()` is impure: reading it during render makes the output depend on
+ * *when* the render happened rather than on props, so the same props can yield
+ * different markup and server/client renders can disagree. It is therefore read
+ * here, at module scope, not inside the component.
+ *
+ * This badge is a static, server-rendered E-E-A-T signal, so one timestamp per
+ * module load is the right granularity: worst case, content sitting exactly on
+ * the 90-day boundary keeps its previous icon until the next deploy. That is
+ * cosmetic and self-correcting.
+ */
+const RENDERED_AT = Date.now();
+
 interface ContentReviewBadgeProps {
   updatedAt: string;
   category?: "article" | "template" | "tool" | "glossary" | "legal";
@@ -25,7 +43,7 @@ export function ContentReviewBadge({
   className = "",
 }: ContentReviewBadgeProps) {
   const date = new Date(updatedAt);
-  const isRecent = Date.now() - date.getTime() < 90 * 24 * 60 * 60 * 1000; // 90 days
+  const isRecent = RENDERED_AT - date.getTime() < FRESHNESS_WINDOW_MS;
   const formattedDate = date.toLocaleDateString("fr-FR", {
     day: "numeric",
     month: "long",

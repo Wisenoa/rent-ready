@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { baseMetadata } from "@/lib/seo/metadata";
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
+
 export async function generateMetadata() {
   return baseMetadata({
     title: "Mentions Légales — RentReady",
@@ -10,6 +16,11 @@ export async function generateMetadata() {
   });
 }
 ;
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function MentionsLegalesJsonLd() {
   const data = {
@@ -71,7 +82,7 @@ export default function MentionsLegalesPage() {
       <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
         Mentions Légales
       </h1>
-      <p className="mt-4 text-sm text-stone-400">
+      <p className="mt-4 text-sm text-stone-600">
         Dernière mise à jour : mars 2026
       </p>
 

@@ -27,7 +27,7 @@ const faqData = [
   {
     question: "Le montant de référence est-il le même partout ?",
     answer:
-      "Non. Le montant de référence evolve selon la zone géographique, le type de logement (vide/meublé), et la taille du logement (studio, T2, T3, etc.). Chaque commune en zone tendue dispose de ses propres tableaux de référence. Consultez le site du政府对 pour votre commune.",
+      "Non. Le montant de référence évolue selon la zone géographique, le type de logement (vide/meublé), et la taille du logement (studio, T2, T3, etc.). Chaque commune en zone tendue dispose de ses propres tableaux de référence. Consultez le site de la mairie ou de la préfecture pour votre commune.",
   },
   {
     question: "Peut-on louer au-dessus du montant de référence ?",
@@ -94,7 +94,7 @@ export function LoyerCalculatorClient() {
 
   return (
     <>
-      <SchemaMarkup data={jsonLdData} />
+      <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
       <div className="min-h-screen bg-[#f8f7f4]">
         <div className="max-w-5xl mx-auto px-4 py-12">
@@ -217,7 +217,7 @@ export function LoyerCalculatorClient() {
                 </span>
               ))}
             </div>
-            <p className="text-xs text-stone-500 mt-4">
+            <p className="text-xs text-stone-600 mt-4">
               Source : liste officielle des zones tendues. Vérifiez sur service-public.fr pour votre commune exacte.
             </p>
           </div>
@@ -230,7 +230,7 @@ export function LoyerCalculatorClient() {
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
                     <span className="font-semibold text-stone-900">{faq.question}</span>
-                    <svg className="size-5 text-stone-400 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
                   </summary>
@@ -244,32 +244,32 @@ export function LoyerCalculatorClient() {
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-stone-900 mb-4">Outils complements</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/outils/calculateur-caution" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-depot-garantie" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">🔐</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur de Caution</div>
-                  <div className="text-sm text-stone-500">Dépôt de garantie maximum</div>
+                  <div className="text-sm text-stone-600">Dépôt de garantie maximum</div>
                 </div>
               </Link>
-              <Link href="/modeles/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
                   <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-500">Bail conforme à la loi 1989</div>
+                  <div className="text-sm text-stone-600">Bail conforme à la loi 1989</div>
                 </div>
               </Link>
               <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
                   <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-500">Toutes les définitions légales</div>
+                  <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/outils/calculateur-revision-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
                 <span className="text-2xl">📈</span>
                 <div>
                   <div className="font-semibold text-stone-900">Calculateur de Révision IRL</div>
-                  <div className="text-sm text-stone-500">Révision légale du loyer</div>
+                  <div className="text-sm text-stone-600">Révision légale du loyer</div>
                 </div>
               </Link>
             </div>

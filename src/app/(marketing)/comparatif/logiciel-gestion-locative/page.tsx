@@ -4,8 +4,13 @@ import { Check, X, Minus } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { formatEntryPrice } from "@/data/entity";
 
-export const revalidate = 86400;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
@@ -27,7 +32,7 @@ const faqSchema = {
       name: "Quel est le meilleur logiciel de gestion locative en 2026 ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Le meilleur dépend de votre parc. RentReady offre le meilleur rapport prix-fonctionnalités pour les propriétaires de 1 à 10 biens, à 15 €/mois sans commission. Pour les agences ou grands parcs, des solutions comme Gestions.net ou Tecoo offrent plus de modules comptables mais à des tarifs plus élevés.",
+        text: `Le meilleur dépend de votre parc. RentReady offre le meilleur rapport prix-fonctionnalités pour les propriétaires de 1 à 10 biens, à ${formatEntryPrice()} sans commission. Pour les agences ou grands parcs, des solutions comme Gestions.net ou Tecoo offrent plus de modules comptables mais à des tarifs plus élevés.`,
       },
     },
     {
@@ -35,7 +40,7 @@ const faqSchema = {
       name: "Combien coûte un logiciel de gestion locative ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Les tarifs varient de 0 € (tableur) à plus de 100 €/mois pour les agences. Un propietario indépendant paie généralement entre 10 et 30 €/mois. Attention aux offres à bas coût qui facturent des modules essentiels (quittances, relances) en option.",
+        text: "Les tarifs varient de 0 € (tableur) à plus de 100 €/mois pour les agences. Un propriétaire indépendant paie généralement entre 10 et 30 €/mois. Attention aux offres à bas coût qui facturent des modules essentiels (quittances, relances) en option.",
       },
     },
     {
@@ -68,10 +73,10 @@ const faqSchema = {
 const alternatives = [
   {
     name: "RentReady",
-    price: "15 €/mois",
+    price: formatEntryPrice(),
     priceDetail: "tout inclus jusqu'à 10 biens",
     pros: [
-      "Quittances légales全自动",
+      "Quittances légales automatiques",
       "Détection paiements via Open Banking",
       "Révision IRL connectée INSEE",
       "Portail locataire inclus",
@@ -157,6 +162,11 @@ const criteria = [
   "Prix-transparent",
 ];
 
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+
 function getScore(alternative: string, criterion: string): "check" | "cross" | "minus" {
   const scores: Record<string, Record<string, "check" | "cross" | "minus">> = {
     RentReady: {
@@ -211,7 +221,7 @@ function getScore(alternative: string, criterion: string): "check" | "cross" | "
 export default function ComparatifLogicielGestionLocative() {
   return (
     <>
-      <SchemaMarkup data={faqSchema} />
+      <SchemaMarkup data={faqSchema} breadcrumbRenderedByComponent />
       <Breadcrumb
         items={[
           { label: "Accueil", href: "/" },
@@ -289,7 +299,7 @@ export default function ComparatifLogicielGestionLocative() {
                 </tr>
               </tbody>
             </table>
-            <p className="mt-2 text-xs text-stone-400 text-center">
+            <p className="mt-2 text-xs text-stone-600 text-center">
               ✓ Inclus &nbsp; ✗ Non disponible &nbsp; − Partiellement
             </p>
           </div>
@@ -317,9 +327,9 @@ export default function ComparatifLogicielGestionLocative() {
                     )}
                   </div>
                   <p className="mt-1 text-sm font-medium text-stone-700">
-                    {alt.price} <span className="font-normal text-stone-400">— {alt.priceDetail}</span>
+                    {alt.price} <span className="font-normal text-stone-600">— {alt.priceDetail}</span>
                   </p>
-                  <p className="mt-1 text-sm text-stone-500">Recommandé pour : {alt.bestFor}</p>
+                  <p className="mt-1 text-sm text-stone-600">Recommandé pour : {alt.bestFor}</p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wide text-green-700 mb-1">
@@ -358,7 +368,7 @@ export default function ComparatifLogicielGestionLocative() {
                       Essai gratuit →
                     </Link>
                   ) : (
-                    <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-400 cursor-not-allowed">
+                    <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-600 cursor-not-allowed">
                       Voir le site →
                     </span>
                   )}
@@ -378,7 +388,7 @@ export default function ComparatifLogicielGestionLocative() {
               <details key={faq.name} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-400 transition-transform group-open:rotate-45">
+                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
@@ -397,7 +407,7 @@ export default function ComparatifLogicielGestionLocative() {
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
             Aucune carte bancaire. Aucune commission. Accès complet à toutes les fonctionnalités
-            pendant 14 jours, puis 15 €/mois pour tout votre parc.
+            pendant 14 jours, puis ${formatEntryPrice()} pour tout votre parc.
           </p>
           <Link
             href="/register"

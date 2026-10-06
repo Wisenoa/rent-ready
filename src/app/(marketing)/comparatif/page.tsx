@@ -8,12 +8,16 @@ import {
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
-export const revalidate = 86400;
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Comparatif Gestion Locative 2026 — Logiciels, Outils & Prix | RentReady",
+      "Comparatif Gestion Locative 2026 — Logiciels, Outils & Prix",
     description:
       "Comparez les meilleurs logiciels de gestion locative, outils et services pour propriétaires bailleurs en 2026. Tarifs, fonctionnalités, avis — faites le bon choix.",
     url: "/comparatif",
@@ -29,22 +33,6 @@ const comparatifs = [
     href: "/comparatif/logiciel-gestion-locative",
     badge: "Populaire",
     badgeColor: "bg-blue-100 text-blue-700",
-  },
-  {
-    title: "RentReady vs Gerclegeo",
-    description:
-      "Comparatif détaillé : tarifs, fonctionnalités, conformité loi Alur. Quel logiciel choisir pour votre parc locatif ?",
-    href: "/comparatif/rentready-vs-gerclegeo",
-    badge: "Nouveau",
-    badgeColor: "bg-red-100 text-red-700",
-  },
-  {
-    title: "RentReady vs Immotop",
-    description:
-      "Comparez RentReady et Immotop : détection paiements, quittances automatiques, révision IRL, tarifs réels.",
-    href: "/comparatif/rentready-vs-immotop",
-    badge: "Nouveau",
-    badgeColor: "bg-red-100 text-red-700",
   },
   {
     title: "RentReady vs LegalPlace",
@@ -79,6 +67,11 @@ const comparatifs = [
     badgeColor: "bg-amber-100 text-amber-700",
   },
 ];
+
+// Rendered on demand. SEO/marketing content, not product surface: prerendering the
+// ~135-page content suite exhausted the Node heap during `next build`
+// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
+// per request costs ~ms and every URL keeps working.
 
 function ComparatifIndexJsonLd() {
   const schema = buildGraphSchema(

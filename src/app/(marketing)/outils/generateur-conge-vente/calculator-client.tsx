@@ -239,9 +239,9 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
       )}
 
       {/* Related links */}
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-        <Link href="/modeles/conge-proprietaire" className="text-blue-600 hover:underline">Modèle congé propriétaire →</Link>
-        <Link href="/modeles/bail-vide" className="text-blue-600 hover:underline">Modèle bail vide →</Link>
+      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
+        <Link href="/templates/conge-proprietaire" className="text-blue-600 hover:underline">Modèle congé propriétaire →</Link>
+        <Link href="/templates/bail-vide" className="text-blue-600 hover:underline">Modèle bail vide →</Link>
         <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
       </div>
     </div>

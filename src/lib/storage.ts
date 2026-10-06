@@ -2,8 +2,12 @@
  * Object Storage utilities using MinIO / S3-compatible storage.
  * Used for storing generated PDFs (quittances, reports).
  *
- * Supports environments without MinIO configured — uploadBuffer will
- * silently skip and return a placeholder URL.
+ * Configuration is REQUIRED. This used to return a `minio://placeholder/...` URL
+ * when storage was unconfigured, so a receipt generation request answered
+ * HTTP 200 with a "receiptUrl" that could never be downloaded and no Document row
+ * was ever written — the UI reported success for a document that did not exist.
+ * `isStorageConfigured()` lets callers decide; `uploadBuffer()` throws rather
+ * than lying.
  */
 
 export interface UploadResult {
@@ -12,35 +16,78 @@ export interface UploadResult {
   objectName: string;
 }
 
+/** True when object storage is configured. Callers may degrade gracefully. */
+export /**
+ * Storage credentials, read once.
+ *
+ * process.env values are `string | undefined`, so every `new Client({ endPoint:
+ * process.env.MINIO_ENDPOINT })` was a type error even though each caller is
+ * guarded by isStorageConfigured() first. Reading them through this helper makes
+ * the guard's guarantee visible to the compiler instead of relying on it.
+ */
+function storageEnv(): {
+  endPoint: string;
+  port: number;
+  useSSL: boolean;
+  accessKey: string;
+  secretKey: string;
+} | null {
+  const endPoint = process.env.MINIO_ENDPOINT;
+  const accessKey = process.env.MINIO_ACCESS_KEY;
+  const secretKey = process.env.MINIO_SECRET_KEY;
+  if (!endPoint || !accessKey || !secretKey) return null;
+  return {
+    endPoint,
+    port: parseInt(process.env.MINIO_PORT || "9000"),
+    useSSL: process.env.MINIO_USE_SSL === "true",
+    accessKey,
+    secretKey,
+  };
+}
+
+export function isStorageConfigured(): boolean {
+  return storageEnv() !== null;
+}
+
 /**
- * Upload a Buffer to MinIO/S3 and return the public URL.
- * Silently skips if MinIO is not configured.
+ * Raised when a document cannot be persisted. Callers must surface this as a
+ * failure — never treat a missing document as a successful upload.
+ */
+export class StorageNotConfiguredError extends Error {
+  constructor() {
+    super(
+      "Object storage is not configured (MINIO_ENDPOINT, MINIO_ACCESS_KEY, " +
+        "MINIO_SECRET_KEY). The document was NOT saved."
+    );
+    this.name = "StorageNotConfiguredError";
+  }
+}
+
+/**
+ * Upload a Buffer to MinIO/S3 and return its URL.
+ *
+ * @throws {StorageNotConfiguredError} when storage is not configured. A caller
+ * that must still produce a document should catch it and persist the bytes
+ * elsewhere (e.g. a Document row); it must not report success without a file.
  */
 export async function uploadBuffer(
   buffer: Buffer,
   objectName: string,
   contentType: string = "application/pdf"
 ): Promise<UploadResult> {
-  if (
-    !process.env.MINIO_ENDPOINT ||
-    !process.env.MINIO_ACCESS_KEY ||
-    !process.env.MINIO_SECRET_KEY
-  ) {
-    // MinIO not configured — return a placeholder URL
-    return {
-      url: `minio://placeholder/${objectName}`,
-      bucket: "not-configured",
-      objectName,
-    };
+  if (!isStorageConfigured()) {
+    throw new StorageNotConfiguredError();
   }
 
   const { Client } = await import("minio");
+  const env = storageEnv();
+  if (!env) throw new StorageNotConfiguredError();
   const client = new Client({
-    endPoint: process.env.MINIO_ENDPOINT,
-    port: parseInt(process.env.MINIO_PORT || "9000"),
-    useSSL: process.env.MINIO_USE_SSL === "true",
-    accessKey: process.env.MINIO_ACCESS_KEY,
-    secretKey: process.env.MINIO_SECRET_KEY,
+    endPoint: env.endPoint,
+    port: env.port,
+    useSSL: env.useSSL,
+    accessKey: env.accessKey,
+    secretKey: env.secretKey,
   });
 
   const bucket = process.env.MINIO_BUCKET || "rent-ready-docs";
@@ -61,21 +108,19 @@ export async function uploadBuffer(
  * Delete an object from MinIO/S3.
  */
 export async function deleteObject(objectName: string): Promise<void> {
-  if (
-    !process.env.MINIO_ENDPOINT ||
-    !process.env.MINIO_ACCESS_KEY ||
-    !process.env.MINIO_SECRET_KEY
-  ) {
+  if (!isStorageConfigured()) {
     return;
   }
 
   const { Client } = await import("minio");
+  const env = storageEnv();
+  if (!env) throw new StorageNotConfiguredError();
   const client = new Client({
-    endPoint: process.env.MINIO_ENDPOINT,
-    port: parseInt(process.env.MINIO_PORT || "9000"),
-    useSSL: process.env.MINIO_USE_SSL === "true",
-    accessKey: process.env.MINIO_ACCESS_KEY,
-    secretKey: process.env.MINIO_SECRET_KEY,
+    endPoint: env.endPoint,
+    port: env.port,
+    useSSL: env.useSSL,
+    accessKey: env.accessKey,
+    secretKey: env.secretKey,
   });
 
   const bucket = process.env.MINIO_BUCKET || "rent-ready-docs";

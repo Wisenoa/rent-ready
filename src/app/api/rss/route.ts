@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { articles } from "@/data/articles";
+import { articleMeta } from "@/data/articles-meta";
 
 const BASE_URL = "https://www.rentready.fr";
 const SITE_TITLE = "Blog RentReady — Gestion Locative & Investissement";
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   const ifModifiedSince = request.headers.get("If-Modified-Since");
   if (ifModifiedSince) {
     const sinceDate = new Date(ifModifiedSince);
-    const latestArticle = articles[0];
+    const latestArticle = articleMeta[0];
     if (latestArticle) {
       const latestDate = new Date(latestArticle.date);
       if (latestDate <= sinceDate) {
@@ -34,12 +34,13 @@ export async function GET(request: NextRequest) {
   const now = new Date().toUTCString();
   const buildDate = new Date().toUTCString();
 
-  const itemsXml = articles
+  const itemsXml = articleMeta
     .slice(0, 50) // Cap at 50 most recent posts
     .map((article) => {
       const link = `${BASE_URL}/blog/${article.slug}`;
       const pubDate = new Date(article.date).toUTCString();
-      const description = escapeXml(article.excerpt);
+      // excerpt is optional on ArticleMeta; an absent one yields an empty element.
+      const description = escapeXml(article.excerpt ?? "");
 
       return `
     <item>
@@ -66,7 +67,7 @@ export async function GET(request: NextRequest) {
     <webMaster>tech@rentready.fr (RentReady)</webMaster>
     <atom:link href="${BASE_URL}/api/rss" rel="self" type="application/rss+xml" />
     <image>
-      <url>${BASE_URL}/og-image.png</url>
+      <url>${BASE_URL}/opengraph-image</url>
       <title>${escapeXml(SITE_TITLE)}</title>
       <link>${BASE_URL}/blog</link>
     </image>
