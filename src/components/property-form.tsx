@@ -1,10 +1,10 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition, useState, isValidElement } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, ChevronDown, ChevronUp, Sparkles, Building2 } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -45,13 +45,12 @@ const PROPERTY_TYPES = [
   { value: "OTHER", label: "Autre" },
 ] as const;
 
+const PROPERTY_TYPE_ITEMS: Record<string, string> = Object.fromEntries(
+  PROPERTY_TYPES.map((t) => [t.value, t.label])
+);
+
 /**
  * Message d'erreur d'un champ, rendu dans le DOM.
- *
- * `id` fait le lien entre le champ (`aria-describedby`) et son message : sans
- * lui, un lecteur d'ecran passe devant un champ invalide sans rien entendre.
- * On rend aussi le role `alert` pour que l'erreur soit annoncee quand elle
- * apparait au submit.
  */
 function FieldError({
   id,
@@ -85,17 +84,37 @@ type PropertyData = {
 
 interface PropertyFormProps {
   property?: PropertyData;
-  trigger: React.ReactNode;
+  trigger?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  redirectToHomeBase?: boolean;
+  onSuccess?: (created: { id: string; name: string }) => void;
+  triggerVariant?: "default" | "outline" | "ghost";
+  triggerSize?: "default" | "sm" | "lg" | "icon-sm";
 }
 
-export function PropertyForm({ property, trigger }: PropertyFormProps) {
-  const [open, setOpen] = useState(false);
+export function PropertyForm({
+  property,
+  trigger,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+  redirectToHomeBase = true,
+  onSuccess,
+  triggerVariant,
+  triggerSize,
+}: PropertyFormProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(!!property);
   const [isPending, startTransition] = useTransition();
   const [selectedType, setSelectedType] = useState<PropertyFormValues["type"]>(
     (property?.type as PropertyFormValues["type"]) ?? "APARTMENT"
   );
   const router = useRouter();
   const isEditing = !!property;
+
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = isControlled ? (controlledOnOpenChange ?? (() => {})) : setInternalOpen;
 
   const {
     register,
@@ -104,7 +123,6 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
     reset,
     formState: { errors },
   } = useForm<PropertyFormValues>({
-     
     resolver: zodResolver(propertySchema) as any,
     defaultValues: {
       name: property?.name ?? "",
@@ -121,6 +139,14 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
     },
   });
 
+  function handleOpenChange(isOpen: boolean) {
+    setOpen(isOpen);
+    if (!isOpen) {
+      reset();
+      setShowAdvanced(isEditing);
+    }
+  }
+
   function onSubmit(values: PropertyFormValues) {
     startTransition(async () => {
       const formData = new FormData();
@@ -134,28 +160,40 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
 
       if (result.success) {
         toast.success(
-          isEditing ? "Bien modifié avec succès" : "Bien créé avec succès"
+          isEditing ? "Logement modifié avec succès" : "Logement créé avec succès"
         );
+        const createdId = (result.data as { id?: string })?.id;
+        if (!isEditing && createdId) {
+          onSuccess?.({ id: createdId, name: values.name });
+        }
         setOpen(false);
         reset();
-        router.refresh();
+
+        if (!isEditing && redirectToHomeBase && createdId) {
+          router.push(`/properties/${createdId}`);
+        } else {
+          router.refresh();
+        }
       } else {
-        toast.error(result.error ?? "Une erreur est survenue");
+        toast.error(result.error ?? "Une erreur est survenue lors de l'enregistrement");
       }
     });
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      {/* The trigger RENDERS the button rather than wrapping one of its own
-          around the caller's: Base UI's native <button> wrapping a <Button> is
-          `<button><button/></button>`, which React rejects, and
-          `nativeButton={false}` expects a NON-button, so it warns in turn.
-          Rendering is the one form all three accept. The caller therefore passes
-          button CONTENT (icon + label), not a <Button>. */}
-      <DialogTrigger render={<Button variant="outline" size="sm" />}>
-        {trigger}
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      {trigger && (
+        <DialogTrigger
+          render={
+            <Button
+              variant={triggerVariant ?? (isEditing ? "ghost" : "default")}
+              size={triggerSize ?? (isEditing ? "icon-sm" : "default")}
+            />
+          }
+        >
+          {trigger}
+        </DialogTrigger>
+      )}
 <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
@@ -205,8 +243,10 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
                 setSelectedType(typed);
                 setValue("type", typed, { shouldValidate: true });
               }}
+              items={PROPERTY_TYPE_ITEMS}
             >
               <SelectTrigger
+                id="type"
                 className="w-full"
                 aria-invalid={!!errors.type}
                 aria-describedby={errors.type ? "type-error" : undefined}
@@ -234,10 +274,10 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
 
           {/* Address */}
           <div className="grid gap-2">
-            <Label htmlFor="addressLine1">Adresse *</Label>
+            <Label htmlFor="addressLine1">Adresse du logement *</Label>
             <Input
               id="addressLine1"
-              placeholder="Numéro et rue"
+              placeholder="Ex: 14 Rue Voltaire"
               maxLength={500}
               aria-invalid={!!errors.addressLine1}
               aria-describedby={errors.addressLine1 ? "addressLine1-error" : undefined}
@@ -249,29 +289,13 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="addressLine2">Complément d&apos;adresse</Label>
-            <Input
-              id="addressLine2"
-              placeholder="Bâtiment, étage, etc."
-              maxLength={500}
-              aria-invalid={!!errors.addressLine2}
-              aria-describedby={errors.addressLine2 ? "addressLine2-error" : undefined}
-              {...register("addressLine2")}
-            />
-            <FieldError
-              id="addressLine2-error"
-              message={errors.addressLine2?.message}
-            />
-          </div>
-
           {/* City + Postal Code */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="grid gap-2">
               <Label htmlFor="city">Ville *</Label>
               <Input
                 id="city"
-                placeholder="Paris"
+                placeholder="Ex: Nantes"
                 maxLength={200}
                 aria-invalid={!!errors.city}
                 aria-describedby={errors.city ? "city-error" : undefined}
@@ -283,7 +307,7 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
               <Label htmlFor="postalCode">Code postal *</Label>
               <Input
                 id="postalCode"
-                placeholder="75001"
+                placeholder="Ex: 44000"
                 maxLength={10}
                 aria-invalid={!!errors.postalCode}
                 aria-describedby={errors.postalCode ? "postalCode-error" : undefined}
@@ -296,68 +320,115 @@ export function PropertyForm({ property, trigger }: PropertyFormProps) {
             </div>
           </div>
 
-          {/* Surface + Rooms */}
-          {/*
-            Ces deux champs sont facultatifs, donc leurs erreurs etaient
-            silencieusement absentes : `zodResolver` bloquait le submit cote
-            client, aucune server action n'etait appelee, aucun toast n'etait
-            emis, et le composant ne rendait rien — l'utilisateur cliquait
-            « Ajouter » et ne pouvait ni voir ni corriger. On rend donc la
-            meme chose que pour les champs requis : aria-invalid + message.
-          */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="grid gap-2">
-              <Label htmlFor="surface">Surface (m²)</Label>
-              <Input
-                id="surface"
-                type="number"
-                step="0.1"
-                min="0"
-                placeholder="65"
-                aria-invalid={!!errors.surface}
-                aria-describedby={errors.surface ? "surface-error" : undefined}
-                {...register("surface")}
-              />
-              <FieldError id="surface-error" message={errors.surface?.message} />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="rooms">Nombre de pièces</Label>
-              <Input
-                id="rooms"
-                type="number"
-                min="0"
-                step="1"
-                placeholder="3"
-                aria-invalid={!!errors.rooms}
-                aria-describedby={errors.rooms ? "rooms-error" : undefined}
-                {...register("rooms")}
-              />
-              <FieldError id="rooms-error" message={errors.rooms?.message} />
-            </div>
+          {/* Progressive Disclosure : Informations complémentaires */}
+          <div className="pt-2 border-t border-border/60">
+            <button
+              type="button"
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className="flex items-center justify-between w-full text-xs font-medium text-muted-foreground hover:text-foreground py-1.5 transition-colors"
+            >
+              <span>Informations complémentaires (surface, cadastre, notes...)</span>
+              {showAdvanced ? (
+                <ChevronUp className="size-3.5" />
+              ) : (
+                <ChevronDown className="size-3.5" />
+              )}
+            </button>
+
+            {showAdvanced && (
+              <div className="space-y-4 pt-3 mt-1 border-t border-dashed border-border/60">
+                <div className="grid gap-2">
+                  <Label htmlFor="addressLine2">Complément d&apos;adresse</Label>
+                  <Input
+                    id="addressLine2"
+                    placeholder="Bâtiment B, 2e étage gauche, code..."
+                    maxLength={500}
+                    aria-invalid={!!errors.addressLine2}
+                    aria-describedby={errors.addressLine2 ? "addressLine2-error" : undefined}
+                    {...register("addressLine2")}
+                  />
+                  <FieldError
+                    id="addressLine2-error"
+                    message={errors.addressLine2?.message}
+                  />
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-2">
+                    <Label htmlFor="surface">Surface habitable (m²)</Label>
+                    <Input
+                      id="surface"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      placeholder="65"
+                      aria-invalid={!!errors.surface}
+                      aria-describedby={errors.surface ? "surface-error" : undefined}
+                      {...register("surface")}
+                    />
+                    <FieldError id="surface-error" message={errors.surface?.message} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="rooms">Nombre de pièces</Label>
+                    <Input
+                      id="rooms"
+                      type="number"
+                      min="0"
+                      step="1"
+                      placeholder="3"
+                      aria-invalid={!!errors.rooms}
+                      aria-describedby={errors.rooms ? "rooms-error" : undefined}
+                      {...register("rooms")}
+                    />
+                    <FieldError id="rooms-error" message={errors.rooms?.message} />
+                  </div>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-2">
+                    <Label htmlFor="cadastralRef">Réf. cadastrale</Label>
+                    <Input
+                      id="cadastralRef"
+                      placeholder="Ex: Section AB n° 124"
+                      maxLength={100}
+                      {...register("cadastralRef")}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="taxRef">Identifiant fiscal</Label>
+                    <Input
+                      id="taxRef"
+                      placeholder="Ex: Numéro fiscal local"
+                      maxLength={100}
+                      {...register("taxRef")}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-2">
+                  <Label htmlFor="description">Notes & description</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Description du logement ou notes personnelles..."
+                    rows={2}
+                    maxLength={2000}
+                    aria-invalid={!!errors.description}
+                    aria-describedby={errors.description ? "description-error" : undefined}
+                    {...register("description")}
+                  />
+                  <FieldError
+                    id="description-error"
+                    message={errors.description?.message}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Description */}
-          <div className="grid gap-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              placeholder="Description du bien..."
-              rows={3}
-              maxLength={2000}
-              aria-invalid={!!errors.description}
-              aria-describedby={errors.description ? "description-error" : undefined}
-              {...register("description")}
-            />
-            <FieldError
-              id="description-error"
-              message={errors.description?.message}
-            />
-          </div>
-
-          <DialogFooter>
-            <Button type="submit" disabled={isPending}>
+          <DialogFooter className="pt-2">
+            <Button type="submit" disabled={isPending} className="font-medium">
               {isPending && <Loader2 className="size-4 mr-2 animate-spin" />}
-              {isEditing ? "Enregistrer" : "Ajouter"}
+              {isEditing ? "Enregistrer" : "Créer le logement"}
             </Button>
           </DialogFooter>
         </form>

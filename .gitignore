@@ -19,6 +19,7 @@
 # Dev server builds here, not into .next, so a dev server cannot corrupt a
 # production build in the same worktree (see distDir in next.config.ts).
 /.next-dev/
+/.next-ui-dev/
 # Build lock: created and removed by scripts/with-build-lock.mjs. It should
 # never survive a build, but an ignore keeps a stale one out of `git add -A`
 # rather than committing infrastructure noise.

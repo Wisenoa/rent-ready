@@ -45,27 +45,11 @@ export function PropertiesEmptyState({
       </p>
 
       <div className="flex flex-col sm:flex-row items-center gap-3">
-        <Button
-          onClick={onStartWizard}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            className="mr-2"
-          >
-            <path d="M8 1L10.5 6H15L11 9.5L12.5 15L8 11.5L3.5 15L5 9.5L1 6H5.5L8 1Z"
-              fill="currentColor" />
-          </svg>
-          Commencer la configuration
-        </Button>
         <PropertyForm
           trigger={
             <>
               <Plus className="size-4 mr-2" />
-              Ajouter un bien manuellement
+              Ajouter un logement
             </>
           }
         />

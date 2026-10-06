@@ -27,6 +27,22 @@ export const standaloneLeaseSchema = leaseSchema
   .refine(
     (data) => data.propertyId || data.tenantId,
     { message: "Au moins un bien ou un locataire est requis" }
+  )
+  .refine(
+    (data) => {
+      if (!data.rentAmount || !data.depositAmount) return true;
+      if (data.leaseType === "UNFURNISHED") {
+        return data.depositAmount <= data.rentAmount;
+      }
+      if (data.leaseType === "FURNISHED") {
+        return data.depositAmount <= data.rentAmount * 2;
+      }
+      return true;
+    },
+    {
+      message: "Le dépôt de garantie ne peut excéder le plafond légal (art. 22 loi 1989)",
+      path: ["depositAmount"],
+    }
   );
 
 export type StandaloneLeaseFormValues = z.infer<typeof standaloneLeaseSchema>;

@@ -43,13 +43,29 @@ export type SerializedTenant = {
 
 interface TenantFormProps {
   tenant?: SerializedTenant;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  onSuccess?: (created: { id: string; firstName: string; lastName: string }) => void;
+  defaultValues?: Partial<TenantFormValues>;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export function TenantForm({ tenant, children }: TenantFormProps) {
-  const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
+export function TenantForm({
+  tenant,
+  children,
+  onSuccess,
+  defaultValues: initialDefaults,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+}: TenantFormProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isPendingTransition = useTransition();
+  const [isPending, startTransition] = isPendingTransition;
   const isEdit = !!tenant;
+
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = isControlled ? (controlledOnOpenChange ?? (() => {})) : setInternalOpen;
 
   const {
     register,
@@ -59,18 +75,18 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
   } = useForm<TenantFormValues>({
     resolver: zodResolver(tenantSchema),
     defaultValues: {
-      firstName: tenant?.firstName ?? "",
-      lastName: tenant?.lastName ?? "",
-      email: tenant?.email ?? "",
-      phone: tenant?.phone ?? "",
-      addressLine1: tenant?.addressLine1 ?? "",
-      addressLine2: tenant?.addressLine2 ?? "",
-      city: tenant?.city ?? "",
-      postalCode: tenant?.postalCode ?? "",
-      dateOfBirth: tenant?.dateOfBirth ?? "",
-      placeOfBirth: tenant?.placeOfBirth ?? "",
-      emergencyName: tenant?.emergencyName ?? "",
-      emergencyPhone: tenant?.emergencyPhone ?? "",
+      firstName: tenant?.firstName ?? initialDefaults?.firstName ?? "",
+      lastName: tenant?.lastName ?? initialDefaults?.lastName ?? "",
+      email: tenant?.email ?? initialDefaults?.email ?? "",
+      phone: tenant?.phone ?? initialDefaults?.phone ?? "",
+      addressLine1: tenant?.addressLine1 ?? initialDefaults?.addressLine1 ?? "",
+      addressLine2: tenant?.addressLine2 ?? initialDefaults?.addressLine2 ?? "",
+      city: tenant?.city ?? initialDefaults?.city ?? "",
+      postalCode: tenant?.postalCode ?? initialDefaults?.postalCode ?? "",
+      dateOfBirth: tenant?.dateOfBirth ?? initialDefaults?.dateOfBirth ?? "",
+      placeOfBirth: tenant?.placeOfBirth ?? initialDefaults?.placeOfBirth ?? "",
+      emergencyName: tenant?.emergencyName ?? initialDefaults?.emergencyName ?? "",
+      emergencyPhone: tenant?.emergencyPhone ?? initialDefaults?.emergencyPhone ?? "",
     },
   });
 
@@ -96,6 +112,13 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
             ? "Locataire modifié avec succès"
             : "Locataire ajouté avec succès"
         );
+        if (result.data && !isEdit) {
+          onSuccess?.({
+            id: (result.data as { id: string }).id,
+            firstName: values.firstName,
+            lastName: values.lastName,
+          });
+        }
         setOpen(false);
         reset();
       } else {
@@ -106,16 +129,12 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      {/* The trigger RENDERS the button rather than wrapping one of its own
-          around the caller's: Base UI's native <button> wrapping a <Button> is
-          `<button><button/></button>`, which React rejects, and
-          `nativeButton={false}` expects a NON-button, so it warns in turn.
-          Rendering is the one form all three accept. The caller therefore passes
-          button CONTENT (icon + label), not a <Button>. */}
-      <DialogTrigger render={<Button variant="outline" size="sm" />}>
-        {children}
-      </DialogTrigger>
-<DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      {children && (
+        <DialogTrigger render={<Button variant="outline" size="sm" />}>
+          {children}
+        </DialogTrigger>
+      )}
+      <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
             {isEdit ? "Modifier le locataire" : "Ajouter un locataire"}
@@ -127,7 +146,13 @@ export function TenantForm({ tenant, children }: TenantFormProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.stopPropagation();
+            handleSubmit(onSubmit)(e);
+          }}
+          className="space-y-4"
+        >
           {/* Identité */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">

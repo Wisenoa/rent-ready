@@ -48,6 +48,7 @@ export function PropertyActions({ property }: PropertyActionsProps) {
       if (result.success) {
         toast.success("Bien supprimé avec succès");
         setDeleteOpen(false);
+        router.push("/properties");
         router.refresh();
       } else {
         toast.error(result.error ?? "Impossible de supprimer le bien");
@@ -60,10 +61,10 @@ export function PropertyActions({ property }: PropertyActionsProps) {
       <PropertyForm
         property={property}
         trigger={
-          <Button variant="ghost" size="icon-sm">
+          <>
             <Pencil className="size-3.5" />
             <span className="sr-only">Modifier</span>
-          </Button>
+          </>
         }
       />
 

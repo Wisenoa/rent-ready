@@ -2,7 +2,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import Decimal from "decimal.js";
-import { AlertCircle, ArrowRight, CreditCard } from "lucide-react";
+import { AlertCircle, ArrowRight, CreditCard, Clock, History } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -11,120 +11,200 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button-variants";
+import { cn } from "@/lib/utils";
 import { ReminderButton } from "@/components/reminder-button";
-import { getRentExceptions } from "@/lib/queries/arrears";
+import { getRentExceptions, type RentException } from "@/lib/queries/arrears";
 import { formatCurrency } from "@/lib/format";
 
 /**
- * « À traiter » — the exceptions that need a decision today.
+ * « Actions Requises » — Traitement prioritaire des exceptions de loyers.
  *
- * The dashboard answered "what does my portfolio look like" and never "what is
- * asking for me": `revenue.late` was computed on every render and never shown,
- * so a landlord with two months overdue read four KPIs of totals and no
- * exception.
- *
- * This section is placed ABOVE the KPIs on purpose. Buried under charts it would
- * answer a question nobody came to ask; the product promise is to detect, explain
- * and propose an action, in that order, before the totals.
- *
- * It renders nothing when there is no exception. An empty card saying "tout va
- * bien" spends the space that the exception itself needs, and trains the eye to
- * skim past the section — which is how a late month gets missed again.
+ * Différencie rigoureusement :
+ * 1. Les retards du mois en cours (Action immédiate pour le propriétaire)
+ * 2. Les arriérés historiques groupés par bail (Évite l'effet de panique
+ *    des 10 cartes empilées lors de l'import d'un bail rétroactif).
  */
 export async function ArrearsSection({ userId }: { userId: string }) {
   const exceptions = await getRentExceptions(userId);
 
   if (exceptions.length === 0) return null;
 
-  const total = exceptions.reduce(
-    (sum, exception) => sum.plus(new Decimal(exception.remaining)),
+  const now = new Date();
+  const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  // Séparation du mois en cours vs historique
+  const currentMonthExceptions: RentException[] = [];
+  const historicalByLease = new Map<
+    string,
+    {
+      tenant: { firstName: string; lastName: string };
+      property: { name: string };
+      count: number;
+      totalRemaining: Decimal;
+      oldestDaysLate: number;
+    }
+  >();
+
+  for (const exc of exceptions) {
+    if (exc.periodStart >= currentMonthStart) {
+      currentMonthExceptions.push(exc);
+    } else {
+      const existing = historicalByLease.get(exc.leaseId);
+      if (existing) {
+        existing.count += 1;
+        existing.totalRemaining = existing.totalRemaining.plus(new Decimal(exc.remaining));
+        existing.oldestDaysLate = Math.max(existing.oldestDaysLate, exc.daysLate);
+      } else {
+        historicalByLease.set(exc.leaseId, {
+          tenant: exc.tenant,
+          property: exc.property,
+          count: 1,
+          totalRemaining: new Decimal(exc.remaining),
+          oldestDaysLate: exc.daysLate,
+        });
+      }
+    }
+  }
+
+  const totalRemaining = exceptions.reduce(
+    (sum, e) => sum.plus(new Decimal(e.remaining)),
     new Decimal(0)
   );
 
   return (
-    <Card className="shadow-sm border-red-200">
-      <CardHeader>
-        <CardTitle className="text-lg flex items-center gap-2">
-          <AlertCircle className="size-5 text-red-600" />
-          À traiter
-        </CardTitle>
-        <CardDescription>
-          {exceptions.length} période
-          {exceptions.length > 1 ? "s" : ""} en retard —{" "}
-          {formatCurrency(total.toFixed(2))} à recouvrer
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ul className="divide-y divide-border/30">
-          {exceptions.map((exception) => {
-            const partial = new Decimal(exception.alreadyPaid).gt(0);
+    <div className="space-y-4">
+      {/* 1. Retards du mois en cours — Priorité d'action immédiate */}
+      {currentMonthExceptions.length > 0 && (
+        <Card className="border-amber-200/80 bg-amber-50/20 shadow-sm">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base font-semibold flex items-center gap-2 text-amber-900">
+                <AlertCircle className="size-5 text-amber-600" />
+                Loyers en attente ce mois-ci ({format(now, "MMMM yyyy", { locale: fr })})
+              </CardTitle>
+              <Badge variant="outline" className="text-amber-800 bg-amber-100/70 border-amber-300">
+                {currentMonthExceptions.length} à traiter
+              </Badge>
+            </div>
+            <CardDescription className="text-xs text-amber-900/80">
+              Ces loyers sont échus pour le mois en cours et nécessitent un pointage ou une relance.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="divide-y divide-amber-200/50">
+              {currentMonthExceptions.map((exception) => {
+                const partial = new Decimal(exception.alreadyPaid).gt(0);
 
-            return (
-              <li
-                key={exception.transactionId}
-                className="flex flex-col gap-3 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="min-w-0">
-                  <p className="text-sm font-medium">
-                    {exception.tenant.firstName} {exception.tenant.lastName}
-                    <span className="text-muted-foreground font-normal">
-                      {" "}
-                      — {exception.property.name}
-                    </span>
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    Période de{" "}
-                    {format(exception.periodStart, "MMMM yyyy", { locale: fr })}
-                    {" · échéance le "}
-                    {format(exception.dueDate, "d MMMM yyyy", { locale: fr })}
-                  </p>
-                  <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
-                    {/* The balance, not the month's total. On a month that already
-                        received a part, showing only the balance left the landlord
-                        reading "570,55" against a 970,55 month with no way to tell
-                        them apart. */}
-                    <span className="text-sm font-mono font-semibold text-red-700">
-                      {partial
-                        ? `${formatCurrency(exception.remaining)} / ${formatCurrency(exception.totalDue)}`
-                        : formatCurrency(exception.remaining)}
-                    </span>
-                    {partial && (
-                      <Badge variant="secondary" className="text-xs">
-                        Partiellement payé
-                      </Badge>
-                    )}
-                    <Badge
-                      variant="outline"
-                      className="text-xs text-red-700 border-red-200"
-                    >
-                      {exception.daysLate === 0
-                        ? "Échéance aujourd'hui"
-                        : `${exception.daysLate} jour${exception.daysLate > 1 ? "s" : ""} de retard`}
-                    </Badge>
-                  </p>
-                </div>
-
-                <div className="flex shrink-0 items-center gap-2">
-                  <ReminderButton
-                    transactionId={exception.transactionId}
-                    label="Relancer"
-                  />
-                  {/* Straight to the screen where the payment is recorded, rather
-                      than back to the dashboard the landlord is already reading. */}
-                  <Link
-                    href="/billing"
-                    className="inline-flex items-center justify-center rounded-lg bg-stone-900 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-stone-800"
+                return (
+                  <li
+                    key={exception.transactionId}
+                    className="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between"
                   >
-                    <CreditCard className="size-4 mr-1" />
-                    Encaisser
-                    <ArrowRight className="size-3 ml-1" />
-                  </Link>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold text-sm text-foreground">
+                          {exception.tenant.firstName} {exception.tenant.lastName}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          · {exception.property.name}
+                        </span>
+                      </div>
+                      <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+                        <span className="font-semibold text-foreground text-sm font-mono">
+                          {partial
+                            ? `${formatCurrency(exception.remaining)} / ${formatCurrency(exception.totalDue)}`
+                            : formatCurrency(exception.remaining)}
+                        </span>
+                        {partial && (
+                          <Badge variant="secondary" className="text-[11px]">
+                            Partiellement payé
+                          </Badge>
+                        )}
+                        <Badge
+                          variant="outline"
+                          className="text-[11px] text-amber-800 bg-amber-100/60 border-amber-300"
+                        >
+                          {exception.daysLate === 0
+                            ? "Échéance aujourd'hui"
+                            : `${exception.daysLate} jour${exception.daysLate > 1 ? "s" : ""} de retard`}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <div className="flex shrink-0 items-center gap-2">
+                      <ReminderButton
+                        transactionId={exception.transactionId}
+                        label="Relancer"
+                      />
+                      <Link
+                        href="/billing"
+                        className={cn(buttonVariants({ size: "sm" }), "bg-stone-900 hover:bg-stone-800 text-white text-xs h-8")}
+                      >
+                        Enregistrer
+                        <ArrowRight className="size-3 ml-1" />
+                      </Link>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 2. Arriérés historiques groupés par bail (Calme & Synthèse) */}
+      {historicalByLease.size > 0 && (
+        <Card className="border-border/60 bg-muted/20 shadow-sm">
+          <CardHeader className="pb-2.5">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
+                <History className="size-4 text-muted-foreground" />
+                Arriérés des mois antérieurs
+              </CardTitle>
+              <span className="text-xs font-semibold text-muted-foreground font-mono">
+                Total : {formatCurrency(
+                  Array.from(historicalByLease.values())
+                    .reduce((sum, h) => sum.plus(h.totalRemaining), new Decimal(0))
+                    .toFixed(2)
+                )}
+              </span>
+            </div>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="divide-y divide-border/40">
+              {Array.from(historicalByLease.entries()).map(([leaseId, data]) => (
+                <div
+                  key={leaseId}
+                  className="py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs"
+                >
+                  <div>
+                    <span className="font-medium text-foreground">
+                      {data.tenant.firstName} {data.tenant.lastName}
+                    </span>
+                    <span className="text-muted-foreground"> — {data.property.name}</span>
+                    <p className="text-muted-foreground mt-0.5">
+                      {data.count} période{data.count > 1 ? "s" : ""} impayée{data.count > 1 ? "s" : ""} (le plus ancien a {data.oldestDaysLate} j de retard)
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-semibold font-mono text-sm text-foreground">
+                      {formatCurrency(data.totalRemaining.toFixed(2))}
+                    </span>
+                    <Link
+                      href="/billing"
+                      className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-7 text-xs")}
+                    >
+                      Régulariser
+                      <ArrowRight className="size-3 ml-1" />
+                    </Link>
+                  </div>
                 </div>
-              </li>
-            );
-          })}
-        </ul>
-      </CardContent>
-    </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
   );
 }

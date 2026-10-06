@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod/v4";
@@ -24,6 +24,7 @@ type RegisterValues = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   /**
    * Kept in state as well as raised as a toast.
@@ -85,7 +86,8 @@ export function RegisterForm() {
       }
 
       toast.success("Compte créé avec succès !");
-      router.push("/dashboard");
+      const qs = searchParams?.toString();
+      router.push(qs ? `/dashboard?${qs}` : "/dashboard");
       router.refresh();
     } catch {
       toast.error("Une erreur est survenue lors de l'inscription");

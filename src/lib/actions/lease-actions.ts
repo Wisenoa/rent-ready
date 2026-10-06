@@ -114,8 +114,10 @@ export async function createLease(formData: FormData): Promise<ActionResult> {
 
     revalidatePath("/properties");
     revalidatePath("/tenants");
+    revalidatePath("/leases");
+    revalidatePath("/dashboard");
     revalidatePath("/billing");
-    return { success: true, data: { id: lease.id } };
+    return { success: true, data: { id: lease.id, propertyId: data.propertyId } };
   } catch (error) {
     console.error("createLease error:", error);
     return { success: false, error: "Impossible de créer le bail." };
