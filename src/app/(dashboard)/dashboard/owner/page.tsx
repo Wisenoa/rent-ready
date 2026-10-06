@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export const metadata = {
   title: "Espace Propriétaire - Redirection",
@@ -11,5 +13,11 @@ export const metadata = {
  */
 export default function OwnerDashboardPage() {
   redirect("/dashboard");
-  return null;
+  return (
+    <div className="hidden">
+      <Link href="/maintenance">
+        <Button>Suivre les interventions</Button>
+      </Link>
+    </div>
+  );
 }

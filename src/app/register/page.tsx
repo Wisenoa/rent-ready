@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { RegisterForm } from "./register-form";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -28,7 +29,9 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <RegisterForm />
+        <Suspense>
+          <RegisterForm />
+        </Suspense>
 
         <p className="text-center text-sm text-muted-foreground">
           Déjà un compte ?{" "}

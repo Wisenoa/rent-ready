@@ -81,6 +81,8 @@ jobs:
       # and is covered by the migrate step's own generate.
       - name: Install
         run: pnpm install --frozen-lockfile --ignore-scripts
+        env:
+        
       - name: Prisma generate
         run: pnpm prisma generate
 

@@ -35,7 +35,7 @@ export function Analytics() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const path = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
+    const path = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
     const referrer = document.referrer;
     const utms = getUtmParams();
 

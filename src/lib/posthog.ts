@@ -11,7 +11,7 @@
  *   NEXT_PUBLIC_POSTHOG_KEY=<your-postHog-project-client-api-key>
  */
 
-import { PostHog } from 'postHog-node';
+import { PostHog } from 'posthog-node';
 
 let _posthog: PostHog | null = null;
 

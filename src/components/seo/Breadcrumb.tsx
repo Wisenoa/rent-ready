@@ -114,7 +114,7 @@ export function autoBreadcrumbs(pathname: string): BreadcrumbItem[] {
 
 export function Breadcrumb({ items, showHomeIcon = true, className = "", pageItemId }: BreadcrumbProps) {
   const pathname = usePathname();
-  const crumbs = items ?? autoBreadcrumbs(pathname);
+  const crumbs = items ?? autoBreadcrumbs(pathname || "");
 
   // Emitted through SchemaMarkup rather than a raw <script>, so a page that also
   // declares a BreadcrumbList cannot ship two. Pages were doing both.
@@ -157,7 +157,7 @@ export function Breadcrumb({ items, showHomeIcon = true, className = "", pageIte
 
 export function BreadcrumbInline({ items, className }: { items?: BreadcrumbItem[]; className?: string }) {
   const pathname = usePathname();
-  const crumbs = items ?? autoBreadcrumbs(pathname);
+  const crumbs = items ?? autoBreadcrumbs(pathname || "");
   return (
     <Breadcrumb
       items={crumbs}
