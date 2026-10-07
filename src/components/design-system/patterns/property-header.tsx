@@ -48,12 +48,12 @@ export function PropertyHeader({
   if (city) attributes.push(city);
 
   return (
-    <header className={cn("space-y-3 border-b border-[#151413]/10 pb-5", className)}>
+    <header className={cn("space-y-3 border-b border-neutral-200/80 pb-5", className)}>
       {/* Fil d'ariane & actions secondaires */}
-      <div className="flex items-center justify-between text-xs text-[#6B6760]">
+      <div className="flex items-center justify-between text-xs text-neutral-500">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-1.5 hover:text-[#151413] transition-colors group font-medium"
+          className="inline-flex items-center gap-1.5 hover:text-neutral-900 transition-colors group font-medium"
         >
           <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
           <span>Tableau de bord</span>
@@ -65,10 +65,10 @@ export function PropertyHeader({
       {/* Titre & Statut */}
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs uppercase tracking-wider text-[#6B6760] font-medium">
+          <p className="text-xs font-medium text-neutral-500">
             {attributes.join(" · ")}
           </p>
-          <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[#151413] tracking-tight font-normal mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight mt-0.5">
             {propertyName}
           </h1>
         </div>

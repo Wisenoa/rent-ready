@@ -29,13 +29,13 @@ export function PageShell({
   return (
     <div
       className={cn(
-        "min-h-full bg-[#F8F6F0] text-[#151413] font-sans selection:bg-[#151413] selection:text-[#F8F6F0]",
+        "min-h-full bg-[#FAFAFA] text-neutral-900 font-sans selection:bg-neutral-900 selection:text-white",
         "-m-6 p-6 sm:p-8 md:p-10",
         className
       )}
       {...props}
     >
-      <div className={cn("mx-auto space-y-8", maxWidthClass)}>
+      <div className={cn("mx-auto space-y-6 sm:space-y-8", maxWidthClass)}>
         {children}
       </div>
     </div>

@@ -107,10 +107,10 @@ export default async function LeaseDetailPage({ params }: Props) {
       {/* 1. NAVIGATION & ACTIONS DU CONTRAT                                */}
       {/* ────────────────────────────────────────────────────────────────── */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between text-xs text-[#6B6760]">
+        <div className="flex items-center justify-between text-xs text-neutral-500">
           <Link
             href="/leases"
-            className="inline-flex items-center gap-1.5 hover:text-[#151413] transition-colors group font-medium"
+            className="inline-flex items-center gap-1.5 hover:text-neutral-900 transition-colors group font-medium"
           >
             <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
             <span>Tous les baux</span>
@@ -122,7 +122,7 @@ export default async function LeaseDetailPage({ params }: Props) {
                 href={lease.documentUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 border border-[#151413]/15 bg-white px-2.5 py-1 text-xs font-medium text-[#151413] hover:bg-[#FAF8F3] transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-50 shadow-sm transition-colors"
               >
                 <Download className="size-3" />
                 <span>Télécharger</span>
@@ -131,7 +131,7 @@ export default async function LeaseDetailPage({ params }: Props) {
             {lease.status === "ACTIVE" && lease.revisionDate && (
               <Link
                 href={`/leases/${lease.id}/revision`}
-                className="inline-flex items-center gap-1.5 border border-[#151413]/15 bg-white px-2.5 py-1 text-xs font-medium text-[#151413] hover:bg-[#FAF8F3] transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-50 shadow-sm transition-colors"
               >
                 <Scale className="size-3" />
                 <span>Réviser IRL</span>
@@ -158,18 +158,14 @@ export default async function LeaseDetailPage({ params }: Props) {
         </div>
 
         {/* Titre & Statut */}
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 border-b border-[#151413]/10 pb-5">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 border-b border-neutral-200/80 pb-5">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold">
-                CONTRAT DE LOCATION
-              </span>
-              <span className="text-[#9E9A90]">·</span>
-              <span className="text-xs text-[#6B6760]">
-                Rattaché à {lease.property.name}
-              </span>
+            <div className="flex items-center gap-2 text-xs text-neutral-500">
+              <span className="font-medium text-neutral-600">Contrat de location</span>
+              <span>·</span>
+              <span>Rattaché à {lease.property.name}</span>
             </div>
-            <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#151413]">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900">
               {lease.tenant.firstName} {lease.tenant.lastName}
             </h1>
           </div>
@@ -185,44 +181,44 @@ export default async function LeaseDetailPage({ params }: Props) {
       {/* ────────────────────────────────────────────────────────────────── */}
       {/* 2. BARRE FINANCIÈRE DE CONDITIONS CONTRACTUELLES                  */}
       {/* ────────────────────────────────────────────────────────────────── */}
-      <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5">
+      <div className="rounded-lg border border-neutral-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
           {/* Loyer HC */}
           <div className="space-y-0.5">
-            <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+            <span className="text-xs font-medium text-neutral-500 block">
               Loyer principal HC
             </span>
             <div className="flex items-baseline gap-1">
               <Money amount={Number(lease.rentAmount)} size="xl" tone="ink" />
-              <span className="text-[11px] text-[#6B6760]">/mois</span>
+              <span className="text-xs text-neutral-400">/mois</span>
             </div>
           </div>
 
           {/* Charges */}
           <div className="space-y-0.5">
-            <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+            <span className="text-xs font-medium text-neutral-500 block">
               Provisions charges
             </span>
             <div className="flex items-baseline gap-1">
               <Money amount={Number(lease.chargesAmount)} size="xl" tone="ink" />
-              <span className="text-[11px] text-[#6B6760]">/mois</span>
+              <span className="text-xs text-neutral-400">/mois</span>
             </div>
           </div>
 
           {/* Total mensuel */}
           <div className="space-y-0.5">
-            <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+            <span className="text-xs font-medium text-neutral-500 block">
               Total mensuel CC
             </span>
             <div className="flex items-baseline gap-1">
               <Money amount={totalMonthly} size="xl" tone="ink" />
-              <span className="text-[11px] text-[#6B6760]">/mois</span>
+              <span className="text-xs text-neutral-400">/mois</span>
             </div>
           </div>
 
           {/* Dépôt de garantie */}
           <div className="space-y-0.5">
-            <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+            <span className="text-xs font-medium text-neutral-500 block">
               Dépôt de garantie
             </span>
             <div className="flex items-baseline gap-1">
@@ -238,12 +234,12 @@ export default async function LeaseDetailPage({ params }: Props) {
       {position.overdueCount > 0 && (
         <AttentionSurface className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex items-start gap-3">
-            <AlertCircle className="size-4 text-[#C2410C] shrink-0 mt-0.5" aria-hidden="true" />
-            <div className="text-xs text-[#151413] space-y-0.5">
-              <span className="font-semibold text-[#C2410C] block">
+            <AlertCircle className="size-4 text-orange-600 shrink-0 mt-0.5" aria-hidden="true" />
+            <div className="text-xs text-neutral-900 space-y-0.5">
+              <span className="font-semibold text-orange-700 block">
                 {formatCurrency(position.overdueAmount)} d&apos;arriérés sur {position.overdueCount} échéance{position.overdueCount > 1 ? "s" : ""}
               </span>
-              <p className="text-[#6B6760]">
+              <p className="text-neutral-600">
                 Le terme le plus ancien accuse {position.oldestOverdueDays} jours de retard.
               </p>
             </div>
@@ -251,7 +247,7 @@ export default async function LeaseDetailPage({ params }: Props) {
 
           <Link
             href="/billing"
-            className="shrink-0 inline-flex items-center gap-1.5 bg-[#C2410C] text-white px-3 py-1.5 text-xs font-medium hover:bg-[#9A3412] transition-colors"
+            className="shrink-0 inline-flex items-center gap-1.5 rounded-md bg-orange-600 text-white px-3 py-1.5 text-xs font-medium hover:bg-orange-700 transition-colors shadow-sm"
           >
             Pointer un règlement
           </Link>
@@ -265,27 +261,27 @@ export default async function LeaseDetailPage({ params }: Props) {
         {/* Colonne gauche (1/3) : Parties & Logement */}
         <div className="space-y-6">
           {/* Fiche Logement */}
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3">
-            <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2.5">
-              <span className="text-xs font-semibold text-[#151413] uppercase tracking-wider">
+          <div className="rounded-lg border border-neutral-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-3">
+            <div className="flex items-center justify-between border-b border-neutral-100 pb-2.5">
+              <span className="text-xs font-semibold text-neutral-900">
                 Bien loué
               </span>
               <Link
                 href={`/properties/${lease.property.id}`}
-                className="text-[11px] text-[#151413] hover:underline font-medium"
+                className="text-xs text-neutral-600 hover:text-neutral-900 hover:underline font-medium"
               >
                 Fiche logement →
               </Link>
             </div>
             <div className="space-y-1 text-xs">
-              <p className="font-medium text-sm text-[#151413]">{lease.property.name}</p>
-              <p className="text-[#6B6760]">
+              <p className="font-medium text-sm text-neutral-900">{lease.property.name}</p>
+              <p className="text-neutral-600">
                 {lease.property.addressLine1}
                 <br />
                 {lease.property.postalCode} {lease.property.city}
               </p>
               {lease.property.surface && (
-                <p className="text-[#6B6760] pt-1">
+                <p className="text-neutral-500 pt-1">
                   Surface : {lease.property.surface} m² {lease.property.type ? `· ${lease.property.type}` : ""}
                 </p>
               )}
@@ -293,26 +289,26 @@ export default async function LeaseDetailPage({ params }: Props) {
           </div>
 
           {/* Fiche Locataire */}
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3">
-            <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2.5">
-              <span className="text-xs font-semibold text-[#151413] uppercase tracking-wider">
+          <div className="rounded-lg border border-neutral-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-3">
+            <div className="flex items-center justify-between border-b border-neutral-100 pb-2.5">
+              <span className="text-xs font-semibold text-neutral-900">
                 Locataire titulaire
               </span>
               <Link
                 href={`/tenants?id=${lease.tenant.id}`}
-                className="text-[11px] text-[#151413] hover:underline font-medium"
+                className="text-xs text-neutral-600 hover:text-neutral-900 hover:underline font-medium"
               >
                 Fiche locataire →
               </Link>
             </div>
             <div className="space-y-2 text-xs">
-              <p className="font-medium text-sm text-[#151413]">
+              <p className="font-medium text-sm text-neutral-900">
                 {lease.tenant.firstName} {lease.tenant.lastName}
               </p>
               {lease.tenant.email && (
                 <a
                   href={`mailto:${lease.tenant.email}`}
-                  className="flex items-center gap-1.5 text-[#6B6760] hover:text-[#151413] transition-colors"
+                  className="flex items-center gap-1.5 text-neutral-600 hover:text-neutral-900 transition-colors"
                 >
                   <Mail className="size-3" />
                   <span>{lease.tenant.email}</span>
@@ -321,10 +317,10 @@ export default async function LeaseDetailPage({ params }: Props) {
               {lease.tenant.phone && (
                 <a
                   href={`tel:${lease.tenant.phone}`}
-                  className="flex items-center gap-1.5 text-[#6B6760] hover:text-[#151413] transition-colors"
+                  className="flex items-center gap-1.5 text-neutral-600 hover:text-neutral-900 transition-colors"
                 >
                   <Phone className="size-3" />
-                  <span className="font-mono">{lease.tenant.phone}</span>
+                  <span className="tabular-nums">{lease.tenant.phone}</span>
                 </a>
               )}
             </div>
@@ -332,19 +328,19 @@ export default async function LeaseDetailPage({ params }: Props) {
 
           {/* Fiche Garant (si présent) */}
           {lease.guarantor && (
-            <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3">
-              <span className="text-xs font-semibold text-[#151413] uppercase tracking-wider block border-b border-[#151413]/10 pb-2.5">
+            <div className="rounded-lg border border-neutral-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-3">
+              <span className="text-xs font-semibold text-neutral-900 block border-b border-neutral-100 pb-2.5">
                 Caution solidaire (Garant)
               </span>
               <div className="space-y-1.5 text-xs">
-                <p className="font-medium text-sm text-[#151413]">
+                <p className="font-medium text-sm text-neutral-900">
                   {lease.guarantor.firstName} {lease.guarantor.lastName}
                 </p>
                 {lease.guarantor.email && (
-                  <p className="text-[#6B6760]">{lease.guarantor.email}</p>
+                  <p className="text-neutral-600">{lease.guarantor.email}</p>
                 )}
                 {lease.guarantor.phone && (
-                  <p className="text-[#6B6760] font-mono">{lease.guarantor.phone}</p>
+                  <p className="text-neutral-600 tabular-nums">{lease.guarantor.phone}</p>
                 )}
               </div>
             </div>
@@ -354,36 +350,36 @@ export default async function LeaseDetailPage({ params }: Props) {
         {/* Colonne droite (2/3) : Clauses contractuelles & Historique */}
         <div className="lg:col-span-2 space-y-6">
           {/* Clauses contractuelles */}
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-4">
-            <h2 className="text-xs font-semibold text-[#151413] uppercase tracking-wider border-b border-[#151413]/10 pb-2.5">
+          <div className="rounded-lg border border-neutral-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-4">
+            <h2 className="text-xs font-semibold text-neutral-900 border-b border-neutral-100 pb-2.5">
               Conditions & Modalités d&apos;exécution
             </h2>
 
             <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-xs">
               <div>
-                <span className="text-[#6B6760] block">Nature du contrat</span>
-                <span className="font-medium text-[#151413]">
+                <span className="text-neutral-500 block">Nature du contrat</span>
+                <span className="font-medium text-neutral-900">
                   {LEASE_TYPE_LABELS[lease.leaseType] ?? lease.leaseType}
                 </span>
               </div>
 
               <div>
-                <span className="text-[#6B6760] block">Moyen de règlement</span>
-                <span className="font-medium text-[#151413]">
+                <span className="text-neutral-500 block">Moyen de règlement</span>
+                <span className="font-medium text-neutral-900">
                   {PAYMENT_METHOD_LABELS[lease.paymentMethod] ?? lease.paymentMethod}
                 </span>
               </div>
 
               <div>
-                <span className="text-[#6B6760] block">Prise d&apos;effet</span>
-                <span className="font-medium text-[#151413]">
+                <span className="text-neutral-500 block">Prise d&apos;effet</span>
+                <span className="font-medium text-neutral-900">
                   {format(new Date(lease.startDate), "d MMMM yyyy", { locale: fr })}
                 </span>
               </div>
 
               <div>
-                <span className="text-[#6B6760] block">Échéance contractuelle</span>
-                <span className="font-medium text-[#151413]">
+                <span className="text-neutral-500 block">Échéance contractuelle</span>
+                <span className="font-medium text-neutral-900">
                   {lease.endDate
                     ? format(new Date(lease.endDate), "d MMMM yyyy", { locale: fr })
                     : "Durée indéterminée (tacite reconduction)"}
@@ -391,14 +387,14 @@ export default async function LeaseDetailPage({ params }: Props) {
               </div>
 
               <div>
-                <span className="text-[#6B6760] block">Jour d&apos;exigibilité</span>
-                <span className="font-medium text-[#151413]">Le {lease.paymentDay} du mois</span>
+                <span className="text-neutral-500 block">Jour d&apos;exigibilité</span>
+                <span className="font-medium text-neutral-900">Le {lease.paymentDay} du mois</span>
               </div>
 
               {lease.irlReferenceQuarter && (
                 <div>
-                  <span className="text-[#6B6760] block">Indice IRL d&apos;origine</span>
-                  <span className="font-medium text-[#151413]">
+                  <span className="text-neutral-500 block">Indice IRL d&apos;origine</span>
+                  <span className="font-medium text-neutral-900">
                     Trimestre {lease.irlReferenceQuarter}
                     {lease.irlReferenceValue ? ` (${lease.irlReferenceValue})` : ""}
                   </span>
@@ -408,34 +404,34 @@ export default async function LeaseDetailPage({ params }: Props) {
           </div>
 
           {/* Historique des paiements & quittances */}
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] overflow-hidden">
-            <div className="border-b border-[#151413]/10 px-5 py-4 flex items-center justify-between">
+          <div className="rounded-lg border border-neutral-200/80 bg-white overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="border-b border-neutral-200/80 px-5 py-4 flex items-center justify-between">
               <div>
-                <h3 className="text-xs font-semibold text-[#151413] uppercase tracking-wider">
+                <h3 className="text-xs font-semibold text-neutral-900">
                   Historique des termes & Quittances
                 </h3>
-                <p className="text-xs text-[#6B6760] mt-0.5">
+                <p className="text-xs text-neutral-500 mt-0.5">
                   {formatCurrency(position.collected)} perçu · {formatCurrency(position.outstanding)} restant
                 </p>
               </div>
             </div>
 
             {lease.transactions.length === 0 ? (
-              <p className="text-xs text-[#6B6760] text-center py-8">
+              <p className="text-xs text-neutral-500 text-center py-8">
                 Aucune échéance enregistrée pour ce bail
               </p>
             ) : (
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-[#151413]/10 bg-[#F2EFE9]/40 text-[11px] uppercase tracking-wider text-[#6B6760]">
-                    <th className="py-2.5 px-4 font-normal">Période</th>
-                    <th className="py-2.5 px-4 font-normal text-right">Montant</th>
-                    <th className="py-2.5 px-4 font-normal">Statut</th>
-                    <th className="py-2.5 px-4 font-normal">Paiement</th>
-                    <th className="py-2.5 px-4 font-normal text-right">Quittance</th>
+                  <tr className="border-b border-neutral-200/80 bg-neutral-50/60 text-xs text-neutral-500 font-medium">
+                    <th className="py-2.5 px-4 font-medium">Période</th>
+                    <th className="py-2.5 px-4 font-medium text-right">Montant</th>
+                    <th className="py-2.5 px-4 font-medium">Statut</th>
+                    <th className="py-2.5 px-4 font-medium">Paiement</th>
+                    <th className="py-2.5 px-4 font-medium text-right">Quittance</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#151413]/10 text-xs">
+                <tbody className="divide-y divide-neutral-100 text-xs">
                   {lease.transactions.map((tx) => {
                     const txStatus = presentTransaction(tx);
                     const tone: StatusTone =
@@ -448,8 +444,8 @@ export default async function LeaseDetailPage({ params }: Props) {
                             : "neutral";
 
                     return (
-                      <tr key={tx.id} className="hover:bg-[#F2EFE9]/50 transition-colors">
-                        <td className="py-2.5 px-4 font-mono text-xs uppercase text-[#151413]">
+                      <tr key={tx.id} className="hover:bg-neutral-50/60 transition-colors">
+                        <td className="py-2.5 px-4 text-xs font-medium text-neutral-800 capitalize">
                           {format(new Date(tx.periodStart), "MMM yyyy", { locale: fr })}
                         </td>
                         <td className="py-2.5 px-4 text-right">
@@ -460,7 +456,7 @@ export default async function LeaseDetailPage({ params }: Props) {
                             {txStatus.label}
                           </StatusBadge>
                         </td>
-                        <td className="py-2.5 px-4 text-[#6B6760] font-mono text-xs">
+                        <td className="py-2.5 px-4 text-neutral-500 text-xs tabular-nums">
                           {tx.paidAt ? format(new Date(tx.paidAt), "dd/MM/yyyy", { locale: fr }) : "—"}
                         </td>
                         <td className="py-2.5 px-4 text-right">
@@ -471,13 +467,13 @@ export default async function LeaseDetailPage({ params }: Props) {
                               href={tx.receiptUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-[11px] text-[#151413] underline hover:text-[#6B6760]"
+                              className="inline-flex items-center gap-1 text-xs text-neutral-700 underline hover:text-neutral-900"
                             >
                               <Download className="size-3" />
                               <span>PDF</span>
                             </a>
                           ) : (
-                            <span className="text-[#9E9A90]">—</span>
+                            <span className="text-neutral-300">—</span>
                           )}
                         </td>
                       </tr>

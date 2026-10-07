@@ -56,13 +56,13 @@ export function RentRow({
     // ─── ÉTAT DÉVELOPPÉ (ATTENTION / EXCEPTION) ───
     const isPartial = status === "PARTIAL";
     const accentBorder = isPartial
-      ? "border-l-[3px] border-l-[#C2410C] bg-[#FFF7ED]/40 border-[#FED7AA]/60"
-      : "border-l-[3px] border-l-[#D97706] bg-[#FEF3C7]/30 border-[#FDE68A]/60";
+      ? "rounded-lg border border-l-4 border-l-orange-500 border-neutral-200 bg-orange-50/40"
+      : "rounded-lg border border-l-4 border-l-amber-500 border-neutral-200 bg-amber-50/40";
 
     return (
       <div
         className={cn(
-          "border p-3.5 sm:p-4 space-y-3 transition-all duration-200",
+          "p-3.5 sm:p-4 space-y-3 transition-all duration-200",
           accentBorder,
           className
         )}
@@ -73,20 +73,20 @@ export function RentRow({
               <StatusDot tone={isPartial ? "attention" : "delayed"} />
               <Link
                 href={`/properties/${propertyId}`}
-                className="font-semibold text-sm text-[#151413] hover:underline truncate"
+                className="font-semibold text-sm text-neutral-900 hover:underline truncate"
               >
                 {propertyName}
               </Link>
               {propertyLocation && (
-                <span className="text-xs text-[#6B6760] hidden sm:inline">
+                <span className="text-xs text-neutral-500 hidden sm:inline">
                   · {propertyLocation}
                 </span>
               )}
             </div>
 
-            <p className="text-xs text-[#6B6760] mt-0.5">
+            <p className="text-xs text-neutral-600 mt-0.5">
               {tenantName ? (
-                <>Locataire : <strong className="font-medium text-[#151413]">{tenantName}</strong></>
+                <>Locataire : <strong className="font-medium text-neutral-900">{tenantName}</strong></>
               ) : (
                 "Aucun locataire"
               )}
@@ -98,11 +98,11 @@ export function RentRow({
 
           {remainingAmount && (
             <div className="text-left sm:text-right shrink-0">
-              <p className="text-xs font-semibold text-[#C2410C]">
+              <p className="text-xs font-semibold text-orange-700">
                 Solde de <Money amount={remainingAmount} size="sm" tone="attention" /> à pointer
               </p>
               {totalRent && (
-                <p className="text-[11px] text-[#6B6760]">
+                <p className="text-[11px] text-neutral-500">
                   (sur <Money amount={totalRent} size="xs" tone="muted" />)
                 </p>
               )}
@@ -111,7 +111,7 @@ export function RentRow({
         </div>
 
         {exceptionNotice && (
-          <p className="text-xs text-[#6B6760] border-t border-[#151413]/10 pt-2 leading-relaxed">
+          <p className="text-xs text-neutral-600 border-t border-neutral-200/80 pt-2 leading-relaxed">
             {exceptionNotice}
           </p>
         )}
@@ -129,7 +129,7 @@ export function RentRow({
   return (
     <div
       className={cn(
-        "py-2.5 px-3 bg-[#FAF8F3] hover:bg-white border border-[#151413]/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 transition-all duration-200",
+        "rounded-lg py-2.5 px-3 bg-white hover:bg-neutral-50/60 border border-neutral-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 transition-all duration-200",
         className
       )}
     >
@@ -138,11 +138,11 @@ export function RentRow({
         <div className="min-w-0">
           <Link
             href={`/properties/${propertyId}`}
-            className="font-medium text-sm text-[#151413] hover:underline truncate block"
+            className="font-medium text-sm text-neutral-900 hover:underline truncate block"
           >
             {propertyName}
           </Link>
-          <p className="text-[11px] text-[#6B6760] truncate">
+          <p className="text-xs text-neutral-500 truncate">
             {tenantName ? `${tenantName} ` : ""}
             {leaseDetail ? `· ${leaseDetail}` : ""}
             {propertyLocation ? ` · ${propertyLocation}` : ""}
@@ -155,12 +155,12 @@ export function RentRow({
           <div className="text-right">
             <Money amount={totalRent} size="sm" tone="ink" />
             {paidDate && (
-              <p className="text-[10px] text-[#166534] font-sans">
+              <p className="text-[11px] text-emerald-700 font-medium">
                 ✓ Réglé {paidDate}
               </p>
             )}
             {dueDate && !paidDate && (
-              <p className="text-[10px] text-[#6B6760] font-sans">
+              <p className="text-[11px] text-neutral-500">
                 Échéance {dueDate}
               </p>
             )}
@@ -170,7 +170,7 @@ export function RentRow({
         {isPaid ? (
           <Link
             href={quittanceUrl}
-            className="inline-flex items-center gap-1 px-2 py-1 text-xs border border-[#166534]/30 bg-[#F0FDF4] text-[#166534] hover:bg-[#DCFCE7] transition-colors"
+            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-md border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100/60 transition-colors font-medium"
           >
             <Check className="size-3" />
             <span>Quittance prête</span>
@@ -178,7 +178,7 @@ export function RentRow({
         ) : isVacant ? (
           <Link
             href={`/leases/new?propertyId=${propertyId}`}
-            className="inline-flex items-center gap-1 px-2 py-1 text-xs border border-[#151413]/20 bg-white hover:bg-[#FAF8F3] text-[#151413] transition-colors font-medium"
+            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-md border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-800 transition-colors font-medium shadow-xs"
           >
             <span>Créer bail</span>
             <ArrowRight className="size-3" />

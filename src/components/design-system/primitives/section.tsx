@@ -24,20 +24,20 @@ export function Section({
   return (
     <section className={cn("space-y-4", className)} {...props}>
       {hasHeader && (
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b border-[#151413]/10 pb-2">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b border-neutral-200/80 pb-3">
           <div>
             {eyebrow && (
-              <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+              <span className="text-xs font-medium text-neutral-500 block">
                 {eyebrow}
               </span>
             )}
             {title && (
-              <h2 className="text-base sm:text-lg font-semibold tracking-tight text-[#151413]">
+              <h2 className="text-base sm:text-lg font-semibold tracking-tight text-neutral-900">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-xs text-[#6B6760] mt-0.5">{description}</p>
+              <p className="text-xs text-neutral-500 mt-0.5">{description}</p>
             )}
           </div>
           {action && <div className="shrink-0 pt-1 sm:pt-0">{action}</div>}
@@ -49,5 +49,5 @@ export function Section({
 }
 
 export function Divider({ className }: { className?: string }) {
-  return <hr className={cn("border-t border-[#151413]/10 my-6", className)} />;
+  return <hr className={cn("border-t border-neutral-200/80 my-6", className)} />;
 }

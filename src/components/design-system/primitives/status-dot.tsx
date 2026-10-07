@@ -15,10 +15,10 @@ export function StatusDot({
   ...props
 }: StatusDotProps) {
   const toneBg = {
-    calm: "bg-[#166534]",
-    attention: "bg-[#C2410C]",
-    delayed: "bg-[#D97706]",
-    neutral: "bg-[#9E9A90]",
+    calm: "bg-emerald-600",
+    attention: "bg-orange-600",
+    delayed: "bg-amber-500",
+    neutral: "bg-neutral-400",
   }[tone];
 
   const sizeClass = size === "sm" ? "size-1.5" : "size-2";

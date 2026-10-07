@@ -1,65 +1,62 @@
 /**
- * RentReady Design System — B+ V2.1 Tokens
+ * RentReady Design System — Tokens Fonctionnels
  *
- * Rôles sémantiques stricts issus des stress-tests d'adversité (Red Team Design) :
- * - Papier & Encre : matérialité architecturale calme, feutrée et contrastée (WCAG AAA/AA).
- * - Calme vs Attention : le calme est silencieux, l'exception est la seule tension.
- * - Typographie tripartite : Editorial (Serif) / Interface (Sans) / Tabulaire (Mono).
+ * Principes :
+ * - Fonctionnel plutôt que moodboard
+ * - Calme par défaut, exception prioritaire
+ * - Typographie sans-serif moderne, chiffres tabulaires
+ * - Radius naturel et contrastes accessibles
  */
 
-export const bplusTokens = {
+export const dsTokens = {
   color: {
-    // Surfaces papier
-    paper: "#F8F6F0",
-    paperSubtle: "#FAF8F3",
-    paperRaised: "#FFFFFF",
+    // Surfaces
+    background: "#FAFAFA",
+    surface: "#FFFFFF",
+    surfaceSubtle: "#F4F4F5",
 
-    // Encres & Typographie
-    ink: "#151413", // Contraste 16.5:1 sur #F8F6F0 (WCAG AAA)
-    inkMuted: "#6B6760", // Contraste 5.2:1 sur #F8F6F0 (WCAG AA)
-    inkFaint: "#9E9A90", // Repères structurels & étiquettes mineures
+    // Textes
+    foreground: "#18181B",
+    muted: "#71717A",
+    subtle: "#A1A1AA",
 
-    // État Calme / Réglé (Botanique)
-    calm: "#166534", // Contraste 6.2:1 sur #F8F6F0 (WCAG AA)
+    // États sémantiques fonctionnels
+    calm: "#15803D",
     calmSubtle: "#F0FDF4",
-    calmBorder: "#BBF7D0",
+    calmBorder: "#DCFCE7",
 
-    // État Attention / Exception active (Terracotta)
-    attention: "#C2410C", // Contraste 4.9:1 sur #F8F6F0 (WCAG AA)
+    attention: "#C2410C",
     attentionSubtle: "#FFF7ED",
     attentionBorder: "#FED7AA",
 
-    // État Retard passif (Ambre)
-    delayed: "#D97706",
-    delayedText: "#78350F", // Contraste 5.8:1 sur #FEF3C7 (WCAG AA)
+    delayed: "#B45309",
+    delayedText: "#78350F",
     delayedSubtle: "#FEF3C7",
     delayedBorder: "#FDE68A",
 
-    // Lignes & Filets structurels
-    border: "#E5E0D8",
-    borderSubtle: "rgba(21, 20, 19, 0.08)",
-    borderStrong: "rgba(21, 20, 19, 0.20)",
+    // Bordures
+    border: "#E4E4E7",
+    borderSubtle: "#F4F4F5",
+    borderStrong: "#D4D4D8",
   },
 
   typography: {
-    // 1. Editorial : mot-symbole, mois, grands repères de page
-    editorial: "font-serif",
-    // 2. Interface : 90 % de la navigation, labels, boutons, formulaires
-    interface: "font-sans",
-    // 3. Tabulaire : montants financiers, centimes, dates d'encaissement
-    tabular: "font-mono tabular-nums",
+    heading: "font-sans font-semibold tracking-tight",
+    body: "font-sans",
+    tabular: "font-sans tabular-nums",
   },
 
   radius: {
     none: "rounded-none",
-    sm: "rounded-sm",
+    sm: "rounded",
     md: "rounded-md",
+    lg: "rounded-lg",
   },
 
   motion: {
-    // Rétraction/déploiement fonctionnel court respectant prefers-reduced-motion
     retract: "transition-all duration-200 ease-out motion-reduce:transition-none",
   },
 } as const;
 
-export type BPlusTokens = typeof bplusTokens;
+export const bplusTokens = dsTokens;
+export type BPlusTokens = typeof dsTokens;

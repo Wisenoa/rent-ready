@@ -41,25 +41,25 @@ export function FormField({
       <div className="flex items-center justify-between gap-2">
         <label
           htmlFor={id}
-          className="text-xs font-medium uppercase tracking-wider text-[#6B6760] flex items-center gap-1"
+          className="text-sm font-medium text-neutral-800 flex items-center gap-1"
         >
           <span>{label}</span>
           {required && (
-            <span className="text-[#C2410C]" title="Requis" aria-hidden="true">
+            <span className="text-red-600" title="Requis" aria-hidden="true">
               *
             </span>
           )}
         </label>
         {badge}
         {optional && !badge && (
-          <span className="text-[11px] text-[#9E9A90] font-normal">Facultatif</span>
+          <span className="text-xs text-neutral-400 font-normal">Facultatif</span>
         )}
       </div>
 
       {children}
 
       {description && !error && (
-        <p id={descId} className="text-xs text-[#6B6760] leading-relaxed">
+        <p id={descId} className="text-xs text-neutral-500 leading-relaxed">
           {description}
         </p>
       )}
@@ -68,9 +68,8 @@ export function FormField({
         <p
           id={errorId}
           role="alert"
-          className="text-xs font-medium text-[#DC2626] flex items-center gap-1.5 pt-0.5"
+          className="text-xs font-medium text-red-600 flex items-center gap-1 pt-0.5"
         >
-          <span aria-hidden="true" className="font-mono">↳</span>
           <span>{error}</span>
         </p>
       )}

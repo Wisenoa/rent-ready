@@ -253,7 +253,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
       statusTone: "attention",
       actionType: "custom",
       actionSlot: (
-        <span className="text-xs text-[#C2410C] font-mono">
+        <span className="text-xs text-orange-700 tabular-nums font-semibold">
           Solde : {formatCurrency(amountRemaining.toFixed(2))}
         </span>
       ),
@@ -286,10 +286,10 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
       {/* ────────────────────────────────────────────────────────────────── */}
       <div className="space-y-3">
         {/* Fil d'ariane & actions secondaires */}
-        <div className="flex items-center justify-between text-xs text-[#6B6760]">
+        <div className="flex items-center justify-between text-xs text-neutral-500">
           <Link
             href="/properties"
-            className="inline-flex items-center gap-1.5 hover:text-[#151413] transition-colors group font-medium"
+            className="inline-flex items-center gap-1.5 hover:text-neutral-900 transition-colors group font-medium"
           >
             <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
             <span>Tous les logements</span>
@@ -300,10 +300,10 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
         </div>
 
         {/* Titre et attributs d'identité */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#151413]/10 pb-5">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-200/80 pb-4">
           <div>
             <div className="flex flex-wrap items-center gap-2.5">
-              <h1 className="font-serif text-2xl sm:text-3xl text-[#151413] tracking-tight font-normal">
+              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
                 {property.name}
               </h1>
               <StatusBadge tone="neutral" size="xs">
@@ -330,8 +330,8 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
               )}
             </div>
 
-            <p className="text-[#6B6760] text-xs sm:text-sm mt-1.5 flex items-center gap-1.5">
-              <MapPin className="size-3.5 shrink-0 text-[#9E9A90]" />
+            <p className="text-neutral-500 text-xs sm:text-sm mt-1.5 flex items-center gap-1.5">
+              <MapPin className="size-3.5 shrink-0 text-neutral-400" />
               <span>
                 {property.addressLine1}
                 {property.addressLine2 ? `, ${property.addressLine2}` : ""}, {property.postalCode} {property.city}
@@ -342,13 +342,13 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
           {/* Loyer mensuel global visible en un coup d'œil */}
           {totalMonthly && (
             <div className="text-left sm:text-right">
-              <p className="text-xs text-[#6B6760] font-medium">Loyer charges comprises</p>
+              <p className="text-xs text-neutral-500 font-medium">Loyer charges comprises</p>
               <div className="flex items-baseline gap-1 sm:justify-end">
                 <Money amount={totalMonthly} size="xl" tone="ink" />
-                <span className="text-xs font-normal text-[#6B6760]">/ mois</span>
+                <span className="text-xs font-normal text-neutral-500">/ mois</span>
               </div>
               {monthlyRent && monthlyCharges && (
-                <p className="text-[11px] text-[#6B6760] mt-0.5">
+                <p className="text-[11px] text-neutral-500 mt-0.5 tabular-nums">
                   Loyer {formatCurrency(monthlyRent.toFixed(2))} + Charges {formatCurrency(monthlyCharges.toFixed(2))}
                 </p>
               )}
@@ -361,28 +361,28 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
       {/* 1.5. MOMENT DE CONFIRMATION / PREMIER BAIL ACTIVÉ                  */}
       {/* ────────────────────────────────────────────────────────────────── */}
       {activated === "1" && activeLease && (
-        <div className="rounded-xl border border-[#151413]/10 bg-[#FAF8F3] p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-[0_1px_2px_rgba(21,20,19,0.04)]">
+        <div className="rounded-lg border border-neutral-200/80 bg-white p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
           <div className="flex items-start gap-3.5">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#151413]/5 text-[#151413] mt-0.5">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700 mt-0.5">
               <CheckCircle2 className="size-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-semibold text-[#151413]">
+                <h2 className="text-base font-semibold text-neutral-900">
                   Votre logement est configuré et prêt à être géré
                 </h2>
                 <StatusBadge tone="calm" size="xs">
                   Prêt
                 </StatusBadge>
               </div>
-              <p className="text-xs sm:text-sm text-[#6B6760] mt-0.5">
+              <p className="text-xs sm:text-sm text-neutral-500 mt-0.5">
                 Le bail avec {tenant?.firstName} {tenant?.lastName} est actif. Le suivi mensuel du loyer, l&apos;encaissement et l&apos;émission des quittances sont désormais automatiques.
               </p>
             </div>
           </div>
           <Link
             href="/dashboard"
-            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "shrink-0 gap-1.5 font-medium border-[#151413]/15 text-[#151413] hover:bg-white")}
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "shrink-0 gap-1.5 font-medium border-neutral-300 text-neutral-700 hover:bg-neutral-50 rounded-md shadow-sm")}
           >
             Voir mon tableau de bord
             <ArrowRight className="size-4" />
@@ -396,24 +396,24 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
       {activeLease ? (
         isPaid ? (
           /* CAS A : Loyer payé - Sérénité & Quittance immédiate */
-          <div className="rounded-xl border border-[#BBF7D0] bg-[#F0FDF4] p-4 sm:p-5 text-[#166534] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_1px_2px_rgba(21,20,19,0.04)]">
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-4 sm:p-5 text-neutral-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
             <div className="flex items-start gap-3.5">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#DCFCE7] text-[#166534] mt-0.5">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 mt-0.5">
                 <CheckCircle2 className="size-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-base font-semibold text-[#166534]">
+                  <h2 className="text-base font-semibold text-neutral-900">
                     Loyer de {monthName} réglé
                   </h2>
                   <StatusBadge tone="calm" size="xs">
                     Payé
                   </StatusBadge>
                 </div>
-                <p className="text-xs sm:text-sm text-[#166534]/90 mt-1">
+                <p className="text-xs sm:text-sm text-neutral-600 mt-1">
                   {formatCurrency(amountReceived.toFixed(2))} perçus
                   {monthlyRent && monthlyCharges && (
-                    <span className="text-[#166534]/80">
+                    <span className="text-neutral-500">
                       {" "}(Loyer {formatCurrency(monthlyRent.toFixed(2))} + Provisions {formatCurrency(monthlyCharges.toFixed(2))})
                     </span>
                   )}
@@ -433,23 +433,23 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
           </div>
         ) : isPartial ? (
           /* CAS B : Paiement partiel - Explication et solde restant */
-          <div className="rounded-xl border border-l-[3px] border-l-[#C2410C] border-[#FED7AA] bg-[#FFF7ED]/60 p-4 sm:p-5 text-[#431407] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_1px_2px_rgba(21,20,19,0.04)]">
+          <div className="rounded-lg border border-l-4 border-l-orange-500 border-orange-200 bg-orange-50/60 p-4 sm:p-5 text-neutral-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
             <div className="flex items-start gap-3.5">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#FFEDD5] text-[#C2410C] mt-0.5">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-700 mt-0.5">
                 <Clock className="size-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-base font-semibold text-[#C2410C]">
+                  <h2 className="text-base font-semibold text-neutral-900">
                     Paiement partiel pour {monthName}
                   </h2>
                   <StatusBadge tone="attention" size="xs">
                     Partiel
                   </StatusBadge>
                 </div>
-                <p className="text-xs sm:text-sm text-[#431407]/90 mt-1">
+                <p className="text-xs sm:text-sm text-neutral-700 mt-1">
                   {formatCurrency(amountReceived.toFixed(2))} reçus sur {totalMonthly ? formatCurrency(totalMonthly.toFixed(2)) : ""} ·{" "}
-                  <strong className="font-semibold text-[#C2410C]">
+                  <strong className="font-semibold text-orange-700">
                     Reste {formatCurrency(amountRemaining.toFixed(2))} à régler
                   </strong>
                 </p>
@@ -468,7 +468,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                     transactionId={currentMonthTx.id}
                     defaultAmount={amountRemaining.toNumber()}
                     label={`Enregistrer le solde (${formatCurrency(amountRemaining.toFixed(2))})`}
-                    className="bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0]"
+                    className="bg-neutral-900 hover:bg-neutral-800 text-white rounded-md shadow-sm"
                   />
                 </>
               )}
@@ -478,24 +478,24 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
           /* CAS C : Loyer en attente ou en retard */
           <div
             className={cn(
-              "rounded-xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_1px_2px_rgba(21,20,19,0.04)]",
+              "rounded-lg border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm",
               isLate
-                ? "border-l-[3px] border-l-[#D97706] border-[#FDE68A] bg-[#FEF3C7]/40 text-[#451A03]"
-                : "border-[#151413]/10 bg-[#FAF8F3] text-[#151413]"
+                ? "border-l-4 border-l-amber-500 border-amber-200 bg-amber-50/50 text-neutral-900"
+                : "border-neutral-200/80 bg-white text-neutral-900"
             )}
           >
             <div className="flex items-start gap-3.5">
               <div
                 className={cn(
                   "flex size-10 shrink-0 items-center justify-center rounded-lg mt-0.5",
-                  isLate ? "bg-[#FEF3C7] text-[#D97706]" : "bg-[#151413]/5 text-[#6B6760]"
+                  isLate ? "bg-amber-100 text-amber-700" : "bg-neutral-100 text-neutral-600"
                 )}
               >
                 {isLate ? <AlertCircle className="size-5" /> : <Clock className="size-5" />}
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-base font-semibold">
+                  <h2 className="text-base font-semibold text-neutral-900">
                     Loyer de {monthName} {isLate ? "en retard" : "en attente"}
                   </h2>
                   {isLate && (
@@ -504,9 +504,9 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                     </StatusBadge>
                   )}
                 </div>
-                <p className="text-xs sm:text-sm mt-1 text-[#6B6760]">
+                <p className="text-xs sm:text-sm mt-1 text-neutral-500">
                   {totalMonthly && (
-                    <strong className="font-semibold text-[#151413]">
+                    <strong className="font-semibold text-neutral-900">
                       {formatCurrency(totalMonthly.toFixed(2))}
                     </strong>
                   )}{" "}
@@ -530,7 +530,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                     transactionId={currentMonthTx.id}
                     defaultAmount={totalMonthly ? totalMonthly.toNumber() : 0}
                     label="Enregistrer le paiement"
-                    className="bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0]"
+                    className="bg-neutral-900 hover:bg-neutral-800 text-white rounded-md shadow-sm"
                   />
                 </>
               )}
@@ -539,16 +539,16 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
         )
       ) : (
         /* CAS D : Logement vacant - Accueillant et orienté action */
-        <div className="rounded-xl border border-[#151413]/10 bg-[#FAF8F3] p-5 sm:p-6 text-[#151413] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="rounded-lg border border-neutral-200/80 bg-white p-5 sm:p-6 text-neutral-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
           <div className="flex items-start gap-4">
-            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#151413]/5 text-[#151413] mt-0.5">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-neutral-700 mt-0.5">
               <Home className="size-5" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-[#151413]">
+              <h2 className="text-base font-semibold text-neutral-900">
                 Ce logement est actuellement vacant
               </h2>
-              <p className="text-xs sm:text-sm text-[#6B6760] mt-1 max-w-xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-neutral-500 mt-1 max-w-xl leading-relaxed">
                 Aucun bail actif n&apos;est enregistré sur ce bien. Créez un contrat de location pour
                 activer le suivi mensuel des paiements et la délivrance des quittances.
               </p>
@@ -557,7 +557,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
           <Link
             href={`/leases/new?propertyId=${property.id}`}
-            className={cn(buttonVariants({ size: "default" }), "shrink-0 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0]")}
+            className={cn(buttonVariants({ size: "default" }), "shrink-0 bg-neutral-900 hover:bg-neutral-800 text-white rounded-md shadow-sm")}
           >
             <Plus className="size-4 mr-2" />
             Créer un bail pour ce bien
@@ -572,21 +572,21 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
         {/* Colonne Principale (2/3) : Historique des loyers & Documents */}
         <div className="lg:col-span-2 space-y-6">
           {/* Suivi des loyers & Quittances */}
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-4">
-            <div className="flex items-center justify-between border-b border-[#151413]/10 pb-3">
+          <div className="rounded-lg border border-neutral-200/80 bg-white p-5 space-y-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="flex items-center justify-between border-b border-neutral-200/80 pb-3">
               <div>
-                <h3 className="font-serif text-lg text-[#151413] font-normal flex items-center gap-2">
-                  <Receipt className="size-4 text-[#6B6760]" />
+                <h3 className="text-sm font-semibold text-neutral-900 flex items-center gap-2">
+                  <Receipt className="size-4 text-neutral-500" />
                   Historique des loyers & quittances
                 </h3>
-                <p className="text-xs text-[#6B6760] mt-0.5">
+                <p className="text-xs text-neutral-500 mt-0.5">
                   Dernières périodes de location pour ce bien
                 </p>
               </div>
 
               <Link
                 href="/billing"
-                className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs hover:bg-[#151413]/5 text-[#6B6760] hover:text-[#151413]")}
+                className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900")}
               >
                 Toute la facturation
                 <ArrowRight className="size-3.5 ml-1" />
@@ -595,7 +595,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
             {/* Liste fluide des loyers */}
             {activeLease && activeLease.transactions.length > 0 ? (
-              <div className="divide-y divide-[#151413]/10 text-xs">
+              <div className="divide-y divide-neutral-200/80 text-xs">
                 {activeLease.transactions.map((tx) => {
                   const txPaid = tx.status === "PAID";
                   const txPartial = tx.status === "PARTIAL";
@@ -608,15 +608,15 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                   return (
                     <div
                       key={tx.id}
-                      className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 hover:bg-white px-2 transition-colors"
+                      className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 hover:bg-neutral-50/60 px-2 rounded-md transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <StatusDot tone={tone} size="sm" />
                         <div>
-                          <p className="font-semibold text-[#151413] text-sm capitalize">
+                          <p className="font-semibold text-neutral-900 text-sm capitalize">
                             {format(new Date(tx.periodStart), "MMMM yyyy", { locale: fr })}
                           </p>
-                          <p className="text-[#6B6760] text-xs mt-0.5">
+                          <p className="text-neutral-500 text-xs mt-0.5">
                             {tx.paidAt
                               ? `Réglé le ${format(new Date(tx.paidAt), "d MMM yyyy", { locale: fr })}`
                               : `Échéance au ${format(new Date(tx.dueDate), "d MMM yyyy", { locale: fr })}`}
@@ -654,18 +654,18 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                 })}
               </div>
             ) : (
-              <div className="py-8 text-center text-xs text-[#6B6760]">
-                <Receipt className="size-7 mx-auto mb-2 text-[#9E9A90]" />
+              <div className="py-8 text-center text-xs text-neutral-500">
+                <Receipt className="size-7 mx-auto mb-2 text-neutral-400" />
                 <p>Aucune transaction enregistrée pour ce logement.</p>
               </div>
             )}
           </div>
 
           {/* Documents du logement via DocumentRegister */}
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3">
-            <div className="border-b border-[#151413]/10 pb-2.5">
-              <h3 className="font-serif text-lg text-[#151413] font-normal flex items-center gap-2">
-                <FileCheck className="size-4 text-[#6B6760]" />
+          <div className="rounded-lg border border-neutral-200/80 bg-white p-5 space-y-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="border-b border-neutral-200/80 pb-2.5">
+              <h3 className="text-sm font-semibold text-neutral-900 flex items-center gap-2">
+                <FileCheck className="size-4 text-neutral-500" />
                 Documents associés
               </h3>
             </div>
@@ -675,22 +675,22 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
           {/* Tickets de maintenance */}
           {property.maintenanceTickets.length > 0 && (
-            <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3">
-              <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2.5">
-                <h3 className="font-serif text-lg text-[#151413] font-normal flex items-center gap-2">
-                  <Wrench className="size-4 text-[#6B6760]" />
+            <div className="rounded-lg border border-neutral-200/80 bg-white p-5 space-y-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+              <div className="flex items-center justify-between border-b border-neutral-200/80 pb-2.5">
+                <h3 className="text-sm font-semibold text-neutral-900 flex items-center gap-2">
+                  <Wrench className="size-4 text-neutral-500" />
                   Demandes d&apos;intervention & Maintenance
                 </h3>
                 <Link
                   href="/maintenance"
-                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs hover:bg-[#151413]/5 text-[#6B6760] hover:text-[#151413]")}
+                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900")}
                 >
                   Toutes les demandes
                   <ArrowRight className="size-3.5 ml-1" />
                 </Link>
               </div>
 
-              <div className="divide-y divide-[#151413]/10 text-xs">
+              <div className="divide-y divide-neutral-200/80 text-xs">
                 {property.maintenanceTickets.map((ticket) => {
                   const cfg = MAINTENANCE_STATUS_CONFIG[ticket.status] ?? MAINTENANCE_STATUS_CONFIG.OPEN;
                   return (
@@ -701,11 +701,11 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                       <div>
                         <Link
                           href={`/maintenance/${ticket.id}`}
-                          className="font-medium text-[#151413] hover:underline"
+                          className="font-medium text-neutral-900 hover:underline"
                         >
                           {ticket.title}
                         </Link>
-                        <p className="text-[#6B6760] text-[11px] mt-0.5">
+                        <p className="text-neutral-500 text-[11px] mt-0.5">
                           Signalé par {ticket.tenant.firstName} {ticket.tenant.lastName} le{" "}
                           {format(new Date(ticket.createdAt), "d MMM yyyy", { locale: fr })}
                         </p>
@@ -725,16 +725,16 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
         {/* Colonne Latérale (1/3) : Fiche Locataire, Bail & Caractéristiques */}
         <div className="space-y-6">
           {/* Locataire Actuel */}
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-4">
-            <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2.5">
-              <h3 className="text-xs uppercase tracking-wider font-semibold text-[#6B6760] flex items-center gap-1.5">
-                <User className="size-3.5 text-[#6B6760]" />
+          <div className="rounded-lg border border-neutral-200/80 bg-white p-5 space-y-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="flex items-center justify-between border-b border-neutral-200/80 pb-2.5">
+              <h3 className="text-xs font-semibold text-neutral-700 flex items-center gap-1.5">
+                <User className="size-3.5 text-neutral-500" />
                 Locataire actuel
               </h3>
               {tenant && (
                 <Link
                   href={`/tenants/${tenant.id}`}
-                  className="text-xs text-[#151413] hover:underline font-medium"
+                  className="text-xs text-neutral-900 hover:underline font-medium"
                 >
                   Fiche locataire →
                 </Link>
@@ -746,23 +746,23 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                 <div>
                   <Link
                     href={`/tenants/${tenant.id}`}
-                    className="text-base font-serif font-normal text-[#151413] hover:underline"
+                    className="text-base font-semibold text-neutral-900 hover:underline"
                   >
                     {tenant.firstName} {tenant.lastName}
                   </Link>
-                  <p className="text-[#6B6760] text-[11px] mt-0.5">
+                  <p className="text-neutral-500 text-[11px] mt-0.5">
                     En place depuis {format(new Date(activeLease!.startDate), "MMMM yyyy", { locale: fr })}
                   </p>
                 </div>
 
                 {/* Coordonnées utiles directement accessibles au clic */}
-                <div className="space-y-2 pt-2 border-t border-[#151413]/10">
+                <div className="space-y-2 pt-2 border-t border-neutral-100">
                   {tenant.email && (
                     <a
                       href={`mailto:${tenant.email}`}
-                      className="flex items-center gap-2 text-[#6B6760] hover:text-[#151413] transition-colors"
+                      className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors"
                     >
-                      <Mail className="size-3.5 shrink-0 text-[#9E9A90]" />
+                      <Mail className="size-3.5 shrink-0 text-neutral-400" />
                       <span className="truncate">{tenant.email}</span>
                     </a>
                   )}
@@ -770,20 +770,20 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                   {tenant.phone && (
                     <a
                       href={`tel:${tenant.phone}`}
-                      className="flex items-center gap-2 text-[#6B6760] hover:text-[#151413] transition-colors font-mono"
+                      className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors tabular-nums"
                     >
-                      <Phone className="size-3.5 shrink-0 text-[#9E9A90]" />
+                      <Phone className="size-3.5 shrink-0 text-neutral-400" />
                       <span>{tenant.phone}</span>
                     </a>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="py-4 text-center text-xs text-[#6B6760] space-y-2">
+              <div className="py-4 text-center text-xs text-neutral-500 space-y-2">
                 <p>Aucun locataire en cours pour ce logement.</p>
                 <Link
                   href={`/leases/new?propertyId=${property.id}`}
-                  className={cn(buttonVariants({ variant: "outline", size: "sm" }), "text-xs w-full border-[#151413]/15 text-[#151413] hover:bg-white")}
+                  className={cn(buttonVariants({ variant: "outline", size: "sm" }), "text-xs w-full border-neutral-300 text-neutral-700 hover:bg-neutral-50 rounded-md")}
                 >
                   Associer un locataire
                 </Link>
@@ -793,15 +793,15 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
           {/* Conditions du Bail Actif */}
           {activeLease && (
-            <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3 text-xs">
-              <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2.5">
-                <h3 className="text-xs uppercase tracking-wider font-semibold text-[#6B6760] flex items-center gap-1.5">
-                  <FileText className="size-3.5 text-[#6B6760]" />
+            <div className="rounded-lg border border-neutral-200/80 bg-white p-5 space-y-3 text-xs shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+              <div className="flex items-center justify-between border-b border-neutral-200/80 pb-2.5">
+                <h3 className="text-xs font-semibold text-neutral-700 flex items-center gap-1.5">
+                  <FileText className="size-3.5 text-neutral-500" />
                   Conditions du bail
                 </h3>
                 <Link
                   href={`/leases/${activeLease.id}`}
-                  className="text-xs text-[#151413] hover:underline font-medium"
+                  className="text-xs text-neutral-900 hover:underline font-medium"
                 >
                   Détails →
                 </Link>
@@ -809,37 +809,37 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[#6B6760]">Type de bail</span>
-                  <span className="font-medium text-[#151413]">
+                  <span className="text-neutral-500">Type de bail</span>
+                  <span className="font-medium text-neutral-900">
                     {LEASE_TYPE_LABELS[activeLease.leaseType] ?? activeLease.leaseType}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-[#6B6760]">Loyer hors charges</span>
+                  <span className="text-neutral-500">Loyer hors charges</span>
                   <Money amount={activeLease.rentAmount} size="xs" tone="ink" className="font-medium" />
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-[#6B6760]">Provisions charges</span>
+                  <span className="text-neutral-500">Provisions charges</span>
                   <Money amount={activeLease.chargesAmount || 0} size="xs" tone="ink" className="font-medium" />
                 </div>
 
-                <div className="flex items-center justify-between border-t border-[#151413]/10 pt-2 font-semibold">
-                  <span className="text-[#151413]">Total mensuel</span>
+                <div className="flex items-center justify-between border-t border-neutral-100 pt-2 font-semibold">
+                  <span className="text-neutral-900">Total mensuel</span>
                   <Money amount={totalMonthly?.toFixed(2) ?? "0"} size="sm" tone="ink" className="font-bold" />
                 </div>
 
                 <div className="flex items-center justify-between pt-1">
-                  <span className="text-[#6B6760]">Paiement exigible</span>
-                  <span className="text-[#151413]">
+                  <span className="text-neutral-500">Paiement exigible</span>
+                  <span className="text-neutral-900">
                     Le {activeLease.paymentDay} du mois
                   </span>
                 </div>
 
                 {activeLease.depositAmount && (
                   <div className="flex items-center justify-between">
-                    <span className="text-[#6B6760]">Dépôt de garantie</span>
+                    <span className="text-neutral-500">Dépôt de garantie</span>
                     <Money amount={activeLease.depositAmount} size="xs" tone="muted" />
                   </div>
                 )}
@@ -848,53 +848,53 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
           )}
 
           {/* Caractéristiques & Références du Logement */}
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3 text-xs">
-            <div className="border-b border-[#151413]/10 pb-2.5">
-              <h3 className="text-xs uppercase tracking-wider font-semibold text-[#6B6760] flex items-center gap-1.5">
-                <Building2 className="size-3.5 text-[#6B6760]" />
+          <div className="rounded-lg border border-neutral-200/80 bg-white p-5 space-y-3 text-xs shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="border-b border-neutral-200/80 pb-2.5">
+              <h3 className="text-xs font-semibold text-neutral-700 flex items-center gap-1.5">
+                <Building2 className="size-3.5 text-neutral-500" />
                 Caractéristiques du bien
               </h3>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[#6B6760]">Type</span>
-                <span className="font-medium text-[#151413]">
+                <span className="text-neutral-500">Type</span>
+                <span className="font-medium text-neutral-900">
                   {PROPERTY_TYPE_LABELS[property.type] ?? property.type}
                 </span>
               </div>
 
               {property.surface && (
                 <div className="flex items-center justify-between">
-                  <span className="text-[#6B6760]">Surface habitable</span>
-                  <span className="font-medium text-[#151413]">{property.surface} m²</span>
+                  <span className="text-neutral-500">Surface habitable</span>
+                  <span className="font-medium text-neutral-900">{property.surface} m²</span>
                 </div>
               )}
 
               {property.rooms && (
                 <div className="flex items-center justify-between">
-                  <span className="text-[#6B6760]">Nombre de pièces</span>
-                  <span className="font-medium text-[#151413]">{property.rooms}</span>
+                  <span className="text-neutral-500">Nombre de pièces</span>
+                  <span className="font-medium text-neutral-900">{property.rooms}</span>
                 </div>
               )}
 
               {property.cadastralRef && (
-                <div className="flex items-center justify-between pt-1 border-t border-[#151413]/5">
-                  <span className="text-[#6B6760]">Réf. cadastrale</span>
-                  <span className="font-mono text-[11px] text-[#151413]">{property.cadastralRef}</span>
+                <div className="flex items-center justify-between pt-1 border-t border-neutral-100">
+                  <span className="text-neutral-500">Réf. cadastrale</span>
+                  <span className="tabular-nums text-[11px] text-neutral-700 font-medium">{property.cadastralRef}</span>
                 </div>
               )}
 
               {property.taxRef && (
                 <div className="flex items-center justify-between">
-                  <span className="text-[#6B6760]">Réf. fiscale</span>
-                  <span className="font-mono text-[11px] text-[#151413]">{property.taxRef}</span>
+                  <span className="text-neutral-500">Réf. fiscale</span>
+                  <span className="tabular-nums text-[11px] text-neutral-700 font-medium">{property.taxRef}</span>
                 </div>
               )}
             </div>
 
             {property.description && (
-              <div className="pt-2 border-t border-[#151413]/10 text-[#6B6760] leading-relaxed text-[11px]">
+              <div className="pt-2 border-t border-neutral-100 text-neutral-500 leading-relaxed text-[11px]">
                 {property.description}
               </div>
             )}

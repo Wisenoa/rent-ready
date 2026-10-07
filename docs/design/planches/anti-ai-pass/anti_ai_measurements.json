@@ -1,0 +1,146 @@
+{
+  "dashboard_after_1440": {
+    "viewport": "1440x900",
+    "bodyHeight": 900,
+    "sampleFontFamilies": [
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\""
+    ],
+    "sampleBgColors": [
+      "oklch(0.975 0.004 90)",
+      "rgba(0, 0, 0, 0)",
+      "rgb(250, 250, 250)",
+      "rgb(255, 255, 255)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "dashboard_after_390": {
+    "viewport": "390x844",
+    "bodyHeight": 897,
+    "sampleFontFamilies": [
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\""
+    ],
+    "sampleBgColors": [
+      "oklch(0.975 0.004 90)",
+      "rgba(0, 0, 0, 0)",
+      "rgb(250, 250, 250)",
+      "rgb(255, 255, 255)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "lease_form_after_1440": {
+    "viewport": "1440x900",
+    "bodyHeight": 956,
+    "sampleFontFamilies": [
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\""
+    ],
+    "sampleBgColors": [
+      "oklch(0.975 0.004 90)",
+      "rgba(0, 0, 0, 0)",
+      "rgb(250, 250, 250)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "lease_form_after_390": {
+    "viewport": "390x844",
+    "bodyHeight": 1382,
+    "sampleFontFamilies": [
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\""
+    ],
+    "sampleBgColors": [
+      "oklch(0.975 0.004 90)",
+      "rgba(0, 0, 0, 0)",
+      "rgb(250, 250, 250)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "billing_after_1440": {
+    "viewport": "1440x900",
+    "bodyHeight": 900,
+    "sampleFontFamilies": [
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\""
+    ],
+    "sampleBgColors": [
+      "oklch(0.975 0.004 90)",
+      "rgba(0, 0, 0, 0)",
+      "rgb(250, 250, 250)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "billing_after_390": {
+    "viewport": "390x844",
+    "bodyHeight": 844,
+    "sampleFontFamilies": [
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\""
+    ],
+    "sampleBgColors": [
+      "oklch(0.975 0.004 90)",
+      "rgba(0, 0, 0, 0)",
+      "rgb(250, 250, 250)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "lease_view_after_1440": {
+    "viewport": "1440x900",
+    "bodyHeight": 900,
+    "sampleFontFamilies": [
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\""
+    ],
+    "sampleBgColors": [
+      "oklch(0.975 0.004 90)",
+      "rgba(0, 0, 0, 0)",
+      "rgb(250, 250, 250)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "lease_view_after_390": {
+    "viewport": "390x844",
+    "bodyHeight": 970,
+    "sampleFontFamilies": [
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\"",
+      "Inter, \"Inter Fallback\""
+    ],
+    "sampleBgColors": [
+      "oklch(0.975 0.004 90)",
+      "rgba(0, 0, 0, 0)",
+      "rgb(250, 250, 250)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  }
+}

@@ -21,13 +21,13 @@ export function AttentionSurface({
 }: AttentionSurfaceProps) {
   const borderAccent =
     level === "primary"
-      ? "border-l-[3px] border-l-[#C2410C] border-[#FED7AA]/70 bg-[#FFF7ED]/50"
-      : "border-l-[3px] border-l-[#D97706] border-[#FDE68A]/70 bg-[#FEF3C7]/40";
+      ? "rounded-lg border border-l-4 border-l-orange-500 border-orange-200 bg-orange-50/60"
+      : "rounded-lg border border-l-4 border-l-amber-500 border-amber-200 bg-amber-50/60";
 
   return (
     <div
       className={cn(
-        "border p-4 sm:p-5 transition-all",
+        "p-4 sm:p-5 transition-all text-neutral-900",
         borderAccent,
         className
       )}

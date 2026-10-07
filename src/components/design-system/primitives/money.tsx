@@ -28,11 +28,11 @@ export function Money({
   const formatted = formatCurrency(amount);
 
   const toneClass = {
-    ink: "text-[#151413]",
-    calm: "text-[#166534]",
-    attention: "text-[#C2410C]",
-    delayed: "text-[#D97706]",
-    muted: "text-[#6B6760]",
+    ink: "text-neutral-900",
+    calm: "text-emerald-700",
+    attention: "text-orange-700",
+    delayed: "text-amber-700",
+    muted: "text-neutral-500",
   }[tone];
 
   const sizeClass = {
@@ -47,12 +47,12 @@ export function Money({
 
   return (
     <span
-      className={cn("font-mono tabular-nums inline-flex items-baseline gap-1", toneClass, sizeClass, className)}
+      className={cn("font-sans tabular-nums inline-flex items-baseline gap-1", toneClass, sizeClass, className)}
       {...props}
     >
       <span>{formatted}</span>
       {perPeriod && (
-        <span className="text-xs font-normal font-sans text-[#6B6760]">
+        <span className="text-xs font-normal text-neutral-500">
           {perPeriod}
         </span>
       )}

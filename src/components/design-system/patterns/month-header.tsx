@@ -27,22 +27,15 @@ export function MonthHeader({
   className,
 }: MonthHeaderProps) {
   return (
-    <header className={cn("space-y-2 border-b border-[#151413]/10 pb-5", className)}>
-      <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#6B6760] font-medium">
-        <Calendar className="size-3.5 text-[#6B6760]" />
-        <span>
-          Mois en cours{stoppedDate ? ` · Arrêté au ${stoppedDate}` : ""}
-        </span>
-      </div>
-
+    <header className={cn("space-y-3 border-b border-neutral-200/80 pb-4 sm:pb-5", className)}>
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl sm:text-4xl text-[#151413] tracking-tight font-normal capitalize">
+          <h1 className="font-sans text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight capitalize">
             <span className="sr-only">Tableau de bord · </span>
             {monthName}
           </h1>
-          <p className="text-xs sm:text-sm text-[#6B6760] mt-1">
-            Tableau de bord opérationnel & suivi des encaissements
+          <p className="text-xs sm:text-sm text-neutral-500 mt-1">
+            Suivi des encaissements et des loyers{stoppedDate ? ` au ${stoppedDate}` : ""}
           </p>
         </div>
 
@@ -54,9 +47,9 @@ export function MonthHeader({
             {typeof propertiesCount === "number" && (
               <Link
                 href="/properties"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-[#FAF8F3] hover:bg-white border border-[#151413]/10 text-[#151413] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white hover:bg-neutral-50 border border-neutral-200 text-neutral-700 transition-colors font-medium shadow-xs"
               >
-                <Building2 className="size-3 text-[#6B6760]" />
+                <Building2 className="size-3.5 text-neutral-500" />
                 <span>Logements ({propertiesCount})</span>
               </Link>
             )}
@@ -64,18 +57,18 @@ export function MonthHeader({
             {typeof activeTenantsCount === "number" && (
               <Link
                 href="/tenants"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-[#FAF8F3] hover:bg-white border border-[#151413]/10 text-[#151413] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white hover:bg-neutral-50 border border-neutral-200 text-neutral-700 transition-colors font-medium shadow-xs"
               >
-                <Users className="size-3 text-[#6B6760]" />
+                <Users className="size-3.5 text-neutral-500" />
                 <span>Locataires ({activeTenantsCount})</span>
               </Link>
             )}
 
             <Link
               href="/billing"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] font-medium transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors shadow-xs"
             >
-              <Receipt className="size-3 text-[#F8F6F0]" />
+              <Receipt className="size-3.5" />
               <span>Quittances & Facturation</span>
             </Link>
           </div>

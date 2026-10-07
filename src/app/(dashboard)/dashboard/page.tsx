@@ -147,22 +147,22 @@ export default async function DashboardPage() {
       {/* ────────────────────────────────────────────────────────────────────── */}
       {!hasProperties ? (
         <div className="space-y-6">
-          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-8 sm:p-10 text-center sm:text-left space-y-6">
+          <div className="rounded-lg border border-neutral-200 bg-white p-8 sm:p-10 text-center sm:text-left space-y-6 shadow-xs">
             <div className="max-w-2xl space-y-3">
               <StatusBadge tone="neutral" size="xs">
                 Démarrage rapide
               </StatusBadge>
-              <h1 className="font-serif text-3xl sm:text-4xl text-[#151413] tracking-tight font-normal">
+              <h1 className="font-sans text-2xl sm:text-3xl text-neutral-900 tracking-tight font-bold">
                 Bienvenue sur RentReady
               </h1>
-              <p className="text-sm sm:text-base text-[#6B6760] leading-relaxed">
+              <p className="text-sm sm:text-base text-neutral-500 leading-relaxed">
                 Votre outil de gestion locative calme et automatisé. Enregistrez votre premier bien
                 pour activer le suivi automatique des loyers, l&apos;encaissement et l&apos;émission des quittances.
               </p>
               <div className="pt-2 flex flex-wrap gap-3 justify-center sm:justify-start">
                 <PropertyForm
                   trigger={
-                    <span className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-sm font-medium transition-colors cursor-pointer">
+                    <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-neutral-900 hover:bg-neutral-800 text-white text-sm font-medium transition-colors cursor-pointer shadow-xs">
                       <Plus className="size-4" />
                       <span>Ajouter mon premier logement</span>
                     </span>
@@ -171,31 +171,31 @@ export default async function DashboardPage() {
               </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-3 border-t border-[#151413]/10 pt-6 text-left">
-              <div className="space-y-1.5 p-3.5 bg-white border border-[#151413]/10">
-                <span className="inline-flex size-6 items-center justify-center bg-[#151413] text-[#F8F6F0] font-mono text-xs font-bold">
+            <div className="grid gap-4 sm:grid-cols-3 border-t border-neutral-200/80 pt-6 text-left">
+              <div className="space-y-1.5 p-3.5 rounded-md bg-neutral-50 border border-neutral-200">
+                <span className="inline-flex size-6 items-center justify-center rounded-full bg-neutral-900 text-white font-sans text-xs font-bold">
                   1
                 </span>
-                <p className="font-semibold text-sm text-[#151413]">Votre logement</p>
-                <p className="text-xs text-[#6B6760]">
+                <p className="font-semibold text-sm text-neutral-900">Votre logement</p>
+                <p className="text-xs text-neutral-500">
                   Adresse, type et nom du bien en quelques clics.
                 </p>
               </div>
-              <div className="space-y-1.5 p-3.5 bg-white border border-[#151413]/10">
-                <span className="inline-flex size-6 items-center justify-center bg-[#151413] text-[#F8F6F0] font-mono text-xs font-bold">
+              <div className="space-y-1.5 p-3.5 rounded-md bg-neutral-50 border border-neutral-200">
+                <span className="inline-flex size-6 items-center justify-center rounded-full bg-neutral-900 text-white font-sans text-xs font-bold">
                   2
                 </span>
-                <p className="font-semibold text-sm text-[#151413]">Votre locataire & bail</p>
-                <p className="text-xs text-[#6B6760]">
+                <p className="font-semibold text-sm text-neutral-900">Votre locataire & bail</p>
+                <p className="text-xs text-neutral-500">
                   Coordonnées et loyer mensuel en 1 écran.
                 </p>
               </div>
-              <div className="space-y-1.5 p-3.5 bg-white border border-[#151413]/10">
-                <span className="inline-flex size-6 items-center justify-center bg-[#151413] text-[#F8F6F0] font-mono text-xs font-bold">
+              <div className="space-y-1.5 p-3.5 rounded-md bg-neutral-50 border border-neutral-200">
+                <span className="inline-flex size-6 items-center justify-center rounded-full bg-neutral-900 text-white font-sans text-xs font-bold">
                   3
                 </span>
-                <p className="font-semibold text-sm text-[#151413]">Sérénité mensuelle</p>
-                <p className="text-xs text-[#6B6760]">
+                <p className="font-semibold text-sm text-neutral-900">Sérénité mensuelle</p>
+                <p className="text-xs text-neutral-500">
                   RentReady suit les encaissements et quittances.
                 </p>
               </div>
@@ -206,23 +206,23 @@ export default async function DashboardPage() {
         <>
           {/* Reprise si le propriétaire a ajouté un bien sans bail actif */}
           {isPartiallyConfigured && (
-            <div className="border border-l-[3px] border-l-[#C2410C] border-[#FED7AA] bg-[#FFF7ED]/50 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="rounded-lg border border-l-4 border-l-orange-500 border-neutral-200 bg-orange-50/50 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <StatusBadge tone="attention" size="xs">
                     Mise en location en cours
                   </StatusBadge>
-                  <span className="text-sm font-semibold text-[#151413]">
+                  <span className="text-sm font-semibold text-neutral-900">
                     {properties[0]?.name}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-[#6B6760]">
+                <p className="text-xs sm:text-sm text-neutral-600">
                   Votre logement est enregistré mais aucun bail n&apos;est encore actif. Créez son premier bail pour activer le suivi des loyers et les quittances.
                 </p>
               </div>
               <Link
                 href={`/leases/new?propertyId=${properties[0]?.id}`}
-                className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-xs font-medium shrink-0 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-medium shrink-0 transition-colors shadow-xs"
               >
                 <FileText className="size-3.5" />
                 <span>Finaliser le bail</span>
@@ -279,42 +279,42 @@ export default async function DashboardPage() {
           {/* 2.5. BANDEAU DE SITUATION IMMÉDIAT                                 */}
           {/* ────────────────────────────────────────────────────────────────── */}
           {allMonthPaid ? (
-            <div className="p-4 border border-[#BBF7D0] bg-[#F0FDF4] text-[#166534] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="rounded-lg p-4 border border-emerald-200 bg-emerald-50/70 text-emerald-950 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="flex items-center gap-2.5">
-                <Check className="size-4 shrink-0" />
+                <Check className="size-4 shrink-0 text-emerald-700" />
                 <div>
-                  <p className="text-xs sm:text-sm font-semibold">
+                  <p className="text-xs sm:text-sm font-semibold text-emerald-900">
                     Tout est à jour pour {monthName}
                   </p>
-                  <p className="text-[11px] sm:text-xs text-[#166534]/80">
+                  <p className="text-[11px] sm:text-xs text-emerald-700">
                     Tous vos loyers attendus ont été perçus et les quittances sont prêtes.
                   </p>
                 </div>
               </div>
               <Link
                 href="/billing"
-                className="inline-flex items-center gap-1 text-xs font-semibold text-[#166534] hover:underline shrink-0"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:underline shrink-0"
               >
                 <span>Voir les quittances</span>
                 <ArrowRight className="size-3" />
               </Link>
             </div>
           ) : pendingRentMonth.gt(0) ? (
-            <div className="p-4 border border-l-[3px] border-l-[#C2410C] border-[#FED7AA] bg-[#FFF7ED]/60 text-[#151413] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="rounded-lg p-4 border border-l-4 border-l-orange-500 border-neutral-200 bg-orange-50/50 text-neutral-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="flex items-center gap-2.5">
                 <StatusDot tone="attention" />
                 <div>
-                  <p className="text-xs sm:text-sm font-semibold text-[#151413]">
+                  <p className="text-xs sm:text-sm font-semibold text-neutral-900">
                     <Money amount={pendingRentMonth} size="sm" tone="attention" /> restant à percevoir pour {monthName}
                   </p>
-                  <p className="text-[11px] sm:text-xs text-[#6B6760]">
+                  <p className="text-[11px] sm:text-xs text-neutral-500">
                     {collectionPercentage}% des loyers du mois ont été perçus.
                   </p>
                 </div>
               </div>
               <Link
                 href="/billing"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-xs font-medium shrink-0 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-medium shrink-0 transition-colors shadow-xs"
               >
                 <span>Pointer les paiements</span>
                 <ArrowRight className="size-3" />
@@ -329,21 +329,21 @@ export default async function DashboardPage() {
 
           {/* Alertes maintenance éventuelles */}
           {openTickets.length > 0 && (
-            <div className="border border-[#151413]/10 bg-[#FAF8F3] p-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs">
+            <div className="rounded-lg border border-neutral-200 bg-white p-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs">
               <div className="flex items-center gap-2.5">
-                <Wrench className="size-4 text-[#6B6760] shrink-0" />
+                <Wrench className="size-4 text-neutral-500 shrink-0" />
                 <div>
-                  <span className="font-semibold text-[#151413]">
+                  <span className="font-semibold text-neutral-900">
                     {openTickets.length} demande{openTickets.length > 1 ? "s" : ""} locataire en cours :
                   </span>{" "}
-                  <span className="text-[#6B6760]">
+                  <span className="text-neutral-500">
                     {openTickets[0].title} ({openTickets[0].property.name})
                   </span>
                 </div>
               </div>
               <Link
                 href="/maintenance"
-                className="inline-flex items-center gap-1 font-medium text-[#151413] hover:underline shrink-0"
+                className="inline-flex items-center gap-1 font-medium text-neutral-900 hover:underline shrink-0"
               >
                 <span>Gérer les demandes</span>
                 <ArrowRight className="size-3" />
@@ -355,7 +355,7 @@ export default async function DashboardPage() {
           {/* 4. VOS LOGEMENTS (Grand Livre par bien)                            */}
           {/* ────────────────────────────────────────────────────────────────── */}
           <Section
-            eyebrow={`Vos Logements (${properties.length})`}
+            title={`Logements (${properties.length})`}
             description={
               hasProperties
                 ? `${paidCount} à jour · ${pendingCount} en attente`
@@ -364,14 +364,14 @@ export default async function DashboardPage() {
             action={
               <Link
                 href="/properties"
-                className="text-xs font-medium text-[#151413] hover:underline inline-flex items-center gap-1"
+                className="text-xs font-medium text-neutral-700 hover:text-neutral-900 inline-flex items-center gap-1"
               >
                 <span>Tous les logements</span>
                 <ArrowRight className="size-3" />
               </Link>
             }
           >
-            <div className="border border-[#151413]/10 divide-y divide-[#151413]/10 bg-[#FAF8F3]">
+            <div className="space-y-2">
               {properties.map((property) => {
                 const activeLease = property.leases[0];
                 const tenant = activeLease?.tenant;
@@ -419,7 +419,7 @@ export default async function DashboardPage() {
                         transactionId={currentMonthTx.id}
                         defaultAmount={remainingAmount ? remainingAmount.toNumber() : 0}
                         label="Enregistrer"
-                        className="bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-xs h-7 px-2.5 rounded-none"
+                        className="bg-neutral-900 hover:bg-neutral-800 text-white text-xs h-7 px-3 rounded-md"
                       />
                     </div>
                   ) : null;

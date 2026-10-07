@@ -35,29 +35,29 @@ export function DocumentRegister({
 }: DocumentRegisterProps) {
   if (documents.length === 0) {
     return (
-      <div className="py-6 px-4 border border-dashed border-[#151413]/20 bg-[#FAF8F3] text-center text-xs text-[#6B6760]">
-        <FileText className="size-5 mx-auto mb-1.5 text-[#9E9A90]" />
+      <div className="py-6 px-4 rounded-lg border border-dashed border-neutral-300 bg-neutral-50/50 text-center text-xs text-neutral-500">
+        <FileText className="size-5 mx-auto mb-1.5 text-neutral-400" />
         <p>{emptyMessage}</p>
       </div>
     );
   }
 
   return (
-    <div className={cn("border border-[#151413]/10 divide-y divide-[#151413]/10 bg-[#FAF8F3]", className)}>
+    <div className={cn("rounded-lg border border-neutral-200/80 divide-y divide-neutral-200/80 bg-white overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.02)]", className)}>
       {documents.map((doc) => (
         <div
           key={doc.id}
-          className="p-3 sm:px-4 sm:py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 hover:bg-white transition-colors"
+          className="p-3 sm:px-4 sm:py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 hover:bg-neutral-50/60 transition-colors"
         >
           {/* Document & Détail */}
           <div className="flex items-start sm:items-center gap-2.5 min-w-0">
-            <FileText className="size-4 text-[#6B6760] shrink-0 mt-0.5 sm:mt-0" />
+            <FileText className="size-4 text-neutral-400 shrink-0 mt-0.5 sm:mt-0" />
             <div className="min-w-0">
-              <p className="font-medium text-xs sm:text-sm text-[#151413] truncate">
+              <p className="font-medium text-xs sm:text-sm text-neutral-900 truncate">
                 {doc.title}
               </p>
               {(doc.subtitle || doc.period) && (
-                <p className="text-[11px] text-[#6B6760] truncate">
+                <p className="text-[11px] text-neutral-500 truncate">
                   {doc.subtitle}
                   {doc.subtitle && doc.period ? " · " : ""}
                   {doc.period}
@@ -67,7 +67,7 @@ export function DocumentRegister({
           </div>
 
           {/* Statut & Action */}
-          <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-[#151413]/5">
+          <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-neutral-100">
             <StatusBadge tone={doc.statusTone ?? "neutral"} size="xs">
               {doc.statusLabel}
             </StatusBadge>
@@ -79,16 +79,16 @@ export function DocumentRegister({
                 href={doc.actionHref}
                 target={doc.actionType === "view" ? "_blank" : undefined}
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-[#151413] hover:underline font-medium"
+                className="inline-flex items-center gap-1 text-xs text-neutral-900 hover:text-neutral-700 font-medium"
               >
                 {doc.actionType === "download" ? (
                   <>
-                    <Download className="size-3 text-[#6B6760]" />
+                    <Download className="size-3 text-neutral-500" />
                     <span>Télécharger</span>
                   </>
                 ) : (
                   <>
-                    <ExternalLink className="size-3 text-[#6B6760]" />
+                    <ExternalLink className="size-3 text-neutral-500" />
                     <span>Consulter</span>
                   </>
                 )}

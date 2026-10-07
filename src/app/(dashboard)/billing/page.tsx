@@ -190,23 +190,14 @@ export default async function BillingPage() {
       />
 
       {/* ────────────────────────────────────────────────────────────────── */}
-      {/* 2. ENTÊTE ÉDITORIAL DU GRAND LIVRE                                 */}
+      {/* 2. ENTÊTE FONCTIONNEL DU GRAND LIVRE                               */}
       {/* ────────────────────────────────────────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-[#151413]/10 pb-6">
-        <div className="space-y-1.5">
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold">
-              COMPTABILITÉ LOCATIVE
-            </span>
-            <span className="text-[#9E9A90]">·</span>
-            <span className="text-xs text-[#6B6760] font-mono capitalize">
-              {monthLabel}
-            </span>
-          </div>
-          <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#151413]">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-neutral-200/80 pb-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900">
             Paiements & Quittances
           </h1>
-          <p className="text-xs sm:text-sm text-[#6B6760] max-w-xl">
+          <p className="text-xs sm:text-sm text-neutral-500 max-w-xl">
             Grand livre des écritures, suivi des règlements et délivrance des attestations libératoires conformes.
           </p>
         </div>
@@ -219,24 +210,24 @@ export default async function BillingPage() {
       {/* ────────────────────────────────────────────────────────────────── */}
       {/* 3. SYNTHÈSE FINANCIÈRE DE TRÉSORERIE                               */}
       {/* ────────────────────────────────────────────────────────────────── */}
-      <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 sm:p-6 space-y-4">
-        <div className="flex items-center justify-between text-xs text-[#6B6760] pb-2 border-b border-[#151413]/10">
-          <span className="font-medium text-[#151413]">
+      <div className="rounded-lg border border-neutral-200/80 bg-white p-5 sm:p-6 space-y-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="flex items-center justify-between text-xs text-neutral-500 pb-2 border-b border-neutral-200/80">
+          <span className="font-medium text-neutral-900">
             Synthèse mensuelle au {format(now, "d MMMM yyyy", { locale: fr })}
           </span>
-          <div className="flex items-center gap-4 text-[11px]">
+          <div className="flex items-center gap-4 text-[11px] tabular-nums">
             <span>
-              <strong className="text-[#151413] font-mono">{activeLeases.length}</strong> baux actifs
+              <strong className="text-neutral-900">{activeLeases.length}</strong> baux actifs
             </span>
             <span>·</span>
             <span>
-              <strong className="text-[#166534] font-mono">{quittanceCount}</strong> quittances
+              <strong className="text-emerald-700">{quittanceCount}</strong> quittances
             </span>
             {recuCount > 0 && (
               <>
                 <span>·</span>
                 <span>
-                  <strong className="text-[#C2410C] font-mono">{recuCount}</strong> reçus
+                  <strong className="text-orange-700">{recuCount}</strong> reçus
                 </span>
               </>
             )}
@@ -252,21 +243,21 @@ export default async function BillingPage() {
       </div>
 
       {/* ────────────────────────────────────────────────────────────────── */}
-      {/* 4. REGISTRE ARCHITECTURAL DES ÉCRITURES FINANCIÈRES                */}
+      {/* 4. REGISTRE DES ÉCRITURES FINANCIÈRES                              */}
       {/* ────────────────────────────────────────────────────────────────── */}
       {hasTransactions ? (
-        <div className="border border-[#151413]/10 bg-[#FAF8F3] overflow-hidden">
+        <div className="rounded-lg border border-neutral-200/80 bg-white overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
           {/* En-tête du registre */}
-          <div className="border-b border-[#151413]/10 px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div className="border-b border-neutral-200/80 px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
-              <h2 className="text-sm font-semibold tracking-tight text-[#151413]">
+              <h2 className="text-sm font-semibold tracking-tight text-neutral-900">
                 Journal chronologique des loyers
               </h2>
-              <p className="text-xs text-[#6B6760] mt-0.5">
+              <p className="text-xs text-neutral-500 mt-0.5">
                 {transactions.length} écriture{transactions.length > 1 ? "s" : ""} comptable{transactions.length > 1 ? "s" : ""}
               </p>
             </div>
-            <div className="flex items-center gap-3 text-xs text-[#6B6760]">
+            <div className="flex items-center gap-3 text-xs text-neutral-500">
               <span className="inline-flex items-center gap-1.5">
                 <StatusDot tone="calm" />
                 <span>Réglé</span>
@@ -286,7 +277,7 @@ export default async function BillingPage() {
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-[#151413]/10 bg-[#F2EFE9]/40 text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold">
+                <tr className="border-b border-neutral-200/80 bg-neutral-50/70 text-[11px] font-semibold text-neutral-600">
                   <th className="py-2.5 px-4 font-normal">Période</th>
                   <th className="py-2.5 px-4 font-normal">Locataire & Logement</th>
                   <th className="py-2.5 px-4 font-normal text-right">Montant</th>
@@ -296,7 +287,7 @@ export default async function BillingPage() {
                   <th className="py-2.5 px-4 font-normal text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#151413]/10 text-xs">
+              <tbody className="divide-y divide-neutral-200/80 text-xs">
                 {transactions.map((tx) => {
                   const status = presentTransaction(tx);
                   const lateBy = periodDaysLate(tx.dueDate);
@@ -316,19 +307,19 @@ export default async function BillingPage() {
                   return (
                     <tr
                       key={tx.id}
-                      className="hover:bg-[#F2EFE9]/50 transition-colors"
+                      className="hover:bg-neutral-50/60 transition-colors"
                     >
                       {/* 1. Période */}
-                      <td className="py-3 px-4 font-mono text-xs uppercase tracking-wider text-[#151413] whitespace-nowrap">
+                      <td className="py-3 px-4 tabular-nums text-xs font-semibold text-neutral-900 whitespace-nowrap capitalize">
                         {format(tx.periodStart, "MMM yyyy", { locale: fr })}
                       </td>
 
                       {/* 2. Locataire & Logement */}
                       <td className="py-3 px-4">
-                        <div className="font-medium text-[#151413]">
+                        <div className="font-medium text-neutral-900">
                           {tx.lease.tenant?.firstName ?? ""} {tx.lease.tenant?.lastName ?? ""}
                         </div>
-                        <div className="text-[11px] text-[#6B6760] truncate max-w-xs">
+                        <div className="text-[11px] text-neutral-500 truncate max-w-xs">
                           {tx.lease.property?.name ?? ""}
                         </div>
                       </td>
@@ -338,7 +329,7 @@ export default async function BillingPage() {
                         {isPartial ? (
                           <div>
                             <Money amount={tx.amount} tone="attention" size="sm" />
-                            <span className="block text-[11px] text-[#6B6760] font-mono">
+                            <span className="block text-[11px] text-neutral-500 tabular-nums">
                               sur {formatCurrency(periodTotal.toFixed(2))}
                             </span>
                           </div>
@@ -357,7 +348,7 @@ export default async function BillingPage() {
                           {status.label}
                         </StatusBadge>
                         {lateBy > 0 && status.label === "En retard" && (
-                          <span className="block text-[10px] font-mono text-[#C2410C] mt-0.5">
+                          <span className="block text-[10px] tabular-nums text-orange-700 mt-0.5">
                             +{lateBy} j de retard
                           </span>
                         )}
@@ -370,14 +361,14 @@ export default async function BillingPage() {
                             {receipt.label}
                           </StatusBadge>
                         ) : (
-                          <span className="text-[#9E9A90]">—</span>
+                          <span className="text-neutral-400">—</span>
                         )}
                         {tx.receiptUrl && (
                           <a
                             href={tx.receiptUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[11px] text-[#151413] underline ml-2 hover:text-[#6B6760]"
+                            className="inline-flex items-center gap-1 text-[11px] text-neutral-900 underline ml-2 hover:text-neutral-700"
                           >
                             <Download className="size-3" />
                             <span>Télécharger</span>
@@ -386,7 +377,7 @@ export default async function BillingPage() {
                       </td>
 
                       {/* 6. Date règlement */}
-                      <td className="py-3 px-4 whitespace-nowrap text-[#6B6760] font-mono text-xs">
+                      <td className="py-3 px-4 whitespace-nowrap text-neutral-600 tabular-nums text-xs">
                         {tx.paidAt ? format(tx.paidAt, "dd/MM/yyyy", { locale: fr }) : "—"}
                       </td>
 
@@ -419,7 +410,7 @@ export default async function BillingPage() {
           </div>
 
           {/* Liste Mobile (< 768px) adaptée haute densité sans Card Soup */}
-          <div className="md:hidden divide-y divide-[#151413]/10">
+          <div className="md:hidden divide-y divide-neutral-200/80">
             {transactions.map((tx) => {
               const status = presentTransaction(tx);
               const lateBy = periodDaysLate(tx.dueDate);
@@ -437,11 +428,11 @@ export default async function BillingPage() {
               const periodTotal = new Decimal(tx.amount).plus(alreadyPaid);
 
               return (
-                <div key={tx.id} className="p-4 space-y-2.5 bg-[#FAF8F3]">
+                <div key={tx.id} className="p-4 space-y-2.5 bg-white">
                   {/* Ligne 1 : Période, Statut & Montant */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-semibold uppercase text-[#151413]">
+                      <span className="tabular-nums text-xs font-semibold text-neutral-900 capitalize">
                         {format(tx.periodStart, "MMM yyyy", { locale: fr })}
                       </span>
                       <StatusBadge tone={tone} showDot size="xs">
@@ -453,7 +444,7 @@ export default async function BillingPage() {
                       {isPartial ? (
                         <div>
                           <Money amount={tx.amount} tone="attention" size="sm" />
-                          <span className="block text-[10px] text-[#6B6760] font-mono">
+                          <span className="block text-[10px] text-neutral-500 tabular-nums">
                             sur {formatCurrency(periodTotal.toFixed(2))}
                           </span>
                         </div>
@@ -468,44 +459,44 @@ export default async function BillingPage() {
                   </div>
 
                   {/* Ligne 2 : Locataire & Logement */}
-                  <div className="flex items-baseline justify-between text-xs text-[#6B6760] gap-2">
-                    <span className="font-medium text-[#151413] truncate">
+                  <div className="flex items-baseline justify-between text-xs text-neutral-500 gap-2">
+                    <span className="font-medium text-neutral-900 truncate">
                       {tx.lease.tenant?.firstName ?? ""} {tx.lease.tenant?.lastName ?? ""}
                     </span>
-                    <span className="text-[11px] truncate text-[#6B6760]">
+                    <span className="text-[11px] truncate text-neutral-500">
                       {tx.lease.property?.name ?? ""}
                     </span>
                   </div>
 
                   {/* Ligne 3 : Pièce émise & Date règlement */}
-                  <div className="flex items-center justify-between text-xs pt-1 border-t border-[#151413]/5 text-[#6B6760]">
+                  <div className="flex items-center justify-between text-xs pt-1 border-t border-neutral-100 text-neutral-500">
                     <div className="flex items-center gap-2">
                       {receipt ? (
                         <StatusBadge tone={receipt.tone} size="xs">
                           {receipt.label}
                         </StatusBadge>
                       ) : (
-                        <span className="text-[11px] text-[#9E9A90]">Sans reçu</span>
+                        <span className="text-[11px] text-neutral-400">Sans reçu</span>
                       )}
                       {tx.receiptUrl && (
                         <a
                           href={tx.receiptUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] text-[#151413] underline hover:text-[#6B6760]"
+                          className="inline-flex items-center gap-1 text-[11px] text-neutral-900 underline hover:text-neutral-700"
                         >
                           <Download className="size-3" />
                           <span>Télécharger</span>
                         </a>
                       )}
                       {lateBy > 0 && status.label === "En retard" && (
-                        <span className="text-[11px] font-mono text-[#C2410C]">
+                        <span className="text-[11px] tabular-nums text-orange-700 font-medium">
                           +{lateBy} j
                         </span>
                       )}
                     </div>
 
-                    <span className="font-mono text-[11px]">
+                    <span className="tabular-nums text-[11px] text-neutral-600">
                       {tx.paidAt ? format(tx.paidAt, "dd/MM/yyyy", { locale: fr }) : "Non réglé"}
                     </span>
                   </div>
@@ -536,16 +527,16 @@ export default async function BillingPage() {
           </div>
         </div>
       ) : (
-        /* Empty State architectural B+ V2.1 */
-        <div className="border border-[#151413]/10 bg-[#FAF8F3] p-10 text-center space-y-4">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-none border border-[#151413]/15 bg-white text-[#151413]">
+        /* Empty State */
+        <div className="rounded-lg border border-neutral-200/80 bg-white p-10 text-center space-y-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-50 text-neutral-800">
             <Receipt className="size-5" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-serif text-xl text-[#151413]">
+            <h3 className="text-lg font-semibold text-neutral-900">
               Aucune écriture enregistrée
             </h3>
-            <p className="text-xs text-[#6B6760] max-w-sm mx-auto">
+            <p className="text-xs text-neutral-500 max-w-sm mx-auto">
               Les loyers dus sont automatiquement générés chaque mois selon les dates d&apos;échéance de vos baux actifs.
             </p>
           </div>

@@ -38,39 +38,39 @@ export default async function NewLeasePage({ searchParams }: NewLeasePageProps) 
   if (properties.length === 0) {
     return (
       <PageShell maxWidth="default" className="space-y-6 pb-16">
-        <div className="flex items-center gap-4 text-xs text-[#6B6760]">
+        <div className="flex items-center gap-4 text-xs text-neutral-500">
           <Link
             href="/leases"
-            className="inline-flex items-center gap-1.5 hover:text-[#151413] transition-colors group font-medium"
+            className="inline-flex items-center gap-1.5 hover:text-neutral-900 transition-colors group font-medium"
           >
             <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
             <span>Retour aux baux</span>
           </Link>
         </div>
 
-        <div className="border border-[#151413]/10 bg-[#FAF8F3] p-10 text-center space-y-4 max-w-xl mx-auto">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center border border-[#151413]/15 bg-white text-[#151413]">
+        <div className="rounded-lg border border-neutral-200/80 bg-white p-8 text-center space-y-4 max-w-xl mx-auto shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-50 text-neutral-800">
             <Building2 className="size-5" />
           </div>
           <div className="space-y-1.5">
-            <h2 className="font-serif text-2xl text-[#151413]">
+            <h2 className="text-lg font-semibold text-neutral-900">
               Aucun bien immobilier enregistré
             </h2>
-            <p className="text-xs text-[#6B6760] leading-relaxed max-w-md mx-auto">
+            <p className="text-xs text-neutral-500 leading-relaxed max-w-md mx-auto">
               Pour créer un bail, vous devez d&apos;abord ajouter un logement. Le bail sera ensuite rattaché à ce bien pour suivre les loyers et les quittances.
             </p>
           </div>
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/properties"
-              className="inline-flex items-center justify-center gap-1.5 bg-[#151413] text-[#F8F6F0] hover:bg-[#151413]/90 text-xs font-medium px-4 py-2 transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 bg-neutral-900 text-white hover:bg-neutral-800 text-xs font-medium px-4 py-2 rounded-md shadow-sm transition-colors"
             >
               <Plus className="size-3.5" />
               Ajouter un bien
             </Link>
             <Link
               href="/leases"
-              className="inline-flex items-center justify-center text-xs font-medium border border-[#151413]/15 bg-white text-[#151413] hover:bg-[#FAF8F3] px-4 py-2 transition-colors"
+              className="inline-flex items-center justify-center text-xs font-medium border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 px-4 py-2 rounded-md transition-colors"
             >
               Retour aux baux
             </Link>
@@ -99,25 +99,22 @@ export default async function NewLeasePage({ searchParams }: NewLeasePageProps) 
   return (
     <PageShell maxWidth="default" className="space-y-6 pb-16">
       {/* Navigation de retour */}
-      <div className="flex items-center justify-between text-xs text-[#6B6760]">
+      <div className="flex items-center justify-between text-xs text-neutral-500">
         <Link
           href={validatedPropertyId ? `/properties/${validatedPropertyId}` : "/leases"}
-          className="inline-flex items-center gap-1.5 hover:text-[#151413] transition-colors group font-medium"
+          className="inline-flex items-center gap-1.5 hover:text-neutral-900 transition-colors group font-medium"
         >
           <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
           <span>{validatedPropertyId ? "Retour au logement" : "Retour aux baux"}</span>
         </Link>
       </div>
 
-      {/* Entête éditorial de la page */}
-      <div className="space-y-1.5 border-b border-[#151413]/10 pb-5">
-        <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold">
-          NOUVEAU CONTRAT
-        </span>
-        <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#151413]">
+      {/* Entête fonctionnel et compact de la page */}
+      <div className="space-y-1 border-b border-neutral-200/80 pb-4">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900">
           Établir un bail de location
         </h1>
-        <p className="text-xs sm:text-sm text-[#6B6760] max-w-xl">
+        <p className="text-xs sm:text-sm text-neutral-500 max-w-xl">
           Renseignez les conditions de la location. Les montants et dates serviront à générer les échéances et les quittances conformes.
         </p>
       </div>

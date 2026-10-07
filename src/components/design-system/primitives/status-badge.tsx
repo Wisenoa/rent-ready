@@ -24,10 +24,10 @@ export function StatusBadge({
   ...props
 }: StatusBadgeProps) {
   const toneClasses = {
-    calm: "bg-[#F0FDF4] text-[#166534] border-[#BBF7D0]",
-    attention: "bg-[#FFF7ED] text-[#C2410C] border-[#FED7AA]",
-    delayed: "bg-[#FEF3C7] text-[#78350F] border-[#FDE68A]",
-    neutral: "bg-[#FAF8F3] text-[#6B6760] border-[#E5E0D8]",
+    calm: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    attention: "bg-orange-50 text-orange-800 border-orange-200",
+    delayed: "bg-amber-50 text-amber-900 border-amber-200",
+    neutral: "bg-neutral-100 text-neutral-700 border-neutral-200",
   }[tone];
 
   const sizeClass = {
@@ -39,7 +39,7 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 border font-sans font-medium rounded-none",
+        "inline-flex items-center gap-1.5 border font-sans font-medium rounded-md",
         toneClasses,
         sizeClass,
         className

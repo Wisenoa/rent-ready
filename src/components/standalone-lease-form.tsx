@@ -214,21 +214,18 @@ export function StandaloneLeaseForm({
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Conteneur architectural B+ continu */}
-        <div className="border border-[#151413]/10 bg-[#FAF8F3] divide-y divide-[#151413]/10">
+        {/* Conteneur de formulaire propre et moderne */}
+        <div className="rounded-lg border border-neutral-200/80 bg-white divide-y divide-neutral-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
           {/* ──────────────────────────────────────────────────────────────── */}
           {/* SECTION 1: Cadre juridique et parties contractantes              */}
           {/* ──────────────────────────────────────────────────────────────── */}
           <div className="p-5 sm:p-6 space-y-5">
             <div className="space-y-0.5">
-              <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+              <h2 className="text-sm font-semibold text-neutral-900">
                 1. Cadre de la location
-              </span>
-              <h2 className="text-sm font-semibold text-[#151413]">
-                Désignation du bien & Locataire titulaire
               </h2>
-              <p className="text-xs text-[#6B6760]">
-                Sélectionnez le bien loué et le locataire titulaire du bail.
+              <p className="text-xs text-neutral-500">
+                Désignation du bien, locataire titulaire et type de contrat.
               </p>
             </div>
 
@@ -246,7 +243,7 @@ export function StandaloneLeaseForm({
                 error={errors.propertyId?.message}
                 badge={
                   initialPropertyId && selectedPropertyId === initialPropertyId ? (
-                    <span className="text-[10px] text-[#166534] bg-[#F0FDF4] px-1.5 py-0.5 border border-[#166534]/20">
+                    <span className="text-[11px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 border border-emerald-200 rounded font-medium">
                       Pré-sélectionné
                     </span>
                   ) : undefined
@@ -261,7 +258,7 @@ export function StandaloneLeaseForm({
                   }
                   items={propertyLabelById}
                 >
-                  <SelectTrigger id="propertyId" className="w-full bg-white border-[#151413]/15">
+                  <SelectTrigger id="propertyId" className="w-full bg-white border-neutral-300 rounded-md">
                     <SelectValue placeholder="Sélectionner un bien" />
                   </SelectTrigger>
                   <SelectContent>
@@ -294,7 +291,7 @@ export function StandaloneLeaseForm({
                   <button
                     type="button"
                     onClick={() => setIsTenantModalOpen(true)}
-                    className="inline-flex items-center gap-1 text-[11px] font-medium text-[#151413] hover:underline"
+                    className="inline-flex items-center gap-1 text-[11px] font-medium text-neutral-700 hover:text-neutral-900 hover:underline"
                   >
                     <Plus className="size-3" />
                     <span>Nouveau locataire</span>
@@ -310,7 +307,7 @@ export function StandaloneLeaseForm({
                   }
                   items={tenantLabelById}
                 >
-                  <SelectTrigger id="tenantId" className="w-full bg-white border-[#151413]/15">
+                  <SelectTrigger id="tenantId" className="w-full bg-white border-neutral-300 rounded-md">
                     <SelectValue placeholder="Sélectionner un locataire" />
                   </SelectTrigger>
                   <SelectContent>
@@ -351,7 +348,7 @@ export function StandaloneLeaseForm({
                   }
                   items={leaseTypeLabelByValue}
                 >
-                  <SelectTrigger id="leaseType" className="w-full bg-white border-[#151413]/15">
+                  <SelectTrigger id="leaseType" className="w-full bg-white border-neutral-300 rounded-md">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -375,7 +372,7 @@ export function StandaloneLeaseForm({
                 <Input
                   id="startDate"
                   type="date"
-                  className="w-full bg-white border-[#151413]/15 text-[#151413]"
+                  className="w-full bg-white border-neutral-300 text-neutral-900 rounded-md"
                   {...register("startDate")}
                 />
               </FormField>
@@ -391,7 +388,7 @@ export function StandaloneLeaseForm({
                 <Input
                   id="endDate"
                   type="date"
-                  className="w-full bg-white border-[#151413]/15 text-[#151413]"
+                  className="w-full bg-white border-neutral-300 text-neutral-900 rounded-md"
                   {...register("endDate")}
                 />
               </FormField>
@@ -403,14 +400,11 @@ export function StandaloneLeaseForm({
           {/* ──────────────────────────────────────────────────────────────── */}
           <div className="p-5 sm:p-6 space-y-5">
             <div className="space-y-0.5">
-              <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+              <h2 className="text-sm font-semibold text-neutral-900">
                 2. Conditions financières
-              </span>
-              <h2 className="text-sm font-semibold text-[#151413]">
-                Loyer mensuel & Provisions sur charges
               </h2>
-              <p className="text-xs text-[#6B6760]">
-                Fixez le montant du loyer principal hors charges et les provisions pour charges locatives.
+              <p className="text-xs text-neutral-500">
+                Loyer mensuel, provisions pour charges et dépôt de garantie.
               </p>
             </div>
 
@@ -429,7 +423,7 @@ export function StandaloneLeaseForm({
                   step="0.01"
                   min="0"
                   placeholder="Ex : 850,00"
-                  className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                  className="w-full bg-white border-neutral-300 tabular-nums text-sm rounded-md"
                   {...register("rentAmount")}
                 />
               </FormField>
@@ -448,24 +442,24 @@ export function StandaloneLeaseForm({
                   step="0.01"
                   min="0"
                   placeholder="Ex : 50,00"
-                  className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                  className="w-full bg-white border-neutral-300 tabular-nums text-sm rounded-md"
                   {...register("chargesAmount")}
                 />
               </FormField>
             </div>
 
             {/* Récapitulatif total dynamique */}
-            <div className="border border-[#151413]/10 bg-white p-4 space-y-2">
+            <div className="rounded-lg border border-neutral-200/80 bg-neutral-50 p-4 space-y-2">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <span className="text-xs uppercase tracking-wider text-[#6B6760] font-medium">
+                <span className="text-xs font-medium text-neutral-700">
                   Total mensuel exigible :
                 </span>
                 <div className="flex items-baseline gap-1">
                   <Money amount={totalRentDecimal} size="xl" tone="ink" />
-                  <span className="text-xs text-[#6B6760]">/ mois</span>
+                  <span className="text-xs text-neutral-500">/ mois</span>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center justify-between text-xs text-[#6B6760] pt-2 border-t border-[#151413]/10 gap-1 font-mono">
+              <div className="flex flex-wrap items-center justify-between text-xs text-neutral-500 pt-2 border-t border-neutral-200/80 gap-1 tabular-nums">
                 <span>Loyer HC : {formatCurrency(safeRent)}</span>
                 <span>+ Provisions charges : {formatCurrency(safeCharges)}</span>
               </div>
@@ -484,7 +478,7 @@ export function StandaloneLeaseForm({
                       <button
                         type="button"
                         onClick={() => setValue("depositAmount", legalStandardDeposit, { shouldValidate: true })}
-                        className="text-[#151413] underline font-medium hover:text-[#6B6760] block"
+                        className="text-neutral-900 underline font-medium hover:text-neutral-700 block"
                       >
                         Appliquer le plafond légal ({formatCurrency(legalStandardDeposit)})
                       </button>
@@ -500,7 +494,7 @@ export function StandaloneLeaseForm({
                   step="0.01"
                   min="0"
                   placeholder="0,00"
-                  className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                  className="w-full bg-white border-neutral-300 tabular-nums text-sm rounded-md"
                   {...register("depositAmount")}
                 />
               </FormField>
@@ -517,7 +511,7 @@ export function StandaloneLeaseForm({
                   type="number"
                   min="1"
                   max="31"
-                  className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                  className="w-full bg-white border-neutral-300 tabular-nums text-sm rounded-md"
                   {...register("paymentDay")}
                 />
               </FormField>
@@ -537,7 +531,7 @@ export function StandaloneLeaseForm({
                   }
                   items={paymentMethodLabelByValue}
                 >
-                  <SelectTrigger id="paymentMethod" className="w-full bg-white border-[#151413]/15">
+                  <SelectTrigger id="paymentMethod" className="w-full bg-white border-neutral-300 rounded-md">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -560,27 +554,24 @@ export function StandaloneLeaseForm({
               <button
                 type="button"
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="w-full flex items-center justify-between p-5 text-left hover:bg-[#F2EFE9]/40 transition-colors"
+                className="w-full flex items-center justify-between p-5 text-left hover:bg-neutral-50/60 transition-colors"
               >
                 <div className="space-y-0.5">
-                  <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+                  <span className="text-sm font-semibold text-neutral-900 block">
                     3. Modalités complémentaires & Révision IRL
                   </span>
-                  <span className="text-sm font-semibold text-[#151413] block">
-                    Indexation annuelle du loyer (Indice de Référence des Loyers)
-                  </span>
-                  <span className="text-xs text-[#6B6760] block font-mono">
-                    Revalorisation légale à la date anniversaire
+                  <span className="text-xs text-neutral-500 block">
+                    Indexation annuelle selon l'Indice de Référence des Loyers (optionnel)
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-[#6B6760]">
+                <div className="flex items-center gap-2 text-xs text-neutral-500">
                   <span>{showAdvanced ? "Masquer" : "Afficher"}</span>
                   {showAdvanced ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
                 </div>
               </button>
 
               {showAdvanced && (
-                <div className="p-5 sm:p-6 space-y-5 border-t border-[#151413]/10 bg-[#FAF8F3]/60">
+                <div className="p-5 sm:p-6 space-y-5 border-t border-neutral-200/80 bg-neutral-50/40">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <FormField
                       id="irlReferenceQuarter"
@@ -594,7 +585,7 @@ export function StandaloneLeaseForm({
                         }
                         items={irlQuarterLabelByValue}
                       >
-                        <SelectTrigger id="irlReferenceQuarter" className="w-full bg-white border-[#151413]/15">
+                        <SelectTrigger id="irlReferenceQuarter" className="w-full bg-white border-neutral-300 rounded-md">
                           <SelectValue placeholder="Sélectionner un trimestre" />
                         </SelectTrigger>
                         <SelectContent>
@@ -620,7 +611,7 @@ export function StandaloneLeaseForm({
                         step="0.01"
                         min="0"
                         placeholder="Ex : 144.51"
-                        className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                        className="w-full bg-white border-neutral-300 tabular-nums text-sm rounded-md"
                         {...register("irlReferenceValue")}
                       />
                     </FormField>
@@ -646,7 +637,7 @@ export function StandaloneLeaseForm({
               }
             }}
             disabled={isPending}
-            className="w-full sm:w-auto text-xs border-[#151413]/15 text-[#151413] hover:bg-[#FAF8F3]"
+            className="w-full sm:w-auto text-xs border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 rounded-md"
           >
             Annuler
           </Button>
@@ -654,7 +645,7 @@ export function StandaloneLeaseForm({
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full sm:w-auto text-xs font-medium bg-[#151413] text-[#F8F6F0] hover:bg-[#151413]/90"
+            className="w-full sm:w-auto text-xs font-medium bg-neutral-900 text-white hover:bg-neutral-800 rounded-md shadow-sm"
           >
             {isPending ? (
               <>

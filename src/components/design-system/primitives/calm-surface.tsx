@@ -19,12 +19,12 @@ export function CalmSurface({
   className,
   ...props
 }: CalmSurfaceProps) {
-  const bgClass = variant === "raised" ? "bg-white" : "bg-[#FAF8F3]";
+  const bgClass = variant === "raised" ? "bg-white shadow-sm" : "bg-white";
 
   return (
     <div
       className={cn(
-        "border border-[#151413]/10 p-4 sm:p-5 text-[#151413]",
+        "rounded-lg border border-neutral-200/80 p-4 sm:p-5 text-neutral-900",
         bgClass,
         className
       )}
