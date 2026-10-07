@@ -8,7 +8,7 @@ export const auth = betterAuth({
   baseURL:
     process.env.BETTER_AUTH_URL ||
     process.env.NEXT_PUBLIC_APP_URL ||
-    "http://localhost:3000",
+    (process.env.PORT ? `http://localhost:${process.env.PORT}` : undefined),
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),

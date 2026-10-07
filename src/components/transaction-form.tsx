@@ -68,7 +68,7 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
 
   function handleSubmit(formData: FormData) {
     if (!selectedPeriod) {
-      toast.error("Sélectionnez la période de loyer à encaisser.");
+      toast.error("Sélectionnez la période de loyer à enregistrer.");
       return;
     }
     startTransition(async () => {
@@ -105,7 +105,7 @@ export function TransactionForm({ leases }: { leases: LeaseOption[] }) {
         <DialogHeader>
           <DialogTitle>Enregistrer un paiement</DialogTitle>
           <DialogDescription>
-            Choisissez le bail puis la période de loyer que vous encaissez.
+            Choisissez le bail puis la période de loyer constatée.
           </DialogDescription>
         </DialogHeader>
         <form ref={formRef} action={handleSubmit} className="space-y-4">

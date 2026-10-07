@@ -242,6 +242,12 @@ export async function createProperty(
   await page.locator('#addressLine1').fill(property.addressLine1)
   await page.locator('#city').fill(property.city)
   await page.locator('#postalCode').fill(property.postalCode)
+  if (property.surface !== undefined || property.rooms !== undefined) {
+    const extraDetails = page.getByRole('button', { name: /informations compl[ée]mentaires/i })
+    if (await extraDetails.isVisible()) {
+      await extraDetails.click()
+    }
+  }
   if (property.surface !== undefined) {
     await page.locator('#surface').fill(String(property.surface))
   }
@@ -249,7 +255,7 @@ export async function createProperty(
     await page.locator('#rooms').fill(String(property.rooms))
   }
 
-  await page.getByRole('button', { name: /^(ajouter|cr[ée]er|enregistrer)$/i }).last().click()
+  await page.getByRole('button', { name: /^(ajouter|cr[ée]er|enregistrer|cr[ée]er le logement)$/i }).last().click()
   await page.getByText(property.name, { exact: false }).first().waitFor({ timeout: 15_000 })
 
   // A dev server recompiles the next route on first request, and the navigation

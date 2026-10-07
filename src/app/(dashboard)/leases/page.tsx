@@ -45,6 +45,8 @@ export default async function LeasesPage() {
     ...lease,
     rentAmount: lease.rentAmount.toDecimalPlaces(2).toNumber(),
     chargesAmount: lease.chargesAmount.toDecimalPlaces(2).toNumber(),
+    depositAmount: lease.depositAmount ? lease.depositAmount.toDecimalPlaces(2).toNumber() : null,
+    irlReferenceValue: lease.irlReferenceValue ? lease.irlReferenceValue.toDecimalPlaces(2).toNumber() : null,
     transactions: lease.transactions.map((tx) => ({
       ...tx,
       amount: tx.amount.toDecimalPlaces(2).toNumber(),

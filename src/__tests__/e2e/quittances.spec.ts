@@ -68,7 +68,7 @@ async function setupLandlord(page: Parameters<typeof registerTestUser>[0]): Prom
 
   await page.locator('#rentAmount').fill('800')
   await page.locator('#chargesAmount').fill('50')
-  await page.locator('#depositAmount').fill('1600')
+  await page.locator('#depositAmount').fill('800')
   await page.locator('#startDate').fill(iso(start))
   await page.locator('#endDate').fill(iso(end))
   await page.getByRole('button', { name: /cr[ée]er le bail/i }).click()

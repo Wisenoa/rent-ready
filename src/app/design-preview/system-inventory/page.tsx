@@ -287,26 +287,61 @@ export default function DesignSystemInventoryPage() {
               actionType: "download",
               actionHref: "#",
             },
-            {
-              id: "doc-3",
-              title: "État des lieux d'entrée",
-              subtitle: "Dossier contradictoire d'entrée",
-              statusLabel: "Archivé",
-              statusTone: "neutral",
-              actionType: "view",
-              actionHref: "#",
-            },
-            {
-              id: "doc-4",
-              title: "Attestation assurance habitation",
-              subtitle: "Garantie villégiature & risques locatifs",
-              statusLabel: "Vérifié",
-              statusTone: "calm",
-              actionType: "view",
-              actionHref: "#",
-            },
           ]}
         />
+      </Section>
+
+      {/* 6. EXTENSIONS WAVE 2 : LANGAGE DE FORMULAIRE & GRAND LIVRE */}
+      <Section
+        eyebrow="Extensions Wave 2"
+        title="Langage de Formulaire B+ & Espace Financier"
+        description="Hiérarchie continue de formulaire accessible, sans Cerfa, avec validation sémantique et calcul d'échéance réactif."
+      >
+        <div className="border border-[#151413]/10 bg-[#FAF8F3] p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* Champ standard avec description */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium uppercase tracking-wider text-[#6B6760] block">
+                Loyer hors charges (€) <span className="text-[#C2410C]">*</span>
+              </label>
+              <input
+                type="number"
+                defaultValue={850}
+                className="w-full h-8 px-2.5 py-1 text-sm font-mono border border-[#151413]/15 bg-white text-[#151413] outline-none focus:border-[#151413]"
+              />
+              <p className="text-xs text-[#6B6760]">Montant net mensuel hors charges.</p>
+            </div>
+
+            {/* Champ avec alerte de validation explicite */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium uppercase tracking-wider text-[#6B6760] block">
+                Dépôt de garantie (€)
+              </label>
+              <input
+                type="number"
+                defaultValue={1800}
+                className="w-full h-8 px-2.5 py-1 text-sm font-mono border border-[#DC2626] bg-white text-[#151413] outline-none"
+              />
+              <p className="text-xs font-medium text-[#DC2626] flex items-center gap-1">
+                <span className="font-mono">↳</span> Plafond légal dépassé (max : 850,00 € en location vide)
+              </p>
+            </div>
+
+            {/* Total dynamique */}
+            <div className="border border-[#151413]/10 bg-white p-3.5 space-y-1 flex flex-col justify-center">
+              <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-medium block">
+                Total mensuel exigible
+              </span>
+              <div className="flex items-baseline gap-1">
+                <Money amount={920} size="xl" tone="ink" />
+                <span className="text-xs text-[#6B6760]">/ mois</span>
+              </div>
+              <span className="text-[10px] text-[#6B6760] font-mono">
+                850,00 € HC + 70,00 € charges
+              </span>
+            </div>
+          </div>
+        </div>
       </Section>
     </PageShell>
   );

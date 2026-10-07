@@ -5,6 +5,7 @@ import { getAuthenticatedUserId } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { StandaloneLeaseForm } from "@/components/standalone-lease-form";
+import { PageShell } from "@/components/design-system";
 
 export const dynamic = "force-dynamic";
 
@@ -33,44 +34,53 @@ export default async function NewLeasePage({ searchParams }: NewLeasePageProps) 
     }),
   ]);
 
-  // If no property exists, render a calm empty state rather than a silent redirect
+  // Si aucun bien n'existe, afficher un état calme explicite
   if (properties.length === 0) {
     return (
-      <div className="mx-auto max-w-xl space-y-6">
-        <div className="flex items-center gap-4">
-          <Link href="/leases">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="size-4 mr-1" />
-              Retour aux baux
-            </Button>
+      <PageShell maxWidth="default" className="space-y-6 pb-16">
+        <div className="flex items-center gap-4 text-xs text-[#6B6760]">
+          <Link
+            href="/leases"
+            className="inline-flex items-center gap-1.5 hover:text-[#151413] transition-colors group font-medium"
+          >
+            <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
+            <span>Retour aux baux</span>
           </Link>
         </div>
 
-        <div className="rounded-xl border border-dashed p-8 text-center bg-card">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-4">
-            <Building2 className="size-7" />
+        <div className="border border-[#151413]/10 bg-[#FAF8F3] p-10 text-center space-y-4 max-w-xl mx-auto">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center border border-[#151413]/15 bg-white text-[#151413]">
+            <Building2 className="size-5" />
           </div>
-          <h2 className="text-xl font-semibold tracking-tight">Aucun bien immobilier enregistré</h2>
-          <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto leading-relaxed">
-            Pour créer un bail, vous devez d&apos;abord ajouter un logement. Le bail sera ensuite rattaché à ce bien pour suivre les loyers et les quittances.
-          </p>
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/properties">
-              <Button>
-                <Plus className="size-4 mr-2" />
-                Ajouter un bien
-              </Button>
+          <div className="space-y-1.5">
+            <h2 className="font-serif text-2xl text-[#151413]">
+              Aucun bien immobilier enregistré
+            </h2>
+            <p className="text-xs text-[#6B6760] leading-relaxed max-w-md mx-auto">
+              Pour créer un bail, vous devez d&apos;abord ajouter un logement. Le bail sera ensuite rattaché à ce bien pour suivre les loyers et les quittances.
+            </p>
+          </div>
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/properties"
+              className="inline-flex items-center justify-center gap-1.5 bg-[#151413] text-[#F8F6F0] hover:bg-[#151413]/90 text-xs font-medium px-4 py-2 transition-colors"
+            >
+              <Plus className="size-3.5" />
+              Ajouter un bien
             </Link>
-            <Link href="/leases">
-              <Button variant="outline">Retour aux baux</Button>
+            <Link
+              href="/leases"
+              className="inline-flex items-center justify-center text-xs font-medium border border-[#151413]/15 bg-white text-[#151413] hover:bg-[#FAF8F3] px-4 py-2 transition-colors"
+            >
+              Retour aux baux
             </Link>
           </div>
         </div>
-      </div>
+      </PageShell>
     );
   }
 
-  // Check if requested propertyId exists in user's properties
+  // Vérifier la validité du propertyId pré-sélectionné
   const validatedPropertyId = properties.some((p) => p.id === propertyId) ? propertyId : undefined;
 
   const propertiesForForm = properties.map((p) => ({
@@ -87,28 +97,38 @@ export default async function NewLeasePage({ searchParams }: NewLeasePageProps) 
   }));
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
-      <div className="flex items-center justify-between">
-        <Link href={validatedPropertyId ? `/properties/${validatedPropertyId}` : "/leases"}>
-          <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="size-4" />
-            {validatedPropertyId ? "Retour au logement" : "Retour aux baux"}
-          </Button>
+    <PageShell maxWidth="default" className="space-y-6 pb-16">
+      {/* Navigation de retour */}
+      <div className="flex items-center justify-between text-xs text-[#6B6760]">
+        <Link
+          href={validatedPropertyId ? `/properties/${validatedPropertyId}` : "/leases"}
+          className="inline-flex items-center gap-1.5 hover:text-[#151413] transition-colors group font-medium"
+        >
+          <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
+          <span>{validatedPropertyId ? "Retour au logement" : "Retour aux baux"}</span>
         </Link>
       </div>
 
-      <div className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Nouveau bail de location</h1>
-        <p className="text-sm text-muted-foreground">
-          Renseignez les conditions de la location. Les montants et dates serviront à générer les échéances et les quittances.
+      {/* Entête éditorial de la page */}
+      <div className="space-y-1.5 border-b border-[#151413]/10 pb-5">
+        <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold">
+          NOUVEAU CONTRAT
+        </span>
+        <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#151413]">
+          Établir un bail de location
+        </h1>
+        <p className="text-xs sm:text-sm text-[#6B6760] max-w-xl">
+          Renseignez les conditions de la location. Les montants et dates serviront à générer les échéances et les quittances conformes.
         </p>
       </div>
 
-      <StandaloneLeaseForm
-        properties={propertiesForForm}
-        tenants={tenantsForForm}
-        initialPropertyId={validatedPropertyId}
-      />
-    </div>
+      <div className="max-w-3xl">
+        <StandaloneLeaseForm
+          properties={propertiesForForm}
+          tenants={tenantsForForm}
+          initialPropertyId={validatedPropertyId}
+        />
+      </div>
+    </PageShell>
   );
 }

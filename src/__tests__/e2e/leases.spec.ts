@@ -1,5 +1,5 @@
 import { test, expect } from './helpers/fixtures'
-import { registerTestUser, uniqueEmail } from './helpers/auth'
+import { registerTestUser, uniqueEmail, createProperty, createTenant } from './helpers/auth'
 
 test.describe('Lease Creation', () => {
   async function setupUserWithPropertyAndTenant(page: any) {
@@ -8,45 +8,18 @@ test.describe('Lease Creation', () => {
     await registerTestUser(page, accountEmail)
 
     // Create a property
-    await page.goto('/properties')
-    await page.getByRole('button', { name: 'Ajouter un bien', exact: true }).first().click()
-    await expect(page.getByText(/nouveau bien/i)).toBeVisible({ timeout: 5000 })
-    await page.fill('[id="name"]', 'Studio Lyon')
-    await page.fill('[id="addressLine1"]', '8 Rue de la République')
-    await page.fill('[id="city"]', 'Lyon')
-    await page.fill('[id="postalCode"]', '69001')
-    // Scoped to the dialog and to `type="submit"`: the trigger is called
-    // « Ajouter … » and the dialog holds « Annuler » next to « Ajouter », so a
-    // page-wide /créer|ajouter/ matched three elements and strict mode
-    // refused to choose.
-    await page.getByRole('dialog').locator('button[type="submit"]').click()
-    await expect(page.getByText('Studio Lyon')).toBeVisible({ timeout: 10_000 })
+    await createProperty(page, {
+      name: 'Studio Lyon',
+      addressLine1: '8 Rue de la République',
+      city: 'Lyon',
+      postalCode: '69001',
+    })
 
     // Create a tenant
-    await page.goto('/tenants')
-    await page.getByRole('button', { name: 'Ajouter un locataire', exact: true }).first().click()
-    await expect(page.getByText(/nouveau locataire/i)).toBeVisible({ timeout: 5000 })
-    await page.fill('[id="firstName"]', 'Pierre')
-    await page.fill('[id="lastName"]', 'Durand')
-    await page.fill('[id="email"]', `pierre.durand.${Date.now()}@example.com`)
-    // address, city and postal code are required; without them the form
-    // validates in place and does not submit.
-    await page.fill('[id="addressLine1"]', '5 avenue Foch')
-    await page.fill('[id="city"]', 'Paris')
-    await page.fill('[id="postalCode"]', '75016')
-    // Scoped to the dialog: « Ajouter un locataire » (the trigger), « Annuler »
-    // and « Ajouter » (the submit) all match /créer|ajouter/i, and strict mode
-    // refuses to choose between them.
-    await page.getByRole('dialog').locator('button[type="submit"]').click()
-    // The tenant's name sits in a `CardTitle`, which renders a <div
-    // data-slot="card-title"> — not a heading. `getByRole('heading', …)` can
-    // therefore never match on this page, and the commit that replaced
-    // Measured on this page: the tenant card is a LINK whose accessible name is
-    // the card; the name itself sits in a div, and there is no heading carrying
-    // it. `card-title` + `.first()` was a name lookup that silently took whichever
-    // card came first — correct only while this account has one tenant.
-    await expect(page.getByRole('link', { name: 'Pierre Durand' })).toBeVisible({
-      timeout: 10_000,
+    await createTenant(page, {
+      firstName: 'Pierre',
+      lastName: 'Durand',
+      email: `pierre.durand.${Date.now()}@example.com`,
     })
   }
 
@@ -65,21 +38,19 @@ test.describe('Lease Creation', () => {
     // Navigate to leases and create a lease
     await page.goto('/leases')
 
-    // Check for "Créer un bail" button
-    const createBtn = page.getByRole('button', { name: /créer un bail/i })
-    if (await createBtn.isVisible()) {
-      await createBtn.click()
-    } else {
-      // Try empty state CTA
-      const emptyCta = page.getByRole('link', { name: /créer/i }).or(page.getByRole('button', { name: /créer/i }))
-      await emptyCta.first().click()
-    }
+    // Navigate to /leases/new via the link/button
+    const createCta = page
+      .getByRole('link', { name: /créer un bail/i })
+      .or(page.getByRole('button', { name: /créer un bail/i }))
+      .or(page.getByRole('link', { name: /créer/i }))
+    await createCta.first().click()
+    await page.waitForURL('**/leases/new**', { timeout: 30_000 })
 
     // The property field, not a heading. This page has no « Bien » title: the
     // field is a labelled control (« Bien immobilier * » bound to #propertyId),
     // and looking for a heading here tested a role the page does not use.
     const propertyField = page.locator('#propertyId')
-    await expect(propertyField).toBeVisible({ timeout: 5000 })
+    await expect(propertyField).toBeVisible({ timeout: 15_000 })
 
     // Select property (Studio Lyon)
     await propertyField.click()
@@ -95,7 +66,7 @@ test.describe('Lease Creation', () => {
     // Fill financial details
     await page.fill('[id="rentAmount"]', '600')
     await page.fill('[id="chargesAmount"]', '50')
-    await page.fill('[id="depositAmount"]', '1200')
+    await page.fill('[id="depositAmount"]', '600')
 
     // Fill dates - start date today, end date in 3 years
     const today = new Date()

@@ -25,7 +25,7 @@ const BLOCKED_STATUSES: SubscriptionStatus[] = [
   "EXPIRED",
 ];
 
-function isTrialExpired(trialEndsAt: Date | null): boolean {
+export function isTrialExpired(trialEndsAt: Date | null): boolean {
   if (!trialEndsAt) return false; // New user without explicit trial expiration date is not expired
   return trialEndsAt < new Date();
 }
@@ -34,7 +34,7 @@ function isTrialExpired(trialEndsAt: Date | null): boolean {
  * Returns true if the subscription status blocks dashboard access.
  * TRIAL users are only blocked once their trial has expired.
  */
-function isAccessBlocked(
+export function isAccessBlocked(
   status: SubscriptionStatus,
   trialEndsAt: Date | null
 ): boolean {
@@ -80,8 +80,9 @@ export async function SubscriptionGate(): Promise<void> {
 
     if (isAccessBlocked(status, user.trialEndsAt)) {
       // Avoid infinite redirect loop if already loading billing page
+      const pathname = reqHeaders.get("x-pathname") || "";
       const xUrl = reqHeaders.get("x-url") || reqHeaders.get("referer") || "";
-      if (xUrl.includes("/billing")) {
+      if (pathname.startsWith("/billing") || xUrl.includes("/billing")) {
         return;
       }
 

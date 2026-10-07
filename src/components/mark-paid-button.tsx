@@ -38,6 +38,7 @@ export function MarkPaidButton({
       onClick={handleClick}
       disabled={isPending}
       className={className}
+      aria-label={`${label} (Marquer payé)`}
     >
       {isPending ? (
         <Loader2 className="size-3.5 animate-spin mr-1.5" />

@@ -3,32 +3,20 @@ import Decimal from "decimal.js";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
-  Euro,
-  Clock,
-  FileCheck,
   FileText,
+  FileCheck,
+  CheckCircle2,
+  Clock,
+  AlertTriangle,
   Receipt,
-  Crown,
-  CreditCard,
-  ShieldCheck,
+  Download,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { TransactionForm } from "@/components/transaction-form";
 import {
   presentTransaction,
   daysLate as periodDaysLate,
-  STATUS_PRESENTATION,
 } from "@/lib/domain/period-presentation";
 import { QuittanceButton } from "@/components/quittance-button";
 import { MarkPaidButton } from "./mark-paid-button";
@@ -38,124 +26,135 @@ import { formatCurrency } from "@/lib/format";
 import { toNumber } from "@/lib/decimal";
 import { ensureRentPeriods } from "@/lib/queries/rent-periods";
 import { getDuePeriodsByLease } from "@/lib/queries/due-periods";
+import {
+  PageShell,
+  Section,
+  Money,
+  StatusBadge,
+  StatusDot,
+  FinancialSummary,
+  type StatusTone,
+} from "@/components/design-system";
 
 export const metadata: Metadata = {
-  title: "Paiements",
+  title: "Loyers & Quittances — Grand Livre",
 };
 
-const RECEIPT_CONFIG: Record<string, { label: string; className: string }> = {
+const RECEIPT_CONFIG: Record<string, { label: string; tone: StatusTone }> = {
   QUITTANCE: {
     label: "Quittance",
-    className: "text-blue-700 bg-blue-50 border-blue-200",
+    tone: "calm",
   },
   RECU: {
-    label: "Reçu",
-    className: "text-orange-700 bg-orange-50 border-orange-200",
+    label: "Reçu d'acompte",
+    tone: "attention",
   },
 };
 
-
-function isTrialExpired(trialEndsAt: Date | null): boolean {
-  if (!trialEndsAt) return false;
-  return trialEndsAt < new Date();
+function getStatusTone(statusLabel: string): StatusTone {
+  if (statusLabel === "Payé") return "calm";
+  if (statusLabel === "Partiel") return "attention";
+  if (statusLabel === "En retard") return "delayed";
+  return "neutral";
 }
 
 export default async function BillingPage() {
   const userId = await getAuthenticatedUserId();
 
-  // The arrears and pending totals below only count periods that exist, so
-  // backfill before querying them.
+  // Matérialisation préalable des périodes exigibles
   await ensureRentPeriods(userId);
 
-  // Current month boundaries
+  // Bornes du mois civil en cours
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+  const monthLabel = format(monthStart, "MMMM yyyy", { locale: fr });
 
-  // Run all queries in parallel
-  const [user, transactions, receivedByMonth, totalPaid, totalPending, quittanceCount, recuCount, activeLeases] =
-    await Promise.all([
-      prisma.user.findUnique({
-        where: { id: userId },
-        select: {
-          stripeCustomerId: true,
-          stripeSubscriptionId: true,
-          subscriptionStatus: true,
-          trialEndsAt: true,
-        },
-      }),
-      prisma.transaction.findMany({
-        where: { userId },
-        include: {
-          lease: {
-            include: {
-              property: { select: { name: true } },
-              tenant: { select: { firstName: true, lastName: true } },
-            },
+  // Exécution parallèle des requêtes financières du grand livre
+  const [
+    user,
+    transactions,
+    receivedByMonth,
+    totalPaid,
+    totalPending,
+    quittanceCount,
+    recuCount,
+    activeLeases,
+  ] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        stripeCustomerId: true,
+        stripeSubscriptionId: true,
+        subscriptionStatus: true,
+        trialEndsAt: true,
+      },
+    }),
+    prisma.transaction.findMany({
+      where: { userId },
+      include: {
+        lease: {
+          include: {
+            property: { select: { id: true, name: true, addressLine1: true, city: true } },
+            tenant: { select: { id: true, firstName: true, lastName: true } },
           },
         },
-        orderBy: { dueDate: "desc" },
-        take: 50,
-      }),
-      // Money already received, by month. The period row's `amount` is the
-      // balance still OWED once a partial payment has landed, so the table cannot
-      // render "570,55" as "the Montant" of a 970,55 month without this.
-      prisma.transaction.findMany({
-        where: {
-          userId,
-          paidAt: { not: null },
-          status: { not: "CANCELLED" },
-        },
-        select: { leaseId: true, periodStart: true, amount: true },
-      }),
-      // Money received this month, from EVERY row that holds money — not only the
-      // rows whose own status is PAID.
-      //
-      // A month paid in instalments is represented by two rows: the instalment
-      // (PARTIAL, 400) and the period row the closing payment settled (PAID, but
-      // carrying only its own 500, because a period row's `amount` is what was still
-      // owed just before it closed). Filtering on `status: "PAID"` therefore summed
-      // 500 for a month that had received 900, and the dashboard told a landlord
-      // they had collected half of what actually came in.
-      prisma.transaction.aggregate({
-        where: {
-          userId,
-          paidAt: { gte: monthStart, lte: monthEnd },
-          status: { not: "CANCELLED" },
-        },
-        _sum: { amount: true },
-      }),
-      // Outstanding = unpaid and past due. Deriving from the date matters: no code
-      // writes a LATE status, so filtering on one reported zero rent arrears.
-      prisma.transaction.aggregate({
-        where: { userId, paidAt: null, dueDate: { lt: new Date() } },
-        _sum: { amount: true },
-      }),
-      prisma.transaction.count({
-        where: { userId, receiptType: "QUITTANCE" },
-      }),
-      prisma.transaction.count({
-        where: { userId, receiptType: "RECU" },
-      }),
-      prisma.lease.findMany({
-        where: { userId, status: "ACTIVE" },
-        select: {
-          id: true,
-          rentAmount: true,
-          chargesAmount: true,
-          property: { select: { name: true } },
-          tenant: { select: { firstName: true, lastName: true } },
-        },
-      }),
-    ]);
+      },
+      orderBy: { dueDate: "desc" },
+      take: 50,
+    }),
+    prisma.transaction.findMany({
+      where: {
+        userId,
+        paidAt: { not: null },
+        status: { not: "CANCELLED" },
+      },
+      select: { leaseId: true, periodStart: true, amount: true },
+    }),
+    prisma.transaction.aggregate({
+      where: {
+        userId,
+        paidAt: { gte: monthStart, lte: monthEnd },
+        status: { not: "CANCELLED" },
+      },
+      _sum: { amount: true },
+    }),
+    prisma.transaction.aggregate({
+      where: { userId, paidAt: null, dueDate: { lt: new Date() } },
+      _sum: { amount: true },
+    }),
+    prisma.transaction.count({
+      where: { userId, receiptType: "QUITTANCE" },
+    }),
+    prisma.transaction.count({
+      where: { userId, receiptType: "RECU" },
+    }),
+    prisma.lease.findMany({
+      where: { userId, status: "ACTIVE" },
+      select: {
+        id: true,
+        rentAmount: true,
+        chargesAmount: true,
+        property: { select: { name: true } },
+        tenant: { select: { firstName: true, lastName: true } },
+      },
+    }),
+  ]);
 
-  const totalPaidAmount = Number(totalPaid._sum.amount ?? 0);
-  const totalPendingAmount = Number(totalPending._sum.amount ?? 0);
+  // Calculs financiers stricts avec Decimal (zéro arithmétique flottante JS)
+  const expectedMonthlyTotal = activeLeases.reduce((acc, l) => {
+    return acc.plus(new Decimal(l.rentAmount)).plus(new Decimal(l.chargesAmount || 0));
+  }, new Decimal(0));
+
+  const totalPaidDecimal = new Decimal(totalPaid._sum.amount ?? 0);
+  const totalPendingDecimal = new Decimal(totalPending._sum.amount ?? 0);
   const hasTransactions = transactions.length > 0;
 
-  // What each month has already received, keyed by lease and calendar month —
-  // the same grouping `computeDuePeriods` uses, so a period row's balance and
-  // the month's receipts describe the same figures.
+  const collectionPercentage = expectedMonthlyTotal.gt(0)
+    ? Math.min(100, Math.round(totalPaidDecimal.dividedBy(expectedMonthlyTotal).toNumber() * 100))
+    : 100;
+
+  // Réconciliation des montants perçus par mois civil
   const receiptsByMonth = new Map<string, Decimal>();
   for (const receipt of receivedByMonth) {
     const key = `${receipt.leaseId}|${receipt.periodStart.toISOString().slice(0, 7)}`;
@@ -163,17 +162,12 @@ export default async function BillingPage() {
     receiptsByMonth.set(key, previous.plus(new Decimal(receipt.amount)));
   }
 
-  // The payment dialog collects an existing obligation instead of asking the
-  // landlord to type dates, so it needs the periods this user can actually
-  // collect. Loaded here rather than in the dialog: one query on render, no
-  // fetch-after-render on a form a landlord opens to be quick.
+  // Périodes exigibles pour le dialogue d'enregistrement
   const duePeriodsByLease = await getDuePeriodsByLease(
     userId,
     activeLeases.map((l) => l.id)
   );
 
-  // Every active lease stays in the list: a lease with nothing to collect must
-  // still be selectable, so the dialog can say so rather than hiding it.
   const leaseOptions = activeLeases.map((l) => ({
     id: l.id,
     property: l.property,
@@ -183,134 +177,132 @@ export default async function BillingPage() {
 
   const subscriptionStatus = user?.subscriptionStatus ?? "TRIAL";
   const trialEndsAt = user?.trialEndsAt ?? null;
-  const trialExpired = isTrialExpired(trialEndsAt);
-  const isActive = subscriptionStatus === "ACTIVE" || (subscriptionStatus === "TRIAL" && !trialExpired);
-  const isTrial = subscriptionStatus === "TRIAL";
-  const isPastDue = subscriptionStatus === "PAST_DUE";
 
   return (
-    <div className="space-y-8">
-      {/* Subscription Banner */}
+    <PageShell maxWidth="default" className="space-y-8 pb-16">
+      {/* ────────────────────────────────────────────────────────────────── */}
+      {/* 1. BANDEAU D'ABONNEMENT OU ALERTE ESSAI                           */}
+      {/* ────────────────────────────────────────────────────────────────── */}
       <SubscriptionBanner
         status={subscriptionStatus}
         trialEndsAt={trialEndsAt}
         stripeCustomerId={user?.stripeCustomerId ?? null}
       />
 
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Paiements</h1>
-          <p className="text-muted-foreground mt-1">
-            Suivi des loyers et génération de quittances
+      {/* ────────────────────────────────────────────────────────────────── */}
+      {/* 2. ENTÊTE ÉDITORIAL DU GRAND LIVRE                                 */}
+      {/* ────────────────────────────────────────────────────────────────── */}
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-[#151413]/10 pb-6">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold">
+              COMPTABILITÉ LOCATIVE
+            </span>
+            <span className="text-[#9E9A90]">·</span>
+            <span className="text-xs text-[#6B6760] font-mono capitalize">
+              {monthLabel}
+            </span>
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#151413]">
+            Paiements & Quittances
+          </h1>
+          <p className="text-xs sm:text-sm text-[#6B6760] max-w-xl">
+            Grand livre des écritures, suivi des règlements et délivrance des attestations libératoires conformes.
           </p>
         </div>
-        <TransactionForm leases={leaseOptions} />
+
+        <div className="shrink-0">
+          <TransactionForm leases={leaseOptions} />
+        </div>
       </div>
 
-      {/* Summary cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="shadow-sm border-border/50">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total encaissé
-            </CardTitle>
-            <Euro className="size-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <span className="text-2xl font-bold font-mono tracking-tight text-emerald-700">
-              {formatCurrency(totalPaidAmount)}
+      {/* ────────────────────────────────────────────────────────────────── */}
+      {/* 3. SYNTHÈSE FINANCIÈRE DE TRÉSORERIE                               */}
+      {/* ────────────────────────────────────────────────────────────────── */}
+      <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 sm:p-6 space-y-4">
+        <div className="flex items-center justify-between text-xs text-[#6B6760] pb-2 border-b border-[#151413]/10">
+          <span className="font-medium text-[#151413]">
+            Synthèse mensuelle au {format(now, "d MMMM yyyy", { locale: fr })}
+          </span>
+          <div className="flex items-center gap-4 text-[11px]">
+            <span>
+              <strong className="text-[#151413] font-mono">{activeLeases.length}</strong> baux actifs
             </span>
-            <p className="text-xs text-muted-foreground mt-1">
-              {format(monthStart, "MMMM yyyy", { locale: fr })}
-            </p>
-          </CardContent>
-        </Card>
+            <span>·</span>
+            <span>
+              <strong className="text-[#166534] font-mono">{quittanceCount}</strong> quittances
+            </span>
+            {recuCount > 0 && (
+              <>
+                <span>·</span>
+                <span>
+                  <strong className="text-[#C2410C] font-mono">{recuCount}</strong> reçus
+                </span>
+              </>
+            )}
+          </div>
+        </div>
 
-        <Card className="shadow-sm border-border/50">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total en attente
-            </CardTitle>
-            <Clock className="size-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <span className="text-2xl font-bold font-mono tracking-tight text-amber-600">
-              {formatCurrency(totalPendingAmount)}
-            </span>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-sm border-border/50">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Quittances générées
-            </CardTitle>
-            <FileCheck className="size-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <span className="text-2xl font-bold font-mono tracking-tight">
-              {quittanceCount}
-            </span>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-sm border-border/50">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Reçus émis
-            </CardTitle>
-            <Receipt className="size-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <span className="text-2xl font-bold font-mono tracking-tight">
-              {recuCount}
-            </span>
-          </CardContent>
-        </Card>
+        <FinancialSummary
+          expected={expectedMonthlyTotal}
+          received={totalPaidDecimal}
+          outstanding={totalPendingDecimal}
+          collectionPercentage={collectionPercentage}
+        />
       </div>
 
-      {/* Transactions table */}
+      {/* ────────────────────────────────────────────────────────────────── */}
+      {/* 4. REGISTRE ARCHITECTURAL DES ÉCRITURES FINANCIÈRES                */}
+      {/* ────────────────────────────────────────────────────────────────── */}
       {hasTransactions ? (
-        <Card className="shadow-sm border-border/50">
-          <CardHeader>
-            <CardTitle className="text-lg">Transactions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Période</TableHead>
-                  <TableHead>Locataire</TableHead>
-                  <TableHead>Bien</TableHead>
-                  <TableHead className="text-right">Montant</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead>Type reçu</TableHead>
-                  <TableHead>Date paiement</TableHead>
-                  <TableHead>Reçu</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+        <div className="border border-[#151413]/10 bg-[#FAF8F3] overflow-hidden">
+          {/* En-tête du registre */}
+          <div className="border-b border-[#151413]/10 px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <h2 className="text-sm font-semibold tracking-tight text-[#151413]">
+                Journal chronologique des loyers
+              </h2>
+              <p className="text-xs text-[#6B6760] mt-0.5">
+                {transactions.length} écriture{transactions.length > 1 ? "s" : ""} comptable{transactions.length > 1 ? "s" : ""}
+              </p>
+            </div>
+            <div className="flex items-center gap-3 text-xs text-[#6B6760]">
+              <span className="inline-flex items-center gap-1.5">
+                <StatusDot tone="calm" />
+                <span>Réglé</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <StatusDot tone="attention" />
+                <span>Acompte</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <StatusDot tone="delayed" />
+                <span>En attente / Retard</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Table Desktop (>= 768px) */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-[#151413]/10 bg-[#F2EFE9]/40 text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold">
+                  <th className="py-2.5 px-4 font-normal">Période</th>
+                  <th className="py-2.5 px-4 font-normal">Locataire & Logement</th>
+                  <th className="py-2.5 px-4 font-normal text-right">Montant</th>
+                  <th className="py-2.5 px-4 font-normal">Statut</th>
+                  <th className="py-2.5 px-4 font-normal">Pièce émise</th>
+                  <th className="py-2.5 px-4 font-normal">Règlement</th>
+                  <th className="py-2.5 px-4 font-normal text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#151413]/10 text-xs">
                 {transactions.map((tx) => {
-                  // Derived from the due date, not the stored status: nothing
-                  // writes LATE, so this previously showed overdue rent as merely
-                  // "En attente".
                   const status = presentTransaction(tx);
                   const lateBy = periodDaysLate(tx.dueDate);
-                  const lateLabel = `${lateBy} jour${lateBy > 1 ? "s" : ""} de retard`;
+                  const tone = getStatusTone(status.label);
                   const receipt = tx.receiptType ? RECEIPT_CONFIG[tx.receiptType] : null;
-                  // A period row carries the balance still OWED. Once a partial
-                  // payment has landed that balance is below the month's rent, and
-                  // rendering it alone under « Montant » showed a landlord who
-                  // received 400 EUR a table reading « 570,55 » against a month
-                  // worth 970,55 — indistinguishable from a cheaper flat. The
-                  // total is recovered from the month's receipts so the two are
-                  // never confused.
-                  // A SETTLED period row IS the receipt for the payment that
-                  // closed it, so it appears in the month's receipts under its own
-                  // id. Counting it would render every paid month as
-                  // "970,55 sur 1 941,10" — a total twice the rent.
+
                   const monthKey = `${tx.leaseId}|${tx.periodStart.toISOString().slice(0, 7)}`;
                   const ownAmount = new Decimal(tx.amount);
                   const alreadyPaid = (
@@ -322,90 +314,95 @@ export default async function BillingPage() {
                   const periodTotal = new Decimal(tx.amount).plus(alreadyPaid);
 
                   return (
-                    <TableRow key={tx.id}>
-                      <TableCell className="whitespace-nowrap text-sm">
+                    <tr
+                      key={tx.id}
+                      className="hover:bg-[#F2EFE9]/50 transition-colors"
+                    >
+                      {/* 1. Période */}
+                      <td className="py-3 px-4 font-mono text-xs uppercase tracking-wider text-[#151413] whitespace-nowrap">
                         {format(tx.periodStart, "MMM yyyy", { locale: fr })}
-                      </TableCell>
-                      <TableCell className="text-sm font-medium">
-                        {tx.lease.tenant?.firstName ?? ''} {tx.lease.tenant?.lastName ?? ''}
-                      </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {tx.lease.property?.name ?? ''}
-                      </TableCell>
-                      <TableCell className="text-right">
-                                          {isPartial ? (
-                                            <>
-                                              <span className="font-mono text-sm font-semibold text-amber-700">
-                                                {formatCurrency(tx.amount)}
-                                              </span>
-                                              <span className="block text-xs text-muted-foreground">
-                                                sur {formatCurrency(periodTotal.toFixed(2))}
-                                              </span>
-                                            </>
-                                          ) : (
-                                            <span className="font-mono text-sm font-semibold">
-                                              {formatCurrency(tx.amount)}
-                                            </span>
-                                          )}
-                                        </TableCell>
-                      <TableCell>
-                        <div className="flex flex-col items-start gap-0.5">
-                          <Badge variant="secondary" className={status.className}>
-                            {status.label}
-                          </Badge>
-                          {lateBy > 0 && status.label === "En retard" && (
-                            <span className="text-xs text-red-600">
-                              {lateLabel}
-                            </span>
-                          )}
+                      </td>
+
+                      {/* 2. Locataire & Logement */}
+                      <td className="py-3 px-4">
+                        <div className="font-medium text-[#151413]">
+                          {tx.lease.tenant?.firstName ?? ""} {tx.lease.tenant?.lastName ?? ""}
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        {receipt ? (
-                          <Badge variant="secondary" className={receipt.className}>
-                            {receipt.label}
-                          </Badge>
+                        <div className="text-[11px] text-[#6B6760] truncate max-w-xs">
+                          {tx.lease.property?.name ?? ""}
+                        </div>
+                      </td>
+
+                      {/* 3. Montant */}
+                      <td className="py-3 px-4 text-right whitespace-nowrap">
+                        {isPartial ? (
+                          <div>
+                            <Money amount={tx.amount} tone="attention" size="sm" />
+                            <span className="block text-[11px] text-[#6B6760] font-mono">
+                              sur {formatCurrency(periodTotal.toFixed(2))}
+                            </span>
+                          </div>
                         ) : (
-                          <span className="text-muted-foreground">—</span>
+                          <Money
+                            amount={tx.amount}
+                            tone={status.label === "Payé" ? "calm" : status.label === "En retard" ? "delayed" : "ink"}
+                            size="sm"
+                          />
                         )}
-                      </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {tx.paidAt
-                          ? format(tx.paidAt, "dd/MM/yyyy", { locale: fr })
-                          : "—"}
-                      </TableCell>
-                      <TableCell>
+                      </td>
+
+                      {/* 4. Statut */}
+                      <td className="py-3 px-4 whitespace-nowrap">
+                        <StatusBadge tone={tone} showDot size="xs">
+                          {status.label}
+                        </StatusBadge>
+                        {lateBy > 0 && status.label === "En retard" && (
+                          <span className="block text-[10px] font-mono text-[#C2410C] mt-0.5">
+                            +{lateBy} j de retard
+                          </span>
+                        )}
+                      </td>
+
+                      {/* 5. Pièce émise */}
+                      <td className="py-3 px-4 whitespace-nowrap">
+                        {receipt ? (
+                          <StatusBadge tone={receipt.tone} size="xs">
+                            {receipt.label}
+                          </StatusBadge>
+                        ) : (
+                          <span className="text-[#9E9A90]">—</span>
+                        )}
                         {tx.receiptUrl && (
                           <a
                             href={tx.receiptUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline"
+                            className="inline-flex items-center gap-1 text-[11px] text-[#151413] underline ml-2 hover:text-[#6B6760]"
                           >
-                            <FileCheck className="size-3" />
-                            Télécharger
+                            <Download className="size-3" />
+                            <span>Télécharger</span>
                           </a>
                         )}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-1">
+                      </td>
+
+                      {/* 6. Date règlement */}
+                      <td className="py-3 px-4 whitespace-nowrap text-[#6B6760] font-mono text-xs">
+                        {tx.paidAt ? format(tx.paidAt, "dd/MM/yyyy", { locale: fr }) : "—"}
+                      </td>
+
+                      {/* 7. Actions */}
+                      <td className="py-3 px-4 text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-1.5">
                           {tx.status === "PENDING" && (
-                            /* The row carries the balance still owed, which drops
-                               below rent+charges once a partial payment has been
-                               recorded. Settling the lease's full rent here would
-                               book the outstanding balance twice. */
                             <MarkPaidButton
                               transactionId={tx.id}
                               defaultAmount={toNumber(tx.amount)}
+                              size="xs"
                             />
                           )}
                           {(tx.status === "PAID" || tx.status === "PARTIAL") && tx.receiptType && (
                             <QuittanceButton transactionId={tx.id} />
                           )}
-                          {/* The correction path: a receipt recorded in error
-                              (97,00 instead of 970,00, wrong lease) had no way
-                              out — no deletion, no reversal — so the false
-                              amount stayed in the register for good. */}
                           {tx.status !== "CANCELLED" && tx.paidAt && (
                             <CancelPaymentButton
                               transactionId={tx.id}
@@ -413,26 +410,150 @@ export default async function BillingPage() {
                             />
                           )}
                         </div>
-                      </TableCell>
-                    </TableRow>
+                      </td>
+                    </tr>
                   );
                 })}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Liste Mobile (< 768px) adaptée haute densité sans Card Soup */}
+          <div className="md:hidden divide-y divide-[#151413]/10">
+            {transactions.map((tx) => {
+              const status = presentTransaction(tx);
+              const lateBy = periodDaysLate(tx.dueDate);
+              const tone = getStatusTone(status.label);
+              const receipt = tx.receiptType ? RECEIPT_CONFIG[tx.receiptType] : null;
+
+              const monthKey = `${tx.leaseId}|${tx.periodStart.toISOString().slice(0, 7)}`;
+              const ownAmount = new Decimal(tx.amount);
+              const alreadyPaid = (
+                receiptsByMonth.get(monthKey) ?? new Decimal(0)
+              )
+                .minus(tx.paidAt ? ownAmount : new Decimal(0))
+                .toDecimalPlaces(2);
+              const isPartial = alreadyPaid.gt(0);
+              const periodTotal = new Decimal(tx.amount).plus(alreadyPaid);
+
+              return (
+                <div key={tx.id} className="p-4 space-y-2.5 bg-[#FAF8F3]">
+                  {/* Ligne 1 : Période, Statut & Montant */}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-semibold uppercase text-[#151413]">
+                        {format(tx.periodStart, "MMM yyyy", { locale: fr })}
+                      </span>
+                      <StatusBadge tone={tone} showDot size="xs">
+                        {status.label}
+                      </StatusBadge>
+                    </div>
+
+                    <div className="text-right">
+                      {isPartial ? (
+                        <div>
+                          <Money amount={tx.amount} tone="attention" size="sm" />
+                          <span className="block text-[10px] text-[#6B6760] font-mono">
+                            sur {formatCurrency(periodTotal.toFixed(2))}
+                          </span>
+                        </div>
+                      ) : (
+                        <Money
+                          amount={tx.amount}
+                          tone={status.label === "Payé" ? "calm" : status.label === "En retard" ? "delayed" : "ink"}
+                          size="sm"
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Ligne 2 : Locataire & Logement */}
+                  <div className="flex items-baseline justify-between text-xs text-[#6B6760] gap-2">
+                    <span className="font-medium text-[#151413] truncate">
+                      {tx.lease.tenant?.firstName ?? ""} {tx.lease.tenant?.lastName ?? ""}
+                    </span>
+                    <span className="text-[11px] truncate text-[#6B6760]">
+                      {tx.lease.property?.name ?? ""}
+                    </span>
+                  </div>
+
+                  {/* Ligne 3 : Pièce émise & Date règlement */}
+                  <div className="flex items-center justify-between text-xs pt-1 border-t border-[#151413]/5 text-[#6B6760]">
+                    <div className="flex items-center gap-2">
+                      {receipt ? (
+                        <StatusBadge tone={receipt.tone} size="xs">
+                          {receipt.label}
+                        </StatusBadge>
+                      ) : (
+                        <span className="text-[11px] text-[#9E9A90]">Sans reçu</span>
+                      )}
+                      {tx.receiptUrl && (
+                        <a
+                          href={tx.receiptUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] text-[#151413] underline hover:text-[#6B6760]"
+                        >
+                          <Download className="size-3" />
+                          <span>Télécharger</span>
+                        </a>
+                      )}
+                      {lateBy > 0 && status.label === "En retard" && (
+                        <span className="text-[11px] font-mono text-[#C2410C]">
+                          +{lateBy} j
+                        </span>
+                      )}
+                    </div>
+
+                    <span className="font-mono text-[11px]">
+                      {tx.paidAt ? format(tx.paidAt, "dd/MM/yyyy", { locale: fr }) : "Non réglé"}
+                    </span>
+                  </div>
+
+                  {/* Ligne 4 : Actions contextuelles */}
+                  <div className="flex items-center justify-end gap-2 pt-1">
+                    {tx.status === "PENDING" && (
+                      <MarkPaidButton
+                        transactionId={tx.id}
+                        defaultAmount={toNumber(tx.amount)}
+                        size="xs"
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                    {(tx.status === "PAID" || tx.status === "PARTIAL") && tx.receiptType && (
+                      <QuittanceButton transactionId={tx.id} />
+                    )}
+                    {tx.status !== "CANCELLED" && tx.paidAt && (
+                      <CancelPaymentButton
+                        transactionId={tx.id}
+                        amount={toNumber(tx.amount)}
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       ) : (
-        <Card className="shadow-sm border-border/50">
-          <CardContent className="flex flex-col items-center justify-center py-16">
-            <FileText className="size-12 text-muted-foreground/50 mb-4" />
-            <h3 className="text-lg font-semibold mb-1">Aucune transaction</h3>
-            <p className="text-muted-foreground text-sm mb-6">
-              Commencez par enregistrer votre premier paiement.
+        /* Empty State architectural B+ V2.1 */
+        <div className="border border-[#151413]/10 bg-[#FAF8F3] p-10 text-center space-y-4">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-none border border-[#151413]/15 bg-white text-[#151413]">
+            <Receipt className="size-5" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="font-serif text-xl text-[#151413]">
+              Aucune écriture enregistrée
+            </h3>
+            <p className="text-xs text-[#6B6760] max-w-sm mx-auto">
+              Les loyers dus sont automatiquement générés chaque mois selon les dates d&apos;échéance de vos baux actifs.
             </p>
+          </div>
+          <div className="pt-2">
             <TransactionForm leases={leaseOptions} />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
-    </div>
+    </PageShell>
   );
 }

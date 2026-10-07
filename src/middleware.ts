@@ -183,8 +183,15 @@ export default function middleware(req: NextRequest) {
   // - Permissions-Policy: disable browser features not needed
   // - Strict-Transport-Security: enforce HTTPS (HSTS)
   // - Content-Security-Policy: mitigate XSS and injection attacks
-  // - X-Request-Id: useful for request tracing and log correlation
-  const response = NextResponse.next();
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", pathname);
+  requestHeaders.set("x-url", req.url);
+
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-XSS-Protection", "1; mode=block");

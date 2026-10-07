@@ -15,6 +15,7 @@ export * from "./primitives/status-dot";
 export * from "./primitives/status-badge";
 export * from "./primitives/attention-surface";
 export * from "./primitives/calm-surface";
+export * from "./primitives/form-field";
 
 // Product Patterns
 export * from "./patterns/month-header";

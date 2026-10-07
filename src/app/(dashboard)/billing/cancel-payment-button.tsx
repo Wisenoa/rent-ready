@@ -46,7 +46,7 @@ export function CancelPaymentButton({
         typeof result.data?.collectable === "string" ? result.data.collectable : null;
       toast.success(
         collectable
-          ? `Paiement annulé. ${collectable} € sont de nouveau à encaisser.`
+          ? `Paiement annulé. ${collectable} € sont de nouveau en attente de paiement.`
           : "Paiement annulé."
       );
     });

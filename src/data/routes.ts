@@ -5,7 +5,7 @@
  * sitemap can set a truthful lastModified. Run `pnpm gen:routes` after adding,
  * renaming or deleting a page; `pnpm build` does it for you.
  *
- * 298 routes.
+ * 311 routes.
  */
 export interface RouteEntry {
   path: string;
@@ -23,1624 +23,1676 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-06T23:09:58.873Z"
+    "mtime": "2026-10-07T21:40:32.921Z"
   },
   {
     "path": "/assurance-loyer-impaye",
-    "mtime": "2026-10-06T07:48:14.710Z"
+    "mtime": "2026-10-07T20:31:39.249Z"
   },
   {
     "path": "/assurance-loyer-impaye/aix-en-provence",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/ajaccio",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/amiens",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/angers",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/antibes",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/argenteuil",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/avignon",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/bayonne",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/besancon",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/bordeaux",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/brest",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/caen",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/cannes",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/chambery",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/clermont-ferrand",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/colmar",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/dijon",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/dunkerque",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/grenoble",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/la-rochelle",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/le-havre",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/lille",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/limoges",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/lyon",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/marseille",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/metz",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/montpellier",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/montreuil",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/mulhouse",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/nancy",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/nantes",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/nice",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/nimes",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/orleans",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/paris",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/pau",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/perpignan",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/poitiers",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/reims",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/rennes",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/roubaix",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/rouen",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/saint-denis",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/saint-etienne",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/strasbourg",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/toulon",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/toulouse",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/tourcoing",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/tours",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/assurance-loyer-impaye/valence",
-    "mtime": "2026-10-06T07:48:14.710Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.7,
     "family": "/assurance-loyer-impaye"
   },
   {
     "path": "/bail",
-    "mtime": "2026-10-06T07:48:14.711Z"
+    "mtime": "2026-10-07T20:31:39.249Z"
   },
   {
     "path": "/bail/aix-en-provence",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/ajaccio",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/amiens",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/angers",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/antibes",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/argenteuil",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/avignon",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/bayonne",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/besancon",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/bordeaux",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/brest",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/caen",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/cannes",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/chambery",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/clermont-ferrand",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/colmar",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/dijon",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/dunkerque",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/grenoble",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/la-rochelle",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/le-havre",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/lille",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/limoges",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/lyon",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/marseille",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/metz",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/montpellier",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/montreuil",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/mulhouse",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/nancy",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/nantes",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/nice",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/nimes",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/orleans",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/paris",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/pau",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/perpignan",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/poitiers",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/reims",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/rennes",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/roubaix",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/rouen",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/saint-denis",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/saint-etienne",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/strasbourg",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/toulon",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/toulouse",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/tourcoing",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/tours",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/bail/valence",
-    "mtime": "2026-10-06T07:48:14.711Z",
+    "mtime": "2026-10-07T20:31:39.249Z",
     "priority": 0.8,
     "family": "/bail"
   },
   {
     "path": "/blog",
-    "mtime": "2026-10-06T07:48:14.711Z"
+    "mtime": "2026-10-07T20:31:39.250Z"
   },
   {
     "path": "/cgu",
-    "mtime": "2026-10-06T07:48:14.711Z"
+    "mtime": "2026-10-07T20:31:39.250Z"
   },
   {
     "path": "/comparatif",
-    "mtime": "2026-10-06T07:48:14.712Z"
+    "mtime": "2026-10-07T20:31:39.251Z"
   },
   {
     "path": "/comparatif/assurance-loyer-impaye",
-    "mtime": "2026-10-06T07:48:14.711Z"
+    "mtime": "2026-10-07T20:31:39.250Z"
   },
   {
     "path": "/comparatif/bail-electronique-vs-papier",
-    "mtime": "2026-10-06T07:48:14.711Z"
+    "mtime": "2026-10-07T20:31:39.250Z"
   },
   {
     "path": "/comparatif/logiciel-gestion-locative",
-    "mtime": "2026-10-06T07:48:14.712Z"
+    "mtime": "2026-10-07T20:31:39.250Z"
   },
   {
     "path": "/comparatif/quittance-de-loyer-vs-attestation",
-    "mtime": "2026-10-06T07:48:14.712Z"
+    "mtime": "2026-10-07T20:31:39.251Z"
   },
   {
     "path": "/comparatif/rentready-vs-legalplace",
-    "mtime": "2026-10-06T07:48:14.712Z"
+    "mtime": "2026-10-07T20:31:39.251Z"
   },
   {
     "path": "/demo",
-    "mtime": "2026-10-06T07:48:14.712Z"
+    "mtime": "2026-10-07T20:31:39.251Z"
+  },
+  {
+    "path": "/design-preview/a",
+    "mtime": "2026-10-07T20:31:39.274Z"
+  },
+  {
+    "path": "/design-preview/app-dashboard",
+    "mtime": "2026-10-07T20:31:39.274Z"
+  },
+  {
+    "path": "/design-preview/app-homebase",
+    "mtime": "2026-10-07T20:31:39.274Z"
+  },
+  {
+    "path": "/design-preview/b",
+    "mtime": "2026-10-07T20:31:39.274Z"
+  },
+  {
+    "path": "/design-preview/b-plus",
+    "mtime": "2026-10-07T20:31:39.274Z"
+  },
+  {
+    "path": "/design-preview/c",
+    "mtime": "2026-10-07T20:31:39.274Z"
+  },
+  {
+    "path": "/design-preview/dashboard-v21",
+    "mtime": "2026-10-07T20:31:39.274Z"
+  },
+  {
+    "path": "/design-preview/density-comparison",
+    "mtime": "2026-10-07T20:31:39.275Z"
+  },
+  {
+    "path": "/design-preview/homebase-v21",
+    "mtime": "2026-10-07T20:31:39.275Z"
+  },
+  {
+    "path": "/design-preview/system-inventory",
+    "mtime": "2026-10-07T20:44:14.941Z"
+  },
+  {
+    "path": "/design-preview/visual-language",
+    "mtime": "2026-10-07T20:31:39.275Z"
+  },
+  {
+    "path": "/design-preview/visual-language-v21",
+    "mtime": "2026-10-07T20:31:39.275Z"
+  },
+  {
+    "path": "/design-preview/wave2",
+    "mtime": "2026-10-07T21:40:32.921Z"
   },
   {
     "path": "/entretien",
-    "mtime": "2026-10-06T07:48:14.712Z"
+    "mtime": "2026-10-07T20:31:39.251Z"
   },
   {
     "path": "/features",
-    "mtime": "2026-10-06T07:48:14.713Z"
+    "mtime": "2026-10-07T20:31:39.252Z"
   },
   {
     "path": "/gestion-locative",
-    "mtime": "2026-10-06T07:48:14.713Z"
+    "mtime": "2026-10-07T20:31:39.252Z"
   },
   {
     "path": "/gestion-locative/aix-en-provence",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/ajaccio",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/amiens",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/angers",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/antibes",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/argenteuil",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/avignon",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/bayonne",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/besancon",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/bordeaux",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/brest",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/caen",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/cannes",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/chambery",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/clermont-ferrand",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/colmar",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/dijon",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/dunkerque",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/grenoble",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/la-rochelle",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/le-havre",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/lille",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/limoges",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/lyon",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/marseille",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/metz",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/montpellier",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/montreuil",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/mulhouse",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/nancy",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/nantes",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/nice",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/nimes",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/orleans",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/paris",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/pau",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/perpignan",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/poitiers",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/reims",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/rennes",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/roubaix",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/rouen",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/saint-denis",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/saint-etienne",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/strasbourg",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/toulon",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/toulouse",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/tourcoing",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/tours",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/gestion-locative/valence",
-    "mtime": "2026-10-06T07:48:14.713Z",
+    "mtime": "2026-10-07T20:31:39.252Z",
     "priority": 0.8,
     "family": "/gestion-locative"
   },
   {
     "path": "/glossaire-immobilier",
-    "mtime": "2026-10-06T07:48:14.714Z"
+    "mtime": "2026-10-07T20:31:39.253Z"
   },
   {
     "path": "/glossaire-immobilier/apport-personnel",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/bail-location",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/bail-mobilite",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/caution-locative",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/charges-recuperables",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/colocation",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/conge-location",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/declaration-impot",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/depot-garantie",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/encadrement-loyer",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/etat-des-lieux",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/garant-loyer",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/gerance-immobiliere",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/impaye-loyer",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/irl-indice-reference-loyers",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/location-meuble",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/location-vide",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/loi-carrez",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/loyer-ccai",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/loyer-nu",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/maintenance-locative",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/preavis-loyer",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/quittance-loyer",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/relance-loyer",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/rendement-locatif",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/revision-loyer",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/surface-habitable",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/taxe-fonciere",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/vacance-locative",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/glossaire-immobilier/visale",
-    "mtime": "2026-10-06T07:48:14.740Z",
+    "mtime": "2026-10-07T20:31:39.296Z",
     "priority": 0.6
   },
   {
     "path": "/guides",
-    "mtime": "2026-10-06T07:48:14.715Z"
+    "mtime": "2026-10-07T20:31:39.255Z"
   },
   {
     "path": "/guides/depot-garantie",
-    "mtime": "2026-10-06T07:48:14.714Z"
+    "mtime": "2026-10-07T20:31:39.254Z"
   },
   {
     "path": "/guides/irl-2026",
-    "mtime": "2026-10-06T07:48:14.714Z"
+    "mtime": "2026-10-07T20:31:39.254Z"
   },
   {
     "path": "/guides/modele-bail",
-    "mtime": "2026-10-06T07:48:14.715Z"
+    "mtime": "2026-10-07T20:31:39.254Z"
   },
   {
     "path": "/guides/quittance-loyer",
-    "mtime": "2026-10-06T07:48:14.715Z"
+    "mtime": "2026-10-07T20:31:39.255Z"
   },
   {
     "path": "/guides/relance-loyer",
-    "mtime": "2026-10-06T07:48:14.715Z"
+    "mtime": "2026-10-07T20:31:39.255Z"
   },
   {
     "path": "/locations",
-    "mtime": "2026-10-06T07:48:14.715Z"
+    "mtime": "2026-10-07T20:31:39.255Z"
   },
   {
     "path": "/mentions-legales",
-    "mtime": "2026-10-06T07:48:14.715Z"
+    "mtime": "2026-10-07T20:31:39.255Z"
   },
   {
     "path": "/outils",
-    "mtime": "2026-10-06T07:48:14.719Z"
+    "mtime": "2026-10-07T20:31:39.259Z"
   },
   {
     "path": "/outils/calculateur-charges-locatives",
-    "mtime": "2026-10-06T07:48:14.716Z"
+    "mtime": "2026-10-07T20:31:39.256Z"
   },
   {
     "path": "/outils/calculateur-depot-garantie",
-    "mtime": "2026-10-06T07:48:14.716Z"
+    "mtime": "2026-10-07T20:31:39.256Z"
   },
   {
     "path": "/outils/calculateur-irl",
-    "mtime": "2026-10-06T07:48:14.716Z"
+    "mtime": "2026-10-07T20:31:39.257Z"
   },
   {
     "path": "/outils/calculateur-loyer",
-    "mtime": "2026-10-06T07:48:14.717Z"
+    "mtime": "2026-10-07T20:31:39.257Z"
   },
   {
     "path": "/outils/calculateur-plus-value",
-    "mtime": "2026-10-06T07:48:14.717Z"
+    "mtime": "2026-10-07T20:31:39.257Z"
   },
   {
     "path": "/outils/calculateur-preavis",
-    "mtime": "2026-10-06T07:48:14.717Z"
+    "mtime": "2026-10-07T20:31:39.257Z"
   },
   {
     "path": "/outils/calculateur-rendement",
-    "mtime": "2026-10-06T07:48:14.717Z"
+    "mtime": "2026-10-07T20:31:39.257Z"
   },
   {
     "path": "/outils/calculateur-surface-habitable",
-    "mtime": "2026-10-06T07:48:14.717Z"
+    "mtime": "2026-10-07T20:31:39.258Z"
   },
   {
     "path": "/outils/checklist-etat-lieux",
-    "mtime": "2026-10-06T07:48:14.718Z"
+    "mtime": "2026-10-07T20:31:39.258Z"
   },
   {
     "path": "/outils/generateur-conge-vente",
-    "mtime": "2026-10-06T07:48:14.718Z"
+    "mtime": "2026-10-07T20:31:39.258Z"
   },
   {
     "path": "/outils/generateur-quittance",
-    "mtime": "2026-10-06T07:48:14.718Z"
+    "mtime": "2026-10-07T20:31:39.258Z"
   },
   {
     "path": "/outils/lettre-relance-loyer",
-    "mtime": "2026-10-06T07:48:14.718Z"
+    "mtime": "2026-10-07T20:31:39.258Z"
   },
   {
     "path": "/outils/modele-quittance-loyer-pdf",
-    "mtime": "2026-10-06T07:48:14.720Z"
+    "mtime": "2026-10-07T20:31:39.260Z"
   },
   {
     "path": "/outils/simulateur-fiscalite-lmnp",
-    "mtime": "2026-10-06T07:48:14.718Z"
+    "mtime": "2026-10-07T20:31:39.259Z"
   },
   {
     "path": "/outils/simulateur-loi-jeanbrun",
-    "mtime": "2026-10-06T07:48:14.720Z"
+    "mtime": "2026-10-07T20:31:39.260Z"
   },
   {
     "path": "/outils/simulateur-pret-immobilier",
-    "mtime": "2026-10-06T07:48:14.719Z"
+    "mtime": "2026-10-07T20:31:39.259Z"
   },
   {
     "path": "/politique-confidentialite",
-    "mtime": "2026-10-06T07:48:14.719Z"
+    "mtime": "2026-10-07T20:31:39.259Z"
   },
   {
     "path": "/politique-cookies",
-    "mtime": "2026-10-06T07:48:14.719Z"
+    "mtime": "2026-10-07T20:31:39.259Z"
   },
   {
     "path": "/pricing",
-    "mtime": "2026-10-06T07:48:14.719Z"
+    "mtime": "2026-10-07T20:31:39.259Z"
   },
   {
     "path": "/quittances",
-    "mtime": "2026-10-06T07:48:14.719Z"
+    "mtime": "2026-10-07T20:31:39.260Z"
   },
   {
     "path": "/quittances/aix-en-provence",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/ajaccio",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/amiens",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/angers",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/antibes",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/argenteuil",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/avignon",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/bayonne",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/besancon",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/bordeaux",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/brest",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/caen",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/cannes",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/chambery",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/clermont-ferrand",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/colmar",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/dijon",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/dunkerque",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/grenoble",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/la-rochelle",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/le-havre",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/lille",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/limoges",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/lyon",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/marseille",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/metz",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/montpellier",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/montreuil",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/mulhouse",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/nancy",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/nantes",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/nice",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/nimes",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/orleans",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/paris",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/pau",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/perpignan",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/poitiers",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/reims",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/rennes",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/roubaix",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/rouen",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/saint-denis",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/saint-etienne",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/strasbourg",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/toulon",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/toulouse",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/tourcoing",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/tours",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/quittances/valence",
-    "mtime": "2026-10-06T07:48:14.719Z",
+    "mtime": "2026-10-07T20:31:39.260Z",
     "priority": 0.7,
     "family": "/quittances"
   },
   {
     "path": "/templates",
-    "mtime": "2026-10-06T07:48:14.720Z"
+    "mtime": "2026-10-07T20:31:39.260Z"
   },
   {
     "path": "/templates/augmentation-de-loyer",
-    "mtime": "2026-10-06T07:48:14.720Z"
+    "mtime": "2026-10-07T20:31:39.261Z"
   },
   {
     "path": "/templates/bail-colocation",
-    "mtime": "2026-10-06T07:48:14.721Z"
+    "mtime": "2026-10-07T20:31:39.261Z"
   },
   {
     "path": "/templates/bail-commercial",
-    "mtime": "2026-10-06T07:48:14.721Z"
+    "mtime": "2026-10-07T20:31:39.261Z"
   },
   {
     "path": "/templates/bail-meuble",
-    "mtime": "2026-10-06T07:48:14.721Z"
+    "mtime": "2026-10-07T20:31:39.262Z"
   },
   {
     "path": "/templates/bail-mobilite",
-    "mtime": "2026-10-06T07:48:14.721Z"
+    "mtime": "2026-10-07T20:31:39.262Z"
   },
   {
     "path": "/templates/bail-professionnel",
-    "mtime": "2026-10-06T07:48:14.721Z"
+    "mtime": "2026-10-07T20:31:39.262Z"
   },
   {
     "path": "/templates/bail-vide",
-    "mtime": "2026-10-06T07:48:14.722Z"
+    "mtime": "2026-10-07T20:31:39.262Z"
   },
   {
     "path": "/templates/conge-locataire",
-    "mtime": "2026-10-06T07:48:14.722Z"
+    "mtime": "2026-10-07T20:31:39.262Z"
   },
   {
     "path": "/templates/conge-proprietaire",
-    "mtime": "2026-10-06T07:48:14.722Z"
+    "mtime": "2026-10-07T20:31:39.262Z"
   },
   {
     "path": "/templates/contrat-de-location",
-    "mtime": "2026-10-06T07:48:14.722Z"
+    "mtime": "2026-10-07T20:31:39.263Z"
   },
   {
     "path": "/templates/etat-des-lieux",
-    "mtime": "2026-10-06T07:48:14.722Z"
+    "mtime": "2026-10-07T20:31:39.263Z"
   },
   {
     "path": "/templates/lease",
-    "mtime": "2026-10-06T07:48:14.723Z"
+    "mtime": "2026-10-07T20:31:39.264Z"
   },
   {
     "path": "/templates/lease/acte-caution",
-    "mtime": "2026-10-06T07:48:14.722Z"
+    "mtime": "2026-10-07T20:31:39.263Z"
   },
   {
     "path": "/templates/lease/bail-etudiant",
-    "mtime": "2026-10-06T07:48:14.723Z"
+    "mtime": "2026-10-07T20:31:39.263Z"
   },
   {
     "path": "/templates/lease/bail-parking",
-    "mtime": "2026-10-06T07:48:14.723Z"
+    "mtime": "2026-10-07T20:31:39.263Z"
   },
   {
     "path": "/templates/lease/bail-precaire",
-    "mtime": "2026-10-06T07:48:14.723Z"
+    "mtime": "2026-10-07T20:31:39.264Z"
   },
   {
     "path": "/templates/lease/bail-saisonnier",
-    "mtime": "2026-10-06T07:48:14.723Z"
+    "mtime": "2026-10-07T20:31:39.264Z"
   },
   {
     "path": "/templates/protocol-etat-des-lieux",
-    "mtime": "2026-10-06T07:48:14.723Z"
+    "mtime": "2026-10-07T20:31:39.264Z"
   },
   {
     "path": "/templates/recu-loyer",
-    "mtime": "2026-10-06T07:48:14.724Z"
+    "mtime": "2026-10-07T20:31:39.264Z"
   },
   {
     "path": "/templates/relance-loyer-impaye",
-    "mtime": "2026-10-06T07:48:14.724Z"
+    "mtime": "2026-10-07T20:31:39.264Z"
   },
   {
     "path": "/templates/repartition-charges",
-    "mtime": "2026-10-06T07:48:14.724Z"
+    "mtime": "2026-10-07T20:31:39.264Z"
   },
   {
     "path": "/villes",
-    "mtime": "2026-10-06T07:48:14.720Z"
+    "mtime": "2026-10-07T20:31:39.260Z"
   }
 ];

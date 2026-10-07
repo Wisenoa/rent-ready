@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -9,10 +9,6 @@ import {
   ChevronDown,
   ChevronUp,
   Building2,
-  User,
-  Calendar,
-  Euro,
-  ShieldCheck,
   Check,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -26,9 +22,6 @@ import {
 import { createLease } from "@/lib/actions/lease-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -38,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import { TenantForm } from "@/components/tenant-form";
 import { formatCurrency } from "@/lib/format";
+import { FormField, Money } from "@/components/design-system";
 
 const LEASE_TYPES = [
   {
@@ -103,13 +97,12 @@ export function StandaloneLeaseForm({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  // Local tenants state to allow instant inline creation without full page reload
+  // État local des locataires pour création inline sans rechargement
   const [tenantList, setTenantList] = useState(initialTenants);
   const [isTenantModalOpen, setIsTenantModalOpen] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [isDepositCustomized, setIsDepositCustomized] = useState(false);
 
-  // Today in YYYY-MM-DD
+  // Date du jour au format ISO YYYY-MM-DD
   const todayStr = new Date().toISOString().split("T")[0];
 
   const defaultPropertyId =
@@ -150,7 +143,7 @@ export function StandaloneLeaseForm({
   const paymentDayRaw = watch("paymentDay");
   const paymentMethodRaw = watch("paymentMethod");
 
-  // Dynamic live calculations using Decimal
+  // Calculs financiers dynamiques stricts avec Decimal
   const rentNumber = parseFloat(String(rentAmountRaw || 0));
   const chargesNumber = parseFloat(String(chargesAmountRaw || 0));
   const safeRent = !isNaN(rentNumber) && rentNumber > 0 ? rentNumber : 0;
@@ -158,12 +151,12 @@ export function StandaloneLeaseForm({
 
   const totalRentDecimal = new Decimal(safeRent).plus(safeCharges);
 
-  // French legal ceiling calculation for security deposit (Art. 22 Loi 89)
+  // Plafond légal français du dépôt de garantie (Art. 22 Loi du 6 juillet 1989)
   const currentLeaseConfig =
     LEASE_TYPES.find((t) => t.value === selectedLeaseType) ?? LEASE_TYPES[0];
   const legalStandardDeposit = safeRent * currentLeaseConfig.depositFactor;
 
-  // Handle inline quick-create tenant callback
+  // Callback de création rapide d'un locataire inline
   function handleTenantCreated(created: { id: string; firstName: string; lastName: string }) {
     setTenantList((prev) => {
       const exists = prev.some((t) => t.id === created.id);
@@ -171,7 +164,7 @@ export function StandaloneLeaseForm({
       return [...prev, created];
     });
     setValue("tenantId", created.id, { shouldValidate: true });
-    toast.success(`Locataire ${created.firstName} ${created.lastName} sélectionné pour ce bail`);
+    toast.success(`Locataire ${created.firstName} ${created.lastName} rattaché au bail`);
   }
 
   function onSubmit(values: StandaloneLeaseFormValues) {
@@ -187,10 +180,8 @@ export function StandaloneLeaseForm({
 
       if (result.success) {
         toast.success("Bail créé avec succès");
-        // Redirect to Property Home Base if property exists, or to /leases
-        const targetPropertyId = (result.data as any)?.propertyId || values.propertyId;
-        if (targetPropertyId) {
-          router.push(`/properties/${targetPropertyId}?activated=1`);
+        if (initialPropertyId) {
+          router.push(`/properties/${initialPropertyId}?activated=1`);
         } else {
           router.push("/leases");
         }
@@ -201,7 +192,7 @@ export function StandaloneLeaseForm({
     });
   }
 
-  // Value → label maps for Base UI Selects so triggers display human labels, not CUIDs or raw enums
+  // Tables de correspondances pour les Selects Base UI
   const propertyLabelById: Record<string, string> = Object.fromEntries(
     properties.map((p) => [p.id, `${p.name} (${p.city})`])
   );
@@ -219,319 +210,289 @@ export function StandaloneLeaseForm({
   );
 
   const selectedProperty = properties.find((p) => p.id === selectedPropertyId);
-  const selectedTenant = tenantList.find((t) => t.id === selectedTenantId);
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* SECTION 1: Cadre de la location (Logement, locataire, type de bail) */}
-      <Card className="shadow-sm border-border/60">
-        <CardHeader className="pb-4">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 text-primary">
-              <Building2 className="size-4" />
-            </div>
-            <div>
-              <CardTitle className="text-base font-semibold">1. Cadre de la location</CardTitle>
-              <CardDescription className="text-xs">
-                Logement concerné, locataire titulaire du bail et nature du contrat.
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4 pt-0">
-          <div className="grid gap-4 sm:grid-cols-2">
-            {/* Bien immobilier */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="propertyId" className="text-sm font-medium">
-                  Bien immobilier *
-                </Label>
-                {initialPropertyId && selectedPropertyId === initialPropertyId && (
-                  <Badge variant="secondary" className="text-[10px] py-0 px-1.5 h-4 font-normal">
-                    Pré-sélectionné
-                  </Badge>
-                )}
-              </div>
-              <Select
-                value={selectedPropertyId || ""}
-                onValueChange={(val) =>
-                  setValue("propertyId", val === "__none__" || !val ? undefined : (val as string), {
-                    shouldValidate: true,
-                  })
-                }
-                items={propertyLabelById}
-              >
-                <SelectTrigger id="propertyId" className="w-full">
-                  <SelectValue placeholder="Sélectionner un bien" />
-                </SelectTrigger>
-                <SelectContent>
-                  {properties.length === 0 ? (
-                    <SelectItem value="__none__" disabled>
-                      Aucun bien disponible
-                    </SelectItem>
-                  ) : (
-                    <>
-                      <SelectItem value="__none__">— Aucun bien —</SelectItem>
-                      {properties.map((p) => (
-                        <SelectItem key={p.id} value={p.id}>
-                          {p.name} ({p.city})
-                        </SelectItem>
-                      ))}
-                    </>
-                  )}
-                </SelectContent>
-              </Select>
-              {selectedProperty && (
-                <p className="text-xs text-muted-foreground truncate">
-                  {selectedProperty.addressLine1}, {selectedProperty.city}
-                </p>
-              )}
-              {errors.propertyId && (
-                <p role="alert" className="text-xs font-medium text-destructive">
-                  {errors.propertyId.message}
-                </p>
-              )}
+        {/* Conteneur architectural B+ continu */}
+        <div className="border border-[#151413]/10 bg-[#FAF8F3] divide-y divide-[#151413]/10">
+          {/* ──────────────────────────────────────────────────────────────── */}
+          {/* SECTION 1: Cadre juridique et parties contractantes              */}
+          {/* ──────────────────────────────────────────────────────────────── */}
+          <div className="p-5 sm:p-6 space-y-5">
+            <div className="space-y-0.5">
+              <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+                1. Cadre de la location
+              </span>
+              <h2 className="text-sm font-semibold text-[#151413]">
+                Désignation du bien & Locataire titulaire
+              </h2>
+              <p className="text-xs text-[#6B6760]">
+                Sélectionnez le bien loué et le locataire titulaire du bail.
+              </p>
             </div>
 
-            {/* Locataire principal avec inline quick-create */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="tenantId" className="text-sm font-medium">
-                  Locataire principal *
-                </Label>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsTenantModalOpen(true)}
+            <div className="grid gap-5 sm:grid-cols-2">
+              {/* Bien immobilier */}
+              <FormField
+                id="propertyId"
+                label="Bien immobilier"
+                required
+                description={
+                  selectedProperty
+                    ? `${selectedProperty.addressLine1}, ${selectedProperty.city}`
+                    : "Logement rattaché au contrat."
+                }
+                error={errors.propertyId?.message}
+                badge={
+                  initialPropertyId && selectedPropertyId === initialPropertyId ? (
+                    <span className="text-[10px] text-[#166534] bg-[#F0FDF4] px-1.5 py-0.5 border border-[#166534]/20">
+                      Pré-sélectionné
+                    </span>
+                  ) : undefined
+                }
+              >
+                <Select
+                  value={selectedPropertyId || ""}
+                  onValueChange={(val) =>
+                    setValue("propertyId", val === "__none__" || !val ? undefined : (val as string), {
+                      shouldValidate: true,
+                    })
+                  }
+                  items={propertyLabelById}
                 >
-                  <Plus className="size-3 mr-1" />
-                  Nouveau locataire
-                </Button>
-              </div>
-              <Select
-                value={selectedTenantId || ""}
-                onValueChange={(val) =>
-                  setValue("tenantId", val === "__none__" || !val ? undefined : (val as string), {
-                    shouldValidate: true,
-                  })
-                }
-                items={tenantLabelById}
-              >
-                <SelectTrigger id="tenantId" className="w-full">
-                  <SelectValue placeholder="Sélectionner un locataire" />
-                </SelectTrigger>
-                <SelectContent>
-                  {tenantList.length === 0 ? (
-                    <SelectItem value="__none__" disabled>
-                      Aucun locataire enregistré
-                    </SelectItem>
-                  ) : (
-                    <>
-                      <SelectItem value="__none__">— Aucun locataire —</SelectItem>
-                      {tenantList.map((t) => (
-                        <SelectItem key={t.id} value={t.id}>
-                          {t.firstName} {t.lastName}
-                        </SelectItem>
-                      ))}
-                    </>
-                  )}
-                </SelectContent>
-              </Select>
-              {tenantList.length === 0 && (
-                <p className="text-xs text-amber-600 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 rounded-md p-2">
-                  Aucun locataire enregistré. Cliquez sur « + Nouveau locataire » ci-dessus pour en créer un rapidement sans quitter cette page.
-                </p>
-              )}
-              {errors.tenantId && (
-                <p role="alert" className="text-xs font-medium text-destructive">
-                  {errors.tenantId.message}
-                </p>
-              )}
-            </div>
-          </div>
+                  <SelectTrigger id="propertyId" className="w-full bg-white border-[#151413]/15">
+                    <SelectValue placeholder="Sélectionner un bien" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {properties.length === 0 ? (
+                      <SelectItem value="__none__" disabled>
+                        Aucun bien disponible
+                      </SelectItem>
+                    ) : (
+                      <>
+                        <SelectItem value="__none__">— Aucun bien —</SelectItem>
+                        {properties.map((p) => (
+                          <SelectItem key={p.id} value={p.id}>
+                            {p.name} ({p.city})
+                          </SelectItem>
+                        ))}
+                      </>
+                    )}
+                  </SelectContent>
+                </Select>
+              </FormField>
 
-          <div className="grid gap-4 sm:grid-cols-2 pt-2">
-            {/* Type de bail */}
-            <div className="space-y-2">
-              <Label htmlFor="leaseType" className="text-sm font-medium">
-                Type de bail *
-              </Label>
-              <Select
-                value={selectedLeaseType}
-                onValueChange={(val) =>
-                  setValue("leaseType", val as StandaloneLeaseFormValues["leaseType"], {
-                    shouldValidate: true,
-                  })
+              {/* Locataire principal */}
+              <FormField
+                id="tenantId"
+                label="Locataire principal"
+                required
+                description="Titulaire signataire du contrat de bail."
+                error={errors.tenantId?.message}
+                badge={
+                  <button
+                    type="button"
+                    onClick={() => setIsTenantModalOpen(true)}
+                    className="inline-flex items-center gap-1 text-[11px] font-medium text-[#151413] hover:underline"
+                  >
+                    <Plus className="size-3" />
+                    <span>Nouveau locataire</span>
+                  </button>
                 }
-                items={leaseTypeLabelByValue}
               >
-                <SelectTrigger id="leaseType" className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {LEASE_TYPES.map((t) => (
-                    <SelectItem key={t.value} value={t.value}>
-                      {t.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground">{currentLeaseConfig.description}</p>
-              {errors.leaseType && (
-                <p role="alert" className="text-xs font-medium text-destructive">
-                  {errors.leaseType.message}
-                </p>
-              )}
+                <Select
+                  value={selectedTenantId || ""}
+                  onValueChange={(val) =>
+                    setValue("tenantId", val === "__none__" || !val ? undefined : (val as string), {
+                      shouldValidate: true,
+                    })
+                  }
+                  items={tenantLabelById}
+                >
+                  <SelectTrigger id="tenantId" className="w-full bg-white border-[#151413]/15">
+                    <SelectValue placeholder="Sélectionner un locataire" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {tenantList.length === 0 ? (
+                      <SelectItem value="__none__" disabled>
+                        Aucun locataire enregistré
+                      </SelectItem>
+                    ) : (
+                      <>
+                        <SelectItem value="__none__">— Aucun locataire —</SelectItem>
+                        {tenantList.map((t) => (
+                          <SelectItem key={t.id} value={t.id}>
+                            {t.firstName} {t.lastName}
+                          </SelectItem>
+                        ))}
+                      </>
+                    )}
+                  </SelectContent>
+                </Select>
+              </FormField>
             </div>
 
-            {/* Date de prise d'effet */}
-            <div className="space-y-2">
-              <Label htmlFor="startDate" className="text-sm font-medium">
-                Date de prise d&apos;effet *
-              </Label>
-              <Input
+            <div className="grid gap-5 sm:grid-cols-2 pt-1">
+              {/* Type de bail */}
+              <FormField
+                id="leaseType"
+                label="Type de contrat"
+                required
+                description={currentLeaseConfig.description}
+                error={errors.leaseType?.message}
+              >
+                <Select
+                  value={selectedLeaseType}
+                  onValueChange={(val) =>
+                    setValue("leaseType", val as StandaloneLeaseFormValues["leaseType"], {
+                      shouldValidate: true,
+                    })
+                  }
+                  items={leaseTypeLabelByValue}
+                >
+                  <SelectTrigger id="leaseType" className="w-full bg-white border-[#151413]/15">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {LEASE_TYPES.map((t) => (
+                      <SelectItem key={t.value} value={t.value}>
+                        {t.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormField>
+
+              {/* Date de prise d'effet */}
+              <FormField
                 id="startDate"
-                type="date"
-                className="w-full"
-                {...register("startDate")}
-              />
-              <p className="text-xs text-muted-foreground">
-                Date d&apos;entrée dans les lieux et début de facturation des loyers.
-              </p>
-              {errors.startDate && (
-                <p role="alert" className="text-xs font-medium text-destructive">
-                  {errors.startDate.message}
-                </p>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+                label="Date de prise d'effet"
+                required
+                description="Entrée dans les lieux et début de facturation des loyers."
+                error={errors.startDate?.message}
+              >
+                <Input
+                  id="startDate"
+                  type="date"
+                  className="w-full bg-white border-[#151413]/15 text-[#151413]"
+                  {...register("startDate")}
+                />
+              </FormField>
 
-      {/* SECTION 2: Loyer & Provisions pour charges (Conditions financières) */}
-      <Card className="shadow-sm border-border/60">
-        <CardHeader className="pb-4">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 text-primary">
-              <Euro className="size-4" />
-            </div>
-            <div>
-              <CardTitle className="text-base font-semibold">2. Conditions financières</CardTitle>
-              <CardDescription className="text-xs">
-                Fixez le montant du loyer principal hors charges et les provisions pour charges.
-              </CardDescription>
+              {/* Date de fin de bail */}
+              <FormField
+                id="endDate"
+                label="Date de fin de bail"
+                optional
+                description="Laisser vide pour un bail standard reconduit tacitement."
+                error={errors.endDate?.message}
+              >
+                <Input
+                  id="endDate"
+                  type="date"
+                  className="w-full bg-white border-[#151413]/15 text-[#151413]"
+                  {...register("endDate")}
+                />
+              </FormField>
             </div>
           </div>
-        </CardHeader>
-        <CardContent className="space-y-4 pt-0">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="rentAmount" className="text-sm font-medium">
-                Loyer hors charges (€) *
-              </Label>
-              <Input
+
+          {/* ──────────────────────────────────────────────────────────────── */}
+          {/* SECTION 2: Conditions financières & Ventilation loyer/charges     */}
+          {/* ──────────────────────────────────────────────────────────────── */}
+          <div className="p-5 sm:p-6 space-y-5">
+            <div className="space-y-0.5">
+              <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+                2. Conditions financières
+              </span>
+              <h2 className="text-sm font-semibold text-[#151413]">
+                Loyer mensuel & Provisions sur charges
+              </h2>
+              <p className="text-xs text-[#6B6760]">
+                Fixez le montant du loyer principal hors charges et les provisions pour charges locatives.
+              </p>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <FormField
                 id="rentAmount"
-                type="number"
-                inputMode="decimal"
-                step="0.01"
-                min="0"
-                placeholder="Ex : 850,00"
-                {...register("rentAmount")}
-              />
-              <p className="text-xs text-muted-foreground">
-                Montant mensuel net hors charges locatives.
-              </p>
-              {errors.rentAmount && (
-                <p role="alert" className="text-xs font-medium text-destructive">
-                  {errors.rentAmount.message}
-                </p>
-              )}
-            </div>
+                label="Loyer principal hors charges (€)"
+                required
+                description="Montant mensuel net hors charges locatives."
+                error={errors.rentAmount?.message}
+              >
+                <Input
+                  id="rentAmount"
+                  type="number"
+                  inputMode="decimal"
+                  step="0.01"
+                  min="0"
+                  placeholder="Ex : 850,00"
+                  className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                  {...register("rentAmount")}
+                />
+              </FormField>
 
-            <div className="space-y-2">
-              <Label htmlFor="chargesAmount" className="text-sm font-medium">
-                Provisions sur charges (€)
-              </Label>
-              <Input
+              <FormField
                 id="chargesAmount"
-                type="number"
-                inputMode="decimal"
-                step="0.01"
-                min="0"
-                placeholder="Ex : 50,00"
-                {...register("chargesAmount")}
-              />
-              <p className="text-xs text-muted-foreground">
-                Provisions mensuelles pour charges récupérables (eau, copropriété...).
-              </p>
-              {errors.chargesAmount && (
-                <p role="alert" className="text-xs font-medium text-destructive">
-                  {errors.chargesAmount.message}
-                </p>
-              )}
+                label="Provisions pour charges (€)"
+                optional
+                description="Charges locatives récupérables (eau, copropriété...)."
+                error={errors.chargesAmount?.message}
+              >
+                <Input
+                  id="chargesAmount"
+                  type="number"
+                  inputMode="decimal"
+                  step="0.01"
+                  min="0"
+                  placeholder="Ex : 50,00"
+                  className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                  {...register("chargesAmount")}
+                />
+              </FormField>
             </div>
-          </div>
 
-          {/* Dynamic live total breakdown */}
-          <div className="rounded-xl border border-border/80 bg-muted/40 p-4 space-y-2">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                Total mensuel exigible :
-              </span>
-              <span className="text-2xl font-bold tracking-tight text-foreground">
-                {formatCurrency(totalRentDecimal)}
-                <span className="text-sm font-normal text-muted-foreground ml-1">/ mois</span>
-              </span>
-            </div>
-            <div className="flex flex-wrap items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/60 gap-1">
-              <span>Loyer principal HC : <strong>{formatCurrency(safeRent)}</strong></span>
-              <span>+ Provisions pour charges : <strong>{formatCurrency(safeCharges)}</strong></span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* SECTION 3: Modalités complémentaires (Progressive Disclosure) */}
-      <Card className="shadow-sm border-border/60 overflow-hidden">
-        <button
-          type="button"
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/30 transition-colors"
-        >
-          <div className="flex items-center gap-3">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-muted text-muted-foreground">
-              <ShieldCheck className="size-4" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-foreground">
-                3. Modalités complémentaires & Révision IRL
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Dépôt de garantie ({formatCurrency(depositAmountRaw ?? 0)}), jour d&apos;échéance ({paymentDayRaw ?? 1}), révision annuelle INSEE...
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span>{showAdvanced ? "Masquer" : "Afficher"}</span>
-            {showAdvanced ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
-          </div>
-        </button>
-
-        {showAdvanced && (
-          <CardContent className="space-y-5 pt-2 border-t border-border/60 bg-card">
-            {/* Dépôt de garantie & Jour de paiement */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="depositAmount" className="text-sm font-medium">
-                    Dépôt de garantie (€)
-                  </Label>
-                  <span className="text-[11px] text-muted-foreground">
-                    Facultatif · {currentLeaseConfig.legalMaxDeposit}
-                  </span>
+            {/* Récapitulatif total dynamique */}
+            <div className="border border-[#151413]/10 bg-white p-4 space-y-2">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <span className="text-xs uppercase tracking-wider text-[#6B6760] font-medium">
+                  Total mensuel exigible :
+                </span>
+                <div className="flex items-baseline gap-1">
+                  <Money amount={totalRentDecimal} size="xl" tone="ink" />
+                  <span className="text-xs text-[#6B6760]">/ mois</span>
                 </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-between text-xs text-[#6B6760] pt-2 border-t border-[#151413]/10 gap-1 font-mono">
+                <span>Loyer HC : {formatCurrency(safeRent)}</span>
+                <span>+ Provisions charges : {formatCurrency(safeCharges)}</span>
+              </div>
+            </div>
+
+            {/* Dépôt de garantie & Échéance */}
+            <div className="grid gap-5 sm:grid-cols-2 pt-2">
+              <FormField
+                id="depositAmount"
+                label="Dépôt de garantie (€)"
+                optional
+                description={
+                  <span className="block space-y-1">
+                    <span>Plafond légal : {formatCurrency(legalStandardDeposit)} ({currentLeaseConfig.legalMaxDeposit})</span>
+                    {safeRent > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setValue("depositAmount", legalStandardDeposit, { shouldValidate: true })}
+                        className="text-[#151413] underline font-medium hover:text-[#6B6760] block"
+                      >
+                        Appliquer le plafond légal ({formatCurrency(legalStandardDeposit)})
+                      </button>
+                    )}
+                  </span>
+                }
+                error={errors.depositAmount?.message}
+              >
                 <Input
                   id="depositAmount"
                   type="number"
@@ -539,69 +500,36 @@ export function StandaloneLeaseForm({
                   step="0.01"
                   min="0"
                   placeholder="0,00"
-                  {...register("depositAmount", {
-                    onChange: () => setIsDepositCustomized(true),
-                  })}
+                  className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                  {...register("depositAmount")}
                 />
-                <div className="flex flex-col gap-1 text-xs text-muted-foreground">
-                  <div className="flex items-center justify-between">
-                    <span>
-                      Plafond légal : {formatCurrency(legalStandardDeposit)}
-                    </span>
-                    {safeRent > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsDepositCustomized(true);
-                          setValue("depositAmount", legalStandardDeposit, { shouldValidate: true });
-                        }}
-                        className="text-primary hover:underline font-medium"
-                      >
-                        Appliquer le plafond ({formatCurrency(legalStandardDeposit)})
-                      </button>
-                    )}
-                  </div>
-                  {safeRent > 0 && Number(depositAmountRaw || 0) > legalStandardDeposit && (
-                    <p className="text-destructive text-[11px]">
-                      Attention : ce montant dépasse le plafond légal de {formatCurrency(legalStandardDeposit)}.
-                    </p>
-                  )}
-                </div>
-                {errors.depositAmount && (
-                  <p role="alert" className="text-xs font-medium text-destructive">
-                    {errors.depositAmount.message}
-                  </p>
-                )}
-              </div>
+              </FormField>
 
-              <div className="space-y-2">
-                <Label htmlFor="paymentDay" className="text-sm font-medium">
-                  Jour d&apos;exigibilité du loyer
-                </Label>
+              <FormField
+                id="paymentDay"
+                label="Jour d'échéance du terme"
+                required
+                description="Jour du mois où le loyer est exigible (généralement le 1er du mois)."
+                error={errors.paymentDay?.message}
+              >
                 <Input
                   id="paymentDay"
                   type="number"
                   min="1"
                   max="31"
+                  className="w-full bg-white border-[#151413]/15 font-mono text-sm"
                   {...register("paymentDay")}
                 />
-                <p className="text-xs text-muted-foreground">
-                  Jour du mois où le loyer est exigible (généralement le 1er du mois à échoir).
-                </p>
-                {errors.paymentDay && (
-                  <p role="alert" className="text-xs font-medium text-destructive">
-                    {errors.paymentDay.message}
-                  </p>
-                )}
-              </div>
+              </FormField>
             </div>
 
-            {/* Mode de paiement & Date de fin */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="paymentMethod" className="text-sm font-medium">
-                  Mode de règlement privilégié
-                </Label>
+            {/* Mode de règlement */}
+            <div className="grid gap-5 sm:grid-cols-2">
+              <FormField
+                id="paymentMethod"
+                label="Mode de règlement convenu"
+                description="Moyen de paiement convenu entre bailleur et locataire."
+              >
                 <Select
                   value={paymentMethodRaw ?? "TRANSFER"}
                   onValueChange={(val) =>
@@ -609,7 +537,7 @@ export function StandaloneLeaseForm({
                   }
                   items={paymentMethodLabelByValue}
                 >
-                  <SelectTrigger id="paymentMethod" className="w-full">
+                  <SelectTrigger id="paymentMethod" className="w-full bg-white border-[#151413]/15">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -620,121 +548,134 @@ export function StandaloneLeaseForm({
                     ))}
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground">
-                  Moyen de règlement convenu entre le bailleur et le locataire.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="endDate" className="text-sm font-medium">
-                  Date de fin de bail (facultatif)
-                </Label>
-                <Input id="endDate" type="date" className="w-full" {...register("endDate")} />
-                <p className="text-xs text-muted-foreground">
-                  Laisser vide pour un bail standard reconduit tacitement.
-                </p>
-              </div>
+              </FormField>
             </div>
+          </div>
 
-            {/* Révision INSEE IRL (si vide ou meublé) */}
-            {(selectedLeaseType === "UNFURNISHED" || selectedLeaseType === "FURNISHED") && (
-              <div className="pt-2 border-t border-border/50 space-y-3">
-                <div>
-                  <p className="text-sm font-medium text-foreground">
-                    Révision annuelle du loyer (Indice IRL INSEE)
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    RentReady calcule et vous notifie automatiquement la revalorisation légale du loyer à chaque date anniversaire du bail.
-                  </p>
+          {/* ──────────────────────────────────────────────────────────────── */}
+          {/* SECTION 3: Modalités complémentaires (Progressive Disclosure)   */}
+          {/* ──────────────────────────────────────────────────────────────── */}
+          {(selectedLeaseType === "UNFURNISHED" || selectedLeaseType === "FURNISHED") && (
+            <div>
+              <button
+                type="button"
+                onClick={() => setShowAdvanced(!showAdvanced)}
+                className="w-full flex items-center justify-between p-5 text-left hover:bg-[#F2EFE9]/40 transition-colors"
+              >
+                <div className="space-y-0.5">
+                  <span className="text-[11px] uppercase tracking-wider text-[#6B6760] font-semibold block">
+                    3. Modalités complémentaires & Révision IRL
+                  </span>
+                  <span className="text-sm font-semibold text-[#151413] block">
+                    Indexation annuelle du loyer (Indice de Référence des Loyers)
+                  </span>
+                  <span className="text-xs text-[#6B6760] block font-mono">
+                    Revalorisation légale à la date anniversaire
+                  </span>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="irlReferenceQuarter" className="text-sm font-medium">
-                      Trimestre de référence INSEE
-                    </Label>
-                    <Select
-                      value={(watch("irlReferenceQuarter") as string | undefined) ?? ""}
-                      onValueChange={(val) =>
-                        setValue("irlReferenceQuarter", val as string | undefined)
-                      }
-                      items={irlQuarterLabelByValue}
+                <div className="flex items-center gap-2 text-xs text-[#6B6760]">
+                  <span>{showAdvanced ? "Masquer" : "Afficher"}</span>
+                  {showAdvanced ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
+                </div>
+              </button>
+
+              {showAdvanced && (
+                <div className="p-5 sm:p-6 space-y-5 border-t border-[#151413]/10 bg-[#FAF8F3]/60">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <FormField
+                      id="irlReferenceQuarter"
+                      label="Trimestre de référence INSEE"
+                      description="Trimestre IRL stipulé au contrat de location."
                     >
-                      <SelectTrigger id="irlReferenceQuarter" className="w-full">
-                        <SelectValue placeholder="Sélectionner un trimestre" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {IRL_QUARTERS.map((q) => (
-                          <SelectItem key={q.value} value={q.value}>
-                            {q.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                      <Select
+                        value={(watch("irlReferenceQuarter") as string | undefined) ?? ""}
+                        onValueChange={(val) =>
+                          setValue("irlReferenceQuarter", val as string | undefined)
+                        }
+                        items={irlQuarterLabelByValue}
+                      >
+                        <SelectTrigger id="irlReferenceQuarter" className="w-full bg-white border-[#151413]/15">
+                          <SelectValue placeholder="Sélectionner un trimestre" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {IRL_QUARTERS.map((q) => (
+                            <SelectItem key={q.value} value={q.value}>
+                              {q.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormField>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="irlReferenceValue" className="text-sm font-medium">
-                      Valeur de l&apos;indice d&apos;origine
-                    </Label>
-                    <Input
+                    <FormField
                       id="irlReferenceValue"
-                      type="number"
-                      inputMode="decimal"
-                      step="0.01"
-                      min="0"
-                      placeholder="Ex : 144.51"
-                      {...register("irlReferenceValue")}
-                    />
+                      label="Valeur de l'indice d'origine"
+                      optional
+                      description="Valeur numérique de l'indice INSEE au contrat."
+                    >
+                      <Input
+                        id="irlReferenceValue"
+                        type="number"
+                        inputMode="decimal"
+                        step="0.01"
+                        min="0"
+                        placeholder="Ex : 144.51"
+                        className="w-full bg-white border-[#151413]/15 font-mono text-sm"
+                        {...register("irlReferenceValue")}
+                      />
+                    </FormField>
                   </div>
                 </div>
-              </div>
-            )}
-          </CardContent>
-        )}
-      </Card>
-
-      {/* Submission Footer */}
-      <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => {
-            if (initialPropertyId) {
-              router.push(`/properties/${initialPropertyId}`);
-            } else {
-              router.push("/leases");
-            }
-          }}
-          disabled={isPending}
-          className="w-full sm:w-auto"
-        >
-          Annuler
-        </Button>
-        <Button
-          type="submit"
-          disabled={isPending}
-          className="w-full sm:w-auto font-medium"
-        >
-          {isPending ? (
-            <>
-              <Loader2 className="size-4 mr-2 animate-spin" />
-              Création du bail en cours...
-            </>
-          ) : (
-            <>
-              <Check className="size-4 mr-2" />
-              Créer le bail
-            </>
+              )}
+            </div>
           )}
-        </Button>
-      </div>
-    </form>
+        </div>
 
-    <TenantForm
-      open={isTenantModalOpen}
-      onOpenChange={setIsTenantModalOpen}
-      onSuccess={handleTenantCreated}
-    />
-  </>
-);
+        {/* ──────────────────────────────────────────────────────────────── */}
+        {/* BOUTONS D'ACTION SOUMISSION                                      */}
+        {/* ──────────────────────────────────────────────────────────────── */}
+        <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => {
+              if (initialPropertyId) {
+                router.push(`/properties/${initialPropertyId}`);
+              } else {
+                router.push("/leases");
+              }
+            }}
+            disabled={isPending}
+            className="w-full sm:w-auto text-xs border-[#151413]/15 text-[#151413] hover:bg-[#FAF8F3]"
+          >
+            Annuler
+          </Button>
+
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="w-full sm:w-auto text-xs font-medium bg-[#151413] text-[#F8F6F0] hover:bg-[#151413]/90"
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="size-3.5 mr-2 animate-spin" />
+                Création du bail en cours...
+              </>
+            ) : (
+              <>
+                <Check className="size-3.5 mr-2" />
+                Créer le bail
+              </>
+            )}
+          </Button>
+        </div>
+      </form>
+
+      <TenantForm
+        open={isTenantModalOpen}
+        onOpenChange={setIsTenantModalOpen}
+        onSuccess={handleTenantCreated}
+      />
+    </>
+  );
 }

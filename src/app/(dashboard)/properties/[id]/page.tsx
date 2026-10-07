@@ -260,21 +260,24 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
     });
   }
 
-  documentsList.push({
-    id: "inventory-doc",
-    title: "État des lieux d'entrée",
-    subtitle: activeLease ? "Dossier contradictoire d'entrée" : "À établir lors de l'emménagement",
-    statusLabel: activeLease ? "Archivé" : "En attente",
-    statusTone: "neutral",
-  });
+  // Quittances antérieures réellement issues des écritures du bail
+  const pastPaidTxs = (activeLease?.transactions ?? []).filter(
+    (tx) => tx.id !== currentMonthTx?.id && (tx.status === "PAID" || tx.receiptDocument)
+  );
 
-  documentsList.push({
-    id: "insurance-doc",
-    title: "Attestation assurance habitation",
-    subtitle: tenant ? "Garantie villégiature & risques locatifs" : "À collecter",
-    statusLabel: tenant ? "Vérifié" : "En attente",
-    statusTone: tenant ? "calm" : "neutral",
-  });
+  for (const tx of pastPaidTxs.slice(0, 3)) {
+    const txMonth = format(new Date(tx.periodStart), "MMMM yyyy", { locale: fr });
+    documentsList.push({
+      id: `receipt-${tx.id}`,
+      title: `Quittance ${txMonth}`,
+      subtitle: "Attestation de loyer acquitté (Art. 21 loi 89)",
+      period: txMonth,
+      statusLabel: "Délivrée",
+      statusTone: "calm",
+      actionType: "custom",
+      actionSlot: <QuittanceButton transactionId={tx.id} />,
+    });
+  }
 
   return (
     <PageShell maxWidth="default" className="space-y-6 pb-12">
