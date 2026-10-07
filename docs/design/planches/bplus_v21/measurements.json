@@ -1,0 +1,72 @@
+{
+  "dashboard_desktop_exception": {
+    "viewportWidth": 1440,
+    "viewportHeight": 900,
+    "documentHeight": 900
+  },
+  "dashboard_desktop_resolved": {
+    "viewportWidth": 1440,
+    "viewportHeight": 900,
+    "documentHeight": 900
+  },
+  "dashboard_desktop_dense_10": {
+    "viewportWidth": 1440,
+    "viewportHeight": 900,
+    "documentHeight": 1118
+  },
+  "dashboard_mobile_390_exception": {
+    "viewportWidth": 390,
+    "viewportHeight": 844,
+    "documentHeight": 901
+  },
+  "dashboard_mobile_390_resolved": {
+    "viewportWidth": 390,
+    "viewportHeight": 844,
+    "documentHeight": 844
+  },
+  "dashboard_mobile_390_multi": {
+    "viewportWidth": 390,
+    "viewportHeight": 844,
+    "documentHeight": 1301
+  },
+  "dashboard_mobile_360_stress": {
+    "viewportWidth": 360,
+    "viewportHeight": 740,
+    "documentHeight": 968
+  },
+  "homebase_desktop_exception": {
+    "viewportWidth": 1440,
+    "viewportHeight": 900,
+    "documentHeight": 900
+  },
+  "homebase_desktop_resolved": {
+    "viewportWidth": 1440,
+    "viewportHeight": 900,
+    "documentHeight": 900
+  },
+  "homebase_mobile_390_exception": {
+    "viewportWidth": 390,
+    "viewportHeight": 844,
+    "documentHeight": 1443
+  },
+  "homebase_mobile_390_resolved": {
+    "viewportWidth": 390,
+    "viewportHeight": 844,
+    "documentHeight": 1420
+  },
+  "homebase_mobile_360_stress": {
+    "viewportWidth": 360,
+    "viewportHeight": 740,
+    "documentHeight": 1525
+  },
+  "visual_language_v21": {
+    "viewportWidth": 1440,
+    "viewportHeight": 1200,
+    "documentHeight": 1209
+  },
+  "density_comparison": {
+    "viewportWidth": 1440,
+    "viewportHeight": 1100,
+    "documentHeight": 1100
+  }
+}

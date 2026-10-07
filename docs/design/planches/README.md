@@ -8,6 +8,8 @@ Toutes les planches, captures d'écran multi-résolutions (Desktop, Tablette, Mo
 
 ## Sommaire
 
+-1. [B+ V2.1 : Maturation Produit, Densité & Mobile (Red Team Design)](#-1-b-v21--maturation-produit-densité--mobile-red-team-design)
+00. [Test de Traduction Produit (Product Design Translation Test)](#00-test-de-traduction-produit-product-design-translation-test)
 0. [Arbitrage des 3 Directions Artistiques (Prototypage Réel)](#0-arbitrage-des-3-directions-artistiques)
 1. [Surfaces Publiques & Marketing (Direction Sérénité Active V1)](#1-surfaces-publiques--marketing--direction-sérénité-active)
    - [Présentation Complète & Storytelling](./marketing/presentation.md)
@@ -19,6 +21,39 @@ Toutes les planches, captures d'écran multi-résolutions (Desktop, Tablette, Mo
    - [Tranche #3 : Création de Bail Directe](#tranche-3--création-de-bail-directe)
    - [Tranche #4 : Onboarding & Activation Premier Bien](#tranche-4--onboarding--activation-premier-bien)
 3. [Rapports Stratégiques & Audits](#3-rapports-stratégiques--audits)
+
+---
+
+## -1. B+ V2.1 : Maturation Produit, Densité & Mobile (Red Team Design)
+> **Rapport complet & audit d'adversité :** [Lire le rapport B+ V2.1](./bplus_v21/bplus_v21_density_mobile_report.md)  
+> **Verdict : SHIP** (Direction validée pour devenir le Design System officiel de RentReady)
+
+Confrontation de la direction **B+ V2 « Editorial Software »** aux pires conditions réelles de production (Red Team Design) :
+* **Densité extrême :** Portefeuille de 10 lots réels intégrant studios, appartements familiaux et places de parking.
+* **Exceptions multiples simultanées :** Acompte partiel à pointer (Nantes), retard avéré avec relance (Lille), et virement bancaire à rapprocher (Bordeaux).
+* **Rétraction mécanique mesurée :** Réduction de **-54 % de la hauteur** de ligne (105px à 48px) dès résolution de l'exception. Extinction totale de la couleur terracotta.
+* **Éradication de la "Card Soup" :** Remplacement des cartes documentaires carrées par un **Registre Documentaire Structuré** linéaire (gain de **-40 % d'espace**).
+* **Purge des artefacts :** Suppression de l'annuaire redondant en bas de dashboard (gain de **220px de scroll inutile**) et élimination des faux boutons de démo.
+* **Mobile étroit (360px & 390px) :** Premier bien visible dès le premier écran, zéro collision sur les noms composés et montants à centimes.
+
+### Les 14 Planches Officielles B+ V2.1
+
+| N° | Écran / Condition | Viewport | Fichier & Résolution |
+| :---: | :--- | :---: | :--- |
+| **01** | Dashboard Desktop — Exception active (Nantes 400 €) | 1440×900 | [01_dashboard_1440_exception.png](./bplus_v21/01_dashboard_1440_exception.png) (1440×900) |
+| **02** | Dashboard Desktop — Mois résolu (Rétraction silencieuse) | 1440×900 | [02_dashboard_1440_resolved.png](./bplus_v21/02_dashboard_1440_resolved.png) (1440×900) |
+| **03** | Dashboard Desktop — Portefeuille dense 10 logements | 1440×900 | [03_dashboard_1440_dense_10_units.png](./bplus_v21/03_dashboard_1440_dense_10_units.png) (1440×1118) |
+| **04** | Dashboard Mobile — Exception active, 1er bien visible | 390×844 | [04_dashboard_390_exception.png](./bplus_v21/04_dashboard_390_exception.png) (390×901) |
+| **05** | Dashboard Mobile — Mois résolu, 100 % dans le 1er écran | 390×844 | [05_dashboard_390_resolved.png](./bplus_v21/05_dashboard_390_resolved.png) (390×844) |
+| **06** | Dashboard Mobile — 3 exceptions hiérarchisées | 390×844 | [06_dashboard_390_multi_exception.png](./bplus_v21/06_dashboard_390_multi_exception.png) (390×1301) |
+| **07** | Dashboard Mobile 360px — Stress noms longs & centimes | 360×740 | [07_dashboard_360_stress.png](./bplus_v21/07_dashboard_360_stress.png) (360×968) |
+| **08** | Property Home Base Desktop — Exception active (Reçu acompte) | 1440×900 | [08_homebase_1440_exception.png](./bplus_v21/08_homebase_1440_exception.png) (1440×900) |
+| **09** | Property Home Base Desktop — Résolu (Quittance prête) | 1440×900 | [09_homebase_1440_resolved.png](./bplus_v21/09_homebase_1440_resolved.png) (1440×900) |
+| **10** | Property Home Base Mobile — Exception active & CTA tactile | 390×844 | [10_homebase_390_exception.png](./bplus_v21/10_homebase_390_exception.png) (390×1443) |
+| **11** | Property Home Base Mobile — Résolu & accès direct quittance | 390×844 | [11_homebase_390_resolved.png](./bplus_v21/11_homebase_390_resolved.png) (390×1420) |
+| **12** | Property Home Base Mobile 360px — Stress adresse & locataire long | 360×740 | [12_homebase_360_long_content.png](./bplus_v21/12_homebase_360_long_content.png) (360×1525) |
+| **13** | Synthèse Langage Visuel & Comportemental V2.1 | 1440×1200 | [13_bplus_v21_visual_language.png](./bplus_v21/13_bplus_v21_visual_language.png) (1440×1209) |
+| **14** | Planche Comparative — Avant (V2) vs Après (V2.1) | 1440×1100 | [14_before_after_density.png](./bplus_v21/14_before_after_density.png) (1440×1100) |
 
 ---
 
