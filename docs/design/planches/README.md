@@ -22,15 +22,33 @@ Toutes les planches, captures d'écran multi-résolutions (Desktop, Tablette, Mo
 
 ---
 
-## 0. Arbitrage des 3 Directions Artistiques
+## 0. Direction Retenue : B+ — « Editorial Monthly Ledger »
 
-Trois directions radicalement distinctes prototypées sur la **même matière métier réelle** (Grand livre d'Octobre 2026 : Paris 750 €, Lyon 1 700 €, Nantes 400/800 € partiel, 3 baux ventilés).
+La synthèse retenue suite à la Creative Review :
+* **Matière & Typographie de B :** Fond papier chaud (`#F7F5EE`), encre noire (`#181716`), filets d'imprimerie fins, titrage serif éditorial, absence totale de soupe de cartes.
+* **Mécanique narrative de C :** Le cycle mensuel comme structure graphique (ouverture -> règlements -> exception isolée -> sérénité totale).
+* **Clarté commerciale de A :** Bénéfice humain immédiat, compréhension dès les ~800 premiers pixels sur mobile et dans le premier viewport desktop.
+* **Suppression du cosplay juridique :** Le droit protège silencieusement en sous-couche (art. 21), le vocabulaire reste simple, humain et direct.
 
-| Direction | Concept & Signature | Planche Desktop (1440px) | Planche Mobile (390px) |
-| :--- | :--- | :---: | :---: |
-| **Direction A** | **The Calm Ledger / Control**<br>Baseline assainie, grand livre suisse, rigueur néo-grotesque | [Voir Desktop 1440](./directions/A_desktop_1440.png) | [Voir Mobile 390](./directions/A_mobile_390.png) |
-| **Direction B** | **L'Atelier Foncier & Typographique**<br>Éditorial d'architecture foncière, marge cadastrale, titrage serif noble, filets d'imprimerie, 0 carte blanche | [Voir Desktop 1440](./directions/B_desktop_1440.png) | [Voir Mobile 390](./directions/B_mobile_390.png) |
-| **Direction C** | **Le Fil du Mois**<br>Storytelling produit continu, ligne de temps vivante liant exigibilité, mutation bancaire et quittance | [Voir Desktop 1440](./directions/C_desktop_1440.png) | [Voir Mobile 390](./directions/C_mobile_390.png) |
+| Support & État | Description | Lien vers la planche |
+| :--- | :--- | :---: |
+| **Desktop 1440px (Hero Viewport)** | Premier écran sans scroll : Promesse humaine + Grand livre ouvert | [Voir BPLUS_desktop_1440.png](./directions/BPLUS_desktop_1440.png) |
+| **Desktop 1440px (Récit Complet)** | Récit mensuel complet avec exception Nantes mise en relief | [Voir BPLUS_desktop_full_story.png](./directions/BPLUS_desktop_full_story.png) |
+| **Desktop 1440px (État Résolu)** | État après règlement : 100% encaissé, Nantes apaisé, 0 € restant | [Voir BPLUS_desktop_resolved_1440.png](./directions/BPLUS_desktop_resolved_1440.png) |
+| **Mobile 390px (Hero Viewport)** | Premier écran mobile (~844px) : Titre, bénéfice, CTA et totaux | [Voir BPLUS_mobile_390.png](./directions/BPLUS_mobile_390.png) |
+| **Mobile 390px (Récit Complet)** | Récit responsive complet et fluide du mois | [Voir BPLUS_mobile_full_390.png](./directions/BPLUS_mobile_full_390.png) |
+
+---
+
+## 0bis. Rappel des 3 Explorations Initiales (A, B, C)
+
+Trois directions exploratoires initialement prototypées pour arbitrage :
+
+| Direction | Concept & Signature | Arbitrage Creative Review |
+| :--- | :--- | :---: |
+| **Direction A** | The Calm Ledger / Control | Rejetée (trop standard SaaS, mais gardée pour sa clarté) |
+| **Direction B** | L'Atelier Foncier & Typographique | **Retenue comme socle de marque & matérialité** |
+| **Direction C** | Le Fil du Mois | **Retenue comme structure narrative du cycle** |
 
 ---
 
