@@ -22,21 +22,36 @@ Toutes les planches, captures d'écran multi-résolutions (Desktop, Tablette, Mo
 
 ---
 
-## 0. Direction Retenue : B+ — « Editorial Monthly Ledger »
+## 0. Direction Retenue & Évoluée : B+ V2 — « EDITORIAL SOFTWARE »
 
-La synthèse retenue suite à la Creative Review :
-* **Matière & Typographie de B :** Fond papier chaud (`#F7F5EE`), encre noire (`#181716`), filets d'imprimerie fins, titrage serif éditorial, absence totale de soupe de cartes.
-* **Mécanique narrative de C :** Le cycle mensuel comme structure graphique (ouverture -> règlements -> exception isolée -> sérénité totale).
-* **Clarté commerciale de A :** Bénéfice humain immédiat, compréhension dès les ~800 premiers pixels sur mobile et dans le premier viewport desktop.
-* **Suppression du cosplay juridique :** Le droit protège silencieusement en sous-couche (art. 21), le vocabulaire reste simple, humain et direct.
+La direction conceptuelle B+ a été maturée d'un « document administratif / PDF » vers un véritable **logiciel éditorial haut de gamme (Editorial Software)** :
+* **Silence Visuel au cœur de la mise en page :** Les logements à jour (Paris, Lyon) prennent 1 unité d'attention (calmes, feutrés, compacts). L'exception (Nantes, 400 €) prend 3 unités d'attention avec bouton d'action directe.
+* **Le Calme comme seule récompense :** Quand l'exception est résolue (« Marquer les 400 € reçus »), l'accent terracotta/ambre **disparaît totalement**, la page retrouve un calme feutré (encre, vert botanique très sobre, fond papier chaud `#F8F6F0`). Zéro confetti, zéro modal bruyante.
+* **Le Mois comme signature temporelle :** Bandeau architectural `OCTOBRE 2026 · ÉCHÉANCE MENSUELLE · 01 OCT ──●── 31 OCT` unifiant le titre éditorial et le grand livre.
+* **Données financières sublimées :** Typographie ciselée (`2 850 €`, `2 450 €`, `400 €` / `0 €`) en grands corps tabulaires.
+* **Home Base vivante :** Fiche d'un bien avec onglets tactiles, ruban des 4 mois écoulés et classeur de documents téléchargeables.
+* **Mobile 390px réinventé :** Le premier écran (< 850px) intègre le titre, le CTA et le baromètre d'octobre au-dessus de la ligne de flottaison. Typo mono drastiquement allégée.
 
-| Support & État | Description | Lien vers la planche |
-| :--- | :--- | :---: |
-| **Desktop 1440px (Hero Viewport)** | Premier écran sans scroll : Promesse humaine + Grand livre ouvert | [Voir BPLUS_desktop_1440.png](./directions/BPLUS_desktop_1440.png) |
-| **Desktop 1440px (Récit Complet)** | Récit mensuel complet avec exception Nantes mise en relief | [Voir BPLUS_desktop_full_story.png](./directions/BPLUS_desktop_full_story.png) |
-| **Desktop 1440px (État Résolu)** | État après règlement : 100% encaissé, Nantes apaisé, 0 € restant | [Voir BPLUS_desktop_resolved_1440.png](./directions/BPLUS_desktop_resolved_1440.png) |
-| **Mobile 390px (Hero Viewport)** | Premier écran mobile (~844px) : Titre, bénéfice, CTA et totaux | [Voir BPLUS_mobile_390.png](./directions/BPLUS_mobile_390.png) |
-| **Mobile 390px (Récit Complet)** | Récit responsive complet et fluide du mois | [Voir BPLUS_mobile_full_390.png](./directions/BPLUS_mobile_full_390.png) |
+### Les 6 Planches Officielles B+ V2 (Deliverables)
+
+| Support & Vue | État | Fichier & Dimensions |
+| :--- | :--- | :--- |
+| **Desktop 1440px (Hero Viewport)** | **Exception Active (400 €)** | [BPLUS_V2_desktop_exception_1440.png](./directions/BPLUS_V2_desktop_exception_1440.png) (1440×900) |
+| **Desktop 1440px (Hero Viewport)** | **Mois Résolu / Calme (0 €)** | [BPLUS_V2_desktop_resolved_1440.png](./directions/BPLUS_V2_desktop_resolved_1440.png) (1440×900) |
+| **Desktop 1440px (Full Page)** | **Déroulé Complet du Récit** | [BPLUS_V2_desktop_full_1440.png](./directions/BPLUS_V2_desktop_full_1440.png) (1440×2800) |
+| **Mobile 390px (Hero Viewport)** | **Exception Active (400 €)** | [BPLUS_V2_mobile_exception_390.png](./directions/BPLUS_V2_mobile_exception_390.png) (390×844) |
+| **Mobile 390px (Hero Viewport)** | **Mois Résolu / Calme (0 €)** | [BPLUS_V2_mobile_resolved_390.png](./directions/BPLUS_V2_mobile_resolved_390.png) (390×844) |
+| **Mobile 390px (Full Page)** | **Déroulé Complet Mobile** | [BPLUS_V2_mobile_full_390.png](./directions/BPLUS_V2_mobile_full_390.png) (390×3700) |
+
+---
+
+## 0bis. Archive : Première Passe B+ V1 (Editorial Monthly Ledger)
+
+* [BPLUS_desktop_1440.png](./directions/BPLUS_desktop_1440.png)
+* [BPLUS_desktop_resolved_1440.png](./directions/BPLUS_desktop_resolved_1440.png)
+* [BPLUS_desktop_full_story.png](./directions/BPLUS_desktop_full_story.png)
+* [BPLUS_mobile_390.png](./directions/BPLUS_mobile_390.png)
+* [BPLUS_mobile_full_390.png](./directions/BPLUS_mobile_full_390.png)
 
 ---
 
