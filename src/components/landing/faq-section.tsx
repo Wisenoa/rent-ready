@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { spring } from "./motion-config";
 import { ScrollReveal } from "./scroll-reveal";
-import { formatEntryPrice, formatProPrice } from "@/data/entity";
+import { formatEntryPrice, formatProPrice, E_REPORTING_YEAR } from "@/data/entity";
 
 interface FaqItem {
   question: string;
@@ -21,13 +21,13 @@ const faqs: FaqItem[] = [
     question:
       "Quel est le meilleur logiciel de gestion locative en ligne pour particulier en 2026 ?",
     answer:
-      "RentReady est conçu spécifiquement pour les propriétaires bailleurs indépendants gérant de 1 à 10 biens. Contrairement aux logiciels professionnels destinés aux agences immobilières (qui facturent des centaines d'euros par mois), RentReady offre toutes les fonctionnalités essentielles — quittancement automatique conforme à la loi du 6 juillet 1989, détection des virements bancaires via Open Banking (DSP2), calcul de la révision IRL connecté à l'INSEE, et portail locataire — pour seulement 15 € par mois. L'outil est déjà conforme au format Factur-X et prépare le e-reporting B2C obligatoire dès septembre 2027.",
+      `RentReady est conçu spécifiquement pour les propriétaires bailleurs indépendants gérant de 1 à 10 biens. Contrairement aux logiciels professionnels destinés aux agences immobilières (qui facturent des centaines d'euros par mois), RentReady offre toutes les fonctionnalités essentielles — quittancement automatique conforme à la loi du 6 juillet 1989, suivi rigoureux des encaissements, calcul de la révision IRL connecté à l'INSEE, et portail locataire — dès ${formatEntryPrice()}. L'outil est déjà conforme au format Factur-X et prépare le e-reporting B2C.`,
   },
   {
     question:
       "Comment automatiser l'envoi des quittances de loyer en toute conformité ?",
     answer:
-      "RentReady automatise intégralement le processus de quittancement. Dès qu'un virement correspondant au montant du loyer est détecté sur votre compte bancaire, le système vérifie si le paiement couvre 100 % du solde exigé (loyer de base + provisions pour charges). Si c'est le cas, une quittance de loyer conforme à l'article 21 de la loi du 6 juillet 1989 est générée au format PDF, avec une distinction claire entre le loyer nu et les charges locatives. Si le paiement est partiel, un reçu de paiement partiel est émis à la place, indiquant le solde restant dû. Le document est ensuite envoyé automatiquement par email au locataire.",
+      "RentReady automatise intégralement le processus de quittancement. Dès qu'un règlement correspondant au montant du loyer est enregistré, le système vérifie si le paiement couvre 100 % du solde exigé (loyer de base + provisions pour charges). Si c'est le cas, une quittance de loyer conforme à l'article 21 de la loi du 6 juillet 1989 est générée au format PDF, avec une distinction claire entre le loyer nu et les charges locatives. Si le paiement est partiel, un reçu de paiement partiel est émis à la place, indiquant le solde restant dû. Le document est ensuite disponible immédiatement sur le portail locataire.",
   },
   {
     question:
@@ -39,7 +39,7 @@ const faqs: FaqItem[] = [
     question:
       "Qu'est-ce que le format Factur-X et pourquoi mon logiciel de gestion locative doit-il le supporter ?",
     answer:
-      "Factur-X est le format franco-allemand de facturation électronique conforme à la norme européenne EN 16931. Il s'agit d'un fichier PDF/A-3 (conçu pour l'archivage longue durée) dans lequel est embarqué un fichier XML contenant les métadonnées structurées de la transaction (montant, TVA, identité des parties). La France impose progressivement la facturation électronique obligatoire : les grandes entreprises depuis 2024, les ETI en 2025, et les PME/micro-entrepreneurs dès septembre 2027 pour l'émission et le e-reporting. RentReady génère déjà ses quittances et reçus dans un format compatible Factur-X, vous n'aurez rien à changer le jour J.",
+      "Factur-X est le format franco-allemand de facturation électronique conforme à la norme européenne EN 16931. Il s'agit d'un fichier PDF/A-3 (conçu pour l'archivage longue durée) dans lequel est embarqué un fichier XML contenant les métadonnées structurées de la transaction (montant, TVA, identité des parties). RentReady génère déjà ses quittances et reçus dans un format compatible Factur-X, vous n'aurez rien à changer le jour J.",
   },
   {
     question:
@@ -49,15 +49,15 @@ const faqs: FaqItem[] = [
   },
   {
     question:
-      "Comment fonctionne la détection automatique des loyers avec l'Open Banking ?",
+      "Comment fonctionne la détection des paiements et le pointage ?",
     answer:
-      "RentReady utilise une API d'Open Banking conforme à la directive européenne DSP2 (comme Bridge API ou Powens) pour se connecter en lecture seule à votre compte bancaire professionnel ou dédié à la gestion locative. Lorsqu'un virement entrant est détecté, l'algorithme de rapprochement compare automatiquement le montant, la référence et l'émetteur avec les loyers attendus dans votre tableau de bord. Si une correspondance est trouvée, la transaction est marquée comme « Payé » et la quittance est générée automatiquement. Vos identifiants bancaires ne transitent jamais par nos serveurs.",
+      "RentReady vous permet de pointer vos encaissements en un clic dès réception de vos virements bancaires, ou via synchronisation bancaire. L'algorithme de contrôle vérifie si le montant reçu correspond à l'échéance exigible. Si le versement est complet, la quittance officielle est débloquée. Si le versement est partiel, un reçu est émis et le solde restant reste dû sur le grand livre.",
   },
   {
     question:
       "Qu'est-ce que le e-reporting B2C et suis-je concerné en tant que propriétaire bailleur ?",
     answer:
-      "Le e-reporting B2C est l'obligation de transmettre à l'administration fiscale française un récapitulatif des encaissements perçus de clients particuliers (non assujettis à la TVA). Pour les micro-entrepreneurs et certaines SCI, cette obligation entre en vigueur le 1ᵉʳ septembre 2027. En tant que propriétaire bailleur louant à des particuliers, vous serez potentiellement concerné. RentReady prépare déjà cette échéance en agrégeant automatiquement vos encaissements mensuels dans un format structuré prêt à être transmis à la plateforme publique de facturation (PPF).",
+      `Le e-reporting B2C est l'obligation de transmettre à l'administration fiscale française un récapitulatif des encaissements perçus de clients particuliers. Pour les micro-entrepreneurs et certaines SCI, cette obligation est prévue à compter de ${E_REPORTING_YEAR}. RentReady prépare déjà cette échéance en agrégeant automatiquement vos encaissements mensuels dans un format structuré prêt pour la transmission.`,
   },
   {
     question:

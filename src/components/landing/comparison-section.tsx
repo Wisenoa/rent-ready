@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Check, X } from "lucide-react";
 import { spring, stagger } from "./motion-config";
+import { formatEntryPrice } from "@/data/entity";
 
 interface ComparisonRow {
   label: string;
@@ -18,7 +19,7 @@ const rows: ComparisonRow[] = [
     label: "Coût annuel (1 bien à 1 000 €/mois)",
     agency: "~840 €",
     excel: "0 €",
-    rentready: "180 €",
+    rentready: "89 €",
   },
   {
     label: "Quittances légales automatiques",
@@ -142,7 +143,7 @@ export function ComparisonSection() {
                       RentReady
                     </span>
                     <span className="block text-[11px] text-blue-500 mt-0.5">
-                      15 €/mois
+                      Dès {formatEntryPrice()}
                     </span>
                   </th>
                 </tr>

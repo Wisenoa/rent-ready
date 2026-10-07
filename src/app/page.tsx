@@ -26,12 +26,11 @@ import { baseMetadata } from "@/lib/seo/metadata";
 /* ─── Below-the-fold: Client Component wrappers (next/dynamic called inside each wrapper) ─── */
 import {
   SocialProofWrapper,
-  TestimonialStripWrapper,
-  ProblemSectionWrapper,
-  BentoBenefitsWrapper,
-  ComparisonSectionWrapper,
-  TestimonialsSectionWrapper,
+  MonthlyCycleStoryWrapper,
+  PropertyHomebaseWrapper,
+  LegalRigorWrapper,
   PricingSectionWrapper,
+  FreeToolsGatewayWrapper,
   FinalCtaWrapper,
 } from "@/components/landing/dynamic-wrappers";
 
@@ -39,11 +38,11 @@ import {
 export const revalidate = 3600;
 
 /* ─── Page metadata ─── */
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "RentReady — Logiciel gestion locative pour propriétaires | Essai gratuit",
+    title: "RentReady — Pilotage locatif pour propriétaires bailleurs | Essai gratuit",
     description:
-      "Automatisez vos quittances, détectez les loyers automatiquement et révisez l'IRL en 1 clic. Essai gratuit 14 jours, sans carte bancaire.",
+      "Du loyer exigible à la quittance certifiée conforme à la loi de 1989. Zéro tableur, détection des paiements et révision IRL connectée à l'INSEE. Essai 14 jours sans carte.",
     url: "",
     ogType: "default",
   });
@@ -69,7 +68,7 @@ import {
 
 export default function HomePage() {
   return (
-    <main id="main-content" className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <main id="main-content" className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased selection:bg-stone-200">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -82,12 +81,11 @@ export default function HomePage() {
       <GlassNav />
       <HeroSection />
       <SocialProofWrapper />
-      <TestimonialStripWrapper />
-      <ProblemSectionWrapper />
-      <BentoBenefitsWrapper />
-      <ComparisonSectionWrapper />
-      <TestimonialsSectionWrapper />
+      <MonthlyCycleStoryWrapper />
+      <PropertyHomebaseWrapper />
+      <LegalRigorWrapper />
       <PricingSectionWrapper />
+      <FreeToolsGatewayWrapper />
       <FaqSection />
       <FinalCtaWrapper />
       <MarketingFooter />

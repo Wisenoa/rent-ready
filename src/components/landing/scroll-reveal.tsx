@@ -26,11 +26,11 @@ export function ScrollReveal({
   className,
   delay = 0,
   direction = "up",
-  distance = 40,
+  distance = 24,
   once = true,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: "-60px" });
+  const isInView = useInView(ref, { once, margin: "0px" });
 
   const d = directionMap[direction];
 

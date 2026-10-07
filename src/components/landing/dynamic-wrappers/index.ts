@@ -6,3 +6,7 @@ export { ComparisonSectionWrapper } from "./comparison-section-wrapper";
 export { TestimonialsSectionWrapper } from "./testimonials-section-wrapper";
 export { PricingSectionWrapper } from "./pricing-section-wrapper";
 export { FinalCtaWrapper } from "./final-cta-wrapper";
+export { MonthlyCycleStoryWrapper } from "./monthly-cycle-story-wrapper";
+export { PropertyHomebaseWrapper } from "./property-homebase-wrapper";
+export { LegalRigorWrapper } from "./legal-rigor-wrapper";
+export { FreeToolsGatewayWrapper } from "./free-tools-gateway-wrapper";

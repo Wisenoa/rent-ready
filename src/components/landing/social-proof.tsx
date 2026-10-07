@@ -20,18 +20,18 @@ import { ScrollReveal } from "./scroll-reveal";
 const commitments = [
   { value: "0 €", label: "carte bancaire pour commencer" },
   { value: "14 jours", label: "d'essai gratuit, sans engagement" },
-  { value: "15 min", label: "pour connecter votre première banque" },
-  { value: "100 %", label: "des quittances générées depuis vos données" },
+  { value: "3 min", label: "pour configurer votre premier logement" },
+  { value: "100 %", label: "des quittances conformes loi de 1989" },
 ];
 
 const integrations = [
   {
-    label: "Open Banking DSP2",
-    sub: "Lecture sécurisée des comptes",
+    label: "Loi du 6 juillet 1989",
+    sub: "Quittances & reçus stricts",
     icon: (
-      <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="7" width="10" height="7" rx="1.5" />
-        <path d="M5.5 7V5a2.5 2.5 0 015 0v2" />
+      <svg className="size-4 text-emerald-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="2" width="10" height="12" rx="1.5" />
+        <path d="M6 6h4M6 9h4M6 12h2" />
       </svg>
     ),
   },
