@@ -28,12 +28,20 @@ async function run() {
     await page.goto(BASE_URL, { waitUntil: "networkidle" });
     await page.waitForTimeout(1000);
 
-    // Dismiss cookie banner for clean visual capture if present
-    const acceptCookies = page.getByRole("button", { name: "Accepter" });
-    if (await acceptCookies.isVisible()) {
-      await acceptCookies.click();
-      await page.waitForTimeout(300);
-    }
+    // Dismiss cookie banner and nextjs overlays thoroughly
+    await page.evaluate(() => {
+      document.querySelectorAll('button').forEach((b) => {
+        if (b.textContent && /accepter/i.test(b.textContent)) b.click();
+      });
+      document.querySelectorAll('div, section, aside').forEach((el) => {
+        if (el.textContent && el.textContent.includes('Ce site utilise des cookies')) {
+          el.style.display = 'none';
+        }
+      });
+      const portal = document.querySelector('nextjs-portal');
+      if (portal) portal.style.display = 'none';
+    });
+    await page.waitForTimeout(300);
 
     // 1. Above-the-fold Viewport Screenshot
     await page.screenshot({
@@ -60,6 +68,17 @@ async function run() {
     });
     await page.waitForTimeout(1000);
 
+    // Re-check cookie and dev overlays after scroll
+    await page.evaluate(() => {
+      document.querySelectorAll('div, section, aside').forEach((el) => {
+        if (el.textContent && el.textContent.includes('Ce site utilise des cookies')) {
+          el.style.display = 'none';
+        }
+      });
+      const portal = document.querySelector('nextjs-portal');
+      if (portal) portal.style.display = 'none';
+    });
+
     // 2. Full Page Screenshot
     await page.screenshot({
       path: join(OUT_DIR, `2_fullpage_${vp.name}.png`),
@@ -68,6 +87,19 @@ async function run() {
 
     // If desktop 1440, capture individual component sections for detailed inspection
     if (vp.name === "desktop_1440") {
+      // Hide sticky/fixed header so it doesn't overlap section titles in element screenshots
+      await page.evaluate(() => {
+        const header = document.querySelector("header");
+        if (header) header.style.display = "none";
+        document.querySelectorAll('div, section, aside').forEach((el) => {
+          if (el.textContent && el.textContent.includes('Ce site utilise des cookies')) {
+            el.style.display = 'none';
+          }
+        });
+        const portal = document.querySelector('nextjs-portal');
+        if (portal) portal.style.display = 'none';
+      });
+
       const hero = page.locator("section").first();
       if (await hero.count() > 0) {
         await hero.screenshot({ path: join(OUT_DIR, "3_section_hero_1440.png") });
