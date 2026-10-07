@@ -43,5 +43,10 @@ export default defineConfig({
         url: 'http://localhost:3003',
         reuseExistingServer: true,
         timeout: 120_000,
+        env: {
+          BETTER_AUTH_URL: 'http://localhost:3003',
+          NEXT_PUBLIC_APP_URL: 'http://localhost:3003',
+          NEXT_PUBLIC_AUTH_URL: 'http://localhost:3003',
+        },
       },
 })

@@ -3,7 +3,7 @@ import Link from "next/link";
 import {
   Building2,
   Users,
-  CreditCard,
+  Check,
   CheckCircle2,
   AlertCircle,
   Clock,
@@ -13,32 +13,33 @@ import {
   FileText,
   Wrench,
   Download,
-  ShieldCheck,
-  Calendar,
 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { getDashboardStats, formatCurrency } from "@/lib/queries/dashboard-stats";
+import { getDashboardStats } from "@/lib/queries/dashboard-stats";
+import { formatCurrency } from "@/lib/format";
 import { ensureRentPeriods } from "@/lib/queries/rent-periods";
 import { ArrearsSection } from "./arrears-section";
 import { PropertyForm } from "@/components/property-form";
+import { MarkPaidButton } from "@/components/mark-paid-button";
+import { ReminderButton } from "@/components/reminder-button";
 import Decimal from "decimal.js";
+import {
+  PageShell,
+  MonthHeader,
+  FinancialSummary,
+  RentRow,
+  Section,
+  StatusBadge,
+  StatusDot,
+  Money,
+} from "@/components/design-system";
 
 export const metadata: Metadata = {
-  title: "Tableau de bord",
+  title: "Tableau de bord · RentReady",
 };
 
 export default async function DashboardPage() {
@@ -51,6 +52,7 @@ export default async function DashboardPage() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
   const monthName = format(now, "MMMM yyyy", { locale: fr });
+  const stoppedDate = format(now, "d MMMM", { locale: fr });
 
   // Requêtes complètes pour la vue d'ensemble orientée propriétaire
   const [stats, properties, currentMonthTransactions, openTickets] = await Promise.all([
@@ -94,7 +96,7 @@ export default async function DashboardPage() {
 
   const hasProperties = properties.length > 0;
 
-  // Calculs financiers pour le mois en cours
+  // Calculs financiers stricts pour le mois en cours (Decimal - AGENTS.md §10)
   let expectedRentMonth = new Decimal(0);
   let receivedRentMonth = new Decimal(0);
 
@@ -125,62 +127,75 @@ export default async function DashboardPage() {
   const isPartiallyConfigured = hasProperties && activeLeasesCount === 0;
   const allMonthPaid = expectedRentMonth.gt(0) && pendingRentMonth.eq(0);
 
+  // Compter le nombre de biens réglés vs en attente
+  let paidCount = 0;
+  let pendingCount = 0;
+  for (const prop of properties) {
+    const activeLease = prop.leases[0];
+    const tx = activeLease?.transactions[0];
+    if (tx?.status === "PAID") {
+      paidCount++;
+    } else if (activeLease) {
+      pendingCount++;
+    }
+  }
+
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
+    <PageShell maxWidth="default">
       {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 0. ÉTAT D'ACTIVATION / ACCUEIL POUR NOUVEAU PROPRIÉTAIRE               */}
+      {/* 0. ÉTAT D'ACTIVATION / NOUVEAU COMPTE SANS BIEN                        */}
       {/* ────────────────────────────────────────────────────────────────────── */}
       {!hasProperties ? (
         <div className="space-y-6">
-          <div className="rounded-2xl border border-border/80 bg-gradient-to-b from-card to-muted/30 p-8 shadow-sm text-center sm:text-left">
-            <div className="max-w-2xl">
-              <Badge variant="outline" className="text-primary border-primary/20 bg-primary/5 mb-3">
+          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-8 sm:p-10 text-center sm:text-left space-y-6">
+            <div className="max-w-2xl space-y-3">
+              <StatusBadge tone="neutral" size="xs">
                 Démarrage rapide
-              </Badge>
-              <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+              </StatusBadge>
+              <h1 className="font-serif text-3xl sm:text-4xl text-[#151413] tracking-tight font-normal">
                 Bienvenue sur RentReady
               </h1>
-              <p className="text-muted-foreground mt-2 text-sm sm:text-base leading-relaxed">
+              <p className="text-sm sm:text-base text-[#6B6760] leading-relaxed">
                 Votre outil de gestion locative calme et automatisé. Enregistrez votre premier bien
                 pour activer le suivi automatique des loyers, l&apos;encaissement et l&apos;émission des quittances.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3 justify-center sm:justify-start">
+              <div className="pt-2 flex flex-wrap gap-3 justify-center sm:justify-start">
                 <PropertyForm
                   trigger={
-                    <>
-                      <Plus className="size-4 mr-2" />
-                      Ajouter mon premier logement
-                    </>
+                    <span className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-sm font-medium transition-colors cursor-pointer">
+                      <Plus className="size-4" />
+                      <span>Ajouter mon premier logement</span>
+                    </span>
                   }
                 />
               </div>
             </div>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-3 border-t border-border/60 pt-6 text-left">
-              <div className="space-y-1.5 p-3 rounded-lg bg-card/60 border border-border/40">
-                <span className="flex size-7 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-xs">
+            <div className="grid gap-4 sm:grid-cols-3 border-t border-[#151413]/10 pt-6 text-left">
+              <div className="space-y-1.5 p-3.5 bg-white border border-[#151413]/10">
+                <span className="inline-flex size-6 items-center justify-center bg-[#151413] text-[#F8F6F0] font-mono text-xs font-bold">
                   1
                 </span>
-                <p className="font-medium text-sm text-foreground">Votre logement</p>
-                <p className="text-xs text-muted-foreground">
-                  Adresse, type et nom du bien.
+                <p className="font-semibold text-sm text-[#151413]">Votre logement</p>
+                <p className="text-xs text-[#6B6760]">
+                  Adresse, type et nom du bien en quelques clics.
                 </p>
               </div>
-              <div className="space-y-1.5 p-3 rounded-lg bg-card/60 border border-border/40">
-                <span className="flex size-7 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-xs">
+              <div className="space-y-1.5 p-3.5 bg-white border border-[#151413]/10">
+                <span className="inline-flex size-6 items-center justify-center bg-[#151413] text-[#F8F6F0] font-mono text-xs font-bold">
                   2
                 </span>
-                <p className="font-medium text-sm text-foreground">Votre locataire & bail</p>
-                <p className="text-xs text-muted-foreground">
+                <p className="font-semibold text-sm text-[#151413]">Votre locataire & bail</p>
+                <p className="text-xs text-[#6B6760]">
                   Coordonnées et loyer mensuel en 1 écran.
                 </p>
               </div>
-              <div className="space-y-1.5 p-3 rounded-lg bg-card/60 border border-border/40">
-                <span className="flex size-7 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-xs">
+              <div className="space-y-1.5 p-3.5 bg-white border border-[#151413]/10">
+                <span className="inline-flex size-6 items-center justify-center bg-[#151413] text-[#F8F6F0] font-mono text-xs font-bold">
                   3
                 </span>
-                <p className="font-medium text-sm text-foreground">Sérénité mensuelle</p>
-                <p className="text-xs text-muted-foreground">
+                <p className="font-semibold text-sm text-[#151413]">Sérénité mensuelle</p>
+                <p className="text-xs text-[#6B6760]">
                   RentReady suit les encaissements et quittances.
                 </p>
               </div>
@@ -189,361 +204,264 @@ export default async function DashboardPage() {
         </div>
       ) : (
         <>
-          {/* Reprise de session si le propriétaire a ajouté un bien sans bail */}
+          {/* Reprise si le propriétaire a ajouté un bien sans bail actif */}
           {isPartiallyConfigured && (
-            <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="border border-l-[3px] border-l-[#C2410C] border-[#FED7AA] bg-[#FFF7ED]/50 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-primary border-primary/30 bg-primary/10">
+                  <StatusBadge tone="attention" size="xs">
                     Mise en location en cours
-                  </Badge>
-                  <span className="text-sm font-semibold text-foreground">
+                  </StatusBadge>
+                  <span className="text-sm font-semibold text-[#151413]">
                     {properties[0]?.name}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-[#6B6760]">
                   Votre logement est enregistré mais aucun bail n&apos;est encore actif. Créez son premier bail pour activer le suivi des loyers et les quittances.
                 </p>
               </div>
               <Link
                 href={`/leases/new?propertyId=${properties[0]?.id}`}
-                className={cn(buttonVariants({ size: "sm" }), "shrink-0 gap-1.5 font-medium")}
+                className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-xs font-medium shrink-0 transition-colors"
               >
-                <FileText className="size-4" />
-                Finaliser le bail
+                <FileText className="size-3.5" />
+                <span>Finaliser le bail</span>
               </Link>
             </div>
           )}
 
           {/* ────────────────────────────────────────────────────────────────── */}
-          {/* 1. STATUS BANNER : « Est-ce que tout va bien ce mois-ci ? »         */}
+          {/* 1. EN-TÊTE DU MOIS (MONTH HEADER)                                 */}
           {/* ────────────────────────────────────────────────────────────────── */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/50 pb-5">
-            <div>
-              <div className="flex items-center gap-2.5">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-                  Tableau de bord
-                </h1>
-                <span className="text-xs text-muted-foreground font-medium capitalize">
-                  · {monthName}
-                </span>
+          <MonthHeader
+            monthName={monthName}
+            stoppedDate={stoppedDate}
+            propertiesCount={properties.length}
+            activeTenantsCount={stats.tenants.active}
+            actionsSlot={
+              <div className="flex flex-wrap items-center gap-2 text-xs">
+                <Link
+                  href="/properties"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-[#FAF8F3] hover:bg-white border border-[#151413]/10 text-[#151413] transition-colors"
+                >
+                  <Building2 className="size-3 text-[#6B6760]" />
+                  <span>Logements ({properties.length})</span>
+                </Link>
+                <Link
+                  href="/tenants"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-[#FAF8F3] hover:bg-white border border-[#151413]/10 text-[#151413] transition-colors"
+                >
+                  <Users className="size-3 text-[#6B6760]" />
+                  <span>Locataires ({stats.tenants.active})</span>
+                </Link>
+                <Link
+                  href="/billing"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] font-medium transition-colors"
+                >
+                  <Receipt className="size-3 text-[#F8F6F0]" />
+                  <span>Quittances & Facturation</span>
+                </Link>
               </div>
-              <p className="text-sm text-muted-foreground mt-0.5">
-                Vue d&apos;ensemble et suivi opérationnel de votre parc locatif
-              </p>
-            </div>
+            }
+          />
 
-            {/* Actions rapides */}
-            <div className="flex items-center gap-2">
-              <Link
-                href="/properties"
-                className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-9 text-xs")}
-              >
-                <Building2 className="size-3.5 mr-1.5 text-muted-foreground" />
-                Mes logements ({properties.length})
-              </Link>
-              <Link
-                href="/tenants"
-                className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-9 text-xs")}
-              >
-                <Users className="size-3.5 mr-1.5 text-muted-foreground" />
-                Mes locataires ({stats.tenants.active})
-              </Link>
-              <Link
-                href="/billing"
-                className={cn(buttonVariants({ size: "sm" }), "h-9 text-xs bg-primary text-primary-foreground")}
-              >
-                <Receipt className="size-3.5 mr-1.5" />
-                Loyers & Quittances
-              </Link>
-            </div>
-          </div>
+          {/* ────────────────────────────────────────────────────────────────── */}
+          {/* 2. SYNTHÈSE FINANCIÈRE (GRAND LIVRE DU MOIS)                       */}
+          {/* ────────────────────────────────────────────────────────────────── */}
+          <FinancialSummary
+            expected={expectedRentMonth}
+            received={receivedRentMonth}
+            outstanding={pendingRentMonth}
+            collectionPercentage={collectionPercentage}
+          />
 
-          {/* Bandeau d'état immédiat */}
+          {/* ────────────────────────────────────────────────────────────────── */}
+          {/* 2.5. BANDEAU DE SITUATION IMMÉDIAT                                 */}
+          {/* ────────────────────────────────────────────────────────────────── */}
           {allMonthPaid ? (
-            <div className="flex items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/50 text-emerald-950">
-              <div className="flex items-center gap-3">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
-                  <CheckCircle2 className="size-5" />
-                </div>
+            <div className="p-4 border border-[#BBF7D0] bg-[#F0FDF4] text-[#166534] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <Check className="size-4 shrink-0" />
                 <div>
-                  <p className="text-sm font-semibold">
+                  <p className="text-xs sm:text-sm font-semibold">
                     Tout est à jour pour {monthName}
                   </p>
-                  <p className="text-xs text-emerald-800/80">
+                  <p className="text-[11px] sm:text-xs text-[#166534]/80">
                     Tous vos loyers attendus ont été perçus et les quittances sont prêtes.
                   </p>
                 </div>
               </div>
               <Link
                 href="/billing"
-                className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-emerald-900 hover:bg-emerald-100/60 text-xs")}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[#166534] hover:underline shrink-0"
               >
-                Voir les quittances
-                <ArrowRight className="size-3.5 ml-1" />
+                <span>Voir les quittances</span>
+                <ArrowRight className="size-3" />
               </Link>
             </div>
           ) : pendingRentMonth.gt(0) ? (
-            <div className="flex items-center justify-between p-4 rounded-xl border border-amber-200/80 bg-amber-50/50 text-amber-950">
-              <div className="flex items-center gap-3">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700">
-                  <Clock className="size-5" />
-                </div>
+            <div className="p-4 border border-l-[3px] border-l-[#C2410C] border-[#FED7AA] bg-[#FFF7ED]/60 text-[#151413] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <StatusDot tone="attention" />
                 <div>
-                  <p className="text-sm font-semibold">
-                    {formatCurrency(pendingRentMonth.toFixed(2))} restant à percevoir pour {monthName}
+                  <p className="text-xs sm:text-sm font-semibold text-[#151413]">
+                    <Money amount={pendingRentMonth} size="sm" tone="attention" /> restant à percevoir pour {monthName}
                   </p>
-                  <p className="text-xs text-amber-800/80">
-                    {collectionPercentage}% des loyers du mois ont été collectés.
+                  <p className="text-[11px] sm:text-xs text-[#6B6760]">
+                    {collectionPercentage}% des loyers du mois ont été perçus.
                   </p>
                 </div>
               </div>
               <Link
                 href="/billing"
-                className={cn(buttonVariants({ size: "sm" }), "bg-amber-800 hover:bg-amber-900 text-white text-xs")}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-xs font-medium shrink-0 transition-colors"
               >
-                Pointer les paiements
-                <ArrowRight className="size-3.5 ml-1" />
+                <span>Pointer les paiements</span>
+                <ArrowRight className="size-3" />
               </Link>
             </div>
           ) : null}
 
           {/* ────────────────────────────────────────────────────────────────── */}
-          {/* 2. EXCEPTIONS & ACTIONS REQUISES (Priorité immédiate)              */}
+          {/* 3. EXCEPTIONS & ACTIONS REQUISES (Priorité immédiate)              */}
           {/* ────────────────────────────────────────────────────────────────── */}
           <ArrearsSection userId={userId} />
 
           {/* Alertes maintenance éventuelles */}
           {openTickets.length > 0 && (
-            <div className="rounded-xl border border-border/80 bg-card p-4 shadow-sm flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-                  <Wrench className="size-4 text-foreground" />
-                </div>
-                <div className="text-xs">
-                  <span className="font-semibold text-foreground">
+            <div className="border border-[#151413]/10 bg-[#FAF8F3] p-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5">
+                <Wrench className="size-4 text-[#6B6760] shrink-0" />
+                <div>
+                  <span className="font-semibold text-[#151413]">
                     {openTickets.length} demande{openTickets.length > 1 ? "s" : ""} locataire en cours :
                   </span>{" "}
-                  <span className="text-muted-foreground">
+                  <span className="text-[#6B6760]">
                     {openTickets[0].title} ({openTickets[0].property.name})
                   </span>
                 </div>
               </div>
               <Link
                 href="/maintenance"
-                className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-7 text-xs")}
+                className="inline-flex items-center gap-1 font-medium text-[#151413] hover:underline shrink-0"
               >
-                Gérer les demandes
-                <ArrowRight className="size-3 ml-1" />
+                <span>Gérer les demandes</span>
+                <ArrowRight className="size-3" />
               </Link>
             </div>
           )}
 
           {/* ────────────────────────────────────────────────────────────────── */}
-          {/* 3. LE BILAN DU MOIS (Expected vs Received)                        */}
+          {/* 4. VOS LOGEMENTS (Grand Livre par bien)                            */}
           {/* ────────────────────────────────────────────────────────────────── */}
-          <div className="space-y-3">
-            <h2 className="text-base font-semibold tracking-tight text-foreground">
-              Bilan du mois ({monthName})
-            </h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <Card className="border-border/60 shadow-sm">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-xs font-medium text-muted-foreground">
-                    Loyers appelés
-                  </CardTitle>
-                  <Calendar className="size-4 text-muted-foreground/70" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold tracking-tight font-mono">
-                    {formatCurrency(expectedRentMonth.toFixed(2))}
-                  </div>
-                  <p className="text-[11px] text-muted-foreground mt-1">
-                    {properties.filter((p) => p.leases.length > 0).length} logement(s) loué(s)
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/60 shadow-sm">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-xs font-medium text-muted-foreground">
-                    Loyers encaissés
-                  </CardTitle>
-                  <CheckCircle2 className="size-4 text-emerald-600" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold tracking-tight font-mono text-emerald-700">
-                    {formatCurrency(receivedRentMonth.toFixed(2))}
-                  </div>
-                  <div className="mt-1 flex items-center gap-2">
-                    <div className="h-1.5 flex-1 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-emerald-600 rounded-full"
-                        style={{ width: `${collectionPercentage}%` }}
-                      />
-                    </div>
-                    <span className="text-[11px] font-semibold text-muted-foreground">
-                      {collectionPercentage}%
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/60 shadow-sm">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-xs font-medium text-muted-foreground">
-                    Reste à percevoir
-                  </CardTitle>
-                  <Clock className="size-4 text-amber-600" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold tracking-tight font-mono text-foreground">
-                    {formatCurrency(pendingRentMonth.toFixed(2))}
-                  </div>
-                  <p className="text-[11px] text-muted-foreground mt-1">
-                    {pendingRentMonth.isZero() ? "Aucun solde dû" : "En cours de règlement"}
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/60 shadow-sm">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-xs font-medium text-muted-foreground">
-                    Dépenses du mois
-                  </CardTitle>
-                  <CreditCard className="size-4 text-muted-foreground/70" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold tracking-tight font-mono text-foreground">
-                    {formatCurrency(stats.expenses.currentMonth.toFixed(2))}
-                  </div>
-                  <p className="text-[11px] text-muted-foreground mt-1">
-                    Charges & entretien déclarés
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-
-          {/* ────────────────────────────────────────────────────────────────── */}
-          {/* 4. MON PARC LOCATIF (Home Base direct access)                      */}
-          {/* ────────────────────────────────────────────────────────────────── */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-base font-semibold tracking-tight text-foreground">
-                  Mes logements
-                </h2>
-                <p className="text-xs text-muted-foreground">
-                  Accès direct à la situation de chaque bien
-                </p>
-              </div>
+          <Section
+            eyebrow={`Vos Logements (${properties.length})`}
+            description={
+              hasProperties
+                ? `${paidCount} à jour · ${pendingCount} en attente`
+                : undefined
+            }
+            action={
               <Link
                 href="/properties"
-                className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs")}
+                className="text-xs font-medium text-[#151413] hover:underline inline-flex items-center gap-1"
               >
-                Tous les logements
-                <ArrowRight className="size-3.5 ml-1" />
+                <span>Tous les logements</span>
+                <ArrowRight className="size-3" />
               </Link>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
+            }
+          >
+            <div className="border border-[#151413]/10 divide-y divide-[#151413]/10 bg-[#FAF8F3]">
               {properties.map((property) => {
                 const activeLease = property.leases[0];
                 const tenant = activeLease?.tenant;
                 const totalRent = activeLease
-                  ? Number(activeLease.rentAmount) + Number(activeLease.chargesAmount || 0)
+                  ? new Decimal(activeLease.rentAmount).plus(new Decimal(activeLease.chargesAmount || 0))
                   : null;
                 const currentMonthTx = activeLease?.transactions[0];
+
                 const isPaid = currentMonthTx?.status === "PAID";
+                const isPartial = currentMonthTx?.status === "PARTIAL";
+                const isLate =
+                  currentMonthTx?.status === "LATE" ||
+                  (currentMonthTx?.dueDate ? new Date(currentMonthTx.dueDate) < now && !isPaid : false);
+
+                const status = !activeLease
+                  ? "VACANT"
+                  : isPaid
+                  ? "PAID"
+                  : isPartial
+                  ? "PARTIAL"
+                  : isLate
+                  ? "LATE"
+                  : "PENDING";
+
+                const paidDate = currentMonthTx?.paidAt
+                  ? format(new Date(currentMonthTx.paidAt), "d MMM", { locale: fr })
+                  : null;
+
+                const dueDate = currentMonthTx?.dueDate
+                  ? format(new Date(currentMonthTx.dueDate), "d MMM", { locale: fr })
+                  : null;
+
+                const remainingAmount = currentMonthTx?.amount
+                  ? new Decimal(currentMonthTx.amount)
+                  : totalRent;
+
+                const actionSlot =
+                  currentMonthTx && !isPaid ? (
+                    <div className="flex items-center gap-2">
+                      <ReminderButton
+                        transactionId={currentMonthTx.id}
+                        label="Relancer"
+                      />
+                      <MarkPaidButton
+                        transactionId={currentMonthTx.id}
+                        defaultAmount={remainingAmount ? remainingAmount.toNumber() : 0}
+                        label="Enregistrer"
+                        className="bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-xs h-7 px-2.5 rounded-none"
+                      />
+                    </div>
+                  ) : null;
 
                 return (
-                  <Card
+                  <RentRow
                     key={property.id}
-                    className="border-border/60 hover:border-border transition-colors shadow-sm"
-                  >
-                    <CardHeader className="p-4 pb-3">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <Link
-                            href={`/properties/${property.id}`}
-                            className="font-semibold text-sm hover:underline text-foreground"
-                          >
-                            {property.name}
-                          </Link>
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {property.city} ({property.postalCode})
-                          </p>
-                        </div>
-                        {isPaid ? (
-                          <Badge variant="outline" className="text-xs text-emerald-800 bg-emerald-50 border-emerald-200">
-                            Loyer réglé
-                          </Badge>
-                        ) : activeLease ? (
-                          <Badge variant="outline" className="text-xs text-amber-800 bg-amber-50 border-amber-200">
-                            En attente
-                          </Badge>
-                        ) : (
-                          <Badge variant="outline" className="text-xs text-muted-foreground">
-                            Vacant
-                          </Badge>
-                        )}
-                      </div>
-                    </CardHeader>
-                    <CardContent className="p-4 pt-0">
-                      <div className="flex items-center justify-between border-t border-border/40 pt-3 text-xs">
-                        <div>
-                          {tenant ? (
-                            <Link
-                              href={`/tenants/${tenant.id}`}
-                              className="font-medium text-foreground hover:underline"
-                            >
-                              {tenant.firstName} {tenant.lastName}
-                            </Link>
-                          ) : (
-                            <span className="text-muted-foreground">Aucun locataire</span>
-                          )}
-                          {totalRent && (
-                            <p className="text-muted-foreground font-mono mt-0.5">
-                              {formatCurrency(totalRent)} / mois
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="flex items-center gap-1.5">
-                          {isPaid ? (
-                            <Link
-                              href="/billing"
-                              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-7 text-xs")}
-                            >
-                              <Receipt className="size-3 mr-1" />
-                              Quittance
-                            </Link>
-                          ) : activeLease ? (
-                            <Link
-                              href="/billing"
-                              className={cn(buttonVariants({ size: "sm" }), "h-7 text-xs bg-stone-900 text-white hover:bg-stone-800")}
-                            >
-                              Enregistrer
-                            </Link>
-                          ) : (
-                            <Link
-                              href={`/leases/new`}
-                              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-7 text-xs")}
-                            >
-                              Créer bail
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                    propertyId={property.id}
+                    propertyName={property.name}
+                    propertyLocation={`${property.city} (${property.postalCode})`}
+                    tenantName={tenant ? `${tenant.firstName} ${tenant.lastName}` : undefined}
+                    leaseDetail={activeLease ? "Bail actif" : undefined}
+                    totalRent={totalRent}
+                    status={status}
+                    paidDate={paidDate}
+                    dueDate={dueDate}
+                    remainingAmount={!isPaid && remainingAmount ? remainingAmount : null}
+                    exceptionNotice={
+                      isPartial
+                        ? "Acompte perçu. Reçu d'acompte émis (art. 21). Le solde reste à pointer."
+                        : isLate
+                        ? "Échéance passée sans paiement constaté. Une relance peut être envoyée."
+                        : undefined
+                    }
+                    actionSlot={actionSlot}
+                    quittanceUrl="/billing"
+                  />
                 );
               })}
             </div>
-          </div>
+          </Section>
+
+          {/* ────────────────────────────────────────────────────────────────── */}
+          {/* 5. PIED DE PAGE STRUCTURÉ & VÉRITÉ LÉGALE                          */}
+          {/* ────────────────────────────────────────────────────────────────── */}
+          <footer className="pt-4 border-t border-[#151413]/10 text-center sm:text-left text-xs text-[#6B6760]">
+            <p>
+              {properties.length} logement{properties.length > 1 ? "s" : ""} sous gestion directe · Conforme loi Alur & art. 21 loi 89
+            </p>
+          </footer>
         </>
       )}
-    </div>
+    </PageShell>
   );
 }

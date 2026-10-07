@@ -15,15 +15,11 @@ import {
   CheckCircle2,
   Clock,
   AlertCircle,
-  Calendar,
-  Euro,
   Receipt,
-  Download,
   Wrench,
   Plus,
   ArrowRight,
   ExternalLink,
-  ShieldCheck,
   Home,
   FileCheck,
 } from "lucide-react";
@@ -34,15 +30,23 @@ import { formatCurrency } from "@/lib/format";
 import { ensureRentPeriods } from "@/lib/queries/rent-periods";
 import { daysLate as daysPastDue } from "@/lib/domain/period-presentation";
 import { settlePeriodPayments } from "@/lib/domain/period-settlement";
-import { toNumber } from "@/lib/decimal";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 import { PropertyActions } from "@/components/property-actions";
 import { QuittanceButton } from "@/components/quittance-button";
 import { MarkPaidButton } from "@/components/mark-paid-button";
 import { ReminderButton } from "@/components/reminder-button";
+
+// Primitives & Composants B+ V2.1 Design System
+import {
+  PageShell,
+  Money,
+  StatusBadge,
+  StatusDot,
+  DocumentRegister,
+  type DocumentItem,
+  type StatusTone,
+} from "@/components/design-system";
 
 export const dynamic = "force-dynamic";
 
@@ -79,11 +83,11 @@ const LEASE_TYPE_LABELS: Record<string, string> = {
   OTHER: "Autre",
 };
 
-const MAINTENANCE_STATUS_CONFIG: Record<string, { label: string; className: string }> = {
-  OPEN: { label: "Nouveau", className: "bg-amber-100 text-amber-800 border-amber-200" },
-  IN_PROGRESS: { label: "En cours", className: "bg-blue-100 text-blue-800 border-blue-200" },
-  RESOLVED: { label: "Résolu", className: "bg-emerald-100 text-emerald-800 border-emerald-200" },
-  CLOSED: { label: "Fermé", className: "bg-stone-100 text-stone-700 border-stone-200" },
+const MAINTENANCE_STATUS_CONFIG: Record<string, { label: string; tone: StatusTone }> = {
+  OPEN: { label: "Nouveau", tone: "delayed" },
+  IN_PROGRESS: { label: "En cours", tone: "attention" },
+  RESOLVED: { label: "Résolu", tone: "calm" },
+  CLOSED: { label: "Fermé", tone: "neutral" },
 };
 
 export default async function PropertyDetailPage({ params, searchParams }: Props) {
@@ -213,17 +217,76 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
     taxRef: property.taxRef,
   };
 
+  // Construction du registre documentaire B+ V2.1
+  const documentsList: DocumentItem[] = [];
+
+  if (activeLease) {
+    documentsList.push({
+      id: "lease-contract",
+      title: "Bail de location actif",
+      subtitle: `Signé le ${format(new Date(activeLease.startDate), "d MMM yyyy", { locale: fr })}`,
+      period: LEASE_TYPE_LABELS[activeLease.leaseType] ?? activeLease.leaseType,
+      statusLabel: "Actif",
+      statusTone: "calm",
+      actionType: "view",
+      actionHref: `/leases/${activeLease.id}`,
+    });
+  }
+
+  if (currentMonthTx?.status === "PAID") {
+    documentsList.push({
+      id: "receipt-current-month",
+      title: `Quittance ${monthName}`,
+      subtitle: "Attestation de loyer acquitté (Art. 21 loi 89)",
+      period: format(new Date(currentMonthTx.periodStart), "MMMM yyyy", { locale: fr }),
+      statusLabel: "Délivrée",
+      statusTone: "calm",
+      actionType: "custom",
+      actionSlot: <QuittanceButton transactionId={currentMonthTx.id} />,
+    });
+  } else if (isPartial) {
+    documentsList.push({
+      id: "receipt-partial",
+      title: `Reçu d'acompte ${monthName}`,
+      subtitle: "Loi 89 art. 21 · Acompte partiel constaté",
+      statusLabel: "Acompte",
+      statusTone: "attention",
+      actionType: "custom",
+      actionSlot: (
+        <span className="text-xs text-[#C2410C] font-mono">
+          Solde : {formatCurrency(amountRemaining.toFixed(2))}
+        </span>
+      ),
+    });
+  }
+
+  documentsList.push({
+    id: "inventory-doc",
+    title: "État des lieux d'entrée",
+    subtitle: activeLease ? "Dossier contradictoire d'entrée" : "À établir lors de l'emménagement",
+    statusLabel: activeLease ? "Archivé" : "En attente",
+    statusTone: "neutral",
+  });
+
+  documentsList.push({
+    id: "insurance-doc",
+    title: "Attestation assurance habitation",
+    subtitle: tenant ? "Garantie villégiature & risques locatifs" : "À collecter",
+    statusLabel: tenant ? "Vérifié" : "En attente",
+    statusTone: tenant ? "calm" : "neutral",
+  });
+
   return (
-    <div className="space-y-6 max-w-6xl mx-auto pb-12">
+    <PageShell maxWidth="default" className="space-y-6 pb-12">
       {/* ────────────────────────────────────────────────────────────────── */}
       {/* 1. NAVIGATION & ENTÊTE D'IDENTITÉ DU LOGEMENT                     */}
       {/* ────────────────────────────────────────────────────────────────── */}
       <div className="space-y-3">
         {/* Fil d'ariane & actions secondaires */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-[#6B6760]">
           <Link
             href="/properties"
-            className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors group font-medium"
+            className="inline-flex items-center gap-1.5 hover:text-[#151413] transition-colors group font-medium"
           >
             <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
             <span>Tous les logements</span>
@@ -234,36 +297,38 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
         </div>
 
         {/* Titre et attributs d'identité */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#151413]/10 pb-5">
           <div>
             <div className="flex flex-wrap items-center gap-2.5">
-              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+              <h1 className="font-serif text-2xl sm:text-3xl text-[#151413] tracking-tight font-normal">
                 {property.name}
               </h1>
-              <Badge variant="outline" className="text-xs font-normal">
+              <StatusBadge tone="neutral" size="xs">
                 {PROPERTY_TYPE_LABELS[property.type] ?? property.type}
                 {property.surface ? ` · ${property.surface} m²` : ""}
                 {property.rooms ? ` · ${property.rooms} pièce${property.rooms > 1 ? "s" : ""}` : ""}
-              </Badge>
+              </StatusBadge>
               {activeLease ? (
-                <Badge
-                  variant="outline"
-                  className="text-xs bg-emerald-50 text-emerald-800 border-emerald-200 font-medium"
+                <StatusBadge
+                  tone="calm"
+                  showDot
+                  size="xs"
                 >
                   Occupé ({tenant?.firstName} {tenant?.lastName})
-                </Badge>
+                </StatusBadge>
               ) : (
-                <Badge
-                  variant="outline"
-                  className="text-xs bg-stone-100 text-stone-700 border-stone-200 font-medium"
+                <StatusBadge
+                  tone="neutral"
+                  showDot
+                  size="xs"
                 >
                   Vacant
-                </Badge>
+                </StatusBadge>
               )}
             </div>
 
-            <p className="text-muted-foreground text-sm mt-1 flex items-center gap-1.5">
-              <MapPin className="size-3.5 shrink-0 text-muted-foreground/80" />
+            <p className="text-[#6B6760] text-xs sm:text-sm mt-1.5 flex items-center gap-1.5">
+              <MapPin className="size-3.5 shrink-0 text-[#9E9A90]" />
               <span>
                 {property.addressLine1}
                 {property.addressLine2 ? `, ${property.addressLine2}` : ""}, {property.postalCode} {property.city}
@@ -274,11 +339,16 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
           {/* Loyer mensuel global visible en un coup d'œil */}
           {totalMonthly && (
             <div className="text-left sm:text-right">
-              <p className="text-xs text-muted-foreground">Loyer charges comprises</p>
-              <p className="text-xl font-bold font-mono text-foreground">
-                {formatCurrency(totalMonthly.toFixed(2))}
-                <span className="text-xs font-normal text-muted-foreground ml-1">/ mois</span>
-              </p>
+              <p className="text-xs text-[#6B6760] font-medium">Loyer charges comprises</p>
+              <div className="flex items-baseline gap-1 sm:justify-end">
+                <Money amount={totalMonthly} size="xl" tone="ink" />
+                <span className="text-xs font-normal text-[#6B6760]">/ mois</span>
+              </div>
+              {monthlyRent && monthlyCharges && (
+                <p className="text-[11px] text-[#6B6760] mt-0.5">
+                  Loyer {formatCurrency(monthlyRent.toFixed(2))} + Charges {formatCurrency(monthlyCharges.toFixed(2))}
+                </p>
+              )}
             </div>
           )}
         </div>
@@ -288,28 +358,28 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
       {/* 1.5. MOMENT DE CONFIRMATION / PREMIER BAIL ACTIVÉ                  */}
       {/* ────────────────────────────────────────────────────────────────── */}
       {activated === "1" && activeLease && (
-        <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm animate-in fade-in duration-300">
+        <div className="rounded-xl border border-[#151413]/10 bg-[#FAF8F3] p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-[0_1px_2px_rgba(21,20,19,0.04)]">
           <div className="flex items-start gap-3.5">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary mt-0.5">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#151413]/5 text-[#151413] mt-0.5">
               <CheckCircle2 className="size-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-semibold text-foreground">
+                <h2 className="text-base font-semibold text-[#151413]">
                   Votre logement est configuré et prêt à être géré
                 </h2>
-                <Badge variant="outline" className="text-primary border-primary/30 bg-primary/10 font-medium">
+                <StatusBadge tone="calm" size="xs">
                   Prêt
-                </Badge>
+                </StatusBadge>
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+              <p className="text-xs sm:text-sm text-[#6B6760] mt-0.5">
                 Le bail avec {tenant?.firstName} {tenant?.lastName} est actif. Le suivi mensuel du loyer, l&apos;encaissement et l&apos;émission des quittances sont désormais automatiques.
               </p>
             </div>
           </div>
           <Link
             href="/dashboard"
-            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "shrink-0 gap-1.5 font-medium")}
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "shrink-0 gap-1.5 font-medium border-[#151413]/15 text-[#151413] hover:bg-white")}
           >
             Voir mon tableau de bord
             <ArrowRight className="size-4" />
@@ -323,24 +393,24 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
       {activeLease ? (
         isPaid ? (
           /* CAS A : Loyer payé - Sérénité & Quittance immédiate */
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-4 sm:p-5 text-emerald-950 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
+          <div className="rounded-xl border border-[#BBF7D0] bg-[#F0FDF4] p-4 sm:p-5 text-[#166534] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_1px_2px_rgba(21,20,19,0.04)]">
             <div className="flex items-start gap-3.5">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 mt-0.5">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#DCFCE7] text-[#166534] mt-0.5">
                 <CheckCircle2 className="size-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-base font-semibold">
+                  <h2 className="text-base font-semibold text-[#166534]">
                     Loyer de {monthName} réglé
                   </h2>
-                  <Badge variant="outline" className="text-xs bg-emerald-100 text-emerald-800 border-emerald-300">
+                  <StatusBadge tone="calm" size="xs">
                     Payé
-                  </Badge>
+                  </StatusBadge>
                 </div>
-                <p className="text-xs sm:text-sm text-emerald-900/80 mt-1">
+                <p className="text-xs sm:text-sm text-[#166534]/90 mt-1">
                   {formatCurrency(amountReceived.toFixed(2))} perçus
                   {monthlyRent && monthlyCharges && (
-                    <span className="text-emerald-800/70">
+                    <span className="text-[#166534]/80">
                       {" "}(Loyer {formatCurrency(monthlyRent.toFixed(2))} + Provisions {formatCurrency(monthlyCharges.toFixed(2))})
                     </span>
                   )}
@@ -360,23 +430,23 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
           </div>
         ) : isPartial ? (
           /* CAS B : Paiement partiel - Explication et solde restant */
-          <div className="rounded-xl border border-blue-200 bg-blue-50/50 p-4 sm:p-5 text-blue-950 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
+          <div className="rounded-xl border border-l-[3px] border-l-[#C2410C] border-[#FED7AA] bg-[#FFF7ED]/60 p-4 sm:p-5 text-[#431407] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_1px_2px_rgba(21,20,19,0.04)]">
             <div className="flex items-start gap-3.5">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-700 mt-0.5">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#FFEDD5] text-[#C2410C] mt-0.5">
                 <Clock className="size-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-base font-semibold">
+                  <h2 className="text-base font-semibold text-[#C2410C]">
                     Paiement partiel pour {monthName}
                   </h2>
-                  <Badge variant="outline" className="text-xs bg-blue-100 text-blue-800 border-blue-300">
+                  <StatusBadge tone="attention" size="xs">
                     Partiel
-                  </Badge>
+                  </StatusBadge>
                 </div>
-                <p className="text-xs sm:text-sm text-blue-900/80 mt-1">
+                <p className="text-xs sm:text-sm text-[#431407]/90 mt-1">
                   {formatCurrency(amountReceived.toFixed(2))} reçus sur {totalMonthly ? formatCurrency(totalMonthly.toFixed(2)) : ""} ·{" "}
-                  <strong className="font-semibold text-blue-950">
+                  <strong className="font-semibold text-[#C2410C]">
                     Reste {formatCurrency(amountRemaining.toFixed(2))} à régler
                   </strong>
                 </p>
@@ -395,7 +465,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                     transactionId={currentMonthTx.id}
                     defaultAmount={amountRemaining.toNumber()}
                     label={`Enregistrer le solde (${formatCurrency(amountRemaining.toFixed(2))})`}
-                    className="bg-stone-900 hover:bg-stone-800 text-white"
+                    className="bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0]"
                   />
                 </>
               )}
@@ -405,17 +475,17 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
           /* CAS C : Loyer en attente ou en retard */
           <div
             className={cn(
-              "rounded-xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm",
+              "rounded-xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_1px_2px_rgba(21,20,19,0.04)]",
               isLate
-                ? "border-amber-300 bg-amber-50/60 text-amber-950"
-                : "border-stone-200 bg-stone-50/60 text-stone-950"
+                ? "border-l-[3px] border-l-[#D97706] border-[#FDE68A] bg-[#FEF3C7]/40 text-[#451A03]"
+                : "border-[#151413]/10 bg-[#FAF8F3] text-[#151413]"
             )}
           >
             <div className="flex items-start gap-3.5">
               <div
                 className={cn(
                   "flex size-10 shrink-0 items-center justify-center rounded-lg mt-0.5",
-                  isLate ? "bg-amber-100 text-amber-800" : "bg-stone-200 text-stone-700"
+                  isLate ? "bg-[#FEF3C7] text-[#D97706]" : "bg-[#151413]/5 text-[#6B6760]"
                 )}
               >
                 {isLate ? <AlertCircle className="size-5" /> : <Clock className="size-5" />}
@@ -426,14 +496,14 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                     Loyer de {monthName} {isLate ? "en retard" : "en attente"}
                   </h2>
                   {isLate && (
-                    <Badge variant="outline" className="text-xs bg-amber-100 text-amber-800 border-amber-300">
+                    <StatusBadge tone="delayed" size="xs">
                       {lateDays > 0 ? `${lateDays} jours de retard` : "Échu"}
-                    </Badge>
+                    </StatusBadge>
                   )}
                 </div>
-                <p className="text-xs sm:text-sm mt-1 text-muted-foreground">
+                <p className="text-xs sm:text-sm mt-1 text-[#6B6760]">
                   {totalMonthly && (
-                    <strong className="font-semibold text-foreground">
+                    <strong className="font-semibold text-[#151413]">
                       {formatCurrency(totalMonthly.toFixed(2))}
                     </strong>
                   )}{" "}
@@ -457,7 +527,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                     transactionId={currentMonthTx.id}
                     defaultAmount={totalMonthly ? totalMonthly.toNumber() : 0}
                     label="Enregistrer le paiement"
-                    className="bg-stone-900 hover:bg-stone-800 text-white"
+                    className="bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0]"
                   />
                 </>
               )}
@@ -466,16 +536,16 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
         )
       ) : (
         /* CAS D : Logement vacant - Accueillant et orienté action */
-        <div className="rounded-xl border border-border/80 bg-muted/20 p-5 sm:p-6 text-foreground flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="rounded-xl border border-[#151413]/10 bg-[#FAF8F3] p-5 sm:p-6 text-[#151413] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-start gap-4">
-            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary mt-0.5">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#151413]/5 text-[#151413] mt-0.5">
               <Home className="size-5" />
             </div>
             <div>
-              <h2 className="text-base font-semibold">
+              <h2 className="text-base font-semibold text-[#151413]">
                 Ce logement est actuellement vacant
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#6B6760] mt-1 max-w-xl leading-relaxed">
                 Aucun bail actif n&apos;est enregistré sur ce bien. Créez un contrat de location pour
                 activer le suivi mensuel des paiements et la délivrance des quittances.
               </p>
@@ -484,7 +554,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
           <Link
             href={`/leases/new?propertyId=${property.id}`}
-            className={cn(buttonVariants({ size: "default" }), "shrink-0 bg-primary text-primary-foreground")}
+            className={cn(buttonVariants({ size: "default" }), "shrink-0 bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0]")}
           >
             <Plus className="size-4 mr-2" />
             Créer un bail pour ce bien
@@ -499,21 +569,21 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
         {/* Colonne Principale (2/3) : Historique des loyers & Documents */}
         <div className="lg:col-span-2 space-y-6">
           {/* Suivi des loyers & Quittances */}
-          <div className="rounded-xl border border-border/70 bg-card p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
+          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#151413]/10 pb-3">
               <div>
-                <h3 className="text-base font-semibold tracking-tight text-foreground flex items-center gap-2">
-                  <Receipt className="size-4 text-muted-foreground" />
+                <h3 className="font-serif text-lg text-[#151413] font-normal flex items-center gap-2">
+                  <Receipt className="size-4 text-[#6B6760]" />
                   Historique des loyers & quittances
                 </h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-xs text-[#6B6760] mt-0.5">
                   Dernières périodes de location pour ce bien
                 </p>
               </div>
 
               <Link
                 href="/billing"
-                className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs")}
+                className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs hover:bg-[#151413]/5 text-[#6B6760] hover:text-[#151413]")}
               >
                 Toute la facturation
                 <ArrowRight className="size-3.5 ml-1" />
@@ -522,7 +592,7 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
             {/* Liste fluide des loyers */}
             {activeLease && activeLease.transactions.length > 0 ? (
-              <div className="divide-y divide-border/50 text-xs">
+              <div className="divide-y divide-[#151413]/10 text-xs">
                 {activeLease.transactions.map((tx) => {
                   const txPaid = tx.status === "PAID";
                   const txPartial = tx.status === "PARTIAL";
@@ -530,22 +600,20 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                     tx.status === "LATE" ||
                     (tx.status === "PENDING" && new Date(tx.dueDate) < now);
 
+                  const tone: StatusTone = txPaid ? "calm" : txPartial ? "attention" : txOverdue ? "delayed" : "neutral";
+
                   return (
                     <div
                       key={tx.id}
-                      className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 hover:bg-muted/30 px-2 rounded-lg transition-colors"
+                      className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 hover:bg-white px-2 transition-colors"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="size-2 rounded-full shrink-0"
-                          style={{
-                            backgroundColor: txPaid ? "#10b981" : txPartial ? "#3b82f6" : "#f59e0b"
-                          }}
-                        />
+                        <StatusDot tone={tone} size="sm" />
                         <div>
-                          <p className="font-semibold text-foreground text-sm">
+                          <p className="font-semibold text-[#151413] text-sm capitalize">
                             {format(new Date(tx.periodStart), "MMMM yyyy", { locale: fr })}
                           </p>
-                          <p className="text-muted-foreground text-xs mt-0.5">
+                          <p className="text-[#6B6760] text-xs mt-0.5">
                             {tx.paidAt
                               ? `Réglé le ${format(new Date(tx.paidAt), "d MMM yyyy", { locale: fr })}`
                               : `Échéance au ${format(new Date(tx.dueDate), "d MMM yyyy", { locale: fr })}`}
@@ -554,23 +622,13 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                       </div>
 
                       <div className="flex items-center justify-between sm:justify-end gap-3">
-                        <div className="text-right font-mono">
-                          <p className="font-semibold text-foreground text-sm">
-                            {formatCurrency(Number(tx.amount))}
-                          </p>
-                          <Badge
-                            variant="outline"
-                            className={cn(
-                              "text-[10px] py-0 px-1.5 font-normal mt-0.5",
-                              txPaid
-                                ? "text-emerald-800 bg-emerald-50 border-emerald-200"
-                                : txPartial
-                                ? "text-blue-800 bg-blue-50 border-blue-200"
-                                : "text-amber-800 bg-amber-50 border-amber-200"
-                            )}
-                          >
-                            {txPaid ? "Payé" : txPartial ? "Partiel" : txOverdue ? "En retard" : "En attente"}
-                          </Badge>
+                        <div className="text-right">
+                          <Money amount={tx.amount} size="sm" tone="ink" className="font-semibold" />
+                          <div className="mt-0.5">
+                            <StatusBadge tone={tone} size="xs">
+                              {txPaid ? "Payé" : txPartial ? "Partiel" : txOverdue ? "En retard" : "En attente"}
+                            </StatusBadge>
+                          </div>
                         </div>
 
                         {/* Action contextuelle à 1 clic */}
@@ -593,85 +651,43 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                 })}
               </div>
             ) : (
-              <div className="py-8 text-center text-xs text-muted-foreground">
-                <Receipt className="size-7 mx-auto mb-2 text-muted-foreground/40" />
+              <div className="py-8 text-center text-xs text-[#6B6760]">
+                <Receipt className="size-7 mx-auto mb-2 text-[#9E9A90]" />
                 <p>Aucune transaction enregistrée pour ce logement.</p>
               </div>
             )}
           </div>
 
-          {/* Documents du logement */}
-          <div className="rounded-xl border border-border/70 bg-card p-5 shadow-sm space-y-3">
-            <h3 className="text-base font-semibold tracking-tight text-foreground flex items-center gap-2">
-              <FileCheck className="size-4 text-muted-foreground" />
-              Documents associés
-            </h3>
-
-            <div className="grid gap-2.5 sm:grid-cols-2 text-xs">
-              {/* Document du bail */}
-              {activeLease ? (
-                <div className="p-3 rounded-lg border border-border/60 bg-muted/20 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <FileText className="size-4 text-primary shrink-0" />
-                    <div>
-                      <p className="font-medium text-foreground">Bail de location actif</p>
-                      <p className="text-muted-foreground text-[11px]">
-                        Signé le {format(new Date(activeLease.startDate), "d MMM yyyy", { locale: fr })}
-                      </p>
-                    </div>
-                  </div>
-                  <Link
-                    href={`/leases/${activeLease.id}`}
-                    className={cn(buttonVariants({ variant: "ghost", size: "xs" }))}
-                  >
-                    Consulter
-                    <ExternalLink className="size-3 ml-1" />
-                  </Link>
-                </div>
-              ) : (
-                <div className="p-3 rounded-lg border border-dashed border-border text-muted-foreground text-center">
-                  Aucun contrat actif
-                </div>
-              )}
-
-              {/* Dernière quittance */}
-              {currentMonthTx?.status === "PAID" ? (
-                <div className="p-3 rounded-lg border border-border/60 bg-muted/20 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <Receipt className="size-4 text-emerald-600 shrink-0" />
-                    <div>
-                      <p className="font-medium text-foreground">Quittance {monthName}</p>
-                      <p className="text-muted-foreground text-[11px]">Attestation de loyer acquitté</p>
-                    </div>
-                  </div>
-                  <QuittanceButton transactionId={currentMonthTx.id} />
-                </div>
-              ) : (
-                <div className="p-3 rounded-lg border border-dashed border-border text-muted-foreground flex items-center justify-center">
-                  Quittance disponible après enregistrement du paiement
-                </div>
-              )}
+          {/* Documents du logement via DocumentRegister */}
+          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3">
+            <div className="border-b border-[#151413]/10 pb-2.5">
+              <h3 className="font-serif text-lg text-[#151413] font-normal flex items-center gap-2">
+                <FileCheck className="size-4 text-[#6B6760]" />
+                Documents associés
+              </h3>
             </div>
+
+            <DocumentRegister documents={documentsList} />
           </div>
 
           {/* Tickets de maintenance */}
           {property.maintenanceTickets.length > 0 && (
-            <div className="rounded-xl border border-border/70 bg-card p-5 shadow-sm space-y-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-base font-semibold tracking-tight text-foreground flex items-center gap-2">
-                  <Wrench className="size-4 text-muted-foreground" />
+            <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3">
+              <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2.5">
+                <h3 className="font-serif text-lg text-[#151413] font-normal flex items-center gap-2">
+                  <Wrench className="size-4 text-[#6B6760]" />
                   Demandes d&apos;intervention & Maintenance
                 </h3>
                 <Link
                   href="/maintenance"
-                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs")}
+                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-xs hover:bg-[#151413]/5 text-[#6B6760] hover:text-[#151413]")}
                 >
                   Toutes les demandes
                   <ArrowRight className="size-3.5 ml-1" />
                 </Link>
               </div>
 
-              <div className="divide-y divide-border/50 text-xs">
+              <div className="divide-y divide-[#151413]/10 text-xs">
                 {property.maintenanceTickets.map((ticket) => {
                   const cfg = MAINTENANCE_STATUS_CONFIG[ticket.status] ?? MAINTENANCE_STATUS_CONFIG.OPEN;
                   return (
@@ -682,19 +698,19 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                       <div>
                         <Link
                           href={`/maintenance/${ticket.id}`}
-                          className="font-medium text-foreground hover:underline"
+                          className="font-medium text-[#151413] hover:underline"
                         >
                           {ticket.title}
                         </Link>
-                        <p className="text-muted-foreground text-[11px] mt-0.5">
+                        <p className="text-[#6B6760] text-[11px] mt-0.5">
                           Signalé par {ticket.tenant.firstName} {ticket.tenant.lastName} le{" "}
                           {format(new Date(ticket.createdAt), "d MMM yyyy", { locale: fr })}
                         </p>
                       </div>
 
-                      <Badge variant="outline" className={cn("text-[10px] py-0", cfg.className)}>
+                      <StatusBadge tone={cfg.tone} size="xs">
                         {cfg.label}
-                      </Badge>
+                      </StatusBadge>
                     </div>
                   );
                 })}
@@ -706,16 +722,16 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
         {/* Colonne Latérale (1/3) : Fiche Locataire, Bail & Caractéristiques */}
         <div className="space-y-6">
           {/* Locataire Actuel */}
-          <div className="rounded-xl border border-border/70 bg-card p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-2">
-                <User className="size-4 text-muted-foreground" />
+          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2.5">
+              <h3 className="text-xs uppercase tracking-wider font-semibold text-[#6B6760] flex items-center gap-1.5">
+                <User className="size-3.5 text-[#6B6760]" />
                 Locataire actuel
               </h3>
               {tenant && (
                 <Link
                   href={`/tenants/${tenant.id}`}
-                  className="text-xs text-primary hover:underline font-medium"
+                  className="text-xs text-[#151413] hover:underline font-medium"
                 >
                   Fiche locataire →
                 </Link>
@@ -727,23 +743,23 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                 <div>
                   <Link
                     href={`/tenants/${tenant.id}`}
-                    className="text-sm font-bold text-foreground hover:underline"
+                    className="text-base font-serif font-normal text-[#151413] hover:underline"
                   >
                     {tenant.firstName} {tenant.lastName}
                   </Link>
-                  <p className="text-muted-foreground text-[11px] mt-0.5">
+                  <p className="text-[#6B6760] text-[11px] mt-0.5">
                     En place depuis {format(new Date(activeLease!.startDate), "MMMM yyyy", { locale: fr })}
                   </p>
                 </div>
 
                 {/* Coordonnées utiles directement accessibles au clic */}
-                <div className="space-y-2 pt-1 border-t border-border/50">
+                <div className="space-y-2 pt-2 border-t border-[#151413]/10">
                   {tenant.email && (
                     <a
                       href={`mailto:${tenant.email}`}
-                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                      className="flex items-center gap-2 text-[#6B6760] hover:text-[#151413] transition-colors"
                     >
-                      <Mail className="size-3.5 shrink-0 text-muted-foreground/70" />
+                      <Mail className="size-3.5 shrink-0 text-[#9E9A90]" />
                       <span className="truncate">{tenant.email}</span>
                     </a>
                   )}
@@ -751,20 +767,20 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
                   {tenant.phone && (
                     <a
                       href={`tel:${tenant.phone}`}
-                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors font-mono"
+                      className="flex items-center gap-2 text-[#6B6760] hover:text-[#151413] transition-colors font-mono"
                     >
-                      <Phone className="size-3.5 shrink-0 text-muted-foreground/70" />
+                      <Phone className="size-3.5 shrink-0 text-[#9E9A90]" />
                       <span>{tenant.phone}</span>
                     </a>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="py-4 text-center text-xs text-muted-foreground space-y-2">
+              <div className="py-4 text-center text-xs text-[#6B6760] space-y-2">
                 <p>Aucun locataire en cours pour ce logement.</p>
                 <Link
                   href={`/leases/new?propertyId=${property.id}`}
-                  className={cn(buttonVariants({ variant: "outline", size: "sm" }), "text-xs w-full")}
+                  className={cn(buttonVariants({ variant: "outline", size: "sm" }), "text-xs w-full border-[#151413]/15 text-[#151413] hover:bg-white")}
                 >
                   Associer un locataire
                 </Link>
@@ -774,15 +790,15 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
           {/* Conditions du Bail Actif */}
           {activeLease && (
-            <div className="rounded-xl border border-border/70 bg-card p-5 shadow-sm space-y-3.5 text-xs">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-2">
-                  <FileText className="size-4 text-muted-foreground" />
+            <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3 text-xs">
+              <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2.5">
+                <h3 className="text-xs uppercase tracking-wider font-semibold text-[#6B6760] flex items-center gap-1.5">
+                  <FileText className="size-3.5 text-[#6B6760]" />
                   Conditions du bail
                 </h3>
                 <Link
                   href={`/leases/${activeLease.id}`}
-                  className="text-xs text-primary hover:underline font-medium"
+                  className="text-xs text-[#151413] hover:underline font-medium"
                 >
                   Détails →
                 </Link>
@@ -790,46 +806,38 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
 
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Type de bail</span>
-                  <span className="font-medium text-foreground">
+                  <span className="text-[#6B6760]">Type de bail</span>
+                  <span className="font-medium text-[#151413]">
                     {LEASE_TYPE_LABELS[activeLease.leaseType] ?? activeLease.leaseType}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Loyer hors charges</span>
-                  <span className="font-mono font-medium text-foreground">
-                    {formatCurrency(Number(activeLease.rentAmount))}
-                  </span>
+                  <span className="text-[#6B6760]">Loyer hors charges</span>
+                  <Money amount={activeLease.rentAmount} size="xs" tone="ink" className="font-medium" />
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Provisions sur charges</span>
-                  <span className="font-mono font-medium text-foreground">
-                    {formatCurrency(Number(activeLease.chargesAmount || 0))}
-                  </span>
+                  <span className="text-[#6B6760]">Provisions charges</span>
+                  <Money amount={activeLease.chargesAmount || 0} size="xs" tone="ink" className="font-medium" />
                 </div>
 
-                <div className="flex items-center justify-between border-t border-border/50 pt-2 font-semibold">
-                  <span className="text-foreground">Total mensuel</span>
-                  <span className="font-mono text-foreground text-sm">
-                    {totalMonthly ? formatCurrency(totalMonthly.toFixed(2)) : ""}
-                  </span>
+                <div className="flex items-center justify-between border-t border-[#151413]/10 pt-2 font-semibold">
+                  <span className="text-[#151413]">Total mensuel</span>
+                  <Money amount={totalMonthly?.toFixed(2) ?? "0"} size="sm" tone="ink" className="font-bold" />
                 </div>
 
                 <div className="flex items-center justify-between pt-1">
-                  <span className="text-muted-foreground">Paiement exigible</span>
-                  <span className="text-foreground">
+                  <span className="text-[#6B6760]">Paiement exigible</span>
+                  <span className="text-[#151413]">
                     Le {activeLease.paymentDay} du mois
                   </span>
                 </div>
 
                 {activeLease.depositAmount && (
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Dépôt de garantie</span>
-                    <span className="font-mono text-foreground">
-                      {formatCurrency(Number(activeLease.depositAmount))}
-                    </span>
+                    <span className="text-[#6B6760]">Dépôt de garantie</span>
+                    <Money amount={activeLease.depositAmount} size="xs" tone="muted" />
                   </div>
                 )}
               </div>
@@ -837,57 +845,59 @@ export default async function PropertyDetailPage({ params, searchParams }: Props
           )}
 
           {/* Caractéristiques & Références du Logement */}
-          <div className="rounded-xl border border-border/70 bg-card p-5 shadow-sm space-y-3 text-xs">
-            <h3 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-2">
-              <Building2 className="size-4 text-muted-foreground" />
-              Caractéristiques du bien
-            </h3>
+          <div className="border border-[#151413]/10 bg-[#FAF8F3] p-5 space-y-3 text-xs">
+            <div className="border-b border-[#151413]/10 pb-2.5">
+              <h3 className="text-xs uppercase tracking-wider font-semibold text-[#6B6760] flex items-center gap-1.5">
+                <Building2 className="size-3.5 text-[#6B6760]" />
+                Caractéristiques du bien
+              </h3>
+            </div>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Type</span>
-                <span className="font-medium text-foreground">
+                <span className="text-[#6B6760]">Type</span>
+                <span className="font-medium text-[#151413]">
                   {PROPERTY_TYPE_LABELS[property.type] ?? property.type}
                 </span>
               </div>
 
               {property.surface && (
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Surface habitable</span>
-                  <span className="font-medium text-foreground">{property.surface} m²</span>
+                  <span className="text-[#6B6760]">Surface habitable</span>
+                  <span className="font-medium text-[#151413]">{property.surface} m²</span>
                 </div>
               )}
 
               {property.rooms && (
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Nombre de pièces</span>
-                  <span className="font-medium text-foreground">{property.rooms}</span>
+                  <span className="text-[#6B6760]">Nombre de pièces</span>
+                  <span className="font-medium text-[#151413]">{property.rooms}</span>
                 </div>
               )}
 
               {property.cadastralRef && (
-                <div className="flex items-center justify-between pt-1 border-t border-border/40">
-                  <span className="text-muted-foreground">Réf. cadastrale</span>
-                  <span className="font-mono text-[11px] text-foreground">{property.cadastralRef}</span>
+                <div className="flex items-center justify-between pt-1 border-t border-[#151413]/5">
+                  <span className="text-[#6B6760]">Réf. cadastrale</span>
+                  <span className="font-mono text-[11px] text-[#151413]">{property.cadastralRef}</span>
                 </div>
               )}
 
               {property.taxRef && (
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Réf. fiscale</span>
-                  <span className="font-mono text-[11px] text-foreground">{property.taxRef}</span>
+                  <span className="text-[#6B6760]">Réf. fiscale</span>
+                  <span className="font-mono text-[11px] text-[#151413]">{property.taxRef}</span>
                 </div>
               )}
             </div>
 
             {property.description && (
-              <div className="pt-2 border-t border-border/40 text-muted-foreground leading-relaxed text-[11px]">
+              <div className="pt-2 border-t border-[#151413]/10 text-[#6B6760] leading-relaxed text-[11px]">
                 {property.description}
               </div>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

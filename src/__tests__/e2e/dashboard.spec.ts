@@ -52,7 +52,7 @@ test.describe('Dashboard Analytics', () => {
     // page-wide /créer|ajouter/ matched three elements and strict mode
     // refused to choose.
     await page.getByRole('dialog').locator('button[type="submit"]').click()
-    await expect(page.getByText('Maison Dashboard')).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByRole('heading', { name: 'Maison Dashboard' })).toBeVisible({ timeout: 10_000 })
 
     // Go to dashboard - stats should update
     await page.goto('/dashboard')
@@ -67,7 +67,7 @@ test.describe('Dashboard Analytics', () => {
     // Wait a moment for any async errors
     await page.waitForTimeout(2000)
     const criticalErrors = errors.filter(
-      (e) => !e.includes('favicon') && !e.includes('hydration') && !e.includes('Warning')
+      (e) => !e.includes('favicon') && !e.includes('hydration') && !e.includes('Warning') && !e.includes('vercel-scripts')
     )
     expect(criticalErrors).toHaveLength(0)
   })

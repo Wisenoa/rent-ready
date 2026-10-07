@@ -2,28 +2,22 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import Decimal from "decimal.js";
-import { AlertCircle, ArrowRight, CreditCard, Clock, History } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button-variants";
-import { cn } from "@/lib/utils";
+import { AlertCircle, ArrowRight, History } from "lucide-react";
 import { ReminderButton } from "@/components/reminder-button";
+import { MarkPaidButton } from "@/components/mark-paid-button";
 import { getRentExceptions, type RentException } from "@/lib/queries/arrears";
 import { formatCurrency } from "@/lib/format";
+import { Money } from "@/components/design-system/primitives/money";
+import { StatusBadge } from "@/components/design-system/primitives/status-badge";
+import { StatusDot } from "@/components/design-system/primitives/status-dot";
+import { cn } from "@/lib/utils";
 
 /**
- * « Actions Requises » — Traitement prioritaire des exceptions de loyers.
+ * ArrearsSection — Traitement prioritaire des exceptions de loyers (B+ V2.1)
  *
- * Différencie rigoureusement :
- * 1. Les retards du mois en cours (Action immédiate pour le propriétaire)
- * 2. Les arriérés historiques groupés par bail (Évite l'effet de panique
- *    des 10 cartes empilées lors de l'import d'un bail rétroactif).
+ * Implémente l'architecture d'attention proportionnée :
+ * 1. Les retards du mois en cours : Déploiement clair avec solde, explication et boutons d'action.
+ * 2. Les arriérés historiques : Synthèse compacte groupée par bail (zéro panique de cartes empilées).
  */
 export async function ArrearsSection({ userId }: { userId: string }) {
   const exceptions = await getRentExceptions(userId);
@@ -67,143 +61,142 @@ export async function ArrearsSection({ userId }: { userId: string }) {
     }
   }
 
-  const totalRemaining = exceptions.reduce(
-    (sum, e) => sum.plus(new Decimal(e.remaining)),
-    new Decimal(0)
-  );
-
   return (
     <div className="space-y-4">
       {/* 1. Retards du mois en cours — Priorité d'action immédiate */}
       {currentMonthExceptions.length > 0 && (
-        <Card className="border-amber-200/80 bg-amber-50/20 shadow-sm">
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-base font-semibold flex items-center gap-2 text-amber-900">
-                <AlertCircle className="size-5 text-amber-600" />
+        <div className="border border-l-[3px] border-l-[#C2410C] border-[#FED7AA]/70 bg-[#FFF7ED]/50 p-4 sm:p-5 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b border-[#151413]/10 pb-2.5">
+            <div className="flex items-center gap-2">
+              <StatusDot tone="attention" />
+              <h2 className="text-sm sm:text-base font-semibold text-[#151413]">
                 Loyers en attente ce mois-ci ({format(now, "MMMM yyyy", { locale: fr })})
-              </CardTitle>
-              <Badge variant="outline" className="text-amber-800 bg-amber-100/70 border-amber-300">
-                {currentMonthExceptions.length} à traiter
-              </Badge>
+              </h2>
             </div>
-            <CardDescription className="text-xs text-amber-900/80">
-              Ces loyers sont échus pour le mois en cours et nécessitent un pointage ou une relance.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="divide-y divide-amber-200/50">
-              {currentMonthExceptions.map((exception) => {
-                const partial = new Decimal(exception.alreadyPaid).gt(0);
+            <StatusBadge tone="attention" size="xs">
+              {currentMonthExceptions.length} à traiter
+            </StatusBadge>
+          </div>
 
-                return (
-                  <li
-                    key={exception.transactionId}
-                    className="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-sm text-foreground">
-                          {exception.tenant.firstName} {exception.tenant.lastName}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          · {exception.property.name}
-                        </span>
-                      </div>
-                      <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
-                        <span className="font-semibold text-foreground text-sm font-mono">
-                          {partial
-                            ? `${formatCurrency(exception.remaining)} / ${formatCurrency(exception.totalDue)}`
-                            : formatCurrency(exception.remaining)}
-                        </span>
-                        {partial && (
-                          <Badge variant="secondary" className="text-[11px]">
-                            Partiellement payé
-                          </Badge>
+          <p className="text-xs text-[#6B6760] leading-relaxed">
+            Ces loyers sont échus pour le mois en cours et nécessitent un pointage ou une relance.
+          </p>
+
+          <div className="divide-y divide-[#151413]/10">
+            {currentMonthExceptions.map((exception) => {
+              const alreadyPaidDec = new Decimal(exception.alreadyPaid);
+              const isPartial = alreadyPaidDec.gt(0);
+
+              return (
+                <div
+                  key={exception.transactionId}
+                  className="py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                >
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-sm text-[#151413]">
+                        {exception.tenant.firstName} {exception.tenant.lastName}
+                      </span>
+                      <span className="text-xs text-[#6B6760]">
+                        · {exception.property.name}
+                      </span>
+                    </div>
+
+                    <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+                      <div className="font-semibold text-sm text-[#151413]">
+                        {isPartial ? (
+                          <>
+                            <Money amount={exception.remaining} tone="attention" size="sm" />
+                            <span className="text-[#6B6760] font-normal text-xs ml-1">
+                              restant sur <Money amount={exception.totalDue} tone="muted" size="xs" />
+                            </span>
+                          </>
+                        ) : (
+                          <Money amount={exception.remaining} tone="attention" size="sm" />
                         )}
-                        <Badge
-                          variant="outline"
-                          className="text-[11px] text-amber-800 bg-amber-100/60 border-amber-300"
-                        >
-                          {exception.daysLate === 0
-                            ? "Échéance aujourd'hui"
-                            : `${exception.daysLate} jour${exception.daysLate > 1 ? "s" : ""} de retard`}
-                        </Badge>
                       </div>
-                    </div>
 
-                    <div className="flex shrink-0 items-center gap-2">
-                      <ReminderButton
-                        transactionId={exception.transactionId}
-                        label="Relancer"
-                      />
-                      <Link
-                        href="/billing"
-                        className={cn(buttonVariants({ size: "sm" }), "bg-stone-900 hover:bg-stone-800 text-white text-xs h-8")}
-                      >
-                        Enregistrer
-                        <ArrowRight className="size-3 ml-1" />
-                      </Link>
+                      {isPartial && (
+                        <StatusBadge tone="attention" size="xs">
+                          Partiellement payé
+                        </StatusBadge>
+                      )}
+
+                      <StatusBadge tone={exception.daysLate > 0 ? "delayed" : "neutral"} size="xs">
+                        {exception.daysLate === 0
+                          ? "Échéance aujourd'hui"
+                          : `${exception.daysLate} jour${exception.daysLate > 1 ? "s" : ""} de retard`}
+                      </StatusBadge>
                     </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </CardContent>
-        </Card>
+                  </div>
+
+                  <div className="flex shrink-0 items-center gap-2 pt-1 sm:pt-0">
+                    <ReminderButton
+                      transactionId={exception.transactionId}
+                      label="Relancer"
+                    />
+                    <MarkPaidButton
+                      transactionId={exception.transactionId}
+                      defaultAmount={Number(exception.remaining)}
+                      label="Enregistrer"
+                      className="bg-[#151413] hover:bg-[#2A2725] text-[#F8F6F0] text-xs h-8 rounded-none border border-[#151413]"
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       )}
 
       {/* 2. Arriérés historiques groupés par bail (Calme & Synthèse) */}
       {historicalByLease.size > 0 && (
-        <Card className="border-border/60 bg-muted/20 shadow-sm">
-          <CardHeader className="pb-2.5">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
-                <History className="size-4 text-muted-foreground" />
+        <div className="border border-[#151413]/10 bg-[#FAF8F3] p-4 sm:p-5 space-y-3">
+          <div className="flex items-center justify-between border-b border-[#151413]/10 pb-2">
+            <div className="flex items-center gap-2">
+              <History className="size-4 text-[#6B6760]" />
+              <h3 className="text-xs uppercase tracking-wider font-semibold text-[#6B6760]">
                 Arriérés des mois antérieurs
-              </CardTitle>
-              <span className="text-xs font-semibold text-muted-foreground font-mono">
-                Total : {formatCurrency(
-                  Array.from(historicalByLease.values())
-                    .reduce((sum, h) => sum.plus(h.totalRemaining), new Decimal(0))
-                    .toFixed(2)
-                )}
-              </span>
+              </h3>
             </div>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <div className="divide-y divide-border/40">
-              {Array.from(historicalByLease.entries()).map(([leaseId, data]) => (
-                <div
-                  key={leaseId}
-                  className="py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs"
-                >
-                  <div>
-                    <span className="font-medium text-foreground">
-                      {data.tenant.firstName} {data.tenant.lastName}
-                    </span>
-                    <span className="text-muted-foreground"> — {data.property.name}</span>
-                    <p className="text-muted-foreground mt-0.5">
-                      {data.count} période{data.count > 1 ? "s" : ""} impayée{data.count > 1 ? "s" : ""} (le plus ancien a {data.oldestDaysLate} j de retard)
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="font-semibold font-mono text-sm text-foreground">
-                      {formatCurrency(data.totalRemaining.toFixed(2))}
-                    </span>
-                    <Link
-                      href="/billing"
-                      className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-7 text-xs")}
-                    >
-                      Régulariser
-                      <ArrowRight className="size-3 ml-1" />
-                    </Link>
-                  </div>
+            <span className="text-xs font-semibold text-[#151413] font-mono tabular-nums">
+              Total : {formatCurrency(
+                Array.from(historicalByLease.values())
+                  .reduce((sum, h) => sum.plus(h.totalRemaining), new Decimal(0))
+                  .toFixed(2)
+              )}
+            </span>
+          </div>
+
+          <div className="divide-y divide-[#151413]/10">
+            {Array.from(historicalByLease.entries()).map(([leaseId, data]) => (
+              <div
+                key={leaseId}
+                className="py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs"
+              >
+                <div>
+                  <span className="font-medium text-[#151413]">
+                    {data.tenant.firstName} {data.tenant.lastName}
+                  </span>
+                  <span className="text-[#6B6760]"> — {data.property.name}</span>
+                  <p className="text-[#6B6760] text-[11px] mt-0.5">
+                    {data.count} période{data.count > 1 ? "s" : ""} impayée{data.count > 1 ? "s" : ""} (le plus ancien a {data.oldestDaysLate} j de retard)
+                  </p>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                <div className="flex items-center gap-3">
+                  <Money amount={data.totalRemaining.toFixed(2)} size="sm" tone="ink" />
+                  <Link
+                    href="/billing"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 text-xs border border-[#151413]/15 bg-white hover:bg-[#FAF8F3] text-[#151413] transition-colors font-medium"
+                  >
+                    <span>Régulariser</span>
+                    <ArrowRight className="size-3" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

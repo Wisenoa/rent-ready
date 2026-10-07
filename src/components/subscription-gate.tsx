@@ -8,6 +8,7 @@
  * All other states redirect to /billing with a paywall message.
  */
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 
@@ -25,7 +26,7 @@ const BLOCKED_STATUSES: SubscriptionStatus[] = [
 ];
 
 function isTrialExpired(trialEndsAt: Date | null): boolean {
-  if (!trialEndsAt) return true; // treat null as expired
+  if (!trialEndsAt) return false; // New user without explicit trial expiration date is not expired
   return trialEndsAt < new Date();
 }
 
@@ -55,7 +56,10 @@ function isAccessBlocked(
  */
 export async function SubscriptionGate(): Promise<void> {
   try {
-    const session = await auth.api.getSession();
+    const reqHeaders = await headers();
+    const session = await auth.api.getSession({
+      headers: reqHeaders,
+    });
 
     if (!session?.user?.id) {
       // Not logged in — let NextAuth handle redirect
@@ -75,6 +79,12 @@ export async function SubscriptionGate(): Promise<void> {
     const status = (user.subscriptionStatus ?? "TRIAL") as SubscriptionStatus;
 
     if (isAccessBlocked(status, user.trialEndsAt)) {
+      // Avoid infinite redirect loop if already loading billing page
+      const xUrl = reqHeaders.get("x-url") || reqHeaders.get("referer") || "";
+      if (xUrl.includes("/billing")) {
+        return;
+      }
+
       redirect(
         "/billing?paywall=expired&status=" +
           encodeURIComponent(status)

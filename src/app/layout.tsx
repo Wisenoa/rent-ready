@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { formatEntryPrice } from "@/data/entity";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
 import { OrganizationSchema, WebSiteSchema } from "@/components/seo/organization-schema";
@@ -18,6 +18,13 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+});
+
+const newsreader = Newsreader({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  display: "swap",
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -98,7 +105,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${newsreader.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
