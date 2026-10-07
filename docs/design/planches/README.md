@@ -22,6 +22,30 @@ Toutes les planches, captures d'écran multi-résolutions (Desktop, Tablette, Mo
 
 ---
 
+## 00. Test de Traduction Produit (Product Design Translation Test)
+
+Confrontation directe du langage visuel et comportemental B+ V2 avec l'application SaaS réelle :
+* **Vérification comportementale :** L'exception (Nantes, 400 €) prend 3 unités d'attention ; une fois soldée, l'interface **se rétracte mécaniquement** (1 unité d'attention, silence visuel feutré).
+* **Purge du jargon administratif :** Suppression de « Grand Livre », « cadastre », « relevé d'encaissement » pour un vocabulaire humain direct (un bien, Camille, un loyer, une quittance).
+* **Écran Dashboard & Property Home Base :** Testé en résolutions Desktop (1440px) et Mobile (390px) sous les deux états (Exception active vs Mois calmé).
+* **Synthèse du langage visuel v0 :** Typographie tripartite (Serif éditorial, Sans fonctionnel, Mono tabulaire strict), surfaces feutrées, palette émotionnelle et primitives d'action.
+
+### Les 9 Planches Officielles du Test de Traduction Produit
+
+| Écran / Objet | État | Fichier & Dimensions |
+| :--- | :--- | :--- |
+| **01. Dashboard Desktop** | Exception Active (Nantes 400 €) | [01_dashboard_desktop_1440.png](./product_translation/01_dashboard_desktop_1440.png) (1440×900) |
+| **01b. Dashboard Desktop** | Mois Résolu / Rétraction Silencieuse | [01b_dashboard_resolved_desktop_1440.png](./product_translation/01b_dashboard_resolved_desktop_1440.png) (1440×900) |
+| **02. Dashboard Mobile** | Exception Active (Nantes 400 €) | [02_dashboard_mobile_390.png](./product_translation/02_dashboard_mobile_390.png) (390×844) |
+| **02b. Dashboard Mobile** | Mois Résolu / Calme | [02b_dashboard_resolved_mobile_390.png](./product_translation/02b_dashboard_resolved_mobile_390.png) (390×844) |
+| **03. Property Home Base Desktop** | Exception Active (Solde 400 €) | [03_homebase_desktop_1440.png](./product_translation/03_homebase_desktop_1440.png) (1440×900) |
+| **03b. Property Home Base Desktop** | Logement Calme & Quittance Prête | [03b_homebase_resolved_desktop_1440.png](./product_translation/03b_homebase_resolved_desktop_1440.png) (1440×900) |
+| **04. Property Home Base Mobile** | Exception Active (Solde 400 €) | [04_homebase_mobile_390.png](./product_translation/04_homebase_mobile_390.png) (390×844) |
+| **04b. Property Home Base Mobile** | Logement Calme & Quittance Prête | [04b_homebase_resolved_mobile_390.png](./product_translation/04b_homebase_resolved_mobile_390.png) (390×844) |
+| **Synthèse Langage Visuel v0** | Fondations, Typo, Monnaie, Silence | [rentready_visual_language_v0.png](./product_translation/rentready_visual_language_v0.png) (1440×1200) |
+
+---
+
 ## 0. Direction Retenue & Évoluée : B+ V2 — « EDITORIAL SOFTWARE »
 
 La direction conceptuelle B+ a été maturée d'un « document administratif / PDF » vers un véritable **logiciel éditorial haut de gamme (Editorial Software)** :
