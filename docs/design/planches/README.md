@@ -8,7 +8,8 @@ Toutes les planches, captures d'écran multi-résolutions (Desktop, Tablette, Mo
 
 ## Sommaire
 
-1. [Surfaces Publiques & Marketing (Direction Sérénité Active)](#1-surfaces-publiques--marketing--direction-sérénité-active)
+0. [Arbitrage des 3 Directions Artistiques (Prototypage Réel)](#0-arbitrage-des-3-directions-artistiques)
+1. [Surfaces Publiques & Marketing (Direction Sérénité Active V1)](#1-surfaces-publiques--marketing--direction-sérénité-active)
    - [Présentation Complète & Storytelling](./marketing/presentation.md)
    - [Galerie des Écrans Clés (Desktop 1440px)](#galerie-desktop-1440px)
    - [Responsive Viewports (Mobile, Tablette, Desktop)](#responsive-viewports)
@@ -18,6 +19,18 @@ Toutes les planches, captures d'écran multi-résolutions (Desktop, Tablette, Mo
    - [Tranche #3 : Création de Bail Directe](#tranche-3--création-de-bail-directe)
    - [Tranche #4 : Onboarding & Activation Premier Bien](#tranche-4--onboarding--activation-premier-bien)
 3. [Rapports Stratégiques & Audits](#3-rapports-stratégiques--audits)
+
+---
+
+## 0. Arbitrage des 3 Directions Artistiques
+
+Trois directions radicalement distinctes prototypées sur la **même matière métier réelle** (Grand livre d'Octobre 2026 : Paris 750 €, Lyon 1 700 €, Nantes 400/800 € partiel, 3 baux ventilés).
+
+| Direction | Concept & Signature | Planche Desktop (1440px) | Planche Mobile (390px) |
+| :--- | :--- | :---: | :---: |
+| **Direction A** | **The Calm Ledger / Control**<br>Baseline assainie, grand livre suisse, rigueur néo-grotesque | [Voir Desktop 1440](./directions/A_desktop_1440.png) | [Voir Mobile 390](./directions/A_mobile_390.png) |
+| **Direction B** | **L'Atelier Foncier & Typographique**<br>Éditorial d'architecture foncière, marge cadastrale, titrage serif noble, filets d'imprimerie, 0 carte blanche | [Voir Desktop 1440](./directions/B_desktop_1440.png) | [Voir Mobile 390](./directions/B_mobile_390.png) |
+| **Direction C** | **Le Fil du Mois**<br>Storytelling produit continu, ligne de temps vivante liant exigibilité, mutation bancaire et quittance | [Voir Desktop 1440](./directions/C_desktop_1440.png) | [Voir Mobile 390](./directions/C_mobile_390.png) |
 
 ---
 
