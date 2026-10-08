@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>RentReady B.1 — Galerie Officielle des Planches (Modern French Atelier)</title>
+  <style>
+    :root {
+      --bg: #F5F3EF;
+      --card: #FFFFFF;
+      --ink: #15241F;
+      --muted: #5A6660;
+      --border: #E5E2DA;
+      --brand: #1E3A2F;
+    }
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    header {
+      max-width: 1400px;
+      margin: 0 auto 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #EEF4F1;
+      color: var(--brand);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .categories {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .category-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      border-left: 3px solid var(--brand);
+      padding-left: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(21, 36, 31, 0.05);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(21, 36, 31, 0.08);
+    }
+    .img-wrap {
+      width: 100%;
+      height: 260px;
+      background: #ECEAE4;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .card-meta {
+      padding: 16px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .card-id {
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="badge">Système B.1 · Modern French Atelier</div>
+    <h1>RentReady — Galerie de Validation des Planches Visuelles</h1>
+    <p>29 planches haute résolution capturées sous Playwright (fr-FR, Europe/Paris, retina 2x). Discipline CALM ≠ CARD, conversion publique & planches de marque.</p>
+  </header>
+
+  <div class="categories">
+    <section>
+      <div class="category-title">1. Surfaces Produit (10 Planches)</div>
+      <div class="grid">
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="dashboard_default_1440.png" target="_blank">
+                <img src="dashboard_default_1440.png" alt="Dashboard Défaut · 3 Biens & Exception Nantes" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Dashboard Défaut · 3 Biens & Exception Nantes</div>
+              <div class="card-id">dashboard_default_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="dashboard_dense_1440.png" target="_blank">
+                <img src="dashboard_dense_1440.png" alt="Dashboard Dense · Stress Test 10 Logements (Calm ≠ Card)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Dashboard Dense · Stress Test 10 Logements (Calm ≠ Card)</div>
+              <div class="card-id">dashboard_dense_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="dashboard_exceptions_1440.png" target="_blank">
+                <img src="dashboard_exceptions_1440.png" alt="Dashboard · 3 Exceptions Simultanées" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Dashboard · 3 Exceptions Simultanées</div>
+              <div class="card-id">dashboard_exceptions_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="dashboard_390.png" target="_blank">
+                <img src="dashboard_390.png" alt="Dashboard Mobile (390px · iPhone 15/16)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Dashboard Mobile (390px · iPhone 15/16)</div>
+              <div class="card-id">dashboard_390.png (440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="dashboard_360.png" target="_blank">
+                <img src="dashboard_360.png" alt="Dashboard Mobile Compact (360px · Android Compact)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Dashboard Mobile Compact (360px · Android Compact)</div>
+              <div class="card-id">dashboard_360.png (400px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="home_base_1440.png" target="_blank">
+                <img src="home_base_1440.png" alt="Home Base Bien · T2 Nantes & Registre Documentaire" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Home Base Bien · T2 Nantes & Registre Documentaire</div>
+              <div class="card-id">home_base_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="billing_1440.png" target="_blank">
+                <img src="billing_1440.png" alt="Encaissements & Journal des Règlements" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Encaissements & Journal des Règlements</div>
+              <div class="card-id">billing_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="lease_detail_1440.png" target="_blank">
+                <img src="lease_detail_1440.png" alt="Bail en Détail & Indexation IRL" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Bail en Détail & Indexation IRL</div>
+              <div class="card-id">lease_detail_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="lease_form_1440.png" target="_blank">
+                <img src="lease_form_1440.png" alt="Création de Bail · Blocs Aérés & Synthèse Loi 1989" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Création de Bail · Blocs Aérés & Synthèse Loi 1989</div>
+              <div class="card-id">lease_form_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="lease_form_errors_390.png" target="_blank">
+                <img src="lease_form_errors_390.png" alt="Formulaire Bail Mobile · Gestion Erreurs de Validation" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Formulaire Bail Mobile · Gestion Erreurs de Validation</div>
+              <div class="card-id">lease_form_errors_390.png (440px)</div>
+            </div>
+          </div>
+        
+      </div>
+    </section>
+
+    <section>
+      <div class="category-title">2. Surfaces Publiques & SEO (14 Planches)</div>
+      <div class="grid">
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="homepage_1440.png" target="_blank">
+                <img src="homepage_1440.png" alt="Homepage B.1 · Composition H3 Exception Demo (Recommandé)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Homepage B.1 · Composition H3 Exception Demo (Recommandé)</div>
+              <div class="card-id">homepage_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="homepage_h1_1440.png" target="_blank">
+                <img src="homepage_h1_1440.png" alt="Homepage B.1 · Composition H1 Product First" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Homepage B.1 · Composition H1 Product First</div>
+              <div class="card-id">homepage_h1_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="homepage_h2_1440.png" target="_blank">
+                <img src="homepage_h2_1440.png" alt="Homepage B.1 · Composition H2 Outcome First" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Homepage B.1 · Composition H2 Outcome First</div>
+              <div class="card-id">homepage_h2_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="homepage_390.png" target="_blank">
+                <img src="homepage_390.png" alt="Homepage Mobile (390px)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Homepage Mobile (390px)</div>
+              <div class="card-id">homepage_390.png (440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="pricing_1440.png" target="_blank">
+                <img src="pricing_1440.png" alt="Tarifs B.1 · Starter (9 €) & Pro (15 €)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Tarifs B.1 · Starter (9 €) & Pro (15 €)</div>
+              <div class="card-id">pricing_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="pricing_390.png" target="_blank">
+                <img src="pricing_390.png" alt="Tarifs Mobile (390px)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Tarifs Mobile (390px)</div>
+              <div class="card-id">pricing_390.png (440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="free_tool_1440.png" target="_blank">
+                <img src="free_tool_1440.png" alt="Outil Gratuit · Calculateur IRL 2026 & Passerelle Produit" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Outil Gratuit · Calculateur IRL 2026 & Passerelle Produit</div>
+              <div class="card-id">free_tool_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="free_tool_390.png" target="_blank">
+                <img src="free_tool_390.png" alt="Calculateur IRL Mobile (390px)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Calculateur IRL Mobile (390px)</div>
+              <div class="card-id">free_tool_390.png (440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="free_tool_quittance_1440.png" target="_blank">
+                <img src="free_tool_quittance_1440.png" alt="Outil Gratuit · Générateur de Quittance & Aperçu Direct" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Outil Gratuit · Générateur de Quittance & Aperçu Direct</div>
+              <div class="card-id">free_tool_quittance_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="article_1440.png" target="_blank">
+                <img src="article_1440.png" alt="Guide SEO · Révision Loyer IRL 2026" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Guide SEO · Révision Loyer IRL 2026</div>
+              <div class="card-id">article_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="article_390.png" target="_blank">
+                <img src="article_390.png" alt="Guide SEO Mobile (390px)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Guide SEO Mobile (390px)</div>
+              <div class="card-id">article_390.png (440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="city_page_1440.png" target="_blank">
+                <img src="city_page_1440.png" alt="Page Locale Programmatique · Gestion Locative Nantes" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Page Locale Programmatique · Gestion Locative Nantes</div>
+              <div class="card-id">city_page_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="register_1440.png" target="_blank">
+                <img src="register_1440.png" alt="Inscription & Entrée dans l'Atelier" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Inscription & Entrée dans l'Atelier</div>
+              <div class="card-id">register_1440.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="register_390.png" target="_blank">
+                <img src="register_390.png" alt="Inscription Mobile (390px)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Inscription Mobile (390px)</div>
+              <div class="card-id">register_390.png (440px)</div>
+            </div>
+          </div>
+        
+      </div>
+    </section>
+
+    <section>
+      <div class="category-title">3. Planches de Marque (5 Planches)</div>
+      <div class="grid">
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="wordmark_sheet.png" target="_blank">
+                <img src="wordmark_sheet.png" alt="Planche Marque · Wordmark (4 Pistes Comparées)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Planche Marque · Wordmark (4 Pistes Comparées)</div>
+              <div class="card-id">wordmark_sheet.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="app_icon_sheet.png" target="_blank">
+                <img src="app_icon_sheet.png" alt="Planche Marque · Symboles & Icône d'Application" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Planche Marque · Symboles & Icône d'Application</div>
+              <div class="card-id">app_icon_sheet.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="color_sheet.png" target="_blank">
+                <img src="color_sheet.png" alt="Planche Marque · Tokens OKLCH & Matrice Chromatique" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Planche Marque · Tokens OKLCH & Matrice Chromatique</div>
+              <div class="card-id">color_sheet.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="typography_sheet.png" target="_blank">
+                <img src="typography_sheet.png" alt="Planche Marque · Plus Jakarta Sans & Chiffres Tabulaires" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Planche Marque · Plus Jakarta Sans & Chiffres Tabulaires</div>
+              <div class="card-id">typography_sheet.png (1440px)</div>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="img-wrap">
+              <a href="motion_storyboard.png" target="_blank">
+                <img src="motion_storyboard.png" alt="Planche Marque · Storyboard Rétraction (4 Temps)" loading="lazy" />
+              </a>
+            </div>
+            <div class="card-meta">
+              <div class="card-title">Planche Marque · Storyboard Rétraction (4 Temps)</div>
+              <div class="card-id">motion_storyboard.png (1440px)</div>
+            </div>
+          </div>
+        
+      </div>
+    </section>
+  </div>
+</body>
+</html>
