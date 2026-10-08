@@ -1,0 +1,22 @@
+{
+  "b2_desktop": {
+    "wordCount": 888,
+    "heroHeight": 891,
+    "containerCount": 7,
+    "totalHeight": 4282
+  },
+  "b2_mobile": {
+    "productDemoY": 508,
+    "totalHeight": 6185
+  },
+  "b3_desktop": {
+    "wordCount": 837,
+    "heroHeight": 732,
+    "containerCount": 2,
+    "totalHeight": 3933
+  },
+  "b3_mobile": {
+    "productDemoY": 349,
+    "totalHeight": 5102
+  }
+}

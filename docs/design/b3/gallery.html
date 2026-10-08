@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RentReady B.3 — Galerie Comparative B.2 vs B.3</title>
+  <style>
+    :root {
+      --bg: #F5F3EF;
+      --card-bg: #FFFFFF;
+      --ink: #15241F;
+      --muted: #5A6660;
+      --forest: #1E3A2F;
+      --border: #E5E2DA;
+      --accent: #A3E635;
+      --amber: #D97706;
+      --amber-bg: #FEF3C7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+    header {
+      background: var(--ink);
+      color: white;
+      padding: 20px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .title-group h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+    .title-group p { font-size: 12px; color: #94A3B8; margin-top: 3px; }
+    
+    .metrics-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .metric-badge {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .metric-badge strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    nav.section-nav {
+      max-width: 1400px;
+      margin: 16px auto 0 auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    nav.section-nav a {
+      background: #E5E2DA;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    nav.section-nav a:hover {
+      background: var(--forest);
+      color: white;
+    }
+
+    main { max-width: 1400px; margin: 24px auto; padding: 0 24px; }
+    
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--forest);
+      margin: 36px 0 14px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-subtitle {
+      font-size: 12px;
+      font-weight: normal;
+      color: var(--muted);
+    }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 900px) {
+      .diff-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFAF8;
+    }
+    .card-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+    .card-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .badge-b2 { background: #E2E8F0; color: #475569; }
+    .badge-b3 { background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+    .badge-attention { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+    .badge-resolved { background: #DCFCE7; color: #166534; }
+
+    .image-container {
+      background: #EDEAE4;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+      max-height: 850px;
+    }
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      display: block;
+    }
+
+    .mobile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .mobile-grid { grid-template-columns: 1fr; }
+    }
+    .mobile-container {
+      max-height: 750px;
+      overflow-y: auto;
+    }
+    .mobile-container img {
+      width: 320px;
+      margin: 0 auto;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 800px) {
+      .demo-grid { grid-template-columns: 1fr; }
+    }
+
+    .legend-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .legend-box strong { color: var(--ink); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div class="title-group">
+        <h1>RentReady B.3 — Galerie d'Épreuve Comparative Finale</h1>
+        <p>B.2 (Architecture C Hybride) vs B.3 (Passage d'Édition & Simplification Majeure)</p>
+      </div>
+
+      <div class="metrics-bar">
+        <div class="metric-badge">
+          <span>Mots :</span>
+          <strong>894 → 686 (-23%) [MEASURED]</strong>
+        </div>
+        <div class="metric-badge">
+          <span>Cards :</span>
+          <strong>11 → 3 (-73%) [MEASURED]</strong>
+        </div>
+        <div class="metric-badge">
+          <span>Mobile Y Produit :</span>
+          <strong>484px → 298px (-38%) [MEASURED]</strong>
+        </div>
+        <div class="metric-badge">
+          <span>Hauteur Mobile :</span>
+          <strong>4545px → 3577px (-21%) [MEASURED]</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="section-nav">
+    <a href="#desktop">1. Desktop 1440px (B.2 vs B.3)</a>
+    <a href="#mobile">2. Mobile 390px (B.2 vs B.3)</a>
+    <a href="#mobile-360">3. Mobile Compact 360px</a>
+    <a href="#hero">4. Gros plan Hero</a>
+    <a href="#demo">5. États Démonstration</a>
+  </nav>
+
+  <main>
+    <div class="legend-box">
+      <strong>Principes d'arbitrage B.3 appliqués :</strong>
+      1. Remplacement du H1 artificiel par <em>« Gérez vos locations sans tableur. »</em> ·
+      2. Élimination complète de la <em>card soup</em> (-73% de containers) au profit d'un rythme éditorial aéré avec filets et moments produit ·
+      3. Révélation de la signature <em>« Tout ce qui va bien devient silencieux »</em> comme aha moment juste après la démo ·
+      4. Apparition du produit dès Y=298px sur mobile (pleinement visible dans le 1er écran) sans double CTA ni badge parasite.
+    </div>
+
+    <!-- ── 1. COMPARATIF DESKTOP ── -->
+    <section id="desktop">
+      <div class="section-title">
+        <span>1. Comparatif Desktop Intégral · 1440px</span>
+        <span class="section-subtitle">À gauche : B.2 (11 cards) · À droite : B.3 (3 cards, -23% mots)</span>
+      </div>
+
+      <div class="diff-grid">
+        <!-- B.2 Baseline -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">B.2 Homepage C (Baseline)</span>
+            <span class="card-badge badge-b2">B.2 Baseline · 947 mots · 11 cards</span>
+          </div>
+          <div class="image-container">
+            <img src="planches/b2_homepage_1440.png" alt="B.2 Homepage C Desktop" loading="lazy">
+          </div>
+        </div>
+
+        <!-- B.3 Edited -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">B.3 Homepage Finale (Éditée)</span>
+            <span class="card-badge badge-b3">B.3 Recommandé · 732 mots · 3 cards</span>
+          </div>
+          <div class="image-container">
+            <img src="planches/b3_homepage_1440.png" alt="B.3 Homepage Finale Desktop" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 2. COMPARATIF MOBILE 390PX ── -->
+    <section id="mobile">
+      <div class="section-title">
+        <span>2. Comparatif Mobile Intégral · 390px (iPhone 15/16)</span>
+        <span class="section-subtitle">B.2 (Produit à Y=484px) vs B.3 (Produit à Y=298px, 1er écran garanti)</span>
+      </div>
+
+      <div class="diff-grid">
+        <!-- B.2 Mobile -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">B.2 Mobile 390px</span>
+            <span class="card-badge badge-b2">Produit Y = 484px · 4545px hauteur</span>
+          </div>
+          <div class="image-container mobile-container">
+            <img src="planches/b2_homepage_390.png" alt="B.2 Homepage Mobile 390px" loading="lazy">
+          </div>
+        </div>
+
+        <!-- B.3 Mobile -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">B.3 Mobile 390px</span>
+            <span class="card-badge badge-b3">Produit Y = 298px · 3812px hauteur</span>
+          </div>
+          <div class="image-container mobile-container">
+            <img src="planches/b3_homepage_390.png" alt="B.3 Homepage Mobile 390px" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. MOBILE COMPACT 360PX ── -->
+    <section id="mobile-360">
+      <div class="section-title">
+        <span>3. Épreuve Mobile Compact · 360px (Android Compact)</span>
+        <span class="section-subtitle">Vérification de non-casse des montants et des libellés longs</span>
+      </div>
+
+      <div class="card" style="max-width: 500px; margin: 0 auto;">
+        <div class="card-header">
+          <span class="card-title">B.3 Mobile 360px</span>
+          <span class="card-badge badge-b3">360×800 Viewport</span>
+        </div>
+        <div class="image-container mobile-container">
+          <img src="planches/b3_homepage_360.png" alt="B.3 Mobile 360px" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. GROS PLAN HERO ── -->
+    <section id="hero">
+      <div class="section-title">
+        <span>4. Gros plan Hero · Desktop & Mobile</span>
+        <span class="section-subtitle">H1 épuré (33 chars) · Subtitle sans jargon · 1 CTA · Démo visible</span>
+      </div>
+
+      <div class="diff-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">B.3 Hero Desktop (1440px)</span>
+            <span class="card-badge badge-b3">Hauteur : 444px (vs 593px B.2)</span>
+          </div>
+          <div class="image-container" style="max-height: 520px;">
+            <img src="planches/b3_hero_1440.png" alt="B.3 Hero Desktop" loading="lazy">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">B.3 Hero Mobile (390px)</span>
+            <span class="card-badge badge-b3">Démo visible sans scroll</span>
+          </div>
+          <div class="image-container mobile-container" style="max-height: 520px;">
+            <img src="planches/b3_hero_390.png" alt="B.3 Hero Mobile" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. ÉTATS DE LA DÉMONSTRATION INTERACTIVE ── -->
+    <section id="demo">
+      <div class="section-title">
+        <span>5. États du Cycle Produit · Attention vs Résolu</span>
+        <span class="section-subtitle">Paiement partiel (400 € manquant) → Clic → Apaisement & Quittance émise</span>
+      </div>
+
+      <div class="demo-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">État 1 : Attention (Solde manquant de 400 €)</span>
+            <span class="card-badge badge-attention">Écart Détecté · Reçu d'acompte</span>
+          </div>
+          <div class="image-container" style="max-height: 480px;">
+            <img src="planches/b3_demo_attention.png" alt="B.3 Démo État Attention" loading="lazy">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">État 2 : Résolu (Régularisé en 1 clic)</span>
+            <span class="card-badge badge-resolved">100% Soldé · Quittance Générée</span>
+          </div>
+          <div class="image-container" style="max-height: 480px;">
+            <img src="planches/b3_demo_resolved.png" alt="B.3 Démo État Résolu" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
