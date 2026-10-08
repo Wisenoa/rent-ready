@@ -1,0 +1,128 @@
+{
+  "capturedAt": "2026-10-08T13:03:04.873Z",
+  "planchesCount": 15,
+  "locale": "fr-FR",
+  "timezone": "Europe/Paris",
+  "planches": [
+    {
+      "filename": "dir_a_dashboard_1440.png",
+      "direction": "a",
+      "directionTitle": "Direction A — Signalétique Foncière",
+      "screenId": "dashboard_1440",
+      "screenLabel": "Dashboard Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_a_dashboard_1440.png"
+    },
+    {
+      "filename": "dir_a_dashboard_390.png",
+      "direction": "a",
+      "directionTitle": "Direction A — Signalétique Foncière",
+      "screenId": "dashboard_390",
+      "screenLabel": "Dashboard Mobile 390",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_a_dashboard_390.png"
+    },
+    {
+      "filename": "dir_a_lease_new_1440.png",
+      "direction": "a",
+      "directionTitle": "Direction A — Signalétique Foncière",
+      "screenId": "lease_new_1440",
+      "screenLabel": "Création Bail Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_a_lease_new_1440.png"
+    },
+    {
+      "filename": "dir_a_lease_new_390.png",
+      "direction": "a",
+      "directionTitle": "Direction A — Signalétique Foncière",
+      "screenId": "lease_new_390",
+      "screenLabel": "Création Bail Mobile 390",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_a_lease_new_390.png"
+    },
+    {
+      "filename": "dir_a_billing_1440.png",
+      "direction": "a",
+      "directionTitle": "Direction A — Signalétique Foncière",
+      "screenId": "billing_1440",
+      "screenLabel": "Paiements (Billing) Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_a_billing_1440.png"
+    },
+    {
+      "filename": "dir_b_dashboard_1440.png",
+      "direction": "b",
+      "directionTitle": "Direction B — Modern French Atelier",
+      "screenId": "dashboard_1440",
+      "screenLabel": "Dashboard Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_b_dashboard_1440.png"
+    },
+    {
+      "filename": "dir_b_dashboard_390.png",
+      "direction": "b",
+      "directionTitle": "Direction B — Modern French Atelier",
+      "screenId": "dashboard_390",
+      "screenLabel": "Dashboard Mobile 390",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_b_dashboard_390.png"
+    },
+    {
+      "filename": "dir_b_lease_new_1440.png",
+      "direction": "b",
+      "directionTitle": "Direction B — Modern French Atelier",
+      "screenId": "lease_new_1440",
+      "screenLabel": "Création Bail Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_b_lease_new_1440.png"
+    },
+    {
+      "filename": "dir_b_lease_new_390.png",
+      "direction": "b",
+      "directionTitle": "Direction B — Modern French Atelier",
+      "screenId": "lease_new_390",
+      "screenLabel": "Création Bail Mobile 390",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_b_lease_new_390.png"
+    },
+    {
+      "filename": "dir_b_billing_1440.png",
+      "direction": "b",
+      "directionTitle": "Direction B — Modern French Atelier",
+      "screenId": "billing_1440",
+      "screenLabel": "Paiements (Billing) Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_b_billing_1440.png"
+    },
+    {
+      "filename": "dir_c_dashboard_1440.png",
+      "direction": "c",
+      "directionTitle": "Direction C — Quiet Finance",
+      "screenId": "dashboard_1440",
+      "screenLabel": "Dashboard Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_c_dashboard_1440.png"
+    },
+    {
+      "filename": "dir_c_dashboard_390.png",
+      "direction": "c",
+      "directionTitle": "Direction C — Quiet Finance",
+      "screenId": "dashboard_390",
+      "screenLabel": "Dashboard Mobile 390",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_c_dashboard_390.png"
+    },
+    {
+      "filename": "dir_c_lease_new_1440.png",
+      "direction": "c",
+      "directionTitle": "Direction C — Quiet Finance",
+      "screenId": "lease_new_1440",
+      "screenLabel": "Création Bail Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_c_lease_new_1440.png"
+    },
+    {
+      "filename": "dir_c_lease_new_390.png",
+      "direction": "c",
+      "directionTitle": "Direction C — Quiet Finance",
+      "screenId": "lease_new_390",
+      "screenLabel": "Création Bail Mobile 390",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_c_lease_new_390.png"
+    },
+    {
+      "filename": "dir_c_billing_1440.png",
+      "direction": "c",
+      "directionTitle": "Direction C — Quiet Finance",
+      "screenId": "billing_1440",
+      "screenLabel": "Paiements (Billing) Desktop 1440",
+      "repoPath": "/home/ubuntu/rent-ready/.worktrees/visual-exploration/docs/design/visual-identity-exploration/planches/dir_c_billing_1440.png"
+    }
+  ]
+}

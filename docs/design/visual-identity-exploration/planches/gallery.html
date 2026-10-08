@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>RentReady — Galerie Comparative des 3 Directions Visuelles</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0F172A; color: #F8FAFC; margin: 0; padding: 24px; }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    p.lead { color: #94A3B8; font-size: 14px; margin-top: 0; margin-bottom: 32px; }
+    .nav-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+    .tab-btn { background: #1E293B; color: #E2E8F0; border: 1px solid #334155; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; }
+    .tab-btn.active { background: #2563EB; color: #FFF; border-color: #2563EB; }
+    .comparison-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .comparison-col { background: #1E293B; border-radius: 8px; border: 1px solid #334155; overflow: hidden; }
+    .col-header { padding: 12px 16px; background: #0F172A; border-bottom: 1px solid #334155; font-size: 13px; font-weight: 600; display: flex; justify-content: space-between; }
+    .col-header .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    .badge-a { background: #1D4ED8; color: #FFF; }
+    .badge-b { background: #1E3A2F; color: #4ADE80; border: 1px solid #2E6F4E; }
+    .badge-c { background: #334155; color: #94A3B8; }
+    .col-body img { width: 100%; height: auto; display: block; }
+    .meta-box { padding: 12px 16px; font-size: 12px; color: #94A3B8; border-top: 1px solid #334155; }
+  </style>
+</head>
+<body>
+  <h1>RentReady — Galerie Comparative des 3 Directions Visuelles</h1>
+  <p class="lead">15 planches capturées en haute résolution avec données métier strictement identiques (3 biens, 2 payés, 1 partiel de 400 €, 1 création de bail).</p>
+
+  <div class="nav-tabs" id="tabs">
+    <button class="tab-btn active" onclick="showScreen('dashboard_1440')">Dashboard Desktop (1440)</button>
+    <button class="tab-btn" onclick="showScreen('dashboard_390')">Dashboard Mobile (390)</button>
+    <button class="tab-btn" onclick="showScreen('lease_new_1440')">Création Bail Desktop (1440)</button>
+    <button class="tab-btn" onclick="showScreen('lease_new_390')">Création Bail Mobile (390)</button>
+    <button class="tab-btn" onclick="showScreen('billing_1440')">Paiements / Billing (1440)</button>
+  </div>
+
+  <div id="views">
+    
+      <div class="screen-view" id="view_dashboard_1440" style="">
+        <div class="comparison-grid">
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>A · Signalétique Foncière</span>
+              <span class="badge badge-a">Direction A</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_a_dashboard_1440.png" target="_blank"><img src="dir_a_dashboard_1440.png" alt="Direction A Dashboard Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Pragmatic Utility · Grille technique · Rails mécaniques · Bleu signal</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>B · Modern French Atelier</span>
+              <span class="badge badge-b">Direction B</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_b_dashboard_1440.png" target="_blank"><img src="dir_b_dashboard_1440.png" alt="Direction B Dashboard Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Clarté Vivante · Fond calcaire doux · Surfaces albâtre · Vert forêt & miel</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>C · Quiet Finance</span>
+              <span class="badge badge-c">Direction C</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_c_dashboard_1440.png" target="_blank"><img src="dir_c_dashboard_1440.png" alt="Direction C Dashboard Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Précision Calme · Silence visuel · Progressive disclosure · Anthracite doux</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="screen-view" id="view_dashboard_390" style="display:none;">
+        <div class="comparison-grid">
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>A · Signalétique Foncière</span>
+              <span class="badge badge-a">Direction A</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_a_dashboard_390.png" target="_blank"><img src="dir_a_dashboard_390.png" alt="Direction A Dashboard Mobile 390"></a>
+            </div>
+            <div class="meta-box">Pragmatic Utility · Grille technique · Rails mécaniques · Bleu signal</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>B · Modern French Atelier</span>
+              <span class="badge badge-b">Direction B</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_b_dashboard_390.png" target="_blank"><img src="dir_b_dashboard_390.png" alt="Direction B Dashboard Mobile 390"></a>
+            </div>
+            <div class="meta-box">Clarté Vivante · Fond calcaire doux · Surfaces albâtre · Vert forêt & miel</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>C · Quiet Finance</span>
+              <span class="badge badge-c">Direction C</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_c_dashboard_390.png" target="_blank"><img src="dir_c_dashboard_390.png" alt="Direction C Dashboard Mobile 390"></a>
+            </div>
+            <div class="meta-box">Précision Calme · Silence visuel · Progressive disclosure · Anthracite doux</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="screen-view" id="view_lease_new_1440" style="display:none;">
+        <div class="comparison-grid">
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>A · Signalétique Foncière</span>
+              <span class="badge badge-a">Direction A</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_a_lease_new_1440.png" target="_blank"><img src="dir_a_lease_new_1440.png" alt="Direction A Création Bail Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Pragmatic Utility · Grille technique · Rails mécaniques · Bleu signal</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>B · Modern French Atelier</span>
+              <span class="badge badge-b">Direction B</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_b_lease_new_1440.png" target="_blank"><img src="dir_b_lease_new_1440.png" alt="Direction B Création Bail Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Clarté Vivante · Fond calcaire doux · Surfaces albâtre · Vert forêt & miel</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>C · Quiet Finance</span>
+              <span class="badge badge-c">Direction C</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_c_lease_new_1440.png" target="_blank"><img src="dir_c_lease_new_1440.png" alt="Direction C Création Bail Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Précision Calme · Silence visuel · Progressive disclosure · Anthracite doux</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="screen-view" id="view_lease_new_390" style="display:none;">
+        <div class="comparison-grid">
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>A · Signalétique Foncière</span>
+              <span class="badge badge-a">Direction A</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_a_lease_new_390.png" target="_blank"><img src="dir_a_lease_new_390.png" alt="Direction A Création Bail Mobile 390"></a>
+            </div>
+            <div class="meta-box">Pragmatic Utility · Grille technique · Rails mécaniques · Bleu signal</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>B · Modern French Atelier</span>
+              <span class="badge badge-b">Direction B</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_b_lease_new_390.png" target="_blank"><img src="dir_b_lease_new_390.png" alt="Direction B Création Bail Mobile 390"></a>
+            </div>
+            <div class="meta-box">Clarté Vivante · Fond calcaire doux · Surfaces albâtre · Vert forêt & miel</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>C · Quiet Finance</span>
+              <span class="badge badge-c">Direction C</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_c_lease_new_390.png" target="_blank"><img src="dir_c_lease_new_390.png" alt="Direction C Création Bail Mobile 390"></a>
+            </div>
+            <div class="meta-box">Précision Calme · Silence visuel · Progressive disclosure · Anthracite doux</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="screen-view" id="view_billing_1440" style="display:none;">
+        <div class="comparison-grid">
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>A · Signalétique Foncière</span>
+              <span class="badge badge-a">Direction A</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_a_billing_1440.png" target="_blank"><img src="dir_a_billing_1440.png" alt="Direction A Paiements (Billing) Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Pragmatic Utility · Grille technique · Rails mécaniques · Bleu signal</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>B · Modern French Atelier</span>
+              <span class="badge badge-b">Direction B</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_b_billing_1440.png" target="_blank"><img src="dir_b_billing_1440.png" alt="Direction B Paiements (Billing) Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Clarté Vivante · Fond calcaire doux · Surfaces albâtre · Vert forêt & miel</div>
+          </div>
+
+          <div class="comparison-col">
+            <div class="col-header">
+              <span>C · Quiet Finance</span>
+              <span class="badge badge-c">Direction C</span>
+            </div>
+            <div class="col-body">
+              <a href="dir_c_billing_1440.png" target="_blank"><img src="dir_c_billing_1440.png" alt="Direction C Paiements (Billing) Desktop 1440"></a>
+            </div>
+            <div class="meta-box">Précision Calme · Silence visuel · Progressive disclosure · Anthracite doux</div>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+
+  <script>
+    function showScreen(id) {
+      document.querySelectorAll('.screen-view').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('view_' + id).style.display = 'block';
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
