@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RentReady B.2 — Galerie d'Épreuve des 5 Héros & 3 Homepages</title>
+  <style>
+    :root {
+      --bg: #F5F3EF;
+      --card-bg: #FFFFFF;
+      --ink: #15241F;
+      --muted: #5A6660;
+      --forest: #1E3A2F;
+      --border: #E5E2DA;
+      --accent: #A3E635;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+    header {
+      background: var(--ink);
+      color: white;
+      padding: 24px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .title-group h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+    .title-group p { font-size: 13px; color: #94A3B8; margin-top: 4px; }
+    nav.filter-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    nav.filter-nav a {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    nav.filter-nav a:hover, nav.filter-nav a.active {
+      background: var(--accent);
+      color: var(--ink);
+    }
+    main { max-width: 1400px; margin: 32px auto; padding: 0 24px; }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--forest);
+      margin: 40px 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .grid-mobile {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFAF8;
+    }
+    .card-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+    .card-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--border);
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .card-badge.rec { background: #DCFCE7; color: #166534; font-weight: 700; }
+    .card-body {
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: #ECEAE4;
+      overflow: auto;
+      max-height: 600px;
+    }
+    .card-body img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="title-group">
+        <h1>RentReady B.2 — Galerie d'Épreuve Comparative</h1>
+        <p>5 Stratégies de Hero (Desktop & Mobile) · 3 Architectures de Homepage · Démonstration Interactive</p>
+      </div>
+      <nav class="filter-nav">
+        <a href="#heroes-desktop">5 Héros Desktop</a>
+        <a href="#heroes-mobile">5 Héros Mobile</a>
+        <a href="#homepages">3 Homepages</a>
+        <a href="#demo">Démo États</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- SECTION 1: 5 HEROES DESKTOP -->
+    <h2 id="heroes-desktop" class="section-title">
+      <span>1. Les 5 Stratégies de Hero (Desktop 1440px)</span>
+      <span style="font-size: 12px; font-weight: normal; color: var(--muted);">Comparaison des angles H1 et visibilité produit</span>
+    </h2>
+    <div class="grid">
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 1 (Category First) · Desktop 1440px</span>
+            <span class="card-badge ">VARIANTE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_01_1440.png" target="_blank">
+              <img src="planches/hero_01_1440.png" alt="Hero 1 (Category First) · Desktop 1440px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 2 (Outcome First) · Desktop 1440px</span>
+            <span class="card-badge ">VARIANTE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_02_1440.png" target="_blank">
+              <img src="planches/hero_02_1440.png" alt="Hero 2 (Outcome First) · Desktop 1440px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 3 (Exception First) · Desktop 1440px</span>
+            <span class="card-badge ">VARIANTE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_03_1440.png" target="_blank">
+              <img src="planches/hero_03_1440.png" alt="Hero 3 (Exception First) · Desktop 1440px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 4 (Product First) · Desktop 1440px</span>
+            <span class="card-badge ">VARIANTE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_04_1440.png" target="_blank">
+              <img src="planches/hero_04_1440.png" alt="Hero 4 (Product First) · Desktop 1440px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 5 (Hybrid Recommandé) · Desktop 1440px</span>
+            <span class="card-badge rec">RECOMMANDÉ ★</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_05_1440.png" target="_blank">
+              <img src="planches/hero_05_1440.png" alt="Hero 5 (Hybrid Recommandé) · Desktop 1440px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 2: 5 HEROES MOBILE -->
+    <h2 id="heroes-mobile" class="section-title">
+      <span>2. Les 5 Héros sur Mobile (390px — iPhone 15/16)</span>
+      <span style="font-size: 12px; font-weight: normal; color: var(--muted);">Discipline du 1er viewport : produit visible sans scroll excessif</span>
+    </h2>
+    <div class="grid grid-mobile">
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 1 (Category First) · Mobile 390px (iPhone 15/16)</span>
+            <span class="card-badge ">VARIANTE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_01_390.png" target="_blank">
+              <img src="planches/hero_01_390.png" alt="Hero 1 (Category First) · Mobile 390px (iPhone 15/16)" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 2 (Outcome First) · Mobile 390px</span>
+            <span class="card-badge ">VARIANTE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_02_390.png" target="_blank">
+              <img src="planches/hero_02_390.png" alt="Hero 2 (Outcome First) · Mobile 390px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 3 (Exception First) · Mobile 390px</span>
+            <span class="card-badge ">VARIANTE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_03_390.png" target="_blank">
+              <img src="planches/hero_03_390.png" alt="Hero 3 (Exception First) · Mobile 390px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 4 (Product First) · Mobile 390px</span>
+            <span class="card-badge ">VARIANTE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_04_390.png" target="_blank">
+              <img src="planches/hero_04_390.png" alt="Hero 4 (Product First) · Mobile 390px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Hero 5 (Hybrid Recommandé) · Mobile 390px</span>
+            <span class="card-badge rec">RECOMMANDÉ ★</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/hero_05_390.png" target="_blank">
+              <img src="planches/hero_05_390.png" alt="Hero 5 (Hybrid Recommandé) · Mobile 390px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 3: 3 FULL HOMEPAGES -->
+    <h2 id="homepages" class="section-title">
+      <span>3. Les 3 Architectures Complètes de Homepage (Desktop & Mobile)</span>
+      <span style="font-size: 12px; font-weight: normal; color: var(--muted);">Storytelling, piliers métier, rigueur légale, outils et tarifs</span>
+    </h2>
+    <div class="grid">
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Homepage A (Product Led) · Desktop 1440px</span>
+            <span class="card-badge ">ALTERNATIVE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/homepage_a_1440.png" target="_blank">
+              <img src="planches/homepage_a_1440.png" alt="Homepage A (Product Led) · Desktop 1440px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Homepage B (Problem → Resolution) · Desktop 1440px</span>
+            <span class="card-badge ">ALTERNATIVE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/homepage_b_1440.png" target="_blank">
+              <img src="planches/homepage_b_1440.png" alt="Homepage B (Problem → Resolution) · Desktop 1440px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Homepage C (Hybrid Conversion Recommandée) · Desktop 1440px</span>
+            <span class="card-badge rec">RECOMMANDÉE ★</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/homepage_c_1440.png" target="_blank">
+              <img src="planches/homepage_c_1440.png" alt="Homepage C (Hybrid Conversion Recommandée) · Desktop 1440px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Homepage A (Product Led) · Mobile 390px</span>
+            <span class="card-badge ">ALTERNATIVE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/homepage_a_390.png" target="_blank">
+              <img src="planches/homepage_a_390.png" alt="Homepage A (Product Led) · Mobile 390px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Homepage B (Problem → Resolution) · Mobile 390px</span>
+            <span class="card-badge ">ALTERNATIVE</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/homepage_b_390.png" target="_blank">
+              <img src="planches/homepage_b_390.png" alt="Homepage B (Problem → Resolution) · Mobile 390px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Homepage C (Hybrid Conversion) · Mobile 390px</span>
+            <span class="card-badge rec">RECOMMANDÉE ★</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/homepage_c_390.png" target="_blank">
+              <img src="planches/homepage_c_390.png" alt="Homepage C (Hybrid Conversion) · Mobile 390px" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 4: DEMO STATES & STRESS -->
+    <h2 id="demo" class="section-title">
+      <span>4. États de l'Interaction Produit & Stress Test 360px</span>
+      <span style="font-size: 12px; font-weight: normal; color: var(--muted);">Attention → Action → Résolution et affichage Samsung Galaxy</span>
+    </h2>
+    <div class="grid">
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Homepage Recommandée C · Stress Test Mobile 360px (Galaxy)</span>
+            <span class="card-badge">INTERACTION</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/homepage_selected_360.png" target="_blank">
+              <img src="planches/homepage_selected_360.png" alt="Homepage Recommandée C · Stress Test Mobile 360px (Galaxy)" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Démo État 1 · Attention (Solde manquant de 400 €)</span>
+            <span class="card-badge">INTERACTION</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/product_demo_before.png" target="_blank">
+              <img src="planches/product_demo_before.png" alt="Démo État 1 · Attention (Solde manquant de 400 €)" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Démo État 2 · Action Requise (Reçu partiel & Relance)</span>
+            <span class="card-badge">INTERACTION</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/product_demo_attention.png" target="_blank">
+              <img src="planches/product_demo_attention.png" alt="Démo État 2 · Action Requise (Reçu partiel & Relance)" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Démo État 3 · Résolu & Calme (Quittance de solde émise)</span>
+            <span class="card-badge">INTERACTION</span>
+          </div>
+          <div class="card-body">
+            <a href="planches/product_demo_resolved.png" target="_blank">
+              <img src="planches/product_demo_resolved.png" alt="Démo État 3 · Résolu & Calme (Quittance de solde émise)" loading="lazy">
+            </a>
+          </div>
+        </div>
+      
+    </div>
+  </main>
+</body>
+</html>
