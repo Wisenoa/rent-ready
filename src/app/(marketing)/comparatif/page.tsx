@@ -29,7 +29,7 @@ const comparatifs = [
   {
     title: "Logiciels de gestion locative",
     description:
-      "Comparez RentReady, Gestions.net, Apfer, Tecoo et Excel : tarifs, fonctionnalités, conformité loi Alur.",
+      "Comparez logiciel dédié, tableur Excel et agence immobilière : coûts réels, temps passé et conformité légale.",
     href: "/comparatif/logiciel-gestion-locative",
     badge: "Populaire",
     badgeColor: "bg-blue-100 text-blue-700",

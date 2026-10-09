@@ -44,6 +44,7 @@ const PRIVATE_PREFIXES = [
   "/api",
   "/billing",
   "/dashboard",
+  "/design-preview",
   "/expenses",
   "/fiscal",
   "/leases",

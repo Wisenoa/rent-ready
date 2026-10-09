@@ -5,9 +5,7 @@ import { SITE_URL as BASE_URL } from "@/data/entity";
 
 import { routes } from "@/data/routes";
 
-const { articleMeta } = require("../data/articles-meta") as {
-  articleMeta: Array<{ slug: string; date: string; updatedAt: string }>;
-};
+import { articleMeta } from "@/data/articles-meta";
 
 
 
@@ -126,6 +124,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // A sitemap must not contain duplicates or redirect sources.
   const seen = new Set<string>();
   return all.filter((entry) => {
+    if (entry.url.includes("/design-preview")) return false;
     if (seen.has(entry.url)) return false;
     seen.add(entry.url);
     return true;

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
-import { Download } from "lucide-react";
+import { Copy, Check, Sparkles, ArrowRight } from "lucide-react";
 
 const breadcrumbItems = [
   { label: "Accueil", href: "/" },
@@ -232,15 +232,47 @@ export function LettreRelanceClient() {
                   <button
                     type="button"
                     onClick={copyLetter}
-                    className="flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 px-3 py-1.5 rounded-lg border border-blue-200 hover:bg-blue-50 transition-colors"
+                    className="flex items-center gap-1.5 text-sm font-semibold text-emerald-800 hover:text-emerald-900 px-3.5 py-1.5 rounded-lg border border-emerald-300 bg-emerald-50/50 hover:bg-emerald-100 transition-colors"
                   >
-                    <Download className="size-4" />
-                    {copied ? "Copié !" : "Copier"}
+                    {copied ? (
+                      <>
+                        <Check className="size-4 text-emerald-700" />
+                        <span>Copié !</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="size-4 text-emerald-700" />
+                        <span>Copier</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
               <div className="bg-stone-50 rounded-xl p-5 font-mono text-sm text-stone-800 whitespace-pre-wrap leading-relaxed">
                 {generateLetter() || "Remplissez le formulaire pour générer votre lettre..."}
+              </div>
+
+              {/* Contextual Product CTA */}
+              <div className="mt-6 rounded-xl border border-emerald-200/90 bg-emerald-50/60 p-5 space-y-3">
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
+                  <Sparkles className="size-3.5" />
+                  <span>Surveillance RentReady</span>
+                </div>
+                <h4 className="text-sm font-bold text-stone-900">
+                  Anticipez les retards avant qu'ils ne deviennent des impayés
+                </h4>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  RentReady surveille vos encaissements bancaires en temps réel. En cas de retard au 5 ou au 10 du mois, vous êtes alerté avec un modèle de relance pré-rempli en 1 clic.
+                </p>
+                <div className="pt-1">
+                  <Link
+                    href="/register"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-800 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-900"
+                  >
+                    <span>Découvrir la détection automatique (14j gratuits)</span>
+                    <ArrowRight className="size-3.5" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

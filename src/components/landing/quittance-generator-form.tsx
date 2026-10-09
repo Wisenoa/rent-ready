@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Download, Loader2, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { Download, Loader2, CheckCircle, ArrowRight, Sparkles } from "lucide-react";
 
 /* ─── Types ─── */
 
@@ -253,17 +254,6 @@ export function QuittanceGeneratorForm() {
         email,
       });
       setSuccess(true);
-      // Reset form after success
-      setEmail("");
-      setBailleurNom("");
-      setBailleurAdresse("");
-      setBailleurCodePostal("");
-      setBailleurVille("");
-      setLocataireNom("");
-      setLocataireAdresse("");
-      setLoyer("");
-      setCharges("");
-      setTimeout(() => setSuccess(false), 5000);
     } catch (err) {
       console.error("Erreur lors de la génération :", err);
     } finally {
@@ -416,7 +406,7 @@ export function QuittanceGeneratorForm() {
       <button
         type="submit"
         disabled={loading}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-800 px-6 py-3.5 font-semibold text-white shadow-sm transition-colors hover:bg-emerald-900 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading ? (
           <>
@@ -432,9 +422,40 @@ export function QuittanceGeneratorForm() {
       </button>
 
       {success && (
-        <div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">
-          <CheckCircle className="size-4 shrink-0" />
-          Quittance téléchargée avec succès !
+        <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 text-stone-800 space-y-4">
+          <div className="flex items-center gap-2 text-emerald-900 font-semibold text-sm">
+            <CheckCircle className="size-5 shrink-0 text-emerald-600" />
+            <span>Votre quittance de loyer PDF a été téléchargée avec succès.</span>
+          </div>
+
+          <div className="rounded-xl border border-emerald-200/80 bg-white p-5 shadow-sm space-y-3">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
+              <Sparkles className="size-3.5" />
+              <span>Automatisation RentReady</span>
+            </div>
+            <h3 className="text-base font-bold text-stone-900">
+              Automatisez vos quittances pour le mois prochain
+            </h3>
+            <p className="text-sm text-stone-600 leading-relaxed">
+              Plutôt que de ressaisir ces coordonnées chaque mois, RentReady surveille vos encaissements bancaires et expédie automatiquement la quittance légale à votre locataire dès réception du virement.
+            </p>
+            <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-3">
+              <Link
+                href="/register"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-900"
+              >
+                <span>Essayer gratuitement 14 jours sans CB</span>
+                <ArrowRight className="size-4" />
+              </Link>
+              <button
+                type="button"
+                onClick={() => setSuccess(false)}
+                className="text-xs text-stone-500 hover:text-stone-800 underline transition-colors"
+              >
+                Modifier ou créer une autre quittance
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </form>

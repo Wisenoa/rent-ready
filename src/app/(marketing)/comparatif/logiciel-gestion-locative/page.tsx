@@ -6,17 +6,13 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { formatEntryPrice } from "@/data/entity";
 
-// Rendered on demand. SEO/marketing content, not product surface: prerendering the
-// ~135-page content suite exhausted the Node heap during `next build`
-// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
-// per request costs ~ms and every URL keeps working.
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Comparatif logiciel gestion locative 2026 — RentReady vs la concurrence",
+    title: "Logiciel, Tableur ou Agence : le comparatif de gestion locative 2026",
     description:
-      "Comparez RentReady, Gestions, Apfer, Tecoo et les autres logiciels de gestion locative. Tarifs, fonctionnalités, conformité loi Alur — trouvez le meilleur choix pour votre parc.",
+      "Comparez les 3 modes de gestion locative : logiciel dédié, tableur Excel ou agence immobilière. Coûts, temps passé et conformité légale analysés en détail.",
     url: "/comparatif/logiciel-gestion-locative",
     ogType: "website",
   });
@@ -25,197 +21,147 @@ export async function generateMetadata(): Promise<Metadata> {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  name: "Comparatif logiciel gestion locative 2026",
+  name: "Comparatif gestion locative 2026 : Logiciel, Tableur ou Agence",
   mainEntity: [
     {
       "@type": "Question",
-      name: "Quel est le meilleur logiciel de gestion locative en 2026 ?",
+      name: "Quel est le meilleur mode de gestion locative pour un propriétaire indépendant ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: `Le meilleur dépend de votre parc. RentReady offre le meilleur rapport prix-fonctionnalités pour les propriétaires de 1 à 10 biens, à ${formatEntryPrice()} sans commission. Pour les agences ou grands parcs, des solutions comme Gestions.net ou Tecoo offrent plus de modules comptables mais à des tarifs plus élevés.`,
+        text: `Pour 1 à 10 logements, un logiciel spécialisé comme RentReady offre le meilleur équilibre : il automatise les tâches chronophages (quittances, détection des paiements, révision IRL) dès ${formatEntryPrice()}, sans les honoraires élevés d'une agence (7 à 10 % des loyers) ni la charge mentale d'un tableur Excel manuel.`,
       },
     },
     {
       "@type": "Question",
-      name: "Combien coûte un logiciel de gestion locative ?",
+      name: "Combien coûte la gestion locative pour un propriétaire particulier ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Les tarifs varient de 0 € (tableur) à plus de 100 €/mois pour les agences. Un propriétaire indépendant paie généralement entre 10 et 30 €/mois. Attention aux offres à bas coût qui facturent des modules essentiels (quittances, relances) en option.",
+        text: "Un tableur ne coûte rien en licence mais demande plusieurs heures de travail par mois. Une agence immobilière facture généralement entre 6 % et 10 % TTC des loyers encaissés, plus les frais de mise en location. Un logiciel de gestion locative démarre dès 9 €/mois tout compris.",
       },
     },
     {
       "@type": "Question",
-      name: "Faut-il un logiciel ou un tableur Excel suffit ?",
+      name: "Faut-il un logiciel ou un tableur Excel suffit-il ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Pour un bien, un tableur peut suffire. Dès 3 biens ou plus, un logiciel devient indispensable : automatisation des quittances, détection des paiements, calcul IRL, conformité légale évolutive. Le temps économisé justifie largement le coût mensuel.",
+        text: "Pour un bien unique avec un locataire stable, un tableur peut suffire au départ. Dès 2 ou 3 biens, la gestion manuelle devient source d'erreurs : conformité légale des quittances (loi de 1989), calcul des révisions annuelles INSEE et risque de retard sur les relances. Un logiciel automatisé élimine ces frictions.",
       },
     },
     {
       "@type": "Question",
-      name: "Les logiciels de gestion locative sont-ils conformes à la loi Alur ?",
+      name: "Les logiciels de gestion locative sont-ils conformes à la loi Alur et à la loi de 1989 ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Les principaux logiciels (RentReady, Gestions.net, Apfer) intègrent la conformité loi Alur : mentions obligatoires sur les quittances, grille de loyer en zone tendue, délai de restitution du dépôt de garantie. Vérifiez que le logiciel met à jour ses modèles à chaque modification légale.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Peut-on changer de logiciel de gestion locative facilement ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "La migration dépend du logiciel source et cible. L'essentiel de vos données (baux, quittances, historique) doit pouvoir s'exporter. Privilégiez un logiciel qui stocke vos documents de manière standard (PDF) et non dans un format propriétaire.",
+        text: "Oui, un logiciel comme RentReady intègre nativement les mentions légales obligatoires : distinction loyer et charges, encadrement des loyers en zone tendue, calcul exact de l'IRL et modèle d'état des lieux conforme au décret de 2016.",
       },
     },
   ],
 };
 
-const alternatives = [
+interface Alternative {
+  name: string;
+  price: string;
+  priceDetail: string;
+  pros: string[];
+  cons: string[];
+  bestFor: string;
+  url: string;
+  highlight: boolean;
+}
+
+const alternatives: Alternative[] = [
   {
-    name: "RentReady",
+    name: "RentReady (Logiciel en ligne)",
     price: formatEntryPrice(),
-    priceDetail: "tout inclus jusqu'à 10 biens",
+    priceDetail: "sans commission, essai 14j gratuit sans CB",
     pros: [
-      "Quittances légales automatiques",
-      "Détection paiements via Open Banking",
-      "Révision IRL connectée INSEE",
-      "Portail locataire inclus",
-      "Pas de commission sur les loyers",
-      "Essai gratuit 14 jours sans CB",
+      "Quittances automatiques loi du 6 juillet 1989",
+      "Détection des virements par synchronisation bancaire",
+      "Calcul automatique de la révision IRL (indices INSEE)",
+      "Alertes immédiates en cas d'impayé ou de retard",
+      "Portail locataire et historique sécurisé",
+      "Gestion calme par exception : le système veille en arrière-plan",
     ],
-    cons: ["Pas de module de comptabilité avancé"],
-    bestFor: "Propriétaires de 1 à 10 biens",
+    cons: ["Conçu pour 1 à 10 lots, pas adapté aux syndics de copropriété"],
+    bestFor: "Propriétaires particuliers qui gèrent eux-mêmes",
     url: "/register",
     highlight: true,
   },
   {
-    name: "Gestions.net",
-    price: "29 €/mois",
-    priceDetail: "ou 250 €/an",
+    name: "Tableur (Excel ou Google Sheets)",
+    price: "0 €",
+    priceDetail: "gratuit en licence",
     pros: [
-      "Comptabilité complète intégrée",
-      "ModuleFiscalité développé",
-      "Historique long",
-      "Support téléphonique",
+      "Gratuit et accessible immédiatement",
+      "Personnalisable selon ses propres formules",
     ],
     cons: [
-      "Interface vieillissante",
-      "Pas de détection automatique des paiements",
-      "Coût additionnel pour le portail locataire",
+      "Zéro automatisation : tout doit être saisi à la main",
+      "Quittances à créer, convertir en PDF et envoyer manuellement",
+      "Risque d'erreurs dans les formules et d'oubli de relance",
+      "Aucune mise à jour automatique des indices légaux INSEE",
+      "Chronophage (2 à 4 heures par mois dès plusieurs lots)",
     ],
-    bestFor: "Propriétaires avec comptabilité complexe",
+    bestFor: "Un seul bien avec peu de mouvements",
     url: "#",
     highlight: false,
   },
   {
-    name: "Apfer",
-    price: "19 €/mois",
-    priceDetail: "jusqu'à 5 lots",
-    pros: ["Cumulable avec expertise-comptable", "Déclaration fiscale automatisée"],
-    cons: [
-      "Limité à 5 lots sur l'offre de base",
-      "Pas de portail locataire intégré",
-      "Quittances en option payante",
+    name: "Agence immobilière (Gestion déléguée)",
+    price: "6 % à 10 % TTC",
+    priceDetail: "du montant des loyers + frais de relocation",
+    pros: [
+      "Délégation complète des visites et états des lieux",
+      "Gestion des réparations courantes par des artisans partenaires",
+      "Interlocuteur physique pour le locataire",
     ],
-    bestFor: "Landlords with accountant already",
-    url: "#",
-    highlight: false,
-  },
-  {
-    name: "Tecoo",
-    price: "35 €/mois",
-    priceDetail: "fonctionnalités complètes",
-    pros: ["Interface moderne", "Application mobile", "Multi-utilisateurs"],
     cons: [
-      "Tarif plus élevé",
-      "Surplus pour les alertes SMS",
-      "Complexe pour un usage simple",
+      "Coût très élevé : 600 € à 1 500 € par an et par logement",
+      "Frais supplémentaires à chaque changement de locataire",
+      "Reversement des loyers souvent différé à la fin du mois",
+      "Perte de visibilité directe sur la relation locataire",
     ],
-    bestFor: "Property managers with multiple staff",
-    url: "#",
-    highlight: false,
-  },
-  {
-    name: "Tableur Excel",
-    price: "Gratuit",
-    priceDetail: "à 0 €",
-    pros: ["Gratuit", "Totalement personnalisable"],
-    cons: [
-      "Pas d'automatisation",
-      "Risque d'erreurs",
-      "Pas de conformité garantie",
-      "Pas de detection des paiements",
-    ],
-    bestFor: "Un seul bien, usage temporaire",
+    bestFor: "Propriétaires éloignés géographiquement ou sans temps libre",
     url: "#",
     highlight: false,
   },
 ];
 
 const criteria = [
-  "Quittances légales",
-  "Détection paiements",
-  "Révision IRL",
-  "Portail locataire",
-  "Sans commission",
-  "Essai gratuit",
-  "Prix-transparent",
+  "Quittances conformes loi 1989",
+  "Détection automatique des paiements",
+  "Révision annuelle IRL automatique",
+  "Alertes impayé en temps réel",
+  "Portail locataire inclus",
+  "Sans commission sur les loyers",
+  "Temps de gestion mensuel estimé",
 ];
 
-// Rendered on demand. SEO/marketing content, not product surface: prerendering the
-// ~135-page content suite exhausted the Node heap during `next build`
-// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
-// per request costs ~ms and every URL keeps working.
+function getScore(alternativeName: string, criterion: string): "check" | "cross" | "minus" {
+  if (alternativeName.startsWith("RentReady")) {
+    return "check";
+  }
+  if (alternativeName.startsWith("Tableur")) {
+    if (criterion === "Sans commission sur les loyers") return "check";
+    return "cross";
+  }
+  if (alternativeName.startsWith("Agence")) {
+    if (criterion === "Quittances conformes loi 1989") return "check";
+    if (criterion === "Révision annuelle IRL automatique") return "check";
+    if (criterion === "Sans commission sur les loyers") return "cross";
+    if (criterion === "Temps de gestion mensuel estimé") return "check";
+    return "minus";
+  }
+  return "cross";
+}
 
-function getScore(alternative: string, criterion: string): "check" | "cross" | "minus" {
-  const scores: Record<string, Record<string, "check" | "cross" | "minus">> = {
-    RentReady: {
-      "Quittances légales": "check",
-      "Détection paiements": "check",
-      "Révision IRL": "check",
-      "Portail locataire": "check",
-      "Sans commission": "check",
-      "Essai gratuit": "check",
-      "Prix-transparent": "check",
-    },
-    "Gestions.net": {
-      "Quittances légales": "check",
-      "Détection paiements": "cross",
-      "Révision IRL": "check",
-      "Portail locataire": "minus",
-      "Sans commission": "check",
-      "Essai gratuit": "cross",
-      "Prix-transparent": "check",
-    },
-    Apfer: {
-      "Quittances légales": "check",
-      "Détection paiements": "cross",
-      "Révision IRL": "minus",
-      "Portail locataire": "cross",
-      "Sans commission": "check",
-      "Essai gratuit": "cross",
-      "Prix-transparent": "minus",
-    },
-    Tecoo: {
-      "Quittances légales": "check",
-      "Détection paiements": "cross",
-      "Révision IRL": "check",
-      "Portail locataire": "check",
-      "Sans commission": "check",
-      "Essai gratuit": "cross",
-      "Prix-transparent": "check",
-    },
-    "Tableur Excel": {
-      "Quittances légales": "cross",
-      "Détection paiements": "cross",
-      "Révision IRL": "cross",
-      "Portail locataire": "cross",
-      "Sans commission": "check",
-      "Essai gratuit": "check",
-      "Prix-transparent": "check",
-    },
-  };
-  return scores[alternative]?.[criterion] ?? "cross";
+function getCriteriaNote(alternativeName: string, criterion: string): string | null {
+  if (criterion === "Temps de gestion mensuel estimé") {
+    if (alternativeName.startsWith("RentReady")) return "~10 min/mois";
+    if (alternativeName.startsWith("Tableur")) return "2 à 4 h/mois";
+    if (alternativeName.startsWith("Agence")) return "0 min/mois";
+  }
+  return null;
 }
 
 export default function ComparatifLogicielGestionLocative() {
@@ -226,23 +172,21 @@ export default function ComparatifLogicielGestionLocative() {
         items={[
           { label: "Accueil", href: "/" },
           { label: "Comparatifs", href: "/comparatif" },
-          { label: "Logiciels gestion locative", href: "/comparatif/logiciel-gestion-locative", isCurrentPage: true },
+          { label: "Logiciel vs Tableur vs Agence", href: "/comparatif/logiciel-gestion-locative", isCurrentPage: true },
         ]}
       />
 
       <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Header */}
         <header className="mb-16 text-center">
-          <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
-            Comparatif — Outils de gestion
+          <p className="mb-3 text-sm font-semibold tracking-wide text-emerald-800 uppercase">
+            Guide comparatif 2026
           </p>
           <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
-            Logiciel gestion locative : le comparatif 2026
+            Gestion locative : Logiciel en ligne, Tableur Excel ou Agence ?
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
-            Comparez RentReady, Gestions.net, Apfer, Tecoo et Excel pour gérer vos
-            locations. Tarifs réels, fonctionnalités, conformité — tout pour choisir en
-            connaissance de cause.
+            Comparez objectivement les trois solutions pour gérer vos logements en location. Coûts réels, temps passé et conformité légale analysés en toute transparence.
           </p>
         </header>
 
@@ -252,14 +196,14 @@ export default function ComparatifLogicielGestionLocative() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-stone-200">
-                  <th className="py-3 pr-4 text-left font-semibold text-stone-900 w-40">
+                  <th className="py-3 pr-4 text-left font-semibold text-stone-900 w-52">
                     Critère
                   </th>
                   {alternatives.map((alt) => (
                     <th
                       key={alt.name}
                       className={`py-3 px-3 text-center font-semibold ${
-                        alt.highlight ? "text-blue-600" : "text-stone-700"
+                        alt.highlight ? "text-emerald-800" : "text-stone-700"
                       }`}
                     >
                       {alt.name}
@@ -273,16 +217,23 @@ export default function ComparatifLogicielGestionLocative() {
                     <td className="py-3 pr-4 font-medium text-stone-700">{criterion}</td>
                     {alternatives.map((alt) => {
                       const score = getScore(alt.name, criterion);
+                      const note = getCriteriaNote(alt.name, criterion);
                       return (
                         <td key={alt.name} className="py-3 px-3 text-center">
-                          {score === "check" && (
-                            <Check className="mx-auto h-5 w-5 text-green-600" />
-                          )}
-                          {score === "cross" && (
-                            <X className="mx-auto h-5 w-5 text-red-400" />
-                          )}
-                          {score === "minus" && (
-                            <Minus className="mx-auto h-5 w-5 text-amber-400" />
+                          {note ? (
+                            <span className="font-medium text-stone-800">{note}</span>
+                          ) : (
+                            <>
+                              {score === "check" && (
+                                <Check className="mx-auto h-5 w-5 text-emerald-600" />
+                              )}
+                              {score === "cross" && (
+                                <X className="mx-auto h-5 w-5 text-stone-300" />
+                              )}
+                              {score === "minus" && (
+                                <Minus className="mx-auto h-5 w-5 text-amber-500" />
+                              )}
+                            </>
                           )}
                         </td>
                       );
@@ -290,7 +241,7 @@ export default function ComparatifLogicielGestionLocative() {
                   </tr>
                 ))}
                 <tr className="border-t-2 border-stone-200 font-semibold">
-                  <td className="py-3 pr-4 text-stone-900">Prix mensuel</td>
+                  <td className="py-3 pr-4 text-stone-900">Coût estimé</td>
                   {alternatives.map((alt) => (
                     <td key={alt.name} className="py-3 px-3 text-center text-stone-900">
                       {alt.price}
@@ -299,8 +250,8 @@ export default function ComparatifLogicielGestionLocative() {
                 </tr>
               </tbody>
             </table>
-            <p className="mt-2 text-xs text-stone-600 text-center">
-              ✓ Inclus &nbsp; ✗ Non disponible &nbsp; − Partiellement
+            <p className="mt-3 text-xs text-stone-500 text-center">
+              ✓ Inclus &nbsp; ✗ Non disponible &nbsp; − Partiel ou payant en option
             </p>
           </div>
         </section>
@@ -310,48 +261,49 @@ export default function ComparatifLogicielGestionLocative() {
           {alternatives.map((alt) => (
             <div
               key={alt.name}
-              className={`rounded-xl border p-6 ${
+              className={`rounded-2xl border p-6 md:p-8 ${
                 alt.highlight
-                  ? "border-blue-200 bg-blue-50 shadow-sm"
+                  ? "border-emerald-200 bg-emerald-50/40 shadow-sm"
                   : "border-stone-200 bg-white"
               }`}
             >
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <h3 className="text-lg font-bold text-stone-900">{alt.name}</h3>
+                    <h2 className="text-xl font-bold text-stone-900">{alt.name}</h2>
                     {alt.highlight && (
-                      <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white">
-                        Notre recommandation
+                      <span className="rounded-full bg-emerald-800 px-2.5 py-0.5 text-xs font-semibold text-white">
+                        Recommandé pour bailleurs autonomes
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 text-sm font-medium text-stone-700">
+                  <p className="mt-1 text-sm font-semibold text-stone-800">
                     {alt.price} <span className="font-normal text-stone-600">— {alt.priceDetail}</span>
                   </p>
                   <p className="mt-1 text-sm text-stone-600">Recommandé pour : {alt.bestFor}</p>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-green-700 mb-1">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-emerald-800 mb-2">
                         Avantages
                       </p>
-                      <ul className="space-y-1">
+                      <ul className="space-y-1.5">
                         {alt.pros.map((pro) => (
-                          <li key={pro} className="flex items-start gap-2 text-sm text-stone-600">
-                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
+                          <li key={pro} className="flex items-start gap-2 text-sm text-stone-700">
+                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
                             {pro}
                           </li>
                         ))}
                       </ul>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-red-700 mb-1">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">
                         Inconvénients
                       </p>
-                      <ul className="space-y-1">
+                      <ul className="space-y-1.5">
                         {alt.cons.map((con) => (
                           <li key={con} className="flex items-start gap-2 text-sm text-stone-600">
-                            <X className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+                            <X className="mt-0.5 h-4 w-4 shrink-0 text-stone-400" />
                             {con}
                           </li>
                         ))}
@@ -359,19 +311,16 @@ export default function ComparatifLogicielGestionLocative() {
                     </div>
                   </div>
                 </div>
-                <div className="shrink-0">
+
+                <div className="shrink-0 pt-2 sm:pt-0">
                   {alt.highlight ? (
                     <Link
                       href={alt.url}
-                      className="inline-block rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700"
+                      className="inline-block rounded-xl bg-emerald-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-900"
                     >
-                      Essai gratuit →
+                      Essai gratuit 14 jours →
                     </Link>
-                  ) : (
-                    <span className="inline-block rounded-lg border border-stone-200 bg-white px-5 py-2.5 text-sm text-stone-600 cursor-not-allowed">
-                      Voir le site →
-                    </span>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -379,16 +328,16 @@ export default function ComparatifLogicielGestionLocative() {
         </section>
 
         {/* FAQ */}
-        <section className="mb-16 bg-[#f8f7f4] rounded-2xl p-8">
+        <section className="mb-16 bg-[#fbfbfa] rounded-2xl border border-stone-200/60 p-8">
           <h2 className="mb-6 text-2xl font-bold text-stone-900">
-            Questions fréquentes sur les logiciels de gestion locative
+            Questions fréquentes
           </h2>
           <div className="divide-y divide-stone-200">
             {faqSchema.mainEntity.map((faq) => (
               <details key={faq.name} className="group py-5">
-                <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between font-semibold text-stone-900">
                   {faq.name}
-                  <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
+                  <span className="ml-4 shrink-0 text-stone-500 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
@@ -403,17 +352,16 @@ export default function ComparatifLogicielGestionLocative() {
         {/* CTA */}
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-bold sm:text-3xl">
-            Essayez RentReady gratuitement 14 jours
+            Passez du tableur à la gestion sereine
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
-            Aucune carte bancaire. Aucune commission. Accès complet à toutes les fonctionnalités
-            pendant 14 jours, puis ${formatEntryPrice()} pour tout votre parc.
+            Créez votre compte en 2 minutes. 14 jours d'essai gratuit sans carte bancaire, puis {formatEntryPrice()} par mois sans engagement.
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-xl bg-emerald-800 px-8 py-3.5 font-semibold text-white shadow transition-colors hover:bg-emerald-700"
           >
-            Créer mon compte gratuitement
+            Commencer mon essai gratuit
           </Link>
         </section>
       </main>
