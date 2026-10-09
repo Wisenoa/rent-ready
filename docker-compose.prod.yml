@@ -39,9 +39,30 @@ services:
       start_period: 10s
 
   # ============================================================================
+  # Dedicated Prisma Migrator (Init-Container)
+  # - Runs 'prisma migrate deploy' strictly BEFORE 'app' starts
+  # - If migration fails, 'app' never starts
+  # ============================================================================
+  migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+    container_name: locelio-migrator
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@locelio-postgres:5432/${POSTGRES_DB:-locelio_production}?schema=public
+    networks:
+      - locelio_internal
+
+  # ============================================================================
   # Locelio Next.js Application (Standalone Runner)
   # - Runs as unprivileged 'nextjs' user (UID 1001)
-  # - Internal port 3000 mapped to loopback 127.0.0.1:3019
+  # - Starts ONLY after migrator completes successfully
+  # - Internal port 3000 mapped to Docker gateway 172.17.0.1:3019
   # ============================================================================
   app:
     build:
@@ -57,6 +78,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
     environment:
       NODE_ENV: production
       PORT: 3000

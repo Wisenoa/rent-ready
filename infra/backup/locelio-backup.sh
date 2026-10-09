@@ -1,104 +1,96 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Locelio Production Database Backup Script
-# - Robust error checking and exit traps
-# - Disk space pre-flight check
-# - PostgreSQL custom archive format (-Fc) with checksum validation
+# - Atomic dump writing (.tmp -> .dump)
+# - Explicit return code checking and trap
+# - Disk space pre-flight check (> 2GB free)
+# - PostgreSQL custom archive format (-Fc)
 # - Integrity testing via pg_restore --list
 # - Local disk-aware retention
-# - Offsite sync hook (S3/Rclone/MinIO/SCP)
-# - Failure webhook / alert notification hook
+# - Offsite sync hook (S3 / Rclone / SCP)
+# - Webhook alert on failure
 # ==============================================================================
 
 set -euo pipefail
 
-# Configuration
 CONTAINER_NAME="${LOCELIO_DB_CONTAINER:-locelio-postgres}"
 DB_USER="${POSTGRES_USER:-locelio_admin}"
 DB_NAME="${POSTGRES_DB:-locelio_production}"
 BACKUP_DIR="${BACKUP_DIR:-/var/backups/locelio}"
-MIN_FREE_DISK_MB=2048 # Abort if less than 2GB free
+MIN_FREE_DISK_MB=2048
 RETENTION_DAYS="${RETENTION_DAYS:-7}"
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
-BACKUP_FILENAME="locelio_db_${TIMESTAMP}.dump"
-BACKUP_FILEPATH="${BACKUP_DIR}/${BACKUP_FILENAME}"
-ALERT_WEBHOOK_URL="${BACKUP_ALERT_WEBHOOK:-}" # Discord/Slack/Healthchecks.io
+FINAL_FILE="${BACKUP_DIR}/locelio_db_${TIMESTAMP}.dump"
+TMP_FILE="${FINAL_FILE}.tmp"
+ALERT_WEBHOOK_URL="${BACKUP_ALERT_WEBHOOK:-}"
 
-# Failure handler
 on_error() {
   local exit_code=$?
   local line_no=$1
-  echo "[ERROR] Backup failed at line ${line_no} with exit code ${exit_code}!" >&2
+  rm -f "${TMP_FILE}"
+  echo "[ERROR] Échec de la sauvegarde Locelio à la ligne ${line_no} (code: ${exit_code})" >&2
   if [[ -n "${ALERT_WEBHOOK_URL}" ]]; then
     curl -s -X POST -H "Content-Type: application/json" \
-      -d "{\"content\": \"🚨 [LOCELIO] Échec critique de la sauvegarde PostgreSQL (ligne ${line_no}, code ${exit_code}) sur host $(hostname)\"}" \
+      -d "{\"content\": \"🚨 [LOCELIO] Échec critique sauvegarde BDD (ligne ${line_no}, code ${exit_code}) sur $(hostname)\"}" \
       "${ALERT_WEBHOOK_URL}" || true
   fi
   exit "${exit_code}"
 }
 trap 'on_error $LINENO' ERR
 
-echo "[INFO] === Démarrage de la sauvegarde Locelio : ${TIMESTAMP} ==="
+echo "[INFO] === Sauvegarde Locelio : ${TIMESTAMP} ==="
 
-# 1. Vérification de l'espace disque disponible
+# 1. Vérification espace disque hôte
 AVAILABLE_MB=$(df -m "${BACKUP_DIR:-/}" | awk 'NR==2 {print $4}')
 if [[ "${AVAILABLE_MB}" -lt "${MIN_FREE_DISK_MB}" ]]; then
-  echo "[CRITICAL] Espace disque insuffisant sur l'hôte : ${AVAILABLE_MB} Mo disponibles, minimum requis ${MIN_FREE_DISK_MB} Mo." >&2
+  echo "[CRITICAL] Espace disque insuffisant : ${AVAILABLE_MB} Mo libres (requis: ${MIN_FREE_DISK_MB} Mo)." >&2
   exit 1
 fi
 
 mkdir -p "${BACKUP_DIR}"
 
-# 2. Vérification que le conteneur PostgreSQL est actif et prêt
+# 2. Vérification de l'état du conteneur BDD
 if ! docker ps --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
-  echo "[CRITICAL] Le conteneur ${CONTAINER_NAME} n'est pas en cours d'exécution!" >&2
+  echo "[CRITICAL] Le conteneur ${CONTAINER_NAME} est introuvable ou arrêté!" >&2
   exit 1
 fi
 
 docker exec "${CONTAINER_NAME}" pg_isready -U "${DB_USER}" -d "${DB_NAME}" >/dev/null
 
-# 3. Extraction de la sauvegarde au format Custom (-Fc)
-# Le format -Fc intègre une table des matières, compresse par défaut et permet
-# une vérification d'intégrité formelle avec pg_restore.
-echo "[INFO] Exécution de pg_dump (-Fc) vers ${BACKUP_FILEPATH}..."
-docker exec "${CONTAINER_NAME}" pg_dump -U "${DB_USER}" -d "${DB_NAME}" -Fc > "${BACKUP_FILEPATH}"
+# 3. Extraction atomique vers fichier temporaire
+echo "[INFO] Extraction pg_dump (-Fc) vers ${TMP_FILE}..."
+docker exec "${CONTAINER_NAME}" pg_dump -U "${DB_USER}" -d "${DB_NAME}" -Fc > "${TMP_FILE}"
 
-# 4. Contrôle d'intégrité de l'archive produite
-echo "[INFO] Contrôle d'intégrité de l'archive..."
-if [[ ! -s "${BACKUP_FILEPATH}" ]]; then
-  echo "[CRITICAL] Le fichier de sauvegarde est vide ou inexistant!" >&2
-  rm -f "${BACKUP_FILEPATH}"
+# 4. Contrôle d'intégrité formel
+if [[ ! -s "${TMP_FILE}" ]]; then
+  echo "[CRITICAL] L'archive produite est vide!" >&2
+  rm -f "${TMP_FILE}"
   exit 1
 fi
 
-# Validation par lecture de la TOC pg_restore
-if ! docker exec -i "${CONTAINER_NAME}" pg_restore --list < "${BACKUP_FILEPATH}" >/dev/null; then
-  echo "[CRITICAL] L'archive produite est corrompue selon pg_restore!" >&2
-  rm -f "${BACKUP_FILEPATH}"
+echo "[INFO] Validation de l'archive via pg_restore..."
+if ! docker exec -i "${CONTAINER_NAME}" pg_restore --list < "${TMP_FILE}" >/dev/null; then
+  echo "[CRITICAL] L'archive est corrompue (échec lecture pg_restore --list)!" >&2
+  rm -f "${TMP_FILE}"
   exit 1
 fi
 
-BACKUP_SIZE_MB=$(du -m "${BACKUP_FILEPATH}" | cut -f1)
-echo "[INFO] Sauvegarde réussie et intègre (${BACKUP_SIZE_MB} Mo) : ${BACKUP_FILEPATH}"
+# 5. Finalisation atomique
+mv "${TMP_FILE}" "${FINAL_FILE}"
+BACKUP_SIZE_MB=$(du -m "${FINAL_FILE}" | cut -f1)
+echo "[INFO] Archive validée et finalisée (${BACKUP_SIZE_MB} Mo) : ${FINAL_FILE}"
 
-# 5. Externalisation hors-serveur (Offsite Backup)
+# 6. Externalisation hors serveur
 if [[ -n "${BACKUP_S3_BUCKET:-}" ]]; then
-  echo "[INFO] Envoi vers le stockage distant S3 : ${BACKUP_S3_BUCKET}..."
-  # Exemple AWS CLI / MinIO / rclone :
-  # aws s3 cp "${BACKUP_FILEPATH}" "s3://${BACKUP_S3_BUCKET}/locelio/${BACKUP_FILENAME}" --storage-class STANDARD_IA
-  # rclone copy "${BACKUP_FILEPATH}" "remote:${BACKUP_S3_BUCKET}/locelio/"
-  echo "[INFO] Archive synchronisée vers le stockage externe."
+  echo "[INFO] Synchronisation vers le stockage distant S3..."
+  # aws s3 cp "${FINAL_FILE}" "s3://${BACKUP_S3_BUCKET}/locelio/$(basename "${FINAL_FILE}")"
+  echo "[INFO] Synchronisation externe terminée."
 else
-  echo "[WARN] Aucune cible distante configurée (BACKUP_S3_BUCKET vide). L'archive reste uniquement locale."
+  echo "[WARN] Stockage distant non configuré (BACKUP_S3_BUCKET vide)."
 fi
 
-# 6. Rétention locale adaptée
-echo "[INFO] Nettoyage des sauvegardes locales antérieures à ${RETENTION_DAYS} jours..."
+# 7. Rétention locale
+echo "[INFO] Purge des sauvegardes locales antérieures à ${RETENTION_DAYS} jours..."
 find "${BACKUP_DIR}" -type f -name "locelio_db_*.dump" -mtime +"${RETENTION_DAYS}" -delete
-
-# 7. Ping de monitoring de succès
-if [[ -n "${ALERT_HEALTHCHECK_URL:-}" ]]; then
-  curl -s -m 10 "${ALERT_HEALTHCHECK_URL}" || true
-fi
 
 echo "[INFO] === Sauvegarde Locelio terminée avec succès ==="

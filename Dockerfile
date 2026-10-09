@@ -1,29 +1,29 @@
-# ========================================
+# ==============================================================================
 # Locelio Production Dockerfile (Multi-stage)
-# Next.js 15 App Router Standalone + Prisma
-# ========================================
+# Next.js 15 App Router Standalone + Dedicated Prisma Migrator
+# ==============================================================================
 
-# ----------------------------------------
-# Stage 1: Base Alpine with Node & PNPM
-# ----------------------------------------
+# ------------------------------------------------------------------------------
+# Stage 1: Base Alpine with Node.js & PNPM
+# ------------------------------------------------------------------------------
 FROM node:20-alpine AS base
 RUN apk add --no-cache libc6-compat openssl
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 
-# ----------------------------------------
+# ------------------------------------------------------------------------------
 # Stage 2: Install dependencies
-# ----------------------------------------
+# ------------------------------------------------------------------------------
 FROM base AS deps
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-# ----------------------------------------
+# ------------------------------------------------------------------------------
 # Stage 3: Builder
-# ----------------------------------------
+# ------------------------------------------------------------------------------
 FROM base AS builder
 WORKDIR /app
 
@@ -47,9 +47,23 @@ RUN pnpm exec prisma generate
 # Build Next.js application
 RUN pnpm run build
 
-# ----------------------------------------
-# Stage 4: Production Runner (Non-root)
-# ----------------------------------------
+# ------------------------------------------------------------------------------
+# Stage 4: Dedicated Migrator (Executes prisma migrate deploy before app starts)
+# ------------------------------------------------------------------------------
+FROM base AS migrator
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY package.json pnpm-lock.yaml ./
+COPY --from=deps /app/node_modules ./node_modules
+COPY prisma ./prisma
+
+CMD ["pnpm", "exec", "prisma", "migrate", "deploy"]
+
+# ------------------------------------------------------------------------------
+# Stage 5: Production Runner (Non-root Next.js Standalone)
+# ------------------------------------------------------------------------------
 FROM node:20-alpine AS runner
 WORKDIR /app
 
@@ -60,7 +74,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Unprivileged user
+# Unprivileged system user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
@@ -73,7 +87,11 @@ RUN mkdir -p .next && chown -R nextjs:nodejs .next
 # Copy standalone build and static chunks
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Ensure Prisma schema, migrations, and CLI are present in the runner
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 
 USER nextjs
 
