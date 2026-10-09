@@ -1,7 +1,7 @@
 import { chromium } from "@playwright/test";
 import { unlinkSync, existsSync } from "node:fs";
 
-const PORT = 4910;
+const PORT = 4911;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 
 async function testRegression() {

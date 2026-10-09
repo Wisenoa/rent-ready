@@ -437,7 +437,7 @@ export function QuittanceGeneratorForm() {
               Automatisez vos quittances pour le mois prochain
             </h3>
             <p className="text-sm text-stone-600 leading-relaxed">
-              Plutôt que de ressaisir ces coordonnées chaque mois, RentReady génère automatiquement vos quittances conformes à chaque échéance et les met à disposition de vos locataires.
+              Une fois le loyer intégralement payé et enregistré, RentReady génère votre quittance et la met à disposition de votre locataire.
             </p>
             <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-3">
               <Link
