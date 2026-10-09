@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { formatEntryPrice } from "@/data/entity";
+import { formatEntryPrice, SITE_NAME, SITE_URL } from "@/data/entity";
 import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
@@ -33,13 +33,13 @@ export const metadata: Metadata = {
     initialScale: 1,
     maximumScale: 5,
   },
-  metadataBase: new URL("https://www.rentready.fr"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "RentReady — Gestion Locative Intelligente",
-    template: "%s | RentReady",
+    default: `${SITE_NAME} — Gestion Locative Intelligente`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
-    `Simplifiez votre gestion locative. Quittances automatiques, suivi des loyers et gestion des documents pour les propriétaires bailleurs. À partir de ${formatEntryPrice()}.`,
+    `Gérez vos locations sans tableur. Quittances et reçus conformes à la loi de 1989, suivi des encaissements et rappels de révision IRL. À partir de ${formatEntryPrice()}.`,
   keywords: [
     "gestion locative",
     "quittance de loyer",
@@ -52,9 +52,9 @@ export const metadata: Metadata = {
     "gestion locative Lyon",
     "suivi des loyers",
   ],
-  authors: [{ name: "RentReady" }],
-  creator: "RentReady",
-  publisher: "RentReady",
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   robots: {
     index: true,
     follow: true,
@@ -62,37 +62,35 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://www.rentready.fr",
-    siteName: "RentReady",
-    title: "RentReady — Gestion Locative Intelligente",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Gestion Locative Intelligente`,
     description:
-      `Quittances automatiques, suivi bancaire DSP2 et gestion des documents pour les propriétaires bailleurs. À partir de ${formatEntryPrice()}.`,
+      `Gérez vos locations sans tableur. Quittances automatiques, suivi bancaire et gestion des documents pour les propriétaires bailleurs. À partir de ${formatEntryPrice()}.`,
     images: [
       {
-        url: "https://www.rentready.fr/opengraph-image",
+        url: `${SITE_URL}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "RentReady — Gestion Locative Intelligente",
+        alt: `${SITE_NAME} — Gestion Locative Intelligente`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "RentReady — Gestion Locative Intelligente",
+    title: `${SITE_NAME} — Gestion Locative Intelligente`,
     description:
-      `Quittances automatiques, suivi bancaire DSP2 et gestion des documents pour les propriétaires bailleurs. À partir de ${formatEntryPrice()}.`,
-    site: "@rentready_fr",
-    images: ["https://www.rentready.fr/opengraph-image"],
+      `Gérez vos locations sans tableur. Quittances automatiques, suivi bancaire et gestion des documents pour les propriétaires bailleurs. À partir de ${formatEntryPrice()}.`,
+    images: [`${SITE_URL}/opengraph-image`],
   },
   alternates: {
-    canonical: "https://www.rentready.fr",
+    canonical: SITE_URL,
     languages: {
-      // Self-referencing hreflang for French locale (RentReady is FR-only)
-      fr: "https://www.rentready.fr",
-      "fr-FR": "https://www.rentready.fr",
+      // Self-referencing hreflang for French locale (FR-only)
+      fr: SITE_URL,
+      "fr-FR": SITE_URL,
       // x-default: same as primary locale for single-locale sites
-      // Update this when expanding to additional locales (en, es, de)
-      "x-default": "https://www.rentready.fr",
+      "x-default": SITE_URL,
     },
   },
 };

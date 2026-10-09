@@ -39,7 +39,7 @@ import {
 } from "@/components/design-system";
 
 export const metadata: Metadata = {
-  title: "Tableau de bord · RentReady",
+  title: "Tableau de bord · Locelio",
 };
 
 export default async function DashboardPage() {
@@ -153,7 +153,7 @@ export default async function DashboardPage() {
                 Démarrage rapide
               </StatusBadge>
               <h1 className="font-sans text-2xl sm:text-3xl text-neutral-900 tracking-tight font-bold">
-                Bienvenue sur RentReady
+                Bienvenue sur Locelio
               </h1>
               <p className="text-sm sm:text-base text-neutral-500 leading-relaxed">
                 Votre outil de gestion locative calme et automatisé. Enregistrez votre premier bien
@@ -196,7 +196,7 @@ export default async function DashboardPage() {
                 </span>
                 <p className="font-semibold text-sm text-neutral-900">Sérénité mensuelle</p>
                 <p className="text-xs text-neutral-500">
-                  RentReady suit les encaissements et quittances.
+                  Locelio suit les encaissements et quittances.
                 </p>
               </div>
             </div>

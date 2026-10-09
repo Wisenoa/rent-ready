@@ -45,9 +45,9 @@ const GlassNav = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Fonctionnalités RentReady — quittances auto, IRL et Open Banking (2026)",
+      "Fonctionnalités Locelio — quittances auto, IRL et suivi des loyers (2026)",
     description:
-      "Quittances conformes loi 1989, détection automatique des loyers via Open Banking DSP2, révision IRL INSEE, portail locataire et gestion des baux. À partir de 9 €/mois.",
+      "Quittances conformes loi 1989, suivi des loyers via Open Banking DSP2, révision IRL INSEE, portail locataire et gestion des baux. À partir de 9 €/mois.",
     url: "/features",
     ogType: "feature",
   });
@@ -56,32 +56,32 @@ export async function generateMetadata() {
 /* ─── FAQ data for schema ─── */
 const featureFaqs = [
   {
-    question: "RentReady génère-t-il des quittances de loyer conformes à la loi ?",
+    question: "Locelio génère-t-il des quittances de loyer conformes à la loi ?",
     answer:
       "Oui. Chaque quittance inclut toutes les mentions obligatoires de la loi du 6 juillet 1989 : identité du bailleur et du locataire, adresse du bien, période couverte, montant du loyer charges comprises, date de paiement, mode de paiement, référence du bail, signature et indice IRL INSEE.",
   },
   {
-    question: "Comment fonctionne la détection automatique des loyers via Open Banking ?",
+    question: "Comment fonctionne la détection des loyers via Open Banking ?",
     answer:
-      "Via l'Open Banking DSP2, RentReady lit les mouvements bancaires de votre compte pour identifier automatiquement les virements de loyer. Chaque loyer reçu est catégorisé et archivé sans saisie manuelle.",
+      "Via l'Open Banking DSP2, Locelio lit les mouvements bancaires de votre compte pour identifier les virements de loyer. Chaque loyer reçu est catégorisé et archivé sans saisie manuelle.",
   },
   {
     question: "La révision de loyer IRL est-elle automatique ?",
     answer:
-      "Oui. RentReady se connecte automatiquement à l'INDICE INSEE pour calculer la nouvelle provision de loyer. Vous recevez une notification quand la révision doit être appliquée et le bail est mis à jour automatiquement.",
+      "Oui. Locelio se connecte aux indices officiels de l'INSEE pour calculer la nouvelle provision de loyer. Vous recevez une alerte quand la révision doit être appliquée.",
   },
   {
     question: "Le portail locataire est-il accessible sans mot de passe ?",
     answer:
-      "Oui. Le locataire accède à son portail via un lien magic link envoyé par email. Aucun mot de passe n'est nécessaire. Il peut consulter ses quittances, soumettre des demandes de maintenance et voir l'historique de ses paiements.",
+      "Oui. Le locataire accède à son portail via un lien sécurisé envoyé par email. Aucun mot de passe n'est nécessaire. Il peut consulter ses quittances, soumettre des demandes et voir l'historique de ses règlements.",
   },
   {
-    question: "RentReady est-il conforme Factur-X pour la facturation ?",
+    question: "Locelio est-il adapté aux obligations Factur-X ?",
     answer:
-      "Oui. RentReady génère des factures au format Factur-X, le standard obligatoire pour la facturation électronique en France, et prépare votre entreprise pour l'e-reporting B2C obligatoire à partir de 2027.",
+      "Oui. Locelio prépare votre gestion pour les standards de facturation et les échéances fiscales à venir.",
   },
   {
-    question: "Combien de biens puis-je gérer avec RentReady ?",
+    question: "Combien de biens puis-je gérer avec Locelio ?",
     answer:
       `L'abonnement à ${formatProPrice()} permet de gérer jusqu'à 10 biens immobiliers avec locataires illimités. L'abonnement annuel à ${formatProAnnualPrice()} vous offre 2 mois gratuits.`,
   },
@@ -96,6 +96,7 @@ import {
   buildBreadcrumbSchema,
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
+import { SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -106,18 +107,18 @@ export const revalidate = 3600;
 function FeaturesJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Fonctionnalités", url: "https://www.rentready.fr/features" },
+      { name: "Accueil", url: SITE_URL },
+      { name: "Fonctionnalités", url: `${SITE_URL}/features` },
     ]),
-    buildOrganizationSchema({ "@id": "https://www.rentready.fr/#organization" }),
+    buildOrganizationSchema({ "@id": `${SITE_URL}/#organization` }),
     buildWebPageSchema({
-      name: "Fonctionnalités RentReady",
+      name: "Fonctionnalités Locelio",
       description:
-        "Toutes les fonctionnalités du logiciel de gestion locative RentReady pour propriétaires bailleurs.",
-      url: "https://www.rentready.fr/features",
+        "Toutes les fonctionnalités du logiciel de gestion locative Locelio pour propriétaires bailleurs.",
+      url: `${SITE_URL}/features`,
     }),
     buildSoftwareAppSchema({
-      name: "RentReady",
+      name: "Locelio",
       applicationCategory: "BusinessApplication",
       offers: [
         {
@@ -186,7 +187,7 @@ const featureGroups = [
     title: "Automatisation Bancaire",
     tagline: "Open Banking DSP2",
     description:
-      "Oubliez la saisie manuelle des paiements. RentReady se connecte à votre banque et détecte automatiquement les versements de loyer.",
+      "Oubliez la saisie manuelle des paiements. Locelio se connecte à votre banque et détecte automatiquement les versements de loyer.",
     features: [
       {
         icon: Zap,
@@ -298,7 +299,7 @@ const featureGroups = [
     title: "Conformité & Sécurité",
     tagline: "Conforme Factur-X et e-reporting B2C 2027",
     description:
-      "La réglementation évolue. RentReady intègre en avance les obligations légales : Factur-X pour la facturation, e-reporting B2C pour les plateformes.",
+      "La réglementation évolue. Locelio intègre en avance les obligations légales : Factur-X pour la facturation, e-reporting B2C pour les plateformes.",
     features: [
       {
         icon: ShieldCheck,

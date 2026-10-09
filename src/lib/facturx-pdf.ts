@@ -26,8 +26,8 @@ export async function embedFacturX(
   pdfDoc.setTitle(metadata.title);
   pdfDoc.setAuthor(metadata.author);
   pdfDoc.setSubject(metadata.subject);
-  pdfDoc.setProducer("RentReady - Gestion Locative");
-  pdfDoc.setCreator("RentReady Factur-X Generator");
+  pdfDoc.setProducer("Locelio - Gestion Locative");
+  pdfDoc.setCreator("Locelio Factur-X Generator");
 
   // ── Embed the XML as a file stream ──
   const xmlBytes = new TextEncoder().encode(xml);
@@ -78,8 +78,8 @@ export async function embedFacturX(
     title: metadata.title,
     author: metadata.author,
     subject: metadata.subject,
-    producer: "RentReady - Gestion Locative",
-    creator: "RentReady Factur-X Generator",
+    producer: "Locelio - Gestion Locative",
+    creator: "Locelio Factur-X Generator",
     creationDate,
   });
 

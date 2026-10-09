@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SAME_AS } from "@/data/entity";
+import { SAME_AS, SITE_NAME, SITE_URL } from "@/data/entity";
 import Link from "next/link";
 import dynamicImport from "next/dynamic";
 import React from "react";
@@ -101,7 +101,7 @@ const faqData = [
   {
     question: "Comment générer une quittance de loyer ?",
     answer:
-      "Avec RentReady, sélectionnez simplement le locataire et le mois concerné. La quittance est générée automatiquement avec tous les montants pré-remplis depuis votre base. En 1 clic, elle est prête à être envoyée ou archivée.",
+      `Avec ${SITE_NAME}, sélectionnez simplement le locataire et le mois concerné. La quittance est générée automatiquement avec tous les montants pré-remplis depuis votre base. En 1 clic, elle est prête à être envoyée ou archivée.`,
   },
   {
     question: "La quittance est-elle conforme à la loi ?",
@@ -116,7 +116,7 @@ const faqData = [
   {
     question: "Les quittances sont-elles horodatées ?",
     answer:
-      "Oui. Chaque quittance est horodatée et archivée dans votre espace RentReady. Elles constituent une preuve légale en cas de litige avec un locataire et sont conservées conformément aux obligations fiscales.",
+      `Oui. Chaque quittance est horodatée et archivée dans votre espace ${SITE_NAME}. Elles constituent une preuve légale en cas de litige avec un locataire et sont conservées conformément aux obligations fiscales.`,
   },
 ];
 
@@ -127,15 +127,13 @@ const QUITTANCES_SCHEMA = {
   "@graph": [
     {
       "@type": "WebSite",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
+      name: SITE_NAME,
+      url: SITE_URL,
     },
     {
       "@type": "Organization",
-      name: "RentReady",
-      alternateName: "RentReady SAS",
-      url: "https://www.rentready.fr",
-      logo: "https://www.rentready.fr/logo.svg",
+      name: SITE_NAME,
+      url: SITE_URL,
       description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
       foundingDate: "2024",
       address: {
@@ -146,7 +144,7 @@ const QUITTANCES_SCHEMA = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: "contact@rentready.fr",
+        email: "contact@locelio.fr",
         availableLanguage: "French",
       },
       sameAs: SAME_AS,
@@ -159,22 +157,22 @@ const QUITTANCES_SCHEMA = {
           "@type": "ListItem",
           position: 1,
           name: "Accueil",
-          item: "https://www.rentready.fr",
+          item: SITE_URL,
         },
         {
           "@type": "ListItem",
           position: 2,
           name: "Quittances de loyer",
-          item: "https://www.rentready.fr/quittances",
+          item: `${SITE_URL}/quittances`,
         },
       ],
     },
     {
       "@type": "SoftwareApplication",
-      name: "RentReady — Quittances de loyer",
+      name: `${SITE_NAME} — Quittances de loyer`,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
-      url: "https://www.rentready.fr/quittances",
+      url: `${SITE_URL}/quittances`,
       description:
         "Générez des quittances de loyer conformes à la loi du 6 juillet 1989 en 1 clic. PDF automatique, mention IRL INSEE, envoi automatique au locataire.",
       offers: {
@@ -190,19 +188,8 @@ const QUITTANCES_SCHEMA = {
       ],
     },
     {
-      "@type": "Organization",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "customer support",
-        email: "contact@rentready.fr",
-        availableLanguage: "French",
-      },
-    },
-    {
       "@type": "FAQPage",
-      name: "FAQ — Quittances de loyer RentReady",
+      name: `FAQ — Quittances de loyer ${SITE_NAME}`,
       mainEntity: faqData.map((item) => ({
         "@type": "Question",
         name: item.question,
@@ -270,7 +257,7 @@ className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm back
 Mentions légales obligatoires
 </h2>
 <p className="mb-6 text-stone-600">
-Chaque quittance générée par RentReady respecte les mentions obligatoires
+Chaque quittance générée par {SITE_NAME} respecte les mentions obligatoires
 définies par la loi du 6 juillet 1989 :
 </p>
 <div className="rounded-xl border border-stone-200 bg-white p-6">

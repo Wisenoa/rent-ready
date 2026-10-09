@@ -9,7 +9,7 @@ import { prisma } from "@/lib/prisma";
  * `@react-pdf/renderer` and `@/lib/quittance-generator` client-side and called
  * `pdf(<QuittancePDF .../>).toBlob()`. So the file the tenant downloaded was a
  * NEW rendering built from the figures the page happened to hold, not the
- * document RentReady archived. The tenant is the other party to the document
+ * document Locelio archived. The tenant is the other party to the document
  * (loi du 6 juillet 1989, art. 21): if the template or the number moved between
  * the archiving and the download, the two copies diverged and neither proved
  * which one was authoritative. This is the same defect the landlord's button had,

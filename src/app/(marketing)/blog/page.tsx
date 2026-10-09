@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SAME_AS } from "@/data/entity";
+import { SAME_AS, SITE_NAME, SITE_URL } from "@/data/entity";
 
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
@@ -34,15 +34,15 @@ const schema = {
   "@graph": [
     {
       "@type": "WebSite",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
+      name: "Locelio",
+      url: SITE_URL,
     },
     {
       "@type": "Organization",
-      name: "RentReady",
-      alternateName: "RentReady SAS",
-      url: "https://www.rentready.fr",
-      logo: "https://www.rentready.fr/logo.svg",
+      name: "Locelio",
+      alternateName: "Locelio SAS",
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.svg`,
       description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
       foundingDate: "2024",
       address: {
@@ -53,7 +53,7 @@ const schema = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: "contact@rentready.fr",
+        email: "contact@locelio.fr",
         availableLanguage: "French",
       },
       sameAs: SAME_AS,
@@ -66,25 +66,25 @@ const schema = {
           "@type": "ListItem",
           position: 1,
           name: "Accueil",
-          item: "https://www.rentready.fr",
+          item: SITE_URL,
         },
         {
           "@type": "ListItem",
           position: 2,
           name: "Blog",
-          item: "https://www.rentready.fr/blog",
+          item: `${SITE_URL}/blog`,
         },
       ],
     },
     {
       "@type": "Blog",
-      name: "Blog RentReady",
+      name: "Blog Locelio",
       description: "Conseils et guides pour propriétaires bailleurs",
-      url: "https://www.rentready.fr/blog",
+      url: `${SITE_URL}/blog`,
       publisher: {
         "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
       },
     },
   ],
@@ -186,7 +186,7 @@ export default function BlogPage() {
             Automatisez votre gestion locative
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
-            RentReady génère les quittances, calcule l'IRL et suit vos loyers
+            Locelio génère les quittances, calcule l'IRL et suit vos loyers
             automatiquement. Essai gratuit 14 jours.
           </p>
           <Link

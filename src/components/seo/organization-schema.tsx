@@ -1,15 +1,13 @@
 import { SchemaMarkup } from "./schema-markup";
-import { FOUNDING_YEAR, SAME_AS } from "@/data/entity";
+import { FOUNDING_YEAR, SAME_AS, SITE_NAME, SITE_URL } from "@/data/entity";
 
 export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "RentReady",
-    alternateName: "RentReady SAS",
-    url: "https://www.rentready.fr",
-    logo: "https://www.rentready.fr/logo.svg",
-    description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: "Logiciel de gestion locative pour propriétaires bailleurs indépendants en France.",
     foundingDate: String(FOUNDING_YEAR),
     address: {
       "@type": "PostalAddress",
@@ -19,7 +17,7 @@ export function OrganizationSchema() {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
-      email: "contact@rentready.fr",
+      email: "contact@locelio.fr",
       availableLanguage: "French",
     },
     sameAs: SAME_AS,
@@ -40,8 +38,8 @@ export function WebSiteSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "RentReady",
-    url: "https://www.rentready.fr",
+    name: SITE_NAME,
+    url: SITE_URL,
   };
 
   return <SchemaMarkup data={schema} />;
@@ -59,7 +57,7 @@ export function BreadcrumbSchema({
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `https://www.rentready.fr${item.url}`,
+      item: `${SITE_URL}${item.url}`,
     })),
   };
 

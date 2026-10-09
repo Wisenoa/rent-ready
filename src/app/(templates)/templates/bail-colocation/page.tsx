@@ -91,9 +91,9 @@ function BailColocJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/templates" },
-          { "@type": "ListItem", position: 3, name: "Bail Colocation", item: "https://www.rentready.fr/templates/bail-colocation" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Bail Colocation", item: "https://locelio.fr/templates/bail-colocation" },
         ],
       },
       {
@@ -161,7 +161,7 @@ export default function BailColocationPage() {
               href="/register"
               className="inline-block rounded-lg bg-purple-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-purple-700 w-full sm:w-auto"
             >
-              Utiliser avec RentReady →
+              Utiliser avec Locelio →
             </Link>
             <Link
               href="/templates"
@@ -247,7 +247,7 @@ export default function BailColocationPage() {
         {/* CTA final */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-bold sm:text-3xl">
-            Gérez vos colocations avec RentReady
+            Gérez vos colocations avec Locelio
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
             Suivi des paiements par colocataire, partage automatique des charges, alertes pour les départs. Essai gratuit 14 jours.

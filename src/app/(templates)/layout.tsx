@@ -16,7 +16,7 @@ export default function TemplatesLayout({
             href="/"
             className="text-xl font-semibold tracking-tight text-stone-900"
           >
-            RentReady
+            Locelio
           </Link>
           <div className="flex items-center gap-4">
             <Link
@@ -72,7 +72,7 @@ export default function TemplatesLayout({
       <footer className="border-t border-stone-200/60 bg-[#f8f7f4]">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-10 text-sm text-stone-500 sm:flex-row sm:justify-between sm:px-6">
           <p>
-            &copy; {new Date().getFullYear()} RentReady. Tous droits réservés.
+            &copy; {new Date().getFullYear()} Locelio. Tous droits réservés.
           </p>
           <div className="flex flex-wrap justify-center gap-6">
             <Link

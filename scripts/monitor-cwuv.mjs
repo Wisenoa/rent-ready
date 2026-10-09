@@ -19,7 +19,7 @@
 
 const API_KEY = process.env.GOOGLE_PAGESPEED_API_KEY || '';
 const STRATEGY = 'mobile'; // CrUX is primarily tracked on mobile
-const DOMAIN = 'rentready.io';
+const DOMAIN = 'locelio.fr';
 
 const PAGES = [
   { name: 'Homepage',       url: `https://${DOMAIN}/` },

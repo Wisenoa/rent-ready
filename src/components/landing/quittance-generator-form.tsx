@@ -198,7 +198,7 @@ async function generateQuittancePdf(data: QuittanceFormData) {
         </View>
 
         <Text style={styles.footer}>
-          Document généré avec RentReady — www.rentready.fr
+          Document généré avec Locelio — locelio.fr
         </Text>
       </Page>
     </Document>
@@ -431,13 +431,13 @@ export function QuittanceGeneratorForm() {
           <div className="rounded-xl border border-emerald-200/80 bg-white p-5 shadow-sm space-y-3">
             <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
               <Sparkles className="size-3.5" />
-              <span>Automatisation RentReady</span>
+              <span>Automatisation Locelio</span>
             </div>
             <h3 className="text-base font-bold text-stone-900">
               Automatisez vos quittances pour le mois prochain
             </h3>
             <p className="text-sm text-stone-600 leading-relaxed">
-              Une fois le loyer intégralement payé et enregistré, RentReady génère votre quittance et la met à disposition de votre locataire.
+              Une fois le loyer intégralement payé et enregistré, Locelio génère votre quittance et la met à disposition de votre locataire.
             </p>
             <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-3">
               <Link

@@ -4,12 +4,13 @@ import { NextRequest } from "next/server";
 export const runtime = "edge";
 
 const BRAND = {
-  name: "RentReady",
-  color: "#16a34a",
-  dark: "#1a1a1a",
-  muted: "#6b6b6b",
-  bg: "#f8f7f4",
-  blue: "#2563eb",
+  name: "Locelio",
+  color: "#1E3A2F",
+  dark: "#15241F",
+  muted: "#2C3E35",
+  bg: "#F5F3EF",
+  honey: "#C86D2C",
+  blue: "#1E3A2F",
 };
 
 function BrandBadge() {
@@ -118,7 +119,7 @@ function ArticleOG({ title, description }: { title: string; description?: string
           
         }}
       >
-        Essai gratuit 14 jours
+        Essai gratuit sans engagement
       </div>
     </div>
   );
@@ -401,7 +402,7 @@ function PricingOG({ title, description }: { title: string; description?: string
           
         }}
       >
-        Essai gratuit 14 jours — Sans carte bancaire
+        Essai gratuit — Sans carte bancaire
       </div>
     </div>
   );
@@ -573,7 +574,7 @@ function LocationOG({ title, description }: { title: string; description?: strin
           
         }}
       >
-        Essai gratuit 14 jours
+        Essai gratuit sans engagement
       </div>
     </div>
   );
@@ -637,7 +638,7 @@ function DefaultOG({ title, description }: { title: string; description?: string
           
         }}
       >
-        Essai gratuit 14 jours
+        Essai gratuit sans engagement
       </div>
     </div>
   );
@@ -645,7 +646,7 @@ function DefaultOG({ title, description }: { title: string; description?: string
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const title = searchParams.get("title") || "RentReady — Gestion locative simplifiée";
+  const title = searchParams.get("title") || "Locelio — Gestion locative";
   const description = searchParams.get("description") || undefined;
   const type = searchParams.get("type") || "default";
 

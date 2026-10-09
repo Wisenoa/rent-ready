@@ -3,6 +3,7 @@ import Link from "next/link";
 import cities from "@/data/cities.json";
 import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 import { baseMetadata } from "@/lib/seo/metadata";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -36,7 +37,7 @@ const ZONES_TENDUES = new Set([
 export async function generateMetadata() {
   return baseMetadata({
     title: "Loyer impayé : détecter, relancer, facturer — 50 villes en France",
-    description: "La GLI est une assurance souscrite auprès d'un assureur : RentReady ne la vend pas. Ce que nous faisons : détecter les loyers impayés et déclencher la relance, ville par ville.",
+    description: `La GLI est une assurance souscrite auprès d'un assureur : ${SITE_NAME} ne la vend pas. Ce que nous faisons : détecter les loyers impayés et déclencher la relance, ville par ville.`,
     url: "/assurance-loyer-impaye",
     ogType: "feature",
   });
@@ -47,17 +48,17 @@ const GLI_SCHEMA = {
   "@graph": [
     {
       "@type": "WebSite",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
+      name: SITE_NAME,
+      url: SITE_URL,
     },
     {
       "@type": "Organization",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
+      name: SITE_NAME,
+      url: SITE_URL,
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer support",
-        email: "contact@rentready.fr",
+        email: "contact@locelio.fr",
         availableLanguage: "French",
       },
     },
@@ -65,18 +66,18 @@ const GLI_SCHEMA = {
       "@type": "BreadcrumbList",
       name: "Fil d'Ariane",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
-        { "@type": "ListItem", position: 2, name: "Assurance loyer impayé", item: "https://www.rentready.fr/assurance-loyer-impaye" },
+        { "@type": "ListItem", position: 1, name: "Accueil", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Assurance loyer impayé", item: `${SITE_URL}/assurance-loyer-impaye` },
       ],
     },
     {
       "@type": "SoftwareApplication",
-      name: "RentReady — Suivi des loyers impayés",
+      name: `${SITE_NAME} — Suivi des loyers impayés`,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
-      url: "https://www.rentready.fr/assurance-loyer-impaye",
+      url: `${SITE_URL}/assurance-loyer-impaye`,
       description:
-        "Logiciel de gestion locative : RentReady rapproche les échéances des paiements, signale les loyers non réglés et prépare la relance. RentReady ne vend pas d'assurance et ne souscrit pas de Garantie des Loyers Impayés : la GLI est un produit d'assurance, souscrite auprès d'un assureur.",
+        `Logiciel de gestion locative : ${SITE_NAME} rapproche les échéances des paiements, signale les loyers non réglés et prépare la relance. ${SITE_NAME} ne vend pas d'assurance et ne souscrit pas de Garantie des Loyers Impayés : la GLI est un produit d'assurance, souscrite auprès d'un assureur.`,
       offers: {
         ...paidOffer(),
       },

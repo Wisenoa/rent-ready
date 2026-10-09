@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
  * The UI used to call `generateQuittance` and then re-render the PDF in the
  * browser with @react-pdf/renderer, from the figures the action returned. The
  * file the landlord downloaded was therefore a NEW rendering, not the document
- * RentReady stored: a changed number or template made the two differ, and the
+ * Locelio stored: a changed number or template made the two differ, and the
  * archived copy was never the one that had been checked.
  *
  * This serves the persisted bytes. When the document is already generated, no

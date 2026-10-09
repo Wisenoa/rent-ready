@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import dynamicImport from "next/dynamic";
 import React from "react";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 import { baseMetadata } from "@/lib/seo/metadata";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -24,9 +25,9 @@ const DemoForm = dynamicImport(
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Démo RentReady — Découvrez la gestion locative en 30 min | Gratuit",
+    title: `Démo ${SITE_NAME} — Découvrez la gestion locative en 30 min | Gratuit`,
     description:
-      "Réservez votre démo RentReady gratuite de 30 minutes. Voir en live : quittances auto, détection loyer DSP2, IRL, portail locataire. Sans engagement.",
+      `Réservez votre démo ${SITE_NAME} gratuite de 30 minutes. Voir en live : quittances auto, détection loyer DSP2, IRL, portail locataire. Sans engagement.`,
     url: "/demo",
     ogType: "template",
   });
@@ -56,7 +57,7 @@ const benefits = [
 ];
 
 const agendaItems = [
-  "Tour d'horizon de 5 min sur RentReady et son positionnement",
+  `Tour d'horizon de 5 min sur ${SITE_NAME} et son positionnement`,
   "D\u00e9couverte de 15 min de vos besoins et contexte",
   "D\u00e9mo personnalis\u00e9e de 10 min selon votre configuration",
 ];
@@ -80,7 +81,7 @@ const faqData = [
   {
     question: "Puis-je avoir une démo même si je gère déjà mes biens avec un autre outil ?",
     answer:
-      "Bien sûr. La démo est aussi l'occasion de voir comment migrer vos données existantes vers RentReady. Nous vous montrons le processus d'import et répondons à vos questions de compatibilité.",
+      `Bien sûr. La démo est aussi l'occasion de voir comment migrer vos données existantes vers ${SITE_NAME}. Nous vous montrons le processus d'import et répondons à vos questions de compatibilité.`,
   },
 ];
 
@@ -101,31 +102,31 @@ function DemoJsonLd() {
             "@type": "ListItem",
             position: 1,
             name: "Accueil",
-            item: "https://www.rentready.fr",
+            item: SITE_URL,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Démo",
-            item: "https://www.rentready.fr/demo",
+            item: `${SITE_URL}/demo`,
           },
         ],
       },
       {
         "@type": "SoftwareApplication",
-        name: "RentReady — Demande de démo",
+        name: `${SITE_NAME} — Demande de démo`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: "https://www.rentready.fr/demo",
+        url: `${SITE_URL}/demo`,
         description:
-          "Réservez une démo gratuite de 30 minutes avec l'équipe RentReady. Découvrez la gestion locative automatisée : quittances, détection loyer, révision IRL.",
+          `Réservez une démo gratuite de 30 minutes avec l'équipe ${SITE_NAME}. Découvrez la gestion locative automatisée : quittances, détection loyer, révision IRL.`,
         offers: {
           "@type": "Offer",
           price: "0.00",
           priceCurrency: "EUR",
           priceValidUntil: "2027-12-31",
           availability: "https://schema.org/InStock",
-          url: "https://www.rentready.fr/demo",
+          url: `${SITE_URL}/demo`,
         },
         featureList: [
           "Démo gratuite 30 minutes",
@@ -135,24 +136,8 @@ function DemoJsonLd() {
         ],
       },
       {
-        "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "customer support",
-          email: "contact@rentready.fr",
-          availableLanguage: "French",
-        },
-      },
-      {
-        "@type": "WebSite",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-      },
-      {
         "@type": "FAQPage",
-        name: "FAQ — Démo RentReady",
+        name: `FAQ — Démo ${SITE_NAME}`,
         mainEntity: faqData.map((item) => ({
           "@type": "Question",
           name: item.question,
@@ -185,7 +170,7 @@ export default function DemoPage() {
               D\u00e9mo gratuite \u00b7 30 minutes
             </p>
             <h1 className="mt-4 text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
-              Voyez RentReady en action.
+              Voyez {SITE_NAME} en action.
               <br />
               Sans engagement.
             </h1>

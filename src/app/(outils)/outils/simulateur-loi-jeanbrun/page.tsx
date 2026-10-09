@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "comparateur LMNP",
   ],
   alternates: {
-    canonical: "https://www.rentready.fr/outils/simulateur-loi-jeanbrun",
+    canonical: "https://locelio.fr/outils/simulateur-loi-jeanbrun",
   },
 };
 
@@ -112,8 +112,8 @@ const jeanbrunJsonLd = {
     },
     {
       "@type": "WebApplication",
-      name: "Simulateur Loi Jeanbrun 2026 — RentReady",
-      url: "https://www.rentready.fr/outils/simulateur-loi-jeanbrun",
+      name: "Simulateur Loi Jeanbrun 2026 — Locelio",
+      url: "https://locelio.fr/outils/simulateur-loi-jeanbrun",
       description:
         "Comparez le LMNP classique et le nouveau dispositif Jeanbrun 2026 : amortissement, fiscalité, rentabilité. Simulateur gratuit.",
       applicationCategory: "FinanceApplication",
@@ -453,7 +453,7 @@ export default function SimulateurJeanbrunPage() {
             Gérez vos investissements locatifs en un seul outil
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
-            RentReady centralise vos biens, calcule automatiquement les
+            Locelio centralise vos biens, calcule automatiquement les
             amortissements et génère vos déclarations fiscales. Essai gratuit
             14&nbsp;jours.
           </p>

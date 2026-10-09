@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "contrat parking",
   ],
   openGraph: {
-    title: "Modèle Bail Parking 2026 — RentReady",
+    title: "Modèle Bail Parking 2026 — Locelio",
     description:
       "Bail de parking/garage gratuit et conforme. Téléchargeable en PDF, personnalisable. Mise à jour 2026.",
     type: "website",
-    url: "https://www.rentready.fr/templates/lease/bail-parking",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/lease/bail-parking",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/lease/bail-parking"),
 };
@@ -115,25 +115,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://www.rentready.fr/#organization",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.svg",
+  "@id": "https://locelio.fr/#organization",
+  name: "Locelio",
+  url: "https://locelio.fr",
+  logo: "https://locelio.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@rentready.fr",
+    email: "contact@locelio.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://www.rentready.fr/#website",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
+  "@id": "https://locelio.fr/#website",
+  name: "Locelio",
+  url: "https://locelio.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -149,14 +149,14 @@ function BailParkingJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle Bail Parking 2026 — RentReady",
+        name: "Modèle Bail Parking 2026 — Locelio",
         description:
           "Modèle de bail de parking/garage gratuit et conforme. Téléchargeable en PDF.",
-        url: "https://www.rentready.fr/templates/lease/bail-parking",
+        url: "https://locelio.fr/templates/lease/bail-parking",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -213,7 +213,7 @@ export default function BailParkingPage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-emerald-700 shadow-sm border border-emerald-200 transition-colors hover:bg-emerald-50"
             >
-              Générer avec RentReady →
+              Générer avec Locelio →
             </Link>
           </div>
         </header>

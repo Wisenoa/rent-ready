@@ -30,16 +30,16 @@ const STEPS: StepDetail[] = [
     title: "L'échéance se calcule d'elle-même",
     lead: "Chaque loyer attendu est généré avec une ventilation stricte.",
     description:
-      "Dès le premier jour du mois, RentReady initialise l'obligation pour chacun de vos baux actifs. Le loyer nu et les provisions pour charges locatives sont distincts dès la racine. Vos locataires reçoivent leur avis d'échéance clair avec les coordonnées de versement.",
+      "Dès le premier jour du mois, Locelio initialise l'obligation pour chacun de vos baux actifs. Le loyer nu et les provisions pour charges locatives sont distincts dès la racine. Vos locataires reçoivent leur avis d'échéance clair avec les coordonnées de versement.",
     legalNote: "Décret n° 2015-587 : ventilation obligatoire du loyer principal et des charges.",
   },
   {
     number: "02",
     tag: "Au fil des virements",
     title: "Pointage & rapprochement en 1 clic",
-    lead: "Enregistrez le montant réel, RentReady gère les cas particuliers.",
+    lead: "Enregistrez le montant réel, Locelio gère les cas particuliers.",
     description:
-      "Un virement reçu de 850,00 € ? Déclarez-le en un clic. Un versement partiel de 400,00 € ? RentReady ventile la somme, calcule le solde résiduel exact et tient le journal des dettes sans aucune confusion comptable.",
+      "Un virement reçu de 850,00 € ? Déclarez-le en un clic. Un versement partiel de 400,00 € ? Locelio ventile la somme, calcule le solde résiduel exact et tient le journal des dettes sans aucune confusion comptable.",
     legalNote: "Moteur de calcul sans arrondi flottant (decimal.js) : 0,00 € d'écart de caisse.",
   },
   {
@@ -48,7 +48,7 @@ const STEPS: StepDetail[] = [
     title: "Quittance certifiée ou Reçu de paiement partiel",
     lead: "La règle de la loi de 1989 appliquée sans compromis.",
     description:
-      "Si le loyer est réglé à 100 %, la quittance officielle au format PDF/A est générée et consultable sur le portail locataire. Si le solde est partiel, un Reçu de paiement partiel est émis : RentReady refuse formellement de générer une quittance tant que la dette subsiste.",
+      "Si le loyer est réglé à 100 %, la quittance officielle au format PDF/A est générée et consultable sur le portail locataire. Si le solde est partiel, un Reçu de paiement partiel est émis : Locelio refuse formellement de générer une quittance tant que la dette subsiste.",
     legalNote: "Loi du 6 juillet 1989 (art. 21) : quittance obligatoire et gratuite pour paiement intégral.",
   },
 ];

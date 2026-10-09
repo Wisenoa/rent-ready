@@ -38,7 +38,7 @@ export const PLANS = {
    * so the two can silently disagree.
    */
   STARTER_MONTHLY: {
-    name: "RentReady Starter",
+    name: "Locelio Starter",
     price: 900, // 9.00 € in cents
     currency: "eur",
     interval: "month" as const,
@@ -47,7 +47,7 @@ export const PLANS = {
     features: ["Jusqu'à 3 biens", "Quittances de loyer", "Suivi des échéances"],
   },
   STARTER_ANNUAL: {
-    name: "RentReady Starter Annuel",
+    name: "Locelio Starter Annuel",
     price: 8900, // 89 €/an
     currency: "eur",
     interval: "year" as const,
@@ -57,7 +57,7 @@ export const PLANS = {
     features: ["Jusqu'à 3 biens", "Quittances de loyer", "Suivi des échéances"],
   },
   MONTHLY: {
-    name: "RentReady Pro",
+    name: "Locelio Pro",
     price: 1500, // 15.00 € in cents
     currency: "eur",
     interval: "month" as const,
@@ -73,7 +73,7 @@ export const PLANS = {
     ],
   },
   ANNUAL: {
-    name: "RentReady Pro Annuel",
+    name: "Locelio Pro Annuel",
     // 149 €/an — 2 mois offerts sur 12 × 15 €. This matched the pricing page.
     // It read 144,00 € before, which is what happens when the number is edited
     // on the marketing page and not here. Checkout never charges from this

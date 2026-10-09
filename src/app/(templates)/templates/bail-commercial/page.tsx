@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     "valeur locative",
   ],
   openGraph: {
-    title: "Modèle Bail Commercial 2026 — RentReady",
+    title: "Modèle Bail Commercial 2026 — Locelio",
     description:
       "Bail commercial gratuit pour local professionnel. PDF téléchargeable. Conforme Code de commerce.",
     type: "website",
-    url: "https://www.rentready.fr/templates/bail-commercial",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/bail-commercial",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/bail-commercial"),
 };
@@ -96,25 +96,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://www.rentready.fr/#organization",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.svg",
+  "@id": "https://locelio.fr/#organization",
+  name: "Locelio",
+  url: "https://locelio.fr",
+  logo: "https://locelio.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@rentready.fr",
+    email: "contact@locelio.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://www.rentready.fr/#website",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
+  "@id": "https://locelio.fr/#website",
+  name: "Locelio",
+  url: "https://locelio.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -130,14 +130,14 @@ function BailCommercialJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle Bail Commercial 2026 — RentReady",
+        name: "Modèle Bail Commercial 2026 — Locelio",
         description:
           "Modèle de bail commercial gratuit (3/6/9 ans). PDF téléchargeable. Conforme Code de commerce.",
-        url: "https://www.rentready.fr/templates/bail-commercial",
+        url: "https://locelio.fr/templates/bail-commercial",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {

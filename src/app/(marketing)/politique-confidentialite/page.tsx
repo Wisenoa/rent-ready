@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -9,8 +10,8 @@ export const revalidate = 3600;
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Politique de Confidentialité — RentReady",
-    description: "Politique de confidentialité de RentReady. Comment nous protégeons vos données personnelles, cookies et vos droits RGPD.",
+    title: "Politique de Confidentialité — Locelio",
+    description: "Politique de confidentialité de Locelio. Comment nous protégeons vos données personnelles, cookies et vos droits RGPD.",
     url: "/politique-confidentialite",
     ogType: "template",
   });
@@ -28,28 +29,28 @@ function PolitiqueConfidentialiteJsonLd() {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "RentReady — Politique de Confidentialité",
+        name: "Locelio — Politique de Confidentialité",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: "https://www.rentready.fr/politique-confidentialite",
+        url: `${SITE_URL}/politique-confidentialite`,
         description:
-          "Politique de confidentialité de RentReady. Protection des données personnelles conformément au RGPD, gestion locative SaaS.",
+          "Politique de confidentialité de Locelio. Protection des données personnelles conformément au RGPD, gestion locative SaaS.",
       },
       {
         "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@rentready.fr",
+          email: "contact@locelio.fr",
           availableLanguage: "French",
         },
       },
       {
         "@type": "WebSite",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
       },
       {
         "@type": "BreadcrumbList",
@@ -59,13 +60,13 @@ function PolitiqueConfidentialiteJsonLd() {
             "@type": "ListItem",
             position: 1,
             name: "Accueil",
-            item: "https://www.rentready.fr",
+            item: SITE_URL,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Politique de Confidentialité",
-            item: "https://www.rentready.fr/politique-confidentialite",
+            item: `${SITE_URL}/politique-confidentialite`,
           },
         ],
       },
@@ -96,9 +97,9 @@ export default function PolitiqueConfidentialitePage() {
           <h2>1. Responsable du traitement</h2>
           <p>
             Le responsable du traitement des données collectées sur le site
-            rentready.fr est la société RentReady SAS, [adresse du siège
+            locelio.fr est la société éditrice de Locelio, [adresse du siège
             social]. Délégué à la protection des données (DPO) :{" "}
-            <a href="mailto:dpo@rentready.fr" className="text-blue-600 underline underline-offset-2">dpo@rentready.fr</a>
+            <a href="mailto:dpo@locelio.fr" className="text-blue-600 underline underline-offset-2">dpo@locelio.fr</a>
           </p>
         </section>
 
@@ -223,7 +224,7 @@ export default function PolitiqueConfidentialitePage() {
           </ul>
           <p className="mt-2">
             Pour exercer ces droits :{" "}
-            <a href="mailto:dpo@rentready.fr" className="text-blue-600 underline underline-offset-2">dpo@rentready.fr</a>
+            <a href="mailto:dpo@locelio.fr" className="text-blue-600 underline underline-offset-2">dpo@locelio.fr</a>
           </p>
           <p className="mt-2">
             En cas de litige, vous pouvez introduire une réclamation auprès de
@@ -235,7 +236,7 @@ export default function PolitiqueConfidentialitePage() {
         <section>
           <h2>8. Cookies</h2>
           <p>
-            RentReady utilise uniquement des cookies strictement nécessaires :
+            Locelio utilise uniquement des cookies strictement nécessaires :
           </p>
           <ul className="mt-2 list-disc space-y-1 pl-5">
             <li>

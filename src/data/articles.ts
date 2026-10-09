@@ -48,7 +48,7 @@ La prévention reste la meilleure arme contre les impayés. Avant même de signe
 
 Souscrire une assurance Garantie Loyer Impayé (GLI) constitue une protection efficace. Cette assurance prend en charge le remboursement des loyers impayés ainsi que les frais de procédure en cas d'expulsion. Le coût varie généralement entre 2 % et 4 % du montant annuel du loyer, mais l'investissement peut vous épargner des mois de trésorerie négative.
 
-Utilisez enfin un logiciel de gestion locative comme RentReady pour suivre automatiquement les paiements et détecter les retards dès le premier jour.
+Utilisez enfin un logiciel de gestion locative comme Locelio pour suivre automatiquement les paiements et détecter les retards dès le premier jour.
 
 ## Les étapes légales de la procédure d'impayé
 
@@ -117,9 +117,9 @@ Oui, si le locataire est salarié, vous pouvez demander au tribunal une saisie s
 Non, la GLI ne couvre pas tous les cas. Elle exclut généralement les impayés antérieurs à la signature du contrat, les locataires déjà en difficulté lors de la souscription, et les logements non conformes. Certaines franchises s'appliquent (souvent 1 à 3 mois). Lisez attentivement les conditions générales : la GLI fonctionne mieux en prévention, pas en dernier recours sur un dossier déjà compromis.
 **Comment rédiger une lettre de relance pour loyer impayé ?**
 
-La lettre de relance doit mentionner le montant dû, la date d'échéance révolue, et le délai supplémentaire accordé (généralement 8 jours). Elle doit être signée par le bailleur ou son représentant. Conservez une copie et envoyez de préférence en recommandé avec accusé de réception pour faire foi de l'envoi. Un modèle gratuit est disponible sur RentReady.
+La lettre de relance doit mentionner le montant dû, la date d'échéance révolue, et le délai supplémentaire accordé (généralement 8 jours). Elle doit être signée par le bailleur ou son représentant. Conservez une copie et envoyez de préférence en recommandé avec accusé de réception pour faire foi de l'envoi. Un modèle gratuit est disponible sur Locelio.
 
-[CTA : Anticipez les impayés et gérez automatiquement vos relances avec RentReady — essai gratuit 14 jours]
+[CTA : Anticipez les impayés et gérez automatiquement vos relances avec Locelio — essai gratuit 14 jours]
 
 ## FAQ — Loyer impaye
 **Que faire quand un locataire ne paie plus son loyer ?**
@@ -135,7 +135,7 @@ Oui, si le locataire est salarie, vous pouvez demander au tribunal une saisie su
 
 Non, la GLI ne couvre pas tous les cas. Elle exclut généralement les impayés antérieurs à la signature du contrat, les locataires déjà en difficulté lors de la souscription, et les logements non conformes. Certaines franchises s'appliquent (souvent 1 à 3 mois). Lisez attentivement les conditions générales : la GLI fonctionne mieux en prévention, pas en dernier recours sur un dossier déjà compromis.
 
-La lettre de relance doit mentionner le montant dû, la date d'échéance révolue, et le délai supplémentaire accordé (généralement 8 jours). Elle doit être signée par le bailleur ou son représentant. Conservez une copie et envoyez-la de préférence en recommandé avec accusé de réception, pour faire foi de l'envoi. Un modèle gratuit est disponible sur RentReady.
+La lettre de relance doit mentionner le montant dû, la date d'échéance révolue, et le délai supplémentaire accordé (généralement 8 jours). Elle doit être signée par le bailleur ou son représentant. Conservez une copie et envoyez-la de préférence en recommandé avec accusé de réception, pour faire foi de l'envoi. Un modèle gratuit est disponible sur Locelio.
 `,
   },
   {
@@ -250,7 +250,7 @@ Oui, la formule s'applique dans les deux sens. Si l'IRL baisse, le loyer doit di
 
 La formule est : Nouveau loyer = Loyer hors charges × (IRL du trimestre de référence / IRL du même trimestre de l'année précédente). Exemple : un loyer de 800 € avec un IRL passant de 145,17 (T2 2024) à 146,68 (T2 2025) donne : 800 × (146,68 / 145,17) = 808,32 € par mois.
 
-[CTA : Calculez automatiquement vos révisions de loyer et suivez vos indexes avec RentReady — essai gratuit 14 jours]
+[CTA : Calculez automatiquement vos révisions de loyer et suivez vos indexes avec Locelio — essai gratuit 14 jours]
 
 ## FAQ — Revision de loyer IRL
 **Comment calculer une revision de loyer avec l'IRL ?**
@@ -360,7 +360,7 @@ Pour une location meublée, le dépôt de garantie ne peut pas dépasser 2 mois 
 
 En cas de non-restitution dans les délais légaux, le montant du dépôt restant dû au locataire est majoré de 10 % du loyer mensuel (hors charges) par mois de retard commencé (art. 22 de la loi du 6 juillet 1989) : cette pénalité est due par le locataire, pas par le bailleur. Le locataire peut d'abord tenter une mise en demeure par courrier recommandé, puis saisir la commission départementale de conciliation (gratuite), ou le tribunal judiciaire si échec de la médiation. Conservez tous les échanges écrits.
 
-[CTA : Gérez automatiquement vos dépôts de garantie et suivez les états des lieux avec RentReady — essai gratuit 14 jours]
+[CTA : Gérez automatiquement vos dépôts de garantie et suivez les états des lieux avec Locelio — essai gratuit 14 jours]
 
 ## FAQ — Depot de garantie
 **Quel est le délai maximum pour restituer un dépôt de garantie ?**
@@ -478,7 +478,7 @@ L'état des lieux doit mentionner : l'identité des parties, l'adresse du bien, 
 
 Le dépôt de garantie est conçu pour couvrir les éventuelles dégradations constatées à la sortie par rapport à l'état des lieux d'entrée. Sans état des lieux, le bailleur perd cette protection. Un état des lieux minutieux à l'entrée est donc la meilleure assurance contre les litiges de dépôt de garantie à la sortie.
 
-[CTA : Réalisez vos états des lieux automatiquement avec photos et comparaison'entrée/sortie sur RentReady — essai gratuit 14 jours]
+[CTA : Réalisez vos états des lieux automatiquement avec photos et comparaison'entrée/sortie sur Locelio — essai gratuit 14 jours]
 
 ## FAQ — état des lieux
 **L'état des lieux est-il obligatoire et quelle forme doit-il prendre ?**
@@ -575,7 +575,7 @@ Non, le propriétaire ne peut pas refuser un garant au seul motif qu'il ne rési
 
 Non, seules les locations vides et meublées en zone tendue sont concernée. Les locations saisonnières, les logement sociaux et les locations de courte durée en sont exclues.
 
-[CTA : Restez conformité avec la loi ALUR et gérez vos locations automatiquement avec RentReady — essai gratuit 14 jours]`,
+[CTA : Restez conformité avec la loi ALUR et gérez vos locations automatiquement avec Locelio — essai gratuit 14 jours]`,
   },
   {
     slug: "optimiser-fiscalite-loyers",
@@ -662,7 +662,7 @@ Oui, des dispositifs spécifiques existent comme MaPrimeRénov' et les déductio
 
 Non, la TVA payée sur l'acquisition d'un bien locatif n'est pas déductible. En revanche, si vous opsitez pour la location meublée soumise à TVA (option irrévocable), vous pouvez récupérer la TVA sur les dépenses.
 
-[CTA : Gérez automatiquement votre comptabilité locative et générez vos déclarations fiscales avec RentReady — essai gratuit 14 jours]`,
+[CTA : Gérez automatiquement votre comptabilité locative et générez vos déclarations fiscales avec Locelio — essai gratuit 14 jours]`,
   },
   {
     slug: "quittance-loyer-pdf-gratuit",
@@ -761,7 +761,7 @@ La quittance de loyer n'est obligatoire que si le locataire la demande expressé
 Une quittance de loyer doit mentionner : le nom et adresse du bailleur, l'identité du locataire, l'adresse du bien loué, la période de location concernée, le montant du loyer et ses différentes composantes (loyer nu + charges), le montant total versé, la date du paiement, et la signature du bailleur.
 **Comment obtenir une quittance de loyer gratuite ?**
 
-Vous pouvez générer une quittance de loyer gratuite et juridiquement conforme avec RentReady. Sélectionnez le locataire, la période, le montant versé, et le logiciel génère automatiquement une quittance au format PDF, prête à être envoyée par email ou imprimée. Le modèle inclut toutes les mentions obligatoires.
+Vous pouvez générer une quittance de loyer gratuite et juridiquement conforme avec Locelio. Sélectionnez le locataire, la période, le montant versé, et le logiciel génère automatiquement une quittance au format PDF, prête à être envoyée par email ou imprimée. Le modèle inclut toutes les mentions obligatoires.
 **Le propriétaire peut-il refuser de délivrer une quittance ?**
 
 Non, le bailleur ne peut pas refuser de délivrer une quittance dès lors que le locataire la demande. En cas de refus, le locataire peut signaler le bailleur à la commission départementale de conciliation (CDC) ou au tribunal. Le refus systématique constitue une infraction sanctionnable.
@@ -769,7 +769,7 @@ Non, le bailleur ne peut pas refuser de délivrer une quittance dès lors que le
 
 Oui, la quittance de loyer est un justificatif de domicile valide pour les administrations (CAF, mutuelle, banque, employeur). Elle peut servir à prouver la domiciliation pour une demande d'allocation logement (APL) ou une inscription scolaire. Conservez vos quittances pendant au moins 5 ans.
 
-[CTA : Générez des quittances PDF conformes et automatiques avec RentReady — essai gratuit 14 jours]`,  },
+[CTA : Générez des quittances PDF conformes et automatiques avec Locelio — essai gratuit 14 jours]`,  },
   {
     slug: "lettre-relance-loyer-impaye-modele",
     title: "Lettre de relance pour loyer impayé — Modèle gratuit et conseils juridiques",
@@ -869,7 +869,7 @@ En général, un délai de 8 à 15 jours est recommandé entre la lettre de rela
 **Le modèle de lettre de relance est-il gratuit ?**
 Oui, notre modèle de lettre de relance pour loyer impayé est entièrement gratuit. Vous pouvez le personnaliser avec vos informations et l'envoyer en recommandé.
 
-Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayés ? [Essayez RentReady gratuitement pendant 14 jours](/pricing).
+Besoin d'un outil pour gérer vos loyers et relancer automatiquement les impayés ? [Essayez Locelio gratuitement pendant 14 jours](/pricing).
 `,
   },
   {
@@ -947,7 +947,7 @@ L'arrêté d'indivision est le document qui détaille les charges locatives entr
 
 Oui, le locataire peut contester le décompte annuel des charges dans les 2 mois suivant sa réception. Il doit envoyer un courrier recommandé avec AR au bailleur détaillant les points contestés. En cas de désaccord persistant, le locataire peut saisir la commission départementale de conciliation.
 
-[CTA : Automatisez le décompte annualisé des charges locatives avec RentReady — essai gratuit 14 jours]`,
+[CTA : Automatisez le décompte annualisé des charges locatives avec Locelio — essai gratuit 14 jours]`,
   },
   {
     slug: "quittance-loyer-mentions-obligatoires",
@@ -1010,7 +1010,7 @@ Pour la quittance numérique, il est recommandé d'utiliser un outil spécialis�
 
 Vous pouvez télécharger notre modèle de quittance de loyer gratuit. Il reprendre toutes les mentions obligatoires et peut être personalizado avec vos informations.
 
-Pour une gestion encore plus simple, utilisez RentReady qui génère automatiquement les quittances de loyer à chaque paiement enregistré.
+Pour une gestion encore plus simple, utilisez Locelio qui génère automatiquement les quittances de loyer à chaque paiement enregistré.
 
 ## FAQ — Quittance de loyer
 
@@ -1030,7 +1030,7 @@ Il est recommandé de conserver les quittances de loyer pendant au moins 5 ans a
 
 Oui, le locataire peut demander une quittance à tout moment, même plusieurs mois après le paiement. Le propriétaire doit alors la délivrer dans un délai raisonnable.
 
-[CTA : Générez automatiquement vos quittances de loyer conformes avec RentReady — essai gratuit 14 jours]`,
+[CTA : Générez automatiquement vos quittances de loyer conformes avec Locelio — essai gratuit 14 jours]`,
   },
   {
     slug: "calculer-rendement-locatif-brut-net",
@@ -1144,7 +1144,7 @@ Oui, la vacance locative réduit fortement le rendement réel. Un mois de vacanc
 
 Trois leviers principaux : réduire les charges (rénover pour baisser la consommation d'énergie, négocier les assurances), réduire la vacance (bonne sélection du locataire, réponse rapide aux demandes), et optimiser la fiscalité (régime LMNP, déficit foncier, amortissement). Un bien bien géré peut gagner 1 à 2 points de rendement net sans augmenter le loyer.
 
-[CTA : Calculez automatiquement le rendement de vos investissements et suivez votre rentabilité avec RentReady — essai gratuit 14 jours]`,
+[CTA : Calculez automatiquement le rendement de vos investissements et suivez votre rentabilité avec Locelio — essai gratuit 14 jours]`,
   },
   {
     slug: "etat-des-lieux-proprietaire-modele",
@@ -1188,7 +1188,7 @@ Le dépôt de garantie doit être restitué dans un délai de 1 mois si l'état 
 
 L'état des lieux doit être contradictoire : les deux parties doivent être présentes ou représentées. Il doit être conservé pendant 5 ans. Les photos datées et géolocalisées constituent une preuve indiscutable.
 
-[CTA : Générez automatiquement vos états des lieux conformes avec RentReady — essai gratuit 14 jours]`,
+[CTA : Générez automatiquement vos états des lieux conformes avec Locelio — essai gratuit 14 jours]`,
   },
   {
     slug: "bail-location-vide-2026",
@@ -1327,7 +1327,7 @@ Le bail de location vide est reconduit tacitement à son échéance si aucune pa
 
 La durée minimale d'un bail de location vide est de 3 ans si le bailleur est une personne privée, ou de 6 ans si le bailleur est une SCI familiale. Pour une location meublée, la durée minimum est de 1 an (ou 9 mois pour un bail étudiant). La durée est libre sauf ces planfonds légaux qui s'imposent au bailleur.
 
-[CTA : Gérez vos baux et documents locatifs facilement avec RentReady — essayer gratuitement]
+[CTA : Gérez vos baux et documents locatifs facilement avec Locelio — essayer gratuitement]
 
 ## FAQ — Bail de location
 **Quelles sont les mentions obligatoires dans un bail de location ?**
@@ -1485,7 +1485,7 @@ Les délais de préavis diffèrent selon la partie qui donne congé (art. 25-8 I
 
 Oui, la révision de loyer s'applique aux locations meublées selon les mêmes règles que pour les locations vides : elle doit être prévue dans le bail, peut intervenir une fois par an à la date d'anniversaire, et utiliser l'IRL du trimestre de référence. En zone tendue, le loyer révisé ne peut pas dépasser le loyer de référence majoré.
 
-[CTA : Préparez vos contrats de location meublée et gérez vos biens facilement avec RentReady — essayer gratuitement]
+[CTA : Préparez vos contrats de location meublée et gérez vos biens facilement avec Locelio — essayer gratuitement]
 
 ## FAQ — Bail meuble
 **Quelle est la duree minimale d'un bail de location meublee ?**
@@ -1613,7 +1613,7 @@ Avant de se porter garant, il est essentiel d'évaluer sa capacité à assumer c
 - Demander au bailleur de tenir informé des éventuels retards de paiement
 - Souscrire une assurance protection juridique pour se défendre en cas de litige
 
-[CTA : Gérez vos garant et vos documents locatifs facilement avec RentReady — essayer gratuitement]`,
+[CTA : Gérez vos garant et vos documents locatifs facilement avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "notice-conge-locataire",
@@ -1723,7 +1723,7 @@ Avant de quitter le logement, le locataire doit :
 6. Résilier les contrats d'énergie et d'assurance habitation
 7. Mettre à jour son adresse auprès des administrations (CPAM, Impôts, CAF)
 
-[CTA : Générez vos lettres de congé et gérez vos état des lieux avec RentReady — essayer gratuitement]`,
+[CTA : Générez vos lettres de congé et gérez vos état des lieux avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "preavis-depart-locataire",
@@ -1856,7 +1856,7 @@ Oui, le locataire doit payer le loyer pendant toute la durée du préavis, même
 
 Lorsque le congé est donné pour la vente du logement, aucune indemnité de préavis n'est due au locataire. En revanche, si l'acquéreur ne réoccupe pas lui-même le logement et ne le reloue pas dans les douze mois suivant le congé, le locataire benefit d'une indemnité d'occupation égale à la différence entre le loyer effectivement pratiqué par le nouvel occupant et le loyer qu'il payait (article 24-2 de la loi n° 89-462).
 
-[CTA : Calculez votre préavis et générez votre lettre de congé avec RentReady — essayer gratuitement]
+[CTA : Calculez votre préavis et générez votre lettre de congé avec Locelio — essayer gratuitement]
 
 ## FAQ — préavis de depart
 **Quel est le délai de préavis pour un locataire qui donne conge ?**
@@ -1989,7 +1989,7 @@ Ce mécanisme, appelé « encadrement à la baisse », a été suspendu et réta
 
 Les plafonds de loyer sont actualisés chaque année en fonction de l'évolution de l'IRL et des données du marché. Pour 2026, les arrêtés préfectoraux ont intégré les dernières évolutions du marché locatif parisien, avec une augmentation modérée des loyers de référence dans certains secteurs.
 
-[CTA : Vérifiez si votre loyer respecte les plafondsparisiens avec RentReady — essayer gratuitement]`,
+[CTA : Vérifiez si votre loyer respecte les plafondsparisiens avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "sci-gestion-locative",
@@ -2123,7 +2123,7 @@ Elle l'est moins pour :
 - Des biens à faible valeur (les frais de fonctionnement serait disproportionnés)
 - Des investors with only revenues foncières modestes
 
-[CTA : Gérez vos locations en SCI plus facilement avec RentReady — essayer gratuitement]`,
+[CTA : Gérez vos locations en SCI plus facilement avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "lmnp-declaration-fiscale-2026",
@@ -2276,7 +2276,7 @@ La Loueur Meublé Fractionné (LMF) est un statut qui permet à une SCI de louer
 
 En 2026, le LMF permet de bénéficier de certains avantages du LMNP (amortissement) tout en restant dans le cadre de la SCI à l'IR, avec une comptabilité simplifiée.
 
-[CTA : Calculez votre fiscalité LMNP et optimisez vos déclarations avec RentReady — essayer gratuitement]`,
+[CTA : Calculez votre fiscalité LMNP et optimisez vos déclarations avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "travaux-locataire-proprietaire",
@@ -2436,7 +2436,7 @@ En cas de désaccord sur la répartition des travaux, le locataire ou le bailleu
 
 La jurisprudence est riche en la matière et fournit de nombreux exemples de décisions permettant de qualifier les différents types de travaux.
 
-[CTA : Documenté et suivez vos travaux de location avec RentReady — essayer gratuitement]`,
+[CTA : Documenté et suivez vos travaux de location avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "assurance-habitation-locataire",
@@ -2580,7 +2580,7 @@ Le bailleur ne peut pas prélever sur le dépôt de garantie pour couvrir les ri
 - Les sommes dues au titre des charges
 - Les impayés de loyer
 
-[CTA : Comparez les assurances habitation locataire et trouvez la meilleure offre avec RentReady — essayer gratuitement]`,
+[CTA : Comparez les assurances habitation locataire et trouvez la meilleure offre avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "indexation-loyer-formule-2026",
@@ -2698,7 +2698,7 @@ En pratique, la révision s'applique généralement au terme du bail en cours (l
 
 ## Outil de calcul de l'IRL
 
-Pour facilitar le calcul de la révision de loyer, de nombreux simulateurs en ligne sont disponibles, dont celui intégré à RentReady. Ils permettent d'indiquer :
+Pour facilitar le calcul de la révision de loyer, de nombreux simulateurs en ligne sont disponibles, dont celui intégré à Locelio. Ils permettent d'indiquer :
 - Le loyer actuel
 - La date de référence du bail
 - Les IRL applicables
@@ -2711,7 +2711,7 @@ En zone tendue, l'IRL ne peut pas justifier une augmentation au-delà du loyer d
 
 Par ailleurs, en cas de relocation, le nouveau loyer ne peut pas dépasser le dernier loyer appliqué au précédent locataire, sauf exceptions (travaux, logement vacant depuis 18 mois, etc.).
 
-[CTA : Calculez automatiquement votre révision de loyer IRL avec RentReady — essayer gratuitement]`,
+[CTA : Calculez automatiquement votre révision de loyer IRL avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "colocation-bail-solidaire-2026",
@@ -2839,7 +2839,7 @@ Le départ d'un colocataire sans information préalable du bailleur peut engager
 ### Sous-location non autorisée
 La sous-location d'une partie du logement à un tiers (sans être remplaçant officiel) est interdite et peut entraîner la résiliation du bail.
 
-[CTA : Rédigez votre bail de colocation conforme et gérez les paiements facilement avec RentReady — essayer gratuitement]`,
+[CTA : Rédigez votre bail de colocation conforme et gérez les paiements facilement avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "gestion-locative-en-ligne-avantages",
@@ -2989,11 +2989,11 @@ Un logiciel de gestion locative en ligne permet de centraliser tous vos document
 
 ### Combien coûte un service de gestion locative en ligne ?
 
-Cela dépend du nombre de biens et des modules. Chez RentReady, l'offre Starter couvre 3 biens, l'offre Pro 10 biens et l'offre Agency est sans limite de biens : le tarif dépend aussi de la durée d'engagement. Les autres acteurs du marché facturent de l'ordre de 10 à 50 €/mois selon les fonctionnalités ; comparez toujours le coût par bien couvert.
+Cela dépend du nombre de biens et des modules. Chez Locelio, l'offre Starter couvre 3 biens, l'offre Pro 10 biens et l'offre Agency est sans limite de biens : le tarif dépend aussi de la durée d'engagement. Les autres acteurs du marché facturent de l'ordre de 10 à 50 €/mois selon les fonctionnalités ; comparez toujours le coût par bien couvert.
 
 ### Un logiciel de gestion locative peut-il remplacer complètement une agence ?
 
-Pour les propriétaires autonomes, un logiciel couvre la partie administrative (suivi des loyers, quittances, relances, archivage). Il ne remplace pas une agence pour la recherche de locataires, la visite du bien, la rédaction du bail ou la gestion des travaux, qui restent des actes concrets. RentReady couvre cette partie administrative à partir de 9 €/mois.
+Pour les propriétaires autonomes, un logiciel couvre la partie administrative (suivi des loyers, quittances, relances, archivage). Il ne remplace pas une agence pour la recherche de locataires, la visite du bien, la rédaction du bail ou la gestion des travaux, qui restent des actes concrets. Locelio couvre cette partie administrative à partir de 9 €/mois.
 
 ### Comment choisir le bon logiciel de gestion locative ?
 
@@ -3011,7 +3011,7 @@ Les meilleurs éditeurs utilisent le chiffrement des données, l'authentificatio
 La gestion locative englobe toutes les tâches liées à la mise en location d'un bien : rédaction du bail, perception des loyers, remise des quittances, suivi des charges, révision annuelle et gestion des incidents. Le propriétaire peut assurer lui-même ces missions ou les déléguer à un professionnel ou un logiciel.
 **Quel est le prix d'un logiciel de gestion locative en 2026 ?**
 
-Les tarifs varient selon la solution : les agences traditionnelles facturent entre 5 % et 10 % du loyer annuel, tandis qu'un logiciel de gestion locative comme RentReady coûte entre 15 € et 30 € par mois, quel que soit le nombre de biens gérés. Cette différence représente une économie annuelle de plusieurs centaines à plusieurs milliers d'euros.
+Les tarifs varient selon la solution : les agences traditionnelles facturent entre 5 % et 10 % du loyer annuel, tandis qu'un logiciel de gestion locative comme Locelio coûte entre 15 € et 30 € par mois, quel que soit le nombre de biens gérés. Cette différence représente une économie annuelle de plusieurs centaines à plusieurs milliers d'euros.
 **Comment choisir entre un logiciel de gestion locative et une agence immobilière ?**
 
 Le logiciel de gestion locative offre un contrôle total, une disponibilité en permanence, et un coût fixe prévisible. L'agence apporte un accompagnement humain et une expertise locale, mais à un coût proportionnel au loyer. Pour les propriétaires autonomes avec 1 à 10 biens, le logiciel représente le meilleur rapport qualité-prix.
@@ -3022,7 +3022,7 @@ Oui, les logiciels de gestion locative modernes sont fiables. Ils utilisent le c
 
 Un logiciel de gestion locative automatise la génération de quittances, la détection des paiements entrants, le calcul de la révision IRL, l'envoi de relances en cas d'impayé, et la préparation des documents fiscaux annuels. Il centralise également les documents (baux, diagnostics, quittances) dans un espace numérique sécurisé.
 
-[CTA : Découvrez comment RentReady peut vous aider à gérer vos locations efficacement — essayer gratuitement]`,
+[CTA : Découvrez comment Locelio peut vous aider à gérer vos locations efficacement — essayer gratuitement]`,
   },
   {
     slug: "quittance-loyer-apl-caf",
@@ -3170,7 +3170,7 @@ Pour le bailleur, les quittances constituent des pièces comptables justificativ
 
 En location meublée (LMNP/LMP), les quittances peuvent être utilisées comme justificatifs pour la déduction des revenus locatifs.
 
-[CTA : Générez vos quittances de loyer automatiquement avec RentReady — essayer gratuitement]`,
+[CTA : Générez vos quittances de loyer automatiquement avec Locelio — essayer gratuitement]`,
   },
   {
     slug: "investissement-locatif-rentabilite-2026",
@@ -3366,9 +3366,9 @@ De nombreux simulateurs en ligne permettent de calculer automatiquement la renta
 - La fiscalité selon le régime choisi
 - Les différents dispositifs Pinel ou autres
 
-RentReady propose un simulateur de rentabilité locative gratuit, qui permet de comparer différents scénarios d'investissement et d'optimiser votre stratégie.
+Locelio propose un simulateur de rentabilité locative gratuit, qui permet de comparer différents scénarios d'investissement et d'optimiser votre stratégie.
 
-[CTA : Calculez la rentabilité de votre investissement locatif avec RentReady — essayer gratuitement]`,
+[CTA : Calculez la rentabilité de votre investissement locatif avec Locelio — essayer gratuitement]`,
   },
 {
   slug: "rediger-contrat-location",
@@ -3471,7 +3471,7 @@ Oui. Vous pouvez rédiger le bail vous-même à condition de respecter les menti
 **Que faire si une clause du bail est potentiellement illicite ?**
 Toute clause interdite est automatiquement nulle. Le bail reste valide par ailleurs. Le locataire peut saisir la CDC ou le tribunal judiciaire.
 
-[CTA : Créez vos baux de location conformes en 5 minutes avec RentReady — essai gratuit]`,},
+[CTA : Créez vos baux de location conformes en 5 minutes avec Locelio — essai gratuit]`,},
   {
     slug: "logiciel-gestion-locative-gratuit-vs-payant",
     title: "Logiciel de gestion locative : gratuit ou payant, que choisir ?",
@@ -3516,13 +3516,13 @@ Un logiciel professionnel coûte généralement entre 10€ et 50€/mois selon 
 
 ## Notre recommandation
 
-Pour un propriétaire gérant un seul bien, un outil gratuit peut suffire. Pour un propriétaire avec 3 biens ou plus, un logiciel professionnel comme RentReady est un investissement judicieux.
+Pour un propriétaire gérant un seul bien, un outil gratuit peut suffire. Pour un propriétaire avec 3 biens ou plus, un logiciel professionnel comme Locelio est un investissement judicieux.
 
 ## FAQ — Logiciel gestion locative
 
 La plupart des solutions gratuites sont limitées à 2-3 propriétés. Les solutions professionnelles sont entièrement conformes au RGPD. La plupart des outils permettent d'exporter les données pour les réimporter dans un nouveau logiciel.
 
-[CTA : Testez RentReady gratuitement pendant 14 jours — pas de carte bancaire requise]`,
+[CTA : Testez Locelio gratuitement pendant 14 jours — pas de carte bancaire requise]`,
   },
   {
     slug: "comment-gerer-biens-locatifs",
@@ -3538,7 +3538,7 @@ Gérer ses biens locatifs demande rigueur et organisation. Entre suivi des paiem
 
 ## Le suivi des paiements
 
-Le suivi des paiements est la tâche la plus critique. Chaque mois, vous devez vérifier que le loyer est reçu dans son intégralité et à la date prévue. Un logiciel comme RentReady automatise ce suivi : notifications de retard, génération automatique des relances, calcul des intérêts en cas d'impayé.
+Le suivi des paiements est la tâche la plus critique. Chaque mois, vous devez vérifier que le loyer est reçu dans son intégralité et à la date prévue. Un logiciel comme Locelio automatise ce suivi : notifications de retard, génération automatique des relances, calcul des intérêts en cas d'impayé.
 
 La trésorerie d'un bien locatif doit être gérée prudemment. Maintenez une réserve équivalente à 2-3 mois de charges pour faire face aux imprévus.
 
@@ -3566,7 +3566,7 @@ Pour les revenus fonciers inférieurs à 15 000€/an, le régime micro-foncier 
 
 Pour un ou deux biens, l'auto-gestion est viable avec un bon outil. Au-delà de 3-4 biens, l'agence ou property manager prend en charge la gestion pour 5 à 10% du loyer annuel. Vérifiez systématiquement la solvabilité du candidat locataire avant de signer.
 
-[CTA : Centralisez toute votre gestion locative avec RentReady — essai gratuit 14 jours]`,
+[CTA : Centralisez toute votre gestion locative avec Locelio — essai gratuit 14 jours]`,
   },
 
   {
@@ -3615,7 +3615,7 @@ Chaque mois, le locataire paie une provision pour charges. Dans les 6 mois suiva
 
 Oui, le locataire peut demander à voir les factures. La durée de conservation est de 2 ans. Les mêmes charges récupérables s'appliquent en location vide et meublée. Le supplément de charges non payé constitue un impayé au même titre que le loyer.
 
-[CTA : Automatisez le calcul et la régularisation de vos charges locatives avec RentReady — essai gratuit 14 jours]`,
+[CTA : Automatisez le calcul et la régularisation de vos charges locatives avec Locelio — essai gratuit 14 jours]`,
   },
 
 
@@ -3680,7 +3680,7 @@ Le propriétaire dispose d'un droit de préemption pour reprendre les murs au pr
 
 A l'échéance des 6 ans, le locataire a droit au renouvellement de son bail. Le propriétaire peut refuser le renouvellement mais doit alors verser une indemnité d'éviction égale a la valeur du fonds de commerce du locataire.
 
-[CTA : Crees vos contrats de location professionnelle et suivez vos baux avec RentReady -- essai gratuit]
+[CTA : Crees vos contrats de location professionnelle et suivez vos baux avec Locelio -- essai gratuit]
 
 ## FAQ -- Bail professionnel
 
@@ -3758,7 +3758,7 @@ En cas de départ d'un colocataire solidaire, le bailleur peut retenir sa part d
 
 Pour sécuriser le dépôt de garantie, le propriétaire peut vérifier systématiquement l'état des lieux d'entrée avec des photos datees, faire un état des lieux de sortie comparatif des la remise des clés, conserver tous les justificatifs de dégradation pour démontrer l'origine des dommages, et souscrive une GLI (Garantie Loyer Impayé) qui couvre les dégradations et les impayés.
 
-[CTA : Generez des etats des lieux professionnels et suivez vos dépôts de garantie avec RentReady -- essai gratuit]
+[CTA : Generez des etats des lieux professionnels et suivez vos dépôts de garantie avec Locelio -- essai gratuit]
 
 ## FAQ -- Dépôt de garantie meuble
 
@@ -3838,7 +3838,7 @@ Pour le propriétaire : rédigez un état des lieux d'entrée le plus détaille 
 
 Pour le locataire : faites-vous remettre une copie de l'état des lieux d'entrée signé, photographiez chaque pièce des l'entrée et conservez les photos, payez vos loyers et charges intégralement jusqu'a la sortie, et en cas de départ anticipe, anticipez les sommes qui pourraient etre réclamées.
 
-[CTA : Gerez vos etats des lieux et suivez vos dépôts de garantie automatiquement avec RentReady -- essai gratuit]
+[CTA : Gerez vos etats des lieux et suivez vos dépôts de garantie automatiquement avec Locelio -- essai gratuit]
 
 ## FAQ -- Litige dépôt de garantie
 
@@ -3910,7 +3910,7 @@ Plusieurs erreurs sont à éviter dans la rédaction d'une lettre de relance. N'
 
 La lettre doit être factuelle, précise et respectueuse. Elle doit indiquer clairement le montant dû, la période concernée et le délai de paiement. Elle doit également mentionner les conséquences du non-paiement, sans franchir la limite de la menace.
 
-[CTA : Automatisez vos relances de loyers impayés avec RentReady -- essai gratuit 14 jours]
+[CTA : Automatisez vos relances de loyers impayés avec Locelio -- essai gratuit 14 jours]
 
 ## FAQ -- Lettre de relance loyer impayé
 
@@ -3974,7 +3974,7 @@ Trois scénarios sont possibles. Le locataire paie : le dossier est clos, le pro
 
 Lorsque l'affaire est portée devant le juge, celui-ci examine le bail, l'historique des paiements, les lettres envoyées et les arguments du locataire. Le juge peut ordonner la résiliation du bail et l'expulsion si la situation est grave, organiser un échéancier de remboursement si le locataire fait preuve de bonne foi, ou rejeter la demande si la somme impayée est modique ou le dossier du bailleur insuffisant.
 
-[CTA : Automatisez la gestion de vos impayés et suivez vos procédures avec RentReady -- essai gratuit]
+[CTA : Automatisez la gestion de vos impayés et suivez vos procédures avec Locelio -- essai gratuit]
 
 ## FAQ -- Mise en demeure loyer
 
@@ -4058,7 +4058,7 @@ Seuls les revenus du travail (salaire, primes, vacations) peuvent etre saisis da
 
 Pour éviter d'en arriver a la saisie sur salaire, le bailleur peut vérifier la solvabilité du locataire avant la signature (fiches de paie, avis d'imposition, contrat de travail), souscrive une GLI pour etre remboursé en cas d'impaye, mettre en place des solutions de paiement échelonné des le premier impayé, et agir tot (plus la procédure est engagée tot, plus les arriérés sont faibles).
 
-[CTA : Protegez vos revenus locatifs avec RentReady -- suivi des paiements et alertes en temps réel]
+[CTA : Protegez vos revenus locatifs avec Locelio -- suivi des paiements et alertes en temps réel]
 
 ## FAQ -- Saisie sur salaire pour impayé
 
@@ -4142,7 +4142,7 @@ La révision du loyer doit être notifiée au locataire par lettre recommandée 
 
 Si le bailleur omet de notifier la révision dans les délais, il ne peut pas rattraper les augmentations non appliquées. Le loyer reste figé jusqu'à la prochaine date de révision possible.
 
-[CTA : Calculez automatiquement vos révisions de loyer et générez les notifications avec RentReady -- essai gratuit]
+[CTA : Calculez automatiquement vos révisions de loyer et générez les notifications avec Locelio -- essai gratuit]
 
 ## FAQ -- Augmentation de loyer IRL
 
@@ -4206,7 +4206,7 @@ La gestion locative gratuite est viable pour les propriétaires avec un seul bie
 
 Si vous cherchez une solution gratuite, privilégiez les essais gratuits des logiciels professionnels (14 a 30 jours) pour évaluer vos besoins avant de vous engager.
 
-[CTA : Testez RentReady gratuitement pendant 30 jours et découurez la gestion locative moderne -- sans engagement]
+[CTA : Testez Locelio gratuitement pendant 30 jours et découurez la gestion locative moderne -- sans engagement]
 
 ## FAQ -- Gestion locative gratuite
 
@@ -4282,7 +4282,7 @@ Pour évaluer l'intérêt d'une gestion locative professionnelle, calculez le te
 
 Pour la plupart des propriétaires avec 2-5 biens, le logiciel de gestion locative (120-360 euros/an) offre le meilleur rapport coût/bene fice.
 
-[CTA : Comparez les solutions de gestion locative et trouvez celle qui vous convient -- essayez RentReady gratuitement]
+[CTA : Comparez les solutions de gestion locative et trouvez celle qui vous convient -- essayez Locelio gratuitement]
 
 ## FAQ -- Prix gestion locative
 
@@ -4380,7 +4380,7 @@ Non, le bail de mobilité ne peut pas être renouvelé par tacite reconduction.
 
 Le locataire peut rompre le bail de mobilité à tout moment avec un préavis de 1 mois.
 
-[CTA : Gérez vos contrats de mobilité et suivez vos locations avec RentReady — essai gratuit 14 jours]`
+[CTA : Gérez vos contrats de mobilité et suivez vos locations avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4429,7 +4429,7 @@ En cas d'état des lieux conforme : dans le mois suivant la remise des clés. En
 
 Non, le dépôt de garantie ne peut couvrir que les dégradations imputables au locataire.
 
-[CTA : Automatisez la gestion des états des lieux et le calcul des retenues avec RentReady — essai gratuit 14 jours]`
+[CTA : Automatisez la gestion des états des lieux et le calcul des retenues avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4462,13 +4462,13 @@ La quittance de loyer numérique présente plusieurs avantages : archivage facil
 
 **Le générateur de quittance est-il gratuit ?**
 
-Oui, le générateur de quittance de RentReady est gratuit pour les propriétaires.
+Oui, le générateur de quittance de Locelio est gratuit pour les propriétaires.
 
 **La quittance numérique a-t-elle la même valeur légale que la quittance papier ?**
 
 Oui, depuis 2015, les factures et quittances sous forme électronique ont la même valeur juridique.
 
-[CTA : Créez vos quittances de loyer gratuitement en 30 secondes avec RentReady — essai gratuit 14 jours]`
+[CTA : Créez vos quittances de loyer gratuitement en 30 secondes avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4509,13 +4509,13 @@ La révision ne peut être appliquée qu'à la date d'anniversaire du bail et un
 
 **Le simulateur IRL est-il gratuit ?**
 
-Oui, le simulateur IRL de RentReady est entièrement gratuit.
+Oui, le simulateur IRL de Locelio est entièrement gratuit.
 
 **Puis-je utiliser le simulateur pour un bail en cours depuis plusieurs années ?**
 
 Oui, le simulateur fonctionne pour tout type de bail.
 
-[CTA : Automatisez le calcul et la notification de vos révisions de loyer avec RentReady — essai gratuit 14 jours]`
+[CTA : Automatisez le calcul et la notification de vos révisions de loyer avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4552,7 +4552,7 @@ La durée totale varie de 4 à 8 mois selon la procédure choisie et le tribunal
 
 Vérifiez la réalité de la situation, proposez éventuellement un échéancier, et orientez le locataire vers les aides sociales disponibles (FSL).
 
-[CTA : Anticipez les impayés et gérez automatiquement vos relances avec RentReady — essai gratuit 14 jours]`
+[CTA : Anticipez les impayés et gérez automatiquement vos relances avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4589,7 +4589,7 @@ En cas de jugement définitif condamnant le locataire pour impayé de loyer, vou
 
 Les frais d'huissier et de tribunal sont à la charge du propriétaire, mais peuvent être ajoutés à la dette du locataire si celui-ci est condamné.
 
-[CTA : Protégez vos revenus locatifs avec la GLI RentReady — essai gratuit 14 jours]`
+[CTA : Protégez vos revenus locatifs avec la GLI Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4626,7 +4626,7 @@ Oui, les deux parties peuvent convenir de modifier le bail par avenant signé.
 
 Non, le bail de location n'a pas besoin d'être notarié.
 
-[CTA : Utilisez nos modèles de bail gratuits et conformes avec RentReady — essai gratuit 14 jours]`
+[CTA : Utilisez nos modèles de bail gratuits et conformes avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4655,7 +4655,7 @@ Lyon accueille chaque année plus de 150 000 étudiants. Le marché locatif étu
 
 Oui, si votre bien est dans un arrondissement soumis à l'encadrement. Consultez le site de la Préfecture du Rhône.
 
-[CTA : Optimisez la gestion de vos propriétés lyonnaises avec RentReady — essai gratuit 14 jours]`
+[CTA : Optimisez la gestion de vos propriétés lyonnaises avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4686,7 +4686,7 @@ Consultez le simulateur de loyer de la Préfecture de Paris.
 
 Oui, en 2026. Seuls les logements classés G sont interdits à la location depuis le 1er janvier 2025. L'interdiction s'étendra aux logements classés F le 1er janvier 2028, puis aux logements E le 1er janvier 2034.
 
-[CTA : Gérez vos biens parisiens en toute conformité avec RentReady — essai gratuit 14 jours]`
+[CTA : Gérez vos biens parisiens en toute conformité avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4723,7 +4723,7 @@ Non, le bail commercial doit être écrit.
 
 Non, l'augmentation ne peut se faire que selon les modalités prévues dans le bail.
 
-[CTA : Gérez vos baux commerciaux efficacement avec RentReady — essai gratuit 14 jours]`
+[CTA : Gérez vos baux commerciaux efficacement avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4758,7 +4758,7 @@ En moyenne, il faut compter entre 8 mois et 2 ans.
 
 Oui, en pratique la trêve hivernale peut ajouter 1 à 4 mois à la procédure.
 
-[CTA : Protégez votre bien et anticipez les procédures avec RentReady — essai gratuit 14 jours]`
+[CTA : Protégez votre bien et anticipez les procédures avec Locelio — essai gratuit 14 jours]`
   },
 
   {
@@ -4789,13 +4789,13 @@ La clause résolutoire, la clause de révision, la clause d'assurance, et la cla
 
 **Le modèle de bail est-il vraiment gratuit ?**
 
-Oui, le modèle de bail de RentReady est entièrement gratuit.
+Oui, le modèle de bail de Locelio est entièrement gratuit.
 
 **Faut-il un notaire pour signer un bail ?**
 
 Non, le bail de location n'a pas besoin d'être notarié.
 
-[CTA : Téléchargez notre modèle de bail gratuit et conforme avec RentReady — essai gratuit 14 jours]`
+[CTA : Téléchargez notre modèle de bail gratuit et conforme avec Locelio — essai gratuit 14 jours]`
   }
 ,
     {
@@ -4936,7 +4936,7 @@ Oui, si le logement est consomme en charges individuelles (chauffage au gaz par 
 
 Oui, le montant des provisions peut etre ajuste lors de la régularisation annuelle des charges. Si les charges réelles sont significativement différentes des provisions mensuelles, le bailleur peut proposer une modification des provisions pour l'année suivante, avec information préalable du locataire.
 
-[CTA : Automatisez le calcul des charges récupérables et la régularisation annuelle avec RentReady — essai gratuit 14 jours]`
+[CTA : Automatisez le calcul des charges récupérables et la régularisation annuelle avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "calcul-depot-garantie",
@@ -5028,7 +5028,7 @@ Le calcul se fait toujours sur le loyer hors charges. Séparez bien le montant d
 
 Si le propriétaire exige un dépôt supérieur au plafond, le locataire peut refuser ou demander le remboursement de la différence. En cas de litige, le locataire peut saisir la commission départementale de conciliation.
 
-[CTA : Calculez automatiquement les dépôts de garantie et suivez les états des lieux avec RentReady — essai gratuit 14 jours]`
+[CTA : Calculez automatiquement les dépôts de garantie et suivez les états des lieux avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "depot-garantie-etat-des-lieux",
@@ -5142,7 +5142,7 @@ Envoyez une lettre recommandée avec accusé de réception au propriétaire expo
 
 Non, la retenue est réduite proportionnellement à la durée de vie déjà écoulée. Si un élément est neuf, la retenue sera maximale. S'il est déjà très ancien, la retenue sera faible ou nulle.
 
-[CTA : Gérez automatiquement vos états des lieux et calculez les retenues avec RentReady — essai gratuit 14 jours]`
+[CTA : Gérez automatiquement vos états des lieux et calculez les retenues avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "litige-depot-garantie-procedure",
@@ -5278,7 +5278,7 @@ Non, le dépôt de garantie et les loyers sont des comptes séparés. Le propri�
 
 Si le propriétaire ne peut pas payer malgré un jugement favorable, vous pouvez engager une procédure d'exécution forcée sur ses biens. Un huissier de justice pourra être mandaté pour récupérer les sommes dues.
 
-[CTA : Anticipez les litiges et documentez chaque étape avec RentReady — essai gratuit 14 jours]`
+[CTA : Anticipez les litiges et documentez chaque étape avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "recours-garde-a-vue",
@@ -5401,7 +5401,7 @@ Si vous estimez que la garde à vue était injustifiée, votre avocat peut saisi
 
 Oui, percevoir des APL destinées au paiement du loyer et ne pas les reverser au propriétaire peut constituer un abus de confiance. Le montant des allocations concernées peut être réclamé par le bailleur.
 
-[CTA : Protégez votre gestion locative et documentez chaque étape avec RentReady — essai gratuit 14 jours]`
+[CTA : Protégez votre gestion locative et documentez chaque étape avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "gestion-locative-etat-financier",
@@ -5554,7 +5554,7 @@ La rentabilité nette se calcule en divisant le résultat net annuel (loyers - c
 
 Pour une gestion simple avec quelques biens, vous pouvez réaliser le bilan vous-même à l'aide d'un tableur ou d'un logiciel de gestion locative. Pour une gestion complexe ou un patrimoine important, le recours à un comptable est recommandé.
 
-[CTA : Automatisez votre comptabilité locative et générez vos bilans avec RentReady — essai gratuit 14 jours]`
+[CTA : Automatisez votre comptabilité locative et générez vos bilans avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "fiscalite-lmnp-vs-lmp",
@@ -5687,7 +5687,7 @@ Pour un débutant avec des revenus locatifs modestes, le statut LMNP au micro-BI
 
 Oui, si les deux conditions de seuils sont remplies (23 000 euros et 50 % du revenu global), vous pouvez être LMP même avec un seul bien.
 
-[CTA : Optimisez votre stratégie fiscale en location meublée avec RentReady — essai gratuit 14 jours]`
+[CTA : Optimisez votre stratégie fiscale en location meublée avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "travaux-entretien-locatif",
@@ -5827,7 +5827,7 @@ Le remplacement de la chaudière (grosse réparation) est à la charge du propri
 
 Vous pouvez adresser un courrier au propriétaire exigeant des travaux dans un délai précis. En cas de danger immédiat, vous pouvez saisir le juge des référés pour obliger le propriétaire à intervenir. Vous pouvez également signaler la situation à la mairie pour une inspection.
 
-[CTA : Suivez les travaux et gérez les responsabilités avec RentReady — essai gratuit 14 jours]`
+[CTA : Suivez les travaux et gérez les responsabilités avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "duree-bail-location",
@@ -5960,7 +5960,7 @@ En location vide, le propriétaire n'a pas à motiver son congé s'il est donné
 
 Oui, un bail saisonnier peut être renouvelé pour une nouvelle période de 90 jours. Le locataire peut donc revenir chaque année, mais sans continuité de séjour.
 
-[CTA : Gérez automatiquement les échéances de vos baux avec RentReady — essai gratuit 14 jours]`
+[CTA : Gérez automatiquement les échéances de vos baux avec Locelio — essai gratuit 14 jours]`
   },
     {
     slug: "gestion-compte-banque-separe",
@@ -6059,7 +6059,7 @@ Non, un seul compte peut gérer plusieurs biens. Cependant, un compte par bien o
 
 Pour un particulier, il n'y a pas de sanction légale directe. Cependant, en cas de contrôle fiscal, vous devrez prouver l'origine et la nature de chaque opération. Un compte séparé facilite largement cette démonstration.
 
-[CTA : Gérez vos comptes locatifs efficacement avec RentReady — suivi automatisé des revenus et charges — essai gratuit]`
+[CTA : Gérez vos comptes locatifs efficacement avec Locelio — suivi automatisé des revenus et charges — essai gratuit]`
   },
     {
     slug: "taxe-fonciere-locatif",
@@ -6171,7 +6171,7 @@ Oui, les constructions nouvelles bénéficient d'une exonération de taxe fonci�
 
 Oui, la taxe foncière est due pour l'année entière. Si vous vendez un bien en cours d'année, le prorata est appliqué entre le vendeur et l'acheteur lors de la vente.
 
-[CTA : Automatisez le suivi de vos charges locatives avec RentReady — taxe foncière et comptabilité intégrés — essai gratuit]`
+[CTA : Automatisez le suivi de vos charges locatives avec Locelio — taxe foncière et comptabilité intégrés — essai gratuit]`
   },
     {
     slug: "reduction-impot-location",
@@ -6300,7 +6300,7 @@ Pour une gestion simple, vous pouvez gérer vous-même avec un logiciel de gesti
 
 Le Pinel est particulièrement intéressant si vous êtes fortement imposé et que vous souhaitez investir dans une zone tendue. Une simulation personnalisée vous aider à évaluer l'avantage réel en fonction de votre situation.
 
-[CTA : Calculez votre réduction d'impôt locative avec RentReady — simulation gratuite et personnalisée — essai gratuit]`
+[CTA : Calculez votre réduction d'impôt locative avec Locelio — simulation gratuite et personnalisée — essai gratuit]`
   },
     {
     slug: "amortissement-immobilier-locatif",
@@ -6422,7 +6422,7 @@ Les travaux ne s'amortissent pas mais sont déductibles comme charges. Seuls les
 
 Les amortissements non déduits sont pris en compte dans le calcul de la plus-value lors de la vente. Cela peut réduire l'imposition sur la plus-value et optimiser votre opération.
 
-[CTA : Gérez votre comptabilité LMNP facilement avec RentReady — amortissement automatique et déclarations — essai gratuit]`
+[CTA : Gérez votre comptabilité LMNP facilement avec Locelio — amortissement automatique et déclarations — essai gratuit]`
   },
     {
     slug: "parental-garantie",
@@ -6552,7 +6552,7 @@ Oui, la Visale n'est pas obligatoire. Le propriétaire peut refuser ce dispositi
 
 La garantie Visale couvre les impayés pendant toute la durée du bail, dans la limite de 36 mois d'indemnisation au titre de la garantie.
 
-[CTA : Louez en toute sérénité avec RentReady — gestion des garanties et suivi des paiements — essai gratuit]`
+[CTA : Louez en toute sérénité avec Locelio — gestion des garanties et suivi des paiements — essai gratuit]`
   },
     {
     slug: "dossier-location-impots",
@@ -6704,7 +6704,7 @@ Oui, pour les dossiers acceptés, vous pouvez conserver les pièces pendant tout
 
 Vous pouvez demander des pièces complémentaires mais sans exiger de documents interdits. Un dossier incomplet ne peut pas être un motif de refus si les pièces essentielles sont présentes et valides.
 
-[CTA : Constituez vos dossiers de location en toute conformité avec RentReady — vérification et suivi — essai gratuit]`
+[CTA : Constituez vos dossiers de location en toute conformité avec Locelio — vérification et suivi — essai gratuit]`
   },
     {
     slug: "assurance-habitation-proprietaire",
@@ -6835,7 +6835,7 @@ Vous devez déclarer le sinistre à votre assureur dans un délai de 5 jours ouv
 
 Si vous êtes propriétaire de plusieurs biens, vous pouvez négocier un contrat multi-risques pour l'ensemble de votre patrimoine avec des tarifs préférentiels. Contactez votre assureur pour obtenir une proposition personnalisée.
 
-[CTA : Protégez votre patrimoine locatif avec RentReady — gestion des assurances et suivi des sinistres — essai gratuit]`
+[CTA : Protégez votre patrimoine locatif avec Locelio — gestion des assurances et suivi des sinistres — essai gratuit]`
   },
     {
     slug: "entretien-chaudiere",
@@ -6959,7 +6959,7 @@ Pour les chaudières gaz, le ramonage doit être effectué au moins une fois par
 
 Le professionnel doit vous remettre un procès-verbal d'intervention mentionnant les vérifications effectuées et les éventuelles recommandations. Conservez ce document pendant au moins 5 ans comme preuve.
 
-[CTA : Planifiez automatiquement l'entretien de vos équipements avec RentReady — rappels et suivi des interventions — essai gratuit]`
+[CTA : Planifiez automatiquement l'entretien de vos équipements avec Locelio — rappels et suivi des interventions — essai gratuit]`
   },
     {
     slug: "preavis-location-etranger",
@@ -7073,7 +7073,7 @@ Le dépôt doit être restitué par virement bancaire international. Prévoyez l
 
 Oui, le locataire étranger dispose des mêmes droits que tout autre locataire. Il peut contester les charges dans le délai légal et exiger un justificatif détaillé de toutes les sommes réclamées.
 
-[CTA : Gérez les départs de locataires en toute conformité avec RentReady — états des lieux et restitutions — essai gratuit]`
+[CTA : Gérez les départs de locataires en toute conformité avec Locelio — états des lieux et restitutions — essai gratuit]`
   },
     {
     slug: "encadrement-des-loyers",
@@ -7203,7 +7203,7 @@ Non, le loyer de référence concerne le loyer nu, hors charges. Les provisions 
 
 Non, un propriétaire ne peut pas refuser de louer un bien uniquement pour éviter l'encadrement. Ce refus serait constitutif d'une discrimination passible de sanctions. La loi punit le refus de location pour des motifs irrecevable.
 
-[CTA : Vérifiez automatiquement les plafonds de loyer avec RentReady — conformité garantie — essai gratuit]`
+[CTA : Vérifiez automatiquement les plafonds de loyer avec Locelio — conformité garantie — essai gratuit]`
   },
     {
     slug: "location-saisonniere-fiscale",
@@ -7332,7 +7332,7 @@ En régime réel, les travaux sont déductibles comme charges. En micro-BIC, ils
 
 Oui, la collecte et le reversement de la taxe de séjour sont obligatoires pour tout loueur en meublé de tourism. Le non-respect de cette obligation peut entraîner des sanctions de la commune.
 
-[CTA : Gérez vos locations saisonnières facilement avec RentReady — déclaration automatique et suivi — essai gratuit]`
+[CTA : Gérez vos locations saisonnières facilement avec Locelio — déclaration automatique et suivi — essai gratuit]`
   },
     {
     slug: "regime-micro-foncier",
@@ -7470,7 +7470,7 @@ Non, l'abattement ne s'applique qu'aux logements effectivement loués. Un logeme
 
 Faites une simulation en comparant vos charges réelles avec l'abattement de 30 %. Si vos charges sont supérieures, le régime réel sera plus intéressant. Un conseiller fiscal peut vous aider dans cette analyse.
 
-[CTA : Optimisez votre régime fiscal automatiquement avec RentReady — simulation et déclarations intégrées — essai gratuit]`
+[CTA : Optimisez votre régime fiscal automatiquement avec Locelio — simulation et déclarations intégrées — essai gratuit]`
   },
     {
     slug: "declaration-fonciere-2044",
@@ -7613,7 +7613,7 @@ Oui, dans la limite de 10 700 euros par an, le déficit foncier peut être imput
 
 Les déficits sont reportables sur les revenus fonciers des 10 années suivantes. Vous pouvez constituer un déficit reportable pendant plusieurs années, en attendant que vos revenus fonciers augmentent pour absorber le déficit.
 
-[CTA : Générez automatiquement votre déclaration 2044 avec RentReady — charges déductibles et déficit — essai gratuit]`
+[CTA : Générez automatiquement votre déclaration 2044 avec Locelio — charges déductibles et déficit — essai gratuit]`
   },
     {
     slug: "assurance-loyer-impaye-gli",
@@ -7767,7 +7767,7 @@ Non, certains profils sont exclus (étudiants sans garant, CDD très récents, e
 
 Vous devez déclarer l'impayé à votre assureur dans un délai spécifié (généralement 30 à 60 jours après l'échéance non payée). Joignez les justificatifs : bail, quittances, courriers de relance et mise en demeure.
 
-[CTA : Protégez vos revenus locatifs avec la GLI via RentReady — couverture et déclarations intégrées — essai gratuit]`
+[CTA : Protégez vos revenus locatifs avec la GLI via Locelio — couverture et déclarations intégrées — essai gratuit]`
   },
     {
     slug: "recouvrement-judiciaire-loyer",
@@ -7911,7 +7911,7 @@ Si le conjoint est codébiteur du bail, il peut être tenu responsable des impay
 
 Oui, si une caution a été fournie, vous pouvez vous retourner contre elle selon les termes du cautionnement (simple ou solidaire). Pour le cautionnement solidaire, vous pouvez agir directement sans pursue préalable du locataire.
 
-[CTA : Gérez vos impayés efficacement avec RentReady — suivi des procédures et relances automatisées — essai gratuit]`
+[CTA : Gérez vos impayés efficacement avec Locelio — suivi des procédures et relances automatisées — essai gratuit]`
   },
     {
     slug: "gestion-locative-investisseur",
@@ -8112,7 +8112,7 @@ La plupart des logiciels permettent d'importer des données depuis Excel ou d'au
 
 Non, le logiciel gère le suivi et la comptabilité mais ne se substitue pas à une assurance pour protéger vos revenus contre les impayés. La GLI reste indispensable pour sécuriser vos flux.
 
-[CTA : Optimisez la gestion de votre patrimoine avec RentReady — outil complet pour investisseurs — essai gratuit]`
+[CTA : Optimisez la gestion de votre patrimoine avec Locelio — outil complet pour investisseurs — essai gratuit]`
   },
 
   {
@@ -8210,9 +8210,9 @@ Notre outil gratuit vous permet de créer votre quittance en quelques clics :
 4. Choisissez le mode de paiement
 5. Téléchargez votre quittance au format PDF
 
-Le document généré est automatiquement archivé dans votre espace RentReady. Vous disposez ainsi d'un historique complet de toutes vos quittances, toujours accessible.
+Le document généré est automatiquement archivé dans votre espace Locelio. Vous disposez ainsi d'un historique complet de toutes vos quittances, toujours accessible.
 
-[CTA : Créez vos quittances de loyer gratuitement avec RentReady — générateur PDF instantané — essai gratuit]
+[CTA : Créez vos quittances de loyer gratuitement avec Locelio — générateur PDF instantané — essai gratuit]
 
 ## Quand faut-il délivrer une quittance ?
 
@@ -8265,9 +8265,9 @@ Oui, la quittance peut être délivrée sous forme électronique (PDF par email)
 
 **Que faire si mon locataire perd sa quittance ?**
 
-Vous êtes tenu de fournir un duplicata si le locataire le demande. Votre espace RentReady conserve l'historique de toutes vos quittances générées, vous permettant de rééditer un reçu en un clic.
+Vous êtes tenu de fournir un duplicata si le locataire le demande. Votre espace Locelio conserve l'historique de toutes vos quittances générées, vous permettant de rééditer un reçu en un clic.
 
-[CTA : Gérez toutes vos quittances automatiquement avec RentReady — historique complet, envoi email, archivage — essai gratuit]`
+[CTA : Gérez toutes vos quittances automatiquement avec Locelio — historique complet, envoi email, archivage — essai gratuit]`
   },
   {
     slug: "relance-loyer-impaye-modele-lettre",
@@ -8349,7 +8349,7 @@ Au-delà de deux mois d'impayé, vous pouvez engager une procédure judiciaire. 
 - Plus complète, permettant de demander des dommages et intérêts
 - Nécessaire pour certaines situations complexes
 
-[CTA : Automatisez vos relances de loyer impayé avec RentReady — alertes en temps réel et modèles de lettres — essai gratuit]
+[CTA : Automatisez vos relances de loyer impayé avec Locelio — alertes en temps réel et modèles de lettres — essai gratuit]
 
 ## Les erreurs à éviter lors d'une relance
 
@@ -8391,7 +8391,7 @@ Coût : entre 2 % et 4 % du montant annuel du loyer charges comprises.
 
 ### Utiliser un logiciel de gestion locative
 
-Un [logiciel de gestion locative](/features) comme RentReady vous alerte automatiquement en cas de retard, génère les lettres de relance, archive vos échanges et constitue un dossier solide en cas de procédure.
+Un [logiciel de gestion locative](/features) comme Locelio vous alerte automatiquement en cas de retard, génère les lettres de relance, archive vos échanges et constitue un dossier solide en cas de procédure.
 
 ## FAQ : Questions fréquentes sur la relance de loyer impayé
 
@@ -8415,7 +8415,7 @@ La clause résolutoire du bail permet la résiliation automatique en cas d'impay
 
 Si vous obtenez gain de cause devant le tribunal, vous pouvez demander la condamnation du locataire aux frais de procédure. Le juge fixe le montant en fonction des circonstances.
 
-[CTA : RentReady vous accompagne dans la gestion de vos impayés — suivi automatique, modèles de lettres, archivage — essai gratuit]`
+[CTA : Locelio vous accompagne dans la gestion de vos impayés — suivi automatique, modèles de lettres, archivage — essai gratuit]`
   },
   {
     slug: "etat-des-lieux-modele-conseils",
@@ -8476,7 +8476,7 @@ Notre [modèle d'état des lieux d'entrée](/templates/etat-des-lieux) vous perm
 - Portes d'entrée et serrures
 - Balcon, terrasse ou cave (le cas échéant)
 
-[CTA : Utilisez l'outil d'état des lieux de RentReady — checklist interactive, photos intégrées, archivage automatique — essai gratuit]
+[CTA : Utilisez l'outil d'état des lieux de Locelio — checklist interactive, photos intégrées, archivage automatique — essai gratuit]
 
 ## Comment réaliser l'état des lieux
 
@@ -8545,7 +8545,7 @@ Notre [modèle d'état des lieux de sortie](/templates/etat-des-lieux) vous guid
 
 ### Checklist numérique
 
-Notre outil d'état des lieux intégré à RentReady vous permet de :
+Notre outil d'état des lieux intégré à Locelio vous permet de :
 - Remplir la checklist pièce par pièce sur tablette ou smartphone
 - Prendre des photos et les intégrer directement dans le document
 - Obtenir la signature électronique du locataire
@@ -8578,7 +8578,7 @@ Oui, mais uniquement pour couvrir le montant des réparations justifiées. Vous 
 
 Oui, le relevé des compteurs d'eau, d'électricité et de gaz est obligatoire lors de l'état des lieux d'entrée et de sortie. Ces relevés servent de base au réglement des charges.
 
-[CTA : Gérez vos états des lieux facilement avec RentReady — outil numérique, signature électronique, archivage — essai gratuit]`
+[CTA : Gérez vos états des lieux facilement avec Locelio — outil numérique, signature électronique, archivage — essai gratuit]`
   },
   {
     slug: "augmentation-loyer-regles-procedure",
@@ -8628,7 +8628,7 @@ C'est ici que les règles se compliquent, surtout en zone tendue. Lors du renouv
 - En cas de travaux d'amélioration, une augmentation modérée peut être acceptée
 - En cas de sous-évaluation manifeste, une augmentation peut être proposée mais est encadrée
 
-[CTA : Automatisez le calcul de votre révision de loyer avec RentReady — simulateur IRL intégré — essai gratuit]
+[CTA : Automatisez le calcul de votre révision de loyer avec Locelio — simulateur IRL intégré — essai gratuit]
 
 ## L'indice de référence des loyers (IRL) en 2026
 
@@ -8717,7 +8717,7 @@ Joignez à votre courrier le détail du calcul (anciens et nouveaux indices, for
 Si vous avez réalisé des travaux d'amélioration, conservez les factures et les devis. Ils justifient une augmentation supérieure à l'IRL en zone tendue.
 
 **Utilisez un logiciel de gestion locative**
-Un [logiciel comme RentReady](/features) calcule automatiquement vos augmentations de loyer, vous alerte en cas de plafonds dépassés et archive vos échanges.
+Un [logiciel comme Locelio](/features) calcule automatiquement vos augmentations de loyer, vous alerte en cas de plafonds dépassés et archive vos échanges.
 
 ## FAQ : Questions fréquentes sur l'augmentation de loyer
 
@@ -8741,7 +8741,7 @@ En zone non tendue, si votre bail ne contient pas de clause de plafonnement, vou
 
 Appliquez la procédure de relance pour loyer impayé. Si le locataire conteste l'augmentation, saisez la commission de conciliation. Ne mettez pas en œuvre une procédure d'expulsion sans avoir obtenu un titre exécutoire.
 
-[CTA : Gérez vos augmentations de loyer automatiquement avec RentReady — calcul IRL, alertes, archivage — essai gratuit]`
+[CTA : Gérez vos augmentations de loyer automatiquement avec Locelio — calcul IRL, alertes, archivage — essai gratuit]`
   },
   {
     slug: "gestion-locative-en-ligne-avantages-comparatif-2026",
@@ -8774,7 +8774,7 @@ Toutes ces tâches sont automatisées. Vous vous concentrez sur les décisions s
 
 Les erreurs de calcul de charges, les quittances incomplètes, les oublis de relève de compteur... Ces erreurs sont coûteuses et source de litiges. Un [logiciel de gestion locative](/blog/logiciel-gestion-locative-gratuit-vs-payant) effectue ces calculs automatiquement et vous alerte en cas d'anomalie.
 
-[CTA : Testez RentReady gratuitement pendant 30 jours — gestion locative complète en ligne — essai gratuit]
+[CTA : Testez Locelio gratuitement pendant 30 jours — gestion locative complète en ligne — essai gratuit]
 
 ### Historique complet et traçabilité
 
@@ -8867,9 +8867,9 @@ Vérifiez :
 
 Consultez les avis sur les plateformes d'évaluation en ligne. Attention aux avis extrêmes (trop positifs ou trop négatifs). Privilégiez les retours détaillés et factuels.
 
-## RentReady : la solution tout-en-un pour propriétaires
+## Locelio : la solution tout-en-un pour propriétaires
 
-RentReady est un logiciel de gestion locative en ligne conçu spécifiquement pour les propriétaires français. Il couvre l'ensemble de vos besoins :
+Locelio est un logiciel de gestion locative en ligne conçu spécifiquement pour les propriétaires français. Il couvre l'ensemble de vos besoins :
 
 **Fonctionnalités clés :**
 - [Gestion des paiements](/features) : suivi automatique, alertes de retard, relances
@@ -8888,7 +8888,7 @@ Non. Pour des situations simples (quelques biens en location nue), le logiciel p
 
 **Mes données sont-elles sécurisées avec un logiciel en ligne ?**
 
-Oui, si vous choisissez un éditeur sérieux. Vérifiez l'hébergement en France, la conformité RGPD et la politique de sauvegarde. RentReady héberge ses données en France avec chiffrement de bout en bout.
+Oui, si vous choisissez un éditeur sérieux. Vérifiez l'hébergement en France, la conformité RGPD et la politique de sauvegarde. Locelio héberge ses données en France avec chiffrement de bout en bout.
 
 **Peut-on gérer plusieurs patrimoine avec un seul compte ?**
 
@@ -8902,7 +8902,7 @@ Les logiciels de gestion locative en ligne nécessitent une connexion internet. 
 
 La mise en place initiale prend généralement entre 30 minutes et 2 heures selon le nombre de biens et la complexité de votre situation. L'import des données existantes (baux, locataires) peut prendre un peu plus de temps.
 
-[CTA : Gérez votre patrimoine locatif efficacement avec RentReady — logiciel tout-en-un, essai gratuit 30 jours — découvrez toutes les fonctionnalités]`
+[CTA : Gérez votre patrimoine locatif efficacement avec Locelio — logiciel tout-en-un, essai gratuit 30 jours — découvrez toutes les fonctionnalités]`
   },
 
   {
@@ -8988,7 +8988,7 @@ Oui, les travaux de construction, reconstruction, amélioration et addition deca
 
 Oui, les règles de plus-value sont identiques. Cependant, le régime fiscal de la location meublée (LMNP/LMP) peut permettre d'amortir le bien et de réduire effectivement la plus-value.
 
-[CTA : Gérez votre bien locatif et suivez vos obligations fiscales avec RentReady — essai gratuit 14 jours]`
+[CTA : Gérez votre bien locatif et suivez vos obligations fiscales avec Locelio — essai gratuit 14 jours]`
   },
   {
     slug: "travaux-deductibles-impot-location",
@@ -9093,7 +9093,7 @@ Oui, les travaux d'amélioration de la performance énergétique sont déductibl
 
 Conservez toutes les factures avec mention claire de la nature des travaux, du montant et de la date. Les paiements par chèque ou virement sont preferables aux paiements en especes.
 
-[CTA : Suivez automatiquement vos charges déductibles et générez vos déclarations avec RentReady — essai gratuit 14 jours]`
+[CTA : Suivez automatiquement vos charges déductibles et générez vos déclarations avec Locelio — essai gratuit 14 jours]`
   },
   {
     slug: "frais-gestion-locative-deductibles",
@@ -9126,7 +9126,7 @@ Les dépenses liées à la tenue de votre comptabilité locative sont déductibl
 - Honoraires de l'expert-comptable pour la comptabilité propre à la location
 - Frais de déclaration de revenus fonciers
 - Cotisations ordinales (pour les comptables professionnels)
-- Logiciels de gestion locative (comme RentReady)
+- Logiciels de gestion locative (comme Locelio)
 
 ### Déduction des logiciels de gestion
 
@@ -9197,7 +9197,7 @@ Oui, si vos charges dépassent vos revenus fonciers, le déficit s'impute sur vo
 
 La loi ne l'exige pas, mais c'est fortement recommandé pour une bonne gestion et pour justifier vos dépenses en cas de contrôle fiscal.
 
-[CTA : Automatisez votre comptabilité locative et deducterez vos frais facilement avec RentReady — essai gratuit 14 jours]`
+[CTA : Automatisez votre comptabilité locative et deducterez vos frais facilement avec Locelio — essai gratuit 14 jours]`
   },
   {
     slug: "deficit-foncier-impot-2026",
@@ -9300,7 +9300,7 @@ Non, le régime LMNP utilise l'amortissement, pas le déficit foncier. Le défic
 
 Oui, les travaux d'amélioration énergétique sont déductibles et peuvent créer un déficit foncier. De plus, des crédits d'impôt spécifiques peuvent s'y ajouter.
 
-[CTA : Calculez automatiquement votre déficit foncier et optimisez votre imposition avec RentReady — essai gratuit 14 jours]`
+[CTA : Calculez automatiquement votre déficit foncier et optimisez votre imposition avec Locelio — essai gratuit 14 jours]`
   },
   {
     slug: "amenagement-local-pro-impot",
@@ -9399,7 +9399,7 @@ Oui, les travaux d'amélioration énergétique peuvent être amortis comme les a
 
 Non, le déficit LMNP (amortissement) reporte uniquement sur les bénéfices LMNP des années suivantes. Seule la fraction correspondant aux charges réelles (hors amortissement) peut, sous conditions, s'imputer sur le revenu global.
 
-[CTA : Gérez votre LMNP efficacement avec RentReady — suivi des amortissements et comptabilité integrée — essai gratuit 14 jours]`
+[CTA : Gérez votre LMNP efficacement avec Locelio — suivi des amortissements et comptabilité integrée — essai gratuit 14 jours]`
   },
   {
     slug: "recours-locataire-procedure",
@@ -9509,7 +9509,7 @@ Cela dépend du tribunal et de la complexité de l'affaire. Un référé peut ê
 
 Oui, si le tribunal estime que le locataire a manqué à ses obligations (par exemple, dégradations confirmées), il peut être condamné à indemniser le bailleur.
 
-[CTA : Protégez vos droits de locataire et gérez vos documents locatifs avec RentReady — essais gratuits 14 jours]`
+[CTA : Protégez vos droits de locataire et gérez vos documents locatifs avec Locelio — essais gratuits 14 jours]`
   },
   {
     slug: "locataire-pertes-handicap",
@@ -9605,7 +9605,7 @@ Si les travaux sont nécessaires en raison du handicap et rendus obligatoires pa
 
 La Caf peut accorder une avance locative pour le dépôt de garantie. Certaines collectivités territoriales proposent aussi des prêts ou des subventions d'honneur.
 
-[CTA : Gérez votre dossier locatif en ligne avec RentReady — stockage securise de tous vos documents — essai gratuit 14 jours]`
+[CTA : Gérez votre dossier locatif en ligne avec Locelio — stockage securise de tous vos documents — essai gratuit 14 jours]`
   },
   {
     slug: "trouble-voisinage-recours-locataire",
@@ -9711,7 +9711,7 @@ Oui, si le locataire cause des troubles de voisinage caractérisés, le bailleur
 
 L'action en justice se prescribe par 5 ans à compter de la cessation du trouble. Pour les troubles continus, le délai court à partir de la fin du trouble.
 
-[CTA : Protégez votre patrimoine locatif des troubles de voisinage avec RentReady — gestion des sinistres et documentation integrée — essai gratuit 14 jours]`
+[CTA : Protégez votre patrimoine locatif des troubles de voisinage avec Locelio — gestion des sinistres et documentation integrée — essai gratuit 14 jours]`
   },
   {
     slug: "assurance-proprietaire-non-occupant-obligations",
@@ -9819,7 +9819,7 @@ Oui, le locataire peut demander une attestation d'assurance PNO. En cas de défa
 
 Les tarifs varient de 100 à 400 € par an selon la valeur du bien, sa localisation et les garanties choisies. C'est un investissement modeste au regard des risques couverts.
 
-[CTA : Gérez vos assurances et votre patrimoine locatif en ligne avec RentReady — suivi des contrats et alertes — essai gratuit 14 jours]`
+[CTA : Gérez vos assurances et votre patrimoine locatif en ligne avec Locelio — suivi des contrats et alertes — essai gratuit 14 jours]`
   },
   {
     slug: "assurance-proprietaire-bailleur-protection",
@@ -9903,7 +9903,7 @@ Un garant solide (caution solidaire) constitue une première protection efficace
 
 ### Logiciel de gestion locative
 
-Un outil comme RentReady permet de :
+Un outil comme Locelio permet de :
 - Suivre automatiquement les paiements
 - Détecter les retards dès le 1er jour
 - Générer les lettres de relance
@@ -9927,7 +9927,7 @@ Non, le dépôt de garantie (1 à 2 mois de loyer) ne couvre généralement pas 
 
 L'agence assure un suivi professionnel et une intervención rapide. En contrepartie, elle prélève des honoraires (5 à 10 % des loyers). Le choix dépend de votre temps disponible et de la taille de votre patrimoine.
 
-[CTA : Anticipez les risques et protégez votre patrimoine avec RentReady — gestion locative complete — essai gratuit 14 jours]`
+[CTA : Anticipez les risques et protégez votre patrimoine avec Locelio — gestion locative complete — essai gratuit 14 jours]`
   },
   {
     slug: "assurance-gli-vs-protection-juridique",
@@ -10019,7 +10019,7 @@ Oui, les deux assurances sont complémentaires. Elles couvrent des risques diff�
 
 Oui, les cotisations de protection juridique sont déductibles des revenus fonciers au titre des frais de gestion.
 
-[CTA : Configurez la protection adaptée à votre patrimoine avec RentReady — gestion locative securisee — essai gratuit 14 jours]`
+[CTA : Configurez la protection adaptée à votre patrimoine avec Locelio — gestion locative securisee — essai gratuit 14 jours]`
   },
   {
     slug: "investissement-locatif-2026",
@@ -10155,7 +10155,7 @@ La rentabilisation dépend du rendement net et des avantages fiscaux. En génér
 
 Pour un premier investissement, l'agence apporte son expertise du marché. La gestion en direct permet d'économiser les honoraires (5-10 % des loyers) mais demande du temps.
 
-[CTA : Préparez votre investissement locatif avec RentReady — simulateurs et outils de pilotage — essai gratuit 14 jours]`
+[CTA : Préparez votre investissement locatif avec Locelio — simulateurs et outils de pilotage — essai gratuit 14 jours]`
   },
   {
     slug: "rentabilite-locative-nette-brut",
@@ -10273,7 +10273,7 @@ Oui, si possible. Un cash-flow positif signifie que l'investissement ne vous co�
 
 Non. La appreciation potentielle du bien, les avantages fiscaux et la qualité de l'emplacement sont tout aussi importants. Un rendement plus faible avec une forte appreciation peut être preferable.
 
-[CTA : Calculez automatiquement la rentabilité de vos investissements avec RentReady — simulateurs integres — essai gratuit 14 jours]`
+[CTA : Calculez automatiquement la rentabilité de vos investissements avec Locelio — simulateurs integres — essai gratuit 14 jours]`
   },
   {
     slug: "investissement-immobilier-neuf-ancien",
@@ -10398,7 +10398,7 @@ Non, le Pinel est réservé aux logements neufs ou en état futur d'achèvement 
 
 Tout dépend de l'emplacement. En zone tendue, les deux se louent facilement. En zone détendue, l'ancien avec un bon rendement sera plus attractif.
 
-[CTA : Comparez les scénarios d'investissement avec RentReady — simulateurs financiers integres — essai gratuit 14 jours]`
+[CTA : Comparez les scénarios d'investissement avec Locelio — simulateurs financiers integres — essai gratuit 14 jours]`
   },
   {
     slug: "location-etudiante-guide-complet",
@@ -10521,7 +10521,7 @@ Le garant est presque toujours nécessaire :
 Un suivi rigoureux est essentiel :
 - Vérification mensuelle des paiements
 - Relance rapide en cas de retard
-- Utilisation d'un logiciel de gestion (RentReady)
+- Utilisation d'un logiciel de gestion (Locelio)
 
 ### L'état des lieux
 
@@ -10544,7 +10544,7 @@ Oui, le locataire peut donner son congé à tout moment en respectant un préavi
 
 Anticipez la remise en état entre deux locataires. Profitez des périodes de vacances (juillet-août) pour réaliser les éventuels travaux. Un bon état des lieux d'entrée et de sortie facilite les choses.
 
-[CTA : Gérez vos locations etudiantes facilement avec RentReady — suivi des paiements et documentation — essai gratuit 14 jours]`
+[CTA : Gérez vos locations etudiantes facilement avec Locelio — suivi des paiements et documentation — essai gratuit 14 jours]`
   },
   {
     slug: "resiliation-bail-location",
@@ -10682,7 +10682,7 @@ Oui, le bailleur peut donner congé à l'échéance sans motif (sauf clause cont
 
 Le bailleur doit engager une procédure d'expulsion judiciaire. L'expulsion effective nécessite un commandement de quitter les lieux et l'intervention d'un huissier.
 
-[CTA : Gérez les fins de bail et la restitution des dépôts avec RentReady — automatisation et conformité — essai gratuit 14 jours]`
+[CTA : Gérez les fins de bail et la restitution des dépôts avec Locelio — automatisation et conformité — essai gratuit 14 jours]`
   },
 
   {
@@ -10741,7 +10741,7 @@ Oui, un particulier peut rédiger un bail lui-même. Vous trouverez des modèles
 
 Non, les clauses du bail ne peuvent pas être modifiées unilatéralement pendant la durée du bail.
 
-[CTA : Créez votre bail de location conforme et gratuit avec RentReady — modèles aux normes 2026 — essai gratuit]`
+[CTA : Créez votre bail de location conforme et gratuit avec Locelio — modèles aux normes 2026 — essai gratuit]`
   },
   {
     slug: "bail-meuble-vs-bail-vide-difference",
@@ -10788,7 +10788,7 @@ Non, la nature du bail est définie à la signature et ne peut pas être modifi�
 
 Le bail meublé sous statut LMNP offre généralement une meilleure optimisation fiscale grâce à l'amortissement. Chaque situation est différente.
 
-[CTA : Comparez les meilleurs logiciels de gestion locative pour gérer vos baux meublés et vides — essai gratuit RentReady 14 jours]`
+[CTA : Comparez les meilleurs logiciels de gestion locative pour gérer vos baux meublés et vides — essai gratuit Locelio 14 jours]`
   },
   {
     slug: "donner-conge-locataire-bailleur",
@@ -10832,7 +10832,7 @@ Oui, le locataire peut librement donner son propre préavis sans justification.
 
 Le bailleur doit engager une procédure d'expulsion auprès du tribunal.
 
-[CTA : Automatisez la gestion de vos congés et le suivi des délais légaux avec RentReady — essai gratuit 14 jours]`
+[CTA : Automatisez la gestion de vos congés et le suivi des délais légaux avec Locelio — essai gratuit 14 jours]`
   },
   {
     slug: "sous-location-regles-et-limites",
@@ -10868,7 +10868,7 @@ Oui, le bailleur est libre de refuser sans avoir à justifier.
 
 Oui, les mêmes règles s'appliquent.
 
-[CTA : Gérez vos contrats de location et sous-location en toute conformité avec RentReady — essai gratuit]`
+[CTA : Gérez vos contrats de location et sous-location en toute conformité avec Locelio — essai gratuit]`
   },
   {
     slug: "droits-et-obligations-locataire-guide-complet",
@@ -10910,7 +10910,7 @@ Le locataire donne congé avec un délai de préavis de 3 mois (article 15 de la
 
 Non, sauf cas d'urgence, le bailleur doit respecter un préavis de 48 heures minimum.
 
-[CTA : Utilisez RentReady pour gérer vos démarches locatives — essai gratuit 14 jours]`
+[CTA : Utilisez Locelio pour gérer vos démarches locatives — essai gratuit 14 jours]`
   },
   {
     slug: "droits-et-obligations-bailleur-guide-complet",
@@ -10954,7 +10954,7 @@ Le locataire, pas le bailleur. Le locataire est tenu de remettre le logement en 
 
 Oui, sans avoir à justifier.
 
-[CTA : Simplifiez la gestion locative et le suivi de vos obligations avec RentReady — essai gratuit]`
+[CTA : Simplifiez la gestion locative et le suivi de vos obligations avec Locelio — essai gratuit]`
   },
   {
     slug: "travaux-renovation-location-qui-paye",
@@ -10988,7 +10988,7 @@ Le locataire doit signaler les défauts par écrit. En cas de refus du bailleur,
 
 Les travaux d'aménagement léger sont tolérés sans accord préalable. Les travaux importants nécessitent l'accord du bailleur.
 
-[CTA : Anticipez les travaux de vos biens avec RentReady — suivi des interventions — essai gratuit]`
+[CTA : Anticipez les travaux de vos biens avec Locelio — suivi des interventions — essai gratuit]`
   },
   {
     slug: "charges-locatives-recuperables-liste-2026",
@@ -11030,7 +11030,7 @@ Provision sur charges chaque mois, régularisation annuelle dans les 6 mois.
 
 Oui, les salaires et charges sociales du gardien sont récupérables au tantième.
 
-[CTA : Automatisez la gestion de vos charges locatives avec RentReady — essai gratuit]`
+[CTA : Automatisez la gestion de vos charges locatives avec Locelio — essai gratuit]`
   },
   {
     slug: "comment-faire-etat-des-lieux-modele",
@@ -11062,7 +11062,7 @@ Mentions trop vagues, oubli des annexes (cave, garage), absence de photos datée
 
 Les deux parties ensemble ou un huissier en cas de désaccord.
 
-[CTA : Générez des états des lieux conformes avec RentReady — essai gratuit]`
+[CTA : Générez des états des lieux conformes avec Locelio — essai gratuit]`
   },
   {
     slug: "cout-gestion-locative-prix-2026",
@@ -11082,7 +11082,7 @@ Appartement standard : 6 à 8 % du loyer annuel. Maison : 5 à 7 %. Gestion comp
 
 ## Frais en gestion en ligne
 
-Les plateformes comme RentReady proposent des tarifs de 9 € à 30 €/mois, sans frais de mise en location.
+Les plateformes comme Locelio proposent des tarifs de 9 € à 30 €/mois, sans frais de mise en location.
 
 ## FAQ — Coût de la gestion locative
 
@@ -11090,7 +11090,7 @@ Les plateformes comme RentReady proposent des tarifs de 9 € à 30 €/mois, sa
 
 Oui, entièrement déductibles des revenus fonciers.
 
-[CTA : Testez RentReady à petit prix — 14 jours gratuits]`
+[CTA : Testez Locelio à petit prix — 14 jours gratuits]`
   },
   {
     slug: "loyer-impaye-que-faire-guide",
@@ -11122,7 +11122,7 @@ Au-delà de deux mois d'impayé, saisine du tribunal. En dernier recours, procé
 
 Oui, au taux légal. Au second semestre 2026, il est de 6,84 % pour un créancier particulier (arrêté du 26 juin 2026, JO du 30 juin 2026) et de 2,75 % dans les autres cas. Le taux change au 1er janvier et au 1er juillet de chaque année : vérifiez celui de la période litigieuse.
 
-[CTA : Protégez-vous contre les loyers impayés avec RentReady — essai gratuit]`
+[CTA : Protégez-vous contre les loyers impayés avec Locelio — essai gratuit]`
   },
   {
     slug: "interets-retard-loyer-impaye-calcul",
@@ -11150,7 +11150,7 @@ Pour un loyer de 800 € impayé pendant 30 jours : 800 × (5 % / 365) × 30 = 3
 
 Non, sans courrier formalisant la demande, le locataire n'est pas en tort.
 
-[CTA : Automatisez le suivi des loyers impayés avec RentReady — essai gratuit]`
+[CTA : Automatisez le suivi des loyers impayés avec Locelio — essai gratuit]`
   },
   {
     slug: "dossier-location-complet-pieces-fournir",
@@ -11178,7 +11178,7 @@ Garantie classique (personne physique), caution bancaire, garantie Visale (gratu
 
 Non, les frais de dossier réclamés au locataire sont interdits depuis la loi ALUR de 2014.
 
-[CTA : Constituez vos dossiers de location avec RentReady — essai gratuit]`
+[CTA : Constituez vos dossiers de location avec Locelio — essai gratuit]`
   },
   {
     slug: "statut-lmnp-2026-guide-complet",
@@ -11216,7 +11216,7 @@ Immeuble neuf : 2 à 3 % par an. Mobilier : 10 à 20 % par an. Durée : 30-40 an
 
 Oui, pour des biens différents.
 
-[CTA : Gérez votre comptabilité LMNP avec RentReady — essai gratuit]`
+[CTA : Gérez votre comptabilité LMNP avec Locelio — essai gratuit]`
   },
   {
     slug: "declaration-revenus-locatifs-2026",
@@ -11248,7 +11248,7 @@ Formulaire 2044 pour le résultat foncier, formulaire 2031 pour le LMNP micro-BI
 
 Oui, dans un délai de 3 mois après la date limite.
 
-[CTA : Automatisez votre comptabilité locative avec RentReady — essai gratuit]`
+[CTA : Automatisez votre comptabilité locative avec Locelio — essai gratuit]`
   },
   {
     slug: "micro-foncier-ou-reel-comparaison-2026",
@@ -11280,7 +11280,7 @@ Comparez vos charges réelles annuelles à 30 % de vos loyers bruts. Si charges 
 
 Non, vous pouvez changer chaque année avant le 1er février.
 
-[CTA : Calculez votre régime optimal avec RentReady — essai gratuit]`
+[CTA : Calculez votre régime optimal avec Locelio — essai gratuit]`
   },
   {
     slug: "garantie-visale-fonctionnement-eligibilite",
@@ -11312,7 +11312,7 @@ Vérifier éligibilité sur visale.fr, demande en ligne, signature du bail, enre
 
 Non, les deux dispositifs ne peuvent pas se cumuler sur un même bail.
 
-[CTA : Gérez vos locations avec garantie Visale avec RentReady — essai gratuit]`
+[CTA : Gérez vos locations avec garantie Visale avec Locelio — essai gratuit]`
   },
   {
     slug: "assurance-proprietaire-non-occupant-guide-2026",
@@ -11344,7 +11344,7 @@ Studio/T1 : 100 à 200 €/an. T2/T3 : 150 à 300 €/an. Maison : 200 à 500 �
 
 Non, pour cela il faut une assurance GLI ou le dispositif Visale.
 
-[CTA : Anticipez les risques locatifs avec RentReady — essai gratuit]`
+[CTA : Anticipez les risques locatifs avec Locelio — essai gratuit]`
   },
   {
     slug: "investir-immobilier-locatif-guide-debutant-2026",
@@ -11380,7 +11380,7 @@ Rentabilité brute = (Loyer annuel / Prix d'achat) × 100. Comptez 1 à 2 % de l
 
 Pas obligatoire mais peut présenter des avantages en termes de transmission patrimoniale.
 
-[CTA : Planifiez votre investissement locatif avec RentReady — essai gratuit]`
+[CTA : Planifiez votre investissement locatif avec Locelio — essai gratuit]`
   },
   {
     slug: "plus-value-immobiliere-location-calcul-exoneration",
@@ -11412,7 +11412,7 @@ Résidence principale, détention de plus de 30 ans, prix de vente réinvesti da
 
 Oui, la plus-value doit être déclarée même si totalement exonérée.
 
-[CTA : Anticipez la fiscalité de votre patrimoine avec RentReady — essai gratuit]`
+[CTA : Anticipez la fiscalité de votre patrimoine avec Locelio — essai gratuit]`
   },
   {
     slug: "bail-meuble-ou-vide-que-choisir-investisseur",
@@ -11444,7 +11444,7 @@ Meublé recommandé : zones étudiantes, petite surface, optimisation fiscale. V
 
 Pas nécessairement. Analysez le coût réel de l'équipement et la rotation attendue.
 
-[CTA : Comparez la rentabilité de vos investissements avec RentReady — essai gratuit]`
+[CTA : Comparez la rentabilité de vos investissements avec Locelio — essai gratuit]`
   },
 
 ];

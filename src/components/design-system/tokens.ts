@@ -1,5 +1,5 @@
 /**
- * RentReady Design System — Tokens Fonctionnels
+ * Locelio Design System — Tokens Fonctionnels
  *
  * Principes :
  * - Fonctionnel plutôt que moodboard

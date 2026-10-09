@@ -39,9 +39,9 @@ const breadcrumbItems = [
 function CongeVenteJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Outils", url: "https://www.rentready.fr/outils" },
-      { name: "Congé pour Vente", url: "https://www.rentready.fr/outils/generateur-conge-vente" },
+      { name: "Accueil", url: "https://locelio.fr" },
+      { name: "Outils", url: "https://locelio.fr/outils" },
+      { name: "Congé pour Vente", url: "https://locelio.fr/outils/generateur-conge-vente" },
     ]),
     buildWebApplicationSchema({
       name: "Générateur de Congé pour Vente",

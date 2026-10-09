@@ -58,7 +58,7 @@ export function HomeDemo({ initialState = "attention" }: HomeDemoProps) {
     <div
       id="product-demo-root"
       className="bg-white rounded-xl border border-[#E5E2DA] shadow-xs overflow-hidden transition-all duration-200"
-      aria-label="Simulation interactive de la gestion mensuelle RentReady"
+      aria-label="Simulation interactive de la gestion mensuelle Locelio"
     >
       {/* Screen Reader Live Region for accessible status changes */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">

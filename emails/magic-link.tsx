@@ -21,10 +21,10 @@ export function MagicLinkEmail({ email, magicLink, expiresIn }: MagicLinkEmailPr
   return (
     <Html>
       <Head />
-      <Preview>Votre lien de connexion RentReady</Preview>
+      <Preview>Votre lien de connexion Locelio</Preview>
       <Body style={styles.body}>
         <Container style={styles.container}>
-          <Heading style={styles.heading}>Connexion à RentReady</Heading>
+          <Heading style={styles.heading}>Connexion à Locelio</Heading>
           <Text style={styles.text}>
             Une demande de connexion a été effectuée pour <strong>{email}</strong>.
           </Text>
@@ -34,7 +34,7 @@ export function MagicLinkEmail({ email, magicLink, expiresIn }: MagicLinkEmailPr
           </Text>
           <Section style={styles.buttonSection}>
             <Button style={styles.button} href={magicLink}>
-              Se connecter à RentReady
+              Se connecter à Locelio
             </Button>
           </Section>
           <Text style={styles.textSmall}>

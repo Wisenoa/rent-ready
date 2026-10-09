@@ -577,7 +577,7 @@ export function BailPDF({ data }: { data: BailData }) {
             réglementation en vigueur. Toutes les modifications doivent faire
             l&apos;objet d&apos;un avenant écrit signé des deux parties. Le
             locataire peut demander au bailleur une quittance pour tout paiement.
-            Document généré par RentReady —{" "}
+            Document généré par Locelio —{" "}
             {formatDate(data.generatedAt)}.
           </Text>
         </View>
@@ -601,7 +601,7 @@ export function BailPDF({ data }: { data: BailData }) {
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            RentReady — Gestion Locative Intelligente — Bail confidentiel entre
+            Locelio — Gestion Locative Intelligente — Bail confidentiel entre
             les parties —
           </Text>
         </View>

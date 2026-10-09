@@ -33,9 +33,9 @@ export async function generateMetadata() {
 function CalculateurDepotGarantieJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Outils", url: "https://www.rentready.fr/outils" },
-      { name: "Calculateur Dépôt de Garantie", url: "https://www.rentready.fr/outils/calculateur-depot-garantie" },
+      { name: "Accueil", url: "https://locelio.fr" },
+      { name: "Outils", url: "https://locelio.fr/outils" },
+      { name: "Calculateur Dépôt de Garantie", url: "https://locelio.fr/outils/calculateur-depot-garantie" },
     ]),
     buildWebApplicationSchema({
       name: "Calculateur de Dépôt de Garantie",

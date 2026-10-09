@@ -33,9 +33,9 @@ export async function generateMetadata() {
 function CalculateurPreavisJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Outils", url: "https://www.rentready.fr/outils" },
-      { name: "Calculateur de Préavis", url: "https://www.rentready.fr/outils/calculateur-preavis" },
+      { name: "Accueil", url: "https://locelio.fr" },
+      { name: "Outils", url: "https://locelio.fr/outils" },
+      { name: "Calculateur de Préavis", url: "https://locelio.fr/outils/calculateur-preavis" },
     ]),
     buildWebApplicationSchema({
       name: "Calculateur de Préavis Locataire",

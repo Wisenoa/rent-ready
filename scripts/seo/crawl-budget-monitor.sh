@@ -19,7 +19,7 @@
 set -euo pipefail
 
 # ── Configuration ───────────────────────────────────────────────────────────────
-SITE_URL="${SITE_URL:-https://www.rentready.fr}"
+SITE_URL="${SITE_URL:-https://locelio.fr}"
 API_KEY="${GOOGLE_SEARCH_CONSOLE_API_KEY:-}"
 ALERT_THRESHOLD="${CRAWL_EFFICIENCY_THRESHOLD:-80}"  # warn if efficiency < 80%
 OUTPUT_FILE="${OUTPUT_FILE:-/tmp/crawl-budget-report.json}"

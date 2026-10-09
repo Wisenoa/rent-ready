@@ -15,7 +15,7 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "center",
-          backgroundColor: "#f8f7f4",
+          backgroundColor: "#F5F3EF",
           padding: "80px",
           fontFamily: "system-ui, sans-serif",
         }}
@@ -31,46 +31,45 @@ export default function OpenGraphImage() {
         >
           <div
             style={{
-              backgroundColor: "#1a1a1a",
-              color: "#fff",
-              padding: "8px 16px",
-              borderRadius: "6px",
-              fontSize: "18px",
-              fontWeight: 600,
+              backgroundColor: "#15241F",
+              color: "#F5F3EF",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              fontSize: "22px",
+              fontWeight: 700,
               letterSpacing: "-0.02em",
             }}
           >
-            RentReady
+            Locelio
           </div>
         </div>
 
         {/* Headline */}
         <div
           style={{
-            fontSize: "68px",
+            fontSize: "64px",
             fontWeight: 700,
-            color: "#1a1a1a",
-            lineHeight: 1.1,
+            color: "#15241F",
+            lineHeight: 1.15,
             letterSpacing: "-0.03em",
             maxWidth: "900px",
             marginBottom: "24px",
           }}
         >
-          La gestion locative{"\n"}simplifiée pour les bailleurs
+          Gérez vos locations{"\n"}sans tableur.
         </div>
 
         {/* Subline */}
         <div
           style={{
-            fontSize: "28px",
-            color: "#6b6b6b",
-            lineHeight: 1.4,
-            maxWidth: "800px",
+            fontSize: "26px",
+            color: "#2C3E35",
+            lineHeight: 1.45,
+            maxWidth: "850px",
             marginBottom: "48px",
           }}
         >
-          Quittances conformes, détection des virements, révision IRL automatique.
-          Gérez vos biens en toute sérénité.
+          Suivi des encaissements, quittances conformes à la loi de 1989 et rappels de révision de loyer IRL.
         </div>
 
         {/* CTA */}
@@ -79,15 +78,15 @@ export default function OpenGraphImage() {
             display: "flex",
             alignItems: "center",
             gap: "8px",
-            backgroundColor: "#16a34a",
-            color: "#fff",
+            backgroundColor: "#1E3A2F",
+            color: "#F5F3EF",
             padding: "16px 32px",
             borderRadius: "8px",
-            fontSize: "22px",
+            fontSize: "20px",
             fontWeight: 600,
           }}
         >
-          Essai gratuit 14 jours
+          Essai gratuit sans engagement
         </div>
       </div>
     ),

@@ -5,6 +5,7 @@ import cities from "@/data/cities.json";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -123,7 +124,7 @@ function getLocalParagraphs(city: City) {
     ? `En tant que commune en zone tendue, ${city.name} est soumise à l'encadrement des loyers à la relocation. Depuis 2024, le loyer de relocation ne peut pas dépasser le loyer de référence majoré fixé par le Préfet, sous peine de sanctions. Le bail doit intégrer les mentions obligatoires relatives à cet encadrement. Notre modèle est automatiquement mis à jour pour refléter les dernières évolutions réglementaires et les arrêtés préfectoraux applicables dans le ${city.department}.`
     : `Que vous soyez propriétaire d'un appartement en centre-ville ou d'une maison en périphérie de ${city.name}, la rédaction du bail est une étape déterminante. Elle conditionne la relation avec votre locataire pour toute la durée de la location. Notre modèle de bail vous garantit un document juridiquement valide, prêt à être signé en quelques minutes.`;
 
-  const closing = `Les modèles de bail proposés par RentReady sont téléchargés gratuitement et mis à jour avec les dernières évolutions législatives. Que vous louiez à ${city.name} un logement vide ou meublé, en colocation ou en bail mobilité, vous trouverez le modèle adapté à votre situation.`;
+  const closing = `Les modèles de bail proposés par Locelio sont téléchargés gratuitement et mis à jour avec les dernières évolutions législatives. Que vous louiez à ${city.name} un logement vide ou meublé, en colocation ou en bail mobilité, vous trouverez le modèle adapté à votre situation.`;
 
   return { intro, regulation, closing };
 }
@@ -259,18 +260,18 @@ function buildBailVilleSchema(city: City) {
       /* WebSite */
       {
         "@type": "WebSite",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
       },
       /* Organization */
       {
         "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@rentready.fr",
+          email: "contact@locelio.fr",
           availableLanguage: "French",
         },
       },
@@ -279,9 +280,9 @@ function buildBailVilleSchema(city: City) {
         "@type": "BreadcrumbList",
         name: "Fil d'Ariane",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
-          { "@type": "ListItem", position: 2, name: "Bail de location", item: "https://www.rentready.fr/bail" },
-          { "@type": "ListItem", position: 3, name: city.name, item: `https://www.rentready.fr/bail/${city.slug}` },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Bail de location", item: `${SITE_URL}/bail` },
+          { "@type": "ListItem", position: 3, name: city.name, item: `${SITE_URL}/bail/${city.slug}` },
         ],
       },
       /* HowTo */
@@ -289,7 +290,7 @@ function buildBailVilleSchema(city: City) {
         "@type": "HowTo",
         name: `Comment rédiger un bail de location à ${city.name}`,
         description: `Guide pour rédiger un bail de location conforme à ${city.name}. Téléchargement gratuit du modèle, étapes de personnalisation, annexes obligatoires, signature.${ctx.isZoneTendue ? " Inclut les obligations d'encadrement des loyers en zone tendue." : ""}`,
-        image: "https://www.rentready.fr/opengraph-image",
+        image: `${SITE_URL}/opengraph-image`,
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,
@@ -298,7 +299,7 @@ function buildBailVilleSchema(city: City) {
             "@type": "ItemList",
             itemListElement: [{ "@type": "HowToDirection", text: step.text }],
           },
-          url: `https://www.rentready.fr${step.url}?utm_source=howto&utm_medium=organic&utm_campaign=bail-${city.slug}`,
+          url: `${SITE_URL}${step.url}?utm_source=howto&utm_medium=organic&utm_campaign=bail-${city.slug}`,
         })),
         totalTime: "PT15M",
         supply: [
@@ -307,7 +308,7 @@ function buildBailVilleSchema(city: City) {
           { "@type": "HowToSupply", name: `${ctx.isZoneTendue ? "Formulaire information loyer de référence" : "Documents d'identité bailleur et locataire"}` },
         ],
         tool: [
-          { "@type": "HowToTool", name: "Modèle bail RentReady" },
+          { "@type": "HowToTool", name: "Modèle bail Locelio" },
           ...(ctx.isZoneTendue ? [{ "@type": "HowToTool", name: `Arrêté préfectoral ${city.department} — loyer de référence` }] : []),
         ],
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
@@ -325,17 +326,17 @@ function buildBailVilleSchema(city: City) {
       /* SoftwareApplication */
       {
         "@type": "SoftwareApplication",
-        name: `RentReady — Modèles de bail ${city.name}`,
+        name: `Locelio — Modèles de bail ${city.name}`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: `https://www.rentready.fr/bail/${city.slug}`,
+        url: `${SITE_URL}/bail/${city.slug}`,
         description: `Modèles de bail gratuits et conformes pour les propriétaires bailleurs à ${city.name}. Bail vide, meublé, colocation, mobilité. Téléchargez et personnalisez en ligne.${ctx.isZoneTendue ? " Mis à jour avec les obligations d'encadrement des loyers." : ""}`,
         offers: {
           "@type": "Offer",
           price: "0",
           priceCurrency: "EUR",
           availability: "https://schema.org/InStock",
-          url: `https://www.rentready.fr/register?template=bail`,
+          url: `${SITE_URL}/register?template=bail`,
         },
         featureList: bailTypes.map((b) => `Modèle bail ${b.type.toLowerCase()} pour ${city.name}`),
       },
@@ -355,9 +356,9 @@ function buildBailVilleSchema(city: City) {
       /* LocalBusiness */
       {
         "@type": "LocalBusiness",
-        name: `RentReady — Modèles de bail ${city.name}`,
+        name: `Locelio — Modèles de bail ${city.name}`,
         description: `Téléchargement de modèles de bail gratuits et conformes pour propriétaires bailleurs à ${city.name}. Bail vide, meublé, colocation, mobilité. Téléchargez et personnalisez en ligne.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers intégré." : ""}`,
-        url: `https://www.rentready.fr/bail/${city.slug}`,
+        url: `${SITE_URL}/bail/${city.slug}`,
         areaServed: {
           "@type": "City",
           name: city.name,
@@ -386,8 +387,8 @@ function buildBailVilleSchema(city: City) {
         "@type": "WebPage",
         name: `Modèle de bail à ${city.name} — Téléchargement gratuit 2026`,
         description: `Téléchargez un modèle de bail gratuit et conforme à ${city.name}. Bail vide, meublé, colocation, mobilité.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers applicable." : ""} Préparez votre location en 5 minutes.${rentData ? ` Loyer moyen indicatif : ${rentData.studio}-${rentData.t2} €/m².` : ""}`,
-        url: `https://www.rentready.fr/bail/${city.slug}`,
-        isPartOf: { "@type": "WebSite", name: "RentReady", url: "https://www.rentready.fr" },
+        url: `${SITE_URL}/bail/${city.slug}`,
+        isPartOf: { "@type": "WebSite", name: "Locelio", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
     ],
@@ -728,7 +729,7 @@ export default async function BailVillePage({ params }: Props) {
         <section className="bg-[#f8f7f4] px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-2xl rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
             <h2 className="text-2xl font-bold sm:text-3xl">
-              Gérez vos baux et vos quittances à {city.name} avec RentReady
+              Gérez vos baux et vos quittances à {city.name} avec Locelio
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
               Créez vos baux en 10 minutes, générez automatiquement les

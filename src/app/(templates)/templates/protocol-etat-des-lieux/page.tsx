@@ -93,7 +93,7 @@ const faqData = [
   {
     question: "L'état des lieux peut-il être fait sur smartphone ?",
     answer:
-      "Oui, l'état des lieux peut être réalisé sur smartphone ou tablette avec un outil dédié comme RentReady. Les avantages : signature électronique, photos horodatées, transmission instantanée aux deux parties. L'état des lieux numériques a la même valeur juridique qu'un document papier s'il est signé par les deux parties.",
+      "Oui, l'état des lieux peut être réalisé sur smartphone ou tablette avec un outil dédié comme Locelio. Les avantages : signature électronique, photos horodatées, transmission instantanée aux deux parties. L'état des lieux numériques a la même valeur juridique qu'un document papier s'il est signé par les deux parties.",
   },
   {
     question: "Que faire si le locataire refuse de signer l'état des lieux ?",
@@ -114,9 +114,9 @@ function ProtocolEtatDesLieuxJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/modeles" },
-          { "@type": "ListItem", position: 3, name: "Protocole État des Lieux", item: "https://www.rentready.fr/templates/protocol-etat-des-lieux" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "Protocole État des Lieux", item: "https://locelio.fr/templates/protocol-etat-des-lieux" },
         ],
       },
       {
@@ -124,7 +124,7 @@ function ProtocolEtatDesLieuxJsonLd() {
         name: "Comment realizar un état des lieux conforme",
         description: "Protocole gratuit d'état des lieux. Check-list pièce par pièce, photos commentées, signature électronique.",
         step: [
-          { "@type": "HowToStep", name: "Préparer le dossier", text: "Rassemblez le bail, les précédents documents, l'appareil photo. Imprimez la check-list RentReady." },
+          { "@type": "HowToStep", name: "Préparer le dossier", text: "Rassemblez le bail, les précédents documents, l'appareil photo. Imprimez la check-list Locelio." },
           { "@type": "HowToStep", name: "Inspecter chaque pièce", text: "Parcourez le logement pièce par pièce, notez l'état de chaque élément avec description précise." },
           { "@type": "HowToStep", name: "Prendre des photos horodatées", text: "Photographiez chaque zone sous plusieurs angles. Horodatez automatiquement les clichés." },
           { "@type": "HowToStep", name: "Rédiger et signer", text: "Complétez le protocole avec les observations, faites signer les deux parties. Remettez un exemplaire." },
@@ -164,7 +164,7 @@ export default function ProtocolEtatDesLieuxPage() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/register" className="inline-block rounded-lg bg-amber-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-amber-700 w-full sm:w-auto">
-              Utiliser avec RentReady →
+              Utiliser avec Locelio →
             </Link>
             <Link href="/templates" className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto">
               Tous les modèles →
@@ -264,7 +264,7 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Générez vos états des lieux avec RentReady</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Générez vos états des lieux avec Locelio</h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
             État des lieux interactif, signature électronique, photos intégrées. Protocole complet pour protéger votre dépôt de garantie. Essai gratuit 14 jours.
           </p>

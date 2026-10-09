@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     "tous les bails",
   ],
   openGraph: {
-    title: "Modèles de Bail de Location — RentReady",
+    title: "Modèles de Bail de Location — Locelio",
     description:
       "Tous nos modèles de bail gratuits et conformes. Bail vide, meublé, mobilité, parking, saisonnier et plus encore.",
     type: "website",
-    url: "https://www.rentready.fr/templates/lease",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/lease",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/lease"),
 };
@@ -46,8 +46,8 @@ function LeaseTemplatesJsonLd() {
       {
         "@type": "FAQPage",
         name: "Modèles de Bail de Location — FAQ",
-        description: "Questions fréquentes sur les modèles de bail de location gratuits et conformes de RentReady.",
-        url: "https://www.rentready.fr/templates/lease",
+        description: "Questions fréquentes sur les modèles de bail de location gratuits et conformes de Locelio.",
+        url: "https://locelio.fr/templates/lease",
         mainEntity: leaseFaqs.map(faq => ({
           "@type": "Question",
           name: faq.question,
@@ -58,9 +58,9 @@ function LeaseTemplatesJsonLd() {
         "@type": "BreadcrumbList",
         name: "Fil d'Ariane",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/templates" },
-          { "@type": "ListItem", position: 3, name: "Tous les Bails", item: "https://www.rentready.fr/templates/lease" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Tous les Bails", item: "https://locelio.fr/templates/lease" },
         ],
       },
     ],
@@ -254,12 +254,12 @@ export default function LeaseTemplatesPage() {
             ⚠️ Avertissement juridique
           </h2>
           <p className="text-sm text-stone-700">
-            Les modèles de bail proposés sur RentReady sont fournis à titre
+            Les modèles de bail proposés sur Locelio sont fournis à titre
             indicatif et informational. Ils ne constituent pas un conseil
             juridique personnalisé. La législation immobilière évoluant
             régulièrement, nous vous recommandons de faire valider votre bail
             par un professionnel (avocat, notaire, agent immobilier) avant
-            toute signature. RentReady ne saurait être tenu responsable de
+            toute signature. Locelio ne saurait être tenu responsable de
             l&apos;utilisation qui serait faite de ces modèles.
           </p>
         </section>

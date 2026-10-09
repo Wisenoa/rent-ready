@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "inventaire mobilier",
   ],
   openGraph: {
-    title: "Modèle Bail Meublé Gratuit 2026 — RentReady",
+    title: "Modèle Bail Meublé Gratuit 2026 — Locelio",
     description:
       "Bail meublé conforme et gratuit. Téléchargez, personnalisez, signez électronique. Modèle mis à jour 2026.",
     type: "website",
-    url: "https://www.rentready.fr/templates/bail-meuble",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/bail-meuble",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/bail-meuble"),
 };
@@ -144,37 +144,37 @@ function BailMeubleJsonLd() {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://www.rentready.fr/#organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        logo: "https://www.rentready.fr/logo.svg",
+        "@id": "https://locelio.fr/#organization",
+        name: "Locelio",
+        url: "https://locelio.fr",
+        logo: "https://locelio.fr/logo.svg",
         description:
           "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
         sameAs: SAME_AS,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
-          email: "contact@rentready.fr",
+          email: "contact@locelio.fr",
           availableLanguage: "French",
         },
       },
       {
         "@type": "WebSite",
-        "@id": "https://www.rentready.fr/#website",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        "@id": "https://locelio.fr/#website",
+        name: "Locelio",
+        url: "https://locelio.fr",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
         "@type": "SoftwareApplication",
-        "@id": "https://www.rentready.fr/#software",
-        name: "RentReady - Générateur de Bail Meublé",
+        "@id": "https://locelio.fr/#software",
+        name: "Locelio - Générateur de Bail Meublé",
         description: "Application web de génération de contrats de location meublée conformes à la loi française.",
-        url: "https://www.rentready.fr/templates/bail-meuble",
+        url: "https://locelio.fr/templates/bail-meuble",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         offers: {
@@ -184,15 +184,15 @@ function BailMeubleJsonLd() {
           description: "Accès gratuit au modèle de bail meublé",
         },
         provider: {
-          "@id": "https://www.rentready.fr/#organization",
+          "@id": "https://locelio.fr/#organization",
         },
       },
       {
         "@type": "HowTo",
-        "@id": "https://www.rentready.fr/#howto-bail-meuble",
+        "@id": "https://locelio.fr/#howto-bail-meuble",
         name: "Comment créer un bail meublé conforme",
         description: "Guide étape par étape pour rédiger un bail meublé conforme à la législation française.",
-        url: "https://www.rentready.fr/templates/bail-meuble",
+        url: "https://locelio.fr/templates/bail-meuble",
         step: [
           {
             "@type": "HowToStep",
@@ -227,20 +227,20 @@ function BailMeubleJsonLd() {
         ],
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
         "@type": "WebPage",
-        name: "Modèle Bail Meublé 2026 — RentReady",
+        name: "Modèle Bail Meublé 2026 — Locelio",
         description:
           "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. Téléchargeable en PDF.",
-        url: "https://www.rentready.fr/templates/bail-meuble",
+        url: "https://locelio.fr/templates/bail-meuble",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -298,7 +298,7 @@ export default function BailMeublePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-sm border border-blue-200 transition-colors hover:bg-blue-50"
             >
-              Générer avec RentReady →
+              Générer avec Locelio →
             </Link>
           </div>
         </header>

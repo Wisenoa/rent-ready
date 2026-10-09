@@ -306,18 +306,16 @@ export default function AssuranceLoyerImpayé() {
         {/* CTA */}
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-bold sm:text-3xl">
-            Protégez vos revenus locatifs avec RentReady
+            Protégez vos revenus locatifs avec Locelio
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
-            RentReady ne remplace pas une GLI, mais il détecte automatiquement les paiements
-            manquants et vous alerte en temps réel. Combinez gestion intelligente et assurance
-            pour une protection complète.
+            Locelio ne remplace pas une GLI, mais il suit vos encaissements et vous alerte en cas d'écart. Combinez gestion rigoureuse et assurance pour une protection complète.
           </p>
           <Link
             href="/register"
             className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
           >
-            Essai gratuit 14 jours →
+            Essayer gratuitement →
           </Link>
         </section>
       </main>

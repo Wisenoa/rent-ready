@@ -18,7 +18,7 @@ export function VisualLanguageV21() {
         {/* En-tête de la planche de synthèse */}
         <header className="border-b border-[#151413]/12 pb-6">
           <div className="flex items-center gap-3 text-xs uppercase tracking-wider text-[#6B6760] font-semibold mb-2">
-            <span>RentReady Design System</span>
+            <span>Locelio Design System</span>
             <span>·</span>
             <span>Spécification V2.1</span>
           </div>

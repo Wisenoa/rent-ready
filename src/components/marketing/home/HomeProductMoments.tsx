@@ -26,7 +26,7 @@ export function HomeProductMoments() {
               « Mon locataire a-t-il payé ? »
             </h2>
             <p className="text-xs sm:text-sm text-[#5A6660] leading-relaxed">
-              RentReady rapproche chaque virement du loyer prévu au bail. Dès que la somme arrive, la ligne est validée. En cas de retard ou de versement partiel, l'écart apparaît immédiatement au centime près.
+              Locelio rapproche chaque virement du loyer prévu au bail. Dès que la somme arrive, la ligne est validée. En cas de retard ou de versement partiel, l'écart apparaît immédiatement au centime près.
             </p>
             <div className="pt-0.5 text-xs text-[#1E3A2F] font-medium flex items-center gap-1.5">
               <Check className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -104,7 +104,7 @@ export function HomeProductMoments() {
               « Quel document dois-je remettre ? »
             </h2>
             <p className="text-xs sm:text-sm text-[#5A6660] leading-relaxed">
-              En cas de versement incomplet, la loi interdit d'émettre une quittance intégrale (art. 21). RentReady produit un reçu d'acompte avec le solde restant. La quittance officielle se débloque dès le règlement complet.
+              En cas de versement incomplet, la loi interdit d'émettre une quittance intégrale (art. 21). Locelio produit un reçu d'acompte avec le solde restant. La quittance officielle se débloque dès le règlement complet.
             </p>
             <div className="pt-0.5 text-xs text-[#1E3A2F] font-medium flex items-center gap-1.5">
               <Check className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -126,7 +126,7 @@ export function HomeProductMoments() {
               « Quand dois-je réévaluer le loyer ? »
             </h2>
             <p className="text-xs sm:text-sm text-[#5A6660] leading-relaxed">
-              Une révision oubliée dans l'année est définitivement perdue (art. 17-1). RentReady vous prévient 30 jours avant l'échéance et applique la formule légale selon le dernier indice officiel publié par l'INSEE.
+              Une révision oubliée dans l'année est définitivement perdue (art. 17-1). Locelio vous prévient 30 jours avant l'échéance et applique la formule légale selon le dernier indice officiel publié par l'INSEE.
             </p>
             <div className="pt-0.5 text-xs text-[#1E3A2F] font-medium flex items-center gap-1.5">
               <Check className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />

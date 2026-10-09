@@ -9,6 +9,7 @@ import {
   FEATURE_LIST,
   SAME_AS,
   SITE_DESCRIPTION,
+  SITE_NAME,
   SITE_URL,
   formatEntryPrice,
 } from "@/data/entity";
@@ -38,12 +39,12 @@ const GESTION_SCHEMA = {
   "@graph": [
     {
       "@type": "WebSite",
-      name: "RentReady",
+      name: SITE_NAME,
       url: SITE_URL,
     },
     {
       "@type": "Organization",
-      name: "RentReady",
+      name: SITE_NAME,
       url: SITE_URL,
       logo: `${SITE_URL}/logo.svg`,
       description: SITE_DESCRIPTION,
@@ -57,7 +58,7 @@ const GESTION_SCHEMA = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: "contact@rentready.fr",
+        email: "contact@locelio.fr",
         availableLanguage: "French",
       },
     },
@@ -75,7 +76,7 @@ const GESTION_SCHEMA = {
     },
     {
       "@type": "SoftwareApplication",
-      name: "RentReady — Logiciel de gestion locative",
+      name: `${SITE_NAME} — Logiciel de gestion locative`,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
       url: `${SITE_URL}/gestion-locative`,
@@ -98,7 +99,7 @@ const GESTION_SCHEMA = {
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Logiciel de gestion locative pour propriétaires bailleurs — RentReady",
+      `Logiciel de gestion locative pour propriétaires bailleurs — ${SITE_NAME}`,
     description:
       "Gérez vos loyers, vos locataires et vos documents de location dans un seul logiciel. Quittances automatiques, révision IRL, état des lieux. Dès 9 €/mois.",
     url: "/gestion-locative",
@@ -113,27 +114,27 @@ const ANSWERS = [
       "C'est un logiciel qui rassemble, pour un propriétaire bailleur, ce qui se faisait auparavant dans un tableur et une pile de PDF : les biens, les locataires, les baux, les loyers attendus, les paiements reçus, et les documents qui en découlent. Son rôle n'est pas de remplacer le bailleur, mais de savoir à chaque instant qui devait payer, qui a payé, ce qui manque et quelle échéance approche.",
   },
   {
-    question: "À qui s'adresse RentReady ?",
+    question: `À qui s'adresse ${SITE_NAME} ?`,
     answer:
-      "Au propriétaire bailleur indépendant français qui gère lui-même un petit parc, généralement de 1 à 10 logements, et qui ne veut pas apprendre un logiciel d'agence. RentReady ne vise ni les professionnels de la gestion locative ni les agences : leurs contraintes ne sont pas les nôtres.",
+      `Au propriétaire bailleur indépendant français qui gère lui-même un petit parc, généralement de 1 à 10 logements, et qui ne veut pas apprendre un logiciel d'agence. ${SITE_NAME} ne vise ni les professionnels de la gestion locative ni les agences : leurs contraintes ne sont pas les nôtres.`,
   },
   {
     question: "En quoi est-ce différent d'un tableur ?",
     answer:
-      "Un tableur enregistre ce que vous saisissez et ne calcule rien de fiable : une quittance y est recopiée, un prorata est approché, une révision de loyer se calcule sur un indice recopié depuis un site. RentReady déduit l'état à partir des données du bail : le montant du mois, la part déjà payée, le reste dû, la date anniversaire de la révision. Si une saisie manque, rien ne se recalcule seul — c'est la limite structurelle du tableur.",
+      `Un tableur enregistre ce que vous saisissez et ne calcule rien de fiable : une quittance y est recopiée, un prorata est approché, une révision de loyer se calcule sur un indice recopié depuis un site. ${SITE_NAME} déduit l'état à partir des données du bail : le montant du mois, la part déjà payée, le reste dû, la date anniversaire de la révision. Si une saisie manque, rien ne se recalcule seul — c'est la limite structurelle du tableur.`,
   },
   {
-    question: "Comment fonctionne le parcours de gestion dans RentReady ?",
+    question: `Comment fonctionne le parcours de gestion dans ${SITE_NAME} ?`,
     answer:
-      "Un bien, un locataire, un bail, un loyer attendu chaque mois. RentReady sait alors qui doit payer quoi, et quand. À chaque paiement enregistré, il calcule l'état réel du mois — payé, partiel, impayé — et génère la quittance correspondante. Le propriétaire voit ce qui est réglé, ce qui ne l'est pas, et ce qui approche.",
+      `Un bien, un locataire, un bail, un loyer attendu chaque mois. ${SITE_NAME} sait alors qui doit payer quoi, et quand. À chaque paiement enregistré, il calcule l'état réel du mois — payé, partiel, impayé — et génère la quittance correspondante. Le propriétaire voit ce qui est réglé, ce qui ne l'est pas, et ce qui approche.`,
   },
   {
-    question: "Combien coûte RentReady ?",
+    question: `Combien coûte ${SITE_NAME} ?`,
     answer: `À partir de ${formatEntryPrice()} par mois pour le plan Starter, qui couvre jusqu'à 3 biens. Le plan Pro, à 15 €/mois, couvre jusqu'à 10 biens et ajoute l'OCR des factures artisans, la conformité Factur-X et la relance automatique. Essai gratuit 14 jours, sans carte bancaire.`,
   },
   {
     question: "Faut-il connaître la réglementation locative ?",
-    answer: `Non, RentReady applique les règles que vous.:
+    answer: `Non, ${SITE_NAME} applique les règles pour vous :
 - la quittance respecte les mentions obligatoires de la loi du 6 juillet 1989 ;
 - le dépôt de garantie est plafonné selon le type de bail et la zone ;
 - la révision de loyer utilise l'indice de référence des loyers publié par l'INSEE ;
@@ -156,7 +157,7 @@ const STEPS = [
   },
   {
     step: "4. Le loyer attendu",
-    text: "RentReady sait quel montant, quel mois, et à quelle échéance.",
+    text: `${SITE_NAME} sait quel montant, quel mois, et à quelle échéance.`,
   },
   {
     step: "5. Le paiement",
@@ -207,7 +208,7 @@ export default function GestionLocativePage() {
           Gérer ses locations sans tableur ni dossiers de PDF
         </h1>
         <p className="mt-5 max-w-3xl text-lg text-stone-700">
-          RentReady réunit vos biens, vos locataires, vos baux, vos loyers
+          {SITE_NAME} réunit vos biens, vos locataires, vos baux, vos loyers
           attendus et vos paiements dans un seul endroit. Il sait qui doit payer,
           qui a payé, ce qui reste dû et quelle échéance approche — puis génère la
           quittance. Conçu pour le propriétaire bailleur indépendant qui gère de 1
@@ -235,7 +236,7 @@ export default function GestionLocativePage() {
       {/* The loop, stated plainly. */}
       <section className="mb-14">
         <h2 className="mb-4 text-2xl font-bold text-stone-900">
-          Le parcours que RentReady tient à jour pour vous
+          Le parcours que {SITE_NAME} tient à jour pour vous
         </h2>
         <p className="mb-6 max-w-3xl text-stone-700">
           Une seule boucle, du bien à la quittance. Chaque étape alimente la
@@ -258,7 +259,7 @@ export default function GestionLocativePage() {
       {/* What it does for you. */}
       <section className="mb-14">
         <h2 className="mb-4 text-2xl font-bold text-stone-900">
-          Ce que RentReady fait à votre place
+          Ce que {SITE_NAME} fait à votre place
         </h2>
         <ul className="grid gap-3 sm:grid-cols-2">
           {FEATURE_LIST.map((feature) => (
@@ -300,7 +301,7 @@ export default function GestionLocativePage() {
       {/* Where it applies. */}
       <section className="mb-14">
         <h2 className="mb-2 text-2xl font-bold text-stone-900">
-          RentReady dans {cities.length} villes françaises
+          {SITE_NAME} dans {cities.length} villes françaises
         </h2>
         <p className="mb-6 max-w-3xl text-stone-700">
           Le logiciel est le même partout, mais la réglementation locative change
@@ -346,7 +347,7 @@ export default function GestionLocativePage() {
           Commencez par configurer un bien
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-stone-300">
-          Ajoutez un locataire, un bail : RentReady calcule le reste et vous dit
+          Ajoutez un locataire, un bail : {SITE_NAME} calcule le reste et vous dit
           ce qui manque.
         </p>
         <Link

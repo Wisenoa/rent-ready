@@ -40,9 +40,9 @@ const PricingSectionWrapper = dynamicImport(
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Tarifs RentReady 2026 — à partir de 9 €/mois, essai gratuit sans engagement",
+      "Tarifs Locelio 2026 — à partir de 9 €/mois, essai gratuit sans engagement",
     description:
-      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, détection des loyers par DSP2, révision IRL automatique. Essai gratuit 14 jours.",
+      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, suivi des loyers, révision IRL automatique. Essai gratuit sans engagement.",
     url: "/pricing",
     ogType: "pricing",
   });
@@ -58,6 +58,7 @@ import {
   buildBreadcrumbSchema,
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
+import { SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -67,8 +68,8 @@ export const revalidate = 3600;
 
 const pricingFaqs = [
   {
-    question: "Combien coûte RentReady et y a-t-il un engagement ?",
-    answer: "RentReady propose 3 plans : Starter à 9 €/mois, Pro à 15 €/mois, et Agency sur devis. Sans engagement sur les plans mensuels. Le tarif annuel offre 2 mois gratuits (89 €/an Starter, 149 €/an Pro). Essai gratuit 14 jours sans carte bancaire.",
+    question: "Combien coûte Locelio et y a-t-il un engagement ?",
+    answer: "Locelio propose 3 plans : Starter à 9 €/mois, Pro à 15 €/mois, et Agency sur devis. Sans engagement sur les plans mensuels. Le tarif annuel offre 2 mois gratuits (89 €/an Starter, 149 €/an Pro). Essai gratuit sans carte bancaire.",
   },
   {
     question: "Que se passe-t-il si je dépasse la limite de biens ?",
@@ -99,25 +100,25 @@ const pricingFaqs = [
 function PricingJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Tarifs", url: "https://www.rentready.fr/tarifs" },
+      { name: "Accueil", url: SITE_URL },
+      { name: "Tarifs", url: `${SITE_URL}/pricing` },
     ]),
-    buildOrganizationSchema({ "@id": "https://www.rentready.fr/#organization" }),
+    buildOrganizationSchema({ "@id": `${SITE_URL}/#organization` }),
     buildWebPageSchema({
-      name: "Tarifs RentReady",
+      name: "Tarifs Locelio",
       description:
         "À partir de 9 €/mois. Gestion locative automatisée : quittances conformes, détection loyers, révision IRL, portail locataire.",
-      url: "https://www.rentready.fr/tarifs",
+      url: `${SITE_URL}/pricing`,
     }),
     buildSoftwareAppSchema({
-      name: "RentReady",
+      name: "Locelio",
       description:
         "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France (1 à 10+ biens).",
       applicationCategory: "BusinessApplication",
       offers: [
         {
           name: "Essai gratuit",
-          description: "14 jours d'essai gratuit sans carte bancaire",
+          description: "Essai gratuit sans carte bancaire",
           price: "0.00",
           priceCurrency: "EUR",
         },

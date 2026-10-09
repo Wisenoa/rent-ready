@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_NAME } from "@/data/entity";
 import { baseMetadata } from "@/lib/seo/metadata";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -9,8 +10,8 @@ export const revalidate = 3600;
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Maintenance — RentReady",
-    description: "RentReady est actuellement en maintenance. Toutes les fonctionnalités seront bientôt de retour. Merci de votre patience.",
+    title: `Maintenance — ${SITE_NAME}`,
+    description: `${SITE_NAME} est actuellement en maintenance. Toutes les fonctionnalités seront bientôt de retour. Merci de votre patience.`,
     url: "/maintenance",
     ogType: "template",
   });
@@ -35,7 +36,7 @@ export default function MaintenancePage() {
           retour très bientôt !
         </p>
         <p className="text-sm text-muted-foreground">
-          RentReady — La gestion locative simplifiée
+          {SITE_NAME} — La gestion locative simplifiée
         </p>
       </div>
     </main>

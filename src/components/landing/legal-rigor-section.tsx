@@ -11,7 +11,7 @@ const PILLARS = [
     title: "Loi du 6 juillet 1989 (art. 21)",
     tag: "Conformité stricte",
     description:
-      "La loi impose la remise gratuite d'une quittance uniquement pour un loyer réglé à 100 %. En cas de versement partiel, RentReady édite un reçu de paiement partiel avec solde résiduel : jamais de quittance anticipée erronée.",
+      "La loi impose la remise gratuite d'une quittance uniquement pour un loyer réglé à 100 %. En cas de versement partiel, Locelio édite un reçu de paiement partiel avec solde résiduel : jamais de quittance anticipée erronée.",
   },
   {
     icon: Calculator,
@@ -48,7 +48,7 @@ export function LegalRigorSection() {
             Une gestion locative qui résiste aux contrôles.
           </h2>
           <p className="mt-4 text-base text-stone-600">
-            RentReady n&apos;est pas un simple carnet de notes. C&apos;est un moteur
+            Locelio n&apos;est pas un simple carnet de notes. C&apos;est un moteur
             financier et juridique pensé pour sécuriser vos relations avec vos locataires.
           </p>
         </ScrollReveal>

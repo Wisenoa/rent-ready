@@ -4,9 +4,9 @@ import { RegisterForm } from "./register-form";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Créer un compte — RentReady",
+    title: "Créer un compte — Locelio",
     description:
-      "Créez votre compte RentReady en 2 minutes. Gérez vos biens locatifs, générez des quittances conformes et suivez vos loyers. Essai gratuit.",
+      "Créez votre compte Locelio en 2 minutes. Gérez vos biens locatifs, générez des quittances conformes et suivez vos loyers. Essai gratuit.",
     robots: { index: false, follow: false },
   };
 }
@@ -18,11 +18,11 @@ export default function RegisterPage() {
         <div className="text-center space-y-3">
           <div className="flex justify-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-xl shadow-md">
-              R
+              L
             </div>
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-            Créer un compte RentReady
+            Créer un compte Locelio
           </h1>
           <p className="text-sm text-muted-foreground">
             14 jours d&apos;essai gratuit, sans engagement

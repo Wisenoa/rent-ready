@@ -37,10 +37,10 @@ export function GlassNav() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-stone-900 font-bold text-sm text-white">
-            R
+            L
           </div>
           <span className="text-[17px] font-semibold tracking-tight text-stone-900">
-            RentReady
+            Locelio
           </span>
         </Link>
 

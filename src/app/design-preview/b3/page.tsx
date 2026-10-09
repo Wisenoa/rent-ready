@@ -31,7 +31,7 @@ function B3PreviewContent() {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#A3E635]" aria-hidden="true" />
             <span className="font-bold tracking-tight">
-              RentReady B.3 — Homepage Finale Éditée
+              Locelio B.3 — Homepage Finale Éditée
             </span>
             <span className="text-white/60 text-[11px] hidden md:inline">
               (Architecture C simplifiée · DA B.1 · Zéro card soup)
@@ -106,7 +106,7 @@ export default function B3PreviewPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-[#F5F3EF] text-xs text-[#5A6660]">
-          Chargement de RentReady B.3...
+          Chargement de Locelio B.3...
         </div>
       }
     >

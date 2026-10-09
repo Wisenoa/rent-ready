@@ -28,7 +28,7 @@
 import { readFileSync } from 'fs';
 import { google } from 'googleapis';
 
-const DOMAIN = 'rentready.fr';
+const DOMAIN = 'locelio.fr';
 const DEFAULT_SITE = `sc-domain:${DOMAIN}`;
 const REPORT_DATE_RANGE_DAYS = 28;   // GSC lookback window
 const PREV_DATE_RANGE_DAYS = 28;    // Previous period for WoW comparison

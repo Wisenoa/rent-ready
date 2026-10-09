@@ -6,6 +6,7 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 import glossaryData from "@/data/glossary.json";
 import { articleMeta } from "@/data/articles-meta";
 import { Calendar, Clock } from "lucide-react";
@@ -98,7 +99,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return baseMetadata({
     title: `${entry.term} — Définition complète`,
-    description: `${entry.shortDefinition} En savoir plus sur ${entry.term} dans le glossaire immobilier RentReady.`,
+    description: `${entry.shortDefinition} En savoir plus sur ${entry.term} dans le glossaire immobilier Locelio.`,
     url: `/glossaire-immobilier/${entry.slug}`,
     ogType: "article",
   });
@@ -118,19 +119,19 @@ function buildGlossarySchema(entry: GlossaryEntry) {
             "@type": "ListItem",
             position: 1,
             name: "Accueil",
-            item: "https://www.rentready.fr",
+            item: SITE_URL,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Glossaire Immobilier",
-            item: "https://www.rentready.fr/glossaire-immobilier",
+            item: `${SITE_URL}/glossaire-immobilier`,
           },
           {
             "@type": "ListItem",
             position: 3,
             name: entry.term,
-            item: `https://www.rentready.fr/glossaire-immobilier/${entry.slug}`,
+            item: `${SITE_URL}/glossaire-immobilier/${entry.slug}`,
           },
         ],
       },
@@ -144,8 +145,8 @@ function buildGlossarySchema(entry: GlossaryEntry) {
           definition: entry.fullDefinition,
           inDefinedTermSet: {
             "@type": "DefinedTermSet",
-            name: "Glossaire Immobilier RentReady",
-            url: "https://www.rentready.fr/glossaire-immobilier",
+            name: "Glossaire Immobilier Locelio",
+            url: `${SITE_URL}/glossaire-immobilier`,
           },
         },
       },
@@ -171,12 +172,12 @@ export default async function GlossaryTermPage({ params }: Props) {
     .slice(0, 3) as typeof articleMeta;
 
   const breadcrumbItems = [
-    { label: "Accueil", href: "https://www.rentready.fr" },
+    { label: "Accueil", href: SITE_URL },
     {
       label: "Glossaire Immobilier",
-      href: "https://www.rentready.fr/glossaire-immobilier",
+      href: `${SITE_URL}/glossaire-immobilier`,
     },
-    { label: entry.term, href: `https://www.rentready.fr/glossaire-immobilier/${entry.slug}` },
+    { label: entry.term, href: `${SITE_URL}/glossaire-immobilier/${entry.slug}` },
   ];
 
   return (
@@ -324,7 +325,7 @@ export default async function GlossaryTermPage({ params }: Props) {
             Maîtrisez votre gestion locative
           </h3>
           <p className="mb-4 text-sm text-stone-600">
-            RentReady automatise quittances, révisions de loyer et suivi des échéances.
+            Locelio automatise quittances, révisions de loyer et suivi des échéances.
             Essai gratuit 14 jours.
           </p>
           <Link

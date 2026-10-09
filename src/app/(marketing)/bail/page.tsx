@@ -5,6 +5,7 @@ import React from "react";
 import cities from "@/data/cities.json";
 import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 import { baseMetadata } from "@/lib/seo/metadata";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -118,7 +119,7 @@ const faqData = [
   {
     question: "Comment créer un bail de location conforme ?",
     answer:
-      "Avec RentReady, vous utilisez un modèle de bail conforme à la loi du 6 juillet 1989. L'assistant vous guide étape par étape pour saisir les informations essentielles : identité des parties, description du bien, loyer, charges, dépôt de garantie, durée et clauses obligatoires.",
+      `Avec ${SITE_NAME}, vous utilisez un modèle de bail conforme à la loi du 6 juillet 1989. L'assistant vous guide étape par étape pour saisir les informations essentielles : identité des parties, description du bien, loyer, charges, dépôt de garantie, durée et clauses obligatoires.`,
   },
   {
     question: "Le bail créé est-il juridiquement valide ?",
@@ -133,7 +134,7 @@ const faqData = [
   {
     question: "Comment renouveler un bail arrivant à échéance ?",
     answer:
-      "RentReady vous alerte automatiquement 3 mois avant l'échéance de votre bail. Vous pouvez alors renouveler le contrat pour la même durée ou le convertir (par exemple, bail vide vers bail meublé), avec mise à jour automatique du loyer si l'IRL le permet.",
+      `${SITE_NAME} vous alerte automatiquement 3 mois avant l'échéance de votre bail. Vous pouvez alors renouveler le contrat pour la même durée ou le convertir (par exemple, bail vide vers bail meublé), avec mise à jour automatique du loyer si l'IRL le permet.`,
   },
 ];
 
@@ -150,22 +151,22 @@ const BAIL_SCHEMA = {
           "@type": "ListItem",
           position: 1,
           name: "Accueil",
-          item: "https://www.rentready.fr",
+          item: SITE_URL,
         },
         {
           "@type": "ListItem",
           position: 2,
           name: "Bail de location",
-          item: "https://www.rentready.fr/bail",
+          item: `${SITE_URL}/bail`,
         },
       ],
     },
     {
       "@type": "SoftwareApplication",
-      name: "RentReady — Gestion des baux",
+      name: `${SITE_NAME} — Gestion des baux`,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
-      url: "https://www.rentready.fr/bail",
+      url: `${SITE_URL}/bail`,
       description:
         "Créez, suivez et renouvelez vos contrats de location facilement. Modèles de baux conformes loi Alur et ÉLAN, assistant guidée, signature électronique.",
       offers: {
@@ -181,25 +182,8 @@ const BAIL_SCHEMA = {
       ],
     },
     {
-      "@type": "Organization",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "customer support",
-        email: "contact@rentready.fr",
-        availableLanguage: "French",
-      },
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://www.rentready.fr/#website",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
-    },
-    {
       "@type": "FAQPage",
-      name: "FAQ — Gestion des baux RentReady",
+      name: `FAQ — Gestion des baux ${SITE_NAME}`,
       mainEntity: faqData.map((item) => ({
         "@type": "Question",
         name: item.question,

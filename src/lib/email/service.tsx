@@ -27,7 +27,7 @@ function appUrl(path: string = ""): string {
   const base =
     process.env.NEXT_PUBLIC_APP_URL ??
     process.env.VERCEL_URL ??
-    "https://app.rent-ready.fr";
+    "https://locelio.fr";
   return `${base}${path}`;
 }
 
@@ -56,7 +56,7 @@ async function sendWelcomeEmail(userId: string): Promise<void> {
   await sendEmail({
     clientId,
     to: user.email,
-    subject: "Bienvenue sur Rent-Ready — Votre espace de gestion locative est prêt",
+    subject: "Bienvenue sur Locelio — Votre espace de gestion locative est prêt",
     react: (
       <WelcomeEmail
         firstName={user.firstName || user.email.split("@")[0]}
@@ -85,7 +85,7 @@ async function sendPasswordResetEmail(
   await sendEmail({
     clientId,
     to: email,
-    subject: "Réinitialisation de votre mot de passe Rent-Ready",
+    subject: "Réinitialisation de votre mot de passe Locelio",
     react: <PasswordResetEmail email={email} resetLink={resetLink} />,
     emailType: "PASSWORD_RESET",
     relatedEntityId: email,
@@ -124,7 +124,7 @@ async function sendTenantInvitationEmail(
   await sendEmail({
     clientId,
     to: tenant.email,
-    subject: "Accédez à votre espace locataire — Rent-Ready",
+    subject: "Accédez à votre espace locataire — Locelio",
     react: (
       <TenantInvitationEmail
         tenantFirstName={tenant.firstName}
@@ -249,13 +249,13 @@ async function sendDemoRequestNotification(
     utmCampaign?: string;
   }
 ): Promise<void> {
-  const salesEmail = process.env.SALES_EMAIL ?? "contact@rent-ready.fr";
+  const salesEmail = process.env.SALES_EMAIL ?? "contact@locelio.fr";
   const clientId = `demo-request-${lead.email}-${Date.now()}`;
 
   await sendEmail({
     clientId,
     to: salesEmail,
-    subject: `[Rent-Ready] Nouvelle demande de démo — ${lead.name}`,
+    subject: `[Locelio] Nouvelle demande de démo — ${lead.name}`,
     react: (
       <DemoRequestEmail
         name={lead.name}

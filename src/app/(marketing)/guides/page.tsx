@@ -9,6 +9,7 @@ import {
   buildItemListSchema,
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -83,18 +84,18 @@ const guides = [
 function GuidesPageJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Guides", url: "https://www.rentready.fr/guides" },
+      { name: "Accueil", url: SITE_URL },
+      { name: "Guides", url: `${SITE_URL}/guides` },
     ]),
     buildItemListSchema({
       name: "Guides pratiques pour propriétaire bailleur",
       description:
         "Guides gratuits pour propriétaires bailleurs : modèle de bail, quittance de loyer, dépôt de garantie, révision IRL, lettre de relance.",
-      url: "https://www.rentready.fr/guides",
+      url: `${SITE_URL}/guides`,
       items: guides.map((guide) => ({
         name: guide.title,
         description: guide.excerpt,
-        url: `https://www.rentready.fr${guide.href}`,
+        url: `${SITE_URL}${guide.href}`,
       })),
     })
   );
@@ -168,7 +169,7 @@ export default function GuidesPage() {
             Générez vos documents automatiquement
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
-            With RentReady, créez quittances, baux et courriers en quelques clics.
+            Avec Locelio, créez quittances, baux et courriers en quelques clics.
             Essai gratuit 14 jours — aucune carte bancaire requise.
           </p>
           <Link

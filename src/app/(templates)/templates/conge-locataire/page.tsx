@@ -21,12 +21,12 @@ export const metadata: Metadata = {
     "conge proprietaire bail",
   ],
   openGraph: {
-    title: "Modèle Congé Locataire 2026 — RentReady",
+    title: "Modèle Congé Locataire 2026 — Locelio",
     description:
       "Congé locataire gratuit avec motif obligatoire et délai légal. PDF téléchargeable.",
     type: "website",
-    url: "https://www.rentready.fr/templates/conge-locataire",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/conge-locataire",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/conge-locataire"),
 };
@@ -61,25 +61,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://www.rentready.fr/#organization",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.svg",
+  "@id": "https://locelio.fr/#organization",
+  name: "Locelio",
+  url: "https://locelio.fr",
+  logo: "https://locelio.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@rentready.fr",
+    email: "contact@locelio.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://www.rentready.fr/#website",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
+  "@id": "https://locelio.fr/#website",
+  name: "Locelio",
+  url: "https://locelio.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -95,14 +95,14 @@ function CongeLocataireJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle Congé Locataire 2026 — RentReady",
+        name: "Modèle Congé Locataire 2026 — Locelio",
         description:
           "Modèle de congé locataire gratuit avec motif obligatoire et délai légal. PDF téléchargeable.",
-        url: "https://www.rentready.fr/templates/conge-locataire",
+        url: "https://locelio.fr/templates/conge-locataire",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -159,7 +159,7 @@ export default function CongeLocatairePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-red-700 shadow-sm border border-red-200 transition-colors hover:bg-red-50"
             >
-              Générer avec RentReady →
+              Générer avec Locelio →
             </Link>
           </div>
         </header>

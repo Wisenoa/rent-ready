@@ -4,7 +4,7 @@ import cities from "@/data/cities.json";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
-import { SITE_URL } from "@/data/entity";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -38,7 +38,7 @@ const schema = {
     },
     {
       "@type": "ItemList",
-      name: "Villes couvertes par RentReady",
+      name: `Villes couvertes par ${SITE_NAME}`,
       numberOfItems: cities.length,
       itemListElement: cities.map((city, index) => ({
         "@type": "ListItem",
@@ -52,9 +52,9 @@ const schema = {
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: `Gestion locative dans ${cities.length} villes françaises | RentReady`,
+    title: `Gestion locative dans ${cities.length} villes françaises | ${SITE_NAME}`,
     description:
-      "La réglementation locative varie d'une commune à l'autre. Trouvez la page RentReady de votre ville : encadrement des loyers, zone tendue, règles applicables.",
+      `La réglementation locative varie d'une commune à l'autre. Trouvez la page ${SITE_NAME} de votre ville : encadrement des loyers, zone tendue, règles applicables.`,
     url: "/villes",
     ogType: "website",
   });
@@ -96,7 +96,7 @@ export default function VillesPage() {
           Le logiciel est identique partout, mais la réglementation ne l&apos;est
           pas : encadrement des loyers, zone tendue, arrêté préfectoral de
           référence. Ces pages indiquent la règle applicable dans votre commune et
-          vous relient à RentReady.
+          vous relient à {SITE_NAME}.
         </p>
       </header>
 

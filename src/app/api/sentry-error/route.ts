@@ -43,7 +43,7 @@ async function forward(dsn: string, envelope: string): Promise<Response> {
     body: envelope,
     headers: {
       "Content-Type": "application/x-sentry-envelope",
-      "X-Sentry-Auth": `Sentry sentry_version=7, sentry_client=rentready/1.0, sentry_key=${username}`,
+      "X-Sentry-Auth": `Sentry sentry_version=7, sentry_client=locelio/1.0, sentry_key=${username}`,
       Authorization: `Basic ${auth}`,
     },
   });

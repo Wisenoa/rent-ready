@@ -24,26 +24,26 @@ export const metadata: Metadata = {
   ],
   alternates: buildHreflang("/templates/bail-vide"),
   openGraph: {
-    title: "Modèle Bail Vide 2026 — RentReady",
+    title: "Modèle Bail Vide 2026 — Locelio",
     description:
       "Bail vide conforme et gratuit. Téléchargez, personnalisez, signez électronique. Modèle mis à jour 2026.",
     type: "website",
-    url: "https://www.rentready.fr/templates/bail-vide",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/bail-vide",
+    siteName: "Locelio",
     images: [
       {
-        url: "https://www.rentready.fr/api/og?title=Modèle+Bail+Vide+2026+—+Conforme+gratuit&type=template",
+        url: "https://locelio.fr/api/og?title=Modèle+Bail+Vide+2026+—+Conforme+gratuit&type=template",
         width: 1200,
         height: 630,
-        alt: "Modèle Bail Vide 2026 — RentReady",
+        alt: "Modèle Bail Vide 2026 — Locelio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Modèle Bail Vide 2026 — RentReady",
+    title: "Modèle Bail Vide 2026 — Locelio",
     description: "Bail vide conforme et gratuit. Téléchargez, personnalisez, signez électronique. Modèle mis à jour 2026.",
-    images: ["https://www.rentready.fr/api/og?title=Modèle+Bail+Vide+2026+—+Conforme+gratuit&type=template"],
+    images: ["https://locelio.fr/api/og?title=Modèle+Bail+Vide+2026+—+Conforme+gratuit&type=template"],
   },
 };
 
@@ -158,32 +158,32 @@ function BailVideJsonLd() {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://www.rentready.fr/#organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        logo: "https://www.rentready.fr/logo.svg",
+        "@id": "https://locelio.fr/#organization",
+        name: "Locelio",
+        url: "https://locelio.fr",
+        logo: "https://locelio.fr/logo.svg",
         description:
           "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
         sameAs: SAME_AS,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
-          email: "contact@rentready.fr",
+          email: "contact@locelio.fr",
           availableLanguage: "French",
         },
       },
       {
         "@type": "WebSite",
-        "@id": "https://www.rentready.fr/#website",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        "@id": "https://locelio.fr/#website",
+        name: "Locelio",
+        url: "https://locelio.fr",
       },
       {
         "@type": "SoftwareApplication",
-        name: "Modèle Bail Vide — RentReady",
+        name: "Modèle Bail Vide — Locelio",
         description:
           "Générez votre bail vide conforme à la loi du 6 juillet 1989. Téléchargement PDF gratuit.",
-        url: "https://www.rentready.fr/templates/bail-vide",
+        url: "https://locelio.fr/templates/bail-vide",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         offers: {
@@ -196,8 +196,8 @@ function BailVideJsonLd() {
         "@type": "HowTo",
         name: "Comment utiliser le modèle de bail vide",
         description:
-          "Créez et personnalisez votre bail vide en 4 étapes simples avec RentReady.",
-        url: "https://www.rentready.fr/templates/bail-vide",
+          "Créez et personnalisez votre bail vide en 4 étapes simples avec Locelio.",
+        url: "https://locelio.fr/templates/bail-vide",
         step: [
           {
             "@type": "HowToStep",
@@ -223,14 +223,14 @@ function BailVideJsonLd() {
       },
       {
         "@type": "WebPage",
-        name: "Modèle Bail Vide 2026 — RentReady",
+        name: "Modèle Bail Vide 2026 — Locelio",
         description:
           "Modèle de bail vide gratuit et conforme à la loi du 6 juillet 1989. Téléchargeable en PDF.",
-        url: "https://www.rentready.fr/templates/bail-vide",
+        url: "https://locelio.fr/templates/bail-vide",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -288,7 +288,7 @@ export default function BailVidePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-sm border border-blue-200 transition-colors hover:bg-blue-50"
             >
-              Générer avec RentReady →
+              Générer avec Locelio →
             </Link>
           </div>
         </header>

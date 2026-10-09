@@ -276,7 +276,7 @@ describe("every price a visitor can read is a real plan price", () => {
 
       // Split on sentence-ish boundaries so "our" can be judged per sentence.
       for (const sentence of source.split(/(?<=[.!?;:\\n])/)) {
-        if (!/RentReady/i.test(sentence)) continue;
+        if (!/(?:RentReady|Locelio)/i.test(sentence)) continue;
 
         // "3 000 €" and "15 000 €" are not prices we sell; keep the group intact.
         for (const m of sentence.matchAll(
@@ -365,7 +365,7 @@ describe("entity facts are consistent", () => {
   });
 
   it("uses one canonical origin", () => {
-    expect(SITE_URL).toBe("https://www.rentready.fr");
+    expect(SITE_URL).toBe("https://locelio.fr");
   });
 
   it("never advertises a logo that does not exist", () => {
@@ -398,7 +398,7 @@ describe("entity facts are consistent", () => {
     const offenders: string[] = [];
     for (const file of FILES) {
       const source = stripComments(readFileSync(file, "utf8"));
-      for (const m of source.matchAll(/https:\/\/www\.rentready\.fr\/([\w.-]+\.(?:png|jpg|jpeg|svg))/g)) {
+      for (const m of source.matchAll(/https:\/\/(?:www\.)?(?:rentready|locelio)\.fr\/([\w.-]+\.(?:png|jpg|jpeg|svg))/g)) {
         // /opengraph-image is served by the Next file convention (no extension).
         if (["logo.svg"].includes(m[1])) continue;
         offenders.push(`${relative(process.cwd(), file)} → /${m[1]}`);

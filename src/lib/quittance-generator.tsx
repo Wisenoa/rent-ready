@@ -438,7 +438,7 @@ export function QuittancePDF({ data }: { data: QuittanceData }) {
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            Document généré par RentReady — Gestion Locative Intelligente —{" "}
+            Document généré par Locelio — Gestion Locative Intelligente —{" "}
             {formatDate(new Date())}
           </Text>
         </View>

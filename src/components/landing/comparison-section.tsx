@@ -11,7 +11,7 @@ interface ComparisonRow {
   label: string;
   agency: string | boolean;
   excel: string | boolean;
-  rentready: string | boolean;
+  locelio: string | boolean;
 }
 
 const rows: ComparisonRow[] = [
@@ -19,49 +19,49 @@ const rows: ComparisonRow[] = [
     label: "Coût annuel (1 bien à 1 000 €/mois)",
     agency: "~840 €",
     excel: "0 €",
-    rentready: "89 €",
+    locelio: "89 €",
   },
   {
     label: "Quittances légales automatiques",
     agency: true,
     excel: false,
-    rentready: true,
+    locelio: true,
   },
   {
     label: "Détection automatique des virements",
     agency: true,
     excel: false,
-    rentready: true,
+    locelio: true,
   },
   {
     label: "Révision IRL calculée",
     agency: true,
     excel: false,
-    rentready: true,
+    locelio: true,
   },
   {
     label: "Portail locataire & maintenance",
     agency: false,
     excel: false,
-    rentready: true,
+    locelio: true,
   },
   {
     label: "Conformité Factur-X & e-reporting",
     agency: false,
     excel: false,
-    rentready: true,
+    locelio: true,
   },
   {
     label: "Contrôle total de vos données",
     agency: false,
     excel: false,
-    rentready: true,
+    locelio: true,
   },
   {
     label: "Temps mensuel estimé",
     agency: "~2 h",
     excel: "~6 h",
-    rentready: "~15 min",
+    locelio: "~15 min",
   },
 ];
 
@@ -140,7 +140,7 @@ export function ComparisonSection() {
                   </th>
                   <th className="py-5 px-4 text-center bg-blue-50/50 rounded-t-2xl">
                     <span className="block text-[13px] font-bold text-blue-700">
-                      RentReady
+                      Locelio
                     </span>
                     <span className="block text-[11px] text-blue-500 mt-0.5">
                       Dès {formatEntryPrice()}
@@ -150,7 +150,7 @@ export function ComparisonSection() {
               </thead>
               <tbody>
                 {rows.map((row, i) => (
-                  <motion.tr
+                   <motion.tr
                     key={row.label}
                     className="border-t border-stone-100/60"
                     initial={{ opacity: 0 }}
@@ -168,7 +168,7 @@ export function ComparisonSection() {
                       <CellValue value={row.excel} />
                     </td>
                     <td className="py-3.5 px-4 text-center bg-blue-50/30">
-                      <CellValue value={row.rentready} highlight />
+                      <CellValue value={row.locelio} highlight />
                     </td>
                   </motion.tr>
                 ))}

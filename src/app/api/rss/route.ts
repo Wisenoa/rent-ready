@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { articleMeta } from "@/data/articles-meta";
+import { SITE_URL } from "@/data/entity";
 
-const BASE_URL = "https://www.rentready.fr";
-const SITE_TITLE = "Blog RentReady — Gestion Locative & Investissement";
+const BASE_URL = SITE_URL;
+const SITE_TITLE = "Blog Locelio — Gestion Locative & Investissement";
 const SITE_DESCRIPTION =
   "Conseils et guides pour propriétaires bailleurs: gestion locative, quittances, révision IRL, législation immobilière.";
 const SITE_LANGUAGE = "fr-FR";
@@ -50,7 +51,7 @@ export async function GET(request: NextRequest) {
       <description>${description}</description>
       <pubDate>${pubDate}</pubDate>
       <category>${escapeXml(article.category)}</category>
-      <author>blog@rentready.fr (RentReady)</author>
+      <author>blog@locelio.fr (Locelio)</author>
     </item>`;
     })
     .join("\n");
@@ -63,8 +64,8 @@ export async function GET(request: NextRequest) {
     <description>${escapeXml(SITE_DESCRIPTION)}</description>
     <language>${SITE_LANGUAGE}</language>
     <lastBuildDate>${buildDate}</lastBuildDate>
-    <managingEditor>blog@rentready.fr (RentReady)</managingEditor>
-    <webMaster>tech@rentready.fr (RentReady)</webMaster>
+    <managingEditor>blog@locelio.fr (Locelio)</managingEditor>
+    <webMaster>tech@locelio.fr (Locelio)</webMaster>
     <atom:link href="${BASE_URL}/api/rss" rel="self" type="application/rss+xml" />
     <image>
       <url>${BASE_URL}/opengraph-image</url>

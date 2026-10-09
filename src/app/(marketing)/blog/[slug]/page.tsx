@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SAME_AS, SITE_URL } from "@/data/entity";
+import { SAME_AS, SITE_NAME, SITE_URL } from "@/data/entity";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -216,9 +216,9 @@ export default async function BlogPostPage({ params }: PageProps) {
   const faqPairs = article.content ? extractFAQ(article.content) : [];
 
   // Articles carry no byline: the Article type has no author field, so the
-  // previous `article.author ?? "RentReady"` always took the fallback. The
+  // previous `article.author ?? "Locelio"` always took the fallback. The
   // JSON-LD below attributes posts to the organisation either way.
-  const articleAuthor = "RentReady";
+  const articleAuthor = "Locelio";
 
   // BreadcrumbList schema
   const breadcrumbSchema = {
@@ -229,30 +229,30 @@ export default async function BlogPostPage({ params }: PageProps) {
         "@type": "ListItem",
         position: 1,
         name: "Accueil",
-        item: "https://www.rentready.fr",
+        item: SITE_URL,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: "https://www.rentready.fr/blog",
+        item: `${SITE_URL}/blog`,
       },
       {
         "@type": "ListItem",
         position: 3,
         name: article.category,
-        item: `https://www.rentready.fr/blog?category=${encodeURIComponent(article.category)}`,
+        item: `${SITE_URL}/blog?category=${encodeURIComponent(article.category)}`,
       },
       {
         "@type": "ListItem",
         position: 4,
         name: article.title,
-        item: `https://www.rentready.fr/blog/${slug}`,
+        item: `${SITE_URL}/blog/${slug}`,
       },
     ],
   };
 
-  const articleUrl = `https://www.rentready.fr/blog/${slug}`;
+  const articleUrl = `${SITE_URL}/blog/${slug}`;
 
   /**
    * Article schema.
@@ -265,7 +265,7 @@ export default async function BlogPostPage({ params }: PageProps) {
    *
    * The image points at the dynamic OG renderer, which produces a 1200×630 PNG
    * per article title — the minimum Google asks for is 1200×675 for wide
-   * images, and 1200×630 is what every other RentReady page already serves.
+   * images, and 1200×630 is what every other Locelio page already serves.
    */
   // `buildOgImageUrl` returns a path, which is correct for a <meta og:image> tag
   // because Next resolves it against metadataBase. Structured data has no such
@@ -287,13 +287,13 @@ export default async function BlogPostPage({ params }: PageProps) {
     author: {
       "@type": "Organization",
       name: articleAuthor,
-      url: "https://www.rentready.fr",
+      url: SITE_URL,
       sameAs: SAME_AS,
     },
     publisher: {
       "@type": "Organization",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
+      name: "Locelio",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/logo.svg`,
@@ -465,7 +465,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="mt-16 rounded-2xl bg-stone-900 px-8 py-10 text-center">
           <h3 className="mb-3 text-xl font-bold text-white">
             {splitEditorialCTA(article.content).cta ??
-              "Gérez votre location efficacement avec RentReady"}
+              "Gérez votre location efficacement avec Locelio"}
           </h3>
           <p className="mb-6 text-stone-300">
             Logiciel tout-en-un pour propriétaires — essai gratuit 14 jours.

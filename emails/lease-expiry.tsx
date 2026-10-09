@@ -87,7 +87,7 @@ export function LeaseExpiryEmail({
                 2. Vérifier l'état du bien lors de l'état des lieux de sortie
               </Text>
               <Text style={styles.actionItem}>
-                3. Mettre à jour votre documentation avec Rent-Ready
+                3. Mettre à jour votre documentation avec Locelio
               </Text>
             </Section>
 
@@ -103,7 +103,7 @@ export function LeaseExpiryEmail({
           {/* Footer */}
           <Section style={styles.footerSection}>
             <Text style={styles.footerText}>
-              Cet email a été envoyé automatiquement par Rent-Ready. Vous le recevez
+              Cet email a été envoyé automatiquement par Locelio. Vous le recevez
               parce que vous gérez un bien locatif avec notre plateforme.
             </Text>
             <Link href={dashboardUrl} style={styles.footerLink}>

@@ -67,7 +67,7 @@ export function PaymentReminderEmail({
         <Container style={styles.container}>
           {/* Header */}
           <Section style={styles.headerSection}>
-            <Heading style={styles.logo}>Rent-Ready</Heading>
+            <Heading style={styles.logo}>Locelio</Heading>
             {isLegal && (
               <Text style={styles.legalBadge}>MISE EN DEMEURE</Text>
             )}
@@ -180,7 +180,7 @@ export function PaymentReminderEmail({
             <Hr style={styles.divider} />
 
             <Text style={styles.textSmall}>
-              Cet email a été envoyé via Rent-Ready par{" "}
+              Cet email a été envoyé via Locelio par{" "}
               <strong>
                 {landlordFirstName} {landlordLastName}
               </strong>

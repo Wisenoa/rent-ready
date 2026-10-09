@@ -63,7 +63,7 @@ const faqSchema = {
       name: "Comment obtenir une quittance de loyer gratuite ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "RentReady génère automatiquement des quittances légales gratuites. Le bailleur saisit les informations du bail une fois, et chaque paiement déclenche une quittance PDF conforme à la loi de 1989, prête à envoyer au locataire.",
+        text: "Locelio génère automatiquement des quittances légales une fois le loyer intégralement réglé. Le bailleur saisit les informations du bail une fois, et chaque règlement complet débloque une quittance PDF conforme à la loi de 1989.",
       },
     },
   ],
@@ -116,7 +116,7 @@ const comparison = [
     feature: "Génération automatique",
     quittance: true,
     attestation: false,
-    detail: "Les outils comme RentReady automatisent la quittance",
+    detail: "Les outils comme Locelio automatisent la quittance",
   },
 ];
 
@@ -261,8 +261,8 @@ export default function QuittanceVsAttestation() {
             Générez des quittances légales automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
-            Avec RentReady, chaque paiement déclenche une quittance PDF conforme à la loi de 1989.
-            Plus besoin de se poser la question — tout est automatique.
+            Avec Locelio, chaque loyer intégralement payé génère une quittance PDF conforme à la loi de 1989.
+            Plus besoin de se poser la question — tout est cadré.
           </p>
           <Link
             href="/register"

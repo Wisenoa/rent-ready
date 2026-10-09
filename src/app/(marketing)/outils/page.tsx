@@ -193,10 +193,10 @@ const breadcrumbItems = [
 function OutilsJsonLd() {
   const data = buildGraphSchema(
     buildOrganizationSchema(),
-    buildWebSiteSchema("Outils Immobiliers Gratuits — RentReady", "/outils"),
+    buildWebSiteSchema("Outils Immobiliers Gratuits — Locelio", "/outils"),
     breadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Outils", url: "https://www.rentready.fr/outils" },
+      { name: "Accueil", url: "https://locelio.fr" },
+      { name: "Outils", url: "https://locelio.fr/outils" },
     ])
   );
   return <SchemaMarkup data={data} breadcrumbRenderedByComponent />;

@@ -247,7 +247,7 @@ export function IRLCalculatorClient() {
           <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
             <h2 className="text-2xl font-bold mb-2">Genererez vos documents avec l'IRL</h2>
             <p className="text-blue-100 mb-6 max-w-xl mx-auto">
-              RentReady calcul automatiquement la révision IRL de vos loyers et genere les annexes pour vos baux.
+              Locelio calcul automatiquement la révision IRL de vos loyers et genere les annexes pour vos baux.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">

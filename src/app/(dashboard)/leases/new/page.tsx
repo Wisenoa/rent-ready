@@ -10,7 +10,7 @@ import { PageShell } from "@/components/design-system";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Créer un bail — RentReady",
+  title: "Créer un bail — Locelio",
 };
 
 interface NewLeasePageProps {

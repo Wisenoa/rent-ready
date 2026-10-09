@@ -69,7 +69,7 @@ const PAGES = [
   "/outils/calculateur-surface-habitable",
   "/outils/simulateur-fiscalite-lmnp",
   "/templates/bail-vide",
-  "/comparatif/rentready-vs-legalplace",
+  "/comparatif/locelio-vs-legalplace",
 ];
 
 let server: ChildProcess | null = null;
@@ -127,7 +127,7 @@ describe.runIf(existsSync(SERVER))("rendered titles", () => {
     // "| RentReady" rendered the brand twice. Naming the brand once inside the
     // sentence is normal and fine — only the repeated suffix is the defect.
     expect(
-      title!.match(/\|\s*RentReady\s*\|\s*RentReady/),
+      title!.match(/\|\s*(?:RentReady|Locelio)\s*\|\s*(?:RentReady|Locelio)/),
       `"${title}" repeats the brand suffix`
     ).toBeNull();
   });
@@ -238,14 +238,14 @@ describe.runIf(existsSync(SERVER))("rendered structured data", () => {
     const images = Array.isArray(image) ? image : [image];
     expect(images, "Article.image missing").not.toContain(undefined);
     for (const url of images) {
-      expect(String(url)).toMatch(/^https:\/\/www\.rentready\.fr\//);
+      expect(String(url)).toMatch(/^https:\/\/(?:www\.)?(?:rentready|locelio)\.fr\//);
     }
 
     // publisher.logo: required.
     const publisher = article!["publisher"] as Record<string, unknown>;
     expect(publisher?.logo, "Article.publisher.logo missing").toBeDefined();
     const logo = publisher.logo as Record<string, unknown>;
-    expect(String(logo.url ?? logo)).toMatch(/^https:\/\/www\.rentready\.fr\//);
+    expect(String(logo.url ?? logo)).toMatch(/^https:\/\/(?:www\.)?(?:rentready|locelio)\.fr\//);
 
     // Dates are already correct; keep them honest.
     expect(article!["datePublished"], "datePublished").toBeTruthy();
@@ -445,7 +445,7 @@ describe.runIf(existsSync(SERVER))("robots and sitemap", () => {
   it("robots.txt disallows the app surface and points at the sitemap", async () => {
     if (!available) return;
     const body = await (await fetch(`${ORIGIN}/robots.txt`)).text();
-    expect(body).toMatch(/Sitemap:\s*https:\/\/www\.rentready\.fr\/sitemap\.xml/);
+    expect(body).toMatch(/Sitemap:\s*https:\/\/locelio\.fr\/sitemap\.xml/);
     expect(body).toMatch(/Disallow:\s*\/dashboard/);
     expect(body).not.toMatch(/Disallow:\s*$/m); // no empty disallow rules
   });
@@ -456,8 +456,8 @@ describe.runIf(existsSync(SERVER))("robots and sitemap", () => {
     const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 
     expect(urls, "sitemap is empty").not.toHaveLength(0);
-    expect(urls).toContain("https://www.rentready.fr/villes");
-    expect(urls).toContain("https://www.rentready.fr/gestion-locative");
+    expect(urls).toContain("https://locelio.fr/villes");
+    expect(urls).toContain("https://locelio.fr/gestion-locative");
 
     const unique = new Set(urls);
     expect(
@@ -478,7 +478,7 @@ describe.runIf(existsSync(SERVER))("robots and sitemap", () => {
   it("includes the homepage", async () => {
     if (!available) return;
     const xml = await (await fetch(`${ORIGIN}/sitemap.xml`)).text();
-    expect(xml).toContain("<loc>https://www.rentready.fr/</loc>");
+    expect(xml).toContain("<loc>https://locelio.fr/</loc>");
   });
 
   it("never advertises an authenticated or deleted route", async () => {
@@ -492,7 +492,7 @@ describe.runIf(existsSync(SERVER))("robots and sitemap", () => {
       "/maintenance", "/offline",
     ];
     for (const prefix of PRIVATE) {
-      const leaked = urls.filter((u) => u.includes(`rentready.fr${prefix}`));
+      const leaked = urls.filter((u) => u.includes(`locelio.fr${prefix}`));
       expect(leaked, `${prefix} must not be indexed`).toEqual([]);
     }
 
@@ -504,7 +504,7 @@ describe.runIf(existsSync(SERVER))("robots and sitemap", () => {
     ];
     for (const path of REMOVED) {
       expect(urls, `${path} is deleted and 301s`).not.toContain(
-        `https://www.rentready.fr${path}`
+        `https://locelio.fr${path}`
       );
     }
   });

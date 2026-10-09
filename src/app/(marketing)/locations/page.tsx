@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SAME_AS } from "@/data/entity";
+import { SAME_AS, SITE_NAME, SITE_URL } from "@/data/entity";
 import Link from "next/link";
 import dynamicImport from "next/dynamic";
 import React from "react";
@@ -25,7 +25,7 @@ export async function generateMetadata() {
     title:
       "Gestion Locations 2026 — Tableau de bord unifié",
     description:
-      "Gérez tous vos biens locatifs avec RentReady : tableau de bord temps réel, suivi loyers, portail locataire et documents centralisés. Essai gratuit 2026.",
+      `Gérez tous vos biens locatifs avec ${SITE_NAME} : tableau de bord temps réel, suivi loyers, portail locataire et documents centralisés. Essai gratuit 2026.`,
     url: "/locations",
     ogType: "feature",
   });
@@ -73,19 +73,19 @@ icon: "🔔",
 
 const faqData = [
   {
-    question: "Comment ajouter un bien immobilier dans RentReady ?",
+    question: `Comment ajouter un bien immobilier dans ${SITE_NAME} ?`,
     answer:
       "Cliquez sur « Ajouter un bien » depuis votre tableau de bord. Renseignez l'adresse, le type de bien (vide ou meublé), le nombre de pièces et le loyer. Le bien apparaît immédiatement dans votre liste de locations.",
   },
   {
     question: "Comment suivre les paiements de mes locataires ?",
     answer:
-      "RentReady détecte automatiquement les virements entrants via Open Banking DSP2. Chaque paiement est automatiquement rapproché avec le locataire et le bien correspondants. Vous recevez une alerte en cas d'impayé.",
+      `${SITE_NAME} détecte automatiquement les virements entrants via Open Banking DSP2. Chaque paiement est automatiquement rapproché avec le locataire et le bien correspondants. Vous recevez une alerte en cas d'impayé.`,
   },
   {
     question: "Puis-je gérer plusieurs biens avec des locataires différents ?",
     answer:
-      "Oui. RentReady est conçu pour gérer de 1 à 10 biens. Chaque bien a ses propres locataires, baux, quittances et historique. Vous avez une vue unifiée ou détaillée par bien selon vos besoins.",
+      `Oui. ${SITE_NAME} est conçu pour gérer de 1 à 10 biens. Chaque bien a ses propres locataires, baux, quittances et historique. Vous avez une vue unifiée ou détaillée par bien selon vos besoins.`,
   },
   {
     question: "Les documents sont-ils accessibles aux deux parties ?",
@@ -101,15 +101,13 @@ const LOCATIONS_SCHEMA = {
   "@graph": [
     {
       "@type": "WebSite",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
+      name: SITE_NAME,
+      url: SITE_URL,
     },
     {
       "@type": "Organization",
-      name: "RentReady",
-      alternateName: "RentReady SAS",
-      url: "https://www.rentready.fr",
-      logo: "https://www.rentready.fr/logo.svg",
+      name: SITE_NAME,
+      url: SITE_URL,
       description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
       foundingDate: "2024",
       address: {
@@ -120,7 +118,7 @@ const LOCATIONS_SCHEMA = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: "contact@rentready.fr",
+        email: "contact@locelio.fr",
         availableLanguage: "French",
       },
       sameAs: SAME_AS,
@@ -133,22 +131,22 @@ const LOCATIONS_SCHEMA = {
           "@type": "ListItem",
           position: 1,
           name: "Accueil",
-          item: "https://www.rentready.fr",
+          item: SITE_URL,
         },
         {
           "@type": "ListItem",
           position: 2,
           name: "Gestion des locations",
-          item: "https://www.rentready.fr/locations",
+          item: `${SITE_URL}/locations`,
         },
       ],
     },
     {
       "@type": "SoftwareApplication",
-      name: "RentReady — Gestion des locations",
+      name: `${SITE_NAME} — Gestion des locations`,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
-      url: "https://www.rentready.fr/locations",
+      url: `${SITE_URL}/locations`,
       description:
         "Gérez tous vos biens locatifs : suivi des loyers en temps réel, état des lieux, documents centralisés, portail locataire intégré. Logiciel pour propriétaires bailleurs.",
       offers: {
@@ -164,19 +162,8 @@ const LOCATIONS_SCHEMA = {
       ],
     },
     {
-      "@type": "Organization",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "customer support",
-        email: "contact@rentready.fr",
-        availableLanguage: "French",
-      },
-    },
-    {
       "@type": "FAQPage",
-      name: "FAQ — Gestion des locations RentReady",
+      name: `FAQ — Gestion des locations ${SITE_NAME}`,
       mainEntity: faqData.map((item) => ({
         "@type": "Question",
         name: item.question,

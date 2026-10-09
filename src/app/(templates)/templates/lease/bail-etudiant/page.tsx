@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "VISALE Etudiant",
   ],
   openGraph: {
-    title: "Modèle Bail Étudiant 2026 — RentReady",
+    title: "Modèle Bail Étudiant 2026 — Locelio",
     description:
       "Bail meublé pour étudiants. Gratuit, conforme, avec clause VISALE et garant. Téléchargeable en PDF.",
     type: "website",
-    url: "https://www.rentready.fr/templates/lease/bail-etudiant",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/lease/bail-etudiant",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/lease/bail-etudiant"),
 };
@@ -112,25 +112,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://www.rentready.fr/#organization",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.svg",
+  "@id": "https://locelio.fr/#organization",
+  name: "Locelio",
+  url: "https://locelio.fr",
+  logo: "https://locelio.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@rentready.fr",
+    email: "contact@locelio.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://www.rentready.fr/#website",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
+  "@id": "https://locelio.fr/#website",
+  name: "Locelio",
+  url: "https://locelio.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -146,14 +146,14 @@ function BailEtudiantJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle Bail Étudiant 2026 — RentReady",
+        name: "Modèle Bail Étudiant 2026 — Locelio",
         description:
           "Modèle de bail meublé pour étudiants. Garantie VISALE, bail conforme loi 1989.",
-        url: "https://www.rentready.fr/templates/lease/bail-etudiant",
+        url: "https://locelio.fr/templates/lease/bail-etudiant",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -210,7 +210,7 @@ export default function BailEtudiantPage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-purple-700 shadow-sm border border-purple-200 transition-colors hover:bg-purple-50"
             >
-              Générer avec RentReady →
+              Générer avec Locelio →
             </Link>
           </div>
         </header>

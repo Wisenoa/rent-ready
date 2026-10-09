@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "cautionnement bail",
   ],
   openGraph: {
-    title: "Acte de Caution Solidaire 2026 — RentReady",
+    title: "Acte de Caution Solidaire 2026 — Locelio",
     description:
       "Acte de caution solidaire gratuit pour location. Téléchargeable en PDF, personnalisable. Mise à jour 2026.",
     type: "website",
-    url: "https://www.rentready.fr/templates/lease/acte-caution",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/lease/acte-caution",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/lease/acte-caution"),
 };
@@ -133,25 +133,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://www.rentready.fr/#organization",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.svg",
+  "@id": "https://locelio.fr/#organization",
+  name: "Locelio",
+  url: "https://locelio.fr",
+  logo: "https://locelio.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@rentready.fr",
+    email: "contact@locelio.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://www.rentready.fr/#website",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
+  "@id": "https://locelio.fr/#website",
+  name: "Locelio",
+  url: "https://locelio.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -167,14 +167,14 @@ function ActeCautionJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Acte de Caution Solidaire 2026 — RentReady",
+        name: "Acte de Caution Solidaire 2026 — Locelio",
         description:
           "Modèle d'acte de caution solidaire gratuit pour bail de location. Téléchargeable en PDF.",
-        url: "https://www.rentready.fr/templates/lease/acte-caution",
+        url: "https://locelio.fr/templates/lease/acte-caution",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -314,7 +314,7 @@ export default function ActeCautionPage() {
             Automatisez la gestion des cautions
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Avec RentReady, générez l&apos;acte de caution automatiquement,
+            Avec Locelio, générez l&apos;acte de caution automatiquement,
             envoyez-la pour signature et alertez le garant en cas d&apos;impayés.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">

@@ -33,9 +33,9 @@ export async function generateMetadata() {
 function GenerateurQuittanceJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Outils", url: "https://www.rentready.fr/outils" },
-      { name: "Générateur de Quittance", url: "https://www.rentready.fr/outils/generateur-quittance" },
+      { name: "Accueil", url: "https://locelio.fr" },
+      { name: "Outils", url: "https://locelio.fr/outils" },
+      { name: "Générateur de Quittance", url: "https://locelio.fr/outils/generateur-quittance" },
     ]),
     buildWebApplicationSchema({
       name: "Générateur de Quittance de Loyer PDF",

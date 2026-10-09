@@ -10,10 +10,9 @@
  * All objects use French locale (fr-FR) where applicable.
  */
 
-import { SAME_AS } from "@/data/entity";
+import { SAME_AS, SITE_NAME, SITE_URL } from "@/data/entity";
 
-const BASE_URL = "https://www.rentready.fr";
-const SITE_NAME = "RentReady";
+const BASE_URL = SITE_URL;
 
 /* ─────────────────────────────────────────────
    Shared types
@@ -75,19 +74,23 @@ export function buildOrganizationSchema(input: OrganizationSchemaInput = {}) {
     ...(input["@id"] ? { "@id": input["@id"] } : {}),
     name: input.name ?? SITE_NAME,
     url: input.url ?? BASE_URL,
-    logo: input.logo ?? {
-      "@type": "ImageObject",
-      url: `${BASE_URL}/logo.svg`,
-      width: 512,
-      height: 512,
-    },
+    ...(input.logo
+      ? {
+          logo: {
+            "@type": "ImageObject",
+            url: input.logo,
+            width: 512,
+            height: 512,
+          },
+        }
+      : {}),
     description:
       input.description ??
-      "RentReady est le logiciel de gestion locative nouvelle génération pour propriétaires bailleurs indépendants en France. Quittances conformes, détection automatique des paiements, révision IRL, portail locataire.",
+      "Locelio est le logiciel de gestion locative pour propriétaires bailleurs indépendants en France. Quittances et reçus conformes à la loi de 1989, suivi des paiements, révision IRL, portail locataire.",
     sameAs: input.sameAs ?? SAME_AS,
     contactPoint: input.contact ?? {
       "@type": "ContactPoint",
-      email: "contact@rentready.fr",
+      email: "contact@locelio.fr",
       contactType: "customer service",
       availableLanguage: "French",
       areaServed: "FR",
@@ -330,7 +333,7 @@ export function buildArticleSchema(input: ArticleSchemaInput) {
     image: input.imageUrl ? [input.imageUrl] : [],
     author: {
       "@type": input.authorType ?? "Person",
-      name: input.authorName ?? "RentReady",
+      name: input.authorName ?? SITE_NAME,
     },
     publisher: {
       "@type": "Organization",

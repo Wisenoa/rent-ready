@@ -9,6 +9,7 @@ import {
   buildItemListSchema,
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -76,19 +77,19 @@ function TemplatesPageJsonLd() {
     cat.templates.map((t) => ({
       name: t.title,
       description: t.desc,
-      url: `https://www.rentready.fr/modeles/${t.slug}`,
+      url: `${SITE_URL}/modeles/${t.slug}`,
     }))
   );
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Modèles", url: "https://www.rentready.fr/modeles" },
+      { name: "Accueil", url: SITE_URL },
+      { name: "Modèles", url: `${SITE_URL}/modeles` },
     ]),
     buildItemListSchema({
       name: "Modèles gratuits de location",
       description:
         "Modèles de bail, quittances, lettres de relance et documents pour propriétaires — tous gratuits et conformes au droit français.",
-      url: "https://www.rentready.fr/templates",
+      url: `${SITE_URL}/templates`,
       items: allItems,
     })
   );
@@ -150,7 +151,7 @@ export default function TemplatesPage() {
             <Check className="size-7" />
           </div>
           <h2 className="mb-3 text-xl font-bold text-stone-900 sm:text-2xl">
-            Besoin de plus ? Utilisez RentReady
+            Besoin de plus ? Utilisez {SITE_NAME}
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
             Créez vos documents en quelques clics, sans manipulation de fichiers.

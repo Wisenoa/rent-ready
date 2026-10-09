@@ -93,9 +93,9 @@ function AugmentationLoyerJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/templates" },
-          { "@type": "ListItem", position: 3, name: "Augmentation de loyer", item: "https://www.rentready.fr/templates/augmentation-de-loyer" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Augmentation de loyer", item: "https://locelio.fr/templates/augmentation-de-loyer" },
         ],
       },
       {
@@ -127,19 +127,19 @@ function AugmentationLoyerJsonLd() {
         ],
         tool: {
           "@type": "SoftwareApplication",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
         "@type": "Article",
-        name: "Modèle Lettre Augmentation de Loyer — RentReady",
+        name: "Modèle Lettre Augmentation de Loyer — Locelio",
         description:
           "Modèle gratuit de lettre d'augmentation de loyer. Révision IRL 2026, zones tendues, guide complet.",
         author: {
           "@type": "Organization",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -269,7 +269,7 @@ export default function AugmentationDeLoyerPage() {
           <p className="mt-4 text-sm text-stone-500">
             💡 Les indices IRL sont publiés par l'INSEE chaque trimestre. Vous
             pouvez les retrouver sur le site institutionnel ou les consulter
-            directement dans RentReady.
+            directement dans Locelio.
           </p>
         </section>
 
@@ -340,7 +340,7 @@ export default function AugmentationDeLoyerPage() {
             </h2>
             <p className="mb-6 text-stone-300">
               Voici un exemple de courrier à envoyer. Vous pouvez le personnaliser
-              directement dans RentReady :
+              directement dans Locelio :
             </p>
             <div className="rounded-xl border border-stone-700 bg-stone-800 p-6 font-mono text-sm text-stone-300">
               <p className="mb-2 font-bold text-white">[Votre nom et adresse]</p>
@@ -388,7 +388,7 @@ export default function AugmentationDeLoyerPage() {
                 href="/register"
                 className="inline-block rounded-lg border border-stone-600 bg-stone-800 px-6 py-3 font-medium text-white shadow-sm transition-colors hover:bg-stone-700"
               >
-                Utiliser avec RentReady →
+                Utiliser avec Locelio →
               </Link>
             </div>
           </div>
@@ -425,7 +425,7 @@ export default function AugmentationDeLoyerPage() {
             Calculer et générer vos lettres d'augmentation automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            RentReady calcule automatiquement l'augmentation IRL, génère le
+            Locelio calcule automatiquement l'augmentation IRL, génère le
             courrier PDF et vous alerte 2 mois avant la date d'anniversaire
             du bail.
           </p>

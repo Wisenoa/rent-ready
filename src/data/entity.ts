@@ -1,5 +1,5 @@
 /**
- * Single source of truth for the facts that describe RentReady as an entity.
+ * Single source of truth for the facts that describe Locelio as an entity.
  *
  * WHY THIS FILE EXISTS
  *
@@ -8,7 +8,7 @@
  * answers — and they drifted. A visitor could read "à partir de 15 €/mois" on
  * one page and "dès 9 €/mois" on the pricing page; the JSON-LD advertised a
  * different price again. For a search engine or an answer engine comparing
- * RentReady against other vendors, contradictory pricing is the strongest
+ * Locelio against other vendors, contradictory pricing is the strongest
  * possible reason to not cite the source at all: the number is the first
  * thing anyone checks.
  *
@@ -42,10 +42,10 @@
  * double slash that a crawler could read as a distinct path.
  */
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rentready.fr"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://locelio.fr"
 ).replace(/\/+$/, "");
 
-export const SITE_NAME = "RentReady";
+export const SITE_NAME = "Locelio";
 
 /** One-sentence description of the product, for schema and metadata. */
 export const SITE_DESCRIPTION =
@@ -174,21 +174,17 @@ export const E_REPORTING_YEAR = 2026;
 /**
  * External profiles that identify this organisation.
  *
- * Only list a URL that actually resolves to a RentReady account. A `sameAs`
+ * Only list a URL that actually resolves to an official Locelio account. A `sameAs`
  * pointing at a 404 — or at an unrelated company with a similar name — is a
  * negative identity signal: it tells a crawler that this entity cannot be
  * corroborated anywhere, which is worse than having no `sameAs` at all.
  *
- * Verified live on 2026-10-04:
- *   twitter.com/rentready_fr        → 404, removed
- *   linkedin.com/company/rentready  → 404, removed
- *   facebook.com/rentready.fr       → 200, kept
- *
+ * Currently empty for Locelio pending social account creation.
  * The list is deliberately short. Add a profile here only once it resolves,
  * and re-check it: a handle that dies silently is the exact failure this
  * constant exists to prevent.
  */
-export const SAME_AS = ["https://www.facebook.com/rentready.fr"];
+export const SAME_AS: string[] = [];
 
 /** Founding year. Only claim what can be substantiated in the legal notice. */
 export const FOUNDING_YEAR = 2024;

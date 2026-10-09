@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
  * This used to call the `generateQuittance` server action and then re-render the
  * PDF IN THE BROWSER with @react-pdf/renderer + Factur-X, from the figures the
  * action returned. The file the landlord got was therefore a fresh rendering, not
- * the document RentReady archived: if the number or the template changed between
+ * the document Locelio archived: if the number or the template changed between
  * the click and the render, the two differed, and the copy that had actually been
  * checked was never the one downloaded.
  *

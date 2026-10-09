@@ -54,7 +54,7 @@ const jsonLdData = {
       "@type": "WebApplication",
       name: "Calculateur de Loyer au m²",
       description: "Estimez le loyer de votre bien selon la surface et le prix au m². Applicable zone tendue et non tendue.",
-      url: "https://www.rentready.fr/outils/calculateur-loyer",
+      url: "https://locelio.fr/outils/calculateur-loyer",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
     },
@@ -72,7 +72,7 @@ const jsonLdData = {
         "@type": "ListItem",
         position: i + 1,
         name: item.label,
-        item: `https://www.rentready.fr${item.href}`,
+        item: `https://locelio.fr${item.href}`,
       })),
     },
   ],
@@ -279,7 +279,7 @@ export function LoyerCalculatorClient() {
           <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
             <h2 className="text-2xl font-bold mb-2">Gérez vos loyers en toute conformité</h2>
             <p className="text-blue-100 mb-6 max-w-xl mx-auto">
-              Avec RentReady, vous suivez vos loyers automatiquement, générez les annexes de révision, et restez dans les clous réglementaires.
+              Avec Locelio, vous suivez vos loyers automatiquement, générez les annexes de révision, et restez dans les clous réglementaires.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">

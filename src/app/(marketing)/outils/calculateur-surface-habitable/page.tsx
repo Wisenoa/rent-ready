@@ -39,9 +39,9 @@ const breadcrumbItems = [
 function SurfaceHabitableJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Outils", url: "https://www.rentready.fr/outils" },
-      { name: "Calculateur Surface Habitable", url: "https://www.rentready.fr/outils/calculateur-surface-habitable" },
+      { name: "Accueil", url: "https://locelio.fr" },
+      { name: "Outils", url: "https://locelio.fr/outils" },
+      { name: "Calculateur Surface Habitable", url: "https://locelio.fr/outils/calculateur-surface-habitable" },
     ]),
     buildWebApplicationSchema({
       name: "Calculateur de Surface Habitable",

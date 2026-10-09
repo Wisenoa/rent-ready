@@ -7,6 +7,7 @@ import {
   FEATURE_LIST,
   PRICE_VALID_UNTIL,
   SITE_DESCRIPTION,
+  SITE_NAME,
   SITE_URL,
   getEntryPrice,
 } from "@/data/entity";
@@ -103,7 +104,7 @@ export function softwareApplicationSchema(overrides?: Record<string, unknown>) {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "RentReady",
+    name: SITE_NAME,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     url: SITE_URL,
@@ -141,12 +142,12 @@ export function serviceSchema(city?: {
     "@type": "Service",
     name: city
       ? `Gestion locative à ${city.name}`
-      : "RentReady — Gestion locative automatisée",
+      : `${SITE_NAME} — Gestion locative automatisée`,
     serviceType: "Property Management Software",
     provider: {
       "@type": "Organization",
-      name: "RentReady",
-      url: "https://www.rentready.fr",
+      name: SITE_NAME,
+      url: SITE_URL,
     },
     offers: paidOffer(),
     areaServed: city
@@ -175,7 +176,7 @@ export function webApplicationSchema(
     {
       "@type": "WebApplication",
       name,
-      url: `https://www.rentready.fr${url}`,
+      url: `${SITE_URL}${url}`,
       description,
       applicationCategory: "FinanceApplication",
       operatingSystem: "Web",
@@ -186,8 +187,8 @@ export function webApplicationSchema(
       },
       isPartOf: {
         "@type": "WebSite",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: SITE_NAME,
+        url: SITE_URL,
       },
     },
   ];
@@ -234,7 +235,7 @@ export function howToSchema({
       "@type": "HowTo",
       name,
       description,
-      url: `https://www.rentready.fr${url}`,
+      url: `${SITE_URL}${url}`,
       steps: steps.map((step, i) => ({
         "@type": "HowToStep",
         position: i + 1,
@@ -243,8 +244,8 @@ export function howToSchema({
       })),
       isPartOf: {
         "@type": "WebSite",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: SITE_NAME,
+        url: SITE_URL,
       },
     },
   ];
@@ -285,7 +286,7 @@ export function breadcrumbSchema(
       name: item.name,
       item: item.url.startsWith("http")
         ? item.url
-        : `https://www.rentready.fr${item.url}`,
+        : `${SITE_URL}${item.url}`,
     })),
   };
 }

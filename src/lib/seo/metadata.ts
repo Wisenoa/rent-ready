@@ -5,8 +5,10 @@
  * Includes hreflang support for multilingual (FR primary).
  */
 
-export const BASE_URL = "https://www.rentready.fr";
-export const SITE_NAME = "RentReady";
+import { SITE_NAME as ENTITY_SITE_NAME, SITE_URL } from "@/data/entity";
+
+export const BASE_URL = SITE_URL;
+export const SITE_NAME = ENTITY_SITE_NAME;
 /**
  * Fallback social image.
  *
@@ -15,7 +17,7 @@ export const SITE_NAME = "RentReady";
  * in link previews. `src/app/opengraph-image.tsx` is a Next.js file convention:
  * Next serves it at `/opengraph-image`, so that is the real URL.
  */
-export const DEFAULT_OG_IMAGE = "https://www.rentready.fr/opengraph-image";
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/opengraph-image`;
 
 /** Supported locales — IETF BCP 47 format (required for hreflang) */
 export const LOCALES = ["fr", "fr-FR"] as const;
@@ -63,20 +65,20 @@ export function buildOgImageUrl({
  *   "Page Topic à Ville | RentReady"
  */
 export function buildTitle(page: string, city?: string): string {
-  return city ? `${page} à ${city} | RentReady` : `${page} | RentReady`;
+  return city ? `${page} à ${city} | ${SITE_NAME}` : `${page} | ${SITE_NAME}`;
 }
 
 /**
  * Strip a trailing brand suffix that the root layout would append a second time.
  *
- * `src/app/layout.tsx` declares `title.template = "%s | RentReady"`, so any
+ * `src/app/layout.tsx` declares `title.template = "%s | Locelio"`, so any
  * page whose own title already ends in the brand produces
- * "… — RentReady | RentReady". Four pages rendered exactly that, and the brand
+ * "… — Locelio | Locelio". Four pages rendered exactly that, and the brand
  * name in a title is a signal Google discounts, so it is worth fixing once here
  * rather than page by page.
  */
 function dedupeBrandSuffix(title: string): string {
-  return title.replace(/\s*\|\s*RentReady\s*$/, "").trim() || title;
+  return title.replace(new RegExp(`\\s*\\|\\s*(?:${SITE_NAME}|RentReady)\\s*$`, "i"), "").trim() || title;
 }
 
 /**

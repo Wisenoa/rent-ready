@@ -75,7 +75,7 @@ export function HeroSection() {
           >
             Vos locations tournent.{" "}
             <span className="block text-stone-900 sm:inline sm:text-stone-800">
-              RentReady s&apos;occupe du suivi.
+              Locelio s&apos;occupe du suivi.
             </span>
           </motion.h1>
 

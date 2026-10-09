@@ -42,7 +42,7 @@ const PILLARS: FeaturePillar[] = [
     title: "La Révision IRL INSEE",
     badge: "Indexation automatique à l'anniversaire",
     summary:
-      "Plus aucun oubli de revalorisation de loyer. RentReady applique les indices trimestriels officiels publiés par l'INSEE dès la date anniversaire du bail.",
+      "Plus aucun oubli de revalorisation de loyer. Locelio applique les indices trimestriels officiels publiés par l'INSEE dès la date anniversaire du bail.",
   },
 ];
 

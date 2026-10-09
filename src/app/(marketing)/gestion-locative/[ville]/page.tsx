@@ -5,7 +5,7 @@ import cities from "@/data/cities.json";
 import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
-import { formatEntryPrice, formatProPrice, formatProAnnualPrice } from "@/data/entity";
+import { formatEntryPrice, formatProPrice, formatProAnnualPrice, SITE_NAME, SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -134,17 +134,17 @@ function getFeatures(city: City) {
     {
       icon: "💶",
       title: "Détection des paiements",
-      description: `Connectez votre compte bancaire en lecture seule via Open Banking (DSP2). RentReady détecte automatiquement les virements de vos locataires dans le ${city.department} et marque les loyers comme encaissés.`,
+      description: `Connectez votre compte bancaire en lecture seule via Open Banking (DSP2). Locelio détecte automatiquement les virements de vos locataires dans le ${city.department} et marque les loyers comme encaissés.`,
     },
     {
       icon: "📈",
       title: "Révision IRL automatique",
-      description: `Le calcul de l'Indice de Référence des Loyers est connecté à l'INSEE. Pour vos biens à ${city.name}, RentReady applique la formule légale et notifie vos locataires de la révision annuelle.`,
+      description: `Le calcul de l'Indice de Référence des Loyers est connecté à l'INSEE. Pour vos biens à ${city.name}, Locelio applique la formule légale et notifie vos locataires de la révision annuelle.`,
     },
     {
       icon: "📊",
       title: "Conformité Factur-X",
-      description: `Préparez dès maintenant le e-reporting B2C obligatoire en septembre 2027. RentReady génère vos documents au format Factur-X (norme EN 16931), compatible avec la plateforme publique de facturation.`,
+      description: `Préparez dès maintenant le e-reporting B2C obligatoire en septembre 2027. Locelio génère vos documents au format Factur-X (norme EN 16931), compatible avec la plateforme publique de facturation.`,
     },
     {
       icon: "🏠",
@@ -155,7 +155,7 @@ function getFeatures(city: City) {
       icon: ctx.isZoneTendue ? "⚖️" : "📑",
       title: ctx.isZoneTendue ? "Encadrement des loyers" : "Analyse fiscale",
       description: ctx.isZoneTendue
-        ? `${city.name} fait partie des zones tendues soumises à l'encadrement des loyers. RentReady vérifie que vos montants respectent les plafonds et vous alerte en cas de dépassement du loyer de référence majoré.`
+        ? `${city.name} fait partie des zones tendues soumises à l'encadrement des loyers. Locelio vérifie que vos montants respectent les plafonds et vous alerte en cas de dépassement du loyer de référence majoré.`
         : `Visualisez vos revenus fonciers, charges déductibles et simulez le régime fiscal le plus avantageux pour vos biens à ${city.name} — micro-foncier, réel, LMNP classique ou dispositif Jeanbrun 2026.`,
     },
   ];
@@ -169,7 +169,7 @@ function getFaqs(city: City) {
   return [
     {
       question: `Pourquoi utiliser un logiciel de gestion locative à ${city.name} ?`,
-      answer: `Gérer des biens locatifs à ${city.name} implique de respecter la législation française (quittances conformes à la loi de 1989, diagnostics obligatoires${ctx.isZoneTendue ? ", respect de l'encadrement des loyers en zone tendue" : ""}). RentReady automatise ces tâches pour vous faire gagner du temps et rester en conformité, quelle que soit la taille de votre patrimoine.` },
+      answer: `Gérer des biens locatifs à ${city.name} implique de respecter la législation française (quittances conformes à la loi de 1989, diagnostics obligatoires${ctx.isZoneTendue ? ", respect de l'encadrement des loyers en zone tendue" : ""}). Locelio automatise ces tâches pour vous faire gagner du temps et rester en conformité, quelle que soit la taille de votre patrimoine.` },
     {
       question: `Quel est le loyer moyen à ${city.name} en 2026 ?`,
       answer: rentData
@@ -178,19 +178,19 @@ function getFaqs(city: City) {
     },
     {
       question: `La gestion locative à ${city.name} est-elle obligatoire ?`,
-      answer: `Aucun texte n'oblige les propriétaires à utiliser un logiciel de gestion locative. En revanche, la loi leur impose des obligations précises : remise d'une quittance dans les 24h suivant le paiement, notification de révision de loyer un mois avant la date d'anniversaire, transmission annuelle de la déclaration de revenus fonciers. Un logiciel comme RentReady vous aide à respecter ces échéances sans y consacrer du temps chaque mois.`,
+      answer: `Aucun texte n'oblige les propriétaires à utiliser un logiciel de gestion locative. En revanche, la loi leur impose des obligations précises : remise d'une quittance dans les 24h suivant le paiement, notification de révision de loyer un mois avant la date d'anniversaire, transmission annuelle de la déclaration de revenus fonciers. Un logiciel comme Locelio vous aide à respecter ces échéances sans y consacrer du temps chaque mois.`,
     },
     {
-      question: `RentReady est-il adapté au marché locatif de ${city.name} ?`,
-      answer: `Oui. Avec environ ${formatPopulation(city.population)} habitants, ${city.name} (${city.region}) présente un marché locatif ${ctx.bracketLabel === "métropole" ? "très dynamique avec une forte demande" : ctx.bracketLabel === "grande ville" ? "actif et concurrentiel" : "stable avec une demande régulière"}. RentReady s'adapte à tous les types de biens — du studio meublé à l'immeuble en SCI familiale — avec des outils pensés pour le contexte réglementaire français.`,
+      question: `Locelio est-il adapté au marché locatif de ${city.name} ?`,
+      answer: `Oui. Avec environ ${formatPopulation(city.population)} habitants, ${city.name} (${city.region}) présente un marché locatif ${ctx.bracketLabel === "métropole" ? "très dynamique avec une forte demande" : ctx.bracketLabel === "grande ville" ? "actif et concurrentiel" : "stable avec une demande régulière"}. Locelio s'adapte à tous les types de biens — du studio meublé à l'immeuble en SCI familiale — avec des outils pensés pour le contexte réglementaire français.`,
     },
     {
-      question: `Combien coûte la gestion locative à ${city.name} avec RentReady ?`,
-      answer: `RentReady coûte ${formatEntryPrice()} par mois pour 3 biens, ou ${formatProPrice()} pour 10 biens (${formatProAnnualPrice()} par an, soit 2 mois offerts). C'est 4 à 5 fois moins cher qu'une agence immobilière à ${city.name} qui facture en moyenne 7 % du loyer annuel, soit environ ${ctx.avgRent * 70} € par an pour un loyer de ${ctx.avgRent * 1000 / 10} € mensuels. Essai gratuit de 14 jours sans carte bancaire.`,
+      question: `Combien coûte la gestion locative à ${city.name} avec Locelio ?`,
+      answer: `Locelio coûte ${formatEntryPrice()} par mois pour 3 biens, ou ${formatProPrice()} pour 10 biens (${formatProAnnualPrice()} par an, soit 2 mois offerts). C'est 4 à 5 fois moins cher qu'une agence immobilière à ${city.name} qui facture en moyenne 7 % du loyer annuel, soit environ ${ctx.avgRent * 70} € par an pour un loyer de ${ctx.avgRent * 1000 / 10} € mensuels. Essai gratuit de 14 jours sans carte bancaire.`,
     },
     {
       question: `Comment démarrer la gestion locative de mes biens à ${city.name} ?`,
-      answer: `Créez votre compte gratuitement en 2 minutes, ajoutez vos biens situés à ${city.name} et vos locataires, et RentReady s'occupe du reste : quittances automatiques, suivi des paiements, relances, révision IRL et préparation des documents fiscaux. Aucune installation n'est nécessaire, tout fonctionne depuis votre navigateur ou votre smartphone.`,
+      answer: `Créez votre compte gratuitement en 2 minutes, ajoutez vos biens situés à ${city.name} et vos locataires, et Locelio s'occupe du reste : quittances automatiques, suivi des paiements, relances, révision IRL et préparation des documents fiscaux. Aucune installation n'est nécessaire, tout fonctionne depuis votre navigateur ou votre smartphone.`,
     },
     ...(ctx.isZoneTendue ? [{
       question: `L'encadrement des loyers s'applique-t-il à ${city.name} ?`,
@@ -214,13 +214,13 @@ function getLocalParagraphs(city: City) {
           : `Située dans le département ${city.department} (${city.region}), ${city.name} compte ${formatPopulation(pop)} habitants. Le marché locatif local se caractérise par des loyers modérés et un taux de vacance faible, ce qui en fait un territoire de choix pour les investisseurs locatifs à la recherche de rendements réguliers.`;
 
   const regulation = ctx.isZoneTendue
-    ? `En tant que zone tendue, ${city.name} est soumise à l'encadrement des loyers. Les propriétaires bailleurs doivent respecter le loyer de référence fixé par arrêté préfectoral, sous peine de sanctions. Les arrêtés relatifs aux loyers de référence pour ${city.name} sont disponibles sur le site de la préfecture du ${city.department}. La législation évolue rapidement — obligation de facturation électronique Factur-X dès 2026, e-reporting B2C en 2027 — et RentReady intègre ces évolutions pour que vous n'ayez pas à vous en soucier.`
-    : `Que vous soyez propriétaire d'un appartement en centre-ville ou d'une maison en périphérie de ${city.name}, une gestion locative rigoureuse est essentielle pour sécuriser vos revenus et respecter vos obligations légales. La réglementation française évolue rapidement — obligation de facturation électronique Factur-X dès 2026, e-reporting B2C en septembre 2027 — et RentReady intègre ces évolutions pour que vous n'ayez pas à vous en soucier.`;
+    ? `En tant que zone tendue, ${city.name} est soumise à l'encadrement des loyers. Les propriétaires bailleurs doivent respecter le loyer de référence fixé par arrêté préfectoral, sous peine de sanctions. Les arrêtés relatifs aux loyers de référence pour ${city.name} sont disponibles sur le site de la préfecture du ${city.department}. La législation évolue rapidement — obligation de facturation électronique Factur-X dès 2026, e-reporting B2C en 2027 — et Locelio intègre ces évolutions pour que vous n'ayez pas à vous en soucier.`
+    : `Que vous soyez propriétaire d'un appartement en centre-ville ou d'une maison en périphérie de ${city.name}, une gestion locative rigoureuse est essentielle pour sécuriser vos revenus et respecter vos obligations légales. La réglementation française évolue rapidement — obligation de facturation électronique Factur-X dès 2026, e-reporting B2C en septembre 2027 — et Locelio intègre ces évolutions pour que vous n'ayez pas à vous en soucier.`;
 
   const closing =
     pop > 200000
       ? `Pour un propriétaire bailleur à ${city.name}, automatiser la gestion locative représente un gain de temps considérable : fin du pointage manuel des virements, quittances conformes générées sans intervention, et révision de loyer calculée automatiquement. Le marché de ${city.name} attire chaque année de nouveaux investisseurs — anticiper les obligations légales avec un outil dédié vous permet de rester concentré sur la sélection de vos locataires.`
-      : `Pour les propriétaires bailleurs à ${city.name} et dans le département ${city.department}, RentReady élimine les tâches répétitives : quittances automatiques conformes à la loi de 1989, détection des virements via Open Banking, et calcul de la révision IRL connecté à l'INSEE. Vous gardez le contrôle total de vos biens sans y consacrer des heures chaque mois.`;
+      : `Pour les propriétaires bailleurs à ${city.name} et dans le département ${city.department}, Locelio élimine les tâches répétitives : quittances automatiques conformes à la loi de 1989, détection des virements via Open Banking, et calcul de la révision IRL connecté à l'INSEE. Vous gardez le contrôle total de vos biens sans y consacrer des heures chaque mois.`;
 
   return { intro, regulation, closing };
 }
@@ -230,7 +230,7 @@ function getLocalParagraphs(city: City) {
 function getHowToSteps(city: City) {
   return [
     {
-      name: `Créer votre compte RentReady pour la gestion locative à ${city.name}`,
+      name: `Créer votre compte Locelio pour la gestion locative à ${city.name}`,
       text: `Inscrivez-vous gratuitement en 2 minutes. Aucune carte bancaire requise pour l'essai de 14 jours. Sélectionnez votre profil : propriétaire bailleur, SCI, ou gestionnaire de patrimoine.`,
       url: "/register",
     },
@@ -246,7 +246,7 @@ function getHowToSteps(city: City) {
     },
     {
       name: `Activer le suivi automatique des paiements`,
-      text: `Connectez votre compte bancaire en lecture seule. RentReady détecte automatiquement les virements de vos locataires et met à jour le statut de chaque paiement, sans aucune manipulation de votre part.`,
+      text: `Connectez votre compte bancaire en lecture seule. Locelio détecte automatiquement les virements de vos locataires et met à jour le statut de chaque paiement, sans aucune manipulation de votre part.`,
       url: "/register",
     },
   ];
@@ -270,17 +270,17 @@ function buildGestionLocativeVilleSchema(city: City) {
         "@type": "BreadcrumbList",
         name: "Fil d'Ariane",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
-          { "@type": "ListItem", position: 2, name: "Gestion locative", item: "https://www.rentready.fr/gestion-locative" },
-          { "@type": "ListItem", position: 3, name: city.name, item: `https://www.rentready.fr/gestion-locative/${city.slug}` },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Gestion locative", item: `${SITE_URL}/gestion-locative` },
+          { "@type": "ListItem", position: 3, name: city.name, item: `${SITE_URL}/gestion-locative/${city.slug}` },
         ],
       },
       /* HowTo — main action the page describes */
       {
         "@type": "HowTo",
-        name: `Comment gérer ses locations à ${city.name} avec RentReady`,
+        name: `Comment gérer ses locations à ${city.name} avec Locelio`,
         description: `Guide complet pour gérer vos locations à ${city.name} : quittances, suivi des paiements, révision IRL, encadrement des loyers${ctx.isZoneTendue ? " et conformité en zone tendue" : ""}.`,
-        image: "https://www.rentready.fr/opengraph-image",
+        image: `${SITE_URL}/opengraph-image`,
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
           position: i + 1,
@@ -289,16 +289,16 @@ function buildGestionLocativeVilleSchema(city: City) {
             "@type": "ItemList",
             itemListElement: [{ "@type": "HowToDirection", text: step.text }],
           },
-          url: `https://www.rentready.fr/register?utm_source=howto&utm_medium=organic&utm_campaign=gestion-locative-${city.slug}`,
+          url: `${SITE_URL}/register?utm_source=howto&utm_medium=organic&utm_campaign=gestion-locative-${city.slug}`,
         })),
         totalTime: "PT10M",
         supply: [
-          { "@type": "HowToSupply", name: "Compte RentReady (gratuit 14 jours)" },
+          { "@type": "HowToSupply", name: "Compte Locelio (gratuit 14 jours)" },
           { "@type": "HowToSupply", name: `Biens immobiliers à ${city.name}` },
           { "@type": "HowToSupply", name: "Informations des locataires" },
         ],
         tool: [
-          { "@type": "HowToTool", name: "RentReady — Logiciel de gestion locative" },
+          { "@type": "HowToTool", name: "Locelio — Logiciel de gestion locative" },
           { "@type": "HowToTool", name: "Connexion Open Banking (optionnel)" },
         ],
         about: {
@@ -310,10 +310,10 @@ function buildGestionLocativeVilleSchema(city: City) {
       /* SoftwareApplication */
       {
         "@type": "SoftwareApplication",
-        name: "RentReady",
+        name: "Locelio",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: `https://www.rentready.fr/gestion-locative/${city.slug}`,
+        url: `${SITE_URL}/gestion-locative/${city.slug}`,
         description: `Logiciel de gestion locative pour propriétaires bailleurs à ${city.name} (${city.department}). Quittances conformes, détection des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
         offers: {
           ...paidOffer(),
@@ -332,10 +332,10 @@ function buildGestionLocativeVilleSchema(city: City) {
       /* LocalBusiness — enriched */
       {
         "@type": "LocalBusiness",
-        name: `RentReady — Gestion locative ${city.name}`,
+        name: `Locelio — Gestion locative ${city.name}`,
         description: `Service de gestion locative en ligne pour propriétaires bailleurs à ${city.name} (département ${city.department}, ${city.region}). Automatisation des quittances, suivi des paiements, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
-        url: `https://www.rentready.fr/gestion-locative/${city.slug}`,
-        image: "https://www.rentready.fr/opengraph-image",
+        url: `${SITE_URL}/gestion-locative/${city.slug}`,
+        image: `${SITE_URL}/opengraph-image`,
         ...(avgRentPerSqm ? {
           priceRange: `€€`,
           hasOfferCatalog: {
@@ -381,9 +381,9 @@ function buildGestionLocativeVilleSchema(city: City) {
       {
         "@type": "WebPage",
         name: `Gestion locative à ${city.name} — Logiciel en ligne 2026`,
-        description: `Découvrez comment RentReady simplifie la gestion locative à ${city.name}. Quittances légales, détection des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}. Essai gratuit 14 jours.`,
-        url: `https://www.rentready.fr/gestion-locative/${city.slug}`,
-        isPartOf: { "@type": "WebSite", name: "RentReady", url: "https://www.rentready.fr" },
+        description: `Découvrez comment Locelio simplifie la gestion locative à ${city.name}. Quittances légales, détection des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}. Essai gratuit 14 jours.`,
+        url: `${SITE_URL}/gestion-locative/${city.slug}`,
+        isPartOf: { "@type": "WebSite", name: "Locelio", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
       /* FAQPage */
@@ -399,20 +399,20 @@ function buildGestionLocativeVilleSchema(city: City) {
       /* Organization */
       {
         "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@rentready.fr",
+          email: "contact@locelio.fr",
           availableLanguage: "French",
         },
       },
       /* WebSite */
       {
         "@type": "WebSite",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
       },
     ],
   };
@@ -700,7 +700,7 @@ export default async function GestionLocativeVille({ params }: Props) {
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
               Rejoignez les propriétaires qui simplifient leur gestion locative à{" "}
-              {city.name} avec RentReady. Sans carte bancaire, sans engagement.
+              {city.name} avec Locelio. Sans carte bancaire, sans engagement.
             </p>
             <Link
               href="/register"

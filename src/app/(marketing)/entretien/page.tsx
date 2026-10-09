@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/landing/final-cta";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 import { baseMetadata } from "@/lib/seo/metadata";
 import { paidOffer } from "@/components/seo/schema-markup";
 
@@ -128,22 +129,22 @@ function MaintenanceJsonLd() {
             "@type": "ListItem",
             position: 1,
             name: "Accueil",
-            item: "https://www.rentready.fr",
+            item: SITE_URL,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Suivi des interventions",
-            item: "https://www.rentready.fr/maintenance",
+            item: `${SITE_URL}/maintenance`,
           },
         ],
       },
       {
         "@type": "SoftwareApplication",
-        name: "RentReady — Suivi des interventions",
+        name: `${SITE_NAME} — Suivi des interventions`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: "https://www.rentready.fr/maintenance",
+        url: `${SITE_URL}/maintenance`,
         description:
           "Gérez les demandes de réparation et maintenance de vos locations : déclaration en ligne, priorisation automatique, historique par bien, suivi en temps réel.",
         offers: {
@@ -159,19 +160,8 @@ function MaintenanceJsonLd() {
         ],
       },
       {
-        "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "customer support",
-          email: "contact@rentready.fr",
-          availableLanguage: "French",
-        },
-      },
-      {
         "@type": "FAQPage",
-        name: "FAQ — Suivi des interventions RentReady",
+        name: `FAQ — Suivi des interventions ${SITE_NAME}`,
         mainEntity: faqData.map((item) => ({
           "@type": "Question",
           name: item.question,

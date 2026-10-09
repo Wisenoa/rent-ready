@@ -7,6 +7,7 @@ import {
   buildItemListSchema,
 } from "@/lib/seo/structured-data";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -35,10 +36,10 @@ const comparatifs = [
     badgeColor: "bg-blue-100 text-blue-700",
   },
   {
-    title: "RentReady vs LegalPlace",
+    title: "Locelio vs LegalPlace",
     description:
       "Gestion locative vs services juridiques : comment utiliser les deux ensemble pour vos locations.",
-    href: "/comparatif/rentready-vs-legalplace",
+    href: "/comparatif/locelio-vs-legalplace",
     badge: "Nouveau",
     badgeColor: "bg-red-100 text-red-700",
   },
@@ -76,18 +77,18 @@ const comparatifs = [
 function ComparatifIndexJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Comparatifs", url: "https://www.rentready.fr/comparatif" },
+      { name: "Accueil", url: SITE_URL },
+      { name: "Comparatifs", url: `${SITE_URL}/comparatif` },
     ]),
     buildItemListSchema({
       name: "Comparatifs pour propriétaires bailleurs",
       description:
         "Guides comparatifs pour analyser les solutions de gestion locative, quittances, assurances et outils.",
-      url: "https://www.rentready.fr/comparatif",
+      url: `${SITE_URL}/comparatif`,
       items: comparatifs.map((comp) => ({
         name: comp.title,
         description: comp.description,
-        url: `https://www.rentready.fr${comp.href}`,
+        url: `${SITE_URL}${comp.href}`,
       })),
     })
   );

@@ -99,7 +99,7 @@ export function InlineCTA({
 export function BlogInlineCTA({ href = "/register" }: { href?: string }) {
   return (
     <InlineCTA
-      text="Essayez RentReady gratuitement"
+      text="Essayez Locelio gratuitement"
       href={href}
       variant="link"
       conversionContext="blog"

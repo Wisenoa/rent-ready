@@ -26,12 +26,12 @@ export function PasswordResetEmail({
   return (
     <Html>
       <Head />
-      <Preview>Réinitialisation de votre mot de passe Rent-Ready</Preview>
+      <Preview>Réinitialisation de votre mot de passe Locelio</Preview>
       <Body style={styles.body}>
         <Container style={styles.container}>
           {/* Header */}
           <Section style={styles.headerSection}>
-            <Heading style={styles.logo}>Rent-Ready</Heading>
+            <Heading style={styles.logo}>Locelio</Heading>
           </Section>
 
           {/* Main Content */}

@@ -8,8 +8,8 @@ export function B3Faq() {
 
   const faqs = [
     {
-      q: "Pourquoi quitter un tableur Excel pour RentReady ?",
-      a: "Un tableur ne prépare pas vos quittances au format légal, n'alerte pas sur les révisions IRL et oblige à pointer vos relevés à la main. RentReady automatise ces vérifications et ne signale que les anomalies.",
+      q: "Pourquoi quitter un tableur Excel pour Locelio ?",
+      a: "Un tableur ne prépare pas vos quittances au format légal, n'alerte pas sur les révisions IRL et oblige à pointer vos relevés à la main. Locelio automatise ces vérifications et ne signale que les anomalies.",
     },
     {
       q: "Comment fonctionne l'essai gratuit de 14 jours ?",
@@ -17,7 +17,7 @@ export function B3Faq() {
     },
     {
       q: "Que se passe-t-il en cas de versement partiel d'un locataire ?",
-      a: "RentReady édite un reçu d'acompte avec le solde restant dû (loi de 1989 art. 21). La quittance définitive n'est disponible qu'une fois le loyer intégralement réglé.",
+      a: "Locelio édite un reçu d'acompte avec le solde restant dû (loi de 1989 art. 21). La quittance définitive n'est disponible qu'une fois le loyer intégralement réglé.",
     },
     {
       q: "Mes données d'encaissement sont-elles exportables ?",

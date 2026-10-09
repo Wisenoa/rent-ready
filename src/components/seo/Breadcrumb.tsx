@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Home } from "lucide-react";
 import { SchemaMarkup } from "./schema-markup";
+import { SITE_URL } from "@/data/entity";
 
 export interface BreadcrumbItem {
   label: string;
@@ -33,7 +34,7 @@ export function breadcrumbListSchema(
         name: item.label,
       };
       if (!item.isCurrentPage) {
-        entry.item = `https://www.rentready.fr${item.href}`;
+        entry.item = `${SITE_URL}${item.href}`;
       }
       return entry;
     }),

@@ -39,9 +39,9 @@ export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Logiciel de gestion locative pour propriétaires bailleurs | RentReady",
+    title: "Logiciel de gestion locative pour propriétaires bailleurs | Locelio",
     description:
-      "Gérez vos locations sans tableur. Suivi des encaissements, quittances et reçus conformes à la loi de 1989, rappels de révision de loyer IRL. Essai gratuit 14 jours.",
+      "Gérez vos locations sans tableur. Suivi des encaissements, quittances et reçus conformes à la loi de 1989, rappels de révision de loyer IRL. Essai gratuit sans engagement.",
     url: "",
     ogType: "default",
   });

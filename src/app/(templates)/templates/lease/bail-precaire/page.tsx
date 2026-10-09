@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "occupation temporaire",
   ],
   openGraph: {
-    title: "Modèle Bail Précaire 2026 — RentReady",
+    title: "Modèle Bail Précaire 2026 — Locelio",
     description:
       "Bail précaire pour occupation temporaire. Gratuit, téléchargeable en PDF. Préavis réduit.",
     type: "website",
-    url: "https://www.rentready.fr/templates/lease/bail-precaire",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/lease/bail-precaire",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/lease/bail-precaire"),
 };
@@ -125,25 +125,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://www.rentready.fr/#organization",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.svg",
+  "@id": "https://locelio.fr/#organization",
+  name: "Locelio",
+  url: "https://locelio.fr",
+  logo: "https://locelio.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@rentready.fr",
+    email: "contact@locelio.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://www.rentready.fr/#website",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
+  "@id": "https://locelio.fr/#website",
+  name: "Locelio",
+  url: "https://locelio.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -159,14 +159,14 @@ function BailPrecaireJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle Bail Précaire 2026 — RentReady",
+        name: "Modèle Bail Précaire 2026 — Locelio",
         description:
           "Modèle de bail précaire pour occupation temporaire avec préavis réduit.",
-        url: "https://www.rentready.fr/templates/lease/bail-precaire",
+        url: "https://locelio.fr/templates/lease/bail-precaire",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -223,7 +223,7 @@ export default function BailPrecairePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-orange-700 shadow-sm border border-orange-200 transition-colors hover:bg-orange-50"
             >
-              Générer avec RentReady →
+              Générer avec Locelio →
             </Link>
           </div>
         </header>

@@ -1,5 +1,5 @@
 /**
- * RentReady B+ V2.1 Production Design System
+ * Locelio B+ V2.1 Production Design System
  *
  * Export unifié des tokens, primitives et motifs métier (product patterns).
  */

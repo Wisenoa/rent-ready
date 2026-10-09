@@ -312,6 +312,11 @@ const config: NextConfig = {
         destination: '/comparatif/logiciel-gestion-locative',
         permanent: true,
       },
+      {
+        source: '/comparatif/rentready-vs-legalplace',
+        destination: '/comparatif/locelio-vs-legalplace',
+        permanent: true,
+      },
 
       // ────────────────────────────────────────
       // Slugs d'articles corrigés
@@ -405,8 +410,15 @@ const config: NextConfig = {
 
 export default withSentryConfig(config, {
   org: process.env.SENTRY_ORG || 'wisenoa',
-  project: 'rent-ready',
+  project: process.env.SENTRY_PROJECT || 'locelio',
   widenClientFileUpload: false,
+  silent: !process.env.CI,
+  sourcemaps: {
+    disable: process.env.SENTRY_AUTH_TOKEN === 'your-sentry-auth-token' || !process.env.SENTRY_AUTH_TOKEN,
+  },
+  errorHandler: (err) => {
+    console.warn('[Sentry] Sourcemap upload skipped/failed (non-fatal):', err.message);
+  },
   // No tunnel option here on purpose. Sentry 10's `SentryBuildOptions` has no
   // `tunnelUrl`/`tunnelRoute` field at all — `tsc` rejects both — so the previous
   // `tunnelRoute: '/api/sentry-error'` was not misnamed, it was removed from the

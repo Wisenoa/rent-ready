@@ -14,10 +14,10 @@ export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "RentReady vs LegalPlace : comparatif gestion locative et juridique 2026",
+    title: "Locelio vs LegalPlace : comparatif gestion locative et juridique 2026",
     description:
-      "Comparez RentReady et LegalPlace : logiciels de gestion locative, services juridiques en ligne, conformité bail, tarifs. Quelle solution pour les propriétaires bailleurs en 2026 ?",
-    url: "/comparatif/rentready-vs-legalplace",
+      "Comparez Locelio et LegalPlace : logiciels de gestion locative, services juridiques en ligne, conformité bail, tarifs. Quelle solution pour les propriétaires bailleurs en 2026 ?",
+    url: "/comparatif/locelio-vs-legalplace",
     ogType: "website",
   });
 }
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  name: "RentReady vs LegalPlace comparatif",
+  name: "Locelio vs LegalPlace comparatif",
   mainEntity: [
     {
       "@type": "Question",
@@ -37,10 +37,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "Faut-il choisir entre RentReady et LegalPlace ?",
+      name: "Faut-il choisir entre Locelio et LegalPlace ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Non, les deux sont complémentaires. LegalPlace aide à rédiger un bail conforme ; RentReady gère le suivi quotidien de la location (paiements, relances, quittances, révision de loyer). Many propriétaires utilisent les deux.",
+        text: "Non, les deux sont complémentaires. LegalPlace aide à rédiger un bail conforme ; Locelio gère le suivi quotidien de la location (paiements, relances, quittances, révision de loyer). De nombreux propriétaires utilisent les deux.",
       },
     },
     {
@@ -48,23 +48,23 @@ const faqSchema = {
       name: "LegalPlace est-il moins cher qu'un avocat ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Oui. LegalPlace propose des consultations et rédactions de documents à partir de quelques dizaines d'euros, contre plusieurs centaines d'euros chez un avocat. Pour les bachelors standards, c'est une alternative économique.",
+        text: "Oui. LegalPlace propose des consultations et rédactions de documents à partir de quelques dizaines d'euros, contre plusieurs centaines d'euros chez un avocat. Pour les baux standards, c'est une alternative économique.",
       },
     },
     {
       "@type": "Question",
-      name: "RentReady intègre-t-il des conseils juridiques ?",
+      name: "Locelio intègre-t-il des conseils juridiques ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "RentReady inclut des modèles de bail conformes à la loi Alur et des informations juridiques dans ses guides. Pour des conseils juridiques personnalisés (litige, contentieux), une consultation LegalPlace ou avocat reste recommandée.",
+        text: "Locelio inclut des modèles de bail conformes à la loi Alur et des informations juridiques dans ses guides. Pour des conseils juridiques personnalisés (litige, contentieux), une consultation LegalPlace ou avocat reste recommandée.",
       },
     },
     {
       "@type": "Question",
-      name: "Peut-on utiliser LegalPlace pour le bail et RentReady pour la gestion ?",
+      name: "Peut-on utiliser LegalPlace pour le bail et Locelio pour la gestion ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Absolument. C'est même une combinaison intelligente : vous rédigez vos baux sur LegalPlace avec les bonnes clauses, puis vous gérez vos locations au quotidien sur RentReady (suivi des paiements, génération des quittances, alertes IRL).",
+        text: "Absolument. C'est même une combinaison intelligente : vous rédigez vos baux sur LegalPlace avec les bonnes clauses, puis vous gérez vos locations au quotidien sur Locelio (suivi des paiements, génération des quittances, alertes IRL).",
       },
     },
   ],
@@ -88,7 +88,7 @@ const criteria = [
 
 function getScore(software: string, criterion: string): "check" | "cross" | "minus" {
   const scores: Record<string, Record<string, "check" | "cross" | "minus">> = {
-    RentReady: {
+    Locelio: {
       "Rédaction de bail": "minus",
       "Quittances automatiques": "check",
       "Détection paiements": "check",
@@ -112,8 +112,8 @@ function getScore(software: string, criterion: string): "check" | "cross" | "min
   return scores[software]?.[criterion] ?? "cross";
 }
 
-export default function RentReadyVsLegalPlace() {
-  const softwareList = ["RentReady", "LegalPlace"];
+export default function LocelioVsLegalPlace() {
+  const softwareList = ["Locelio", "LegalPlace"];
 
   return (
     <>
@@ -122,7 +122,7 @@ export default function RentReadyVsLegalPlace() {
         items={[
           { label: "Accueil", href: "/" },
           { label: "Comparatifs", href: "/comparatif" },
-          { label: "RentReady vs LegalPlace", href: "/comparatif/rentready-vs-legalplace", isCurrentPage: true },
+          { label: "Locelio vs LegalPlace", href: "/comparatif/locelio-vs-legalplace", isCurrentPage: true },
         ]}
       />
 
@@ -132,10 +132,10 @@ export default function RentReadyVsLegalPlace() {
             Comparatif — Gestion locative et services juridiques
           </p>
           <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
-            RentReady vs LegalPlace : quelles différences ?
+            Locelio vs LegalPlace : quelles différences ?
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
-            Deux outils complémentaires pour les propriétaires bailleurs. RentReady gère vos locations au quotidien.
+            Deux outils complémentaires pour les propriétaires bailleurs. Locelio gère vos locations au quotidien.
             LegalPlace vous aide sur le juridique et la rédaction de documents. Comparatif 2026.
           </p>
         </header>
@@ -150,7 +150,7 @@ export default function RentReadyVsLegalPlace() {
                     <th
                       key={sw}
                       className={`py-3 px-4 text-center font-semibold ${
-                        sw === "RentReady" ? "text-blue-600" : "text-stone-700"
+                        sw === "Locelio" ? "text-blue-600" : "text-stone-700"
                       }`}
                     >
                       {sw}
@@ -187,12 +187,12 @@ export default function RentReadyVsLegalPlace() {
           </div>
         </section>
 
-        {/* Use case: LegalPlace for documents, RentReady for management */}
+        {/* Use case: LegalPlace for documents, Locelio for management */}
         <section className="mb-12 rounded-xl border border-blue-200 bg-blue-50 p-6">
           <h2 className="text-lg font-bold text-stone-900 mb-2">La combinaison recommandée</h2>
           <p className="text-sm text-stone-600 mb-4">
             De nombreux propriétaires utilisent <strong>LegalPlace</strong> pour rédiger leurs baux avec les bonnes clauses
-            juridiques, puis <strong>RentReady</strong> pour gérer leurs locations au quotidien.
+            juridiques, puis <strong>Locelio</strong> pour gérer leurs locations au quotidien.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-lg bg-white p-4 border border-blue-100">
@@ -207,7 +207,7 @@ export default function RentReadyVsLegalPlace() {
               </ul>
             </div>
             <div className="rounded-lg bg-white p-4 border border-blue-100">
-              <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-2">Avec RentReady</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-2">Avec Locelio</p>
               <ul className="space-y-1">
                 {["Suivi des paiements", "Quittances automatiques", "Relance loyer impayé", "Révision IRL"].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-stone-600">
@@ -224,7 +224,7 @@ export default function RentReadyVsLegalPlace() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-3">
-                <h3 className="text-lg font-bold text-stone-900">RentReady</h3>
+                <h3 className="text-lg font-bold text-stone-900">Locelio</h3>
                 <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white">
                   Gestion locative
                 </span>
@@ -236,7 +236,7 @@ export default function RentReadyVsLegalPlace() {
                 <div>
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-green-700">Avantages</p>
                   <ul className="space-y-1">
-                    {["Quittances légales automatiques", "Détection paiements via Open Banking", "Relance automatique impayés", "Portail locataire inclus", "Essai gratuit 14 jours"].map((pro) => (
+                    {["Quittances légales automatiques", "Détection paiements via Open Banking", "Relance automatique impayés", "Portail locataire inclus", "Essai gratuit sans engagement"].map((pro) => (
                       <li key={pro} className="flex items-start gap-2 text-sm text-stone-600">
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
                         {pro}
@@ -251,7 +251,7 @@ export default function RentReadyVsLegalPlace() {
                 href="/register"
                 className="inline-block rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700"
               >
-                Essai gratuit 14 jours →
+                Essayer gratuitement →
               </Link>
             </div>
           </div>
@@ -298,7 +298,7 @@ export default function RentReadyVsLegalPlace() {
         </section>
 
         <section className="mb-16 rounded-2xl bg-[#f8f7f4] p-8">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes : RentReady vs LegalPlace</h2>
+          <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes : Locelio vs LegalPlace</h2>
           <div className="divide-y divide-stone-200">
             {faqSchema.mainEntity.map((faq) => (
               <details key={faq.name} className="group py-5">
@@ -313,10 +313,10 @@ export default function RentReadyVsLegalPlace() {
         </section>
 
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Gérez vos locations au quotidien avec RentReady</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Gérez vos locations au quotidien avec Locelio</h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
             Quittances automatiques, détection des paiements, relances. Gérez vos locations en toute sérénité.
-            Essai gratuit 14 jours, sans carte bancaire.
+            Essai gratuit sans carte bancaire.
           </p>
           <Link
             href="/register"

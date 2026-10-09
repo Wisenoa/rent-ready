@@ -43,7 +43,7 @@ const jsonLdData = {
       "@type": "WebApplication",
       name: "Générateur de Lettre de Relance Loyer",
       description: "Générez une lettre de relance loyer impayé et une mise en demeure conforme. Prête à envoyer en recommandé.",
-      url: "https://www.rentready.fr/outils/lettre-relance-loyer",
+      url: "https://locelio.fr/outils/lettre-relance-loyer",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
     },
@@ -61,7 +61,7 @@ const jsonLdData = {
         "@type": "ListItem",
         position: i + 1,
         name: item.label,
-        item: `https://www.rentready.fr${item.href}`,
+        item: `https://locelio.fr${item.href}`,
       })),
     },
   ],
@@ -256,13 +256,13 @@ export function LettreRelanceClient() {
               <div className="mt-6 rounded-xl border border-emerald-200/90 bg-emerald-50/60 p-5 space-y-3">
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
                   <Sparkles className="size-3.5" />
-                  <span>Surveillance RentReady</span>
+                  <span>Surveillance Locelio</span>
                 </div>
                 <h4 className="text-sm font-bold text-stone-900">
                   Anticipez les retards avant qu'ils ne deviennent des impayés
                 </h4>
                 <p className="text-xs text-stone-600 leading-relaxed">
-                  RentReady identifie immédiatement les retards de loyer sur votre tableau de bord et prépare vos courriers de relance (amiable, formel ou mise en demeure) pré-remplis en 1 clic.
+                  Locelio identifie immédiatement les retards de loyer sur votre tableau de bord et prépare vos courriers de relance (amiable, formel ou mise en demeure) pré-remplis en 1 clic.
                 </p>
                 <div className="pt-1">
                   <Link

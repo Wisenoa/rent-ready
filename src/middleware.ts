@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /**
- * RentReady Middleware
+ * Locelio Middleware
  *
  * Responsibilities:
  * 1. Auth gate — redirect unauthenticated users away from private routes

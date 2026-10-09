@@ -5,7 +5,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { spring } from "@/components/landing/motion-config";
 
-const COOKIE_KEY = "rentready_cookie_consent";
+const COOKIE_KEY = "locelio_cookie_consent";
+const LEGACY_COOKIE_KEY = "rentready_cookie_consent";
 
 /** How long to wait before interrupting the user with the banner. */
 const DELAY_MS = 1500;
@@ -13,18 +14,11 @@ const DELAY_MS = 1500;
 export function CookieConsent() {
   // Two things must be true for the banner to show: no stored decision, and
   // 1.5s elapsed since mount.
-  //
-  // The previous version called setState synchronously in the effect body
-  // (react-hooks/set-state-in-effect rejects that — a cascading render on mount).
-  // The fix is a timer that only *reports elapsed time*; visibility is derived
-  // during render from two pieces of state, so the effect performs no write that
-  // changes the component synchronously — the setTimeout callback is async and
-  // is the sanctioned way to defer a state update.
   const [mountedAt, setMountedAt] = useState<number | null>(null);
   const [elapsed, setElapsed] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem(COOKIE_KEY)) return;
+    if (localStorage.getItem(COOKIE_KEY) || localStorage.getItem(LEGACY_COOKIE_KEY)) return;
     const id = setTimeout(() => {
       setMountedAt(Date.now());
       setElapsed(true);
@@ -34,6 +28,7 @@ export function CookieConsent() {
 
   function decide(value: "accepted" | "rejected") {
     localStorage.setItem(COOKIE_KEY, value);
+    localStorage.setItem(LEGACY_COOKIE_KEY, value);
     setElapsed(false);
   }
 

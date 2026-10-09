@@ -44,7 +44,7 @@ test.describe('Vertical Slice #4 — First-Run & Onboarding Flow', () => {
 
     // 2. Arrivée directe sur le tableau de bord en état zéro (calme, orienté action)
     await expect(page).toHaveURL(/\/dashboard/, { timeout: 30000 });
-    const welcomeHeading = page.getByRole('heading', { name: /bienvenue sur rentready/i });
+    const welcomeHeading = page.getByRole('heading', { name: /bienvenue sur (?:rentready|locelio)/i });
     await expect(welcomeHeading).toBeVisible();
 
     // Bouton primaire d'action rapide sur le dashboard

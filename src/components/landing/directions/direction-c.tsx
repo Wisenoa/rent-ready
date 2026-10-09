@@ -21,7 +21,7 @@ export function DirectionC() {
             <div className="w-8 h-8 rounded bg-slate-950 text-white font-mono text-sm font-bold flex items-center justify-center">
               RR
             </div>
-            <span className="font-bold tracking-tight text-lg text-slate-950">RentReady</span>
+            <span className="font-bold tracking-tight text-lg text-slate-950">Locelio</span>
             <span className="hidden sm:inline-flex items-center gap-1.5 ml-3 px-2 py-0.5 rounded text-[11px] font-mono bg-indigo-50 text-indigo-700 border border-indigo-200">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse" />
               Direction C · Fil du Mois

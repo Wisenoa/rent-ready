@@ -8,13 +8,13 @@ export function HomeFooter() {
         <div className="space-y-2 col-span-2 sm:col-span-1">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#1E3A2F]" aria-hidden="true" />
-            <span className="font-bold text-[#15241F]">RentReady</span>
+            <span className="font-bold text-[#15241F]">Locelio</span>
           </div>
           <p className="text-[11px] text-[#7C8782]">
             Logiciel de gestion locative pour propriétaires bailleurs indépendants.
           </p>
           <p className="text-[11px] text-[#7C8782] pt-2">
-            © 2026 RentReady. Tous droits réservés.
+            © 2026 Locelio. Tous droits réservés.
           </p>
         </div>
 

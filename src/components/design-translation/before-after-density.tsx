@@ -202,7 +202,7 @@ export function BeforeAfterDensity() {
                 parasitant la hauteur et polluant l'interface produit réelle.
               </p>
               <div className="p-2.5 bg-[#EDEAE0] border border-[#151413]/10 flex items-center justify-between text-xs opacity-75">
-                <span className="font-serif italic font-bold">RentReady</span>
+                <span className="font-serif italic font-bold">Locelio</span>
                 <span className="bg-[#151413] text-white text-[10px] px-2 py-0.5">Toggle Démo</span>
               </div>
             </div>
@@ -217,7 +217,7 @@ export function BeforeAfterDensity() {
                 artificiels sont éliminés des planches de production.
               </p>
               <div className="p-2.5 bg-[#F8F6F0] border border-[#151413]/10 flex items-center justify-between text-xs">
-                <span className="font-serif italic font-semibold text-base">RentReady</span>
+                <span className="font-serif italic font-semibold text-base">Locelio</span>
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 rounded-full bg-[#151413] text-white flex items-center justify-center text-[10px] font-bold">
                     TR

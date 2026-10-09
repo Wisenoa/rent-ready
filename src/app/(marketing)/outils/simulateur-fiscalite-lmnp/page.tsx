@@ -39,9 +39,9 @@ const breadcrumbItems = [
 function SimulateurFiscalLmnpJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Outils", url: "https://www.rentready.fr/outils" },
-      { name: "Simulateur Fiscal LMNP", url: "https://www.rentready.fr/outils/simulateur-fiscalite-lmnp" },
+      { name: "Accueil", url: "https://locelio.fr" },
+      { name: "Outils", url: "https://locelio.fr/outils" },
+      { name: "Simulateur Fiscal LMNP", url: "https://locelio.fr/outils/simulateur-fiscalite-lmnp" },
     ]),
     buildWebApplicationSchema({
       name: "Simulateur Fiscal LMNP",

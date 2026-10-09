@@ -27,11 +27,12 @@ export function InteractiveDemo({
   isMobile = false,
 }: InteractiveDemoProps) {
   const [state, setState] = useState<DemoState>(initialState);
+  const [prevInitial, setPrevInitial] = useState(initialState);
 
-  // Synchronize when prop changes (for test capture scripts)
-  React.useEffect(() => {
+  if (prevInitial !== initialState) {
+    setPrevInitial(initialState);
     setState(initialState);
-  }, [initialState]);
+  }
 
   const handleResolve = () => {
     setState("resolved");

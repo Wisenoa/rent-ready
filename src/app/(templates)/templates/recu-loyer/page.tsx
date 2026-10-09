@@ -21,12 +21,12 @@ export const metadata: Metadata = {
     "quittance de loyer gratuite",
   ],
   openGraph: {
-    title: "Modèle Quittance de Loyer 2026 — RentReady",
+    title: "Modèle Quittance de Loyer 2026 — Locelio",
     description:
       "Quittance de loyer gratuite et conforme. PDF généré automatiquement avec montant, période et solde.",
     type: "website",
-    url: "https://www.rentready.fr/templates/recu-loyer",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/recu-loyer",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/recu-loyer"),
 };
@@ -39,8 +39,8 @@ function RecuLoyerJsonLd() {
       {
         "@type": "FAQPage",
         name: "Modèle Quittance de Loyer — FAQ",
-        description: "Questions fréquentes sur le modèle de quittance de loyer gratuit et conforme de RentReady.",
-        url: "https://www.rentready.fr/templates/recu-loyer",
+        description: "Questions fréquentes sur le modèle de quittance de loyer gratuit et conforme de Locelio.",
+        url: "https://locelio.fr/templates/recu-loyer",
         mainEntity: [
           { "@type": "Question", name: "La quittance de loyer est-elle obligatoire ?", acceptedAnswer: { "@type": "Answer", text: "Non, la quittance n'est pas obligatoire. Cependant, elle l'est sur demande du locataire (loi du 6 juillet 1989)." } },
           { "@type": "Question", name: "Que doit contenir une quittance de loyer ?", acceptedAnswer: { "@type": "Answer", text: "Une quittance doit mentionner: le nom du propriétaire, l'identité du locataire, l'adresse du bien, le montant du loyer, la période concernée, et la signature du propriétaire." } },
@@ -52,9 +52,9 @@ function RecuLoyerJsonLd() {
         "@type": "BreadcrumbList",
         name: "Fil d'Ariane",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/templates" },
-          { "@type": "ListItem", position: 3, name: "Quittance de Loyer", item: "https://www.rentready.fr/templates/recu-loyer" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Quittance de Loyer", item: "https://locelio.fr/templates/recu-loyer" },
         ],
       },
     ],
@@ -201,7 +201,7 @@ export default function RecuLoyerPage() {
             Gérez vos quittances automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            With RentReady, générez automatiquement une quittance à chaque paiement deloyer. Plus besoin de s'en occuper manuellement.
+            With Locelio, générez automatiquement une quittance à chaque paiement deloyer. Plus besoin de s'en occuper manuellement.
           </p>
           <Link
             href="/register"

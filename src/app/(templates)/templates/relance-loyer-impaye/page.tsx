@@ -92,9 +92,9 @@ function RelanceLoyerJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.rentready.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://www.rentready.fr/templates" },
-          { "@type": "ListItem", position: 3, name: "Relance loyer impayé", item: "https://www.rentready.fr/templates/relance-loyer-impaye" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Relance loyer impayé", item: "https://locelio.fr/templates/relance-loyer-impaye" },
         ],
       },
       {
@@ -109,19 +109,19 @@ function RelanceLoyerJsonLd() {
         })),
         tool: {
           "@type": "SoftwareApplication",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
         "@type": "Article",
-        name: "Modèle Relance Loyer Impayé — RentReady",
+        name: "Modèle Relance Loyer Impayé — Locelio",
         description:
           "Modèle gratuit de lettre de relance loyer impayé et de mise en demeure. Téléchargement PDF instantané.",
         author: {
           "@type": "Organization",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {
@@ -319,7 +319,7 @@ export default function RelanceLoyerImpayePage() {
               href="/register"
               className="inline-block rounded-lg border border-stone-300 bg-white px-6 py-3 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
             >
-              Utiliser avec RentReady →
+              Utiliser avec Locelio →
             </Link>
           </div>
         </section>
@@ -434,7 +434,7 @@ export default function RelanceLoyerImpayePage() {
             Gérez vos relances automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            RentReady détecte automatiquement les impayés et génère les lettres
+            Locelio détecte automatiquement les impayés et génère les lettres
             de relance. Workflow complet, archivage légal.
           </p>
           <Link

@@ -303,7 +303,7 @@ référence majoré en vigueur à la date de signature du bail. Cette règle por
           Calculez automatiquement vos révisions IRL
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
-          With RentReady, l&apos;IRL est mis à jour automatiquement. La révision de loyer est
+          Avec Locelio, l&apos;IRL est mis à jour automatiquement. La révision de loyer est
           calculée et envoyée au locataire en 2 clics.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">

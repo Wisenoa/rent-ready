@@ -18,7 +18,7 @@ export function VisualLanguageV0() {
       <div className="border-b border-[#151413]/12 pb-6 space-y-2">
         <div className="flex items-center gap-3">
           <span className="font-serif text-3xl italic font-semibold text-[#151413]">
-            RentReady
+            Locelio
           </span>
           <span className="text-xs font-semibold uppercase tracking-widest text-[#6B6760] border-l border-[#151413]/15 pl-3">
             Langage Visuel & Comportemental v0

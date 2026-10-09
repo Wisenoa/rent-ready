@@ -15,6 +15,7 @@ import {
 import { GlossarySidebar } from "@/components/seo/blog/GlossarySidebar";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 import glossaryData from "@/data/glossary.json";
 
 interface GlossaryHubTerm {
@@ -87,14 +88,14 @@ export default function GlossaireImmobilierPage() {
     buildOrganizationSchema(),
     buildWebSiteSchema(),
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://www.rentready.fr" },
-      { name: "Glossaire Immobilier", url: "https://www.rentready.fr/glossaire-immobilier" },
+      { name: "Accueil", url: SITE_URL },
+      { name: "Glossaire Immobilier", url: `${SITE_URL}/glossaire-immobilier` },
     ]),
     buildWebPageSchema({
       name: "Glossaire Immobilier — Définitions Location et Investissement",
       description:
         "Glossaire complet de l'immobilier en France: définitions des termes de location, gestion locative, investissement immobilier.",
-      url: "https://www.rentready.fr/glossaire-immobilier",
+      url: `${SITE_URL}/glossaire-immobilier`,
     }),
     buildItemListSchema({
       name: "Glossaire Immobilier",
@@ -191,7 +192,7 @@ export default function GlossaireImmobilierPage() {
                 Simplifiez votre gestion locative
               </h2>
               <p className="mx-auto mb-6 max-w-lg text-stone-600">
-                RentReady vous accompagne dans la compréhension et l'application de
+                Locelio vous accompagne dans la compréhension et l'application de
                 ces termes: quittances automatiques, calcul IRL, suivi des loyers.
                 Essai gratuit 14 jours.
               </p>

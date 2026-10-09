@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 import { baseMetadata } from "@/lib/seo/metadata";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -9,8 +10,8 @@ export const revalidate = 3600;
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Mentions Légales — RentReady",
-    description: "Mentions légales de RentReady. Logiciel de gestion locative en ligne pour propriétaires bailleurs en France. Éditeur, hébergement et contacts.",
+    title: `Mentions Légales — ${SITE_NAME}`,
+    description: `Mentions légales de ${SITE_NAME}. Logiciel de gestion locative en ligne pour propriétaires bailleurs en France. Éditeur, hébergement et contacts.`,
     url: "/mentions-legales",
     ogType: "template",
   });
@@ -28,21 +29,21 @@ function MentionsLegalesJsonLd() {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "RentReady — Mentions Légales",
+        name: `${SITE_NAME} — Mentions Légales`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: "https://www.rentready.fr/mentions-legales",
+        url: `${SITE_URL}/mentions-legales`,
         description:
-          "Mentions légales de RentReady, plateforme SaaS de gestion locative pour propriétaires bailleurs en France.",
+          `Mentions légales de ${SITE_NAME}, plateforme SaaS de gestion locative pour propriétaires bailleurs en France.`,
       },
       {
         "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: SITE_NAME,
+        url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@rentready.fr",
+          email: "contact@locelio.fr",
           availableLanguage: "French",
         },
       },
@@ -54,13 +55,13 @@ function MentionsLegalesJsonLd() {
             "@type": "ListItem",
             position: 1,
             name: "Accueil",
-            item: "https://www.rentready.fr",
+            item: SITE_URL,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Mentions Légales",
-            item: "https://www.rentready.fr/mentions-legales",
+            item: `${SITE_URL}/mentions-legales`,
           },
         ],
       },
@@ -90,9 +91,9 @@ export default function MentionsLegalesPage() {
         <section>
           <h2>1. Éditeur du site</h2>
           <p>
-            Le site <strong>rentready.fr</strong> est édité par la société
-            RentReady SAS, au capital de [montant] €, immatriculée au Registre
-            du Commerce et des Sociétés de [ville] sous le numéro SIREN
+            Le site <strong>locelio.fr</strong> est édité par la société
+            [Société éditrice], au capital de [montant] €, immatriculée au Registre
+            du Commerce et des Sociétés sous le numéro SIREN
             [numéro], dont le siège social est situé au [adresse complète].
           </p>
           <p className="mt-2">
@@ -100,7 +101,7 @@ export default function MentionsLegalesPage() {
             Président.
           </p>
           <p className="mt-2">
-            Contact : <a href="mailto:contact@rentready.fr" className="text-blue-600 underline underline-offset-2">contact@rentready.fr</a>
+            Contact : <a href="mailto:contact@locelio.fr" className="text-blue-600 underline underline-offset-2">contact@locelio.fr</a>
           </p>
           <p className="mt-2">
             Numéro de TVA intracommunautaire : FR [numéro]
@@ -124,7 +125,7 @@ export default function MentionsLegalesPage() {
             L&apos;ensemble des contenus du site (textes, graphismes,
             logiciels, photographies, images, sons, plans, noms, logos,
             marques, créations et œuvres protégeables diverses, bases de
-            données, etc.) sont la propriété exclusive de RentReady SAS ou de
+            données, etc.) sont la propriété exclusive de l&apos;éditeur de {SITE_NAME} ou de
             ses partenaires. Toute reproduction, représentation, modification,
             publication, adaptation de tout ou partie des éléments du site,
             quel que soit le moyen ou le procédé utilisé, est interdite, sauf
@@ -143,7 +144,7 @@ export default function MentionsLegalesPage() {
           </p>
           <p className="mt-2">
             Pour exercer ces droits, contactez :{" "}
-            <a href="mailto:dpo@rentready.fr" className="text-blue-600 underline underline-offset-2">dpo@rentready.fr</a>
+            <a href="mailto:dpo@locelio.fr" className="text-blue-600 underline underline-offset-2">dpo@locelio.fr</a>
           </p>
           <p className="mt-2">
             Pour en savoir plus, consultez notre{" "}
@@ -167,8 +168,8 @@ export default function MentionsLegalesPage() {
         <section>
           <h2>6. Limitation de responsabilité</h2>
           <p>
-            RentReady SAS s&apos;efforce de fournir des informations aussi
-            précises que possible. Toutefois, elle ne pourra être tenue
+            L&apos;éditeur de {SITE_NAME} s&apos;efforce de fournir des informations aussi
+            précises que possible. Toutefois, il ne pourra être tenu
             responsable des omissions, des inexactitudes et des carences dans
             la mise à jour, qu&apos;elles soient de son fait ou du fait des
             tiers partenaires qui lui fournissent ces informations.
@@ -179,7 +180,7 @@ export default function MentionsLegalesPage() {
           <h2>7. Droit applicable</h2>
           <p>
             Tout litige en relation avec l&apos;utilisation du site
-            rentready.fr est soumis au droit français. Il est fait attribution
+            locelio.fr est soumis au droit français. Il est fait attribution
             exclusive de juridiction aux tribunaux compétents de Paris.
           </p>
         </section>

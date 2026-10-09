@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     "decret 29 mai 2015",
   ],
   openGraph: {
-    title: "Modèle État des Lieux 2026 — RentReady",
+    title: "Modèle État des Lieux 2026 — Locelio",
     description:
       "État des lieux gratuit et conforme. Téléchargez la checklist pièce par pièce. Comparez entrée et sortie.",
     type: "website",
-    url: "https://www.rentready.fr/templates/etat-des-lieux",
-    siteName: "RentReady",
+    url: "https://locelio.fr/templates/etat-des-lieux",
+    siteName: "Locelio",
   },
   alternates: buildHreflang("/templates/etat-des-lieux"),
 };
@@ -66,25 +66,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://www.rentready.fr/#organization",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
-  logo: "https://www.rentready.fr/logo.svg",
+  "@id": "https://locelio.fr/#organization",
+  name: "Locelio",
+  url: "https://locelio.fr",
+  logo: "https://locelio.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@rentready.fr",
+    email: "contact@locelio.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://www.rentready.fr/#website",
-  name: "RentReady",
-  url: "https://www.rentready.fr",
+  "@id": "https://locelio.fr/#website",
+  name: "Locelio",
+  url: "https://locelio.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -100,14 +100,14 @@ function EtatuDesLieuxJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle État des Lieux 2026 — RentReady",
+        name: "Modèle État des Lieux 2026 — Locelio",
         description:
           "Modèle d'état des lieux gratuit et conforme au décret du 29 mai 2015. Checklist pièce par pièce.",
-        url: "https://www.rentready.fr/templates/etat-des-lieux",
+        url: "https://locelio.fr/templates/etat-des-lieux",
         isPartOf: {
           "@type": "WebSite",
-          name: "RentReady",
-          url: "https://www.rentready.fr",
+          name: "Locelio",
+          url: "https://locelio.fr",
         },
       },
       {

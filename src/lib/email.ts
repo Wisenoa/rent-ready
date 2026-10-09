@@ -24,8 +24,8 @@ function getResend(): Resend {
 }
 
 export const fromEmail = process.env.RESEND_DOMAIN
-  ? `Rent-Ready <notifications@${process.env.RESEND_DOMAIN}>`
-  : "Rent-Ready <noreply@rent-ready.fr>";
+  ? `Locelio <notifications@${process.env.RESEND_DOMAIN}>`
+  : "Locelio <noreply@locelio.fr>";
 
 /**
  * Thin proxy so callers keep using `resend.emails.send(...)`.

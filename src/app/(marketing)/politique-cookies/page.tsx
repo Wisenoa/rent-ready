@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -14,9 +15,9 @@ export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Politique de Cookies — RentReady",
+    title: "Politique de Cookies — Locelio",
     description:
-      "Politique de gestion des cookies de RentReady. Utilisation des cookies, consentement, et vos choix pour une navigation respectueuse de votre vie privee.",
+      "Politique de gestion des cookies de Locelio. Utilisation des cookies, consentement, et vos choix pour une navigation respectueuse de votre vie privee.",
     url: "/politique-cookies",
     ogType: "template",
   });
@@ -28,28 +29,28 @@ function PolitiqueCookiesJsonLd() {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "RentReady — Politique de Cookies",
+        name: "Locelio — Politique de Cookies",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: "https://www.rentready.fr/politique-cookies",
+        url: `${SITE_URL}/politique-cookies`,
         description:
-          "Politique de cookies de RentReady. Explication des cookies utilises, finalites et droits des utilisateurs conforme au RGPD.",
+          "Politique de cookies de Locelio. Explication des cookies utilises, finalites et droits des utilisateurs conforme au RGPD.",
       },
       {
         "@type": "Organization",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@rentready.fr",
+          email: "contact@locelio.fr",
           availableLanguage: "French",
         },
       },
       {
         "@type": "WebSite",
-        name: "RentReady",
-        url: "https://www.rentready.fr",
+        name: "Locelio",
+        url: SITE_URL,
       },
       {
         "@type": "BreadcrumbList",
@@ -59,13 +60,13 @@ function PolitiqueCookiesJsonLd() {
             "@type": "ListItem",
             position: 1,
             name: "Accueil",
-            item: "https://www.rentready.fr",
+            item: SITE_URL,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Politique de Cookies",
-            item: "https://www.rentready.fr/politique-cookies",
+            item: `${SITE_URL}/politique-cookies`,
           },
         ],
       },
@@ -97,14 +98,14 @@ export default function PolitiqueCookiesPage() {
             <p>
               Un cookie est un petit fichier texte stocke sur votre appareil
               (ordinateur, tablette, smartphone) lors de votre visite sur notre
-              site. Les cookies permettent a RentReady de fonctionner
+              site. Les cookies permettent a Locelio de fonctionner
               correctement, de securiser votre session et de memoriser vos
               preferences.
             </p>
           </section>
 
           <section>
-            <h2>2. Cookies utilises sur RentReady</h2>
+            <h2>2. Cookies utilises sur Locelio</h2>
             <p>
               Nous utilisons uniquement des cookies strictement necessaires au
               fonctionnement du service. Aucun cookie publicitaire, de
@@ -211,7 +212,7 @@ export default function PolitiqueCookiesPage() {
           <section>
             <h2>4. Cookies tiers</h2>
             <p>
-              RentReady n&apos;utilise aucun cookie tiers (publicitaires, analytiques
+              Locelio n&apos;utilise aucun cookie tiers (publicitaires, analytiques
               ou de reseaux sociaux). Nous ne partageons aucune donnee de
               navigation avec des tiers.
             </p>
@@ -230,7 +231,7 @@ export default function PolitiqueCookiesPage() {
           <section>
             <h2>6. Votre accord pour les services tiers</h2>
             <p>
-              Certains services integres a RentReady peuvent deposer leurs
+              Certains services integres a Locelio peuvent deposer leurs
               propres cookies :
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
@@ -275,10 +276,10 @@ export default function PolitiqueCookiesPage() {
             <p className="mt-2">
               Email :{" "}
               <a
-                href="mailto:dpo@rentready.fr"
+                href="mailto:dpo@locelio.fr"
                 className="text-blue-600 underline underline-offset-2"
               >
-                dpo@rentready.fr
+                dpo@locelio.fr
               </a>
             </p>
             <p className="mt-2">

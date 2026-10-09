@@ -251,7 +251,7 @@ async function generateQuittancePdf(data: QuittanceData) {
 
         {/* Footer */}
         <Text style={styles.footer}>
-          Document généré avec RentReady — www.rentready.fr
+          Document généré avec Locelio — locelio.fr
         </Text>
       </Page>
     </Document>
