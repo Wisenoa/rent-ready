@@ -262,14 +262,14 @@ export function LettreRelanceClient() {
                   Anticipez les retards avant qu'ils ne deviennent des impayés
                 </h4>
                 <p className="text-xs text-stone-600 leading-relaxed">
-                  RentReady surveille vos encaissements bancaires en temps réel. En cas de retard au 5 ou au 10 du mois, vous êtes alerté avec un modèle de relance pré-rempli en 1 clic.
+                  RentReady identifie immédiatement les retards de loyer sur votre tableau de bord et prépare vos courriers de relance (amiable, formel ou mise en demeure) pré-remplis en 1 clic.
                 </p>
                 <div className="pt-1">
                   <Link
                     href="/register"
                     className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-800 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-900"
                   >
-                    <span>Découvrir la détection automatique (14j gratuits)</span>
+                    <span>Centraliser mes loyers et relances (14j gratuits)</span>
                     <ArrowRight className="size-3.5" />
                   </Link>
                 </div>
