@@ -44,7 +44,7 @@ describe("Homepage B.3 Production Migration Integrity", () => {
     expect(types).toContain("WebSite");
     expect(types).toContain("FAQPage");
 
-    const faqNode = nodes.find((n) => n["@type"] === "FAQPage") as {
+    const faqNode = nodes.find((n) => n["@type"] === "FAQPage") as unknown as {
       mainEntity: Array<{ name: string; acceptedAnswer: { text: string } }>;
     };
     expect(faqNode.mainEntity).toHaveLength(4);
