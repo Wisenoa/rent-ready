@@ -1,79 +1,119 @@
-# ========================================
-# Docker Compose Override for Production
-# ========================================
-version: '3.9'
+# ==============================================================================
+# Locelio Production Docker Compose Stack
+# Fully isolated from Facturama and all other host services
+# ==============================================================================
+name: locelio
 
 services:
-  # ========================================
-  # Production Database
-  # ========================================
+  # ============================================================================
+  # Dedicated PostgreSQL 16 Database
+  # - Accessible ONLY inside locelio_internal network
+  # - NO exposed host ports
+  # ============================================================================
   postgres:
+    image: postgres:16-alpine
+    container_name: locelio-postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DB: ${POSTGRES_DB:-locelio_production}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - locelio_postgres_data:/var/lib/postgresql/data
+    networks:
+      - locelio_internal
     deploy:
       resources:
         limits:
-          cpus: '2'
-          memory: 4G
-        reservations:
-          cpus: '1'
+          cpus: '1.5'
           memory: 2G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB:-locelio_production}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
-  # ========================================
-  # Redis — Production
-  # ========================================
-  # OPTION A (Recommended): Use Upstash Serverless Redis (managed HTTP REST).
-  #   1. Create a database at https://console.upstash.com/
-  #   2. Copy the REST URL and token into your deployment env vars:
-  #      UPSTASH_REDIS_REST_URL=https://your-instance.upstash.io
-  #      UPSTASH_REDIS_REST_TOKEN=your_rest_token
-  #   3. Do NOT include the redis service below (Upstash is cloud-hosted).
-  #
-  # OPTION B (Self-hosted): Use a REST-to-RESP bridge in front of Redis.
-  #   - @upstash/redis requires HTTP REST, not plain Redis RESP protocol.
-  #   - For self-hosted, add a Redis + REST bridge proxy container.
-  #   - Or use Upstash's self-hosted option: https://github.com/upstash/redis
-  #
-  # redis:
-  #   image: redis:7-alpine
-  #   command: ["redis-server", "--port", "6379", "--requirepass", "${REDIS_PASSWORD:-}"]
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '0.5'
-  #         memory: 512M
-
-  # ========================================
-  # Production App
-  # ========================================
+  # ============================================================================
+  # Locelio Next.js Application (Standalone Runner)
+  # - Runs as unprivileged 'nextjs' user (UID 1001)
+  # - Internal port 3000 mapped to loopback 127.0.0.1:3019
+  # ============================================================================
   app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://locelio.fr}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://locelio.fr}
+        NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+    container_name: locelio-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
       NODE_ENV: production
-      LOG_LEVEL: warn
-      MINIO_USE_SSL: "true"
-      # Rate limiting: set both to activate Upstash Redis (see above).
-      # Without these, the app uses the in-memory fallback (not recommended for multi-instance prod).
-      UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL}
-      UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN}
+      PORT: 3000
+      HOSTNAME: "0.0.0.0"
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@locelio-postgres:5432/${POSTGRES_DB:-locelio_production}?schema=public
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-https://locelio.fr}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://locelio.fr}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://locelio.fr}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+      STRIPE_STARTER_MONTHLY_PRICE_ID: ${STRIPE_STARTER_MONTHLY_PRICE_ID:-}
+      STRIPE_STARTER_ANNUAL_PRICE_ID: ${STRIPE_STARTER_ANNUAL_PRICE_ID:-}
+      STRIPE_PRO_MONTHLY_PRICE_ID: ${STRIPE_PRO_MONTHLY_PRICE_ID:-}
+      STRIPE_PRO_ANNUAL_PRICE_ID: ${STRIPE_PRO_ANNUAL_PRICE_ID:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_DOMAIN: ${RESEND_DOMAIN:-locelio.fr}
+      CRON_SECRET: ${CRON_SECRET:-}
+      UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}
+      UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN:-}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-}
+      MINIO_PORT: ${MINIO_PORT:-}
+      MINIO_USE_SSL: ${MINIO_USE_SSL:-false}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-}
+      MINIO_BUCKET: ${MINIO_BUCKET:-}
+    ports:
+      # Bound to Docker bridge gateway 172.17.0.1 on port 3019
+      # This allows Caddy (via host.docker.internal:3019) to reach the app
+      # while keeping it strictly inaccessible from the public internet interface
+      - "172.17.0.1:3019:3000"
+    networks:
+      - locelio_internal
     deploy:
-      replicas: 3
       resources:
         limits:
-          cpus: '2'
+          cpus: '2.0'
           memory: 2G
         reservations:
           cpus: '0.5'
           memory: 1G
-      restart_policy:
-        condition: on-failure
-        delay: 10s
-        max_attempts: 3
-        window: 120s
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      test: ["CMD-SHELL", "wget -qO- --spider http://127.0.0.1:3000/api/health || exit 1"]
       interval: 30s
-      timeout: 10s
+      timeout: 5s
       retries: 3
-      start_period: 60s
+      start_period: 30s
+
+# ==============================================================================
+# Persistent Volumes & Networks
+# ==============================================================================
+volumes:
+  locelio_postgres_data:
+    name: locelio_postgres_data
+
+networks:
+  locelio_internal:
+    name: locelio_internal
+    driver: bridge
