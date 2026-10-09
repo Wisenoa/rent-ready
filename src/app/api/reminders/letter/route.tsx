@@ -161,7 +161,7 @@ async function generateLetterPdf(
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            Document généré par Rent-Ready - rent-ready.fr
+            Document généré par Locelio - locelio.fr
           </Text>
           <Text style={styles.footerText}>
             Ce courrier est informatif et ne constitue pas un acte juridique définitif.

@@ -65,7 +65,7 @@ function countHardcodedOrigins(): { total: number; files: number; worst: string[
  * number is raised deliberately as the content files are converted, never
  * silently.
  */
-const KNOWN_HARDCODED_ORIGINS = 372;
+const KNOWN_HARDCODED_ORIGINS = 0;
 
 describe("origine canonique", () => {
   it("SITE_URL is the single place the origin is decided", () => {
