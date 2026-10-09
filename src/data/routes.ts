@@ -23,7 +23,7 @@ export interface RouteEntry {
 export const routes: RouteEntry[] = [
   {
     "path": "/",
-    "mtime": "2026-10-09T10:45:46.761Z"
+    "mtime": "2026-10-09T12:57:02.015Z"
   },
   {
     "path": "/assurance-loyer-impaye",
@@ -1169,7 +1169,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/outils",
-    "mtime": "2026-10-09T10:45:46.761Z"
+    "mtime": "2026-10-09T12:57:02.015Z"
   },
   {
     "path": "/outils/calculateur-charges-locatives",
@@ -1217,7 +1217,7 @@ export const routes: RouteEntry[] = [
   },
   {
     "path": "/outils/lettre-relance-loyer",
-    "mtime": "2026-10-09T10:45:46.761Z"
+    "mtime": "2026-10-09T12:57:02.015Z"
   },
   {
     "path": "/outils/modele-quittance-loyer-pdf",
