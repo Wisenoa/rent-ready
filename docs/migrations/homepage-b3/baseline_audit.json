@@ -1,0 +1,407 @@
+{
+  "title": "RentReady — Pilotage locatif pour propriétaires bailleurs | Essai gratuit",
+  "metaDesc": "Du loyer exigible à la quittance certifiée conforme à la loi de 1989. Zéro tableur, détection des paiements et révision IRL connectée à l'INSEE. Essai 14 jours sans carte.",
+  "canonical": "https://www.rentready.fr",
+  "ogTitle": "RentReady — Pilotage locatif pour propriétaires bailleurs | Essai gratuit",
+  "ogDesc": "Du loyer exigible à la quittance certifiée conforme à la loi de 1989. Zéro tableur, détection des paiements et révision IRL connectée à l'INSEE. Essai 14 jours sans carte.",
+  "ogUrl": "https://www.rentready.fr",
+  "ogImage": "https://www.rentready.fr/api/og?title=RentReady+%E2%80%94+Pilotage+locatif+pour+propri%C3%A9taires+bailleurs+%7C+Essai+gratuit&type=default&description=Du+loyer+exigible+%C3%A0+la+quittance+certifi%C3%A9e+conforme+%C3%A0+la+loi+de+1989.+Z%C3%A9ro+tableur%2C+d%C3%A9tection+des+paiements+et+r%C3%A9vision+IRL+connect%C3%A9e+%C3%A0+l%27INSEE.+Essai+14+jours+sans+carte.",
+  "twitterCard": "summary_large_image",
+  "h1s": [
+    "Vos locations tournent. RentReady s'occupe du suivi."
+  ],
+  "h2s": [
+    "Octobre 2026",
+    "INTÉGRATIONS & CONFORMITÉ",
+    "Le cycle mensuel idéal.\nDe l'échéance à la quittance, sans jamais vous perdre.",
+    "Chaque logement a son quartier général.",
+    "Une gestion locative qui résiste aux contrôles.",
+    "Le juste prix pour votre patrimoine.\nSans commission sur vos loyers, résiliable en 1 clic.",
+    "Des simulateurs juridiques gratuits.\nDirectement utilisables, sans inscription requise.",
+    "Tout ce que vous devez savoir\nsur la gestion locative automatisée",
+    "Vos biens méritent une gestion rigoureuse.\nVotre temps aussi."
+  ],
+  "jsonLdScripts": [
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "RentReady",
+          "url": "https://www.rentready.fr",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.rentready.fr/logo.svg",
+            "width": 512,
+            "height": 512
+          },
+          "description": "RentReady est le logiciel de gestion locative nouvelle génération pour propriétaires bailleurs indépendants en France. Quittances conformes, détection automatique des paiements, révision IRL, portail locataire.",
+          "sameAs": [
+            "https://www.facebook.com/rentready.fr"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "contact@rentready.fr",
+            "contactType": "customer service",
+            "availableLanguage": "French",
+            "areaServed": "FR"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "FR",
+            "addressRegion": "France"
+          },
+          "industry": "Property Management Software"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "RentReady",
+          "url": "https://www.rentready.fr"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Quel est le meilleur logiciel de gestion locative en ligne pour particulier en 2026 ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RentReady est conçu spécifiquement pour les propriétaires bailleurs indépendants gérant de 1 à 10 biens. Contrairement aux logiciels professionnels destinés aux agences immobilières (qui facturent des centaines d'euros par mois), RentReady offre toutes les fonctionnalités essentielles — quittancement automatique conforme à la loi du 6 juillet 1989, suivi rigoureux des encaissements, calcul de la révision IRL connecté à l'INSEE, et portail locataire — dès 9 €/mois. L'outil est déjà conforme au format Factur-X et prépare le e-reporting B2C."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment automatiser l'envoi des quittances de loyer en toute conformité ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RentReady automatise intégralement le processus de quittancement. Dès qu'un règlement correspondant au montant du loyer est enregistré, le système vérifie si le paiement couvre 100 % du solde exigé (loyer de base + provisions pour charges). Si c'est le cas, une quittance de loyer conforme à l'article 21 de la loi du 6 juillet 1989 est générée au format PDF, avec une distinction claire entre le loyer nu et les charges locatives. Si le paiement est partiel, un reçu de paiement partiel est émis à la place, indiquant le solde restant dû. Le document est ensuite disponible immédiatement sur le portail locataire."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment calculer la révision annuelle du loyer avec l'indice IRL de l'INSEE ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La révision annuelle du loyer en France est encadrée par l'Indice de Référence des Loyers (IRL) publié chaque trimestre par l'INSEE. La formule légale est : Nouveau loyer = Loyer actuel × (Nouvel IRL du trimestre de référence ÷ IRL de référence à la date de signature du bail). Par exemple, avec un loyer de 800 € et un IRL passant de 144,64 (4ᵉ trimestre 2024) à 145,78 (4ᵉ trimestre 2025), le nouveau loyer serait de 800 × (145,78 ÷ 144,64) = 806,31 €. RentReady effectue ce calcul automatiquement en se connectant aux données officielles de l'INSEE et notifie le locataire de la révision."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qu'est-ce que le format Factur-X et pourquoi mon logiciel de gestion locative doit-il le supporter ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Factur-X est le format franco-allemand de facturation électronique conforme à la norme européenne EN 16931. Il s'agit d'un fichier PDF/A-3 (conçu pour l'archivage longue durée) dans lequel est embarqué un fichier XML contenant les métadonnées structurées de la transaction (montant, TVA, identité des parties). RentReady génère déjà ses quittances et reçus dans un format compatible Factur-X, vous n'aurez rien à changer le jour J."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "RentReady est-il adapté à une SCI familiale ou au statut LMNP ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. RentReady gère aussi bien les propriétaires en nom propre (régime micro-foncier ou réel) que les SCI familiales et les loueurs en meublé non professionnel (LMNP). Le simulateur fiscal intégré permet de comparer le rendement de vos biens sous le régime LMNP classique avec le nouveau dispositif Jeanbrun 2026, en prenant en compte les prélèvements sociaux actuels de 18,6 % (CSG 10,6 %, CRDS 0,5 %, prélèvement de solidarité 7,5 %). Pour les SCI, l'outil centralise la gestion de tous les lots sous un même compte avec des exports comptables séparés."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment fonctionne la détection des paiements et le pointage ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RentReady vous permet de pointer vos encaissements en un clic dès réception de vos virements bancaires, ou via synchronisation bancaire. L'algorithme de contrôle vérifie si le montant reçu correspond à l'échéance exigible. Si le versement est complet, la quittance officielle est débloquée. Si le versement est partiel, un reçu est émis et le solde restant reste dû sur le grand livre."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qu'est-ce que le e-reporting B2C et suis-je concerné en tant que propriétaire bailleur ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le e-reporting B2C est l'obligation de transmettre à l'administration fiscale française un récapitulatif des encaissements perçus de clients particuliers. Pour les micro-entrepreneurs et certaines SCI, cette obligation est prévue à compter de 2026. RentReady prépare déjà cette échéance en agrégeant automatiquement vos encaissements mensuels dans un format structuré prêt pour la transmission."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Combien coûte RentReady et y a-t-il un engagement ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RentReady part à 9 €/mois par mois sans engagement pour 3 biens, et 15 €/mois pour 10 biens (149 € par an, soit 2 mois offerts). Chaque palier inclut un nombre illimité de locataires, toutes les fonctionnalités (quittancement, détection des virements, révision IRL, portail locataire, OCR des factures artisans par IA, simulateur fiscal) et les mises à jour légales et réglementaires. Vous bénéficiez d'un essai gratuit de 14 jours sans carte bancaire. Il n'y a aucun frais caché, aucune commission sur les loyers encaissés, et vous pouvez résilier en un clic depuis votre espace."
+          }
+        }
+      ]
+    }
+  ],
+  "linksCount": 45,
+  "linksSample": [
+    {
+      "text": "Aller au contenu principal",
+      "href": "#main"
+    },
+    {
+      "text": "R\nRentReady",
+      "href": "/"
+    },
+    {
+      "text": "Comment ça marche",
+      "href": "#cycle-mensuel"
+    },
+    {
+      "text": "Fonctionnalités",
+      "href": "#fonctionnalites"
+    },
+    {
+      "text": "Outils gratuits",
+      "href": "#simulateurs"
+    },
+    {
+      "text": "Tarifs",
+      "href": "#tarifs"
+    },
+    {
+      "text": "Connexion",
+      "href": "/login"
+    },
+    {
+      "text": "Essai gratuit",
+      "href": "/register"
+    },
+    {
+      "text": "Démarrer l'essai gratuit 14 jours",
+      "href": "/register"
+    },
+    {
+      "text": "Découvrir le cycle mensuel",
+      "href": "#cycle-mensuel"
+    },
+    {
+      "text": "Essai gratuit Starter — 14 jours",
+      "href": "/register"
+    },
+    {
+      "text": "Essai gratuit Pro — 14 jours",
+      "href": "/register"
+    },
+    {
+      "text": "Calculer ma révision",
+      "href": "/outils/calculateur-irl"
+    },
+    {
+      "text": "Vérifier le plafond",
+      "href": "/outils/calculateur-depot-garantie"
+    },
+    {
+      "text": "Créer une quittance",
+      "href": "/outils/generateur-quittance"
+    },
+    {
+      "text": "Régulariser mes charges",
+      "href": "/outils/calculateur-charges-locatives"
+    },
+    {
+      "text": "Contacter le support",
+      "href": "mailto:support@rentready.fr"
+    },
+    {
+      "text": "Voir la démo",
+      "href": "/demo"
+    },
+    {
+      "text": "Démarrer l'essai gratuit 14 jours",
+      "href": "/register"
+    },
+    {
+      "text": "R\nRentReady",
+      "href": "/"
+    }
+  ],
+  "allLinks": [
+    {
+      "text": "Aller au contenu principal",
+      "href": "#main"
+    },
+    {
+      "text": "R\nRentReady",
+      "href": "/"
+    },
+    {
+      "text": "Comment ça marche",
+      "href": "#cycle-mensuel"
+    },
+    {
+      "text": "Fonctionnalités",
+      "href": "#fonctionnalites"
+    },
+    {
+      "text": "Outils gratuits",
+      "href": "#simulateurs"
+    },
+    {
+      "text": "Tarifs",
+      "href": "#tarifs"
+    },
+    {
+      "text": "Connexion",
+      "href": "/login"
+    },
+    {
+      "text": "Essai gratuit",
+      "href": "/register"
+    },
+    {
+      "text": "Démarrer l'essai gratuit 14 jours",
+      "href": "/register"
+    },
+    {
+      "text": "Découvrir le cycle mensuel",
+      "href": "#cycle-mensuel"
+    },
+    {
+      "text": "Essai gratuit Starter — 14 jours",
+      "href": "/register"
+    },
+    {
+      "text": "Essai gratuit Pro — 14 jours",
+      "href": "/register"
+    },
+    {
+      "text": "Calculer ma révision",
+      "href": "/outils/calculateur-irl"
+    },
+    {
+      "text": "Vérifier le plafond",
+      "href": "/outils/calculateur-depot-garantie"
+    },
+    {
+      "text": "Créer une quittance",
+      "href": "/outils/generateur-quittance"
+    },
+    {
+      "text": "Régulariser mes charges",
+      "href": "/outils/calculateur-charges-locatives"
+    },
+    {
+      "text": "Contacter le support",
+      "href": "mailto:support@rentready.fr"
+    },
+    {
+      "text": "Voir la démo",
+      "href": "/demo"
+    },
+    {
+      "text": "Démarrer l'essai gratuit 14 jours",
+      "href": "/register"
+    },
+    {
+      "text": "R\nRentReady",
+      "href": "/"
+    },
+    {
+      "text": "Cycle mensuel",
+      "href": "/#cycle-mensuel"
+    },
+    {
+      "text": "Fonctionnalités",
+      "href": "/#fonctionnalites"
+    },
+    {
+      "text": "Tarifs",
+      "href": "/#tarifs"
+    },
+    {
+      "text": "Démonstration",
+      "href": "/demo"
+    },
+    {
+      "text": "Quittances de loyer",
+      "href": "/quittances"
+    },
+    {
+      "text": "Gestion des baux",
+      "href": "/bail"
+    },
+    {
+      "text": "Calculateur de révision IRL",
+      "href": "/outils/calculateur-irl"
+    },
+    {
+      "text": "Plafond dépôt de garantie",
+      "href": "/outils/calculateur-depot-garantie"
+    },
+    {
+      "text": "Générateur de quittance gratuit",
+      "href": "/outils/generateur-quittance"
+    },
+    {
+      "text": "Régularisation des charges",
+      "href": "/outils/calculateur-charges-locatives"
+    },
+    {
+      "text": "Modèle lettre de relance",
+      "href": "/outils/lettre-relance-loyer"
+    },
+    {
+      "text": "Tous les calculateurs",
+      "href": "/outils"
+    },
+    {
+      "text": "Modèle de bail conforme",
+      "href": "/guides/modele-bail"
+    },
+    {
+      "text": "Législation quittance de loyer",
+      "href": "/guides/quittance-loyer"
+    },
+    {
+      "text": "Guide dépôt de garantie",
+      "href": "/guides/depot-garantie"
+    },
+    {
+      "text": "Guide révision IRL 2026",
+      "href": "/guides/irl-2026"
+    },
+    {
+      "text": "Glossaire de la gestion locative",
+      "href": "/glossaire-immobilier"
+    },
+    {
+      "text": "Blog & actualités",
+      "href": "/blog"
+    },
+    {
+      "text": "Mentions légales",
+      "href": "/mentions-legales"
+    },
+    {
+      "text": "Politique de confidentialité",
+      "href": "/politique-confidentialite"
+    },
+    {
+      "text": "Gestion des cookies",
+      "href": "/politique-cookies"
+    },
+    {
+      "text": "Conditions Générales d'Utilisation",
+      "href": "/cgu"
+    },
+    {
+      "text": "Mentions légales",
+      "href": "/mentions-legales"
+    },
+    {
+      "text": "Confidentialité",
+      "href": "/politique-confidentialite"
+    },
+    {
+      "text": "CGU",
+      "href": "/cgu"
+    }
+  ],
+  "wordCount": 1586,
+  "domNodes": 866,
+  "scrollHeight": 11114,
+  "loadTimeMs": 2256,
+  "status": 200,
+  "mobileScrollHeight": 15410
+}

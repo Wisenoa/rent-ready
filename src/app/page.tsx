@@ -1,94 +1,78 @@
 /**
- * HomePage — server component.
+ * RentReady Production Homepage (B.3 Architecture).
  *
- * Performance decisions:
- * - Only HeroSection and GlassNav are above-the-fold — loaded eagerly.
- * - All below-the-fold sections use a Client Component wrapper that calls
- *   next/dynamic internally. This avoids the "only plain objects can be passed
- *   to Client Components" error that occurs when next/dynamic is used directly
- *   in a Server Component in Next.js 15 App Router.
- * - ISR with revalidate=3600: Vercel Edge serves cached HTML, TTFB < 100ms
- *   for returning visitors. Googlebot gets fresh cached HTML on every crawl.
- * - All "use client" components are code-split — they never block the main thread
- *   during initial load.
- * - Framer-motion animations are deferred until after first paint.
+ * Modern French Atelier design direction.
+ * Lean Server Component architecture with selective Client Component hydration
+ * for interactive widgets (HomeDemo, HomePricing, HomeFaq).
+ *
+ * Product Truth:
+ * - 14-day free trial, no credit card required
+ * - Art. 21 quittance vs partial receipt
+ * - Art. 17-1 INSEE IRL revision
+ * - Transparent 9 € / 15 € pricing
+ * - Zero unverified claims (no Factur-X, no tax simulators, no auto-reconciliation guarantees)
  */
+
 import React from "react";
 import type { Metadata } from "next";
-import { GlassNav } from "@/components/landing/glass-nav";
-import { MarketingFooter } from "@/components/landing/marketing-footer";
-
-/* ─── Above-the-fold: loaded eagerly ─── */
-import { HeroSection } from "@/components/landing/hero-section";
-import { FaqSection, FaqJsonLd } from "@/components/landing/faq-section";
 import { baseMetadata } from "@/lib/seo/metadata";
-
-/* ─── Below-the-fold: Client Component wrappers (next/dynamic called inside each wrapper) ─── */
 import {
-  SocialProofWrapper,
-  MonthlyCycleStoryWrapper,
-  PropertyHomebaseWrapper,
-  LegalRigorWrapper,
-  PricingSectionWrapper,
-  FreeToolsGatewayWrapper,
-  FinalCtaWrapper,
-} from "@/components/landing/dynamic-wrappers";
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+  buildFAQPageSchema,
+  buildGraphSchema,
+} from "@/lib/seo/structured-data";
+import {
+  HomeNavbar,
+  HomeHero,
+  HomeProductMoments,
+  HomeTrust,
+  HomeTools,
+  HomePricing,
+  HomeFaq,
+  HomeFinalCTA,
+  HomeFooter,
+  HOME_FAQ_ITEMS,
+} from "@/components/marketing/home";
 
-/* ─── ISR: revalidate at CDN edge every hour ─── */
 export const revalidate = 3600;
 
-/* ─── Page metadata ─── */
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "RentReady — Pilotage locatif pour propriétaires bailleurs | Essai gratuit",
+    title: "Logiciel de gestion locative pour propriétaires bailleurs | RentReady",
     description:
-      "Du loyer exigible à la quittance certifiée conforme à la loi de 1989. Zéro tableur, détection des paiements et révision IRL connectée à l'INSEE. Essai 14 jours sans carte.",
+      "Gérez vos locations sans tableur. Suivi des encaissements, quittances et reçus conformes à la loi de 1989, rappels de révision de loyer IRL. Essai gratuit 14 jours.",
     url: "",
     ogType: "default",
   });
 }
 
-/* ─── JSON-LD for rich results ─── */
-import {
-  buildOrganizationSchema,
-  buildWebSiteSchema,
-  buildGraphSchema,
-} from "@/lib/seo/structured-data";
-
-/**
- * No AggregateRating / Review markup here on purpose.
- *
- * The homepage previously shipped `ratingValue: 4.9`, `reviewCount: 127` and
- * three named testimonials in JSON-LD. None of it traced to a real review
- * source. Unverifiable review markup violates Google's structured data
- * guidelines and risks a manual action, and invented social proof is the
- * "fake success" pattern we refuse to ship. Add Review/AggregateRating only
- * once ratings come from a real, verifiable source.
- */
-
 export default function HomePage() {
+  const structuredData = buildGraphSchema(
+    buildOrganizationSchema(),
+    buildWebSiteSchema(),
+    buildFAQPageSchema(HOME_FAQ_ITEMS)
+  );
+
   return (
-    <main id="main-content" className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased selection:bg-stone-200">
+    <div className="min-h-screen bg-[#F5F3EF] text-[#15241F] font-sans antialiased selection:bg-[#1E3A2F] selection:text-[#F5F3EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            buildGraphSchema(buildOrganizationSchema(), buildWebSiteSchema())
-          ),
+          __html: JSON.stringify(structuredData),
         }}
       />
-      <FaqJsonLd />
-      <GlassNav />
-      <HeroSection />
-      <SocialProofWrapper />
-      <MonthlyCycleStoryWrapper />
-      <PropertyHomebaseWrapper />
-      <LegalRigorWrapper />
-      <PricingSectionWrapper />
-      <FreeToolsGatewayWrapper />
-      <FaqSection />
-      <FinalCtaWrapper />
-      <MarketingFooter />
-    </main>
+      <HomeNavbar />
+      <main id="main-content">
+        <HomeHero />
+        <HomeProductMoments />
+        <HomeTrust />
+        <HomeTools />
+        <HomePricing />
+        <HomeFaq />
+        <HomeFinalCTA />
+      </main>
+      <HomeFooter />
+    </div>
   );
 }

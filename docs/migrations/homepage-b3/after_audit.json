@@ -1,0 +1,215 @@
+{
+  "title": "Logiciel de gestion locative pour propriétaires bailleurs",
+  "metaDesc": "Gérez vos locations sans tableur. Suivi des encaissements, quittances et reçus conformes à la loi de 1989, rappels de révision de loyer IRL. Essai gratuit 14 jours.",
+  "canonical": "https://www.rentready.fr",
+  "ogTitle": "Logiciel de gestion locative pour propriétaires bailleurs",
+  "ogDesc": "Gérez vos locations sans tableur. Suivi des encaissements, quittances et reçus conformes à la loi de 1989, rappels de révision de loyer IRL. Essai gratuit 14 jours.",
+  "ogUrl": "https://www.rentready.fr",
+  "ogImage": "https://www.rentready.fr/api/og?title=Logiciel+de+gestion+locative+pour+propri%C3%A9taires+bailleurs+%7C+RentReady&type=default&description=G%C3%A9rez+vos+locations+sans+tableur.+Suivi+des+encaissements%2C+quittances+et+re%C3%A7us+conformes+%C3%A0+la+loi+de+1989%2C+rappels+de+r%C3%A9vision+de+loyer+IRL.+Essai+gratuit+14+jours.",
+  "twitterCard": "summary_large_image",
+  "h1s": [
+    "Gérez vos locations sans tableur."
+  ],
+  "h2s": [
+    "« Mon locataire a-t-il payé ? »",
+    "« Quel document dois-je remettre ? »",
+    "« Quand dois-je réévaluer le loyer ? »",
+    "Rigueur juridique et protection des données",
+    "Outils gratuits en accès libre",
+    "Des tarifs simples, adaptés à vos logements",
+    "Questions fréquentes",
+    "Essayez RentReady sur votre prochaine échéance."
+  ],
+  "jsonLdCount": 1,
+  "jsonLd": [
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "RentReady",
+          "url": "https://www.rentready.fr",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.rentready.fr/logo.svg",
+            "width": 512,
+            "height": 512
+          },
+          "description": "RentReady est le logiciel de gestion locative nouvelle génération pour propriétaires bailleurs indépendants en France. Quittances conformes, détection automatique des paiements, révision IRL, portail locataire.",
+          "sameAs": [
+            "https://www.facebook.com/rentready.fr"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "contact@rentready.fr",
+            "contactType": "customer service",
+            "availableLanguage": "French",
+            "areaServed": "FR"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "FR",
+            "addressRegion": "France"
+          },
+          "industry": "Property Management Software"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "RentReady",
+          "url": "https://www.rentready.fr"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Pourquoi quitter un tableur Excel pour RentReady ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Un tableur ne prépare pas vos quittances au format légal, n'alerte pas sur les révisions IRL et oblige à pointer vos relevés à la main. RentReady automatise ces vérifications et ne signale que les anomalies."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Comment fonctionne l'essai gratuit de 14 jours ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Création de compte immédiate avec votre nom et email. Aucune carte bancaire requise. Vous configurez vos logements et testez l'ensemble du suivi en conditions réelles sans engagement."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Que se passe-t-il en cas de versement partiel d'un locataire ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "RentReady édite un reçu d'acompte avec le solde restant dû (loi de 1989 art. 21). La quittance définitive n'est disponible qu'une fois le loyer intégralement réglé."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Mes données d'encaissement sont-elles exportables ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Oui. En un clic, vous téléchargez un export CSV structuré de vos loyers et versements, directement utilisable pour votre déclaration fiscale ou votre comptable."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "linksCount": 26,
+  "links": [
+    {
+      "text": "Aller au contenu principal",
+      "href": "#main"
+    },
+    {
+      "text": "Passer au contenu principal",
+      "href": "#main-content"
+    },
+    {
+      "text": "RentReady",
+      "href": "/"
+    },
+    {
+      "text": "Fonctionnement",
+      "href": "#demo"
+    },
+    {
+      "text": "Moments clés",
+      "href": "#moments"
+    },
+    {
+      "text": "Outils gratuits",
+      "href": "#outils"
+    },
+    {
+      "text": "Tarifs",
+      "href": "#tarifs"
+    },
+    {
+      "text": "Connexion",
+      "href": "/login"
+    },
+    {
+      "text": "Essayer gratuitement",
+      "href": "/register"
+    },
+    {
+      "text": "Essayer gratuitement",
+      "href": "/register"
+    },
+    {
+      "text": "Calculateur de révision IRL 2026\n\nCalculez l'augmentation légale exacte selon la formule INSEE et le trimestre de votre bail.\n\nCalculer une révision",
+      "href": "/outils/calculateur-irl"
+    },
+    {
+      "text": "Modèle de quittance de loyer PDF\n\nÉditez une quittance conforme avec ventilation loyer/charges et mentions obligatoires de la loi de 1989.\n\nGénérer une quittance",
+      "href": "/outils/modele-quittance-loyer-pdf"
+    },
+    {
+      "text": "Essayer Starter (14 jours offerts)",
+      "href": "/register?plan=starter"
+    },
+    {
+      "text": "Essayer Pro (14 jours offerts)",
+      "href": "/register?plan=pro"
+    },
+    {
+      "text": "Consulter le comparatif détaillé des offres",
+      "href": "/pricing"
+    },
+    {
+      "text": "Essayer gratuitement",
+      "href": "/register"
+    },
+    {
+      "text": "Fonctionnement",
+      "href": "#demo"
+    },
+    {
+      "text": "Moments clés",
+      "href": "#moments"
+    },
+    {
+      "text": "Tarifs",
+      "href": "#tarifs"
+    },
+    {
+      "text": "Essai gratuit",
+      "href": "/register"
+    },
+    {
+      "text": "Calculateur IRL",
+      "href": "/outils/calculateur-irl"
+    },
+    {
+      "text": "Modèle Quittance PDF",
+      "href": "/outils/modele-quittance-loyer-pdf"
+    },
+    {
+      "text": "Guides bailleur",
+      "href": "/guides"
+    },
+    {
+      "text": "Mentions légales",
+      "href": "/mentions-legales"
+    },
+    {
+      "text": "Confidentialité & RGPD",
+      "href": "/politique-confidentialite"
+    },
+    {
+      "text": "CGU",
+      "href": "/cgu"
+    }
+  ],
+  "wordCount": 847,
+  "domNodes": 524,
+  "pageHeight": 3968,
+  "loadTimeMs": 1431
+}
