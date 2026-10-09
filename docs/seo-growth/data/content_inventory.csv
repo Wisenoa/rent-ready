@@ -1,0 +1,179 @@
+URL,TYPE,CATEGORY,TITLE,WORD_COUNT,LAST_MODIFIED,PRIMARY_INTENT,INLINKS,OUTLINKS
+"https://www.rentready.fr","HOMEPAGE","static","Logiciel de gestion locative pour propriétaires bailleurs | RentReady",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/assurance-loyer-impaye","PRODUCT","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/bail","PRODUCT","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/blog","BLOG","static","Template",0,"2026-10-07","INFORMATIONAL",0,0
+"https://www.rentready.fr/comparatif","COMPARISON","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/comparatif/assurance-loyer-impaye","COMPARISON","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/comparatif/bail-electronique-vs-papier","COMPARISON","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/comparatif/logiciel-gestion-locative","COMPARISON","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/comparatif/quittance-de-loyer-vs-attestation","COMPARISON","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/comparatif/rentready-vs-legalplace","COMPARISON","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/gestion-locative","PRODUCT","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/guides","BLOG","static","Template",0,"2026-10-07","INFORMATIONAL",0,0
+"https://www.rentready.fr/guides/depot-garantie","BLOG","static","Template",0,"2026-10-07","INFORMATIONAL",1,0
+"https://www.rentready.fr/guides/irl-2026","BLOG","static","Template",0,"2026-10-07","INFORMATIONAL",1,0
+"https://www.rentready.fr/guides/modele-bail","BLOG","static","Template",0,"2026-10-07","INFORMATIONAL",2,0
+"https://www.rentready.fr/guides/quittance-loyer","BLOG","static","Template",0,"2026-10-07","INFORMATIONAL",1,0
+"https://www.rentready.fr/guides/relance-loyer","BLOG","static","Template",0,"2026-10-07","INFORMATIONAL",1,0
+"https://www.rentready.fr/outils","FREE_TOOL","static","Template",0,"2026-10-07","NAVIGATIONAL",0,0
+"https://www.rentready.fr/outils/calculateur-charges-locatives","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/calculateur-depot-garantie","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/calculateur-irl","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",5,0
+"https://www.rentready.fr/outils/calculateur-loyer","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/calculateur-plus-value","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/calculateur-preavis","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/calculateur-rendement","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/calculateur-surface-habitable","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/checklist-etat-lieux","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/generateur-conge-vente","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/generateur-quittance","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",2,0
+"https://www.rentready.fr/outils/lettre-relance-loyer","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",3,0
+"https://www.rentready.fr/outils/modele-quittance-loyer-pdf","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/simulateur-fiscalite-lmnp","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/simulateur-loi-jeanbrun","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/outils/simulateur-pret-immobilier","FREE_TOOL","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/pricing","PRICING","static","Tarifs RentReady 2026 — à partir de 9 €/mois, essai gratuit sans engagement",0,"2026-10-07","TRANSACTIONAL",1,0
+"https://www.rentready.fr/quittances","PRODUCT","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/templates","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/augmentation-de-loyer","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/bail-colocation","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/bail-commercial","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/bail-meuble","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/bail-mobilite","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/bail-professionnel","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/bail-vide","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",1,0
+"https://www.rentready.fr/templates/conge-locataire","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/conge-proprietaire","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/contrat-de-location","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/etat-des-lieux","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",5,0
+"https://www.rentready.fr/templates/lease","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/lease/acte-caution","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/lease/bail-etudiant","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/lease/bail-parking","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/lease/bail-precaire","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/lease/bail-saisonnier","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/protocol-etat-des-lieux","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/recu-loyer","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/relance-loyer-impaye","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/templates/repartition-charges","TEMPLATE","static","Template",0,"2026-10-07","TRANSACTIONAL",0,0
+"https://www.rentready.fr/villes","PRODUCT","static","Template",0,"2026-10-07","COMMERCIAL",0,0
+"https://www.rentready.fr/blog/comment-gerer-loyers-impayes","BLOG","Gestion","Comment gérer les loyers impayés en 2026",0,"2026-01-15","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/revision-loyer-irl-guide-complet","BLOG","Calculs","Révision de loyer et IRL: guide complet 2026",0,"2026-01-10","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/depot-garantie-regles-essentielles","BLOG","Juridique","Dépôt de garantie: les règles essentielles à connaître en 2026",0,"2026-01-05","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/etat-des-lieux-entree-sortie","BLOG","Juridique","État des lieux d'entrée et de sortie: mode d'emploi 2026",0,"2026-02-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/loi-alur-proprietaire-bailleur","BLOG","Juridique","Loi ALUR: impact sur les propriétaires bailleurs en 2026",0,"2026-02-15","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/optimiser-fiscalite-loyers","BLOG","Fiscalité","Optimiser la fiscalité de vos revenus locatifs en 2026",0,"2026-03-01","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/quittance-loyer-pdf-gratuit","BLOG","Gestion","Modèle de quittance de loyer PDF gratuit — Comment remplir une quittance conforme",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/lettre-relance-loyer-impaye-modele","BLOG","Gestion","Lettre de relance pour loyer impayé — Modèle gratuit et conseils juridiques",0,"2026-04-17","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/charges-locatives-decompte-annualise","BLOG","Gestion","Charges locatives : le guide complet du décompte annualisé",0,"2026-04-21","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/quittance-loyer-mentions-obligatoires","BLOG","Juridique","Quittance de loyer : mentions obligatoires et modèle gratuit",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/calculer-rendement-locatif-brut-net","BLOG","Fiscalité","Calculer un rendement locatif brut et net : formule et simulateur",0,"2026-05-01","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/etat-des-lieux-proprietaire-modele","BLOG","Juridique","État des lieux : modèle gratuit et procédure pour propriétaires",0,"2026-05-05","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/bail-location-vide-2026","BLOG","Juridique","Bail de location vide : guide complet 2026 — clauses, durée et obligations",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/bail-location-meuble-2026","BLOG","Juridique","Bail de location meublée : tout savoir en 2026 — durée, loyer et obligations",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/garant-caution-solidaire","BLOG","Juridique","Garant et caution solidaire en location : droits et obligations",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/notice-conge-locataire","BLOG","Juridique","Congé du locataire : comment y procéder légalement en 2026",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/preavis-depart-locataire","BLOG","Juridique","Préavis de départ du locataire : délais légaux et procédure en 2026",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/loyer-encadrement-paris-2026","BLOG","Juridique","Encadrement des loyers à Paris 2026 : zones, plafonds et exceptions",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/sci-gestion-locative","BLOG","Fiscalité","SCI et gestion locative : avantages, contraintes et fonctionnement",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/lmnp-declaration-fiscale-2026","BLOG","Fiscalité","LMNP en 2026 : régime micro-BIC vs régime réel simplifié — comparatif",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/travaux-locataire-proprietaire","BLOG","Juridique","Travaux en location : qui paie quoi entre locataire et propriétaire en 2026",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/assurance-habitation-locataire","BLOG","Juridique","Assurance habitation du locataire : obligations, couverture et comparatif",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/indexation-loyer-formule-2026","BLOG","Calculs","Indexation du loyer : la formule de calcul par l'IRL",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/colocation-bail-solidaire-2026","BLOG","Juridique","Colocation et bail solidaire : le guide pratique",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-locative-en-ligne-avantages","BLOG","Gestion","Gestion locative en ligne vs agence immobilière : comparatif complet 2026",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/quittance-loyer-apl-caf","BLOG","Gestion","Quittance de loyer et APL/CAF : mentions obligatoires et obligations",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/investissement-locatif-rentabilite-2026","BLOG","Calculs","Calcul de rentabilité locative : méthode complète et simulateur 2026",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/rediger-contrat-location","BLOG","Juridique","Comment rédiger un contrat de location en 2026 : guide complet",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/logiciel-gestion-locative-gratuit-vs-payant","BLOG","Gestion","Logiciel de gestion locative : gratuit ou payant, que choisir ?",0,"2026-04-15","INFORMATIONAL",3,0
+"https://www.rentready.fr/blog/comment-gerer-biens-locatifs","BLOG","Gestion","Comment gérer ses biens locatifs : guide complet du propriétaire",0,"2026-04-15","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/charges-locatives-recuperables-liste","BLOG","Juridique","Charges locatives récupérables : liste complète et réglementation 2026",0,"2026-04-15","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/bail-professionnel","BLOG","Juridique","Bail professionnel : durée, loyer et obligations pour un local",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/depot-garantie-meuble","BLOG","Juridique","Dépôt de garantie en location meublée : plafond, restitution et litiges",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/litige-depot-garantie","BLOG","Juridique","Litige sur le dépôt de garantie : procédure et recours",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/modele-lettre-relance","BLOG","Gestion","Modèle de lettre de relance pour loyer impayé, simple et efficace",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/mis-en-demeure-loyer","BLOG","Gestion","Mise en demeure pour loyer impayé : modèle et procédure légale",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/saisie-salaire-loyer-impaye","BLOG","Gestion","Saisie sur salaire pour loyer impayé : procédure et montants récupérables",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/augmentation-loyer-irl","BLOG","Calculs","Augmentation de loyer et IRL : comment calculer et appliquer la révision",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-locative-gratuite","BLOG","Gestion","Gérer ses locations gratuitement : les solutions sans frais",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-locative-prix","BLOG","Gestion","Gestion locative : prix et tarifs, agence ou logiciel ?",0,"2026-04-28","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/bail-mobilite-2026","BLOG","Juridique","Bail de mobilité : modèle et conditions en 2026",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/restitution-depot-garantie-delais","BLOG","Juridique","Restitution du dépôt de garantie : délais et procédure en 2026",0,"2026-04-19","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/generateur-quittance-loyer","BLOG","Gestion","Générateur de quittance de loyer gratuit : créez vos reçus en ligne",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/simulateur-irl-2026","BLOG","Calculs","Simulateur IRL 2026 : calculez votre révision de loyer en ligne",0,"2026-04-17","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/procedure-recouvrement-loyer-impaye","BLOG","Gestion","Procédure de recouvrement d'un loyer impayé : étapes et délais",0,"2026-04-16","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/loyer-impaye-recours","BLOG","Juridique","Loyer impayé : tous vos recours juridiques en tant que propriétaire",0,"2026-04-15","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/rediger-bail-location","BLOG","Juridique","Comment rédiger un bail de location conforme : modèle et conseils",0,"2026-04-14","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-locative-lyon","BLOG","Gestion","Gestion locative à Lyon : guide complet pour les propriétaires",0,"2026-04-13","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-locative-paris","BLOG","Gestion","Gestion locative à Paris : règles spécifiques et conseils pour propriétaires",0,"2026-04-12","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/bail-commercial-immobilier","BLOG","Juridique","Bail commercial : réglementation, durée et clauses essentielles en 2026",0,"2026-04-11","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/etapes-eviction-locataire-impaye","BLOG","Juridique","Étapes d'éviction d'un locataire pour loyer impayé : procédure complète",0,"2026-04-10","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/modele-bail-location-gratuit","BLOG","Juridique","Modèle de bail de location gratuit : téléchargement et guide de conformité",0,"2026-04-09","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/loyer-charges-recuperables","BLOG","Juridique","Loyer et charges récupérables : la liste complète et le calcul",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/calcul-depot-garantie","BLOG","Calculs","Calcul du dépôt de garantie : plafonds 2026 et modalités",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/depot-garantie-etat-des-lieux","BLOG","Juridique","Dépôt de garantie et état des lieux : relation et retenues",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/litige-depot-garantie-procedure","BLOG","Juridique","Litige sur le dépôt de garantie : procédure et recours",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/recours-garde-a-vue","BLOG","Juridique","Garde à vue et loyers impayés : que faire en cas d'accusation",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-locative-etat-financier","BLOG","Gestion","État financier de votre gestion locative : bilan annuel",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/fiscalite-lmnp-vs-lmp","BLOG","Fiscalité","LMNP ou LMP : quel statut fiscal pour votre location meublée ?",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/travaux-entretien-locatif","BLOG","Juridique","Travaux d'entretien locatif : qui paie quoi ?",0,"2026-04-18","INFORMATIONAL",1,0
+"https://www.rentready.fr/blog/duree-bail-location","BLOG","Juridique","Durée du bail de location : tout savoir selon le type de location",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-compte-banque-separe","BLOG","Gestion","Compte bancaire séparé pour la gestion locative : obligation légale",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/taxe-fonciere-locatif","BLOG","Fiscalité","Taxe foncière et location : qui paie et comment la déclarer",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/reduction-impot-location","BLOG","Fiscalité","Réductions d'impôt pour les propriétaires bailleurs en 2026",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/amortissement-immobilier-locatif","BLOG","Fiscalité","Amortissement d'un bien locatif : le guide fiscal",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/parental-garantie","BLOG","Juridique","Garantie Visale et autres aides à l'accès au logement",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/dossier-location-impots","BLOG","Juridique","Dossier de location : pièces obligatoires pour un bail en 2026",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/assurance-habitation-proprietaire","BLOG","Gestion","Assurance habitation du propriétaire : garanties et tarifs",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/entretien-chaudiere","BLOG","Juridique","Entretien de la chaudière : obligations et fréquence légales",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/preavis-location-etranger","BLOG","Juridique","Préavis de congé pour un locataire étranger : quelle règle ?",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/encadrement-des-loyers","BLOG","Juridique","Encadrement des loyers : zones tendues et modalités",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/location-saisonniere-fiscale","BLOG","Fiscalité","Fiscalité de la location saisonnière : revenus et déclarations",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/regime-micro-foncier","BLOG","Fiscalité","Régime micro-foncier : avantages et conditions en 2026",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/declaration-fonciere-2044","BLOG","Fiscalité","Déclaration fiscale 2044 : revenus fonciers et déficit",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/assurance-loyer-impaye-gli","BLOG","Gestion","Garantie Loyers Impayés : couverture et exclusions",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/recouvrement-judiciaire-loyer","BLOG","Juridique","Recouvrement judiciaire d'un loyer impayé : étapes",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-locative-investisseur","BLOG","Gestion","Logiciel de gestion locative pour investisseurs immobiliers",0,"2026-04-18","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/modele-quittance-loyer-gratuit","BLOG","Quittances","Modèle de quittance de loyer gratuit : créez-la en 2 minutes",0,"2026-04-19","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/relance-loyer-impaye-modele-lettre","BLOG","Gestion","Relance loyer impayé : modèle de lettre gratuit et procédure",0,"2026-04-19","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/etat-des-lieux-modele-conseils","BLOG","Documents","État des lieux : modèle gratuit et conseils pour propriétaires",0,"2026-04-19","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/augmentation-loyer-regles-procedure","BLOG","Gestion","Augmentation de loyer : règles et procédure en 2026",0,"2026-04-19","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/gestion-locative-en-ligne-avantages-comparatif-2026","BLOG","Gestion","Gestion locative en ligne : avantages et comparatif",0,"2026-04-19","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/plus-value-immobiliere-location","BLOG","Fiscalité","Plus-value immobilière en location : calculs, exonérations et fiscalite 2026",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/travaux-deductibles-impot-location","BLOG","Fiscalité","Travaux déductibles des revenus fonciers : la liste complète",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/frais-gestion-locative-deductibles","BLOG","Fiscalité","Frais de gestion locative déductibles : agences, comptable, assurance",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/deficit-foncier-impot-2026","BLOG","Fiscalité","Déficit foncier et impôt : comment le déduire",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/amenagement-local-pro-impot","BLOG","Fiscalité","Amortissement et travaux d'aménagement en LMNP : le guide fiscal",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/recours-locataire-procedure","BLOG","Juridique","Recours du locataire : procédure, tribunal et médiation en cas de litige",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/locataire-pertes-handicap","BLOG","Juridique","Locataire handicapé : recours, allocations et protections spécifiques",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/trouble-voisinage-recours-locataire","BLOG","Juridique","Trouble de voisinage en location : les recours du locataire et du propriétaire",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/assurance-proprietaire-non-occupant-obligations","BLOG","Juridique","Assurance propriétaire non occupant (PNO) : obligations et couverture",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/assurance-proprietaire-bailleur-protection","BLOG","Gestion","Protection du bailleur : quelle assurance contre les risques locatifs ?",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/assurance-gli-vs-protection-juridique","BLOG","Gestion","GLI ou protection juridique : quelle assurance pour le bailleur ?",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/investissement-locatif-2026","BLOG","Gestion","Investissement locatif : le guide complet pour débuter",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/rentabilite-locative-nette-brut","BLOG","Calculs","Rentabilité locative nette ou brute : comment la calculer",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/investissement-immobilier-neuf-ancien","BLOG","Gestion","Immobilier neuf ou ancien : avantages et inconvénients pour investir",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/location-etudiante-guide-complet","BLOG","Juridique","Location étudiante : le guide complet du bailleur",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/resiliation-bail-location","BLOG","Juridique","Resiliation du bail de location : motifs, délais et procedure 2026",0,"2026-04-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/comment-rediger-bail-location-guide-complet","BLOG","Juridique","Comment Rédiger un Bail de Location : Guide Complet 2026",0,"2026-05-06","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/bail-meuble-vs-bail-vide-difference","BLOG","Juridique","Bail Meublé vs Bail Vide : Quelle Différence Choisir ?",0,"2026-05-06","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/donner-conge-locataire-bailleur","BLOG","Juridique","Congé Bailleur : Comment Donner Congé à Son Locataire en 2026",0,"2026-05-13","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/sous-location-regles-et-limites","BLOG","Juridique","Sous-location : Est-ce Autorisé et Comment la Mettre en Place ?",0,"2026-05-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/droits-et-obligations-locataire-guide-complet","BLOG","Juridique","Droits et obligations du locataire : le guide complet",0,"2026-05-06","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/droits-et-obligations-bailleur-guide-complet","BLOG","Juridique","Droits et obligations du bailleur : ce que la loi impose",0,"2026-05-06","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/travaux-renovation-location-qui-paye","BLOG","Juridique","Travaux de Rénovation : Qui Paye Quoi Entre Locataire et Propriétaire ?",0,"2026-05-13","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/charges-locatives-recuperables-liste-2026","BLOG","Gestion","Charges Locatives : Liste Complète et Récupérables en 2026",0,"2026-05-13","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/comment-faire-etat-des-lieux-modele","BLOG","Juridique","Comment Faire un État des Lieux : Modèle et Procédure en 2026",0,"2026-05-13","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/cout-gestion-locative-prix-2026","BLOG","Gestion","Combien coûte une gestion locative en 2026 ?",0,"2026-05-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/loyer-impaye-que-faire-guide","BLOG","Gestion","Loyer Impayé : Que Faire et Comment Agir Rapidement ?",0,"2026-05-20","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/interets-retard-loyer-impaye-calcul","BLOG","Calculs","Calculer les intérêts de retard sur un loyer impayé",0,"2026-05-27","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/dossier-location-complet-pieces-fournir","BLOG","Gestion","Dossier de location : que doit contenir un dossier complet ?",0,"2026-05-27","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/statut-lmnp-2026-guide-complet","BLOG","Fiscalité","LMNP 2026 : Guide Complet du Statut Loueur Meublé Non Professionnel",0,"2026-06-03","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/declaration-revenus-locatifs-2026","BLOG","Fiscalité","Déclarer ses revenus locatifs aux impôts : régime micro-foncier ou réel",0,"2026-06-03","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/micro-foncier-ou-reel-comparaison-2026","BLOG","Fiscalité","Micro-foncier ou réel : quel régime fiscal choisir ?",0,"2026-06-03","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/garantie-visale-fonctionnement-eligibilite","BLOG","Juridique","Garantie Visale : Comment Fonctionne et Qui Peut en Bénéficier ?",0,"2026-06-03","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/assurance-proprietaire-non-occupant-guide-2026","BLOG","Juridique","Assurance propriétaire non occupant (PNO) : garanties et obligations",0,"2026-06-10","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/investir-immobilier-locatif-guide-debutant-2026","BLOG","Fiscalité","Comment Investir dans l'Immobilier Locatif : Guide Débutant 2026",0,"2026-06-10","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/plus-value-immobiliere-location-calcul-exoneration","BLOG","Fiscalité","Plus-Value Immobilière en Location : Calcul et Exonération",0,"2026-06-10","INFORMATIONAL",0,0
+"https://www.rentready.fr/blog/bail-meuble-ou-vide-que-choisir-investisseur","BLOG","Fiscalité","Bail Meublé vs Bail Vide pour Investisseur : Le Guide Comparatif",0,"2026-06-10","INFORMATIONAL",0,0
