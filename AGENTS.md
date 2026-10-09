@@ -94,89 +94,22 @@ Avoid parallel implementations of the same concept.
 
 ⸻
 
-3b. Workspace par carte (Hermes Kanban)
+3b. Règle de branche et de workspace — Travail direct sur master
 
-Quand tu travailles sur une carte Kanban, ton workspace est défini par la carte.
+Règle établie par instruction humaine :
 
-Si `workspace_kind` vaut `dir:<chemin>`, plusieurs agents écrivent dans le même
-arbre. C'est la source de corruption observée sur la famille de cartes
-quittances : `.next/BUILD_ID` disparu pendant qu'un autre agent rebuildait, une
-suite de tests passant de 12s à 87s, une sonde de revue non attribuable
-présente dans l'arbre de l'implémenteur. Si tu vois un fichier qui ne
-t'appartient pas et qui n'est pas stagé, ne le commite pas et ne le supprime
-pas : signale-le dans la carte.
+L'agent code et commite directement sur la branche principale `master`.
+Aucun worktree ni branche secondaire intermédiaire n'est requis pour les interventions directes de l'agent.
 
-Si `workspace_kind` vaut `worktree`, tu as ton propre arbre sous
-`.worktrees/<task-id>`. Lance `scripts/kanban-workspace.sh` une fois en début de
-carte : il lie `node_modules` et `.env` depuis le checkout principal (un
-worktree neuf n'a ni l'un ni l'autre, sinon chaque carte redécouvre `pnpm
-install` ou installe une seconde copie de l'arbre de dépendances). Le script
-refuse de tourner dans le checkout principal, qui est partagé.
-
-Ne lance jamais `pnpm build` dans le checkout principal pendant que d'autres
-cartes tournent.
-
-Règle d'atterrissage : si tu travailles en worktree, ce que tu commits reste
-sur la branche de ta carte. Tant que le travail n'est pas fusionné dans la
-branche principale, la carte suivante ne le voit pas et les deux divergent. Le
-script `scripts/kanban-workspace.sh` prépare le worktree, il ne fusionne rien.
-Après `kanban_complete`, vérifie que ta branche estIntegrated ou demande
-explicitement la fusion dans le `summary` de ta carte — ne laisse pas une carte
-`done` dont le travail n'atteint jamais `master`.
-
-Si tu constates que le travail d'une carte précédente n'est pas dans ton arbre
-alors que la carte est `done`, c'est un défaut d'atterrissage : signale-le
-plutôt que de reconstruire à l'identique.
-
-⸻
-
-## 3bis. Workspace par carte — verrou mécanique
-
-⸻
-
-UN AGENT QUI ECRIT = UNE CARTE = UNE BRANCHE = UN WORKTREE
-
-Interdit : ecrire dans le worktree principal partage, reserve au landing et a
-l'inspection. Deux agents qui y ecrivent partagent un `.git/index`, un working
-tree et un `.next`.
-
-Ce n'est pas une theorie. Deux fois en une session, l'agent B a lance `git add`
-et a embarque dans SON commit les fichiers non committes de l'agent A :
-
-  08f9b74 « Un seul prix pour l'entite »   -> + correction carte locataire,
-                                               rate-limit, 4 specs E2E
-  11862c7 « Choisir un bien »               -> + 2 specs E2E
-
-Le code etait correct ; l'historique, non. Le message decrivait autre chose, et
-l'agent ayant ecrit les fichiers a decouvert « nothing added to commit ».
-
-AVANT TOUTE ECRITURE :
-
-    scripts/workspace-guard.sh --task <id> --write --profile <nom>
-
-Sort en 3 dans le main checkout, en 4 dans le worktree d'une autre carte, en 5
-si la branche ne porte pas l'id de la carte. Pas de mode avertissement : pour
-un agent qui va modifier le depot, un mauvais workspace impose l'arret.
-
-PREUVE :
-
-    scripts/workspace-guard-proof.sh
-
-Deux worktrees jetables, A laisse sale, B commite avec `git add -A`, et
-verification que le commit de B ne contient aucun fichier de A.
-
-Cycle d'une carte :
-
-    git worktree add .worktrees/<id> -b kanban/<id>
-    scripts/kanban-workspace.sh          # lie node_modules + .env
-    scripts/workspace-guard.sh --task <id> --write   # avant d'ecrire
-    scripts/kanban-land.sh               # fast-forward vers master
-    scripts/worktree-safe-remove.sh <branche>       # refuse si travail unique
-
-Un worktree abandonne sale n'est jamais supprime automatiquement : le travail
-d'un agent mort doit rester visible.
-
-⸻
+Principes pour le travail direct sur `master` :
+1. Travailler directement dans le checkout principal (`/home/ubuntu/rent-ready`).
+2. S'assurer de la propreté de l'arbre (`git status`) avant et après chaque modification.
+3. Toujours valider les tests, le lint et la compilation avant de commiter :
+   - `pnpm exec tsc --noEmit`
+   - `pnpm exec eslint`
+   - `pnpm vitest run` / tests ciblés.
+4. Effectuer des commits clairs et atomiques directement sur `master`.
+5. Ne pas laisser de fichiers temporaires non suivis.
 
 ⸻
 
