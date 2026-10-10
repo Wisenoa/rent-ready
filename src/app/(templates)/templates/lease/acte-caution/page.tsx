@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "cautionnement bail",
   ],
   openGraph: {
-    title: "Acte de Caution Solidaire 2026 — Locelio",
+    title: "Acte de Caution Solidaire 2026 — Lokna",
     description:
       "Acte de caution solidaire gratuit pour location. Téléchargeable en PDF, personnalisable. Mise à jour 2026.",
     type: "website",
-    url: "https://locelio.fr/templates/lease/acte-caution",
-    siteName: "Locelio",
+    url: "https://lokna.fr/templates/lease/acte-caution",
+    siteName: "Lokna",
   },
   alternates: buildHreflang("/templates/lease/acte-caution"),
 };
@@ -133,25 +133,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://locelio.fr/#organization",
-  name: "Locelio",
-  url: "https://locelio.fr",
-  logo: "https://locelio.fr/logo.svg",
+  "@id": "https://lokna.fr/#organization",
+  name: "Lokna",
+  url: "https://lokna.fr",
+  logo: "https://lokna.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@locelio.fr",
+    email: "contact@lokna.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://locelio.fr/#website",
-  name: "Locelio",
-  url: "https://locelio.fr",
+  "@id": "https://lokna.fr/#website",
+  name: "Lokna",
+  url: "https://lokna.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -167,14 +167,14 @@ function ActeCautionJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Acte de Caution Solidaire 2026 — Locelio",
+        name: "Acte de Caution Solidaire 2026 — Lokna",
         description:
           "Modèle d'acte de caution solidaire gratuit pour bail de location. Téléchargeable en PDF.",
-        url: "https://locelio.fr/templates/lease/acte-caution",
+        url: "https://lokna.fr/templates/lease/acte-caution",
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
@@ -314,7 +314,7 @@ export default function ActeCautionPage() {
             Automatisez la gestion des cautions
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Avec Locelio, générez l&apos;acte de caution automatiquement,
+            Avec Lokna, générez l&apos;acte de caution automatiquement,
             envoyez-la pour signature et alertez le garant en cas d&apos;impayés.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">

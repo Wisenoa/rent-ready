@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     description:
       "Bail mobilité 1-10 mois sans garantie loyer. Téléchargez et personnalisez en ligne. Mise à jour 2026.",
     type: "website",
-    url: "https://locelio.fr/templates/bail-mobilite",
-    siteName: "Locelio",
+    url: "https://lokna.fr/templates/bail-mobilite",
+    siteName: "Lokna",
   },
   alternates: buildHreflang("/templates/bail-mobilite"),
 };
@@ -96,25 +96,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://locelio.fr/#organization",
-  name: "Locelio",
-  url: "https://locelio.fr",
-  logo: "https://locelio.fr/logo.svg",
+  "@id": "https://lokna.fr/#organization",
+  name: "Lokna",
+  url: "https://lokna.fr",
+  logo: "https://lokna.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@locelio.fr",
+    email: "contact@lokna.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://locelio.fr/#website",
-  name: "Locelio",
-  url: "https://locelio.fr",
+  "@id": "https://lokna.fr/#website",
+  name: "Lokna",
+  url: "https://lokna.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -130,9 +130,9 @@ function BailMobiliteJsonLd() {
       webSiteSchema,
       {
         "@type": "SoftwareApplication",
-        name: "Locelio - Modèle Bail Mobilité",
+        name: "Lokna - Modèle Bail Mobilité",
         description: "Générateur de bail mobilité gratuit pour location de courte durée (1-10 mois) sans garantie loyer.",
-        url: "https://locelio.fr/templates/bail-mobilite",
+        url: "https://lokna.fr/templates/bail-mobilite",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         offers: {
@@ -146,7 +146,7 @@ function BailMobiliteJsonLd() {
         "@type": "HowTo",
         name: "Comment utiliser le modèle de bail mobilité",
         description: "Guide étapes par étapes pour télécharger, personnaliser et signer un bail mobilité.",
-        url: "https://locelio.fr/templates/bail-mobilite",
+        url: "https://lokna.fr/templates/bail-mobilite",
         step: [
           {
             "@type": "HowToStep",
@@ -167,14 +167,14 @@ function BailMobiliteJsonLd() {
       },
       {
         "@type": "WebPage",
-        name: "Modèle Bail Mobilité 2026 — Locelio",
+        name: "Modèle Bail Mobilité 2026 — Lokna",
         description:
           "Modèle de bail mobilité gratuit (1-10 mois) sans garantie loyer. Ideal pour mutations et stages.",
-        url: "https://locelio.fr/templates/bail-mobilite",
+        url: "https://lokna.fr/templates/bail-mobilite",
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {

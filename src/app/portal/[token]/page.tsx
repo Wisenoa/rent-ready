@@ -32,7 +32,7 @@ import { PortalMessages } from "./messages";
 import { formatCurrency } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Espace Locataire — Locelio",
+  title: "Espace Locataire — Lokna",
   robots: {
     index: false,
     follow: false,
@@ -101,7 +101,7 @@ export default async function PortalPage({
             </p>
           </div>
           <Badge variant="outline" className="text-xs">
-            Locelio
+            Lokna
           </Badge>
         </div>
       </header>

@@ -16,7 +16,7 @@ export async function sendMagicLinkEmail({
   await resend.emails.send({
     from: fromEmail,
     to: email,
-    subject: "Votre lien de connexion Locelio",
+    subject: "Votre lien de connexion Lokna",
     react: (
       <MagicLinkEmail
         email={email}

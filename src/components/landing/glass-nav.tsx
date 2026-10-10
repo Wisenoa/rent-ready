@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { SmartHeaderCta } from "@/components/smart-header-cta";
 import { Menu, X } from "lucide-react";
+import { LoknaLogo } from "@/components/ui/lokna-logo";
 
 const NAV_LINKS = [
   { href: "#cycle-mensuel", label: "Comment ça marche" },
@@ -36,12 +37,7 @@ export function GlassNav() {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-stone-900 font-bold text-sm text-white">
-            L
-          </div>
-          <span className="text-[17px] font-semibold tracking-tight text-stone-900">
-            Locelio
-          </span>
+          <LoknaLogo size={28} />
         </Link>
 
         {/* Desktop Curated Nav Links */}

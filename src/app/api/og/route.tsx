@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 export const runtime = "edge";
 
 const BRAND = {
-  name: "Locelio",
+  name: "Lokna",
   color: "#1E3A2F",
   dark: "#15241F",
   muted: "#2C3E35",
@@ -646,7 +646,7 @@ function DefaultOG({ title, description }: { title: string; description?: string
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const title = searchParams.get("title") || "Locelio — Gestion locative";
+  const title = searchParams.get("title") || "Lokna — Gestion locative";
   const description = searchParams.get("description") || undefined;
   const type = searchParams.get("type") || "default";
 

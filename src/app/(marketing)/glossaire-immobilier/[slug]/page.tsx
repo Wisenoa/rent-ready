@@ -99,7 +99,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return baseMetadata({
     title: `${entry.term} — Définition complète`,
-    description: `${entry.shortDefinition} En savoir plus sur ${entry.term} dans le glossaire immobilier Locelio.`,
+    description: `${entry.shortDefinition} En savoir plus sur ${entry.term} dans le glossaire immobilier Lokna.`,
     url: `/glossaire-immobilier/${entry.slug}`,
     ogType: "article",
   });
@@ -145,7 +145,7 @@ function buildGlossarySchema(entry: GlossaryEntry) {
           definition: entry.fullDefinition,
           inDefinedTermSet: {
             "@type": "DefinedTermSet",
-            name: "Glossaire Immobilier Locelio",
+            name: "Glossaire Immobilier Lokna",
             url: `${SITE_URL}/glossaire-immobilier`,
           },
         },
@@ -325,7 +325,7 @@ export default async function GlossaryTermPage({ params }: Props) {
             Maîtrisez votre gestion locative
           </h3>
           <p className="mb-4 text-sm text-stone-600">
-            Locelio automatise quittances, révisions de loyer et suivi des échéances.
+            Lokna automatise quittances, révisions de loyer et suivi des échéances.
             Essai gratuit 14 jours.
           </p>
           <Link

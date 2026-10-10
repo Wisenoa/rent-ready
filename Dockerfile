@@ -1,5 +1,5 @@
 # ==============================================================================
-# Locelio Production Dockerfile (Multi-stage)
+# Lokna Production Dockerfile (Multi-stage)
 # Next.js 15 App Router Standalone + Dedicated Prisma Migrator
 # ==============================================================================
 
@@ -31,8 +31,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build-time public variables (safe public constants)
-ARG NEXT_PUBLIC_SITE_URL=https://locelio.fr
-ARG NEXT_PUBLIC_APP_URL=https://locelio.fr
+ARG NEXT_PUBLIC_SITE_URL=https://lokna.fr
+ARG NEXT_PUBLIC_APP_URL=https://lokna.fr
 ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=""
 
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL

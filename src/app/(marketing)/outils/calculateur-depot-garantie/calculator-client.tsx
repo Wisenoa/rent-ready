@@ -273,7 +273,7 @@ export function DepotGarantieCalculatorClient() {
           <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
             <h2 className="text-2xl font-bold mb-2">Gérez vos dépôts de garantie facilement</h2>
             <p className="text-blue-100 mb-6 max-w-xl mx-auto">
-              Locelio vous aide à calculer les dépôts, suivre les restitutions, et gérer les retenues en toute conformité.
+              Lokna vous aide à calculer les dépôts, suivre les restitutions, et gérer les retenues en toute conformité.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">

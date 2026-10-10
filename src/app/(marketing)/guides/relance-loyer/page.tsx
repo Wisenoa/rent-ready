@@ -285,7 +285,7 @@ export default function RelanceLoyerGuidePage() {
           Protégez-vous contre les impayés
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
-          Avec Locelio, détectez les retards de paiement en temps réel et lancez la
+          Avec Lokna, détectez les retards de paiement en temps réel et lancez la
           procédure de recouvrement avant qu&apos;il ne soit trop tard.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">

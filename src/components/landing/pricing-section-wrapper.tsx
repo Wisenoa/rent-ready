@@ -165,7 +165,7 @@ export function PricingSectionWrapper() {
           features={plans.agency.features}
           cta={
             <a
-              href="mailto:contact@locelio.fr"
+              href="mailto:contact@lokna.fr"
               className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-stone-200 bg-white py-4 text-sm font-semibold text-stone-700 shadow-lg transition-colors hover:border-stone-300 hover:bg-stone-50"
             >
               Contacter ventes

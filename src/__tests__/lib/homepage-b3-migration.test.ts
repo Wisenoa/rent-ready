@@ -14,7 +14,7 @@ describe("Homepage B.3 Production Migration Integrity", () => {
     expect(HOME_FAQ_ITEMS).toHaveLength(4);
 
     const questions = HOME_FAQ_ITEMS.map((f) => f.question);
-    expect(questions).toContain("Pourquoi quitter un tableur Excel pour Locelio ?");
+    expect(questions).toContain("Pourquoi quitter un tableur Excel pour Lokna ?");
     expect(questions).toContain("Comment fonctionne l'essai gratuit de 14 jours ?");
     expect(questions).toContain("Que se passe-t-il en cas de versement partiel d'un locataire ?");
     expect(questions).toContain("Mes données d'encaissement sont-elles exportables ?");

@@ -1,13 +1,13 @@
 # ==============================================================================
-# Locelio Caddy Configuration Candidate
+# Lokna Caddy Configuration Candidate
 # To be appended to /home/ubuntu/pokemon/deploy/Caddyfile in Phase 3B
 # ==============================================================================
 
-www.locelio.fr {
-    redir https://locelio.fr{uri} permanent
+www.lokna.fr {
+    redir https://lokna.fr{uri} permanent
 }
 
-locelio.fr {
+lokna.fr {
     encode zstd gzip
     reverse_proxy host.docker.internal:3019
 }

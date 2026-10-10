@@ -1,28 +1,28 @@
 # ==============================================================================
-# Locelio Production Docker Compose Stack
+# Lokna Production Docker Compose Stack
 # Fully isolated from Facturama and all other host services
 # ==============================================================================
-name: locelio
+name: lokna
 
 services:
   # ============================================================================
   # Dedicated PostgreSQL 16 Database
-  # - Accessible ONLY inside locelio_internal network
+  # - Accessible ONLY inside lokna_internal network
   # - NO exposed host ports
   # ============================================================================
   postgres:
     image: postgres:16-alpine
-    container_name: locelio-postgres
+    container_name: lokna-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-locelio_production}
+      POSTGRES_DB: ${POSTGRES_DB:-lokna_production}
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - locelio_postgres_data:/var/lib/postgresql/data
+      - lokna_postgres_data:/var/lib/postgresql/data
     networks:
-      - locelio_internal
+      - lokna_internal
     deploy:
       resources:
         limits:
@@ -32,7 +32,7 @@ services:
           cpus: '0.25'
           memory: 512M
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB:-locelio_production}"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB:-lokna_production}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -48,18 +48,18 @@ services:
       context: .
       dockerfile: Dockerfile
       target: migrator
-    container_name: locelio-migrator
+    container_name: lokna-migrator
     restart: "no"
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@locelio-postgres:5432/${POSTGRES_DB:-locelio_production}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@lokna-postgres:5432/${POSTGRES_DB:-lokna_production}?schema=public
     networks:
-      - locelio_internal
+      - lokna_internal
 
   # ============================================================================
-  # Locelio Next.js Application (Standalone Runner)
+  # Lokna Next.js Application (Standalone Runner)
   # - Runs as unprivileged 'nextjs' user (UID 1001)
   # - Starts ONLY after migrator completes successfully
   # - Internal port 3000 mapped to Docker gateway 172.17.0.1:3019
@@ -70,10 +70,10 @@ services:
       dockerfile: Dockerfile
       target: runner
       args:
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://locelio.fr}
-        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://locelio.fr}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://lokna.fr}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://lokna.fr}
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
-    container_name: locelio-app
+    container_name: lokna-app
     restart: unless-stopped
     depends_on:
       postgres:
@@ -84,11 +84,11 @@ services:
       NODE_ENV: production
       PORT: 3000
       HOSTNAME: "0.0.0.0"
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@locelio-postgres:5432/${POSTGRES_DB:-locelio_production}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@lokna-postgres:5432/${POSTGRES_DB:-lokna_production}?schema=public
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
-      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-https://locelio.fr}
-      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://locelio.fr}
-      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://locelio.fr}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-https://lokna.fr}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://lokna.fr}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://lokna.fr}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
       NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
@@ -97,7 +97,7 @@ services:
       STRIPE_PRO_MONTHLY_PRICE_ID: ${STRIPE_PRO_MONTHLY_PRICE_ID:-}
       STRIPE_PRO_ANNUAL_PRICE_ID: ${STRIPE_PRO_ANNUAL_PRICE_ID:-}
       RESEND_API_KEY: ${RESEND_API_KEY:-}
-      RESEND_DOMAIN: ${RESEND_DOMAIN:-locelio.fr}
+      RESEND_DOMAIN: ${RESEND_DOMAIN:-lokna.fr}
       CRON_SECRET: ${CRON_SECRET:-}
       UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}
       UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN:-}
@@ -113,7 +113,7 @@ services:
       # while keeping it strictly inaccessible from the public internet interface
       - "172.17.0.1:3019:3000"
     networks:
-      - locelio_internal
+      - lokna_internal
     deploy:
       resources:
         limits:
@@ -133,10 +133,10 @@ services:
 # Persistent Volumes & Networks
 # ==============================================================================
 volumes:
-  locelio_postgres_data:
-    name: locelio_postgres_data
+  lokna_postgres_data:
+    name: lokna_postgres_data
 
 networks:
-  locelio_internal:
-    name: locelio_internal
+  lokna_internal:
+    name: lokna_internal
     driver: bridge

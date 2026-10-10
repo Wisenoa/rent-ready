@@ -33,9 +33,9 @@ export async function generateMetadata() {
 function CalculateurRendementJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://locelio.fr" },
-      { name: "Outils", url: "https://locelio.fr/outils" },
-      { name: "Calculateur Rendement Locatif", url: "https://locelio.fr/outils/calculateur-rendement" },
+      { name: "Accueil", url: "https://lokna.fr" },
+      { name: "Outils", url: "https://lokna.fr/outils" },
+      { name: "Calculateur Rendement Locatif", url: "https://lokna.fr/outils/calculateur-rendement" },
     ]),
     buildWebApplicationSchema({
       name: "Calculateur de Rendement Locatif NET & BRUT",

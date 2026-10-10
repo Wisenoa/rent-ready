@@ -20,7 +20,7 @@ interface WelcomeEmailProps {
 
 export function WelcomeEmail({
   firstName,
-  productName = "Locelio",
+  productName = "Lokna",
   loginUrl,
 }: WelcomeEmailProps) {
   return (
@@ -73,8 +73,8 @@ export function WelcomeEmail({
 
             <Text style={styles.textSmall}>
               Si vous avez des questions, notre équipe est disponible à{" "}
-              <Link style={styles.link} href="mailto:support@locelio.fr">
-                support@locelio.fr
+              <Link style={styles.link} href="mailto:support@lokna.fr">
+                support@lokna.fr
               </Link>
               .
             </Text>

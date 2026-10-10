@@ -60,7 +60,7 @@ export function DirectionBPlus({
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-baseline gap-3 sm:gap-4">
             <span className="font-serif text-2xl sm:text-[1.65rem] tracking-tight font-semibold italic text-[#151413]">
-              Locelio
+              Lokna
             </span>
             <span className="hidden md:inline-block text-[11px] uppercase tracking-widest text-[#6B6760] border-l border-[#151413]/15 pl-3">
               Le grand livre mensuel
@@ -181,7 +181,7 @@ export function DirectionBPlus({
                 </h1>
 
                 <p className="text-sm sm:text-base text-[#6B6760] leading-relaxed max-w-lg">
-                  Locelio suit les encaissements, prépare les quittances dès le solde
+                  Lokna suit les encaissements, prépare les quittances dès le solde
                   atteint et isole ce qui demande votre attention. Le reste ne vous dérange pas.
                 </p>
 
@@ -361,7 +361,7 @@ export function DirectionBPlus({
                 </span>
               </h2>
               <p className="mt-3 sm:mt-4 text-sm sm:text-base text-[#6B6760] leading-relaxed">
-                Quand un loyer arrive, Locelio génère la quittance conforme et range la ligne.
+                Quand un loyer arrive, Lokna génère la quittance conforme et range la ligne.
                 Quand un virement est partiel, le système isole la différence pour vous permettre
                 d'agir en un clic.
               </p>
@@ -845,7 +845,7 @@ export function DirectionBPlus({
                 FONDATIONS JURIDIQUES & TECHNIQUES
               </span>
               <h3 className="font-serif text-xl sm:text-2xl text-[#151413]">
-                Les trois garanties inviolables de Locelio
+                Les trois garanties inviolables de Lokna
               </h3>
             </div>
 
@@ -892,7 +892,7 @@ export function DirectionBPlus({
               Passez votre prochain mois au calme.
             </h2>
             <p className="text-sm sm:text-base text-[#6B6760] max-w-lg mx-auto leading-relaxed">
-              Ajoutez votre premier bien et laissez Locelio cadrer vos encaissements
+              Ajoutez votre premier bien et laissez Lokna cadrer vos encaissements
               dès l'ouverture du mois prochain.
             </p>
             <div className="pt-2">
@@ -915,7 +915,7 @@ export function DirectionBPlus({
       <footer className="border-t border-[#151413]/10 px-5 sm:px-8 lg:px-12 py-7 bg-[#F8F6F0] text-xs text-[#6B6760]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-baseline gap-3">
-            <span className="font-serif font-bold italic text-[#151413] text-sm">Locelio</span>
+            <span className="font-serif font-bold italic text-[#151413] text-sm">Lokna</span>
             <span>— Gestion locative sereine pour bailleurs indépendants</span>
           </div>
           <div>

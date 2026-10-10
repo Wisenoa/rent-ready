@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { LoknaLogo } from "@/components/ui/lokna-logo";
 
 export function HomeFooter() {
   return (
@@ -7,14 +8,13 @@ export function HomeFooter() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
         <div className="space-y-2 col-span-2 sm:col-span-1">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#1E3A2F]" aria-hidden="true" />
-            <span className="font-bold text-[#15241F]">Locelio</span>
+            <LoknaLogo size={22} />
           </div>
           <p className="text-[11px] text-[#7C8782]">
             Logiciel de gestion locative pour propriétaires bailleurs indépendants.
           </p>
           <p className="text-[11px] text-[#7C8782] pt-2">
-            © 2026 Locelio. Tous droits réservés.
+            © 2026 Lokna. Tous droits réservés.
           </p>
         </div>
 

@@ -80,9 +80,9 @@ function ContratLocationJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/modeles" },
-          { "@type": "ListItem", position: 3, name: "Contrat de location", item: "https://locelio.fr/templates/contrat-de-location" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lokna.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://lokna.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "Contrat de location", item: "https://lokna.fr/templates/contrat-de-location" },
         ],
       },
       {
@@ -114,19 +114,19 @@ function ContratLocationJsonLd() {
         ],
         tool: {
           "@type": "SoftwareApplication",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
         "@type": "Article",
-        name: "Modèle Contrat de Location Gratuit — Locelio",
+        name: "Modèle Contrat de Location Gratuit — Lokna",
         description:
           "Téléchargez un modèle de bail de location gratuit et conforme à la loi Alur. Bail vide ou meublé avec toutes les clauses obligatoires.",
         author: {
           "@type": "Organization",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
@@ -361,7 +361,7 @@ export default function ContratDeLocationPage() {
             </li>
           </ul>
           <p className="mt-4 text-sm text-stone-500">
-            💡 Avec Locelio, tous vos baux sont archivés automatiquement et
+            💡 Avec Lokna, tous vos baux sont archivés automatiquement et
             accessibles à tout moment depuis votre espace.
           </p>
         </section>

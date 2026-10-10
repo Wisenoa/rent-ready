@@ -28,7 +28,7 @@ const faqSchema = {
       name: "Quel est le meilleur mode de gestion locative pour un propriétaire indépendant ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: `Pour 1 à 10 logements, un logiciel spécialisé comme Locelio offre le meilleur équilibre : il automatise les tâches chronophages (quittances, détection des paiements, révision IRL) dès ${formatEntryPrice()}, sans les honoraires élevés d'une agence (7 à 10 % des loyers) ni la charge mentale d'un tableur Excel manuel.`,
+        text: `Pour 1 à 10 logements, un logiciel spécialisé comme Lokna offre le meilleur équilibre : il automatise les tâches chronophages (quittances, détection des paiements, révision IRL) dès ${formatEntryPrice()}, sans les honoraires élevés d'une agence (7 à 10 % des loyers) ni la charge mentale d'un tableur Excel manuel.`,
       },
     },
     {
@@ -52,7 +52,7 @@ const faqSchema = {
       name: "Les logiciels de gestion locative sont-ils conformes à la loi Alur et à la loi de 1989 ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Oui, un logiciel comme Locelio intègre nativement les mentions légales obligatoires : distinction loyer et charges, encadrement des loyers en zone tendue, calcul exact de l'IRL et modèle d'état des lieux conforme au décret de 2016.",
+        text: "Oui, un logiciel comme Lokna intègre nativement les mentions légales obligatoires : distinction loyer et charges, encadrement des loyers en zone tendue, calcul exact de l'IRL et modèle d'état des lieux conforme au décret de 2016.",
       },
     },
   ],
@@ -71,7 +71,7 @@ interface Alternative {
 
 const alternatives: Alternative[] = [
   {
-    name: "Locelio (Logiciel en ligne)",
+    name: "Lokna (Logiciel en ligne)",
     price: formatEntryPrice(),
     priceDetail: "sans commission, essai gratuit sans CB",
     pros: [
@@ -138,7 +138,7 @@ const criteria = [
 ];
 
 function getScore(alternativeName: string, criterion: string): "check" | "cross" | "minus" {
-  if (alternativeName.startsWith("Locelio")) {
+  if (alternativeName.startsWith("Lokna")) {
     return "check";
   }
   if (alternativeName.startsWith("Tableur")) {
@@ -157,7 +157,7 @@ function getScore(alternativeName: string, criterion: string): "check" | "cross"
 
 function getCriteriaNote(alternativeName: string, criterion: string): string | null {
   if (criterion === "Temps de gestion mensuel estimé") {
-    if (alternativeName.startsWith("Locelio")) return "~10 min/mois";
+    if (alternativeName.startsWith("Lokna")) return "~10 min/mois";
     if (alternativeName.startsWith("Tableur")) return "2 à 4 h/mois";
     if (alternativeName.startsWith("Agence")) return "0 min/mois";
   }

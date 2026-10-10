@@ -129,7 +129,7 @@ export function EReportingSection() {
           </p>
           <p>
             L&apos;obligation de e-reporting B2C entre en vigueur le 1er
-            septembre 2027 pour les micro-entrepreneurs. Locelio prépare vos
+            septembre 2027 pour les micro-entrepreneurs. Lokna prépare vos
             données dès maintenant pour une transition en douceur.
           </p>
         </div>

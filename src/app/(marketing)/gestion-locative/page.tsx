@@ -58,7 +58,7 @@ const GESTION_SCHEMA = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: "contact@locelio.fr",
+        email: "contact@lokna.fr",
         availableLanguage: "French",
       },
     },

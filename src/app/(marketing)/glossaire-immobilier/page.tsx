@@ -192,7 +192,7 @@ export default function GlossaireImmobilierPage() {
                 Simplifiez votre gestion locative
               </h2>
               <p className="mx-auto mb-6 max-w-lg text-stone-600">
-                Locelio vous accompagne dans la compréhension et l'application de
+                Lokna vous accompagne dans la compréhension et l'application de
                 ces termes: quittances automatiques, calcul IRL, suivi des loyers.
                 Essai gratuit 14 jours.
               </p>

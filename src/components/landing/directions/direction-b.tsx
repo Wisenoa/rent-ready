@@ -19,7 +19,7 @@ export function DirectionB() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-baseline gap-6">
             <span className="font-serif text-2xl tracking-tight font-semibold italic text-[#191817]">
-              Locelio
+              Lokna
             </span>
             <span className="hidden sm:inline-block font-mono text-[10px] uppercase tracking-widest text-stone-500 border-l border-stone-300 pl-4">
               Direction B · Atelier Foncier
@@ -269,7 +269,7 @@ export function DirectionB() {
             </h2>
             <p className="text-stone-700 leading-relaxed text-sm">
               L'intendance ne s'improvise pas. Chaque cycle mensuel suit trois obligations distinctes que
-              Locelio consigne sans ambiguïté.
+              Lokna consigne sans ambiguïté.
             </p>
           </div>
 

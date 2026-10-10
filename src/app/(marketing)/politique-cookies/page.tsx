@@ -15,9 +15,9 @@ export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
-    title: "Politique de Cookies — Locelio",
+    title: `Politique de Cookies — ${SITE_NAME}`,
     description:
-      "Politique de gestion des cookies de Locelio. Utilisation des cookies, consentement, et vos choix pour une navigation respectueuse de votre vie privee.",
+      `Politique de gestion des cookies de ${SITE_NAME}. Utilisation des cookies, consentement, et vos choix pour une navigation respectueuse de votre vie privee.`,
     url: "/politique-cookies",
     ogType: "template",
   });
@@ -29,27 +29,27 @@ function PolitiqueCookiesJsonLd() {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "Locelio — Politique de Cookies",
+        name: `${SITE_NAME} — Politique de Cookies`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/politique-cookies`,
         description:
-          "Politique de cookies de Locelio. Explication des cookies utilises, finalites et droits des utilisateurs conforme au RGPD.",
+          `Politique de cookies de ${SITE_NAME}. Explication des cookies utilises, finalites et droits des utilisateurs conforme au RGPD.`,
       },
       {
         "@type": "Organization",
-        name: "Locelio",
+        name: SITE_NAME,
         url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@locelio.fr",
+          email: "contact@lokna.fr",
           availableLanguage: "French",
         },
       },
       {
         "@type": "WebSite",
-        name: "Locelio",
+        name: SITE_NAME,
         url: SITE_URL,
       },
       {
@@ -98,14 +98,14 @@ export default function PolitiqueCookiesPage() {
             <p>
               Un cookie est un petit fichier texte stocke sur votre appareil
               (ordinateur, tablette, smartphone) lors de votre visite sur notre
-              site. Les cookies permettent a Locelio de fonctionner
+              site. Les cookies permettent a Lokna de fonctionner
               correctement, de securiser votre session et de memoriser vos
               preferences.
             </p>
           </section>
 
           <section>
-            <h2>2. Cookies utilises sur Locelio</h2>
+            <h2>2. Cookies utilises sur Lokna</h2>
             <p>
               Nous utilisons uniquement des cookies strictement necessaires au
               fonctionnement du service. Aucun cookie publicitaire, de
@@ -212,7 +212,7 @@ export default function PolitiqueCookiesPage() {
           <section>
             <h2>4. Cookies tiers</h2>
             <p>
-              Locelio n&apos;utilise aucun cookie tiers (publicitaires, analytiques
+              Lokna n&apos;utilise aucun cookie tiers (publicitaires, analytiques
               ou de reseaux sociaux). Nous ne partageons aucune donnee de
               navigation avec des tiers.
             </p>
@@ -231,7 +231,7 @@ export default function PolitiqueCookiesPage() {
           <section>
             <h2>6. Votre accord pour les services tiers</h2>
             <p>
-              Certains services integres a Locelio peuvent deposer leurs
+              Certains services integres a Lokna peuvent deposer leurs
               propres cookies :
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
@@ -276,10 +276,10 @@ export default function PolitiqueCookiesPage() {
             <p className="mt-2">
               Email :{" "}
               <a
-                href="mailto:dpo@locelio.fr"
+                href="mailto:dpo@lokna.fr"
                 className="text-blue-600 underline underline-offset-2"
               >
-                dpo@locelio.fr
+                dpo@lokna.fr
               </a>
             </p>
             <p className="mt-2">

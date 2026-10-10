@@ -113,7 +113,7 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
             <div>
               <p className="font-semibold text-emerald-900">Abonnement actif</p>
               <p className="text-sm text-emerald-700">
-                Vous avez accès à toutes les fonctionnalités Locelio.
+                Vous avez accès à toutes les fonctionnalités Lokna.
               </p>
             </div>
           </div>
@@ -222,7 +222,7 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
                 {status === "TRIAL" && trialExpired ? "Essai expiré" : "Abonnement résilié"}
               </p>
               <p className="text-sm text-red-700">
-                Souscrivez pour continuer à utiliser Locelio et accéder à toutes les fonctionnalités.
+                Souscrivez pour continuer à utiliser Lokna et accéder à toutes les fonctionnalités.
               </p>
             </div>
           </div>

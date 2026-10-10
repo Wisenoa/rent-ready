@@ -314,7 +314,12 @@ const config: NextConfig = {
       },
       {
         source: '/comparatif/rentready-vs-legalplace',
-        destination: '/comparatif/locelio-vs-legalplace',
+        destination: '/comparatif/lokna-vs-legalplace',
+        permanent: true,
+      },
+      {
+        source: '/comparatif/locelio-vs-legalplace',
+        destination: '/comparatif/lokna-vs-legalplace',
         permanent: true,
       },
 
@@ -410,7 +415,7 @@ const config: NextConfig = {
 
 export default withSentryConfig(config, {
   org: process.env.SENTRY_ORG || 'wisenoa',
-  project: process.env.SENTRY_PROJECT || 'locelio',
+  project: process.env.SENTRY_PROJECT || 'lokna',
   widenClientFileUpload: false,
   silent: !process.env.CI,
   sourcemaps: {

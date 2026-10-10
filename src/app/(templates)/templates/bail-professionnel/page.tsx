@@ -117,9 +117,9 @@ function BailProfessionnelJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/modeles" },
-          { "@type": "ListItem", position: 3, name: "Bail Professionnel", item: "https://locelio.fr/templates/bail-professionnel" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lokna.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://lokna.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "Bail Professionnel", item: "https://lokna.fr/templates/bail-professionnel" },
         ],
       },
       {
@@ -167,7 +167,7 @@ export default function BailProfessionnelPage() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/register" className="inline-block rounded-lg bg-teal-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-teal-700 w-full sm:w-auto">
-              Utiliser avec Locelio →
+              Utiliser avec Lokna →
             </Link>
             <Link href="/templates" className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto">
               Tous les modèles →
@@ -268,7 +268,7 @@ export default function BailProfessionnelPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Gérez vos baux professionnels avec Locelio</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Gérez vos baux professionnels avec Lokna</h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
             Suivi des baux, révisions de loyer, résiliations, cession. Tout pour une gestion locative professionnelle sereine. Essai gratuit 14 jours.
           </p>

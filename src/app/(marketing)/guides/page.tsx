@@ -169,7 +169,7 @@ export default function GuidesPage() {
             Générez vos documents automatiquement
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
-            Avec Locelio, créez quittances, baux et courriers en quelques clics.
+            Avec Lokna, créez quittances, baux et courriers en quelques clics.
             Essai gratuit 14 jours — aucune carte bancaire requise.
           </p>
           <Link

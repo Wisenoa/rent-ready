@@ -4,7 +4,7 @@ import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Paiement confirmé — Locelio",
+  title: "Paiement confirmé — Lokna",
   robots: {
     index: false,
     follow: false,

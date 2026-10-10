@@ -5,8 +5,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { spring } from "@/components/landing/motion-config";
 
-const COOKIE_KEY = "locelio_cookie_consent";
-const LEGACY_COOKIE_KEY = "rentready_cookie_consent";
+const COOKIE_KEY = "lokna_cookie_consent";
+const LEGACY_COOKIE_KEYS = ["locelio_cookie_consent", "rentready_cookie_consent"];
 
 /** How long to wait before interrupting the user with the banner. */
 const DELAY_MS = 1500;
@@ -18,7 +18,12 @@ export function CookieConsent() {
   const [elapsed, setElapsed] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem(COOKIE_KEY) || localStorage.getItem(LEGACY_COOKIE_KEY)) return;
+    if (
+      localStorage.getItem(COOKIE_KEY) ||
+      LEGACY_COOKIE_KEYS.some((key) => localStorage.getItem(key))
+    ) {
+      return;
+    }
     const id = setTimeout(() => {
       setMountedAt(Date.now());
       setElapsed(true);
@@ -28,7 +33,6 @@ export function CookieConsent() {
 
   function decide(value: "accepted" | "rejected") {
     localStorage.setItem(COOKIE_KEY, value);
-    localStorage.setItem(LEGACY_COOKIE_KEY, value);
     setElapsed(false);
   }
 

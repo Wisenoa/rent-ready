@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     "conge pour habiter",
   ],
   openGraph: {
-    title: "Modèle Congé Propriétaire 2026 — Locelio",
+    title: "Modèle Congé Propriétaire 2026 — Lokna",
     description:
       "Congé donné par le propriétaire. Motif obligatoire et délai légal. PDF téléchargeable.",
     type: "website",
-    url: "https://locelio.fr/templates/conge-proprietaire",
-    siteName: "Locelio",
+    url: "https://lokna.fr/templates/conge-proprietaire",
+    siteName: "Lokna",
   },
   alternates: buildHreflang("/templates/conge-proprietaire"),
 };
@@ -62,25 +62,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://locelio.fr/#organization",
-  name: "Locelio",
-  url: "https://locelio.fr",
-  logo: "https://locelio.fr/logo.svg",
+  "@id": "https://lokna.fr/#organization",
+  name: "Lokna",
+  url: "https://lokna.fr",
+  logo: "https://lokna.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@locelio.fr",
+    email: "contact@lokna.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://locelio.fr/#website",
-  name: "Locelio",
-  url: "https://locelio.fr",
+  "@id": "https://lokna.fr/#website",
+  name: "Lokna",
+  url: "https://lokna.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -96,14 +96,14 @@ function CongeProprietaireJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle Congé Propriétaire 2026 — Locelio",
+        name: "Modèle Congé Propriétaire 2026 — Lokna",
         description:
           "Modèle gratuit de congé donné par le propriétaire au locataire. Motif obligatoire et délai légal.",
-        url: "https://locelio.fr/templates/conge-proprietaire",
+        url: "https://lokna.fr/templates/conge-proprietaire",
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
@@ -159,7 +159,7 @@ export default function CongeProprietairePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-orange-700 shadow-sm border border-orange-200 transition-colors hover:bg-orange-50"
             >
-              Générer avec Locelio →
+              Générer avec Lokna →
             </Link>
           </div>
         </header>

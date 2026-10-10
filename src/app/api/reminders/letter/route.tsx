@@ -74,7 +74,7 @@ async function generateLetterPdf(
           <Text style={styles.title}>
             {tone === "legal" ? "MISE EN DEMEURE" : "LETTRE DE RELANCE"}
           </Text>
-          <Text style={styles.subtitle}>Rent-Ready - Gestion Locative</Text>
+          <Text style={styles.subtitle}>Lokna - Gestion Locative</Text>
         </View>
 
         {/* Date and Reference */}
@@ -161,7 +161,7 @@ async function generateLetterPdf(
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            Document généré par Locelio - locelio.fr
+            Document généré par Lokna - lokna.fr
           </Text>
           <Text style={styles.footerText}>
             Ce courrier est informatif et ne constitue pas un acte juridique définitif.

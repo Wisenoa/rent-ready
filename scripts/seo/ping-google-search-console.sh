@@ -12,7 +12,7 @@
 
 set -e
 
-SITEMAP_URL="${1:-${GOOGLE_SEARCH_CONSOLE_SITEMAP_URL:-https://locelio.fr/sitemap.xml}}"
+SITEMAP_URL="${1:-${GOOGLE_SEARCH_CONSOLE_SITEMAP_URL:-https://lokna.fr/sitemap.xml}}"
 
 echo "============================================"
 echo "Google Search Console — Sitemap Pinger"

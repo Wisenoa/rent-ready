@@ -3,7 +3,7 @@ import { articleMeta } from "@/data/articles-meta";
 import { SITE_URL } from "@/data/entity";
 
 const BASE_URL = SITE_URL;
-const SITE_TITLE = "Blog Locelio — Gestion Locative & Investissement";
+const SITE_TITLE = "Blog Lokna — Gestion Locative & Investissement";
 const SITE_DESCRIPTION =
   "Conseils et guides pour propriétaires bailleurs: gestion locative, quittances, révision IRL, législation immobilière.";
 const SITE_LANGUAGE = "fr-FR";
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
       <description>${description}</description>
       <pubDate>${pubDate}</pubDate>
       <category>${escapeXml(article.category)}</category>
-      <author>blog@locelio.fr (Locelio)</author>
+      <author>blog@lokna.fr (Lokna)</author>
     </item>`;
     })
     .join("\n");
@@ -64,8 +64,8 @@ export async function GET(request: NextRequest) {
     <description>${escapeXml(SITE_DESCRIPTION)}</description>
     <language>${SITE_LANGUAGE}</language>
     <lastBuildDate>${buildDate}</lastBuildDate>
-    <managingEditor>blog@locelio.fr (Locelio)</managingEditor>
-    <webMaster>tech@locelio.fr (Locelio)</webMaster>
+    <managingEditor>blog@lokna.fr (Lokna)</managingEditor>
+    <webMaster>tech@lokna.fr (Lokna)</webMaster>
     <atom:link href="${BASE_URL}/api/rss" rel="self" type="application/rss+xml" />
     <image>
       <url>${BASE_URL}/opengraph-image</url>

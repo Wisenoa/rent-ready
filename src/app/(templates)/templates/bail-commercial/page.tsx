@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     "valeur locative",
   ],
   openGraph: {
-    title: "Modèle Bail Commercial 2026 — Locelio",
+    title: "Modèle Bail Commercial 2026 — Lokna",
     description:
       "Bail commercial gratuit pour local professionnel. PDF téléchargeable. Conforme Code de commerce.",
     type: "website",
-    url: "https://locelio.fr/templates/bail-commercial",
-    siteName: "Locelio",
+    url: "https://lokna.fr/templates/bail-commercial",
+    siteName: "Lokna",
   },
   alternates: buildHreflang("/templates/bail-commercial"),
 };
@@ -96,25 +96,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://locelio.fr/#organization",
-  name: "Locelio",
-  url: "https://locelio.fr",
-  logo: "https://locelio.fr/logo.svg",
+  "@id": "https://lokna.fr/#organization",
+  name: "Lokna",
+  url: "https://lokna.fr",
+  logo: "https://lokna.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@locelio.fr",
+    email: "contact@lokna.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://locelio.fr/#website",
-  name: "Locelio",
-  url: "https://locelio.fr",
+  "@id": "https://lokna.fr/#website",
+  name: "Lokna",
+  url: "https://lokna.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -130,14 +130,14 @@ function BailCommercialJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle Bail Commercial 2026 — Locelio",
+        name: "Modèle Bail Commercial 2026 — Lokna",
         description:
           "Modèle de bail commercial gratuit (3/6/9 ans). PDF téléchargeable. Conforme Code de commerce.",
-        url: "https://locelio.fr/templates/bail-commercial",
+        url: "https://lokna.fr/templates/bail-commercial",
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {

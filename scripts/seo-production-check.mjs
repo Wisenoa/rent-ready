@@ -79,7 +79,7 @@ if (home.status === 0) {
 // Canonical host: every URL must agree on one origin.
 const canonical = (home.body.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)"/i) ?? [])[1];
 const expectedHost = new URL(ORIGIN).host;
-const IS_PRODUCTION = /\.(?:locelio|rentready)\.fr$/.test(expectedHost);
+const IS_PRODUCTION = /\.(?:lokna|locelio|rentready)\.fr$/.test(expectedHost);
 
 if (canonical) {
   const cHost = new URL(canonical).host;

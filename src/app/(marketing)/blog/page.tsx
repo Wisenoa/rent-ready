@@ -34,13 +34,13 @@ const schema = {
   "@graph": [
     {
       "@type": "WebSite",
-      name: "Locelio",
+      name: "Lokna",
       url: SITE_URL,
     },
     {
       "@type": "Organization",
-      name: "Locelio",
-      alternateName: "Locelio SAS",
+      name: "Lokna",
+      alternateName: "Lokna SAS",
       url: SITE_URL,
       logo: `${SITE_URL}/logo.svg`,
       description: "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
@@ -53,7 +53,7 @@ const schema = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: "contact@locelio.fr",
+        email: "contact@lokna.fr",
         availableLanguage: "French",
       },
       sameAs: SAME_AS,
@@ -78,12 +78,12 @@ const schema = {
     },
     {
       "@type": "Blog",
-      name: "Blog Locelio",
+      name: "Blog Lokna",
       description: "Conseils et guides pour propriétaires bailleurs",
       url: `${SITE_URL}/blog`,
       publisher: {
         "@type": "Organization",
-        name: "Locelio",
+        name: "Lokna",
         url: SITE_URL,
       },
     },
@@ -186,7 +186,7 @@ export default function BlogPage() {
             Automatisez votre gestion locative
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
-            Locelio génère les quittances, calcule l'IRL et suit vos loyers
+            Lokna génère les quittances, calcule l'IRL et suit vos loyers
             automatiquement. Essai gratuit 14 jours.
           </p>
           <Link

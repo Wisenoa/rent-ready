@@ -45,7 +45,7 @@ const GlassNav = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Fonctionnalités Locelio — quittances auto, IRL et suivi des loyers (2026)",
+      "Fonctionnalités Lokna — quittances auto, IRL et suivi des loyers (2026)",
     description:
       "Quittances conformes loi 1989, suivi des loyers via Open Banking DSP2, révision IRL INSEE, portail locataire et gestion des baux. À partir de 9 €/mois.",
     url: "/features",
@@ -56,19 +56,19 @@ export async function generateMetadata() {
 /* ─── FAQ data for schema ─── */
 const featureFaqs = [
   {
-    question: "Locelio génère-t-il des quittances de loyer conformes à la loi ?",
+    question: "Lokna génère-t-il des quittances de loyer conformes à la loi ?",
     answer:
       "Oui. Chaque quittance inclut toutes les mentions obligatoires de la loi du 6 juillet 1989 : identité du bailleur et du locataire, adresse du bien, période couverte, montant du loyer charges comprises, date de paiement, mode de paiement, référence du bail, signature et indice IRL INSEE.",
   },
   {
     question: "Comment fonctionne la détection des loyers via Open Banking ?",
     answer:
-      "Via l'Open Banking DSP2, Locelio lit les mouvements bancaires de votre compte pour identifier les virements de loyer. Chaque loyer reçu est catégorisé et archivé sans saisie manuelle.",
+      "Via l'Open Banking DSP2, Lokna lit les mouvements bancaires de votre compte pour identifier les virements de loyer. Chaque loyer reçu est catégorisé et archivé sans saisie manuelle.",
   },
   {
     question: "La révision de loyer IRL est-elle automatique ?",
     answer:
-      "Oui. Locelio se connecte aux indices officiels de l'INSEE pour calculer la nouvelle provision de loyer. Vous recevez une alerte quand la révision doit être appliquée.",
+      "Oui. Lokna se connecte aux indices officiels de l'INSEE pour calculer la nouvelle provision de loyer. Vous recevez une alerte quand la révision doit être appliquée.",
   },
   {
     question: "Le portail locataire est-il accessible sans mot de passe ?",
@@ -76,12 +76,12 @@ const featureFaqs = [
       "Oui. Le locataire accède à son portail via un lien sécurisé envoyé par email. Aucun mot de passe n'est nécessaire. Il peut consulter ses quittances, soumettre des demandes et voir l'historique de ses règlements.",
   },
   {
-    question: "Locelio est-il adapté aux obligations Factur-X ?",
+    question: "Lokna est-il adapté aux obligations Factur-X ?",
     answer:
-      "Oui. Locelio prépare votre gestion pour les standards de facturation et les échéances fiscales à venir.",
+      "Oui. Lokna prépare votre gestion pour les standards de facturation et les échéances fiscales à venir.",
   },
   {
-    question: "Combien de biens puis-je gérer avec Locelio ?",
+    question: "Combien de biens puis-je gérer avec Lokna ?",
     answer:
       `L'abonnement à ${formatProPrice()} permet de gérer jusqu'à 10 biens immobiliers avec locataires illimités. L'abonnement annuel à ${formatProAnnualPrice()} vous offre 2 mois gratuits.`,
   },
@@ -112,13 +112,13 @@ function FeaturesJsonLd() {
     ]),
     buildOrganizationSchema({ "@id": `${SITE_URL}/#organization` }),
     buildWebPageSchema({
-      name: "Fonctionnalités Locelio",
+      name: "Fonctionnalités Lokna",
       description:
-        "Toutes les fonctionnalités du logiciel de gestion locative Locelio pour propriétaires bailleurs.",
+        "Toutes les fonctionnalités du logiciel de gestion locative Lokna pour propriétaires bailleurs.",
       url: `${SITE_URL}/features`,
     }),
     buildSoftwareAppSchema({
-      name: "Locelio",
+      name: "Lokna",
       applicationCategory: "BusinessApplication",
       offers: [
         {
@@ -187,7 +187,7 @@ const featureGroups = [
     title: "Automatisation Bancaire",
     tagline: "Open Banking DSP2",
     description:
-      "Oubliez la saisie manuelle des paiements. Locelio se connecte à votre banque et détecte automatiquement les versements de loyer.",
+      "Oubliez la saisie manuelle des paiements. Lokna se connecte à votre banque et détecte automatiquement les versements de loyer.",
     features: [
       {
         icon: Zap,
@@ -299,7 +299,7 @@ const featureGroups = [
     title: "Conformité & Sécurité",
     tagline: "Conforme Factur-X et e-reporting B2C 2027",
     description:
-      "La réglementation évolue. Locelio intègre en avance les obligations légales : Factur-X pour la facturation, e-reporting B2C pour les plateformes.",
+      "La réglementation évolue. Lokna intègre en avance les obligations légales : Factur-X pour la facturation, e-reporting B2C pour les plateformes.",
     features: [
       {
         icon: ShieldCheck,

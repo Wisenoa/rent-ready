@@ -93,9 +93,9 @@ function AugmentationLoyerJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/templates" },
-          { "@type": "ListItem", position: 3, name: "Augmentation de loyer", item: "https://locelio.fr/templates/augmentation-de-loyer" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lokna.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://lokna.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Augmentation de loyer", item: "https://lokna.fr/templates/augmentation-de-loyer" },
         ],
       },
       {
@@ -127,19 +127,19 @@ function AugmentationLoyerJsonLd() {
         ],
         tool: {
           "@type": "SoftwareApplication",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
         "@type": "Article",
-        name: "Modèle Lettre Augmentation de Loyer — Locelio",
+        name: "Modèle Lettre Augmentation de Loyer — Lokna",
         description:
           "Modèle gratuit de lettre d'augmentation de loyer. Révision IRL 2026, zones tendues, guide complet.",
         author: {
           "@type": "Organization",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
@@ -269,7 +269,7 @@ export default function AugmentationDeLoyerPage() {
           <p className="mt-4 text-sm text-stone-500">
             💡 Les indices IRL sont publiés par l'INSEE chaque trimestre. Vous
             pouvez les retrouver sur le site institutionnel ou les consulter
-            directement dans Locelio.
+            directement dans Lokna.
           </p>
         </section>
 
@@ -340,7 +340,7 @@ export default function AugmentationDeLoyerPage() {
             </h2>
             <p className="mb-6 text-stone-300">
               Voici un exemple de courrier à envoyer. Vous pouvez le personnaliser
-              directement dans Locelio :
+              directement dans Lokna :
             </p>
             <div className="rounded-xl border border-stone-700 bg-stone-800 p-6 font-mono text-sm text-stone-300">
               <p className="mb-2 font-bold text-white">[Votre nom et adresse]</p>
@@ -388,7 +388,7 @@ export default function AugmentationDeLoyerPage() {
                 href="/register"
                 className="inline-block rounded-lg border border-stone-600 bg-stone-800 px-6 py-3 font-medium text-white shadow-sm transition-colors hover:bg-stone-700"
               >
-                Utiliser avec Locelio →
+                Utiliser avec Lokna →
               </Link>
             </div>
           </div>
@@ -425,7 +425,7 @@ export default function AugmentationDeLoyerPage() {
             Calculer et générer vos lettres d'augmentation automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Locelio calcule automatiquement l'augmentation IRL, génère le
+            Lokna calcule automatiquement l'augmentation IRL, génère le
             courrier PDF et vous alerte 2 mois avant la date d'anniversaire
             du bail.
           </p>

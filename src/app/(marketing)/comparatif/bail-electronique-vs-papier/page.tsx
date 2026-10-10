@@ -63,7 +63,7 @@ const faqSchema = {
       name: "Le bail électronique coûte-t-il plus cher ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Les coûts varient. Avec Locelio, la gestion documentaire est intégrée. Les prestataires spécialisés (Yousign, DocuSign) facturent généralement entre 1 € et 3 € par signature. Le gain en temps et en organisation compense largement ce coût.",
+        text: "Les coûts varient. Avec Lokna, la gestion documentaire est intégrée. Les prestataires spécialisés (Yousign, DocuSign) facturent généralement entre 1 € et 3 € par signature. Le gain en temps et en organisation compense largement ce coût.",
       },
     },
   ],
@@ -271,7 +271,7 @@ export default function BailElectroniqueVsPapier() {
             Créez et signez vos baux en ligne
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
-            Locelio vous permet de préparer vos baux et de les archiver en conformité avec la loi du 6 juillet 1989.
+            Lokna vous permet de préparer vos baux et de les archiver en conformité avec la loi du 6 juillet 1989.
           </p>
           <Link
             href="/register"

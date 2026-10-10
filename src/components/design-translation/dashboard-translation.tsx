@@ -35,7 +35,7 @@ export function DashboardTranslation({ initialResolved = false }: DashboardTrans
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <Link href="/" className="font-serif text-xl sm:text-2xl italic font-semibold text-[#151413] tracking-tight">
-              Locelio
+              Lokna
             </Link>
             <nav className="hidden md:flex items-center gap-5 text-xs font-medium text-[#6B6760]">
               <span className="text-[#151413] font-semibold border-b border-[#151413] pb-0.5">

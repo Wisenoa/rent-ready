@@ -1,5 +1,5 @@
 /**
- * Locelio Design System — Tokens Fonctionnels
+ * Lokna Design System — Tokens Fonctionnels
  *
  * Principes :
  * - Fonctionnel plutôt que moodboard

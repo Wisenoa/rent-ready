@@ -204,7 +204,7 @@ export default function ModeleBailGuidePage() {
           Besoin d&apos;aller plus loin ?
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
-          Avec Locelio, gérez vos baux automatiquement : généréz les contrats,
+          Avec Lokna, gérez vos baux automatiquement : généréz les contrats,
           envoyez-les pour signature électronique, et suivi des renouvellements.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">

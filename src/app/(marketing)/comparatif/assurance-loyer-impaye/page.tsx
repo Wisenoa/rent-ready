@@ -306,10 +306,10 @@ export default function AssuranceLoyerImpayé() {
         {/* CTA */}
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-bold sm:text-3xl">
-            Protégez vos revenus locatifs avec Locelio
+            Protégez vos revenus locatifs avec Lokna
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
-            Locelio ne remplace pas une GLI, mais il suit vos encaissements et vous alerte en cas d'écart. Combinez gestion rigoureuse et assurance pour une protection complète.
+            Lokna ne remplace pas une GLI, mais il suit vos encaissements et vous alerte en cas d'écart. Combinez gestion rigoureuse et assurance pour une protection complète.
           </p>
           <Link
             href="/register"

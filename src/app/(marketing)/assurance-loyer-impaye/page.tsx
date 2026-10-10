@@ -58,7 +58,7 @@ const GLI_SCHEMA = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer support",
-        email: "contact@locelio.fr",
+        email: "contact@lokna.fr",
         availableLanguage: "French",
       },
     },

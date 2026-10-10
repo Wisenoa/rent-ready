@@ -93,7 +93,7 @@ export async function sendTenantInvitation(tenantId: string): Promise<ActionResu
       });
     }
 
-    const portalUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "https://locelio.fr"}/portal/${token}`;
+    const portalUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "https://lokna.fr"}/portal/${token}`;
 
     // Get landlord info
     const user = await prisma.user.findUnique({

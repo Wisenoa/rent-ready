@@ -54,7 +54,7 @@ const jsonLdData = {
       "@type": "WebApplication",
       name: "Calculateur de Préavis Locataire",
       description: "Calculez la durée de préavis applicable pour votre départ de location selon la zone et la situation.",
-      url: "https://locelio.fr/outils/calculateur-preavis",
+      url: "https://lokna.fr/outils/calculateur-preavis",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
     },
@@ -72,7 +72,7 @@ const jsonLdData = {
         "@type": "ListItem",
         position: i + 1,
         name: item.label,
-        item: `https://locelio.fr${item.href}`,
+        item: `https://lokna.fr${item.href}`,
       })),
     },
   ],
@@ -353,7 +353,7 @@ export function PreavisCalculatorClient() {
           <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
             <h2 className="text-2xl font-bold mb-2">Gérez vos locations en toute conformité</h2>
             <p className="text-blue-100 mb-6 max-w-xl mx-auto">
-              Avec Locelio, vous avez accès à tous les modèles de documents, calculs légaux, et suivi de vos obligations baillistes.
+              Avec Lokna, vous avez accès à tous les modèles de documents, calculs légaux, et suivi de vos obligations baillistes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">

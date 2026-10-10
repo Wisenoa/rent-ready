@@ -71,14 +71,14 @@ export function buildTitle(page: string, city?: string): string {
 /**
  * Strip a trailing brand suffix that the root layout would append a second time.
  *
- * `src/app/layout.tsx` declares `title.template = "%s | Locelio"`, so any
+ * `src/app/layout.tsx` declares `title.template = "%s | Lokna"`, so any
  * page whose own title already ends in the brand produces
- * "… — Locelio | Locelio". Four pages rendered exactly that, and the brand
+ * "… — Lokna | Lokna". Four pages rendered exactly that, and the brand
  * name in a title is a signal Google discounts, so it is worth fixing once here
  * rather than page by page.
  */
 function dedupeBrandSuffix(title: string): string {
-  return title.replace(new RegExp(`\\s*\\|\\s*(?:${SITE_NAME}|RentReady)\\s*$`, "i"), "").trim() || title;
+  return title.replace(new RegExp(`\\s*\\|\\s*(?:${SITE_NAME}|RentReady|Lokna)\\s*$`, "i"), "").trim() || title;
 }
 
 /**

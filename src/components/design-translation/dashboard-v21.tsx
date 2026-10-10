@@ -355,7 +355,7 @@ export function DashboardV21({
               href="/"
               className="font-bold text-lg sm:text-xl text-neutral-900 tracking-tight"
             >
-              Locelio
+              Lokna
             </Link>
 
             <nav className="hidden md:flex items-center gap-6 text-xs font-medium text-neutral-500">

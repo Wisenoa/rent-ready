@@ -26,8 +26,8 @@ export async function embedFacturX(
   pdfDoc.setTitle(metadata.title);
   pdfDoc.setAuthor(metadata.author);
   pdfDoc.setSubject(metadata.subject);
-  pdfDoc.setProducer("Locelio - Gestion Locative");
-  pdfDoc.setCreator("Locelio Factur-X Generator");
+  pdfDoc.setProducer("Lokna - Gestion Locative");
+  pdfDoc.setCreator("Lokna Factur-X Generator");
 
   // ── Embed the XML as a file stream ──
   const xmlBytes = new TextEncoder().encode(xml);
@@ -78,8 +78,8 @@ export async function embedFacturX(
     title: metadata.title,
     author: metadata.author,
     subject: metadata.subject,
-    producer: "Locelio - Gestion Locative",
-    creator: "Locelio Factur-X Generator",
+    producer: "Lokna - Gestion Locative",
+    creator: "Lokna Factur-X Generator",
     creationDate,
   });
 

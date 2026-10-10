@@ -31,8 +31,8 @@ export default function OpenGraphImage() {
         >
           <div
             style={{
-              backgroundColor: "#15241F",
-              color: "#F5F3EF",
+              backgroundColor: "#0B3B2C",
+              color: "#F8F6F1",
               padding: "10px 20px",
               borderRadius: "8px",
               fontSize: "22px",
@@ -40,7 +40,7 @@ export default function OpenGraphImage() {
               letterSpacing: "-0.02em",
             }}
           >
-            Locelio
+            Lokna
           </div>
         </div>
 

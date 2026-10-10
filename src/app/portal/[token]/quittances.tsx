@@ -54,7 +54,7 @@ export interface PortalQuittance {
  * This used to import `@react-pdf/renderer` and `@/lib/quittance-generator` on
  * the client and call `pdf(<QuittancePDF data={…} />).toBlob()`. The file the
  * tenant received was therefore a NEW rendering assembled from the figures the
- * page happened to carry — not the document Locelio archived. The tenant is the
+ * page happened to carry — not the document Lokna archived. The tenant is the
  * other party to that document (loi du 6 juillet 1989, art. 21), so their copy has
  * to be the same bytes as the archived one; a template or number that moved
  * between the archiving and the click made the two diverge, and neither proved

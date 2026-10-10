@@ -9,7 +9,7 @@ export function B3FinalCta() {
     <section className="py-12 sm:py-16 border-t border-[#E5E2DA] bg-[#FAF8F5]">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center space-y-4">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-[#15241F]">
-          Essayez Locelio sur votre prochaine échéance.
+          Essayez Lokna sur votre prochaine échéance.
         </h2>
         <p className="text-xs sm:text-sm text-[#5A6660] max-w-lg mx-auto leading-relaxed">
           Ajoutez vos logements et découvrez une gestion locative sans tableur, où seule l'action nécessaire demande votre attention.

@@ -107,9 +107,9 @@ function RepartitionChargesJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/modeles" },
-          { "@type": "ListItem", position: 3, name: "Répartition des Charges", item: "https://locelio.fr/templates/repartition-charges" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lokna.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://lokna.fr/modeles" },
+          { "@type": "ListItem", position: 3, name: "Répartition des Charges", item: "https://lokna.fr/templates/repartition-charges" },
         ],
       },
       {
@@ -157,7 +157,7 @@ export default function RepartitionChargesPage() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/register" className="inline-block rounded-lg bg-emerald-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-emerald-700 w-full sm:w-auto">
-              Utiliser avec Locelio →
+              Utiliser avec Lokna →
             </Link>
             <Link href="/templates" className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto">
               Tous les modèles →
@@ -252,9 +252,9 @@ export default function RepartitionChargesPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Automatisez la répartition des charges avec Locelio</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Automatisez la répartition des charges avec Lokna</h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Provisions, régularisation, décompte annuel. Locelio gère tout automatiquement pour vous. Essai gratuit 14 jours.
+            Provisions, régularisation, décompte annuel. Lokna gère tout automatiquement pour vous. Essai gratuit 14 jours.
           </p>
           <Link href="/register" className="mt-8 inline-block rounded-lg bg-emerald-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-emerald-700">
             Essai gratuit 14 jours →

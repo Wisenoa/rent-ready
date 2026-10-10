@@ -12,10 +12,10 @@ export function B3Navbar({ isMobile = false }: NavbarProps) {
     <header className="border-b border-[#E5E2DA] bg-[#F5F3EF]/95 backdrop-blur-md sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-12 sm:h-14 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/design-preview/b3" className="flex items-center gap-2" aria-label="Locelio Accueil">
+          <Link href="/design-preview/b3" className="flex items-center gap-2" aria-label="Lokna Accueil">
             <span className="w-2.5 h-2.5 rounded-full bg-[#1E3A2F]" aria-hidden="true" />
             <span className="font-bold text-base sm:text-lg tracking-tight text-[#15241F]">
-              Locelio
+              Lokna
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-5 text-xs font-medium text-[#5A6660]">

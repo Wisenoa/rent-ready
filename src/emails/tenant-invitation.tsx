@@ -30,13 +30,13 @@ export function TenantInvitationEmail({
     <Html>
       <Head />
       <Preview>
-        Accédez à votre espace locataire — {propertyAddress ?? "Locelio"}
+        Accédez à votre espace locataire — {propertyAddress ?? "Lokna"}
       </Preview>
       <Body style={styles.body}>
         <Container style={styles.container}>
           {/* Header */}
           <Section style={styles.headerSection}>
-            <Heading style={styles.logo}>Locelio</Heading>
+            <Heading style={styles.logo}>Lokna</Heading>
             <Text style={styles.subtitle}>Espace Locataire</Text>
           </Section>
 
@@ -49,7 +49,7 @@ export function TenantInvitationEmail({
               <strong>
                 {landlordFirstName} {landlordLastName}
               </strong>{" "}
-              à accéder à votre espace locataire sur Locelio
+              à accéder à votre espace locataire sur Lokna
               {propertyAddress ? ` pour le bien situé à ${propertyAddress}` : ""}.
             </Text>
 
@@ -87,7 +87,7 @@ export function TenantInvitationEmail({
             <Hr style={styles.divider} />
 
             <Text style={styles.textSmall}>
-              L&apos;équipe Locelio — Gestion locative simplifiée
+              L&apos;équipe Lokna — Gestion locative simplifiée
             </Text>
           </Section>
         </Container>

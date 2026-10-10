@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const city = cities.find((c) => c.slug === ville);
   if (!city) return {};
 
-  // Locelio ne vend PAS de GLI et n'a aucun assureur partenaire. L'ecriture
+  // Lokna ne vend PAS de GLI et n'a aucun assureur partenaire. L'ecriture
   // d'origine annoncait « Souscrivez une Garantie des Loyers Impayés » et
   // « Protégez vos revenus », avec des CTA « Comparer les GLI » et « Demander un
   // devis » qui menaient a /register. Un visiteur qui demandait un devis
@@ -67,9 +67,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // conversion possible sur cette intention, et une promesse que rien dans le
   // produit ne tient.
   //
-  // Ce que Locelio fait reellement est deterter l'impaye. La page le dit.
+  // Ce que Lokna fait reellement est deterter l'impaye. La page le dit.
   const title = `Loyer impayé à ${city.name} : le détecter, la relancer, le facturer`;
-  const description = `Locelio détecte les loyers impayés et déclenche les relances. La GLI reste une assurance à souscrire auprès d'un assureur : nous ne la vendons pas.`;
+  const description = `Lokna détecte les loyers impayés et déclenche les relances. La GLI reste une assurance à souscrire auprès d'un assureur : nous ne la vendons pas.`;
 
   return baseMetadata({
     title,
@@ -101,7 +101,7 @@ function getLocalParagraphs(city: City) {
         ? `À ${city.name}, le marché locatif reste tendu malgré une taille modérée. Un impayé prolongé peut rapidement impacter votre trésorerie personnelle. La GLI prend en charge le remboursement des loyers et les frais de procédure.`
         : `Même si ${city.name} présente un risque modéré, un impayé de quelques mois peut survenir pour des raisons indépendantes de votre volonté (perte d'emploi du locataire, divorce, maladie). La GLI vous couvre sans effort.`;
 
-  const closing = `Avec Locelio, détectez automatiquement les paiements manquants et soyez alerté en temps réel. Combinez une gestion locative intelligente avec une assurance loyer impayé pour une protection complète de vos revenus à ${city.name}.`;
+  const closing = `Avec Lokna, détectez automatiquement les paiements manquants et soyez alerté en temps réel. Combinez une gestion locative intelligente avec une assurance loyer impayé pour une protection complète de vos revenus à ${city.name}.`;
 
   return { intro, whyGli, closing };
 }
@@ -129,7 +129,7 @@ function getFeatures(city: City) {
     {
       icon: "📱",
       title: "Alerte impayé en temps réel",
-      description: `Avec Locelio, détectez automatiquement les paiements manquants pour vos biens à ${city.name}. Alerte immédiate en cas de retard — pour agir vite et déclarer le sinistre à votre assureur dans les délais.`,
+      description: `Avec Lokna, détectez automatiquement les paiements manquants pour vos biens à ${city.name}. Alerte immédiate en cas de retard — pour agir vite et déclarer le sinistre à votre assureur dans les délais.`,
     },
     {
       icon: "📋",
@@ -149,20 +149,20 @@ function getFeatures(city: City) {
 /* ---------- Coverage tiers ---------- */
 
 function getCoverageTiers(city: City) {
-    // Locelio ne vend pas de GLI. Ces trois cartes annoncaient « GLI Standard
+    // Lokna ne vend pas de GLI. Ces trois cartes annoncaient « GLI Standard
   // ~2-3 % », « GLI Premium ~3-4 % » et « Protection Juridique ~10-20 €/mois »,
   // avec des garanties et des franchises inventees, et un CTA « Demander un
   // devis » qui menait a /register. Aucun assureur, aucun produit d'assurance et
   // aucune(GLI sur /pricing ou dans le produit : c'etait un catalogue fictif
   // presente comme une offre.
   //
-  // Ce qui remplace les cartes est une liste de ce que fait reellement Locelio,
+  // Ce qui remplace les cartes est une liste de ce que fait reellement Lokna,
   // sur ce besoin precis. Une page qui ne peut pas servir l'intention doit le
   // dire, pas rediriger la demande vers une autre vente.
   return [
     {
       name: "Détection automatique des impayés",
-      description: `Chaque mois, Locelio rapproche les échéances des paiements et signale les loyers non réglés à ${city.name}.`,
+      description: `Chaque mois, Lokna rapproche les échéances des paiements et signale les loyers non réglés à ${city.name}.`,
       cta: "Voir les impayés",
     },
     {
@@ -173,7 +173,7 @@ function getCoverageTiers(city: City) {
     {
       name: "La GLI, c'est chez un assureur",
       description:
-        "Locelio ne vend pas et ne souscrit pas de garantie des loyers impayés. C'est un produit d'assurance : comparez les offres auprès d'un assureur ou d'un courtier, et utilisez Locelio pour savoir quand et combien déclencher.",
+        "Lokna ne vend pas et ne souscrit pas de garantie des loyers impayés. C'est un produit d'assurance : comparez les offres auprès d'un assureur ou d'un courtier, et utilisez Lokna pour savoir quand et combien déclencher.",
       cta: "Comprendre la procédure",
     },
   ];
@@ -207,8 +207,8 @@ function getFaqs(city: City) {
     {
       question: `Comment déclarer un impayé à ${city.name} ?`,
       answer: ctx.isZoneTendue
-        ? `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours après la date d'échéance non payée. À ${city.name} (zone tendue), la rapidité et le délai d'intervention sont cruciaux. Avec Locelio, l'alerte automatique vous permet de déclarer rapidement et de respecter les délais contractuels.`
-        : `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours. Avec Locelio, l'alerte automatique vous permet de détecter l'impayé rapidement et de constituer votre dossier sans délai.`,
+        ? `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours après la date d'échéance non payée. À ${city.name} (zone tendue), la rapidité et le délai d'intervention sont cruciaux. Avec Lokna, l'alerte automatique vous permet de déclarer rapidement et de respecter les délais contractuels.`
+        : `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours. Avec Lokna, l'alerte automatique vous permet de détecter l'impayé rapidement et de constituer votre dossier sans délai.`,
     },
   ];
 }
@@ -229,12 +229,12 @@ function getHowToSteps(city: City) {
     },
     {
       name: `Activer la détection automatique des paiements`,
-      text: `Avec Locelio, connectez votre compte bancaire via Open Banking. Chaque échéance de loyer pour votre bien à ${city.name} est automatiquement vérifiée — alerte instantanée en cas d'impayé.`,
+      text: `Avec Lokna, connectez votre compte bancaire via Open Banking. Chaque échéance de loyer pour votre bien à ${city.name} est automatiquement vérifiée — alerte instantanée en cas d'impayé.`,
       url: "/register",
     },
     {
       name: `Déclarer le sinistre si nécessaire`,
-      text: `En cas d'impayé détecté à ${city.name}, déclarez le sinistre à votre assureur GLI en joignant les pièces justificatives. Locelio vous accompagne dans la constitution du dossier.`,
+      text: `En cas d'impayé détecté à ${city.name}, déclarez le sinistre à votre assureur GLI en joignant les pièces justificatives. Lokna vous accompagne dans la constitution du dossier.`,
       url: "/register",
     },
   ];
@@ -253,17 +253,17 @@ function buildGliVilleSchema(city: City) {
     "@graph": [
       {
         "@type": "WebSite",
-        name: "Locelio",
+        name: "Lokna",
         url: SITE_URL,
       },
       {
         "@type": "Organization",
-        name: "Locelio",
+        name: "Lokna",
         url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@locelio.fr",
+          email: "contact@lokna.fr",
           availableLanguage: "French",
         },
       },
@@ -294,10 +294,10 @@ function buildGliVilleSchema(city: City) {
         totalTime: "PT30M",
         supply: [
           { "@type": "HowToSupply", name: "Documents du locataire (fiches de paie, avis d'imposition)" },
-          { "@type": "HowToSupply", name: `Compte Locelio (essai gratuit 14 jours)` },
+          { "@type": "HowToSupply", name: `Compte Lokna (essai gratuit 14 jours)` },
         ],
         tool: [
-          { "@type": "HowToTool", name: "Locelio — Détection automatique des paiements" },
+          { "@type": "HowToTool", name: "Lokna — Détection automatique des paiements" },
         ],
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
@@ -313,9 +313,9 @@ function buildGliVilleSchema(city: City) {
       {
         "@type": "WebPage",
         name: `Assurance loyer impayé à ${city.name} — GLI 2026`,
-        description: `Locelio détecte les impayés et déclenche les relances à ${city.name}. La GLI est une assurance souscrite auprès d’un assureur : nous ne la vendons pas.`,
+        description: `Lokna détecte les impayés et déclenche les relances à ${city.name}. La GLI est une assurance souscrite auprès d’un assureur : nous ne la vendons pas.`,
         url: `${SITE_URL}/assurance-loyer-impaye/${city.slug}`,
-        isPartOf: { "@type": "WebSite", name: "Locelio", url: SITE_URL },
+        isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
     ],
@@ -632,7 +632,7 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
               Repérez vos impayés à {city.name}, relancez sans y passer vos soirées
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
-              Ne laissez pas un impayé mettre en péril votre investissement. Combinez GLI et gestion intelligente avec Locelio.
+              Ne laissez pas un impayé mettre en péril votre investissement. Combinez GLI et gestion intelligente avec Lokna.
             </p>
             <Link
               href="/register"

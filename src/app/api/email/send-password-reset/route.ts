@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     const appUrl =
       process.env.NEXT_PUBLIC_APP_URL ??
       process.env.VERCEL_URL ??
-      "https://locelio.fr";
+      "https://lokna.fr";
 
     // Generate a magic link using better-auth's internal token generation
     // so the user lands on the password-reset callback page.

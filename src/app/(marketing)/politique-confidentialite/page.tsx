@@ -10,8 +10,8 @@ export const revalidate = 3600;
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Politique de Confidentialité — Locelio",
-    description: "Politique de confidentialité de Locelio. Comment nous protégeons vos données personnelles, cookies et vos droits RGPD.",
+    title: `Politique de Confidentialité — ${SITE_NAME}`,
+    description: `Politique de confidentialité de ${SITE_NAME}. Comment nous protégeons vos données personnelles, cookies et vos droits RGPD.`,
     url: "/politique-confidentialite",
     ogType: "template",
   });
@@ -29,27 +29,27 @@ function PolitiqueConfidentialiteJsonLd() {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "Locelio — Politique de Confidentialité",
+        name: `${SITE_NAME} — Politique de Confidentialité`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/politique-confidentialite`,
         description:
-          "Politique de confidentialité de Locelio. Protection des données personnelles conformément au RGPD, gestion locative SaaS.",
+          `Politique de confidentialité de ${SITE_NAME}. Protection des données personnelles conformément au RGPD, gestion locative SaaS.`,
       },
       {
         "@type": "Organization",
-        name: "Locelio",
+        name: SITE_NAME,
         url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@locelio.fr",
+          email: "contact@lokna.fr",
           availableLanguage: "French",
         },
       },
       {
         "@type": "WebSite",
-        name: "Locelio",
+        name: SITE_NAME,
         url: SITE_URL,
       },
       {
@@ -97,9 +97,9 @@ export default function PolitiqueConfidentialitePage() {
           <h2>1. Responsable du traitement</h2>
           <p>
             Le responsable du traitement des données collectées sur le site
-            locelio.fr est la société éditrice de Locelio, [adresse du siège
+            lokna.fr est la société éditrice de Lokna, [adresse du siège
             social]. Délégué à la protection des données (DPO) :{" "}
-            <a href="mailto:dpo@locelio.fr" className="text-blue-600 underline underline-offset-2">dpo@locelio.fr</a>
+            <a href="mailto:dpo@lokna.fr" className="text-blue-600 underline underline-offset-2">dpo@lokna.fr</a>
           </p>
         </section>
 
@@ -224,7 +224,7 @@ export default function PolitiqueConfidentialitePage() {
           </ul>
           <p className="mt-2">
             Pour exercer ces droits :{" "}
-            <a href="mailto:dpo@locelio.fr" className="text-blue-600 underline underline-offset-2">dpo@locelio.fr</a>
+            <a href="mailto:dpo@lokna.fr" className="text-blue-600 underline underline-offset-2">dpo@lokna.fr</a>
           </p>
           <p className="mt-2">
             En cas de litige, vous pouvez introduire une réclamation auprès de
@@ -236,7 +236,7 @@ export default function PolitiqueConfidentialitePage() {
         <section>
           <h2>8. Cookies</h2>
           <p>
-            Locelio utilise uniquement des cookies strictement nécessaires :
+            Lokna utilise uniquement des cookies strictement nécessaires :
           </p>
           <ul className="mt-2 list-disc space-y-1 pl-5">
             <li>

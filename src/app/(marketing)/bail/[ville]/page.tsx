@@ -124,7 +124,7 @@ function getLocalParagraphs(city: City) {
     ? `En tant que commune en zone tendue, ${city.name} est soumise à l'encadrement des loyers à la relocation. Depuis 2024, le loyer de relocation ne peut pas dépasser le loyer de référence majoré fixé par le Préfet, sous peine de sanctions. Le bail doit intégrer les mentions obligatoires relatives à cet encadrement. Notre modèle est automatiquement mis à jour pour refléter les dernières évolutions réglementaires et les arrêtés préfectoraux applicables dans le ${city.department}.`
     : `Que vous soyez propriétaire d'un appartement en centre-ville ou d'une maison en périphérie de ${city.name}, la rédaction du bail est une étape déterminante. Elle conditionne la relation avec votre locataire pour toute la durée de la location. Notre modèle de bail vous garantit un document juridiquement valide, prêt à être signé en quelques minutes.`;
 
-  const closing = `Les modèles de bail proposés par Locelio sont téléchargés gratuitement et mis à jour avec les dernières évolutions législatives. Que vous louiez à ${city.name} un logement vide ou meublé, en colocation ou en bail mobilité, vous trouverez le modèle adapté à votre situation.`;
+  const closing = `Les modèles de bail proposés par Lokna sont téléchargés gratuitement et mis à jour avec les dernières évolutions législatives. Que vous louiez à ${city.name} un logement vide ou meublé, en colocation ou en bail mobilité, vous trouverez le modèle adapté à votre situation.`;
 
   return { intro, regulation, closing };
 }
@@ -260,18 +260,18 @@ function buildBailVilleSchema(city: City) {
       /* WebSite */
       {
         "@type": "WebSite",
-        name: "Locelio",
+        name: "Lokna",
         url: SITE_URL,
       },
       /* Organization */
       {
         "@type": "Organization",
-        name: "Locelio",
+        name: "Lokna",
         url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@locelio.fr",
+          email: "contact@lokna.fr",
           availableLanguage: "French",
         },
       },
@@ -308,7 +308,7 @@ function buildBailVilleSchema(city: City) {
           { "@type": "HowToSupply", name: `${ctx.isZoneTendue ? "Formulaire information loyer de référence" : "Documents d'identité bailleur et locataire"}` },
         ],
         tool: [
-          { "@type": "HowToTool", name: "Modèle bail Locelio" },
+          { "@type": "HowToTool", name: "Modèle bail Lokna" },
           ...(ctx.isZoneTendue ? [{ "@type": "HowToTool", name: `Arrêté préfectoral ${city.department} — loyer de référence` }] : []),
         ],
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
@@ -326,7 +326,7 @@ function buildBailVilleSchema(city: City) {
       /* SoftwareApplication */
       {
         "@type": "SoftwareApplication",
-        name: `Locelio — Modèles de bail ${city.name}`,
+        name: `Lokna — Modèles de bail ${city.name}`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/bail/${city.slug}`,
@@ -356,7 +356,7 @@ function buildBailVilleSchema(city: City) {
       /* LocalBusiness */
       {
         "@type": "LocalBusiness",
-        name: `Locelio — Modèles de bail ${city.name}`,
+        name: `Lokna — Modèles de bail ${city.name}`,
         description: `Téléchargement de modèles de bail gratuits et conformes pour propriétaires bailleurs à ${city.name}. Bail vide, meublé, colocation, mobilité. Téléchargez et personnalisez en ligne.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers intégré." : ""}`,
         url: `${SITE_URL}/bail/${city.slug}`,
         areaServed: {
@@ -388,7 +388,7 @@ function buildBailVilleSchema(city: City) {
         name: `Modèle de bail à ${city.name} — Téléchargement gratuit 2026`,
         description: `Téléchargez un modèle de bail gratuit et conforme à ${city.name}. Bail vide, meublé, colocation, mobilité.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers applicable." : ""} Préparez votre location en 5 minutes.${rentData ? ` Loyer moyen indicatif : ${rentData.studio}-${rentData.t2} €/m².` : ""}`,
         url: `${SITE_URL}/bail/${city.slug}`,
-        isPartOf: { "@type": "WebSite", name: "Locelio", url: SITE_URL },
+        isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
     ],
@@ -729,7 +729,7 @@ export default async function BailVillePage({ params }: Props) {
         <section className="bg-[#f8f7f4] px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-2xl rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
             <h2 className="text-2xl font-bold sm:text-3xl">
-              Gérez vos baux et vos quittances à {city.name} avec Locelio
+              Gérez vos baux et vos quittances à {city.name} avec Lokna
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
               Créez vos baux en 10 minutes, générez automatiquement les

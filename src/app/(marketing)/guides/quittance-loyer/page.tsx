@@ -223,7 +223,7 @@ export default function QuittanceLoyerGuidePage() {
 
         <h2>Comment automatiser</h2>
         <p>
-          Avec Locelio, les quittances sont générées automatiquement à chaque paiement
+          Avec Lokna, les quittances sont générées automatiquement à chaque paiement
           enregistré. Vous pouvez les envoyer directement au locataire par email ou les
           télécharger en PDF. Fini les erreurs de calcul et les oublis.
         </p>
@@ -281,7 +281,7 @@ export default function QuittanceLoyerGuidePage() {
           Générez vos quittances automatiquement
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
-          Avec Locelio, créez des quittances en 2 clics. Archivage automatique,
+          Avec Lokna, créez des quittances en 2 clics. Archivage automatique,
           envoi email au locataire, historique intact.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   description:
     "Générez une quittance de loyer PDF gratuite et conforme à la loi de 1989. Distinction loyer/charges, mentions légales obligatoires. Sans inscription.",
   alternates: {
-    canonical: "https://locelio.fr/outils/modele-quittance-loyer-pdf",
+    canonical: "https://lokna.fr/outils/modele-quittance-loyer-pdf",
   },
 };
 
@@ -47,13 +47,13 @@ const faqs = [
   {
     question: "Quel format pour une quittance de loyer en 2026 ?",
     answer:
-      "Le format PDF reste le standard le plus courant et parfaitement valide. Pour anticiper les obligations de facturation électronique, certains logiciels comme Locelio génèrent également des quittances au format Factur-X.",
+      "Le format PDF reste le standard le plus courant et parfaitement valide. Pour anticiper les obligations de facturation électronique, certains logiciels comme Lokna génèrent également des quittances au format Factur-X.",
   },
   {
     question:
       "Comment automatiser l'envoi de quittances chaque mois ?",
     answer:
-      "Avec Locelio, les quittances sont générées et envoyées automatiquement dès que le virement du locataire est détecté sur votre compte bancaire via l'Open Banking. Plus besoin de créer et envoyer manuellement chaque document.",
+      "Avec Lokna, les quittances sont générées et envoyées automatiquement dès que le virement du locataire est détecté sur votre compte bancaire via l'Open Banking. Plus besoin de créer et envoyer manuellement chaque document.",
   },
 ];
 
@@ -165,7 +165,7 @@ export default function ModeleQuittanceLoyerPdfPage() {
             Automatisez vos quittances chaque mois
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-blue-100">
-            Locelio génère et envoie automatiquement les quittances conformes
+            Lokna génère et envoie automatiquement les quittances conformes
             dès que le loyer est détecté sur votre compte bancaire. Essai gratuit
             14&nbsp;jours.
           </p>

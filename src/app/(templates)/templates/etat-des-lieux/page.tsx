@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     "decret 29 mai 2015",
   ],
   openGraph: {
-    title: "Modèle État des Lieux 2026 — Locelio",
+    title: "Modèle État des Lieux 2026 — Lokna",
     description:
       "État des lieux gratuit et conforme. Téléchargez la checklist pièce par pièce. Comparez entrée et sortie.",
     type: "website",
-    url: "https://locelio.fr/templates/etat-des-lieux",
-    siteName: "Locelio",
+    url: "https://lokna.fr/templates/etat-des-lieux",
+    siteName: "Lokna",
   },
   alternates: buildHreflang("/templates/etat-des-lieux"),
 };
@@ -66,25 +66,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://locelio.fr/#organization",
-  name: "Locelio",
-  url: "https://locelio.fr",
-  logo: "https://locelio.fr/logo.svg",
+  "@id": "https://lokna.fr/#organization",
+  name: "Lokna",
+  url: "https://lokna.fr",
+  logo: "https://lokna.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@locelio.fr",
+    email: "contact@lokna.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://locelio.fr/#website",
-  name: "Locelio",
-  url: "https://locelio.fr",
+  "@id": "https://lokna.fr/#website",
+  name: "Lokna",
+  url: "https://lokna.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -100,14 +100,14 @@ function EtatuDesLieuxJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle État des Lieux 2026 — Locelio",
+        name: "Modèle État des Lieux 2026 — Lokna",
         description:
           "Modèle d'état des lieux gratuit et conforme au décret du 29 mai 2015. Checklist pièce par pièce.",
-        url: "https://locelio.fr/templates/etat-des-lieux",
+        url: "https://lokna.fr/templates/etat-des-lieux",
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {

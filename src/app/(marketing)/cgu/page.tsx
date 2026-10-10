@@ -10,8 +10,8 @@ export const revalidate = 3600;
 
 export async function generateMetadata() {
   return baseMetadata({
-    title: "Conditions Générales d'Utilisation — Locelio",
-    description: "Conditions générales d'utilisation de Locelio. Informations légales complètes sur l'utilisation de notre plateforme de gestion locative en ligne.",
+    title: `Conditions Générales d'Utilisation — ${SITE_NAME}`,
+    description: `Conditions générales d'utilisation de ${SITE_NAME}. Informations légales complètes sur l'utilisation de notre plateforme de gestion locative en ligne.`,
     url: "/cgu",
     ogType: "template",
   });
@@ -29,21 +29,21 @@ function CguJsonLd() {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "Locelio — Conditions Générales d'Utilisation",
+        name: `${SITE_NAME} — Conditions Générales d'Utilisation`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/cgu`,
         description:
-          "Conditions générales d'utilisation de Locelio, plateforme SaaS de gestion locative pour propriétaires bailleurs en France.",
+          `Conditions générales d'utilisation de ${SITE_NAME}, plateforme SaaS de gestion locative pour propriétaires bailleurs en France.`,
       },
       {
         "@type": "Organization",
-        name: "Locelio",
+        name: SITE_NAME,
         url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@locelio.fr",
+          email: "contact@lokna.fr",
           availableLanguage: "French",
         },
       },
@@ -94,8 +94,8 @@ export default function CguPage() {
           <h2>1. Objet</h2>
           <p>
             Les présentes Conditions Générales d&apos;Utilisation (CGU) régissent
-            l&apos;accès et l&apos;utilisation de la plateforme Locelio, éditée par
-            la société éditrice de Locelio. En créant un compte, l&apos;utilisateur accepte
+            l&apos;accès et l&apos;utilisation de la plateforme Lokna, éditée par
+            la société éditrice de Lokna. En créant un compte, l&apos;utilisateur accepte
             l&apos;intégralité des présentes CGU.
           </p>
         </section>
@@ -103,7 +103,7 @@ export default function CguPage() {
         <section>
           <h2>2. Description du service</h2>
           <p>
-            Locelio est un logiciel en ligne (SaaS) de gestion locative
+            Lokna est un logiciel en ligne (SaaS) de gestion locative
             destiné aux propriétaires bailleurs indépendants gérant de 1 à 10
             biens immobiliers. Le service propose :
           </p>
@@ -157,10 +157,10 @@ export default function CguPage() {
         <section>
           <h2>6. Responsabilité</h2>
           <p>
-            la société éditrice de Locelio met tout en œuvre pour assurer la fiabilité du
+            la société éditrice de Lokna met tout en œuvre pour assurer la fiabilité du
             service et la conformité des documents générés avec la législation
             française en vigueur. Toutefois, le service est fourni « en
-            l&apos;état » et la société éditrice de Locelio ne saurait être tenue responsable :
+            l&apos;état » et la société éditrice de Lokna ne saurait être tenue responsable :
           </p>
           <ul className="mt-2 list-disc space-y-1 pl-5">
             <li>Des erreurs résultant d&apos;informations inexactes saisies par l&apos;utilisateur</li>
@@ -179,7 +179,7 @@ export default function CguPage() {
           <p>
             L&apos;ensemble des éléments du service (code source, interface,
             algorithmes, marques, logos) est la propriété exclusive de
-            la société éditrice de Locelio. L&apos;abonnement confère uniquement un droit d&apos;usage
+            la société éditrice de Lokna. L&apos;abonnement confère uniquement un droit d&apos;usage
             personnel et non transférable.
           </p>
         </section>
@@ -195,7 +195,7 @@ export default function CguPage() {
               Politique de Confidentialité
             </a>
             . L&apos;utilisateur peut exercer ses droits RGPD en contactant{" "}
-            <a href="mailto:dpo@locelio.fr" className="text-blue-600 underline underline-offset-2">dpo@locelio.fr</a>.
+            <a href="mailto:dpo@lokna.fr" className="text-blue-600 underline underline-offset-2">dpo@lokna.fr</a>.
           </p>
         </section>
 
@@ -203,7 +203,7 @@ export default function CguPage() {
           <h2>9. Résiliation</h2>
           <p>
             L&apos;utilisateur peut résilier son abonnement à tout moment depuis
-            son espace de facturation. la société éditrice de Locelio se réserve le droit de
+            son espace de facturation. la société éditrice de Lokna se réserve le droit de
             suspendre ou de résilier un compte en cas de violation des
             présentes CGU, notamment en cas d&apos;utilisation frauduleuse du
             service.
@@ -218,7 +218,7 @@ export default function CguPage() {
         <section>
           <h2>10. Modification des CGU</h2>
           <p>
-            la société éditrice de Locelio se réserve le droit de modifier les présentes CGU.
+            la société éditrice de Lokna se réserve le droit de modifier les présentes CGU.
             Les utilisateurs seront informés par email 30 jours avant l&apos;entrée
             en vigueur des modifications. La poursuite de l&apos;utilisation du
             service après cette date vaut acceptation des nouvelles CGU.

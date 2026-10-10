@@ -53,7 +53,7 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* ─── Locelio "Quiet Luxury" Design System ─── */
+/* ─── Lokna "Quiet Luxury" Design System ─── */
 :root {
   /* Pepper White / Garlic Beige — warm architectural neutrals */
   --background: oklch(0.975 0.004 90);

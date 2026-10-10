@@ -20,7 +20,7 @@ export function DirectionA() {
             <span className="w-8 h-8 rounded-lg bg-stone-900 text-white font-mono text-sm font-semibold flex items-center justify-center">
               L
             </span>
-            <span className="font-semibold tracking-tight text-lg">Locelio</span>
+            <span className="font-semibold tracking-tight text-lg">Lokna</span>
             <span className="hidden sm:inline-block ml-3 px-2 py-0.5 rounded text-[11px] font-medium bg-stone-100 text-stone-600 border border-stone-200">
               Direction A · Calm Ledger
             </span>
@@ -57,7 +57,7 @@ export function DirectionA() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-stone-950 leading-[1.12] mb-6">
             Vos locations tournent.{" "}
             <br className="hidden sm:inline" />
-            Locelio tient le compte.
+            Lokna tient le compte.
           </h1>
 
           <p className="text-lg sm:text-xl text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed mb-10">
@@ -283,7 +283,7 @@ export function DirectionA() {
             <span className="font-mono text-xs font-bold text-stone-400 mb-3 block">02 / AU FIL DES VIREMENTS</span>
             <h3 className="font-bold text-stone-950 text-base mb-2">Pointage & Gestion des Acomptes</h3>
             <p className="text-sm text-stone-600 leading-relaxed">
-              Un locataire verse 400 € sur 800 € ? Locelio enregistre l'acompte, calcule le solde exact et évite d'émettre une quittance prématurée illégale.
+              Un locataire verse 400 € sur 800 € ? Lokna enregistre l'acompte, calcule le solde exact et évite d'émettre une quittance prématurée illégale.
             </p>
           </div>
 

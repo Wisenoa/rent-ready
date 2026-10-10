@@ -1,5 +1,6 @@
 import { SchemaMarkup } from "./schema-markup";
 import { FOUNDING_YEAR, SAME_AS, SITE_NAME, SITE_URL } from "@/data/entity";
+import { BRAND } from "@/lib/brand";
 
 export function OrganizationSchema() {
   const schema = {
@@ -9,6 +10,7 @@ export function OrganizationSchema() {
     url: SITE_URL,
     description: "Logiciel de gestion locative pour propriétaires bailleurs indépendants en France.",
     foundingDate: String(FOUNDING_YEAR),
+    logo: `${SITE_URL}/logo.svg`,
     address: {
       "@type": "PostalAddress",
       addressCountry: "FR",
@@ -17,7 +19,7 @@ export function OrganizationSchema() {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
-      email: "contact@locelio.fr",
+      email: BRAND.contactEmail,
       availableLanguage: "French",
     },
     sameAs: SAME_AS,

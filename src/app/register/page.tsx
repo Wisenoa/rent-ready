@@ -1,12 +1,13 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { RegisterForm } from "./register-form";
+import { LoknaLogo } from "@/components/ui/lokna-logo";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Créer un compte — Locelio",
+    title: "Créer un compte — Lokna",
     description:
-      "Créez votre compte Locelio en 2 minutes. Gérez vos biens locatifs, générez des quittances conformes et suivez vos loyers. Essai gratuit.",
+      "Créez votre compte Lokna en 2 minutes. Gérez vos biens locatifs, générez des quittances conformes et suivez vos loyers. Essai gratuit.",
     robots: { index: false, follow: false },
   };
 }
@@ -17,12 +18,10 @@ export default function RegisterPage() {
       <div className="mx-auto w-full max-w-md space-y-8 px-4 py-12">
         <div className="text-center space-y-3">
           <div className="flex justify-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-xl shadow-md">
-              L
-            </div>
+            <LoknaLogo variant="mark" size={48} />
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-            Créer un compte Locelio
+            Créer un compte Lokna
           </h1>
           <p className="text-sm text-muted-foreground">
             14 jours d&apos;essai gratuit, sans engagement

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { LoknaLogo } from "@/components/ui/lokna-logo";
 
 export function HomeNavbar() {
   return (
@@ -12,11 +13,8 @@ export function HomeNavbar() {
       </a>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-12 sm:h-14 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#1E3A2F]" aria-label="Locelio Accueil">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#1E3A2F]" aria-hidden="true" />
-            <span className="font-bold text-base sm:text-lg tracking-tight text-[#15241F]">
-              Locelio
-            </span>
+          <Link href="/" className="flex items-center gap-2 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#1E3A2F]" aria-label="Lokna Accueil">
+            <LoknaLogo size={24} />
           </Link>
           <nav className="hidden md:flex items-center gap-5 text-xs font-medium text-[#5A6660]" aria-label="Navigation principale">
             <a href="#demo" className="hover:text-[#15241F] transition-colors focus:outline-hidden focus-visible:underline">

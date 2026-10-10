@@ -43,7 +43,7 @@ function MentionsLegalesJsonLd() {
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@locelio.fr",
+          email: "contact@lokna.fr",
           availableLanguage: "French",
         },
       },
@@ -91,7 +91,7 @@ export default function MentionsLegalesPage() {
         <section>
           <h2>1. Éditeur du site</h2>
           <p>
-            Le site <strong>locelio.fr</strong> est édité par la société
+            Le site <strong>lokna.fr</strong> est édité par la société
             [Société éditrice], au capital de [montant] €, immatriculée au Registre
             du Commerce et des Sociétés sous le numéro SIREN
             [numéro], dont le siège social est situé au [adresse complète].
@@ -101,7 +101,7 @@ export default function MentionsLegalesPage() {
             Président.
           </p>
           <p className="mt-2">
-            Contact : <a href="mailto:contact@locelio.fr" className="text-blue-600 underline underline-offset-2">contact@locelio.fr</a>
+            Contact : <a href="mailto:contact@lokna.fr" className="text-blue-600 underline underline-offset-2">contact@lokna.fr</a>
           </p>
           <p className="mt-2">
             Numéro de TVA intracommunautaire : FR [numéro]
@@ -144,7 +144,7 @@ export default function MentionsLegalesPage() {
           </p>
           <p className="mt-2">
             Pour exercer ces droits, contactez :{" "}
-            <a href="mailto:dpo@locelio.fr" className="text-blue-600 underline underline-offset-2">dpo@locelio.fr</a>
+            <a href="mailto:dpo@lokna.fr" className="text-blue-600 underline underline-offset-2">dpo@lokna.fr</a>
           </p>
           <p className="mt-2">
             Pour en savoir plus, consultez notre{" "}
@@ -180,7 +180,7 @@ export default function MentionsLegalesPage() {
           <h2>7. Droit applicable</h2>
           <p>
             Tout litige en relation avec l&apos;utilisation du site
-            locelio.fr est soumis au droit français. Il est fait attribution
+            lokna.fr est soumis au droit français. Il est fait attribution
             exclusive de juridiction aux tribunaux compétents de Paris.
           </p>
         </section>

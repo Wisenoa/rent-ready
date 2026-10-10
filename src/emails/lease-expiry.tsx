@@ -48,7 +48,7 @@ export function LeaseExpiryEmail({
         <Container style={styles.container}>
           {/* Header */}
           <Section style={styles.headerSection}>
-            <Heading style={styles.logo}>Locelio</Heading>
+            <Heading style={styles.logo}>Lokna</Heading>
             {isUrgent && (
               <Text style={styles.urgentBadge}>ACTION REQUISE</Text>
             )}
@@ -127,7 +127,7 @@ export function LeaseExpiryEmail({
             <Hr style={styles.divider} />
 
             <Text style={styles.textSmall}>
-              Cet email vous a été envoyé automatiquement par Locelio. Pour
+              Cet email vous a été envoyé automatiquement par Lokna. Pour
               gérer vos préférences de notification, consultez votre tableau de
               bord.
             </Text>

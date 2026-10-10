@@ -92,9 +92,9 @@ function RelanceLoyerJsonLd() {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://locelio.fr/" },
-          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://locelio.fr/templates" },
-          { "@type": "ListItem", position: 3, name: "Relance loyer impayé", item: "https://locelio.fr/templates/relance-loyer-impaye" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lokna.fr/" },
+          { "@type": "ListItem", position: 2, name: "Modèles", item: "https://lokna.fr/templates" },
+          { "@type": "ListItem", position: 3, name: "Relance loyer impayé", item: "https://lokna.fr/templates/relance-loyer-impaye" },
         ],
       },
       {
@@ -109,19 +109,19 @@ function RelanceLoyerJsonLd() {
         })),
         tool: {
           "@type": "SoftwareApplication",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
         "@type": "Article",
-        name: "Modèle Relance Loyer Impayé — Locelio",
+        name: "Modèle Relance Loyer Impayé — Lokna",
         description:
           "Modèle gratuit de lettre de relance loyer impayé et de mise en demeure. Téléchargement PDF instantané.",
         author: {
           "@type": "Organization",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
@@ -319,7 +319,7 @@ export default function RelanceLoyerImpayePage() {
               href="/register"
               className="inline-block rounded-lg border border-stone-300 bg-white px-6 py-3 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
             >
-              Utiliser avec Locelio →
+              Utiliser avec Lokna →
             </Link>
           </div>
         </section>
@@ -434,7 +434,7 @@ export default function RelanceLoyerImpayePage() {
             Gérez vos relances automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Locelio détecte automatiquement les impayés et génère les lettres
+            Lokna détecte automatiquement les impayés et génère les lettres
             de relance. Workflow complet, archivage légal.
           </p>
           <Link

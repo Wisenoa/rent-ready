@@ -241,7 +241,7 @@ export function PricingSection() {
               <p className="text-[11px] text-amber-700 font-medium mt-0.5">~5 h / mois d&apos;astreinte</p>
             </div>
             <div className="rounded-xl bg-emerald-50/80 border border-emerald-200/60 p-3.5">
-              <p className="text-xs text-emerald-800 font-semibold">Locelio Starter</p>
+              <p className="text-xs text-emerald-800 font-semibold">Lokna Starter</p>
               <p className="text-lg font-bold text-emerald-900 mt-1">89 € / an</p>
               <p className="text-[11px] text-emerald-700 font-medium mt-0.5">Sérénité &amp; conformité</p>
             </div>

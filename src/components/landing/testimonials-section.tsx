@@ -60,7 +60,7 @@ export function TestimonialsSection() {
             Le fonctionnement
           </p>
           <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
-            Ce que Locelio fait,
+            Ce que Lokna fait,
             <br />
             du paiement à la quittance.
           </h2>

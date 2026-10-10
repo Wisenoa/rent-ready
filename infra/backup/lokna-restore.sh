@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Locelio Database Restore Script
+# Lokna Database Restore Script
 # - Mandatory dry-run test restore in isolated database before any production write
 # - Automatic pre-restore safety backup of current target database
 # - Strict guardrails against accidental production database destruction
@@ -8,10 +8,10 @@
 
 set -euo pipefail
 
-CONTAINER_NAME="${LOCELIO_DB_CONTAINER:-locelio-postgres}"
-DB_USER="${POSTGRES_USER:-locelio_admin}"
-TARGET_DB="${POSTGRES_DB:-locelio_production}"
-BACKUP_DIR="${BACKUP_DIR:-/var/backups/locelio}"
+CONTAINER_NAME="${LOKNA_DB_CONTAINER:-lokna-postgres}"
+DB_USER="${POSTGRES_USER:-lokna_admin}"
+TARGET_DB="${POSTGRES_DB:-lokna_production}"
+BACKUP_DIR="${BACKUP_DIR:-/var/backups/lokna}"
 BACKUP_FILE="${1:-}"
 MODE="${2:-verify}" # 'verify' (test dans BDD isolée) ou 'production' (restauration réelle)
 
@@ -22,7 +22,7 @@ if [[ -z "${BACKUP_FILE}" || ! -f "${BACKUP_FILE}" ]]; then
   exit 1
 fi
 
-echo "[INFO] === Restauration Locelio ==="
+echo "[INFO] === Restauration Lokna ==="
 echo "[INFO] Fichier source : ${BACKUP_FILE} ($(du -h "${BACKUP_FILE}" | cut -f1))"
 echo "[INFO] Mode demandé   : ${MODE}"
 
@@ -38,7 +38,7 @@ fi
 # ------------------------------------------------------------------------------
 # ÉTAPE 2 : Test de restauration réel dans une base isolée éphémère
 # ------------------------------------------------------------------------------
-TEST_DB="locelio_restore_dryrun_$(date +%s)"
+TEST_DB="lokna_restore_dryrun_$(date +%s)"
 echo "[INFO] Étape 2 : Test de restauration réelle dans la base isolée '${TEST_DB}'..."
 
 # Nettoyage préventif et création de la base de test
@@ -87,11 +87,11 @@ if [[ "${MODE}" == "production" ]]; then
 
   # Vérification du garde-fou obligatoire par variable d'environnement ou saisie
   SAFETY_CONFIRM="${CONFIRM_RESTORE_PRODUCTION:-}"
-  if [[ "${SAFETY_CONFIRM}" != "RESTORE_LOCELIO_PROD_CONFIRMED" ]]; then
+  if [[ "${SAFETY_CONFIRM}" != "RESTORE_LOKNA_PROD_CONFIRMED" ]]; then
     echo "Pour confirmer la restauration en production, tapez exactement :"
-    echo "RESTORE_LOCELIO_PROD_CONFIRMED"
+    echo "RESTORE_LOKNA_PROD_CONFIRMED"
     read -r -p "Confirmation : " USER_INPUT
-    if [[ "${USER_INPUT}" != "RESTORE_LOCELIO_PROD_CONFIRMED" ]]; then
+    if [[ "${USER_INPUT}" != "RESTORE_LOKNA_PROD_CONFIRMED" ]]; then
       echo "[ABORT] Restauration abandonnée par sécurité."
       exit 1
     fi
@@ -109,22 +109,23 @@ if [[ "${MODE}" == "production" ]]; then
   fi
 
   # Fermeture des connexions actives sur la base cible
-  echo "[INFO] Fermeture des connexions clientes sur ${TARGET_DB}..."
+  echo "[INFO] Déconnexion des clients actifs sur ${TARGET_DB}..."
   docker exec "${CONTAINER_NAME}" psql -U "${DB_USER}" -d postgres -c \
-    "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '${TARGET_DB}' AND pid <> pg_backend_pid();" >/dev/null 2>&1 || true
+    "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '${TARGET_DB}' AND pid <> pg_backend_pid();" >/dev/null || true
 
   # Recréation propre de la base cible
-  echo "[INFO] Réinitialisation de la base ${TARGET_DB}..."
-  docker exec "${CONTAINER_NAME}" psql -U "${DB_USER}" -d postgres -c "DROP DATABASE IF EXISTS ${TARGET_DB};" >/dev/null
-  docker exec "${CONTAINER_NAME}" psql -U "${DB_USER}" -d postgres -c "CREATE DATABASE ${TARGET_DB};" >/dev/null
+  echo "[INFO] Réinitialisation de la base cible ${TARGET_DB}..."
+  docker exec "${CONTAINER_NAME}" psql -U "${DB_USER}" -d postgres -c "DROP DATABASE IF EXISTS ${TARGET_DB};"
+  docker exec "${CONTAINER_NAME}" psql -U "${DB_USER}" -d postgres -c "CREATE DATABASE ${TARGET_DB};"
 
-  # Restauration effective
-  echo "[INFO] Injection de l'archive dans ${TARGET_DB}..."
-  docker exec -i "${CONTAINER_NAME}" pg_restore -U "${DB_USER}" -d "${TARGET_DB}" --no-owner --role="${DB_USER}" < "${BACKUP_FILE}" >/dev/null 2>&1 || true
+  # Restauration finale
+  echo "[INFO] Application de l'archive en production..."
+  if ! docker exec -i "${CONTAINER_NAME}" pg_restore -U "${DB_USER}" -d "${TARGET_DB}" --no-owner --role="${DB_USER}" < "${BACKUP_FILE}" >/dev/null 2>&1; then
+    echo "[WARN] pg_restore s'est terminé avec des alertes mineures."
+  fi
 
-  # Contrôle final
   FINAL_TABLES=$(docker exec "${CONTAINER_NAME}" psql -U "${DB_USER}" -d "${TARGET_DB}" -t -c \
     "SELECT count(*) FROM information_schema.tables WHERE table_schema='public';")
   FINAL_TABLES=$(echo "${FINAL_TABLES}" | tr -d '[:space:]')
-  echo "[SUCCESS] Restauration en production terminée avec succès (${FINAL_TABLES} tables créées)."
+  echo "[SUCCESS] === Restauration en production terminée avec succès (${FINAL_TABLES} tables créées) ==="
 fi

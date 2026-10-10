@@ -216,9 +216,9 @@ export default async function BlogPostPage({ params }: PageProps) {
   const faqPairs = article.content ? extractFAQ(article.content) : [];
 
   // Articles carry no byline: the Article type has no author field, so the
-  // previous `article.author ?? "Locelio"` always took the fallback. The
+  // previous `article.author ?? "Lokna"` always took the fallback. The
   // JSON-LD below attributes posts to the organisation either way.
-  const articleAuthor = "Locelio";
+  const articleAuthor = "Lokna";
 
   // BreadcrumbList schema
   const breadcrumbSchema = {
@@ -265,7 +265,7 @@ export default async function BlogPostPage({ params }: PageProps) {
    *
    * The image points at the dynamic OG renderer, which produces a 1200×630 PNG
    * per article title — the minimum Google asks for is 1200×675 for wide
-   * images, and 1200×630 is what every other Locelio page already serves.
+   * images, and 1200×630 is what every other Lokna page already serves.
    */
   // `buildOgImageUrl` returns a path, which is correct for a <meta og:image> tag
   // because Next resolves it against metadataBase. Structured data has no such
@@ -292,7 +292,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     },
     publisher: {
       "@type": "Organization",
-      name: "Locelio",
+      name: "Lokna",
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
@@ -465,7 +465,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="mt-16 rounded-2xl bg-stone-900 px-8 py-10 text-center">
           <h3 className="mb-3 text-xl font-bold text-white">
             {splitEditorialCTA(article.content).cta ??
-              "Gérez votre location efficacement avec Locelio"}
+              "Gérez votre location efficacement avec Lokna"}
           </h3>
           <p className="mb-6 text-stone-300">
             Logiciel tout-en-un pour propriétaires — essai gratuit 14 jours.

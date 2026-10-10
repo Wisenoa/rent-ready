@@ -39,9 +39,9 @@ const breadcrumbItems = [
 function PlusValueJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://locelio.fr" },
-      { name: "Outils", url: "https://locelio.fr/outils" },
-      { name: "Calculateur Plus-Value", url: "https://locelio.fr/outils/calculateur-plus-value" },
+      { name: "Accueil", url: "https://lokna.fr" },
+      { name: "Outils", url: "https://lokna.fr/outils" },
+      { name: "Calculateur Plus-Value", url: "https://lokna.fr/outils/calculateur-plus-value" },
     ]),
     buildWebApplicationSchema({
       name: "Calculateur de Plus-Value Immobilière",

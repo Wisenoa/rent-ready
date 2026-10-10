@@ -61,7 +61,7 @@ test.describe('Homepage B.3 Production Journey & Interactive Widgets', () => {
     await page.goto('/');
 
     const firstQuestionBtn = page.getByRole('button', {
-      name: /Pourquoi quitter un tableur Excel pour (?:RentReady|Locelio) \?/i,
+      name: /Pourquoi quitter un tableur Excel pour (?:RentReady|Locelio|Lokna) \?/i,
     });
     await expect(firstQuestionBtn).toBeVisible();
     await expect(firstQuestionBtn).toHaveAttribute('aria-expanded', 'true');

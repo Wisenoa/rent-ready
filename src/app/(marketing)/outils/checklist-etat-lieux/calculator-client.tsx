@@ -154,7 +154,7 @@ const jsonLdData = {
       "@type": "WebApplication",
       name: "Checklist État des Lieux",
       description: "Checklist interactive pour réaliser un état des lieux entrée ou sortie conforme à la loi.",
-      url: "https://locelio.fr/outils/checklist-etat-lieux",
+      url: "https://lokna.fr/outils/checklist-etat-lieux",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
     },
@@ -172,7 +172,7 @@ const jsonLdData = {
         "@type": "ListItem",
         position: i + 1,
         name: item.label,
-        item: `https://locelio.fr${item.href}`,
+        item: `https://lokna.fr${item.href}`,
       })),
     },
   ],
@@ -442,7 +442,7 @@ export function ChecklistEDLClient() {
 
           {/* CTA */}
           <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-bold mb-2">Gérez vos états des lieux avec Locelio</h2>
+            <h2 className="text-2xl font-bold mb-2">Gérez vos états des lieux avec Lokna</h2>
             <p className="text-blue-100 mb-6 max-w-xl mx-auto">
               Générez des états des lieux PDF conformes, stockez les photos, et comparez automatiquement entrée et sortie.
             </p>

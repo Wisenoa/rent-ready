@@ -36,10 +36,10 @@ const comparatifs = [
     badgeColor: "bg-blue-100 text-blue-700",
   },
   {
-    title: "Locelio vs LegalPlace",
+    title: "Lokna vs LegalPlace",
     description:
       "Gestion locative vs services juridiques : comment utiliser les deux ensemble pour vos locations.",
-    href: "/comparatif/locelio-vs-legalplace",
+    href: "/comparatif/lokna-vs-legalplace",
     badge: "Nouveau",
     badgeColor: "bg-red-100 text-red-700",
   },

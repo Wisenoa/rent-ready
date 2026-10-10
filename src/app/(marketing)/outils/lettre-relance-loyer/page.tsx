@@ -33,9 +33,9 @@ export async function generateMetadata() {
 function LettreRelanceJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://locelio.fr" },
-      { name: "Outils", url: "https://locelio.fr/outils" },
-      { name: "Lettre de Relance Loyer", url: "https://locelio.fr/outils/lettre-relance-loyer" },
+      { name: "Accueil", url: "https://lokna.fr" },
+      { name: "Outils", url: "https://lokna.fr/outils" },
+      { name: "Lettre de Relance Loyer", url: "https://lokna.fr/outils/lettre-relance-loyer" },
     ]),
     buildWebApplicationSchema({
       name: "Générateur de Lettre de Relance Loyer",

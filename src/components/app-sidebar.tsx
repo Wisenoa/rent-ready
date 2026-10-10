@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LoknaLogo } from "@/components/ui/lokna-logo";
 import {
   LayoutDashboard,
   Building2,
@@ -57,12 +58,10 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="border-r-0">
       <SidebarHeader className="p-4">
         <Link href="/dashboard" className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-            L
-          </div>
+          <LoknaLogo variant="mark" size={30} />
           <div className="flex flex-col group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-semibold tracking-tight text-sidebar-foreground">
-              Locelio
+              Lokna
             </span>
             <span className="text-[11px] text-sidebar-foreground/60">
               Gestion Locative

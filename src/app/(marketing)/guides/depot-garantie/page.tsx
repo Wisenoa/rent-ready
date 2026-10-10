@@ -172,7 +172,7 @@ export default function DepotGarantieGuidePage() {
 
       <div className="mt-12 rounded-xl border border-stone-200/60 bg-stone-50 p-8 text-center">
         <h2 className="mb-3 text-xl font-bold text-stone-900">
-          Gérez vos dépôts de garantie avec Locelio
+          Gérez vos dépôts de garantie avec Lokna
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
           Suivez les dépôts reçus, générez automatiquement les reçus, et gérez les

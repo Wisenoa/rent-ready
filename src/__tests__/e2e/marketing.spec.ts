@@ -11,7 +11,7 @@ test.describe('Marketing Pages', () => {
     })
 
     await page.goto('/')
-    await expect(page).toHaveTitle(/.*rentready.*|.*rent-ready.*|.*locelio.*|.*louer.*|.*gestion.*/i)
+    await expect(page).toHaveTitle(/.*rentready.*|.*rent-ready.*|.*locelio.*|.*lokna.*|.*louer.*|.*gestion.*/i)
 
     // Hero section
     await expect(page.locator('body')).not.toBeEmpty()

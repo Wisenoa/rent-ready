@@ -95,7 +95,7 @@ export function PaymentReminderEmail({
           {/* Header */}
           <Section style={styles.headerSection}>
             <Heading style={{ ...styles.logo, color: config.color }}>
-              Locelio
+              Lokna
             </Heading>
             <Text style={styles.labelTag}>{config.label}</Text>
           </Section>
@@ -153,11 +153,11 @@ export function PaymentReminderEmail({
           {/* Footer */}
           <Section style={styles.footerSection}>
             <Text style={styles.footerText}>
-              Cet email a été envoyé via Locelio, votre outil de gestion locative.
+              Cet email a été envoyé via Lokna, votre outil de gestion locative.
             </Text>
             <Text style={styles.footerText}>
-              <Link href="https://locelio.fr" style={styles.footerLink}>
-                locelio.fr
+              <Link href="https://lokna.fr" style={styles.footerLink}>
+                lokna.fr
               </Link>
             </Text>
           </Section>

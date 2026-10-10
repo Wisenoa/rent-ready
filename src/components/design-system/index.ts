@@ -1,5 +1,5 @@
 /**
- * Locelio B+ V2.1 Production Design System
+ * Lokna B+ V2.1 Production Design System
  *
  * Export unifié des tokens, primitives et motifs métier (product patterns).
  */

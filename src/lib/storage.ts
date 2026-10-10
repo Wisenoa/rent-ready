@@ -16,6 +16,9 @@ export interface UploadResult {
   objectName: string;
 }
 
+/** Historical canonical bucket fallback shared between storage utilities and health check. */
+export const DEFAULT_MINIO_BUCKET = "rent-ready-docs";
+
 /** True when object storage is configured. Callers may degrade gracefully. */
 export /**
  * Storage credentials, read once.
@@ -90,7 +93,7 @@ export async function uploadBuffer(
     secretKey: env.secretKey,
   });
 
-  const bucket = process.env.MINIO_BUCKET || "rent-ready-docs";
+  const bucket = process.env.MINIO_BUCKET || DEFAULT_MINIO_BUCKET;
 
   await client.putObject(bucket, objectName, buffer, buffer.length, {
     "Content-Type": contentType,
@@ -123,6 +126,6 @@ export async function deleteObject(objectName: string): Promise<void> {
     secretKey: env.secretKey,
   });
 
-  const bucket = process.env.MINIO_BUCKET || "rent-ready-docs";
+  const bucket = process.env.MINIO_BUCKET || DEFAULT_MINIO_BUCKET;
   await client.removeObject(bucket, objectName);
 }

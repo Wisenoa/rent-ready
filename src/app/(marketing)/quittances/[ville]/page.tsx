@@ -107,7 +107,7 @@ function getLocalParagraphs(city: City) {
     ? `En zone tendue comme ${city.name}, la quittance doit également mentionner, le cas échéant, le loyer de référence et le complément de loyer appliqué. En cas de révision de loyer IRL, la quittance doit refléter le nouveau montant.`
     : `La quittance de loyer est obligatoire dans tout location soumise à la loi du 6 juillet 1989. Elle doit mentionner le montant du loyer, des charges, la période couverte, la date de paiement et le mode de paiement.`;
 
-  const closing = `Avec Locelio, générez des quittances PDF conformes en 1 clic — sans tableau Excel, sans modèle Word. Chaque quittance est horodatée, archivée et prête à être envoyée à votre locataire par email.`;
+  const closing = `Avec Lokna, générez des quittances PDF conformes en 1 clic — sans tableau Excel, sans modèle Word. Chaque quittance est horodatée, archivée et prête à être envoyée à votre locataire par email.`;
 
   return { intro, regulation, closing };
 }
@@ -168,7 +168,7 @@ function getFaqs(city: City) {
     },
     {
       question: `Quel est le délai pour envoyer une quittance à ${city.name} ?`,
-      answer: `La loi impose de fournir la quittance dans les 24 heures suivant le paiement. Avec Locelio, l'envoi est automatique — dès que le virement est détecté (via Open Banking), la quittance est générée et transmise au locataire à ${city.name} sans délai.`,
+      answer: `La loi impose de fournir la quittance dans les 24 heures suivant le paiement. Avec Lokna, l'envoi est automatique — dès que le virement est détecté (via Open Banking), la quittance est générée et transmise au locataire à ${city.name} sans délai.`,
     },
     {
       question: `Comment calculer le montant de la révision de loyer pour ${city.name} ?`,
@@ -179,7 +179,7 @@ function getFaqs(city: City) {
     {
       question: `L'encadrement des loyers impacte-t-il les quittances à ${city.name} ?`,
       answer: ctx.isZoneTendue
-        ? `Oui. ${city.name} étant en zone tendue, toute quittance relative à un nouveau bail ou un renouvellement doit mentionner le loyer de référence et un éventuel complément pour atypie. En cas de dépassement du plafond, vous risquez un redressement. Locelio intègre automatiquement ces mentions.`
+        ? `Oui. ${city.name} étant en zone tendue, toute quittance relative à un nouveau bail ou un renouvellement doit mentionner le loyer de référence et un éventuel complément pour atypie. En cas de dépassement du plafond, vous risquez un redressement. Lokna intègre automatiquement ces mentions.`
         : `Nous ne pouvons pas l'affirmer pour ${city.name} : un « non » serait trompeur. L'encadrement à la relocation vaut pour toute commune en zone tendue, et le plafonnement du niveau des loyers exige un arrêté préfectoral, propre à uneudisaine de communes seulement. Vérifiez l'arrêté du ${city.department} : s'il fixe un loyer de référence majoré, mentionnez-le sur la quittance, sinon aucun champ dédié n'est requis.`,
     },
     {
@@ -194,7 +194,7 @@ function getFaqs(city: City) {
 function getHowToSteps(city: City) {
   return [
     {
-      name: `Créer un compte Locelio`,
+      name: `Créer un compte Lokna`,
       text: `Inscrivez-vous gratuitement en 2 minutes. Aucune carte bancaire requise pour l'essai de 14 jours. Ajoutez votre bien situé à ${city.name}.`,
       url: "/register",
     },
@@ -231,18 +231,18 @@ function buildQuittanceVilleSchema(city: City) {
       /* WebSite */
       {
         "@type": "WebSite",
-        name: "Locelio",
+        name: "Lokna",
         url: SITE_URL,
       },
       /* Organization */
       {
         "@type": "Organization",
-        name: "Locelio",
+        name: "Lokna",
         url: SITE_URL,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "contact@locelio.fr",
+          email: "contact@lokna.fr",
           availableLanguage: "French",
         },
       },
@@ -260,7 +260,7 @@ function buildQuittanceVilleSchema(city: City) {
       {
         "@type": "HowTo",
         name: `Comment générer une quittance de loyer à ${city.name}`,
-        description: `Générez une quittance de loyer conforme à ${city.name} en 1 clic avec Locelio. PDF automatique, mention IRL INSEE, envoi email instantané.`,
+        description: `Générez une quittance de loyer conforme à ${city.name} en 1 clic avec Lokna. PDF automatique, mention IRL INSEE, envoi email instantané.`,
         image: `${SITE_URL}/opengraph-image`,
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
@@ -274,12 +274,12 @@ function buildQuittanceVilleSchema(city: City) {
         })),
         totalTime: "PT5M",
         supply: [
-          { "@type": "HowToSupply", name: "Compte Locelio (essai gratuit 14 jours)" },
+          { "@type": "HowToSupply", name: "Compte Lokna (essai gratuit 14 jours)" },
           { "@type": "HowToSupply", name: `Bien immobilier à ${city.name}` },
           { "@type": "HowToSupply", name: "Informations du locataire" },
         ],
         tool: [
-          { "@type": "HowToTool", name: "Locelio — Générateur de quittances de loyer" },
+          { "@type": "HowToTool", name: "Lokna — Générateur de quittances de loyer" },
         ],
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
@@ -296,7 +296,7 @@ function buildQuittanceVilleSchema(city: City) {
       /* SoftwareApplication */
       {
         "@type": "SoftwareApplication",
-        name: `Locelio — Quittances de loyer ${city.name}`,
+        name: `Lokna — Quittances de loyer ${city.name}`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/quittances/${city.slug}`,
@@ -318,7 +318,7 @@ function buildQuittanceVilleSchema(city: City) {
       /* LocalBusiness */
       {
         "@type": "LocalBusiness",
-        name: `Locelio — Quittances de loyer ${city.name}`,
+        name: `Lokna — Quittances de loyer ${city.name}`,
         description: `Service de génération de quittances de loyer pour propriétaires bailleurs à ${city.name}. PDF conformes, détection automatique des paiements via Open Banking, envoi email instantané.${ctx.isZoneTendue ? " Mention zone tendue intégrée." : ""}`,
         url: `${SITE_URL}/quittances/${city.slug}`,
         areaServed: {
@@ -347,7 +347,7 @@ function buildQuittanceVilleSchema(city: City) {
         name: `Quittance de loyer à ${city.name} — Générateur PDF gratuit 2026`,
         description: `Générez une quittance de loyer PDF gratuite et conforme à ${city.name}. En 1 clic — sans inscription. Mention IRL INSEE intégrée, envoi email au locataire.${rentData ? ` Loyer moyen indicatif : ${rentData.studio}-${rentData.t2} €/m².` : ""}`,
         url: `${SITE_URL}/quittances/${city.slug}`,
-        isPartOf: { "@type": "WebSite", name: "Locelio", url: SITE_URL },
+        isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
     ],
@@ -444,7 +444,7 @@ export default async function QuittanceVillePage({ params }: Props) {
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-6xl">
             <h2 className="mb-2 text-center text-2xl font-bold text-stone-900 sm:text-3xl">
-              Pourquoi utiliser Locelio pour vos quittances à {city.name}
+              Pourquoi utiliser Lokna pour vos quittances à {city.name}
             </h2>
             <p className="mb-12 text-center text-stone-600">
               Automatisez la génération et l'envoi — sans tableau Excel, sans oubli.
@@ -627,7 +627,7 @@ export default async function QuittanceVillePage({ params }: Props) {
               Générez votre première quittance pour {city.name}
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
-              Rejoignez les propriétaires de {city.name} qui automatisent leurs quittances avec Locelio. Essai gratuit 14 jours, sans carte bancaire.
+              Rejoignez les propriétaires de {city.name} qui automatisent leurs quittances avec Lokna. Essai gratuit 14 jours, sans carte bancaire.
             </p>
             <Link
               href="/register"

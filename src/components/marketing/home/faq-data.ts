@@ -5,9 +5,9 @@ export interface FaqItem {
 
 export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
-    question: "Pourquoi quitter un tableur Excel pour Locelio ?",
+    question: "Pourquoi quitter un tableur Excel pour Lokna ?",
     answer:
-      "Un tableur ne prépare pas vos quittances au format légal, n'alerte pas sur les révisions IRL et oblige à pointer vos relevés à la main. Locelio automatise ces vérifications et ne signale que les anomalies.",
+      "Un tableur ne prépare pas vos quittances au format légal, n'alerte pas sur les révisions IRL et oblige à pointer vos relevés à la main. Lokna automatise ces vérifications et ne signale que les anomalies.",
   },
   {
     question: "Comment fonctionne l'essai gratuit de 14 jours ?",
@@ -17,7 +17,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Que se passe-t-il en cas de versement partiel d'un locataire ?",
     answer:
-      "Locelio édite un reçu d'acompte avec le solde restant dû (loi de 1989 art. 21). La quittance définitive n'est disponible qu'une fois le loyer intégralement réglé.",
+      "Lokna édite un reçu d'acompte avec le solde restant dû (loi de 1989 art. 21). La quittance définitive n'est disponible qu'une fois le loyer intégralement réglé.",
   },
   {
     question: "Mes données d'encaissement sont-elles exportables ?",

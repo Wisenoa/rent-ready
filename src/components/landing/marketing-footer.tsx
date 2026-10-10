@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { SAME_AS, SITE_NAME } from "@/data/entity";
 import { ShieldCheck } from "lucide-react";
+import { LoknaLogo } from "@/components/ui/lokna-logo";
 
 const FOOTER_LINKS = {
   Produit: [
@@ -45,12 +46,7 @@ export function MarketingFooter() {
           {/* Brand info */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-3.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-stone-900 font-bold text-sm text-white">
-                R
-              </div>
-              <span className="text-[17px] font-semibold tracking-tight text-stone-900">
-                {SITE_NAME}
-              </span>
+              <LoknaLogo size={28} />
             </Link>
             <p className="text-[13px] text-stone-600 leading-relaxed max-w-xs">
               Pilotage locatif rigoureux et automatisé pour propriétaires indépendants.

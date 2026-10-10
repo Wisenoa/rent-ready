@@ -251,7 +251,7 @@ async function generateQuittancePdf(data: QuittanceData) {
 
         {/* Footer */}
         <Text style={styles.footer}>
-          Document généré avec Locelio — locelio.fr
+          Document généré avec Lokna — lokna.fr
         </Text>
       </Page>
     </Document>

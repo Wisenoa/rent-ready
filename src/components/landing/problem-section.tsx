@@ -98,7 +98,7 @@ export function ProblemSection() {
         >
           <p className="text-base leading-relaxed text-stone-600 sm:text-lg sm:leading-relaxed">
             <strong className="text-stone-800">
-              Locelio supprime cette friction.
+              Lokna supprime cette friction.
             </strong>{" "}
             En connectant votre compte bancaire, en automatisant les documents
             légaux et en centralisant les demandes de vos locataires, le logiciel

@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "inventaire mobilier",
   ],
   openGraph: {
-    title: "Modèle Bail Meublé Gratuit 2026 — Locelio",
+    title: "Modèle Bail Meublé Gratuit 2026 — Lokna",
     description:
       "Bail meublé conforme et gratuit. Téléchargez, personnalisez, signez électronique. Modèle mis à jour 2026.",
     type: "website",
-    url: "https://locelio.fr/templates/bail-meuble",
-    siteName: "Locelio",
+    url: "https://lokna.fr/templates/bail-meuble",
+    siteName: "Lokna",
   },
   alternates: buildHreflang("/templates/bail-meuble"),
 };
@@ -144,37 +144,37 @@ function BailMeubleJsonLd() {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://locelio.fr/#organization",
-        name: "Locelio",
-        url: "https://locelio.fr",
-        logo: "https://locelio.fr/logo.svg",
+        "@id": "https://lokna.fr/#organization",
+        name: "Lokna",
+        url: "https://lokna.fr",
+        logo: "https://lokna.fr/logo.svg",
         description:
           "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
         sameAs: SAME_AS,
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
-          email: "contact@locelio.fr",
+          email: "contact@lokna.fr",
           availableLanguage: "French",
         },
       },
       {
         "@type": "WebSite",
-        "@id": "https://locelio.fr/#website",
-        name: "Locelio",
-        url: "https://locelio.fr",
+        "@id": "https://lokna.fr/#website",
+        name: "Lokna",
+        url: "https://lokna.fr",
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
         "@type": "SoftwareApplication",
-        "@id": "https://locelio.fr/#software",
-        name: "Locelio - Générateur de Bail Meublé",
+        "@id": "https://lokna.fr/#software",
+        name: "Lokna - Générateur de Bail Meublé",
         description: "Application web de génération de contrats de location meublée conformes à la loi française.",
-        url: "https://locelio.fr/templates/bail-meuble",
+        url: "https://lokna.fr/templates/bail-meuble",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         offers: {
@@ -184,15 +184,15 @@ function BailMeubleJsonLd() {
           description: "Accès gratuit au modèle de bail meublé",
         },
         provider: {
-          "@id": "https://locelio.fr/#organization",
+          "@id": "https://lokna.fr/#organization",
         },
       },
       {
         "@type": "HowTo",
-        "@id": "https://locelio.fr/#howto-bail-meuble",
+        "@id": "https://lokna.fr/#howto-bail-meuble",
         name: "Comment créer un bail meublé conforme",
         description: "Guide étape par étape pour rédiger un bail meublé conforme à la législation française.",
-        url: "https://locelio.fr/templates/bail-meuble",
+        url: "https://lokna.fr/templates/bail-meuble",
         step: [
           {
             "@type": "HowToStep",
@@ -227,20 +227,20 @@ function BailMeubleJsonLd() {
         ],
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
         "@type": "WebPage",
-        name: "Modèle Bail Meublé 2026 — Locelio",
+        name: "Modèle Bail Meublé 2026 — Lokna",
         description:
           "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. Téléchargeable en PDF.",
-        url: "https://locelio.fr/templates/bail-meuble",
+        url: "https://lokna.fr/templates/bail-meuble",
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
@@ -298,7 +298,7 @@ export default function BailMeublePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-sm border border-blue-200 transition-colors hover:bg-blue-50"
             >
-              Générer avec Locelio →
+              Générer avec Lokna →
             </Link>
           </div>
         </header>

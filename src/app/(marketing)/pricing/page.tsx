@@ -40,7 +40,7 @@ const PricingSectionWrapper = dynamicImport(
 export async function generateMetadata(): Promise<Metadata> {
   return baseMetadata({
     title:
-      "Tarifs Locelio 2026 — à partir de 9 €/mois, essai gratuit sans engagement",
+      "Tarifs Lokna 2026 — à partir de 9 €/mois, essai gratuit sans engagement",
     description:
       "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, suivi des loyers, révision IRL automatique. Essai gratuit sans engagement.",
     url: "/pricing",
@@ -68,8 +68,8 @@ export const revalidate = 3600;
 
 const pricingFaqs = [
   {
-    question: "Combien coûte Locelio et y a-t-il un engagement ?",
-    answer: "Locelio propose 3 plans : Starter à 9 €/mois, Pro à 15 €/mois, et Agency sur devis. Sans engagement sur les plans mensuels. Le tarif annuel offre 2 mois gratuits (89 €/an Starter, 149 €/an Pro). Essai gratuit sans carte bancaire.",
+    question: "Combien coûte Lokna et y a-t-il un engagement ?",
+    answer: "Lokna propose 3 plans : Starter à 9 €/mois, Pro à 15 €/mois, et Agency sur devis. Sans engagement sur les plans mensuels. Le tarif annuel offre 2 mois gratuits (89 €/an Starter, 149 €/an Pro). Essai gratuit sans carte bancaire.",
   },
   {
     question: "Que se passe-t-il si je dépasse la limite de biens ?",
@@ -105,13 +105,13 @@ function PricingJsonLd() {
     ]),
     buildOrganizationSchema({ "@id": `${SITE_URL}/#organization` }),
     buildWebPageSchema({
-      name: "Tarifs Locelio",
+      name: "Tarifs Lokna",
       description:
         "À partir de 9 €/mois. Gestion locative automatisée : quittances conformes, détection loyers, révision IRL, portail locataire.",
       url: `${SITE_URL}/pricing`,
     }),
     buildSoftwareAppSchema({
-      name: "Locelio",
+      name: "Lokna",
       description:
         "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France (1 à 10+ biens).",
       applicationCategory: "BusinessApplication",

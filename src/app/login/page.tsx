@@ -1,11 +1,12 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { LoginForm } from "./login-form";
+import { LoknaLogo } from "@/components/ui/lokna-logo";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Connexion — Locelio",
-    description: "Connectez-vous à votre compte Locelio pour gérer vos biens locatifs, quittances et suivi des loyers.",
+    title: "Connexion — Lokna",
+    description: "Connectez-vous à votre compte Lokna pour gérer vos biens locatifs, quittances et suivi des loyers.",
     robots: { index: false, follow: false },
   };
 }
@@ -16,12 +17,10 @@ export default function LoginPage() {
       <div className="mx-auto w-full max-w-md space-y-8 px-4">
         <div className="text-center space-y-3">
           <div className="flex justify-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-xl shadow-md">
-              L
-            </div>
+            <LoknaLogo variant="mark" size={48} />
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-            Bienvenue sur Locelio
+            Bienvenue sur Lokna
           </h1>
           <p className="text-sm text-muted-foreground">
             Connectez-vous pour gérer vos biens locatifs

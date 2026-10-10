@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { DEFAULT_MINIO_BUCKET } from '@/lib/storage';
 
 // ========================================
 // Health Check Endpoint
@@ -98,7 +99,7 @@ async function checkStorage(): Promise<{ status: string; error?: string }> {
       secretKey: process.env.MINIO_SECRET_KEY || '',
     });
 
-    const bucket = process.env.MINIO_BUCKET || 'rent-ready-docs';
+    const bucket = process.env.MINIO_BUCKET || DEFAULT_MINIO_BUCKET;
     const exists = await minioClient.bucketExists(bucket);
     
     return { status: exists ? 'healthy' : 'not_configured' };

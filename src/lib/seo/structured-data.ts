@@ -86,11 +86,11 @@ export function buildOrganizationSchema(input: OrganizationSchemaInput = {}) {
       : {}),
     description:
       input.description ??
-      "Locelio est le logiciel de gestion locative pour propriétaires bailleurs indépendants en France. Quittances et reçus conformes à la loi de 1989, suivi des paiements, révision IRL, portail locataire.",
+      "Lokna est le logiciel de gestion locative pour propriétaires bailleurs indépendants en France. Quittances et reçus conformes à la loi de 1989, suivi des paiements, révision IRL, portail locataire.",
     sameAs: input.sameAs ?? SAME_AS,
     contactPoint: input.contact ?? {
       "@type": "ContactPoint",
-      email: "contact@locelio.fr",
+      email: "contact@lokna.fr",
       contactType: "customer service",
       availableLanguage: "French",
       areaServed: "FR",

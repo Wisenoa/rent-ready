@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "bail saisonnier gratuit",
   ],
   openGraph: {
-    title: "Modèle Bail Saisonnier 2026 — Locelio",
+    title: "Modèle Bail Saisonnier 2026 — Lokna",
     description:
       "Bail saisonnier pour location de vacances. Gratuit, conforme, téléchargeable en PDF. Mise à jour 2026.",
     type: "website",
-    url: "https://locelio.fr/templates/lease/bail-saisonnier",
-    siteName: "Locelio",
+    url: "https://lokna.fr/templates/lease/bail-saisonnier",
+    siteName: "Lokna",
   },
   alternates: buildHreflang("/templates/lease/bail-saisonnier"),
 };
@@ -110,25 +110,25 @@ const faqData = [
 
 const orgSchema = {
   "@type": "Organization",
-  "@id": "https://locelio.fr/#organization",
-  name: "Locelio",
-  url: "https://locelio.fr",
-  logo: "https://locelio.fr/logo.svg",
+  "@id": "https://lokna.fr/#organization",
+  name: "Lokna",
+  url: "https://lokna.fr",
+  logo: "https://lokna.fr/logo.svg",
   description:
     "Logiciel de gestion locative automatisée pour propriétaires bailleurs indépendants en France.",
   sameAs: SAME_AS,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "contact@locelio.fr",
+    email: "contact@lokna.fr",
     availableLanguage: "French",
   },
 };
 const webSiteSchema = {
   "@type": "WebSite",
-  "@id": "https://locelio.fr/#website",
-  name: "Locelio",
-  url: "https://locelio.fr",
+  "@id": "https://lokna.fr/#website",
+  name: "Lokna",
+  url: "https://lokna.fr",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -144,14 +144,14 @@ function BailSaisonnierJsonLd() {
       webSiteSchema,
       {
         "@type": "WebPage",
-        name: "Modèle Bail Saisonnier 2026 — Locelio",
+        name: "Modèle Bail Saisonnier 2026 — Lokna",
         description:
           "Modèle de bail saisonnier gratuit pour location de vacances. Meublé de tourisme classé.",
-        url: "https://locelio.fr/templates/lease/bail-saisonnier",
+        url: "https://lokna.fr/templates/lease/bail-saisonnier",
         isPartOf: {
           "@type": "WebSite",
-          name: "Locelio",
-          url: "https://locelio.fr",
+          name: "Lokna",
+          url: "https://lokna.fr",
         },
       },
       {
@@ -208,7 +208,7 @@ export default function BailSaisonnierPage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-cyan-700 shadow-sm border border-cyan-200 transition-colors hover:bg-cyan-50"
             >
-              Générer avec Locelio →
+              Générer avec Lokna →
             </Link>
           </div>
         </header>

@@ -40,9 +40,9 @@ const breadcrumbItems = [
 function SimulateurPretJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://locelio.fr" },
-      { name: "Outils", url: "https://locelio.fr/outils" },
-      { name: "Simulateur Prêt Immobilier", url: "https://locelio.fr/outils/simulateur-pret-immobilier" },
+      { name: "Accueil", url: "https://lokna.fr" },
+      { name: "Outils", url: "https://lokna.fr/outils" },
+      { name: "Simulateur Prêt Immobilier", url: "https://lokna.fr/outils/simulateur-pret-immobilier" },
     ]),
     buildWebApplicationSchema({
       name: "Simulateur de Prêt Immobilier",

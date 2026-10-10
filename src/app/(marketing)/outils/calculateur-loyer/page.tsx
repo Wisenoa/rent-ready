@@ -33,9 +33,9 @@ export async function generateMetadata() {
 function CalculateurLoyerJsonLd() {
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
-      { name: "Accueil", url: "https://locelio.fr" },
-      { name: "Outils", url: "https://locelio.fr/outils" },
-      { name: "Calculateur de Loyer", url: "https://locelio.fr/outils/calculateur-loyer" },
+      { name: "Accueil", url: "https://lokna.fr" },
+      { name: "Outils", url: "https://lokna.fr/outils" },
+      { name: "Calculateur de Loyer", url: "https://lokna.fr/outils/calculateur-loyer" },
     ]),
     buildWebApplicationSchema({
       name: "Calculateur de Loyer au m²",

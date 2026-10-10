@@ -67,7 +67,7 @@ export function PaymentReminderEmail({
         <Container style={styles.container}>
           {/* Header */}
           <Section style={styles.headerSection}>
-            <Heading style={styles.logo}>Locelio</Heading>
+            <Heading style={styles.logo}>Lokna</Heading>
             {isLegal && (
               <Text style={styles.legalBadge}>MISE EN DEMEURE</Text>
             )}
@@ -180,7 +180,7 @@ export function PaymentReminderEmail({
             <Hr style={styles.divider} />
 
             <Text style={styles.textSmall}>
-              Cet email a été envoyé via Locelio par{" "}
+              Cet email a été envoyé via Lokna par{" "}
               <strong>
                 {landlordFirstName} {landlordLastName}
               </strong>
