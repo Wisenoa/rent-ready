@@ -1,0 +1,75 @@
+STATUS {"200":420,"404":8,"blocked":3}
+NON-200: 404 /glossaire-immobilier/pret-immobilier 
+  404 /glossaire-immobilier/clauses-solidarite 
+  404 /glossaire-immobilier/preavis 
+  404 /glossaire-immobilier/fiscalite-immobiliere 
+  404 /glossaire-immobilier/IRL 301 /glossaire-immobilier/irl
+  404 /glossaire-immobilier/zone-tendue 
+  404 /glossaire-immobilier/copropriete 
+  404 /glossaire-immobilier/bail 
+SITEMAP 417 | 200 html crawled 420 | crawled-but-not-in-sitemap 3 /templates/colocation /outils/calculateur-irl-2026 /templates/calculateur-rendement-locatif
+SITEMAP-not-200: 
+ORPHANS (0 internal inlinks): 4 /entretien /templates/bail-professionnel /templates/contrat-de-location /templates/repartition-charges
+DEPTH {"0":1,"1":17,"2":271,"3":64,"unreachable":67}
+DEPTH>=4 or unreachable: /assurance-loyer-impaye(null) /assurance-loyer-impaye/aix-en-provence(null) /assurance-loyer-impaye/ajaccio(null) /assurance-loyer-impaye/amiens(null) /assurance-loyer-impaye/angers(null) /assurance-loyer-impaye/antibes(null) /assurance-loyer-impaye/argenteuil(null) /assurance-loyer-impaye/avignon(null) /assurance-loyer-impaye/bayonne(null) /assurance-loyer-impaye/besancon(null) /assurance-loyer-impaye/bordeaux(null) /assurance-loyer-impaye/brest(null) /assurance-loyer-impaye/caen(null) /assurance-loyer-impaye/cannes(null) /assurance-loyer-impaye/chambery(null) /assurance-loyer-impaye/clermont-ferrand(null) /assurance-loyer-impaye/colmar(null) /assurance-loyer-impaye/dijon(null) /assurance-loyer-impaye/dunkerque(null) /assurance-loyer-impaye/grenoble(null) /assurance-loyer-impaye/la-rochelle(null) /assurance-loyer-impaye/le-havre(null) /assurance-loyer-impaye/lille(null) /assurance-loyer-impaye/limoges(null) /assurance-loyer-impaye/lyon(null) /assurance-loyer-impaye/marseille(null) /assurance-loyer-impaye/metz(null) /assurance-loyer-impaye/montpellier(null) /assurance-loyer-impaye/montreuil(null) /assurance-loyer-impaye/mulhouse(null) /assurance-loyer-impaye/nancy(null) /assurance-loyer-impaye/nantes(null) /assurance-loyer-impaye/nice(null) /assurance-loyer-impaye/nimes(null) /assurance-loyer-impaye/orleans(null) /assurance-loyer-impaye/paris(null) /assurance-loyer-impaye/pau(null) /assurance-loyer-impaye/perpignan(null) /assurance-loyer-impaye/poitiers(null) /assurance-loyer-impaye/reims(null) /assurance-loyer-impaye/rennes(null) /assurance-loyer-impaye/roubaix(null) /assurance-loyer-impaye/rouen(null) /assurance-loyer-impaye/saint-denis(null) /assurance-loyer-impaye/saint-etienne(null) /assurance-loyer-impaye/strasbourg(null) /assurance-loyer-impaye/toulon(null) /assurance-loyer-impaye/toulouse(null) /assurance-loyer-impaye/tourcoing(null) /assurance-loyer-impaye/tours(null) /assurance-loyer-impaye/valence(null) /comparatif(null) /comparatif/assurance-loyer-impaye(null) /comparatif/bail-electronique-vs-papier(null) /comparatif/logiciel-gestion-locative(null) /comparatif/lokna-vs-legalplace(null) /comparatif/quittance-de-loyer-vs-attestation(null) /entretien(null) /templates/bail-professionnel(null) /templates/contrat-de-location(null) /templates/lease(null) /templates/lease/acte-caution(null) /templates/lease/bail-etudiant(null) /templates/lease/bail-parking(null) /templates/lease/bail-precaire(null) /templates/lease/bail-saisonnier(null) /templates/repartition-charges(null)
+DUP title: 4 groups
+   [2] Calculateur IRL 2026 — Indice de Référence des Loyers | Lokna :: /outils/calculateur-irl /outils/calculateur-irl-2026
+   [2] Calculateur Rendement Locatif — NET &amp; BRUT 2026 | Lokna :: /outils/calculateur-rendement /templates/calculateur-rendement-locatif
+   [2] Modèle Bail Colocation — Gratuit | Lokna :: /templates/bail-colocation /templates/colocation
+   [2] Litige sur le dépôt de garantie : procédure et recours | Blog | Lokna :: /blog/litige-depot-garantie /blog/litige-depot-garantie-procedure
+DUP description: 4 groups
+   [50] Lokna détecte les loyers impayés et déclenche les relances. La GLI reste une assurance à s :: /assurance-loyer-impaye/aix-en-provence /assurance-loyer-impaye/ajaccio /assurance-loyer-impaye/amiens /assurance-loyer-impaye/angers /assurance-loyer-impaye/antibes
+   [2] Calculez la révision de loyer avec l&#x27;IRL 2026. Historique des indices INSEE, formule  :: /outils/calculateur-irl /outils/calculateur-irl-2026
+   [2] Calculez votre rendement locatif NET et BRUT en quelques clics. Outil gratuit pour investi :: /outils/calculateur-rendement /templates/calculateur-rendement-locatif
+   [2] Téléchargez notre modèle de bail de colocation gratuit et conforme. Contrats pour plusieur :: /templates/bail-colocation /templates/colocation
+DUP h1: 4 groups
+   [2] Calculateur IRL — Indice de Référence des Loyers :: /outils/calculateur-irl /outils/calculateur-irl-2026
+   [2] Calculateur de Rendement Locatif :: /outils/calculateur-rendement /templates/calculateur-rendement-locatif
+   [2] Modèle Bail Colocation Contrat Multi-Locataire :: /templates/bail-colocation /templates/colocation
+   [2] Litige sur le dépôt de garantie : procédure et recours :: /blog/litige-depot-garantie /blog/litige-depot-garantie-procedure
+H1 != 1: 
+CANONICAL mismatch: 4 /entretien -> https://lokna.fr/maintenance | /templates/colocation -> https://lokna.fr/templates/bail-colocation | /outils/calculateur-irl-2026 -> https://lokna.fr/outils/calculateur-irl | /templates/calculateur-rendement-locatif -> https://lokna.fr/outils/calculateur-rendement
+ROBOTS meta: {"index, follow":420}
+NOINDEX in sitemap: 
+INVALID LD: 
+TITLE len>65: 202 | <30: 
+DESC missing:  | >165: 90
+BROKEN internal links: 9 /glossaire-immobilier/apport-personnel -> /glossaire-immobilier/pret-immobilier (404) | /glossaire-immobilier/colocation -> /glossaire-immobilier/clauses-solidarite (404) | /glossaire-immobilier/conge-location -> /glossaire-immobilier/preavis (404) | /glossaire-immobilier/declaration-impot -> /glossaire-immobilier/fiscalite-immobiliere (404) | /glossaire-immobilier/encadrement-loyer -> /glossaire-immobilier/IRL (404) | /glossaire-immobilier/encadrement-loyer -> /glossaire-immobilier/zone-tendue (404) | /glossaire-immobilier/loi-carrez -> /glossaire-immobilier/copropriete (404) | /glossaire-immobilier/quittance-loyer -> /glossaire-immobilier/bail (404) | /glossaire-immobilier/surface-habitable -> /glossaire-immobilier/zone-tendue (404)
+LINKS TO REDIRECTS: 8 /glossaire-immobilier/colocation -> /templates/colocation => /templates/bail-colocation | /glossaire-immobilier/encadrement-loyer -> /glossaire-immobilier/IRL => /glossaire-immobilier/irl | /glossaire-immobilier/irl-indice-reference-loyers -> /outils/calculateur-irl-2026 => /outils/calculateur-irl | /glossaire-immobilier/revision-loyer -> /outils/calculateur-irl-2026 => /outils/calculateur-irl | /templates -> /templates/calculateur-rendement-locatif => /outils/calculateur-rendement | /templates/colocation -> /templates/colocation => /templates/bail-colocation | /outils/calculateur-irl-2026 -> /outils/calculateur-irl-2026 => /outils/calculateur-irl | /templates/calculateur-rendement-locatif -> /templates/calculateur-rendement-locatif => /outils/calculateur-rendement
+
+FAMILY | n | inSitemap | medWords | medInlinks | medContextInlinks | medOutlinks | medDepth | LD
+/blog/* | 119 | 119 | 1104 | 4 | 4 | 26 | 2 | Article,BreadcrumbList,FAQPage
+/assurance-loyer-impaye/* | 50 | 50 | 897 | 1 | 1 | 25 | 99 | HowTo,FAQPage,WebPage,BreadcrumbList
+/bail/* | 50 | 50 | 892 | 1 | 1 | 30 | 3 | HowTo,FAQPage,SoftwareApplication,LocalBusiness,WebPage,BreadcrumbList,Place
+/gestion-locative/* | 50 | 50 | 869 | 2 | 2 | 26 | 2 | HowTo,SoftwareApplication,LocalBusiness,WebPage,FAQPage,BreadcrumbList
+/quittances/* | 50 | 50 | 767 | 1 | 1 | 24 | 2 | HowTo,FAQPage,SoftwareApplication,LocalBusiness,WebPage,BreadcrumbList
+/glossaire-immobilier/* | 30 | 30 | 174 | 4 | 4 | 27 | 2 | DefinitionPage,BreadcrumbList
+/templates/* | 23 | 21 | 783 | 4 | 4 | 17 | 3 | BreadcrumbList,HowTo,Article,FAQPage,Organization,WebSite,WebPage,SoftwareApplication,WebApplication
+/outils/* | 17 | 16 | 523 | 3 | 2 | 25 | 2 | BreadcrumbList,WebApplication,HowTo,FAQPage
+/comparatif/* | 5 | 5 | 553 | 1 | 1 | 24 | 99 | FAQPage,BreadcrumbList
+/guides/* | 5 | 5 | 726 | 394 | 3 | 24 | 2 | HowTo,FAQPage
+/ | 1 | 1 | 1445 | 419 | 382 | 20 | 0 | Organization,WebSite,FAQPage
+/assurance-loyer-impaye | 1 | 1 | 398 | 50 | 50 | 73 | 99 | SoftwareApplication,BreadcrumbList
+/bail | 1 | 1 | 517 | 397 | 212 | 74 | 2 | SoftwareApplication,FAQPage,BreadcrumbList
+/blog | 1 | 1 | 4799 | 397 | 144 | 141 | 1 | BreadcrumbList,Blog
+/cgu | 1 | 1 | 673 | 419 | 0 | 22 | 1 | WebApplication,Organization,BreadcrumbList
+/comparatif | 1 | 1 | 168 | 5 | 5 | 28 | 99 | BreadcrumbList,ItemList
+/demo | 1 | 1 | 178 | 394 | 1 | 22 | 2 | BreadcrumbList,SoftwareApplication,FAQPage
+/entretien | 1 | 1 | 354 | 0 | 0 | 24 | 99 | BreadcrumbList,SoftwareApplication,FAQPage
+/features | 1 | 1 | 625 | 5 | 4 | 23 | 1 | BreadcrumbList,Organization,WebPage,SoftwareApplication,FAQPage
+/gestion-locative | 1 | 1 | 1413 | 202 | 202 | 76 | 1 | SoftwareApplication,FAQPage,BreadcrumbList
+/glossaire-immobilier | 1 | 1 | 615 | 408 | 66 | 52 | 1 | BreadcrumbList,WebPage,ItemList,FAQPage
+/guides | 1 | 1 | 218 | 6 | 6 | 24 | 1 | BreadcrumbList,ItemList
+/locations | 1 | 1 | 268 | 2 | 2 | 24 | 2 | SoftwareApplication,FAQPage,BreadcrumbList
+/mentions-legales | 1 | 1 | 388 | 419 | 0 | 22 | 1 | WebApplication,Organization,BreadcrumbList
+/outils | 1 | 1 | 506 | 395 | 19 | 34 | 1 | BreadcrumbList
+/politique-confidentialite | 1 | 1 | 573 | 419 | 3 | 22 | 1 | WebApplication,Organization,WebSite,BreadcrumbList
+/politique-cookies | 1 | 1 | 406 | 394 | 0 | 22 | 2 | WebApplication,Organization,WebSite,BreadcrumbList
+/pricing | 1 | 1 | 685 | 43 | 30 | 23 | 1 | BreadcrumbList,Organization,WebPage,SoftwareApplication,FAQPage
+/quittances | 1 | 1 | 548 | 398 | 212 | 74 | 1 | SoftwareApplication,FAQPage,BreadcrumbList
+/templates | 1 | 1 | 232 | 32 | 25 | 36 | 2 | BreadcrumbList,ItemList
+/villes | 1 | 1 | 300 | 2 | 2 | 73 | 1 | ItemList,BreadcrumbList
+
+TOP linked: /(419/382ctx) /cgu(419/0ctx) /mentions-legales(419/0ctx) /politique-confidentialite(419/3ctx) /glossaire-immobilier(408/66ctx) /outils/calculateur-irl(400/61ctx) /guides/modele-bail(398/7ctx) /quittances(398/212ctx) /bail(397/212ctx) /blog(397/144ctx) /outils/calculateur-depot-garantie(397/57ctx) /outils/calculateur-charges-locatives(396/2ctx) /guides/quittance-loyer(395/3ctx) /outils(395/19ctx) /outils/generateur-quittance(395/5ctx)
+LEAST linked (sitemap): /quittances/toulouse(1/1) /quittances/tourcoing(1/1) /quittances/tours(1/1) /quittances/valence(1/1) /templates/protocol-etat-des-lieux(1/1) /blog/comment-gerer-biens-locatifs(1/1) /blog/bail-mobilite-2026(1/1) /blog/calcul-depot-garantie(1/1) /blog/gestion-locative-etat-financier(1/1) /blog/duree-bail-location(1/1) /blog/gestion-compte-banque-separe(1/1) /blog/declaration-fonciere-2044(1/1) /blog/etat-des-lieux-modele-conseils(1/1) /blog/augmentation-loyer-regles-procedure(1/1) /blog/deficit-foncier-impot-2026(1/1) /blog/locataire-pertes-handicap(1/1) /blog/location-etudiante-guide-complet(1/1) /blog/sous-location-regles-et-limites(1/1) /blog/loyer-impaye-que-faire-guide(1/1) /blog/interets-retard-loyer-impaye-calcul(1/1) /blog/plus-value-immobiliere-location-calcul-exoneration(1/1) /entretien(0/0) /templates/bail-professionnel(0/0) /templates/contrat-de-location(0/0) /templates/repartition-charges(0/0)
+THIN (<350 words main): /comparatif(168) /demo(178) /glossaire-immobilier/apport-personnel(132) /glossaire-immobilier/bail-location(194) /glossaire-immobilier/bail-mobilite(174) /glossaire-immobilier/caution-locative(175) /glossaire-immobilier/charges-recuperables(174) /glossaire-immobilier/colocation(152) /glossaire-immobilier/conge-location(185) /glossaire-immobilier/declaration-impot(153) /glossaire-immobilier/depot-garantie(195) /glossaire-immobilier/encadrement-loyer(201) /glossaire-immobilier/etat-des-lieux(221) /glossaire-immobilier/garant-loyer(157) /glossaire-immobilier/gerance-immobiliere(136) /glossaire-immobilier/impaye-loyer(187) /glossaire-immobilier/irl-indice-reference-loyers(177) /glossaire-immobilier/location-meuble(186) /glossaire-immobilier/location-vide(139) /glossaire-immobilier/loi-carrez(139) /glossaire-immobilier/loyer-ccai(155) /glossaire-immobilier/loyer-nu(186) /glossaire-immobilier/maintenance-locative(138) /glossaire-immobilier/preavis-loyer(188) /glossaire-immobilier/quittance-loyer(205) /glossaire-immobilier/relance-loyer(176) /glossaire-immobilier/rendement-locatif(174) /glossaire-immobilier/revision-loyer(168) /glossaire-immobilier/surface-habitable(142) /glossaire-immobilier/taxe-fonciere(173) /glossaire-immobilier/vacance-locative(163) /glossaire-immobilier/visale(162) /guides(218) /locations(268) /outils/calculateur-plus-value(285) /outils/generateur-conge-vente(256) /outils/simulateur-fiscalite-lmnp(307) /outils/simulateur-pret-immobilier(293) /templates(232) /villes(300) /blog/comment-faire-etat-des-lieux-modele(347) /blog/cout-gestion-locative-prix-2026(324) /blog/interets-retard-loyer-impaye-calcul(340) /blog/dossier-location-complet-pieces-fournir(292) /blog/statut-lmnp-2026-guide-complet(336) /blog/declaration-revenus-locatifs-2026(299) /blog/micro-foncier-ou-reel-comparaison-2026(305) /blog/assurance-proprietaire-non-occupant-guide-2026(315) /blog/investir-immobilier-locatif-guide-debutant-2026(344) /blog/plus-value-immobiliere-location-calcul-exoneration(319)

@@ -1,0 +1,11 @@
+gestion-locative: pairwise 5-gram Jaccard mean=0.76 min=0.41 max=1.00 | share of text unique to page (≤2 pages) mean=0.3% | words 861-1161
+bail: pairwise 5-gram Jaccard mean=0.77 min=0.43 max=1.00 | share of text unique to page (≤2 pages) mean=0.4% | words 875-1080
+quittances: pairwise 5-gram Jaccard mean=0.79 min=0.47 max=1.00 | share of text unique to page (≤2 pages) mean=0.4% | words 764-891
+assurance-loyer-impaye: pairwise 5-gram Jaccard mean=0.86 min=0.64 max=1.00 | share of text unique to page (≤2 pages) mean=0.3% | words 894-1027
+lyon cross-family: gl~quittances 0.03 gl~bail 0.05 bail~quittances 0.04 gl~ali 0.00
+claim "Open Banking/DSP2": 109 pages {"/cgu":1,"/comparatif":1,"/demo":1,"/features":1,"/gestion-locative":50,"/locations":1,"/outils":1,"/politique-confidentialite":1,"/pricing":1,"/quittances":50,"/blog":1}
+claim "détecte automatiquement les virements": 50 pages {"/gestion-locative":50}
+claim "envoi direct au locataire": 0 pages {}
+claim "pequeños": 14 pages {"/quittances":14}
+claim "CLAMEU": 36 pages {"/bail":12,"/gestion-locative":12,"/quittances":12}
+claim "GLI rembourse": 53 pages {"/assurance-loyer-impaye":50,"/guides":1,"/blog":2}
