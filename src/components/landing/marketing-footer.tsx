@@ -81,7 +81,7 @@ export function MarketingFooter() {
         </div>
 
         {/* Bottom strip */}
-        <div className="mt-14 pt-8 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+        <div className="mt-14 pt-8 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-600">
           <p>
             © 2024–2026 {SITE_NAME}. Tous droits réservés. Conforme à la loi du 6 juillet 1989.
           </p>

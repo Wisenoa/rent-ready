@@ -41,7 +41,7 @@ export function GlassNav() {
         </Link>
 
         {/* Desktop Curated Nav Links */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-1 lg:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -59,7 +59,7 @@ export function GlassNav() {
           {/* Mobile menu toggle */}
           <button
             type="button"
-            className="md:hidden rounded-lg p-2 text-stone-600 hover:bg-stone-200/60 transition-colors"
+            className="lg:hidden rounded-lg p-2 text-stone-600 hover:bg-stone-200/60 transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
           >
@@ -71,7 +71,7 @@ export function GlassNav() {
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
         <div
-          className="md:hidden border-t border-stone-200/80 bg-[#f8f7f4]/98 backdrop-blur-xl px-5 py-5 space-y-1 shadow-xl"
+          className="lg:hidden border-t border-stone-200/80 bg-[#f8f7f4]/98 backdrop-blur-xl px-5 py-5 space-y-1 shadow-xl"
           onClick={() => setMenuOpen(false)}
         >
           {NAV_LINKS.map((link) => (

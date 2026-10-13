@@ -34,7 +34,7 @@ export function SmartHeaderCta() {
     return (
       <Link
         href="/dashboard"
-        className="rounded-xl bg-indigo-600 hover:bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
+        className="rounded-lg bg-[#1E3A2F] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#15241F] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E3A2F]"
       >
         Accéder au Dashboard
       </Link>
@@ -51,7 +51,7 @@ export function SmartHeaderCta() {
       </Link>
       <Link
         href="/register"
-        className="rounded-xl bg-indigo-600 hover:bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
+        className="rounded-lg bg-[#1E3A2F] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#15241F] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E3A2F]"
       >
         Essai gratuit
       </Link>
