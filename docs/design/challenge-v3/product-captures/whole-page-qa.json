@@ -1,0 +1,86 @@
+[
+  {
+    "width": 1440,
+    "sessionMocked": false,
+    "pageErrors": [],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "failedResources": [
+      {
+        "url": "http://127.0.0.1:3004/api/auth/session",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:3004/_vercel/insights/script.js",
+        "status": 404
+      }
+    ],
+    "accessibility": {
+      "status": "FAIL",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            [
+              ".mt-14 > p"
+            ],
+            [
+              ".hover\\:text-stone-800[href$=\"mentions-legales\"]"
+            ],
+            [
+              ".hover\\:text-stone-800[href$=\"politique-confidentialite\"]"
+            ],
+            [
+              ".hover\\:text-stone-800[href$=\"cgu\"]"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "sessionMocked": false,
+    "pageErrors": [],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "failedResources": [
+      {
+        "url": "http://127.0.0.1:3004/_vercel/insights/script.js",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:3004/api/auth/session",
+        "status": 404
+      }
+    ],
+    "accessibility": {
+      "status": "FAIL",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            [
+              ".mt-14 > p"
+            ],
+            [
+              ".hover\\:text-stone-800[href$=\"mentions-legales\"]"
+            ],
+            [
+              ".hover\\:text-stone-800[href$=\"politique-confidentialite\"]"
+            ],
+            [
+              ".hover\\:text-stone-800[href$=\"cgu\"]"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+]

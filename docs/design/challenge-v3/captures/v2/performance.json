@@ -1,0 +1,39 @@
+{
+  "version": "v2",
+  "baseURL": "http://127.0.0.1:3006",
+  "serverWarmup": true,
+  "identity": {
+    "h1": "Le bon suivi, du bail à la quittance.",
+    "canonical": "https://lokna.fr/gestion-locative"
+  },
+  "measurements": [
+    {
+      "lcp": 140,
+      "cls": 0,
+      "domContentLoaded": 114.19999694824219,
+      "load": 218,
+      "resourceTransferBytes": 811057,
+      "javascriptEncodedBytes": 380709,
+      "imageEncodedBytes": 148729
+    },
+    {
+      "lcp": 132,
+      "cls": 0,
+      "domContentLoaded": 49,
+      "load": 214.20000076293945,
+      "resourceTransferBytes": 811057,
+      "javascriptEncodedBytes": 380709,
+      "imageEncodedBytes": 148729
+    },
+    {
+      "lcp": 148,
+      "cls": 0,
+      "domContentLoaded": 78.89999771118164,
+      "load": 226.79999923706055,
+      "resourceTransferBytes": 811057,
+      "javascriptEncodedBytes": 380709,
+      "imageEncodedBytes": 148729
+    }
+  ],
+  "checks": []
+}

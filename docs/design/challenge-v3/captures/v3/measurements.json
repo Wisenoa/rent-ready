@@ -1,0 +1,112 @@
+{
+  "version": "v3",
+  "baseURL": "http://127.0.0.1:3004",
+  "serverWarmup": true,
+  "identity": {
+    "h1": "Votre gestion locative, en clair.",
+    "canonical": "https://lokna.fr/gestion-locative"
+  },
+  "measurements": [
+    {
+      "lcp": 156,
+      "cls": 0,
+      "domContentLoaded": 123.10000228881836,
+      "load": 236.10000228881836,
+      "resourceTransferBytes": 797597,
+      "javascriptEncodedBytes": 382264,
+      "imageEncodedBytes": 132847
+    },
+    {
+      "lcp": 152,
+      "cls": 0,
+      "domContentLoaded": 117.20000076293945,
+      "load": 231,
+      "resourceTransferBytes": 797597,
+      "javascriptEncodedBytes": 382264,
+      "imageEncodedBytes": 132847
+    },
+    {
+      "lcp": 148,
+      "cls": 0,
+      "domContentLoaded": 112.9000015258789,
+      "load": 227.5,
+      "resourceTransferBytes": 797597,
+      "javascriptEncodedBytes": 382264,
+      "imageEncodedBytes": 132847
+    }
+  ],
+  "checks": [
+    {
+      "width": 360,
+      "errors": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "failedResources": [
+        {
+          "url": "http://127.0.0.1:3004/_vercel/insights/script.js",
+          "status": 404
+        }
+      ],
+      "viewport": 360,
+      "documentWidth": 360,
+      "title": "Logiciel de gestion locative pour propriétaires bailleurs | Lokna",
+      "canonical": "https://lokna.fr/gestion-locative",
+      "robots": "index, follow",
+      "h1Count": 1
+    },
+    {
+      "width": 390,
+      "errors": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "failedResources": [
+        {
+          "url": "http://127.0.0.1:3004/_vercel/insights/script.js",
+          "status": 404
+        }
+      ],
+      "viewport": 390,
+      "documentWidth": 390,
+      "title": "Logiciel de gestion locative pour propriétaires bailleurs | Lokna",
+      "canonical": "https://lokna.fr/gestion-locative",
+      "robots": "index, follow",
+      "h1Count": 1
+    },
+    {
+      "width": 768,
+      "errors": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "failedResources": [
+        {
+          "url": "http://127.0.0.1:3004/_vercel/insights/script.js",
+          "status": 404
+        }
+      ],
+      "viewport": 768,
+      "documentWidth": 768,
+      "title": "Logiciel de gestion locative pour propriétaires bailleurs | Lokna",
+      "canonical": "https://lokna.fr/gestion-locative",
+      "robots": "index, follow",
+      "h1Count": 1
+    },
+    {
+      "width": 1440,
+      "errors": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "failedResources": [
+        {
+          "url": "http://127.0.0.1:3004/_vercel/insights/script.js",
+          "status": 404
+        }
+      ],
+      "viewport": 1440,
+      "documentWidth": 1440,
+      "title": "Logiciel de gestion locative pour propriétaires bailleurs | Lokna",
+      "canonical": "https://lokna.fr/gestion-locative",
+      "robots": "index, follow",
+      "h1Count": 1
+    }
+  ]
+}

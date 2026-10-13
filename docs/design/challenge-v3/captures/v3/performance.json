@@ -1,0 +1,39 @@
+{
+  "version": "v3",
+  "baseURL": "http://127.0.0.1:3004",
+  "serverWarmup": true,
+  "identity": {
+    "h1": "Votre gestion locative, en clair.",
+    "canonical": "https://lokna.fr/gestion-locative"
+  },
+  "measurements": [
+    {
+      "lcp": 136,
+      "cls": 0,
+      "domContentLoaded": 99.5,
+      "load": 203.79999923706055,
+      "resourceTransferBytes": 797597,
+      "javascriptEncodedBytes": 382264,
+      "imageEncodedBytes": 132847
+    },
+    {
+      "lcp": 168,
+      "cls": 0,
+      "domContentLoaded": 117,
+      "load": 222.8000030517578,
+      "resourceTransferBytes": 797597,
+      "javascriptEncodedBytes": 382264,
+      "imageEncodedBytes": 132847
+    },
+    {
+      "lcp": 144,
+      "cls": 0,
+      "domContentLoaded": 106.5999984741211,
+      "load": 217.1999969482422,
+      "resourceTransferBytes": 797597,
+      "javascriptEncodedBytes": 382264,
+      "imageEncodedBytes": 132847
+    }
+  ],
+  "checks": []
+}

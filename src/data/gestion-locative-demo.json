@@ -1,0 +1,5 @@
+[
+  { "id": "v3-rivoli", "name": "Appartement Rivoli", "city": "Paris", "postalCode": "75004", "firstName": "Léa", "lastName": "Bernard", "rent": "800.00", "charges": "50.00", "total": "850.00", "paid": true },
+  { "id": "v3-tilleuls", "name": "Studio des Tilleuls", "city": "Lyon", "postalCode": "69006", "firstName": "Julien", "lastName": "Moreau", "rent": "700.00", "charges": "50.00", "total": "750.00", "paid": true },
+  { "id": "v3-cour", "name": "Appartement de la Cour", "city": "Nantes", "postalCode": "44000", "firstName": "Emma", "lastName": "Laurent", "rent": "850.00", "charges": "50.00", "total": "900.00", "paid": false }
+]

@@ -1,0 +1,28 @@
+{
+  "origin": "http://127.0.0.1:3004",
+  "registration": {
+    "status": "PASS",
+    "workflow": "/gestion-locative → /register → /dashboard",
+    "paymentCardRequired": false
+  },
+  "trialInitialization": {
+    "status": "FAIL",
+    "subscriptionStatus": "TRIAL",
+    "trialDays": null,
+    "expectedDays": 14
+  },
+  "paidReceipt": {
+    "status": "PASS",
+    "httpStatus": 200,
+    "type": "application/pdf",
+    "bytes": 12133,
+    "repeatedBytesIdentical": true,
+    "archivedDocumentCount": 1
+  },
+  "unpaidReceipt": {
+    "status": "PASS",
+    "httpStatus": 400,
+    "refused": true
+  },
+  "note": "All writes are in the disposable local database. No external Stripe, email, banking or storage operation was executed."
+}

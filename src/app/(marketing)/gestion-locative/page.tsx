@@ -1,7 +1,13 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
+import Decimal from "decimal.js";
 import cities from "@/data/cities.json";
+import demoHomes from "@/data/gestion-locative-demo.json";
+import { ProductScreenshot } from "@/components/landing/product-screenshot";
+import { RentTrackingDemo } from "@/components/landing/rent-tracking-demo";
+import { settlePeriodPayments } from "@/lib/domain/period-settlement";
+import { formatCurrency } from "@/lib/format";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import {
@@ -99,6 +105,29 @@ function groupByRegion(data: City[]): Record<string, City[]> {
 
 const REGIONS = groupByRegion(cities);
 
+// Same fictional portfolio used to capture the real application. All sums use
+// the existing settlement implementation; the landing makes no payment decision.
+const DEMO_TOTALS = demoHomes.reduce((totals, home) => {
+  const settlement = settlePeriodPayments({
+    rentAmount: home.rent,
+    chargesAmount: home.charges,
+    payments: home.paid ? [{ amount: home.total, paidAt: new Date("2026-10-03") }] : [],
+  });
+  return {
+    expected: totals.expected.plus(settlement.totalDue),
+    received: totals.received.plus(settlement.paid),
+    outstanding: totals.outstanding.plus(settlement.outstanding),
+  };
+}, { expected: new Decimal(0), received: new Decimal(0), outstanding: new Decimal(0) });
+
+const PRODUCT_SHOTS = {
+  overview: { src: "/images/gestion-locative/v3/dashboard-focus-1100.webp", width: 1528, height: 912 },
+  arrearsDesktop: { src: "/images/gestion-locative/v3/arrears-focus-1440.webp", width: 2048, height: 404 },
+  arrearsMobile: { src: "/images/gestion-locative/v3/arrears-focus-390.webp", width: 684, height: 608 },
+  receiptsDesktop: { src: "/images/gestion-locative/v3/receipts-focus-1440.webp", width: 2048, height: 564 },
+  receiptsMobile: { src: "/images/gestion-locative/v3/receipts-focus-390.webp", width: 684, height: 1090 },
+};
+
 const JOURNEY = [
   "Le logement",
   "Le locataire",
@@ -126,7 +155,7 @@ const FAQ = [
   },
   {
     question: "Combien coûte Lokna ?",
-    answer: `L'offre Starter commence à ${formatEntryPrice()} et l'offre Pro à ${formatProPrice()}. Les deux proposent un essai gratuit de 14 jours sans carte bancaire. Les détails sont disponibles sur la page des tarifs.`,
+    answer: `L'offre Starter commence à ${formatEntryPrice()} et l'offre Pro à ${formatProPrice()}. L'inscription ne demande pas de carte bancaire. Retrouvez les limites de chaque offre et leurs conditions sur la page des tarifs.`,
   },
 ];
 
@@ -148,55 +177,47 @@ export default function GestionLocativePage() {
         />
       </div>
 
-      <section className="mx-auto grid max-w-6xl items-center gap-9 px-5 pb-14 pt-9 sm:px-8 sm:pb-20 sm:pt-12 lg:min-h-[620px] lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 lg:py-14">
+      <section className="mx-auto grid max-w-6xl items-center gap-7 px-5 pb-12 pt-6 sm:gap-10 sm:px-8 sm:pb-20 sm:pt-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12 lg:py-16">
         <div className="max-w-xl">
-          <p className="mb-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#315B48] sm:text-sm">
+          <p className="mb-5 inline-flex items-center gap-2 text-sm font-medium text-[#315B48]">
             <span className="h-2 w-2 rounded-full bg-[#7FA68E]" aria-hidden="true" />
-            Le logiciel de gestion locative des indépendants
+            Pour les propriétaires qui gèrent eux-mêmes
           </p>
-          <h1 className="max-w-[13ch] font-[family-name:var(--font-serif)] text-[clamp(3rem,6.2vw,5.15rem)] font-normal leading-[0.99] tracking-[-0.045em] text-[#0B3B2C]">
-            Le bon suivi, du bail à la quittance.
+          <h1 className="max-w-[13ch] font-[family-name:var(--font-serif)] text-[clamp(3rem,5.8vw,4.8rem)] font-normal leading-[1.02] tracking-[-0.045em] text-[#0B3B2C]">
+            Votre gestion locative, en clair.
           </h1>
           <p className="mt-6 max-w-lg text-base leading-7 text-[#4F5D56] sm:text-lg sm:leading-8">
-            Lokna rassemble vos logements, vos locataires et vos baux. Vous
-            voyez le loyer attendu, ce qui a été versé et le document à remettre
-            — sans refaire le point dans un tableur.
+            Un seul endroit pour vos logements, vos locataires et vos baux.
+            Voyez les loyers reçus, les paiements manquants et les quittances
+            à remettre.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href="/register"
-              className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[#0B3B2C] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#174C39] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0B3B2C]"
-            >
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:items-center">
+            <Link href="/register" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[#0B3B2C] px-6 text-sm font-semibold text-white transition-colors duration-150 hover:bg-[#174C39] active:bg-[#082F23] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0B3B2C]">
               Essayer Lokna <span aria-hidden="true">↗</span>
             </Link>
-            <Link
-              href="/pricing"
-              className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#B9C2B9] px-6 text-sm font-semibold text-[#173F30] transition-colors hover:border-[#0B3B2C] hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0B3B2C]"
-            >
-              Voir les tarifs
+            <Link href="#demonstration" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#B9C2B9] px-5 text-sm font-semibold text-[#173F30] transition-colors duration-150 hover:border-[#0B3B2C] hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0B3B2C]">
+              Voir le suivi en action <span aria-hidden="true">↓</span>
             </Link>
           </div>
-          <p className="mt-4 text-sm text-[#647069]">
-            14 jours d&apos;essai · Sans carte bancaire · Dès {formatEntryPrice()}
+          <p className="mt-4 text-sm leading-6 text-[#526058]">
+            Créez votre espace, sans carte bancaire.
+            <span className="block">Dès {formatEntryPrice()} · <Link href="/pricing" className="underline underline-offset-4 hover:text-[#0B3B2C]">Voir les tarifs</Link></span>
           </p>
         </div>
 
         <figure className="relative mx-auto w-full max-w-[650px] lg:ml-auto">
-          <div className="relative aspect-[1.12/1] overflow-hidden rounded-[2rem] rounded-bl-[5rem] bg-[#DED9CF] sm:aspect-[1.28/1]">
-            <Image
-              src="/images/gestion-locative/hero.webp"
-              alt="Salon lumineux d'un appartement français, avec des clés posées sur une console en bois."
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 52vw"
-              className="object-cover object-[70%_center] sm:object-center"
-            />
+          <div className="relative h-36 overflow-hidden rounded-t-[2rem] bg-[#DED9CF] sm:h-64 lg:h-[320px] lg:rounded-[2rem] lg:rounded-bl-[5rem]">
+            <Image src="/images/gestion-locative/hero.webp" alt="Un appartement français lumineux, ouvert sur un salon aux tons naturels." fill priority sizes="(min-width: 1024px) 42vw, (min-width: 640px) 80vw, 100vw" className="object-cover object-[center_45%]" />
           </div>
-          <figcaption className="mt-3 flex items-center justify-between gap-4 px-1 text-xs text-[#66716B] sm:text-sm">
-            <span>Un logement bien suivi commence par une vue claire.</span>
-            <span className="hidden shrink-0 font-medium text-[#315B48] sm:inline">
-              Lokna · France
-            </span>
+          <div className="relative z-10 mx-auto -mt-12 max-w-[390px] rounded-2xl border border-[#D8DDD4] bg-[#FAFAFA] p-3 shadow-[0_16px_48px_-24px_rgba(11,59,44,0.35)] sm:-mt-20 lg:-mt-24 lg:ml-5 lg:mr-0 lg:max-w-none lg:p-4">
+            <div className="mb-3 flex items-center justify-between gap-3 px-1 text-xs text-[#526058]">
+              <span className="font-semibold text-[#203D30]">Votre suivi dans Lokna</span>
+              <span>Aperçu réel</span>
+            </div>
+            <ProductScreenshot desktop={PRODUCT_SHOTS.overview} mobile={PRODUCT_SHOTS.arrearsMobile} alt="Capture réelle de Lokna : 2 500 euros attendus, 1 600 euros perçus et 900 euros à percevoir. Le loyer manquant d’Emma Laurent est signalé avec les actions Relancer et Enregistrer." eager sizes="(min-width: 1024px) 45vw, 390px" />
+          </div>
+          <figcaption className="mt-4 px-1 text-xs leading-5 text-[#526058]">
+            Capture du logiciel · Données de démonstration fictives.
           </figcaption>
         </figure>
       </section>
@@ -205,10 +226,10 @@ export default function GestionLocativePage() {
         id="cycle-mensuel"
         className="scroll-mt-20 border-y border-[#E3E0D8] bg-[#FBFAF7]"
       >
-        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-20">
           <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-end md:gap-12">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#52725E]">
+              <p className="text-sm font-medium text-[#315B48]">
                 Une seule continuité
               </p>
               <h2 className="mt-3 max-w-lg font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C] sm:text-4xl">
@@ -216,9 +237,8 @@ export default function GestionLocativePage() {
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-[#5A6660] sm:text-base">
-              Le bail définit ce qui est attendu. Chaque paiement met à jour la
-              situation du mois. Vous gardez le fil, de l&apos;arrivée du
-              locataire au document correspondant.
+              Le bail fixe le montant et l&apos;échéance. Le paiement fait
+              évoluer le solde ; le document reflète le règlement de la période.
             </p>
           </div>
 
@@ -240,134 +260,128 @@ export default function GestionLocativePage() {
         </div>
       </section>
 
-      <section id="fonctionnalites" className="scroll-mt-20">
-        <div className="mx-auto max-w-6xl px-5 pb-14 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
-          <div className="mb-10 max-w-2xl sm:mb-14">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#52725E]">
-              Une gestion utile au quotidien
-            </p>
-            <h2 className="mt-3 font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C] sm:text-5xl">
-              Les chiffres restent justes. Les prochaines étapes restent visibles.
-            </h2>
-          </div>
-
-          <div className="grid items-center gap-9 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-            <figure className="relative aspect-[4/4.3] overflow-hidden rounded-[1.75rem] rounded-tr-[5rem] bg-[#D9D1C2] sm:aspect-[4/3.5] lg:aspect-[0.95/1]">
-              <Image
-                src="/images/gestion-locative/keys-and-documents.webp"
-                alt="Clés et dossier vierge posés sur un bureau en bois baigné de soleil."
-                fill
-                sizes="(max-width: 768px) 100vw, 48vw"
-                className="object-cover"
-              />
-            </figure>
-            <div className="max-w-xl lg:py-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#52725E]">
-                01 / Le suivi des loyers
+      <section id="demonstration" className="scroll-mt-20 bg-[#EDF1E9]">
+        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-20">
+          <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-12">
+            <div>
+              <p className="text-sm font-medium text-[#315B48]">Le suivi, en situation</p>
+              <h2 className="mt-3 max-w-xl font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C] sm:text-5xl">
+                Trois logements. Un loyer à vérifier.
+              </h2>
+              <p className="mt-5 max-w-xl text-sm leading-7 text-[#526058] sm:text-base">
+                Deux loyers sont réglés. Le troisième est encore à percevoir.
+                Voyez ce qui manque et l&apos;action possible.
               </p>
-              <h3 className="mt-4 font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C] sm:text-4xl">
-                Dû, reçu, restant : trois montants qui ne se confondent pas.
-              </h3>
-              <p className="mt-5 text-base leading-7 text-[#5A6660]">
-                À partir du bail, Lokna suit l&apos;échéance attendue et les
-                paiements enregistrés. Un mois réglé, un versement incomplet ou
-                un retard ne racontent pas la même chose : leur état et le solde
-                à régler restent distincts.
-              </p>
-              <ul className="mt-6 space-y-3 text-sm text-[#30483A]">
-                <li className="flex gap-3">
-                  <span aria-hidden="true" className="text-[#63836D]">↳</span>
-                  Loyer et charges prévus par le bail
-                </li>
-                <li className="flex gap-3">
-                  <span aria-hidden="true" className="text-[#63836D]">↳</span>
-                  Paiements reçus, y compris les versements partiels
-                </li>
-                <li className="flex gap-3">
-                  <span aria-hidden="true" className="text-[#63836D]">↳</span>
-                  Retards à relancer depuis le suivi
-                </li>
-              </ul>
+            </div>
+            <div>
+              <p className="mb-3 text-xs text-[#526058]">Exemple fictif · octobre 2026 · loyers et charges inclus</p>
+              <dl className="grid grid-cols-3 gap-3 border-y border-[#C8D1C3] py-5 tabular-nums">
+                {[
+                  { label: "Attendu", value: DEMO_TOTALS.expected },
+                  { label: "Reçu", value: DEMO_TOTALS.received },
+                  { label: "Reste à percevoir", value: DEMO_TOTALS.outstanding },
+                ].map((metric) => (
+                  <div key={metric.label}>
+                    <dt className="text-xs leading-5 text-[#526058]">{metric.label}</dt>
+                    <dd className="mt-2 whitespace-nowrap text-lg font-semibold tracking-tight text-[#203D30] sm:text-2xl">{formatCurrency(metric.value)}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
+          <RentTrackingDemo steps={[
+            {
+              label: "Repérer le loyer manquant",
+              title: "900 € attendus. Aucun règlement enregistré.",
+              description: "Le logement et le locataire sont identifiés. Enregistrez le paiement s’il est arrivé, ou envoyez une relance depuis le suivi. Ici, l’échéance est passée sans règlement constaté.",
+              screenshot: <ProductScreenshot desktop={PRODUCT_SHOTS.arrearsDesktop} mobile={PRODUCT_SHOTS.arrearsMobile} alt="Dans le tableau de bord Lokna, Emma Laurent et l’Appartement de la Cour sont signalés avec 900 euros dus, 8 jours de retard et les actions Relancer et Enregistrer." />,
+            },
+            {
+              label: "Retrouver les quittances",
+              title: "Le bon document, pour les loyers réglés.",
+              description: "Dans Paiements & Quittances, les deux loyers payés donnent accès au téléchargement. Le loyer encore dû reste distinct. En cas de paiement partiel, le document est un reçu ; la quittance suppose le règlement intégral du loyer et des charges.",
+              screenshot: <ProductScreenshot desktop={PRODUCT_SHOTS.receiptsDesktop} mobile={PRODUCT_SHOTS.receiptsMobile} alt="Journal réel Paiements et Quittances de Lokna : Léa Bernard, 850 euros payés, et Julien Moreau, 750 euros payés, avec leurs quittances à télécharger. Emma Laurent, 900 euros en retard, sans quittance." />,
+            },
+          ]} />
+        </div>
+      </section>
 
-          <div className="my-16 border-y border-[#DCD9D1] py-8 sm:my-20 sm:py-10">
-            <p className="font-[family-name:var(--font-serif)] text-2xl leading-snug text-[#0B3B2C] sm:text-3xl">
-              Un paiement complet ouvre la voie à la quittance. Un paiement
-              partiel garde son reçu et son solde dû.
-            </p>
-            <p className="mt-3 text-sm text-[#647069]">
-              Une distinction utile pour le bailleur comme pour le locataire.
+      <section id="fonctionnalites" className="scroll-mt-20">
+        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          <div>
+            <figure className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] rounded-bl-[4rem] bg-[#D9D1C2] lg:aspect-[4/3.6]">
+              <Image src="/images/gestion-locative/courtyard-entry.webp" alt="Entrée d’un immeuble français donnant sur une cour lumineuse." fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover object-[center_55%]" />
+            </figure>
+            <h2 className="mt-7 max-w-lg font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C] sm:text-4xl">
+              Un dossier clair pour chaque location.
+            </h2>
+            <p className="mt-4 max-w-lg text-sm leading-7 text-[#526058] sm:text-base">
+              Le logement, le locataire et le bail sont reliés. Retrouvez
+              les coordonnées, les montants contractuels et les documents
+              depuis votre espace, pour un bien comme pour plusieurs.
             </p>
           </div>
-
-          <div className="grid items-center gap-9 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-            <div className="order-2 max-w-xl lg:order-1 lg:py-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#52725E]">
-                02 / Documents et échéances
-              </p>
-              <h3 className="mt-4 font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C] sm:text-4xl">
-                Le bon document, au bon moment.
+          <div className="lg:pt-2">
+            <div className="grid items-start gap-6 sm:grid-cols-[1fr_140px]">
+              <div>
+                <h3 className="font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C]">
+                  Les documents suivent les paiements.
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-[#526058] sm:text-base">
+                  La quittance reprend les données du bail et de la période
+                  réglée. Téléchargez le document depuis le suivi et retrouvez
+                  les pièces disponibles dans le dossier de la location.
+                </p>
+              </div>
+              <figure className="relative hidden aspect-[3/4] overflow-hidden rounded-t-[3rem] rounded-b-xl bg-[#D9D1C2] sm:block">
+                <Image src="/images/gestion-locative/keys-and-documents.webp" alt="Clés et dossier papier sur un bureau en bois." fill sizes="140px" className="object-cover" />
+              </figure>
+            </div>
+            <div className="mt-8 border-t border-[#DCD9D1] pt-8">
+              <h3 className="font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C]">
+                La révision de loyer, avec ses repères.
               </h3>
-              <p className="mt-5 text-base leading-7 text-[#5A6660]">
-                Pour un loyer réglé en totalité, générez la quittance avec les
-                mentions prévues par la loi. Pour un versement partiel, Lokna
-                distingue le reçu d&apos;acompte et laisse apparaître le solde
-                restant dû. Les quittances disponibles se retrouvent aussi dans
-                l&apos;espace dédié du locataire.
+              <p className="mt-4 text-sm leading-7 text-[#526058] sm:text-base">
+                Consultez la date de révision du bail et le calcul fondé sur
+                l&apos;indice IRL de référence. Vous validez l&apos;application
+                du nouveau loyer ; Lokna ne décide pas à votre place.
               </p>
-              <p className="mt-5 border-l-2 border-[#7FA68E] pl-4 text-sm leading-6 text-[#385141]">
-                Vous gardez la main : la quittance est générée à votre demande,
-                après enregistrement du paiement complet.
-              </p>
-              <Link
-                href="/quittances"
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#174C39] underline decoration-[#AAB9AC] underline-offset-4 hover:decoration-[#174C39] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0B3B2C]"
-              >
-                Comprendre les quittances <span aria-hidden="true">↗</span>
+              <Link href="/outils/calculateur-irl" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[#174C39] underline decoration-[#AAB9AC] underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0B3B2C]">
+                Découvrir le calculateur IRL ↗
               </Link>
             </div>
-            <figure className="relative order-1 aspect-[4/4.3] overflow-hidden rounded-[1.75rem] rounded-bl-[5rem] bg-[#D9D1C2] sm:aspect-[4/3.5] lg:order-2 lg:aspect-[0.95/1]">
-              <Image
-                src="/images/gestion-locative/courtyard-entry.webp"
-                alt="Porte ouverte sur une cour intérieure lumineuse d'un immeuble français."
-                fill
-                sizes="(max-width: 768px) 100vw, 48vw"
-                className="object-cover object-center"
-              />
-            </figure>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-14 grid gap-8 border-t border-[#DCD9D1] pt-8 sm:mt-20 sm:grid-cols-3 sm:gap-10 sm:pt-10">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#52725E]">
-                Révision IRL
-              </p>
-              <p className="mt-2 text-sm leading-6 text-[#526058]">
-                Recevez une notification 30 jours avant la date anniversaire
-                du bail. Le calcul s&apos;appuie sur l&apos;indice officiel de
-                l&apos;INSEE ; vous validez son application.
-              </p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#52725E]">
-                Relance des retards
-              </p>
-              <p className="mt-2 text-sm leading-6 text-[#526058]">
-                Préparez et envoyez une relance depuis le suivi lorsque le
-                paiement tarde. Le ton reste votre choix.
-              </p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#52725E]">
-                Outils ponctuels
-              </p>
-              <p className="mt-2 text-sm leading-6 text-[#526058]">
-                Un calcul ou un document à préparer ? Les outils gratuits de
-                Lokna restent accessibles sans ouvrir votre espace.
-              </p>
-            </div>
+      <section id="comparatif" className="border-y border-[#E3E0D8] bg-[#FBFAF7]">
+        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-16">
+          <div className="grid gap-4 md:grid-cols-2 md:gap-16">
+            <h2 className="max-w-lg font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] text-[#0B3B2C] sm:text-4xl">
+              Quand votre suivi dépasse le tableur.
+            </h2>
+            <p className="max-w-xl text-sm leading-7 text-[#526058] sm:text-base">
+              Excel permet de construire un suivi sur mesure. Lokna apporte
+              un cadre déjà relié aux logements, aux baux et aux documents.
+              Voici ce qui change dans les tâches du mois.
+            </p>
           </div>
+          <div className="mt-8 hidden grid-cols-[0.6fr_1fr_1fr] gap-8 border-b border-[#DCD9D1] pb-3 text-sm font-semibold text-[#315B48] md:grid" aria-hidden="true">
+            <span>La tâche</span><span>Avec votre tableur</span><span>Dans Lokna</span>
+          </div>
+          <dl className="mt-6 divide-y divide-[#DCD9D1] md:mt-0">
+            {[
+              { task: "Relier les informations", excel: "Organiser vos onglets et maintenir les liens entre les données.", lokna: "Le logement, le locataire et le bail sont reliés dans leur dossier." },
+              { task: "Suivre un règlement", excel: "Reporter le versement et mettre à jour votre solde et votre statut.", lokna: "Enregistrer le paiement pour retrouver le montant reçu et le reste dû." },
+              { task: "Préparer le document", excel: "Reprendre les données du mois dans votre modèle de document.", lokna: "Télécharger le document correspondant au règlement de la période." },
+            ].map((row) => (
+              <div key={row.task} className="grid grid-cols-2 gap-x-6 gap-y-4 py-6 md:grid-cols-[0.6fr_1fr_1fr] md:gap-8">
+                <dt className="col-span-2 text-base font-semibold text-[#203D30] md:col-span-1 md:text-sm">{row.task}</dt>
+                <dd className="text-sm leading-6 text-[#526058]"><span className="mb-2 block text-xs font-semibold text-[#315B48] md:sr-only">Avec votre tableur</span>{row.excel}</dd>
+                <dd className="text-sm leading-6 text-[#203D30]"><span className="mb-2 block text-xs font-semibold text-[#315B48] md:sr-only">Dans Lokna</span>{row.lokna}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
@@ -377,7 +391,7 @@ export default function GestionLocativePage() {
       >
         <div className="mx-auto flex max-w-6xl flex-col gap-5 px-5 py-10 sm:px-8 sm:py-12 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#52725E]">
+            <p className="text-sm font-medium text-[#315B48]">
               À utiliser dès maintenant
             </p>
             <h2 className="mt-2 font-[family-name:var(--font-serif)] text-2xl font-normal text-[#0B3B2C] sm:text-3xl">
@@ -401,43 +415,9 @@ export default function GestionLocativePage() {
         </div>
       </section>
 
-      <section
-        id="tarifs"
-        className="scroll-mt-20 bg-[#0B3B2C] text-[#F8F6F1]"
-      >
-        <div className="mx-auto grid max-w-6xl gap-7 px-5 py-14 sm:px-8 sm:py-18 md:grid-cols-[1fr_auto] md:items-center md:gap-12">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#B6C8B8]">
-              Pour les propriétaires qui gèrent eux-mêmes
-            </p>
-            <h2 className="mt-3 max-w-2xl font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] sm:text-5xl">
-              Reprenez le fil de votre prochaine échéance.
-            </h2>
-            <p className="mt-4 max-w-xl text-sm leading-6 text-[#D3DED4] sm:text-base">
-              Starter dès {formatEntryPrice()} · Pro {formatProPrice()} · Essai
-              de 14 jours, sans carte bancaire.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
-            <Link
-              href="/register"
-              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#F8F6F1] px-6 text-sm font-semibold text-[#0B3B2C] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              Essayer gratuitement
-            </Link>
-            <Link
-              href="/pricing"
-              className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#8DAA98] px-6 text-sm font-semibold text-[#F8F6F1] transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              Comparer les tarifs
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section className="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-20">
         <div className="mb-7 max-w-xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#52725E]">
+          <p className="text-sm font-medium text-[#315B48]">
             Réponses claires
           </p>
           <h2 className="mt-3 font-[family-name:var(--font-serif)] text-3xl font-normal tracking-[-0.03em] text-[#0B3B2C] sm:text-4xl">
@@ -462,6 +442,40 @@ export default function GestionLocativePage() {
               <span className="sr-only">Question {index + 1}</span>
             </details>
           ))}
+        </div>
+      </section>
+
+      <section
+        id="tarifs"
+        className="scroll-mt-20 bg-[#0B3B2C] text-[#F8F6F1]"
+      >
+        <div className="mx-auto grid max-w-6xl gap-7 px-5 py-14 sm:px-8 sm:py-18 md:grid-cols-[1fr_auto] md:items-center md:gap-12">
+          <div>
+            <p className="text-sm font-medium text-[#D3DED4]">
+              Pour les propriétaires qui gèrent eux-mêmes
+            </p>
+            <h2 className="mt-3 max-w-2xl font-[family-name:var(--font-serif)] text-3xl font-normal leading-tight tracking-[-0.03em] sm:text-5xl">
+              Votre prochain loyer, au bon endroit.
+            </h2>
+            <p className="mt-4 max-w-xl text-sm leading-6 text-[#D3DED4] sm:text-base">
+              Starter dès {formatEntryPrice()} · Pro {formatProPrice()} ·
+              Inscription sans carte bancaire.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
+            <Link
+              href="/register"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#F8F6F1] px-6 text-sm font-semibold text-[#0B3B2C] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Essayer gratuitement
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#8DAA98] px-6 text-sm font-semibold text-[#F8F6F1] transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Comparer les tarifs
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -1,0 +1,36 @@
+{
+  "capturedAt": "2026-10-13T12:14:57.817Z",
+  "origin": "http://127.0.0.1:3005",
+  "database": "isolated loopback challenge database",
+  "registration": "Existing local demonstration account signed in",
+  "expected": "2500.00",
+  "received": "1600.00",
+  "outstanding": "900.00",
+  "captures": [
+    {
+      "route": "/dashboard",
+      "width": 1100
+    },
+    {
+      "route": "/billing",
+      "width": 1100
+    },
+    {
+      "route": "/dashboard",
+      "width": 1440
+    },
+    {
+      "route": "/billing",
+      "width": 1440
+    },
+    {
+      "route": "/dashboard",
+      "width": 390
+    },
+    {
+      "route": "/billing",
+      "width": 390
+    }
+  ],
+  "note": "Unmodified application routes. All people, addresses and amounts are fictional. No bank, email, Stripe or document-storage operation executed."
+}
