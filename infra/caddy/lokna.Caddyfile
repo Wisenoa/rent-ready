@@ -9,5 +9,6 @@ www.lokna.fr {
 
 lokna.fr {
     encode zstd gzip
+    header X-Served-By "Lokna"
     reverse_proxy host.docker.internal:3019
 }
