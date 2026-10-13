@@ -43,6 +43,24 @@ for (const { w, h } of WIDTHS) {
   const page = await context.newPage();
   await page.goto(`${base}/gestion-locative`, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
+  // Photos below the fold are lazy-loaded: scroll through, then wait for them.
+  await page.evaluate(async () => {
+    for (let y = 0; y < document.body.scrollHeight; y += 600) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 60));
+    }
+    await Promise.all(
+      Array.from(document.images)
+        .filter((img) => img.offsetParent !== null && !img.complete)
+        .map((img) =>
+          Promise.race([
+            new Promise((r) => img.addEventListener("load", r, { once: true })),
+            new Promise((r) => setTimeout(r, 8000)),
+          ])
+        )
+    );
+    window.scrollTo(0, 0);
+  });
 
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - window.innerWidth

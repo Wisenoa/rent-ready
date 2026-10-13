@@ -5,7 +5,7 @@ Branche `challenge/claude-final`, worktree `/home/ubuntu/lokna-claude`, partie d
 ## Fichiers
 | Fichier | Changement |
 | --- | --- |
-| `src/app/(marketing)/gestion-locative/page.tsx` | Page réécrite. Server Component, sans état client. Métadonnées, JSON-LD (SoftwareApplication + FAQPage), sections. |
+| `src/app/(marketing)/gestion-locative/page.tsx` | Page réécrite (puis ajout de trois photos, voir Assets). Server Component, sans état client. Métadonnées, JSON-LD (SoftwareApplication + FAQPage), sections. |
 | `src/components/marketing/gestion-locative/example-month.ts` | Nouveau. Mois fictif : seules les entrées (loyer, charges, versements) sont écrites. Dû, reste et type de document viennent de `settlePeriodPayments` (Decimal, aucun flottant). |
 | `src/components/marketing/gestion-locative/month-ledger.tsx` | Nouveau. Le registre d'octobre : 5 colonnes à partir de `lg`, ligne compacte en dessous. |
 | `src/components/marketing/gestion-locative/receipt-sheets.tsx` | Nouveau. Quittance et reçu partiel abrégés, avec les intitulés exacts du PDF (`src/lib/quittance-generator.tsx`). |
@@ -29,7 +29,15 @@ Branche `challenge/claude-final`, worktree `/home/ubuntu/lokna-claude`, partie d
 - Non affirmé faute de preuve d'usage dans l'interface : états des lieux générés, Factur-X, OCR, relance automatique, synchronisation bancaire.
 
 ## Assets
-Aucune image créée ni réutilisée, et aucune image générée. Les visuels sont du HTML rendu côté serveur, ce qui fait 0 octet d'image sur la page.
+Reprises de Codex V2 (`challenge/lokna-codex-20261013`, lues sans modifier cette branche) et renommées :
+
+| Fichier | Source V2 | Emplacement | Poids servi (AVIF, q75) |
+| --- | --- | --- | --- |
+| `public/images/gestion-locative/logement-entree.webp` | `hero.webp` | cycle, à droite du texte ; pleine largeur en 3:2 sur mobile | 31 Ko (640 w) à 65 Ko (1080 w) |
+| `public/images/gestion-locative/cles-et-dossier.webp` | `keys-and-documents.webp` | sous le texte quittance/reçu, desktop uniquement | 26 à 46 Ko |
+| `public/images/gestion-locative/cour-porte-ouverte.webp` | `courtyard-entry.webp` | fonctionnalités, à gauche, collante ; 3:2 sur mobile, 16:9 en tablette, 4:5 sur desktop | 62 à 114 Ko |
+
+Toutes passent par `next/image` : `fill` dans un conteneur à ratio fixe (pas de CLS), `sizes` adaptés à la grille, chargement paresseux. Aucune n'est au-dessus de la ligne de flottaison, donc le LCP reste le H1 texte. Aucune image générée.
 
 ## Captures
 `node scripts/capture-gestion-locative.mjs <url> docs/design/lokna-final/captures` produit, pour 1440 / 768 / 390 / 360 px, le premier écran, la page complète et chaque section. Le bandeau cookies est fermé avant la capture.

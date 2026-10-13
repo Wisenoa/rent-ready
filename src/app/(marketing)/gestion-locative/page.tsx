@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import cities from "@/data/cities.json";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
@@ -215,16 +216,27 @@ export default function GestionLocativePage() {
       {/* What the landlord enters, and what Lokna derives. */}
       <section id="cycle-mensuel" className="scroll-mt-20 border-t border-[#D9D5CC]">
         <div className={`${container} py-20 sm:py-28`}>
-          <div className="grid gap-5 lg:grid-cols-12 lg:gap-10">
-            <h2 className={`${h2} lg:col-span-6`}>
-              Vous décrivez la location une fois. {SITE_NAME} tient le mois.
-            </h2>
-            <p className={`${lead} lg:col-span-5 lg:col-start-8 lg:pt-2`}>
-              Dans un tableur, chaque mois se recopie et chaque paiement partiel
-              se recalcule à la main. Ici, le bail dit ce qui est dû et quand&nbsp;:
-              chaque paiement enregistré met le mois à jour, et le bon document
-              suit.
-            </p>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-10">
+            <div className="lg:col-span-5">
+              <h2 className={h2}>
+                Vous décrivez la location une fois. {SITE_NAME} tient le mois.
+              </h2>
+              <p className={`${lead} mt-6`}>
+                Dans un tableur, chaque mois se recopie et chaque paiement partiel
+                se recalcule à la main. Ici, le bail dit ce qui est dû et quand&nbsp;:
+                chaque paiement enregistré met le mois à jour, et le bon document
+                suit.
+              </p>
+            </div>
+            <div className="relative -mx-5 aspect-[3/2] overflow-hidden bg-[#DDD6C9] sm:mx-0 lg:col-span-6 lg:col-start-7">
+              <Image
+                src="/images/gestion-locative/logement-entree.webp"
+                alt="L'entrée d'un appartement lumineux, les clés posées sur la console."
+                fill
+                sizes="(min-width: 1152px) 528px, (min-width: 1024px) 46vw, (min-width: 640px) calc(100vw - 4rem), 100vw"
+                className="object-cover object-[60%_50%]"
+              />
+            </div>
           </div>
 
           <div className="mt-12 border-t-2 border-[#15241F] sm:mt-16">
@@ -285,6 +297,17 @@ export default function GestionLocativePage() {
                 Tout savoir sur la quittance de loyer
               </Link>
             </p>
+            {/* Desktop only: fills the column beside the documents; on small
+                screens the documents already carry the section. */}
+            <div className="relative mt-10 hidden aspect-[16/9] overflow-hidden bg-[#DDD6C9] lg:block">
+              <Image
+                src="/images/gestion-locative/cles-et-dossier.webp"
+                alt="Des clés et un dossier posés sur un bureau près d'une fenêtre."
+                fill
+                sizes="(min-width: 1152px) 330px, 29vw"
+                className="object-cover object-[40%_72%]"
+              />
+            </div>
           </div>
           <figure className="lg:col-span-8 lg:pl-6">
             <ReceiptSheets />
@@ -298,16 +321,28 @@ export default function GestionLocativePage() {
 
       {/* Beyond the monthly loop. */}
       <section id="fonctionnalites" className="scroll-mt-20">
-        <div className={`${container} py-20 sm:py-28`}>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className={`${container} grid gap-x-10 py-20 sm:py-28 lg:grid-cols-12`}>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:flex-col lg:items-start lg:justify-start">
             <h2 className={`${h2} max-w-[20ch]`}>Et le reste de la gestion, au même endroit.</h2>
-            <Link href="/features" className={`${textLink} shrink-0 self-start text-[15px] sm:self-auto`}>
+            <Link href="/features" className={`${textLink} shrink-0 self-start text-[15px] sm:self-auto lg:self-start`}>
               Toutes les fonctionnalités
             </Link>
           </div>
-          <dl className="mt-12 grid gap-x-12 sm:mt-14 md:grid-cols-2">
+          {/* The photo stays in view beside the list on large screens. */}
+          <div className="-mx-5 mt-10 sm:mx-0 sm:mt-12 lg:sticky lg:top-24 lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:self-start">
+            <div className="relative aspect-[3/2] overflow-hidden bg-[#DDD6C9] md:aspect-[16/9] lg:aspect-[4/5]">
+              <Image
+                src="/images/gestion-locative/cour-porte-ouverte.webp"
+                alt="Une porte d'immeuble ouverte sur une cour ensoleillée."
+                fill
+                sizes="(min-width: 1152px) 440px, (min-width: 1024px) 38vw, (min-width: 640px) calc(100vw - 4rem), 100vw"
+                className="object-cover object-[50%_45%]"
+              />
+            </div>
+          </div>
+          <dl className="mt-10 grid gap-x-12 sm:mt-12 md:grid-cols-2 lg:col-span-6 lg:col-start-7 lg:row-start-2 lg:grid-cols-1">
             {ALSO.map((item) => (
-              <div key={item.term} className="border-t border-[#15241F] pb-10 pt-5">
+              <div key={item.term} className="border-t border-[#15241F] pb-8 pt-5">
                 <dt className="text-[19px] font-semibold text-[#15241F]">{item.term}</dt>
                 <dd className="mt-2 max-w-[48ch] text-[15px] leading-7 text-[#4F5D56]">
                   {item.text}

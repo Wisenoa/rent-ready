@@ -21,7 +21,12 @@ Première implémentation, capturée puis jugée sur pièce :
 
 Après corrections, la page ne contient ni surtitre, ni badge, ni icône décorative, ni dégradé, ni ombre (hors les deux feuilles de papier), ni carte de fonctionnalité, ni photo d'ambiance. Les deux objets graphiques sont ceux du métier : un registre et deux documents.
 
-Risque assumé : sans photographie, la chaleur repose sur le crème, le sauge, le serif des documents et les prénoms des locataires. Si l'équipe trouve la page trop sobre, l'ajout pertinent serait une **vraie** photographie de propriétaire, et non une image générée.
+## Passe « photographies » (13 octobre)
+Demande : plus de chaleur avec les photos de Codex V2, sans refonte. Avant/après : `captures/avant-photos/` comparé à `captures/` (1440 et 390 px).
+- Hero, registre, documents, textes, FAQ, CTA et SEO sont inchangés : `ledger-1440.png` est identique octet pour octet.
+- Trois photos placées en alternance texte/photo. Ajustements faits après capture : la photo des clés passée en 16:9 pour ne pas dépasser les documents ; la photo de la cour rendue collante pour ne pas laisser de vide à côté de la liste.
+- Mobile : deux photos en 3:2 pleine largeur, et celle des clés masquée. La page mobile gagne environ 560 px.
+- Poids : environ 110 Ko d'images en desktop 1x et environ 135 Ko en mobile 2x, chargées à la demande.
 
 ## Tests exécutés
 | Contrôle | Résultat |
@@ -31,6 +36,7 @@ Risque assumé : sans photographie, la chaleur repose sur le crème, le sauge, l
 | `pnpm vitest run` après build | 77 fichiers verts, 1030 tests verts. 87 ignorés : suites `.db` qui exigent PostgreSQL. |
 | `pnpm build` | Succès. `/gestion-locative` statique, ISR 1 h, 1,05 kB de JS propre à la page. |
 | Playwright `gestion-locative-landing.spec.ts` (9 tests) | Vert : SEO, JSON-LD, CTA → `/register` (200), ancres de navigation, montants du registre, 50 villes, FAQ au clavier, 0 débordement à 360 / 390 / 768. |
+| Playwright, après ajout des photos | Spécification de la page et axe : 10/10 verts. Pas de nouveau build (espace disque) ; `tsc` et `eslint` verts. |
 | Playwright `accessibility.spec.ts` (axe, WCAG AA) | Vert sur `/gestion-locative`, `/pricing`, `/features`. Les deux dernières échouaient avant la correction du footer. |
 | `pnpm seo:all` | 0 erreur. Avertissement `no-h1` faux positif, voir `SEO_QA.md`. |
 

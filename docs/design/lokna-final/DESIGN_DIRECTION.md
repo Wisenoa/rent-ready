@@ -6,7 +6,8 @@ Un propriétaire ne pense pas en « fonctionnalités ». Il pense en mois : qui 
 La page reprend donc le langage visuel de ce que le bailleur manipule réellement, à savoir **le registre et les documents**, au lieu d'un langage de template SaaS.
 
 ## Choix assumés
-- **Pas de photographie.** Les deux visuels de la page sont des artefacts du métier : le registre d'octobre (preuve produit) et la paire quittance / reçu partiel (explication d'une règle). Les deux sont en HTML et non en image : nets, lisibles sur mobile, accessibles, et sans aucun octet d'image.
+- **Les preuves restent des artefacts du métier** : le registre d'octobre (preuve produit) et la paire quittance / reçu partiel (explication d'une règle), en HTML, nets et lisibles sur mobile.
+- **Trois photographies de Codex V2 pour la chaleur** (ajout du 13 octobre, après validation de la base). Aucune n'est dans le hero, pour que le registre reste visible dès le premier écran. Elles alternent avec le texte : intérieur à droite du cycle, clés et dossier sous le texte des documents (desktop seulement), porte sur cour à gauche des fonctionnalités, collante à côté de la liste. Angles droits et aucune légende décorative, pour rester dans la logique des filets.
 - **Le serif a une fonction.** Newsreader est réservé à ce qui relève du document : « Octobre 2026 », « Quittance de loyer ». C'est Lokna qui parle en sans (Inter), comme sur la page d'accueil validée.
 - **Des filets, pas de cartes.** Filet épais en tête de registre, filets fins entre les lignes, double filet sous le total, comme dans un livre de comptes. Les seules « cartes » sont les deux feuilles de papier, parce que ce sont des feuilles.
 - **Couleur sémantique et rare.** Le vert forêt pour la marque et les actions. Le sauge pour « réglé ». Une seule couleur chaude, terracotta `#A63F17`, réservée à l'exception (paiement partiel). Elle n'apparaît nulle part ailleurs.
