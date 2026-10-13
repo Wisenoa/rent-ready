@@ -86,4 +86,5 @@ Mesures du chargement faites en Chromium contre l’aperçu local sur boucle loc
 - Vérifications Playwright : `src/__tests__/e2e/gestion-locative-landing.spec.ts`
 - Images : `public/images/gestion-locative/*.webp`
 - Captures avant/après : `docs/design/challenge/captures/`
+- Copies servables des huit captures : `public/challenge/` (URLs `/challenge/<nom-du-fichier>.png`).
 - Rapport : `docs/design/challenge/LANDING_CHALLENGE_REPORT.md`
