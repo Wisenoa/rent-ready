@@ -10,6 +10,8 @@ export type RowState = "upcoming" | "paid" | "partial";
 
 export type MonthRow = {
   id: string;
+  /** The amount the row shows (reste dû, reçu or attendu), in cents, for animation. */
+  amountCents: number;
   home: string;
   street: string;
   tenant: string;
@@ -25,8 +27,26 @@ export type MonthRow = {
   reminder: string | null;
 };
 
+/** The document a payment produced at this moment, as the product would issue it. */
+export type IssuedDocument = {
+  kind: "quittance" | "recu";
+  tenant: string;
+  home: string;
+  /** Total due for the period. */
+  due: string;
+  /** Paid so far for the period. */
+  paid: string;
+  /** Left to pay; "0,00 €" for a quittance. */
+  outstanding: string;
+};
+
 export type MonthState = {
   asOf: string;
+  /** Totals in cents, for the animated figures only; the strings stay canonical. */
+  dueCents: number;
+  paidCents: number;
+  outstandingCents: number;
+  document: IssuedDocument | null;
   rows: MonthRow[];
   due: string;
   paid: string;

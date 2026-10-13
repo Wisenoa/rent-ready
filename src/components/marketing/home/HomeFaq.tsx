@@ -1,4 +1,5 @@
 import { HOME_FAQ_ITEMS } from "./faq-data";
+import styles from "./home.module.css";
 
 /** Native disclosure: no client JavaScript, answers stay in the HTML for search engines. */
 export function HomeFaq() {
@@ -13,7 +14,7 @@ export function HomeFaq() {
         </h2>
         <div className="border-t-2 border-[#15241F] lg:col-span-7">
           {HOME_FAQ_ITEMS.map((item) => (
-            <details key={item.question} className="group border-b border-[#D9D5CC]">
+            <details key={item.question} className={`${styles.faq} group border-b border-[#D9D5CC]`}>
               <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-4 text-[17px] font-semibold text-[#15241F] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E3A2F] [&::-webkit-details-marker]:hidden">
                 <h3>{item.question}</h3>
                 <span

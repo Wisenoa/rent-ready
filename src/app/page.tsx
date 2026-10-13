@@ -1,15 +1,17 @@
 /**
  * Lokna homepage.
  *
- * Product-first: a dark forest hero showing the month as Lokna keeps it, then
- * the shift from spreadsheet chores, the signature "Un mois avec Lokna" story
- * (the month moves forward as the visitor scrolls), the other jobs of the month,
- * who it is for, prices, questions and a final call to action.
+ * Search intent: "gestion locative en ligne" for owners who let their own
+ * homes. The head term "logiciel de gestion locative" belongs to
+ * /gestion-locative, which this page links to with that anchor, so the two do
+ * not compete for the same query.
  *
- * Every figure on the page is computed by the product's own rules
+ * Product-first and animated: the hero plays October's payments landing, the
+ * "Un mois avec Lokna" story follows the scroll, the feature tabs and photos
+ * move. Every figure is computed by the product's own rules
  * (`settlePeriodPayments`, `calculateRentRevision`); prices come from PLANS.
- * Client JavaScript is limited to the story, the feature tabs and scroll
- * reveals.
+ * Editorial content is rendered on the server; client islands only animate it,
+ * and the animation runtime loads after hydration (MotionRoot).
  */
 
 import React from "react";
@@ -21,6 +23,7 @@ import {
   buildFAQPageSchema,
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
+import { MotionRoot } from "@/components/marketing/home/MotionRoot";
 import {
   HomeNavbar,
   HomeHero,
@@ -37,14 +40,19 @@ import {
 
 export const revalidate = 3600;
 
+const TITLE = "Gestion locative en ligne pour particuliers | Lokna";
+
 export async function generateMetadata(): Promise<Metadata> {
-  return baseMetadata({
-    title: "Logiciel de gestion locative pour propriétaires bailleurs | Lokna",
+  const metadata = baseMetadata({
+    title: TITLE,
     description:
-      "Gérez vos locations sans tableur. Suivi des encaissements, quittances et reçus conformes à la loi de 1989, rappels de révision de loyer IRL. Essai gratuit sans engagement.",
+      "Loyers suivis, quittances et reçus prêts, relances et révision IRL : Lokna, la gestion locative en ligne des propriétaires qui louent seuls. Essai 14 jours.",
     url: "",
     ogType: "default",
   });
+  // The root layout's "%s | Lokna" template does not apply to the root page
+  // itself, so the brand is written out and kept with `absolute`.
+  return { ...metadata, title: { absolute: TITLE } };
 }
 
 export default function HomePage() {
@@ -64,14 +72,16 @@ export default function HomePage() {
       />
       <HomeNavbar />
       <main id="main">
-        <HomeHero />
-        <HomeShift />
-        <HomeMonth />
-        <HomeFeatures />
-        <HomeForWho />
-        <HomePricing />
-        <HomeFaq />
-        <HomeFinalCTA />
+        <MotionRoot>
+          <HomeHero />
+          <HomeShift />
+          <HomeMonth />
+          <HomeFeatures />
+          <HomeForWho />
+          <HomePricing />
+          <HomeFaq />
+          <HomeFinalCTA />
+        </MotionRoot>
       </main>
       <HomeFooter />
     </div>

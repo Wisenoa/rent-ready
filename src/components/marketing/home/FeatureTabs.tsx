@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import styles from "./home.module.css";
 
@@ -57,13 +58,15 @@ export function FeatureTabs({ tabs, panels }: { tabs: FeatureTab[]; panels: Reac
             )}
           >
             <span className="flex items-center text-[1.5rem] font-semibold tracking-[-0.02em] sm:text-[1.75rem]">
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "h-[2px] transition-all duration-300 motion-reduce:transition-none",
-                  i === active ? "mr-3 w-6 bg-[#A8C4B1]" : "mr-0 w-0 bg-transparent"
-                )}
-              />
+              <span aria-hidden="true" className={cn("relative h-[2px] transition-[width,margin] duration-300 motion-reduce:transition-none", i === active ? "mr-3 w-6" : "mr-0 w-0")}>
+                {i === active ? (
+                  <m.span
+                    layoutId="feature-tab"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    className="absolute inset-0 bg-[#A8C4B1]"
+                  />
+                ) : null}
+              </span>
               {tab.label}
             </span>
             <span className={cn("mt-1.5 block text-[15px] leading-6", i === active ? "text-[#FAF9F5]/85" : "text-[#FAF9F5]/70")}>
@@ -75,17 +78,21 @@ export function FeatureTabs({ tabs, panels }: { tabs: FeatureTab[]; panels: Reac
 
       <div className="lg:col-span-7">
         {tabs.map((tab, i) => (
-          <div
+          <m.div
             key={tab.id}
             role="tabpanel"
             id={`panel-${tab.id}`}
             aria-labelledby={`tab-${tab.id}`}
             hidden={i !== active}
             tabIndex={0}
-            className={cn(i === active && styles.swap, "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FAF9F5]")}
+            // Every panel stays in the HTML; the one shown rises into place.
+            initial={false}
+            animate={i === active ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 18, scale: 0.985 }}
+            transition={{ duration: 0.45, ease: [0.2, 0.7, 0.2, 1] }}
+            className={cn(i === active && styles.stagger, "origin-top focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FAF9F5]")}
           >
             {panels[i]}
-          </div>
+          </m.div>
         ))}
       </div>
     </div>

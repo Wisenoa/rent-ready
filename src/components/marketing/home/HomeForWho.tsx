@@ -1,5 +1,7 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ParallaxPhoto } from "./ParallaxPhoto";
 import { Reveal } from "./Reveal";
+import styles from "./home.module.css";
 
 const POINTS = [
   {
@@ -21,15 +23,13 @@ export function HomeForWho() {
     <section aria-labelledby="pour-qui-title" className="bg-[#FAF9F5]">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-6 lg:order-2">
-          <Reveal as="figure" className="relative -mx-5 aspect-[3/2] overflow-hidden bg-[#DDD6C9] sm:mx-0 lg:aspect-[4/5]">
-            <Image
-              src="/images/gestion-locative/cour-porte-ouverte.webp"
-              alt="La porte d'un immeuble ouverte sur une cour ensoleillée."
-              fill
-              sizes="(min-width: 1280px) 580px, (min-width: 1024px) 46vw, 100vw"
-              className="object-cover object-[50%_45%]"
-            />
-          </Reveal>
+          <ParallaxPhoto
+            src="/images/gestion-locative/cour-porte-ouverte.webp"
+            alt="La porte d'un immeuble ouverte sur une cour ensoleillée."
+            sizes="(min-width: 1280px) 580px, (min-width: 1024px) 46vw, 100vw"
+            position="50% 45%"
+            className="-mx-5 aspect-[3/2] sm:mx-0 lg:aspect-[4/5]"
+          />
         </div>
 
         <div className="lg:col-span-6 lg:order-1 lg:self-center">
@@ -52,6 +52,21 @@ export function HomeForWho() {
               </Reveal>
             ))}
           </ul>
+          <p className="mt-6 max-w-[34rem] text-[15px] leading-7 text-[#4F5D56]">
+            Pour aller plus loin : tout ce que couvre notre{" "}
+            <Link href="/gestion-locative" className={styles.textLink}>
+              logiciel de gestion locative
+            </Link>
+            , la{" "}
+            <Link href="/villes" className={styles.textLink}>
+              gestion locative ville par ville
+            </Link>{" "}
+            et nos{" "}
+            <Link href="/guides" className={styles.textLink}>
+              guides du propriétaire bailleur
+            </Link>
+            .
+          </p>
         </div>
       </div>
     </section>

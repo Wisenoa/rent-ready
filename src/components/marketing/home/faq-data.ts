@@ -1,7 +1,12 @@
+import { PLANS } from "@/data/entity";
+
 export interface FaqItem {
   question: string;
   answer: string;
 }
+
+const starter = PLANS.find((plan) => plan.id === "starter");
+const pro = PLANS.find((plan) => plan.id === "pro");
 
 /**
  * Visible on the homepage and published as FAQPage data. Each answer is checked
@@ -27,5 +32,14 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
     question: "Mes données d'encaissement sont-elles exportables ?",
     answer:
       "Oui. Depuis l'espace Analyse fiscale, vous exportez vos loyers encaissés au format CSV, pour votre déclaration ou pour votre comptable.",
+  },
+  {
+    question: "Existe-t-il une version gratuite de Lokna ?",
+    answer: `Lokna s'essaie gratuitement pendant 14 jours, sans carte bancaire, puis coûte ${starter?.monthlyPrice} € par mois jusqu'à ${starter?.properties} logements, ou ${pro?.monthlyPrice} € jusqu'à ${pro?.properties}. Sans créer de compte, nos outils restent gratuits : calculateur de révision IRL, générateur de quittance, lettre de relance de loyer.`,
+  },
+  {
+    question: "Lokna remplace-t-il une agence de gestion locative ?",
+    answer:
+      "Non. Lokna ne cherche pas de locataire et n'encaisse pas les loyers à votre place. C'est l'outil des propriétaires qui gèrent eux-mêmes : il tient le suivi des loyers, prépare quittances, reçus et relances, et calcule la révision du loyer.",
   },
 ];

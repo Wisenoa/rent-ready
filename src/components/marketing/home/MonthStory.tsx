@@ -1,107 +1,153 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { AnimatePresence, m, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { MonthPanel } from "./MonthPanel";
-import type { MonthState, MonthStep } from "./month-types";
+import { LivePanel } from "./LivePanel";
+import type { IssuedDocument, MonthState } from "./month-types";
 import styles from "./home.module.css";
 
 /**
- * The month moving forward as the visitor scrolls. Native scrolling only: the
- * steps are ordinary blocks, and whichever one crosses the reading line becomes
- * the panel's state. Dates are buttons too, so the story works from the
- * keyboard. Without JavaScript the steps read top to bottom beside the first
- * state of the month.
+ * Where on screen a step "is being read": a little under the middle on a
+ * desktop, lower on a phone so the step being read sits below the pinned panel.
  */
-export function MonthStory({ steps, states }: { steps: MonthStep[]; states: MonthState[] }) {
-  const [active, setActive] = useState(0);
-  const stepRefs = useRef<(HTMLElement | null)[]>([]);
+const LINE_DESKTOP = 0.6;
+const LINE_PHONE = 0.78;
 
+/**
+ * The month moving forward with the page. Scrolling is native: the progress of
+ * the step list across a reading line picks the panel's state, and a ruled
+ * line fills alongside. The dates are buttons, so the story also works from
+ * the keyboard and by tapping. Step texts are rendered on the server and
+ * passed in, so they are in the HTML whatever happens here.
+ */
+export function MonthStory({
+  states,
+  dates,
+  steps,
+}: {
+  states: MonthState[];
+  dates: string[];
+  steps: ReactNode[];
+}) {
+  const [active, setActive] = useState(0);
+  const [line, setLine] = useState(LINE_PHONE);
+  const list = useRef<HTMLOListElement>(null);
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const index = Number((entry.target as HTMLElement).dataset.index);
-            if (!Number.isNaN(index)) setActive(index);
-          }
-        }
-      },
-      // A thin reading line: mid-screen on desktop, and on small screens just
-      // under the sticky panel so the step being read is never hidden by it.
-      {
-        rootMargin: window.matchMedia("(min-width: 1024px)").matches
-          ? "-50% 0px -48% 0px"
-          : "-76% 0px -22% 0px",
-      }
-    );
-    for (const el of stepRefs.current) if (el) observer.observe(el);
-    return () => observer.disconnect();
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const update = () => setLine(desktop.matches ? LINE_DESKTOP : LINE_PHONE);
+    const frame = requestAnimationFrame(update);
+    desktop.addEventListener("change", update);
+    return () => {
+      cancelAnimationFrame(frame);
+      desktop.removeEventListener("change", update);
+    };
   }, []);
+  const { scrollYProgress } = useScroll({
+    target: list,
+    offset: [`start ${line}`, `end ${line}`],
+  });
+  const fill = useSpring(scrollYProgress, { stiffness: 140, damping: 28, restDelta: 0.001 });
+
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    const next = Math.min(states.length - 1, Math.max(0, Math.floor(p * states.length)));
+    setActive((current) => (current === next ? current : next));
+  });
 
   const goTo = (index: number) => {
-    const el = stepRefs.current[index];
+    const el = list.current;
     if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const start = top - window.innerHeight * line;
+    const target = start + (el.offsetHeight * (index + 0.5)) / states.length;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    window.scrollTo({ top: target, behavior: reduce ? "auto" : "smooth" });
     setActive(index);
   };
 
+  const state = states[active];
+
   return (
-    <div className="lg:grid lg:grid-cols-12 lg:gap-10">
-      {/* The panel: sticky on top of the steps on phones, beside them on desktop. */}
-      <div className="sticky top-14 z-10 -mx-5 bg-[#F5F3EF]/95 px-5 pb-4 pt-3 backdrop-blur-sm sm:-mx-8 sm:px-8 lg:order-2 lg:col-span-7 lg:mx-0 lg:self-start lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-0 lg:backdrop-blur-none lg:top-24">
-        <ol aria-label="Dates du mois" className="mb-3 flex items-center gap-1.5 overflow-x-auto sm:mb-4">
-          {steps.map((step, i) => (
-            <li key={step.date}>
+    <div className="lg:grid lg:grid-cols-12 lg:gap-12">
+      <div className="sticky top-14 z-10 -mx-5 bg-[#F5F3EF]/95 px-5 pb-3 pt-3 backdrop-blur-sm sm:-mx-8 sm:px-8 lg:top-24 lg:order-2 lg:col-span-7 lg:mx-0 lg:self-start lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-0 lg:backdrop-blur-none">
+        <ol aria-label="Dates du mois" className="mb-3 flex items-center gap-1 overflow-x-auto sm:mb-4">
+          {dates.map((date, i) => (
+            <li key={date}>
               <button
                 type="button"
                 onClick={() => goTo(i)}
                 aria-current={i === active ? "step" : undefined}
                 className={cn(
-                  "whitespace-nowrap rounded-md border px-2.5 py-1.5 text-[13px] tabular-nums transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E3A2F]",
-                  i === active
-                    ? "border-[#1E3A2F] bg-[#1E3A2F] text-[#FAF9F5]"
-                    : "border-[#D9D5CC] bg-[#FDFCF9] text-[#4F5D56] hover:border-[#1E3A2F]"
+                  "relative whitespace-nowrap rounded-md px-2.5 py-1.5 text-[13px] tabular-nums transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E3A2F]",
+                  i === active ? "text-[#FAF9F5]" : "text-[#4F5D56] hover:text-[#15241F]"
                 )}
               >
-                {step.date}
+                {i === active ? (
+                  <m.span
+                    layoutId="month-date"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    className="absolute inset-0 rounded-md bg-[#1E3A2F]"
+                  />
+                ) : null}
+                <span className="relative">{date}</span>
               </button>
             </li>
           ))}
         </ol>
         <div aria-live="polite" className="sr-only">
-          {steps[active].date} : {states[active].event}
+          {dates[active]} : {state.event}
         </div>
-        <MonthPanel state={states[active]} compact />
+        <LivePanel state={state} compact />
+        <div className="relative hidden h-[7.5rem] lg:block">
+          <AnimatePresence initial={false} mode="popLayout">
+            {state.document ? <DocumentSlip key={`${active}-${state.document.kind}`} doc={state.document} /> : null}
+          </AnimatePresence>
+        </div>
       </div>
 
-      <ol className="relative mt-6 lg:order-1 lg:col-span-5 lg:mt-0">
-        {steps.map((step, i) => (
-          <li
-            key={step.date}
-            data-index={i}
-            data-active={i === active}
-            ref={(el) => {
-              stepRefs.current[i] = el;
-            }}
-            className={cn(
-              styles.step,
-              "flex min-h-[44vh] flex-col justify-center border-t border-[#D9D5CC] py-8 pl-5 first:border-t-0 lg:min-h-[60vh] lg:py-12"
-            )}
-          >
-            <p className="font-[family-name:var(--font-serif)] text-[2.4rem] leading-none tracking-[-0.02em] sm:text-[3rem]">
-              {step.date}
-            </p>
-            <h3 className="mt-4 text-[1.4rem] font-semibold tracking-[-0.02em] sm:text-[1.6rem]">
-              {step.title}
-            </h3>
-            <p className="mt-3 max-w-[30rem] text-[16px] leading-7">
-              {step.text}
-            </p>
-          </li>
-        ))}
-      </ol>
+      <div className="relative mt-4 lg:order-1 lg:col-span-5 lg:mt-0">
+        <div aria-hidden="true" className="absolute bottom-0 left-0 top-0 w-px bg-[#D9D5CC]">
+          <m.div style={{ scaleY: fill }} className="h-full w-px origin-top bg-[#1E3A2F]" />
+        </div>
+        <ol ref={list} className="lg:pb-16">
+          {steps.map((step, i) => (
+            <li key={dates[i]} data-active={i === active} className={cn(styles.step, "py-6 pl-6 sm:py-7 lg:py-9")}>
+              {step}
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
+  );
+}
+
+/** The document the latest payment produced, slipping out from under the panel. */
+function DocumentSlip({ doc }: { doc: IssuedDocument }) {
+  const quittance = doc.kind === "quittance";
+  return (
+    <m.div
+      initial={{ y: -36, opacity: 0, rotate: -1.5 }}
+      animate={{ y: 0, opacity: 1, rotate: quittance ? 1.2 : -0.8 }}
+      exit={{ y: -24, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 260, damping: 26 }}
+      className="absolute right-6 top-4 w-[19rem] rounded-sm border border-[#E2DDD2] bg-[#FFFEFB] px-5 py-4 shadow-[0_18px_40px_-24px_rgba(6,24,18,0.45)]"
+    >
+      <p className="font-[family-name:var(--font-serif)] text-[1.15rem] leading-tight text-[#15241F]">
+        {quittance ? "Quittance de loyer" : "Reçu de paiement partiel"}
+      </p>
+      <p className="mt-1 text-[12px] text-[#5C6560]">
+        Octobre 2026 · {doc.tenant} · {doc.home}
+      </p>
+      <p className="mt-2 flex justify-between border-t border-[#E7E3DA] pt-2 text-[12.5px] tabular-nums">
+        <span className="text-[#4F5D56]">{quittance ? "Total acquitté" : "Montant reçu"}</span>
+        <span className="font-semibold text-[#15241F]">{quittance ? doc.due : doc.paid}</span>
+      </p>
+      {quittance ? null : (
+        <p className="flex justify-between text-[12.5px] tabular-nums text-[#A63F17]">
+          <span>Solde restant dû</span>
+          <span className="font-semibold">{doc.outstanding}</span>
+        </p>
+      )}
+    </m.div>
   );
 }

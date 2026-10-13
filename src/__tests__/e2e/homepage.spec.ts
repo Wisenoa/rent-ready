@@ -24,7 +24,19 @@ test.describe('Homepage', () => {
     await expect(hero).toContainText("14 jours d'essai · sans carte bancaire");
   });
 
+  test('search engines get the title, description and canonical of the homepage', async ({ page }) => {
+    await page.goto('/');
+    await expect(page).toHaveTitle('Gestion locative en ligne pour particuliers | Lokna');
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /gestion locative en ligne/);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://lokna.fr');
+    await expect(page.locator('h1')).toContainText('Gestion locative en ligne pour propriétaires particuliers');
+    // The head term is handed to the dedicated page, with that anchor.
+    await expect(page.locator('main').getByRole('link', { name: 'logiciel de gestion locative' })).toHaveAttribute('href', '/gestion-locative');
+  });
+
   test('hero shows the month computed by the settlement rule', async ({ page }) => {
+    // Without motion the hero keeps its server-rendered moment: one rent paid short.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
     const panel = page.locator('section[aria-labelledby="hero-title"] figure');
     // 520 + 700 + 850 due; 520 + 700 + 500 received on 6 October.
@@ -35,12 +47,25 @@ test.describe('Homepage', () => {
     await expect(panel).toContainText('Exemple fictif');
   });
 
+  test('hero plays the balance landing, and can be paused and replayed', async ({ page }) => {
+    await page.goto('/');
+    const panel = page.locator('section[aria-labelledby="hero-title"] figure');
+    await expect(panel).toContainText('100 % reçu', { timeout: 8000 });
+    await expect(panel).toContainText(/Réglé le 18 oct\./);
+    await expect(page.locator('#hero-title')).toHaveAttribute('data-settled', 'true');
+
+    await panel.getByRole('button', { name: 'Rejouer le mois' }).click();
+    await expect(panel).toContainText('Au 1er octobre');
+    await panel.getByRole('button', { name: 'Pause' }).click();
+    await expect(panel.getByRole('button', { name: 'Reprendre' })).toBeVisible();
+  });
+
   test('the month story follows the scroll and the date buttons', async ({ page }) => {
     await page.goto('/');
     const story = page.locator('#mois');
     const current = story.locator('[aria-current="step"]');
 
-    await story.locator('li[data-index="3"]').scrollIntoViewIfNeeded();
+    await story.locator('li[data-active]').nth(3).scrollIntoViewIfNeeded();
     await page.evaluate(() => window.scrollBy(0, 1));
     await expect(current).toHaveText('12 oct.');
     await expect(story).toContainText('Rappel envoyé le 12 oct.');

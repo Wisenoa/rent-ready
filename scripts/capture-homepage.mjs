@@ -37,7 +37,8 @@ for (const { w, h } of WIDTHS) {
   const page = await context.newPage();
   await page.goto(`${base}/`, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
-  await page.waitForTimeout(1200);
+  // Long enough for the hero to play its payment through to the quittance.
+  await page.waitForTimeout(4500);
   await page.screenshot({ path: `${outDir}/hero-${w}.png` });
 
   await page.evaluate(async () => {

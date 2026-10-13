@@ -1,7 +1,7 @@
 import Decimal from "decimal.js";
 import { settlePeriodPayments } from "@/lib/domain/period-settlement";
 import { formatCurrency } from "@/lib/format";
-import type { MonthRow, MonthState, MonthStep, RowState } from "./month-types";
+import type { IssuedDocument, MonthRow, MonthState, MonthStep, RowState } from "./month-types";
 
 /**
  * October for a landlord with three homes, told in five moments.
@@ -106,7 +106,12 @@ function at(day: number): Date {
   return new Date(Date.UTC(2026, 9, day, 18));
 }
 
+function cents(value: Decimal): number {
+  return value.times(100).toDecimalPlaces(0).toNumber();
+}
+
 function monthAt(day: number, event: string): MonthState {
+  let issued: IssuedDocument | null = null;
   let due = new Decimal(0);
   let paid = new Decimal(0);
   let outstanding = new Decimal(0);
@@ -124,6 +129,18 @@ function monthAt(day: number, event: string): MonthState {
     outstanding = outstanding.plus(settlement.outstanding);
 
     const last = received.at(-1);
+    // A payment that landed today produces a document: a quittance once the
+    // period is settled, a reçu de paiement partiel before.
+    if (last?.day === day) {
+      issued = {
+        kind: settlement.settled ? "quittance" : "recu",
+        tenant: lease.tenant,
+        home: `${lease.home} · ${lease.street}`,
+        due: formatCurrency(settlement.totalDue),
+        paid: formatCurrency(settlement.paid),
+        outstanding: formatCurrency(settlement.outstanding),
+      };
+    }
     const reminded =
       lease.reminderDay !== undefined && lease.reminderDay <= day && !settlement.settled;
 
@@ -146,6 +163,9 @@ function monthAt(day: number, event: string): MonthState {
 
     return {
       id: lease.id,
+      amountCents: cents(
+        state === "partial" ? settlement.outstanding : state === "paid" ? settlement.paid : settlement.totalDue
+      ),
       home: lease.home,
       street: lease.street,
       tenant: lease.tenant,
@@ -162,6 +182,10 @@ function monthAt(day: number, event: string): MonthState {
   return {
     asOf: day === 1 ? "Au 1er octobre" : `Au ${day} octobre`,
     rows,
+    dueCents: cents(due),
+    paidCents: cents(paid),
+    outstandingCents: cents(outstanding),
+    document: issued,
     due: formatCurrency(due),
     paid: formatCurrency(paid),
     outstanding: formatCurrency(outstanding),
@@ -174,5 +198,39 @@ export const MONTH_STATES: MonthState[] = MONTH_STEPS.map((step) =>
   monthAt(step.day, step.event)
 );
 
-/** The moment the hero shows: one payment short, the case Lokna exists for. */
+/** The moment the page shows without animation: one payment short, the case Lokna exists for. */
 export const HERO_STATE = MONTH_STATES[2];
+
+/**
+ * The hero's few seconds: each payment of October landing in turn, ending with
+ * the balance that turns Emma Laurent's reçu into a quittance. Event lines are
+ * built from the same inputs, so the amounts cannot drift from the figures.
+ */
+/** "de Léa", but "d'Emma". */
+function from(name: string): string {
+  return /^[aeiouyàâéèêëîïôûùh]/i.test(name) ? `d'${name}` : `de ${name}`;
+}
+
+function arrivalEvent(day: number): string {
+  for (const lease of LEASES) {
+    const payment = lease.payments.find((p) => p.day === day);
+    if (!payment) continue;
+    const received = lease.payments.filter((p) => p.day <= day);
+    const settlement = settlePeriodPayments({
+      rentAmount: lease.rent,
+      chargesAmount: lease.charges,
+      payments: received.map((p) => ({ amount: p.amount, paidAt: at(p.day) })),
+      asOf: at(day),
+    });
+    const amount = formatCurrency(payment.amount);
+    if (!settlement.settled) return `${amount} reçus ${from(lease.tenant)} · reçu de paiement partiel prêt`;
+    return received.length > 1
+      ? `Solde de ${amount} reçu ${from(lease.tenant)} · quittance prête`
+      : `${amount} reçus ${from(lease.tenant)} · quittance prête`;
+  }
+  return "3 loyers attendus pour le 5 octobre";
+}
+
+export const HERO_SEQUENCE: MonthState[] = [1, 3, 5, 6, 18].map((day) =>
+  monthAt(day, arrivalEvent(day))
+);

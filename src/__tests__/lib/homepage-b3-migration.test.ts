@@ -11,13 +11,14 @@ import { trackHomepageEvent } from "@/lib/analytics/homepage-tracker";
 
 describe("Homepage B.3 Production Migration Integrity", () => {
   it("FAQ items strictly reflect proven product truth without speculative claims", () => {
-    expect(HOME_FAQ_ITEMS).toHaveLength(4);
+    expect(HOME_FAQ_ITEMS).toHaveLength(6);
 
     const questions = HOME_FAQ_ITEMS.map((f) => f.question);
     expect(questions).toContain("Pourquoi quitter un tableur Excel pour Lokna ?");
     expect(questions).toContain("Comment fonctionne l'essai gratuit de 14 jours ?");
     expect(questions).toContain("Que se passe-t-il en cas de versement partiel d'un locataire ?");
     expect(questions).toContain("Mes données d'encaissement sont-elles exportables ?");
+    expect(questions).toContain("Existe-t-il une version gratuite de Lokna ?");
 
     // Must NOT contain unproven or speculative claims
     const allText = HOME_FAQ_ITEMS.map((f) => `${f.question} ${f.answer}`).join(" ");
@@ -47,7 +48,7 @@ describe("Homepage B.3 Production Migration Integrity", () => {
     const faqNode = nodes.find((n) => n["@type"] === "FAQPage") as unknown as {
       mainEntity: Array<{ name: string; acceptedAnswer: { text: string } }>;
     };
-    expect(faqNode.mainEntity).toHaveLength(4);
+    expect(faqNode.mainEntity).toHaveLength(6);
     expect(faqNode.mainEntity[0].name).toBe(HOME_FAQ_ITEMS[0].question);
   });
 

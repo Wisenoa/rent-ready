@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ParallaxPhoto } from "./ParallaxPhoto";
 import { Reveal } from "./Reveal";
 
 const ROWS = [
@@ -23,16 +23,15 @@ const ROWS = [
 export function HomeShift() {
   return (
     <section aria-labelledby="shift-title" className="bg-[#F5F3EF]">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28 lg:grid-cols-12 lg:gap-14">
-        <Reveal as="figure" className="relative -mx-5 aspect-[3/2] overflow-hidden bg-[#DDD6C9] sm:mx-0 lg:col-span-5 lg:aspect-[4/5] lg:self-start">
-          <Image
-            src="/images/gestion-locative/cles-et-dossier.webp"
-            alt="Des clés et un dossier de location posés sur un bureau."
-            fill
-            sizes="(min-width: 1280px) 480px, (min-width: 1024px) 38vw, 100vw"
-            className="object-cover object-[40%_60%]"
-          />
-        </Reveal>
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 pb-14 pt-14 sm:px-8 sm:pb-24 sm:pt-28 lg:grid-cols-12 lg:gap-14">
+        {/* On phones the page goes straight to the comparison: the product comes sooner. */}
+        <ParallaxPhoto
+          src="/images/gestion-locative/cles-et-dossier.webp"
+          alt="Des clés et un dossier de location posés sur un bureau."
+          sizes="(min-width: 1280px) 480px, 38vw"
+          position="40% 60%"
+          className="hidden aspect-[4/5] lg:col-span-5 lg:block lg:self-start"
+        />
 
         <div className="lg:col-span-7">
           <h2

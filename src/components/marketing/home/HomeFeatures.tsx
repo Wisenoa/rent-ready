@@ -1,7 +1,17 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { calculateRentRevision, formatQuarterLabel } from "@/lib/irl-calculator";
 import { formatCurrency } from "@/lib/format";
 import { FeatureTabs, type FeatureTab } from "./FeatureTabs";
+import styles from "./home.module.css";
+
+const TOOLS = [
+  { href: "/outils/calculateur-irl", label: "Calculateur de révision IRL" },
+  { href: "/outils/lettre-relance-loyer", label: "Lettre de relance de loyer" },
+  { href: "/outils/generateur-quittance", label: "Générateur de quittance" },
+  { href: "/outils/calculateur-depot-garantie", label: "Plafond du dépôt de garantie" },
+  { href: "/outils", label: "Tous les outils" },
+];
 
 /**
  * Three things a landlord does outside the monthly loop, each shown with the
@@ -180,6 +190,18 @@ export function HomeFeatures() {
         <p className="mt-6 text-[12.5px] text-[#FAF9F5]/60">
           Illustrations fidèles aux écrans de Lokna. Données fictives ; indices IRL publiés par l&apos;INSEE.
         </p>
+        <nav aria-label="Outils gratuits" className="mt-12 border-t border-[#FAF9F5]/15 pt-6">
+          <p className="text-[15px] font-medium text-[#FAF9F5]">Gratuits, sans créer de compte</p>
+          <ul className="mt-3 flex flex-wrap gap-x-7 gap-y-2 text-[15px]">
+            {TOOLS.map((tool) => (
+              <li key={tool.href}>
+                <Link href={tool.href} className={`${styles.link} text-[#FAF9F5]/90 hover:text-[#FAF9F5]`}>
+                  {tool.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LoknaLogo } from "@/components/ui/lokna-logo";
+import styles from "./home.module.css";
 
 const LINKS = [
   { href: "#mois", label: "Un mois avec Lokna" },
@@ -26,7 +27,7 @@ export function HomeNavbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="transition-colors hover:text-[#FAF9F5] focus-visible:underline focus-visible:underline-offset-4 focus-visible:outline-none"
+                className={`${styles.navLink} transition-colors hover:text-[#FAF9F5] focus-visible:outline-none`}
               >
                 {link.label}
               </Link>
@@ -42,7 +43,7 @@ export function HomeNavbar() {
           </Link>
           <Link
             href="/register"
-            className="rounded-md bg-[#FAF9F5] px-4 py-2 text-[14px] font-medium text-[#1E3A2F] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FAF9F5]"
+            className={`${styles.cta} rounded-md bg-[#FAF9F5] px-4 py-2 text-[14px] font-medium text-[#1E3A2F] hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FAF9F5]`}
           >
             Essayer gratuitement
           </Link>
