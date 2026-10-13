@@ -1,0 +1,141 @@
+/*
+ * Motion for the homepage. Every rule here is an enhancement: content is in its
+ * final, readable state without it, and prefers-reduced-motion turns it off.
+ */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(var(--p));
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Hero: the panel arrives once, the month's progress fills, rows settle in. */
+.panelIn {
+  animation: rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) 80ms both;
+}
+
+.barIn {
+  animation: fill 1100ms cubic-bezier(0.3, 0.7, 0.2, 1) 450ms both;
+}
+
+.rowIn {
+  animation: settle 500ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(300ms + var(--i, 0) * 110ms);
+}
+
+/* The progress bar between two story states. */
+.bar {
+  transform: scaleX(var(--p));
+  transform-origin: left;
+  transition: transform 700ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+.row {
+  transition:
+    background-color 450ms ease,
+    border-color 450ms ease,
+    box-shadow 450ms ease;
+}
+
+.swap {
+  animation: settle 350ms ease-out both;
+}
+
+/* Scroll reveal: only hidden once JS has confirmed the block is off-screen. */
+.reveal {
+  transition:
+    opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.reveal[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+/* Colours rather than opacity, so inactive steps still meet AA contrast. */
+.step {
+  position: relative;
+  color: #5f6862;
+  transition: color 400ms ease;
+}
+
+.step p:first-child {
+  color: #7e8f84;
+  transition: color 400ms ease;
+}
+
+.step::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 0;
+  width: 2px;
+  background: #1e3a2f;
+  transform: translateY(-50%);
+  transition: height 400ms ease;
+}
+
+.step[data-active="true"] {
+  color: #4f5d56;
+}
+
+.step[data-active="true"] h3 {
+  color: #15241f;
+}
+
+.step[data-active="true"] p:first-child {
+  color: #0b3b2c;
+}
+
+.step[data-active="true"]::before {
+  height: 7rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panelIn,
+  .barIn,
+  .rowIn,
+  .swap {
+    animation: none;
+  }
+  .bar,
+  .row,
+  .reveal,
+  .step,
+  .step p:first-child,
+  .step::before {
+    transition: none;
+  }
+  .reveal[data-reveal="hidden"] {
+    opacity: 1;
+    transform: none;
+  }
+}

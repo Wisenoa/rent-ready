@@ -1,16 +1,15 @@
 /**
- * RentReady Production Homepage (B.3 Architecture).
+ * Lokna homepage.
  *
- * Modern French Atelier design direction.
- * Lean Server Component architecture with selective Client Component hydration
- * for interactive widgets (HomeDemo, HomePricing, HomeFaq).
+ * Product-first: a dark forest hero showing the month as Lokna keeps it, then
+ * the shift from spreadsheet chores, the signature "Un mois avec Lokna" story
+ * (the month moves forward as the visitor scrolls), the other jobs of the month,
+ * who it is for, prices, questions and a final call to action.
  *
- * Product Truth:
- * - 14-day free trial, no credit card required
- * - Art. 21 quittance vs partial receipt
- * - Art. 17-1 INSEE IRL revision
- * - Transparent 9 € / 15 € pricing
- * - Zero unverified claims (no Factur-X, no tax simulators, no auto-reconciliation guarantees)
+ * Every figure on the page is computed by the product's own rules
+ * (`settlePeriodPayments`, `calculateRentRevision`); prices come from PLANS.
+ * Client JavaScript is limited to the story, the feature tabs and scroll
+ * reveals.
  */
 
 import React from "react";
@@ -25,9 +24,10 @@ import {
 import {
   HomeNavbar,
   HomeHero,
-  HomeProductMoments,
-  HomeTrust,
-  HomeTools,
+  HomeShift,
+  HomeMonth,
+  HomeFeatures,
+  HomeForWho,
   HomePricing,
   HomeFaq,
   HomeFinalCTA,
@@ -63,11 +63,12 @@ export default function HomePage() {
         }}
       />
       <HomeNavbar />
-      <main id="main-content">
+      <main id="main">
         <HomeHero />
-        <HomeProductMoments />
-        <HomeTrust />
-        <HomeTools />
+        <HomeShift />
+        <HomeMonth />
+        <HomeFeatures />
+        <HomeForWho />
         <HomePricing />
         <HomeFaq />
         <HomeFinalCTA />

@@ -3,25 +3,29 @@ export interface FaqItem {
   answer: string;
 }
 
+/**
+ * Visible on the homepage and published as FAQPage data. Each answer is checked
+ * against the product: change the code or the answer, never only one of them.
+ */
 export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Pourquoi quitter un tableur Excel pour Lokna ?",
     answer:
-      "Un tableur ne prépare pas vos quittances au format légal, n'alerte pas sur les révisions IRL et oblige à pointer vos relevés à la main. Lokna automatise ces vérifications et ne signale que les anomalies.",
+      "Un tableur garde ce que vous y écrivez, mais il ne sait pas ce qui est dû ce mois-ci, ne recalcule pas seul le reste d'un loyer payé en deux fois et ne prépare pas la quittance. Lokna part du bail pour le faire, et met en évidence ce qui demande votre attention.",
   },
   {
     question: "Comment fonctionne l'essai gratuit de 14 jours ?",
     answer:
-      "Création de compte immédiate avec votre nom et email. Aucune carte bancaire requise. Vous configurez vos logements et testez l'ensemble du suivi en conditions réelles sans engagement.",
+      "Vous créez votre compte avec votre nom et votre e-mail, sans carte bancaire. Pendant 14 jours, vous ajoutez vos logements, vos locataires et vos baux, et vous utilisez le suivi en conditions réelles. Vous choisissez une formule ensuite, si Lokna vous convient.",
   },
   {
     question: "Que se passe-t-il en cas de versement partiel d'un locataire ?",
     answer:
-      "Lokna édite un reçu d'acompte avec le solde restant dû (loi de 1989 art. 21). La quittance définitive n'est disponible qu'une fois le loyer intégralement réglé.",
+      "Lokna enregistre le versement et calcule le solde restant dû. Vous obtenez un reçu de paiement partiel ; la quittance n'est délivrée qu'une fois le loyer et les charges réglés en totalité, comme le prévoit l'article 21 de la loi du 6 juillet 1989.",
   },
   {
     question: "Mes données d'encaissement sont-elles exportables ?",
     answer:
-      "Oui. En un clic, vous téléchargez un export CSV structuré de vos loyers et versements, directement utilisable pour votre déclaration fiscale ou votre comptable.",
+      "Oui. Depuis l'espace Analyse fiscale, vous exportez vos loyers encaissés au format CSV, pour votre déclaration ou pour votre comptable.",
   },
 ];

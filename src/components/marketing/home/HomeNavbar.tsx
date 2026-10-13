@@ -1,47 +1,48 @@
-import React from "react";
 import Link from "next/link";
 import { LoknaLogo } from "@/components/ui/lokna-logo";
 
+const LINKS = [
+  { href: "#mois", label: "Un mois avec Lokna" },
+  { href: "#fonctionnalites", label: "Fonctionnalités" },
+  { href: "#tarifs", label: "Tarifs" },
+  { href: "/gestion-locative", label: "Gestion locative" },
+];
+
 export function HomeNavbar() {
   return (
-    <header className="border-b border-[#E5E2DA] bg-[#F5F3EF]/95 backdrop-blur-md sticky top-0 z-40">
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-1.5 focus:bg-[#1E3A2F] focus:text-white focus:rounded-md focus:text-xs focus:shadow-md"
-      >
-        Passer au contenu principal
-      </a>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-12 sm:h-14 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#1E3A2F]" aria-label="Lokna Accueil">
-            <LoknaLogo size={24} />
+    <header className="sticky top-0 z-40 border-b border-[#FAF9F5]/10 bg-[#1E3A2F]/95 text-[#FAF9F5] backdrop-blur-md">
+      {/* The skip link to #main comes from the root layout. */}
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 sm:px-8">
+        <div className="flex items-center gap-8">
+          <Link
+            href="/"
+            aria-label="Lokna, accueil"
+            className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FAF9F5]"
+          >
+            <LoknaLogo variant="light" size={26} />
           </Link>
-          <nav className="hidden md:flex items-center gap-5 text-xs font-medium text-[#5A6660]" aria-label="Navigation principale">
-            <a href="#demo" className="hover:text-[#15241F] transition-colors focus:outline-hidden focus-visible:underline">
-              Fonctionnement
-            </a>
-            <a href="#moments" className="hover:text-[#15241F] transition-colors focus:outline-hidden focus-visible:underline">
-              Moments clés
-            </a>
-            <a href="#outils" className="hover:text-[#15241F] transition-colors focus:outline-hidden focus-visible:underline">
-              Outils gratuits
-            </a>
-            <a href="#tarifs" className="hover:text-[#15241F] transition-colors focus:outline-hidden focus-visible:underline">
-              Tarifs
-            </a>
+          <nav aria-label="Navigation principale" className="hidden items-center gap-6 text-[14px] text-[#FAF9F5]/80 lg:flex">
+            {LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="transition-colors hover:text-[#FAF9F5] focus-visible:underline focus-visible:underline-offset-4 focus-visible:outline-none"
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
-
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        <div className="flex items-center gap-4">
           <Link
             href="/login"
-            className="text-xs font-medium text-[#5A6660] hover:text-[#15241F] transition-colors hidden sm:inline focus:outline-hidden focus-visible:underline"
+            className="hidden text-[14px] text-[#FAF9F5]/80 transition-colors hover:text-[#FAF9F5] focus-visible:underline focus-visible:underline-offset-4 focus-visible:outline-none sm:inline"
           >
             Connexion
           </Link>
           <Link
             href="/register"
-            className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-[#1E3A2F] text-white hover:bg-[#15241F] text-xs font-medium transition-colors shadow-2xs focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#1E3A2F] focus-visible:ring-offset-2"
+            className="rounded-md bg-[#FAF9F5] px-4 py-2 text-[14px] font-medium text-[#1E3A2F] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FAF9F5]"
           >
             Essayer gratuitement
           </Link>
