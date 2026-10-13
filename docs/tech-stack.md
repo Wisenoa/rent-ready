@@ -86,7 +86,7 @@ SENTRY_ENVIRONMENT          # production
 ## 4. Sentry Setup (Completed)
 
 ### Files Created
-- `sentry.client.config.ts` — Browser SDK init (tracesSampleRate=1.0 dev, 0.1 prod; session replay 5% prod)
+- `instrumentation-client.ts` — Browser SDK init, loaded on demand when `NEXT_PUBLIC_SENTRY_DSN` is set (tracesSampleRate=1.0 dev, 0.1 prod; session replay 5% prod)
 - `sentry.server.config.ts` — Node.js SDK init (tracesSampleRate 1.0 dev, 0.05 prod; maxBreadcrumbs=50)
 - `sentry.edge.config.ts` — Edge runtime init (conservative 0.02/0.02 traces)
 

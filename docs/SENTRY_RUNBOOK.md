@@ -105,7 +105,7 @@ All alerts are configured in **Sentry UI** under Projects → rent-ready → Ale
 | State | Meaning | Action |
 |-------|---------|--------|
 | **Unresolved** | Active error, needs investigation | Assign and investigate |
-| **Ignored** | Known non-actionable | Add to `ignoreErrors` in sentry.client.config.ts |
+| **Ignored** | Known non-actionable | Add to `ignoreErrors` in instrumentation-client.ts |
 | **Resolved** | Fixed in deploy | Verify fix in next deploy |
 | **Merged** | Duplicate of another issue | Link to primary, close duplicate |
 
@@ -213,7 +213,7 @@ sentry-cli releases -o wisenoa -p rent-ready files <VERSION> upload-source-maps 
 ### 7.3 Ignore Patterns (already configured)
 
 ```typescript
-// sentry.client.config.ts
+// instrumentation-client.ts
 ignoreErrors: [
   "Concurrent mutation detected",
   "AbortError",
@@ -222,7 +222,7 @@ ignoreErrors: [
 ]
 ```
 
-To add a new ignore pattern, update `sentry.client.config.ts` and open a PR.
+To add a new ignore pattern, update `instrumentation-client.ts` and open a PR.
 
 ---
 

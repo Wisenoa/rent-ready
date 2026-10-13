@@ -8,16 +8,25 @@ import { Analytics } from "@vercel/analytics/react";
 import { WebVitalsProvider } from "@/components/web-vitals-provider";
 import "./globals.css";
 
+// "optional", not "swap": on a slow first visit Inter can arrive after the
+// first paint, and swapping it in then re-wrapped every line above the fold
+// (CLS 0.21 on the homepage with 4G throttling). Preloaded, it is used on any
+// reasonable connection and on every later visit; otherwise the
+// metric-adjusted fallback stays and nothing moves.
 const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
 });
 
+// Only Inter is preloaded: it sets the first screen's text. The mono and the
+// serif are used further down a page, and preloading them competed with the
+// hero for bandwidth on slow connections.
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+  preload: false,
 });
 
 const newsreader = Newsreader({
@@ -25,6 +34,7 @@ const newsreader = Newsreader({
   subsets: ["latin"],
   display: "swap",
   style: ["normal", "italic"],
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -131,7 +141,8 @@ export default function RootLayout({
         >
           Aller au contenu principal
         </a>
-        <Analytics />
+        {/* Vercel Analytics only works on Vercel; elsewhere its script 404s on every page. */}
+        {process.env.VERCEL ? <Analytics /> : null}
         <WebVitalsProvider />
         {children}
         {/* Mounted here, not only imported: without it `toast(...)` from ANY

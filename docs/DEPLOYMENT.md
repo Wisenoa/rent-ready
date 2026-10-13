@@ -304,7 +304,7 @@ Channels:
 
 ## Monitoring
 
-- **Errors**: Sentry (configured in `sentry.client.config.ts`, `sentry.server.config.ts`)
+- **Errors**: Sentry (configured in `instrumentation-client.ts`, `sentry.server.config.ts`)
 - **Performance**: Vercel Analytics + Lighthouse CI
 - **Uptime**: UptimeRobot monitoring `https://rentready.io/api/health`
 - **Logs**: Vercel log drains or Docker `docker logs`
