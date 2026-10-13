@@ -40,14 +40,14 @@ trap 'on_error $LINENO' ERR
 
 echo "[INFO] === Sauvegarde Lokna : ${TIMESTAMP} ==="
 
+mkdir -p "${BACKUP_DIR}"
+
 # 1. Vérification espace disque hôte
-AVAILABLE_MB=$(df -m "${BACKUP_DIR:-/}" | awk 'NR==2 {print $4}')
+AVAILABLE_MB=$(df -m "${BACKUP_DIR}" | awk 'NR==2 {print $4}')
 if [[ "${AVAILABLE_MB}" -lt "${MIN_FREE_DISK_MB}" ]]; then
   echo "[CRITICAL] Espace disque insuffisant : ${AVAILABLE_MB} Mo libres (requis: ${MIN_FREE_DISK_MB} Mo)." >&2
   exit 1
 fi
-
-mkdir -p "${BACKUP_DIR}"
 
 # 2. Vérification de l'état du conteneur BDD
 if ! docker ps --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then

@@ -14,6 +14,8 @@ services:
     image: postgres:16-alpine
     container_name: lokna-postgres
     restart: unless-stopped
+    env_file:
+      - .env.production
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -50,6 +52,8 @@ services:
       target: migrator
     container_name: lokna-migrator
     restart: "no"
+    env_file:
+      - .env.production
     depends_on:
       postgres:
         condition: service_healthy
@@ -75,6 +79,8 @@ services:
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
     container_name: lokna-app
     restart: unless-stopped
+    env_file:
+      - .env.production
     depends_on:
       postgres:
         condition: service_healthy

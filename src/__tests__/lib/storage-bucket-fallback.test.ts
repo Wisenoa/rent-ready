@@ -38,4 +38,11 @@ describe("MinIO Storage Bucket Fallback Invariants (STORAGE-01)", () => {
       expect(usage).toBe("process.env.MINIO_BUCKET || DEFAULT_MINIO_BUCKET");
     }
   });
+
+  it("ensures health route treats not_configured status as non-failing", () => {
+    const healthRoutePath = join(process.cwd(), "src/app/api/health/route.ts");
+    const content = readFileSync(healthRoutePath, "utf8");
+
+    expect(content).toContain("c.status === 'healthy' || c.status === 'not_configured'");
+  });
 });

@@ -31,7 +31,11 @@ export async function GET(request: NextRequest) {
     };
   }
 
-  const checksHealthy = !health.checks || Object.values((health.checks as Record<string, {status: string}>)).every(c => c.status === 'healthy');
+  const checksHealthy =
+    !health.checks ||
+    Object.values(health.checks as Record<string, { status: string }>).every(
+      (c) => c.status === 'healthy' || c.status === 'not_configured'
+    );
   const statusCode = checksHealthy ? 200 : 503;
 
   return NextResponse.json(health, { status: statusCode });

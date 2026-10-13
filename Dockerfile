@@ -19,6 +19,8 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
+COPY prisma.config.ts ./
+COPY prisma ./prisma
 RUN pnpm install --frozen-lockfile
 
 # ------------------------------------------------------------------------------
@@ -40,6 +42,8 @@ ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV DATABASE_URL="postgresql://placeholder:placeholder@127.0.0.1:5432/lokna_production?schema=public"
+ENV BETTER_AUTH_SECRET="build_secret_placeholder_for_next_static_build_only"
 
 # Generate Prisma Client
 RUN pnpm exec prisma generate
@@ -56,6 +60,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY package.json pnpm-lock.yaml ./
+COPY prisma.config.ts ./
 COPY --from=deps /app/node_modules ./node_modules
 COPY prisma ./prisma
 
@@ -90,6 +95,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Ensure Prisma schema, migrations, and CLI are present in the runner
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --chown=nextjs:nodejs prisma.config.ts ./
 COPY --from=deps --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 COPY --from=deps --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 
