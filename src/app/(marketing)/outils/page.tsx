@@ -1,8 +1,5 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
 import {
-  ArrowRight,
   Calculator,
   CalendarClock,
   ClipboardCheck,
@@ -18,11 +15,16 @@ import {
   Scale,
   ShieldCheck,
   TrendingUp,
-  type LucideIcon,
 } from "lucide-react";
 import { SchemaMarkup, breadcrumbSchema } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
+import Decimal from "decimal.js";
+import { getLatestIrl } from "@/lib/irl-calculator";
+import { formatEuros, formatIndex, formatSignedPercent } from "@/lib/tools/amount";
+import { REGULARISATION_EXAMPLE, computeRegularisation, parseIsoDate } from "@/lib/tools/charges-regularisation";
+import { findPair, indexVariation, quarterShortLabel, type Trimester } from "@/lib/tools/irl-revision";
+import { FeaturedToolCard, ToolCard, type ToolCardData } from "@/components/marketing/tools/ToolCard";
 import { buildOrganizationSchema, buildWebSiteSchema, buildGraphSchema } from "@/lib/seo/structured-data";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -42,14 +44,7 @@ export async function generateMetadata() {
   });
 }
 
-type Tool = {
-  title: string;
-  description: string;
-  href: string;
-  icon: LucideIcon;
-};
-
-type ToolGroup = { id: string; title: string; intro: string; tools: Tool[] };
+type ToolGroup = { id: string; title: string; intro: string; tools: ToolCardData[] };
 
 /**
  * Grouped by what the landlord is doing, not by widget type. Each tool appears
@@ -65,7 +60,7 @@ const TOOL_GROUPS: ToolGroup[] = [
     tools: [
       { title: "Calculateur de révision IRL", description: "Le nouveau loyer avec l'indice de référence des loyers publié par l'INSEE, et l'historique des indices.", href: "/outils/calculateur-irl", icon: TrendingUp },
       { title: "Calculateur de loyer", description: "Estimez un loyer selon la surface et le prix au m², en zone tendue ou non.", href: "/outils/calculateur-loyer", icon: Home },
-      { title: "Charges locatives", description: "Le coût de vos charges et la provision mensuelle à demander au locataire.", href: "/outils/calculateur-charges-locatives", icon: Calculator },
+      { title: "Charges locatives", description: "La régularisation annuelle : provisions versées, charges réelles, et le montant à régler ou à rembourser.", href: "/outils/calculateur-charges-locatives", icon: Calculator },
       { title: "Dépôt de garantie", description: "Le montant maximum selon le type de bail, vide ou meublé.", href: "/outils/calculateur-depot-garantie", icon: ShieldCheck },
     ],
   },
@@ -128,6 +123,16 @@ function OutilsJsonLd() {
 }
 
 export default function OutilsPage() {
+  const latestIrl = getLatestIrl();
+  const latestPair = findPair(latestIrl.trimester as Trimester, latestIrl.year)!;
+  const chargesExample = computeRegularisation({
+    periodStart: parseIsoDate("2025-01-01")!,
+    periodEnd: parseIsoDate("2025-12-31")!,
+    occupancy: null,
+    charges: REGULARISATION_EXAMPLE.lines.map((line) => new Decimal(line.amount)),
+    monthlyProvision: new Decimal(REGULARISATION_EXAMPLE.monthlyProvision),
+    monthsPaid: REGULARISATION_EXAMPLE.monthsPaid,
+  });
   return (
     <>
       <OutilsJsonLd />
@@ -161,7 +166,55 @@ export default function OutilsPage() {
             </nav>
           </header>
 
-          <div className="mt-14 space-y-16">
+          <section aria-labelledby="essentiels-title" className="mt-12">
+            <h2 id="essentiels-title" className="text-[13px] font-medium uppercase tracking-[0.14em] text-sage-700">
+              Les deux calculs de chaque année
+            </h2>
+            <ul className="mt-4 grid gap-5 md:grid-cols-2">
+              <li className="flex">
+                <FeaturedToolCard
+                  tool={{
+                    title: "Calculateur de révision IRL",
+                    description: "Le nouveau loyer de votre bail à partir du dernier indice publié par l'INSEE, avec la formule détaillée.",
+                    href: "/outils/calculateur-irl",
+                    icon: TrendingUp,
+                  }}
+                  preview={
+                    <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[14px] text-ink-muted">
+                      Dernier indice
+                      <span className="text-[1.15rem] font-semibold tabular-nums text-ink">
+                        {quarterShortLabel(latestIrl)} · {formatIndex(latestIrl.value)}
+                      </span>
+                      <span className="tabular-nums">{formatSignedPercent(indexVariation(latestPair))} sur un an</span>
+                    </p>
+                  }
+                  action="Calculer le nouveau loyer"
+                />
+              </li>
+              <li className="flex">
+                <FeaturedToolCard
+                  tool={{
+                    title: "Régularisation des charges",
+                    description: "Provisions versées contre charges réelles : le montant à régler par le locataire ou à lui rembourser.",
+                    href: "/outils/calculateur-charges-locatives",
+                    icon: Calculator,
+                  }}
+                  preview={
+                    <p className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[14px] text-ink-muted">
+                      Exemple
+                      <span className="tabular-nums text-ink">
+                        {formatEuros(chargesExample.chargesTotal)} de charges − {formatEuros(chargesExample.provisionsTotal)} versés
+                      </span>
+                      <span className="text-[1.15rem] font-semibold tabular-nums text-ink">= {formatEuros(chargesExample.balance)} à régler</span>
+                    </p>
+                  }
+                  action="Calculer la régularisation"
+                />
+              </li>
+            </ul>
+          </section>
+
+          <div className="mt-16 space-y-16">
             {TOOL_GROUPS.map((group) => (
               <section key={group.id} id={group.id} aria-labelledby={`${group.id}-title`} className="scroll-mt-20">
                 <div className="mb-6 flex flex-wrap items-baseline justify-between gap-2 border-b border-line pb-3">
@@ -171,27 +224,11 @@ export default function OutilsPage() {
                   <p className="text-[14px] text-ink-muted">{group.intro}</p>
                 </div>
                 <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {group.tools.map((tool) => {
-                    const Icon = tool.icon;
-                    return (
-                      <li key={tool.href} className="flex">
-                        <Link
-                          href={tool.href}
-                          className="group flex w-full flex-col rounded-xl border border-line bg-white p-5 shadow-[0_1px_0_rgba(21,36,31,0.04)] transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-sage-300 hover:shadow-[0_18px_40px_-28px_rgba(6,24,18,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                        >
-                          <span className="inline-flex size-10 items-center justify-center rounded-lg bg-sage-50 text-forest">
-                            <Icon aria-hidden="true" className="size-5" strokeWidth={1.75} />
-                          </span>
-                          <span className="mt-4 text-[16px] font-semibold text-ink">{tool.title}</span>
-                          <span className="mt-1.5 flex-1 text-[14px] leading-6 text-ink-muted">{tool.description}</span>
-                          <span className="mt-4 inline-flex items-center gap-1 text-[14px] font-medium text-forest">
-                            Ouvrir l&apos;outil
-                            <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" />
-                          </span>
-                        </Link>
-                      </li>
-                    );
-                  })}
+                  {group.tools.map((tool) => (
+                    <li key={tool.href} className="flex">
+                      <ToolCard tool={tool} />
+                    </li>
+                  ))}
                 </ul>
               </section>
             ))}
