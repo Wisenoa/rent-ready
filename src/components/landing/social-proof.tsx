@@ -37,7 +37,7 @@ const integrations = [
   },
   {
     label: "INSEE",
-    sub: "Indice IRL en temps réel",
+    sub: "Indice IRL publié par l'INSEE",
     icon: (
       <svg className="size-4 text-forest shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <path d="M8 1L2 4v4.5c0 3.1 2.6 6 6 6s6-2.9 6-6V4L8 1z" />
