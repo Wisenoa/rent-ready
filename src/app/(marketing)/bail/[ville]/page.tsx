@@ -480,7 +480,7 @@ export default async function BailVillePage({ params }: Props) {
                   </dl>
                   <Link
                     href={card.href}
-                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-forest-hover"
+                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-forest px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-forest-hover"
                   >
                     Voir le modèle →
                   </Link>
@@ -669,11 +669,11 @@ export default async function BailVillePage({ params }: Props) {
 
         {/* ── CTA ── */}
         <section className="bg-cream px-4 py-16 sm:px-6 sm:py-24">
-          <div className="mx-auto max-w-2xl rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+          <div className="mx-auto max-w-2xl rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
             <h2 className="text-2xl font-semibold sm:text-3xl">
               Gérez vos baux et vos quittances à {city.name} avec Lokna
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-stone-300">
+            <p className="mx-auto mt-3 max-w-lg text-cream/80">
               Créez vos baux en 10 minutes, générez automatiquement les
               quittances de loyer. Essai gratuit 14 jours, sans carte bancaire.
             </p>

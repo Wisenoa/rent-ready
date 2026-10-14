@@ -177,7 +177,7 @@ export default function AssuranceLoyerImpayé() {
         ]}
       />
 
-      <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Header */}
         <header className="mb-16 text-center">
           <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
@@ -304,11 +304,11 @@ export default function AssuranceLoyerImpayé() {
         </section>
 
         {/* CTA */}
-        <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Protégez vos revenus locatifs avec Lokna
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-stone-300">
+          <p className="mx-auto mt-3 max-w-lg text-cream/80">
             Lokna ne remplace pas une GLI, mais il suit vos encaissements et affiche le reste dû en cas d'écart. Combinez gestion rigoureuse et assurance pour une protection complète.
           </p>
           <Link
@@ -318,7 +318,7 @@ export default function AssuranceLoyerImpayé() {
             Essayer gratuitement →
           </Link>
         </section>
-      </main>
+      </div>
     </>
   );
 }

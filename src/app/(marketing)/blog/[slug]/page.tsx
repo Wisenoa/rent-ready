@@ -462,12 +462,12 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
 
         {/* CTA */}
-        <div className="mt-16 rounded-2xl bg-stone-900 px-8 py-10 text-center">
+        <div className="mt-16 rounded-2xl bg-forest px-8 py-10 text-center">
           <h3 className="mb-3 text-xl font-bold text-white">
             {splitEditorialCTA(article.content).cta ??
               "Gérez votre location efficacement avec Lokna"}
           </h3>
-          <p className="mb-6 text-stone-300">
+          <p className="mb-6 text-cream/80">
             Logiciel tout-en-un pour propriétaires — essai gratuit 14 jours.
           </p>
           <Link

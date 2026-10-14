@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, FileText, Download } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { ToolCallout } from "@/components/marketing/site/ToolCallout";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -171,6 +172,12 @@ export default function RelanceLoyerGuidePage() {
         </div>
       </div>
 
+      <ToolCallout
+        className="mb-10"
+        title="Rédiger la lettre de relance"
+        text="Rappel amiable, relance formelle ou mise en demeure : le texte est prêt à copier et à compléter."
+        tool={{ href: "/outils/lettre-relance-loyer", label: "Rédiger la relance" }}
+      />
       <div className="prose prose-stone max-w-none">
         <h2>La procédure de recouvrement d&apos;un loyer impayé</h2>
         <p>

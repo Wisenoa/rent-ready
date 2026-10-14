@@ -94,7 +94,7 @@ export function MonthlyCycleStory() {
                 <div className="flex items-center justify-between mb-3">
                   <span
                     className={`inline-flex items-center justify-center h-7 w-7 rounded-lg text-xs font-bold ${
-                      isCurrent ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-600"
+                      isCurrent ? "bg-forest text-white" : "bg-stone-100 text-stone-600"
                     }`}
                   >
                     {step.number}
@@ -153,7 +153,7 @@ export function MonthlyCycleStory() {
                   type="button"
                   disabled={activeStep === STEPS.length - 1}
                   onClick={() => setActiveStep((p) => Math.min(STEPS.length - 1, p + 1))}
-                  className="rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40"
+                  className="rounded-lg bg-forest px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40"
                 >
                   Suivant
                 </button>

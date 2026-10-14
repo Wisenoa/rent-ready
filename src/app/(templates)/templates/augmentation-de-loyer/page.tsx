@@ -333,16 +333,16 @@ export default function AugmentationDeLoyerPage() {
         </section>
 
         {/* Modèle de courrier */}
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-white shadow-lg">
           <div className="max-w-3xl mx-auto">
             <h2 className="mb-4 text-xl font-semibold text-white">
               Modèle de courrier d'augmentation de loyer
             </h2>
-            <p className="mb-6 text-stone-300">
+            <p className="mb-6 text-cream/80">
               Voici un exemple de courrier à envoyer. Vous pouvez le personnaliser
               directement dans Lokna :
             </p>
-            <div className="rounded-xl border border-stone-700 bg-stone-800 p-6 font-mono text-sm text-stone-300">
+            <div className="rounded-xl border border-stone-700 bg-forest-hover p-6 font-mono text-sm text-cream/80">
               <p className="mb-2 font-bold text-white">[Votre nom et adresse]</p>
               <p className="mb-2">[Code postal, Ville]</p>
               <p className="mb-4 mt-4">[Nom du locataire]</p>
@@ -386,7 +386,7 @@ export default function AugmentationDeLoyerPage() {
               </Link>
               <Link
                 href="/register"
-                className="inline-block rounded-lg border border-stone-600 bg-stone-800 px-6 py-3 font-medium text-white shadow-sm transition-colors hover:bg-stone-700"
+                className="inline-block rounded-lg border border-stone-600 bg-forest-hover px-6 py-3 font-medium text-white shadow-sm transition-colors hover:bg-stone-700"
               >
                 Utiliser avec Lokna →
               </Link>
@@ -420,11 +420,11 @@ export default function AugmentationDeLoyerPage() {
         </section>
 
         {/* CTA final */}
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Calculer et générer vos lettres d'augmentation automatiquement
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             Lokna calcule la révision avec le dernier IRL publié par l'INSEE ;
             le nouveau loyer s'applique au bail après votre validation.
           </p>

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, FileText, Check } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { ToolCallout } from "@/components/marketing/site/ToolCallout";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -117,6 +118,13 @@ export default function ModeleBailGuidePage() {
       </div>
 
       {/* Content */}
+      <ToolCallout
+        className="mb-10"
+        title="Vérifier les montants du bail"
+        text="Avant de signer, contrôlez le plafond du dépôt de garantie et la surface habitable à indiquer."
+        tool={{ href: "/outils/calculateur-depot-garantie", label: "Plafond du dépôt de garantie" }}
+        secondary={{ href: "/outils/calculateur-surface-habitable", label: "Surface habitable" }}
+      />
       <div className="prose prose-stone max-w-none">
         <h2>Quel type de bail choisir ?</h2>
         <p>

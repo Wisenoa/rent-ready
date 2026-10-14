@@ -196,11 +196,11 @@ export default function RecuLoyerPage() {
           </div>
         </section>
 
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Gérez vos quittances automatiquement
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             With Lokna, générez automatiquement une quittance à chaque paiement deloyer. Plus besoin de s'en occuper manuellement.
           </p>
           <Link

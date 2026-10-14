@@ -191,11 +191,11 @@ export default function AssuranceLoyerImpayéIndex() {
         </div>
 
         {/* CTA */}
-        <section className="mt-20 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mt-20 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Protégez vos revenus locatifs partout en France
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             GLI chez un assureur, suivi des paiements et relances avec Lokna — combinez les deux pour protéger vos revenus.
           </p>
           <Link

@@ -77,7 +77,7 @@ export function PropertyHomebaseFeature() {
                 onClick={() => setActivePillar(pillar.id)}
                 className={`rounded-full px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all ${
                   isActive
-                    ? "bg-stone-900 text-white shadow-md"
+                    ? "bg-forest text-white shadow-md"
                     : "bg-white text-stone-600 border border-stone-200/80 hover:border-stone-300 hover:text-stone-900"
                 }`}
               >
@@ -142,7 +142,7 @@ export function PropertyHomebaseFeature() {
                 {/* Property Header */}
                 <div className="flex items-center justify-between pb-4 border-b border-stone-200">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-stone-900 text-white">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-forest text-white">
                       <Building2 className="size-5" />
                     </div>
                     <div>

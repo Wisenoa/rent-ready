@@ -66,7 +66,7 @@ export function LegalRigorSection() {
                 transition={{ ...spring.gentle, delay: idx * stagger.normal }}
               >
                 <div className="flex items-center justify-between mb-5">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-900 text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest text-white">
                     <Icon className="size-6" />
                   </div>
                   <span className="rounded-full bg-white border border-stone-200/90 px-3 py-1 text-[11px] font-semibold text-stone-700">

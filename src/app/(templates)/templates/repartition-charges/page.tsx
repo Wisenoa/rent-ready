@@ -251,9 +251,9 @@ export default function RepartitionChargesPage() {
         </section>
 
         {/* CTA */}
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">Automatisez la répartition des charges avec Lokna</h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             Provisions, régularisation, décompte annuel. Lokna gère tout automatiquement pour vous. Essai gratuit 14 jours.
           </p>
           <Link href="/register" className="mt-8 inline-block rounded-lg bg-emerald-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-emerald-700">

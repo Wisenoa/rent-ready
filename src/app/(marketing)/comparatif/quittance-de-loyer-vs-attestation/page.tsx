@@ -137,7 +137,7 @@ export default function QuittanceVsAttestation() {
         ]}
       />
 
-      <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Header */}
         <header className="mb-16 text-center">
           <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
@@ -256,11 +256,11 @@ export default function QuittanceVsAttestation() {
         </section>
 
         {/* CTA */}
-        <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Générez des quittances légales automatiquement
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-stone-300">
+          <p className="mx-auto mt-3 max-w-lg text-cream/80">
             Avec Lokna, chaque loyer intégralement payé génère une quittance PDF conforme à la loi de 1989.
             Plus besoin de se poser la question — tout est cadré.
           </p>
@@ -271,7 +271,7 @@ export default function QuittanceVsAttestation() {
             Créer mon compte gratuitement →
           </Link>
         </section>
-      </main>
+      </div>
     </>
   );
 }

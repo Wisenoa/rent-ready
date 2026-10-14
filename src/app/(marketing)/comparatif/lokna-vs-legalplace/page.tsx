@@ -123,7 +123,7 @@ export default function LoknaVsLegalPlace() {
         ]}
       />
 
-      <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-16 text-center">
           <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
             Comparatif — Gestion locative et services juridiques
@@ -309,9 +309,9 @@ export default function LoknaVsLegalPlace() {
           </div>
         </section>
 
-        <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">Gérez vos locations au quotidien avec Lokna</h2>
-          <p className="mx-auto mt-3 max-w-lg text-stone-300">
+          <p className="mx-auto mt-3 max-w-lg text-cream/80">
             Quittances, suivi des paiements, relances. Gérez vos locations en toute sérénité.
             Essai gratuit sans carte bancaire.
           </p>
@@ -322,7 +322,7 @@ export default function LoknaVsLegalPlace() {
             Créer mon compte gratuitement
           </Link>
         </section>
-      </main>
+      </div>
     </>
   );
 }

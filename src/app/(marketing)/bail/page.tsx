@@ -7,6 +7,7 @@ import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { SITE_NAME, SITE_URL } from "@/data/entity";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { ToolCallout } from "@/components/marketing/site/ToolCallout";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -263,6 +264,14 @@ Comment ça marche ?
 </div>
 </section>
 
+<ToolCallout
+className="mb-20"
+title="Avant de rédiger le bail"
+text="Vérifiez le plafond du dépôt de garantie et la surface habitable à indiquer au contrat."
+tool={{ href: "/outils/calculateur-depot-garantie", label: "Plafond du dépôt de garantie" }}
+secondary={{ href: "/outils/calculateur-surface-habitable", label: "Surface habitable" }}
+/>
+
 {/* Legal compliance */}
 <section className="mb-20 rounded-2xl bg-sage-50 p-8 sm:p-10">
 <h2 className="mb-4 text-xl font-semibold text-ink">
@@ -340,11 +349,11 @@ dépôt de garantie, etc.).
       </section>
 
       {/* CTA */}
-      <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+      <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
         <h2 className="text-2xl font-semibold sm:text-3xl">
           Créez votre premier bail en 10 minutes
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-stone-300">
+        <p className="mx-auto mt-3 max-w-xl text-cream/80">
           Modèle prêt à remplir, assistant guidé.
         </p>
         <Link

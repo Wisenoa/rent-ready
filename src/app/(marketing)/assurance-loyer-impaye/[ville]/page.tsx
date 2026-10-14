@@ -628,11 +628,11 @@ export default async function AssuranceLoyerImpayéVillePage({ params }: Props) 
 
         {/* ── CTA ── */}
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
-          <div className="mx-auto max-w-2xl rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+          <div className="mx-auto max-w-2xl rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
             <h2 className="text-2xl font-semibold sm:text-3xl">
               Repérez vos impayés à {city.name}, relancez sans y passer vos soirées
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-stone-300">
+            <p className="mx-auto mt-3 max-w-lg text-cream/80">
               Ne laissez pas un impayé mettre en péril votre investissement. Combinez GLI et gestion intelligente avec Lokna.
             </p>
             <Link

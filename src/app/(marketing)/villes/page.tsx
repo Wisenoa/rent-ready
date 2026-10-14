@@ -130,11 +130,11 @@ export default function VillesPage() {
         ))}
       </div>
 
-      <section className="mt-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white">
+      <section className="mt-16 rounded-2xl bg-forest px-6 py-14 text-center text-white">
         <h2 className="text-2xl font-semibold sm:text-3xl">
           Gérez vos biens où que vous soyez en France
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-stone-300">
+        <p className="mx-auto mt-3 max-w-xl text-cream/80">
           Quittances automatiques, suivi des loyers, révision IRL — tout en
           un seul logiciel.
         </p>

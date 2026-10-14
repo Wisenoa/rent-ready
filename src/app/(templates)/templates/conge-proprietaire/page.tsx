@@ -304,11 +304,11 @@ export default function CongeProprietairePage() {
           </div>
         </section>
 
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Donnez congé en toute conformité légale
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             Notre modèle intègre automatiquement les délais légaux et les mentions obligatoires.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">

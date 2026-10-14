@@ -35,24 +35,26 @@ const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1
 
 export function SiteHeader() {
   const pathname = usePathname() ?? "/";
-  const [openMenu, setOpenMenu] = useState<NavGroup["id"] | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  // Each menu remembers the path it was opened on; navigating elsewhere closes
+  // it by derivation, without an effect that would set state after render.
+  const [desktopMenu, setDesktopMenu] = useState<{ id: NavGroup["id"]; path: string } | null>(null);
+  const [mobileOpenedOn, setMobileOpenedOn] = useState<string | null>(null);
+  const openMenu = desktopMenu?.path === pathname ? desktopMenu.id : null;
+  const mobileOpen = mobileOpenedOn === pathname;
+  const setOpenMenu = useCallback(
+    (id: NavGroup["id"] | null) => setDesktopMenu(id ? { id, path: pathname } : null),
+    [pathname]
+  );
+  const setMobileOpen = useCallback(
+    (open: boolean) => setMobileOpenedOn(open ? pathname : null),
+    [pathname]
+  );
   const navRef = useRef<HTMLElement>(null);
   const buttonRefs = useRef<Partial<Record<NavGroup["id"], HTMLButtonElement | null>>>({});
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
   const mobilePanelRef = useRef<HTMLDivElement>(null);
   const baseId = useId();
-
-  const closeAll = useCallback(() => {
-    setOpenMenu(null);
-    setMobileOpen(false);
-  }, []);
-
-  // Navigation closes every menu.
-  useEffect(() => {
-    closeAll();
-  }, [pathname, closeAll]);
 
   // Desktop menus: Escape and outside click.
   useEffect(() => {
@@ -73,7 +75,7 @@ export function SiteHeader() {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointer);
     };
-  }, [openMenu]);
+  }, [openMenu, setOpenMenu]);
 
   // Mobile sheet: scroll lock, focus, Escape, Tab trap, desktop resize.
   useEffect(() => {
@@ -115,7 +117,7 @@ export function SiteHeader() {
       document.removeEventListener("keydown", onKey);
       desktop.removeEventListener("change", onResize);
     };
-  }, [mobileOpen]);
+  }, [mobileOpen, setMobileOpen]);
 
   const openOnHover = (id: NavGroup["id"]) => (event: React.PointerEvent) => {
     if (event.pointerType !== "mouse") return;
@@ -243,7 +245,7 @@ export function SiteHeader() {
             aria-expanded={mobileOpen}
             aria-controls={`${baseId}-mobile`}
             aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
-            onClick={() => setMobileOpen((value) => !value)}
+            onClick={() => setMobileOpen(!mobileOpen)}
             className="-mr-2 inline-flex size-10 items-center justify-center rounded-md text-cream/90 transition-colors hover:bg-cream/10 hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream lg:hidden"
           >
             {mobileOpen ? <X aria-hidden="true" className="size-5" /> : <Menu aria-hidden="true" className="size-5" />}
@@ -251,10 +253,12 @@ export function SiteHeader() {
         </div>
       </div>
 
+      {/* Rendered only while open: the desktop menus already put every link
+          in the HTML, so a hidden copy would only double the page's links. */}
+      {mobileOpen ? (
       <div
         ref={mobilePanelRef}
         id={`${baseId}-mobile`}
-        hidden={!mobileOpen}
         className="fixed inset-x-0 bottom-0 top-14 overflow-y-auto overscroll-contain bg-cream text-ink lg:hidden"
       >
         <nav aria-label="Navigation mobile" className="mx-auto max-w-xl px-5 pb-10 pt-4">
@@ -314,6 +318,7 @@ export function SiteHeader() {
           </div>
         </nav>
       </div>
+      ) : null}
     </header>
   );
 }

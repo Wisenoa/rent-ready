@@ -39,7 +39,7 @@ export function PricingSection() {
               onClick={() => setBillingCycle("monthly")}
               className={`rounded-full px-5 py-2 text-xs sm:text-sm font-semibold transition-all ${
                 billingCycle === "monthly"
-                  ? "bg-stone-900 text-white shadow-sm"
+                  ? "bg-forest text-white shadow-sm"
                   : "text-stone-600 hover:text-stone-900"
               }`}
             >
@@ -50,7 +50,7 @@ export function PricingSection() {
               onClick={() => setBillingCycle("annual")}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs sm:text-sm font-semibold transition-all ${
                 billingCycle === "annual"
-                  ? "bg-stone-900 text-white shadow-sm"
+                  ? "bg-forest text-white shadow-sm"
                   : "text-stone-600 hover:text-stone-900"
               }`}
             >
@@ -150,13 +150,13 @@ export function PricingSection() {
             transition={{ ...spring.gentle, delay: 0.1 }}
           >
             {/* Recommended Ribbon */}
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-stone-900 px-4 py-1 text-[11px] font-semibold text-white shadow-sm">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-forest px-4 py-1 text-[11px] font-semibold text-white shadow-sm">
               Le choix recommandé
             </div>
 
             <div>
               <div className="flex items-center justify-between">
-                <span className="inline-flex rounded-md bg-stone-900 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                <span className="inline-flex rounded-md bg-forest px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
                   {proPlan.name}
                 </span>
                 <span className="text-xs text-stone-500 font-medium">Jusqu&apos;à 10 logements</span>
@@ -208,10 +208,10 @@ export function PricingSection() {
             <div>
               <Link
                 href="/register"
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-stone-900 hover:bg-stone-800 py-3.5 text-sm font-semibold text-white shadow-lg transition-all"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-forest hover:bg-forest-hover py-3.5 text-sm font-semibold text-white shadow-lg transition-all"
               >
                 <span>Essai gratuit Pro — 14 jours</span>
-                <ArrowRight className="size-4 text-stone-300" />
+                <ArrowRight className="size-4 text-cream/80" />
               </Link>
               <p className="mt-2.5 text-center text-[11px] text-stone-500">
                 Sans carte bancaire · Activation immédiate

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, FileText, Download } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { ToolCallout } from "@/components/marketing/site/ToolCallout";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -170,6 +171,12 @@ export default function QuittanceLoyerGuidePage() {
         </div>
       </div>
 
+      <ToolCallout
+        className="mb-10"
+        title="Générer une quittance maintenant"
+        text="Le générateur gratuit distingue loyer et charges, comme l'exige l'article 21, et produit le PDF."
+        tool={{ href: "/outils/generateur-quittance", label: "Générer une quittance" }}
+      />
       <div className="prose prose-stone max-w-none">
         <h2>Quittance de loyer : définition et obligation légale</h2>
         <p>

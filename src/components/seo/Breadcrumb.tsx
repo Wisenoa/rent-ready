@@ -138,7 +138,7 @@ export function Breadcrumb({ items, showHomeIcon = true, className = "", pageIte
                 <span className="sr-only">Accueil</span>
               </Link>
             ) : index > 0 && (
-              <ChevronRight className="h-3.5 w-3.5 text-stone-300" aria-hidden="true" />
+              <ChevronRight className="h-3.5 w-3.5 text-cream/80" aria-hidden="true" />
             )}
             {crumb.isCurrentPage ? (
               <span className="font-medium text-stone-700" aria-current="page">

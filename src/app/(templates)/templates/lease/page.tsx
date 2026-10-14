@@ -265,11 +265,11 @@ export default function LeaseTemplatesPage() {
         </section>
 
         {/* CTA */}
-        <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Créez et gérez vos bails en ligne
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             Générez des bails conformes, envoyez-les pour signature
             électronique, et archiver-les en toute sécurité.
           </p>
@@ -282,7 +282,7 @@ export default function LeaseTemplatesPage() {
             </Link>
             <Link
               href="/pricing"
-              className="inline-block rounded-lg border border-stone-600 px-6 py-3 font-medium text-stone-300 transition-colors hover:bg-stone-800"
+              className="inline-block rounded-lg border border-stone-600 px-6 py-3 font-medium text-cream/80 transition-colors hover:bg-forest-hover"
             >
               Voir les tarifs →
             </Link>

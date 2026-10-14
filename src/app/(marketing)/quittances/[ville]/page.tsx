@@ -568,11 +568,11 @@ export default async function QuittanceVillePage({ params }: Props) {
 
         {/* ── CTA ── */}
         <section className="bg-cream px-4 py-16 sm:px-6 sm:py-24">
-          <div className="mx-auto max-w-2xl rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+          <div className="mx-auto max-w-2xl rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
             <h2 className="text-2xl font-semibold sm:text-3xl">
               Générez votre première quittance pour {city.name}
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-stone-300">
+            <p className="mx-auto mt-3 max-w-lg text-cream/80">
               Automatisez vos quittances pour vos biens à {city.name} avec Lokna. Essai gratuit 14 jours, sans carte bancaire.
             </p>
             <Link

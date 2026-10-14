@@ -309,11 +309,11 @@ export default function ActeCautionPage() {
         </section>
 
         {/* CTA */}
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Automatisez la gestion des cautions
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             Avec Lokna, générez l&apos;acte de caution automatiquement,
             envoyez-la pour signature et alertez le garant en cas d&apos;impayés.
           </p>
@@ -326,7 +326,7 @@ export default function ActeCautionPage() {
             </Link>
             <Link
               href="/templates/lease"
-              className="inline-block rounded-lg border border-stone-600 px-6 py-3 font-medium text-stone-300 transition-colors hover:bg-stone-800"
+              className="inline-block rounded-lg border border-stone-600 px-6 py-3 font-medium text-cream/80 transition-colors hover:bg-forest-hover"
             >
               ← Tous les baux
             </Link>

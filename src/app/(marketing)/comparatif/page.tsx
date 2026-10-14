@@ -99,7 +99,7 @@ export default function ComparatifIndex() {
   return (
     <>
       <ComparatifIndexJsonLd />
-      <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12 text-center">
         <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
           Guides comparatifs
@@ -146,7 +146,7 @@ export default function ComparatifIndex() {
           </Link>
         </p>
       </div>
-    </main>
+    </div>
     </>
   );
 }

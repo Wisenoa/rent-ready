@@ -220,11 +220,11 @@ export default function EtatuDesLieuxPage() {
           </div>
         </section>
 
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Évitez les litiges avec un état des lieux précis
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             Un état des lieux bien fait protège le propriétaire et le locataire.
             Téléchargez notre modèle gratuit et faites-le remplir dès l'entrée.
           </p>

@@ -7,6 +7,7 @@ import { SchemaMarkup, paidOffer } from "@/components/seo/schema-markup";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { baseMetadata } from "@/lib/seo/metadata";
 import cities from "@/data/cities.json";
+import { ToolCallout } from "@/components/marketing/site/ToolCallout";
 
 type City = (typeof cities)[number];
 
@@ -250,6 +251,14 @@ className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm back
 </div>
 </section>
 
+<ToolCallout
+className="mb-20"
+title="Une quittance tout de suite, sans compte"
+text="Le générateur gratuit produit le PDF d'une quittance conforme pour un mois donné."
+tool={{ href: "/outils/generateur-quittance", label: "Générer une quittance" }}
+secondary={{ href: "/outils/lettre-relance-loyer", label: "Lettre de relance" }}
+/>
+
 {/* Legal requirements */}
 <section className="mb-20">
 <h2 className="mb-6 text-2xl font-semibold text-ink">
@@ -317,11 +326,11 @@ quittance n&apos;atteste que d&apos;un mois entièrement réglé.
 </section>
 
 {/* CTA */}
-<section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+<section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
 <h2 className="text-2xl font-semibold sm:text-3xl">
 Générez votre première quittance gratuitement
 </h2>
-<p className="mx-auto mt-3 max-w-xl text-stone-300">
+<p className="mx-auto mt-3 max-w-xl text-cream/80">
 Essai 14 jours sans carte bancaire. Créez vos quittances, envoyez-les à
 vos locataires.
 </p>

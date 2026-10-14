@@ -273,7 +273,7 @@ données pour la comptabilité.
 </section>
 
 {/* CTA */}
-<section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+<section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
 <h2 className="text-2xl font-semibold sm:text-3xl">
 Commencez à gérer vos locations en 5 minutes
 </h2>

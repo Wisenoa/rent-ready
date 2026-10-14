@@ -162,7 +162,7 @@ export default function DemoPage() {
     <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <DemoJsonLd />
 
-      <main className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
           {/* Left column — pitch */}
           <div>
@@ -229,7 +229,7 @@ export default function DemoPage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <FinalCta />
     </div>

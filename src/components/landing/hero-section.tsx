@@ -63,7 +63,7 @@ export function HeroSection() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
               </span>
               <span>Pilotage locatif pour propriétaires indépendants</span>
-              <span className="text-stone-300">|</span>
+              <span className="text-cream/80">|</span>
               <span className="text-stone-500 font-normal">Loi du 6 juillet 1989</span>
             </span>
           </motion.div>
@@ -96,10 +96,10 @@ export function HeroSection() {
           >
             <Link
               href="/register"
-              className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-stone-900 hover:bg-stone-800 px-7 py-3.5 text-[15px] font-medium text-white shadow-lg shadow-stone-900/10 transition-all hover:-translate-y-0.5 active:translate-y-0"
+              className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-forest hover:bg-forest-hover px-7 py-3.5 text-[15px] font-medium text-white shadow-lg shadow-stone-900/10 transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
               <span>Démarrer l&apos;essai gratuit 14 jours</span>
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5 text-stone-300" />
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5 text-cream/80" />
             </Link>
 
             <a
@@ -120,12 +120,12 @@ export function HeroSection() {
               <CheckCircle2 className="size-3.5 text-emerald-600" />
               Sans carte bancaire
             </span>
-            <span className="hidden sm:inline text-stone-300">•</span>
+            <span className="hidden sm:inline text-cream/80">•</span>
             <span className="inline-flex items-center gap-1.5">
               <CheckCircle2 className="size-3.5 text-emerald-600" />
               Mise en place en 3 minutes
             </span>
-            <span className="hidden sm:inline text-stone-300">•</span>
+            <span className="hidden sm:inline text-cream/80">•</span>
             <span className="inline-flex items-center gap-1.5">
               <ShieldCheck className="size-3.5 text-emerald-600" />
               Données hébergées en France
@@ -144,7 +144,7 @@ export function HeroSection() {
             {/* Ledger Top Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-stone-100">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-stone-900 text-white font-semibold text-sm">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-forest text-white font-semibold text-sm">
                   10
                 </div>
                 <div>
@@ -324,7 +324,7 @@ export function HeroSection() {
                       <button
                         type="button"
                         onClick={() => setSoldeRegle(true)}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-stone-900 hover:bg-stone-800 px-3 py-1.5 text-[12px] font-medium text-white shadow-sm transition-all hover:scale-102"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-forest hover:bg-forest-hover px-3 py-1.5 text-[12px] font-medium text-white shadow-sm transition-all hover:scale-102"
                       >
                         <Sparkles className="size-3 text-amber-300" />
                         <span>Encaisser le solde (400 €)</span>

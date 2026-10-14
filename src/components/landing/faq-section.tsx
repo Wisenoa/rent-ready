@@ -118,7 +118,7 @@ export function FaqSection() {
             </a>
             <a
               href="/demo"
-              className="inline-flex items-center gap-2 rounded-xl bg-stone-900 px-4 py-2.5 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-stone-800"
+              className="inline-flex items-center gap-2 rounded-xl bg-forest px-4 py-2.5 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-forest-hover"
             >
               Voir la démo
             </a>

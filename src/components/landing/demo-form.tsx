@@ -178,7 +178,7 @@ export function DemoForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-2xl bg-stone-900 py-4 text-sm font-semibold text-white shadow-lg shadow-stone-900/10 transition-colors hover:bg-stone-800 disabled:opacity-60"
+        className="w-full rounded-2xl bg-forest py-4 text-sm font-semibold text-white shadow-lg shadow-stone-900/10 transition-colors hover:bg-forest-hover disabled:opacity-60"
       >
         {loading ? "Envoi en cours..." : "Demander ma démo gratuite"}
       </button>

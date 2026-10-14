@@ -282,11 +282,11 @@ export default function BailEtudiantPage() {
         </section>
 
         {/* CTA */}
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Louez à des étudiants en toute sérénité
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             Générez des baux conformes avec clause VISALE, gérez les paiements
             et les états des lieux en ligne.
           </p>
@@ -299,7 +299,7 @@ export default function BailEtudiantPage() {
             </Link>
             <Link
               href="/templates/lease"
-              className="inline-block rounded-lg border border-stone-600 px-6 py-3 font-medium text-stone-300 transition-colors hover:bg-stone-800"
+              className="inline-block rounded-lg border border-stone-600 px-6 py-3 font-medium text-cream/80 transition-colors hover:bg-forest-hover"
             >
               ← Tous les baux
             </Link>

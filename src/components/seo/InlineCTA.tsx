@@ -59,7 +59,7 @@ export function InlineCTA({
         <Link
           href={href}
           aria-label={label}
-          className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-stone-700"
+          className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-forest px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-stone-700"
         >
           {text}
           {showArrow && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
@@ -138,7 +138,7 @@ export function StickyBottomCTA() {
     >
       <Link
         href="/register"
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-stone-900 py-3 text-sm font-medium text-white"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-forest py-3 text-sm font-medium text-white"
       >
         Démarrer gratuitement
         <ArrowRight className="h-4 w-4" aria-hidden="true" />

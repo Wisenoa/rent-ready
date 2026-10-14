@@ -83,6 +83,7 @@ import {
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
 import { SITE_URL } from "@/data/entity";
+import { ToolCallout } from "@/components/marketing/site/ToolCallout";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -310,7 +311,7 @@ export default function FeaturesPage() {
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link
                 href="/register"
-                className="inline-flex items-center gap-2.5 rounded-2xl bg-stone-900 px-8 py-4 text-[15px] font-semibold text-white shadow-xl shadow-stone-900/15 transition-colors hover:bg-stone-800"
+                className="inline-flex items-center gap-2.5 rounded-2xl bg-forest px-8 py-4 text-[15px] font-semibold text-white shadow-xl shadow-stone-900/15 transition-colors hover:bg-forest-hover"
               >
                 Essai gratuit 14 jours
               </Link>
@@ -356,8 +357,16 @@ export default function FeaturesPage() {
         </div>
       </section>
 
+      <div className="mx-auto max-w-6xl px-5 pt-14 sm:px-8">
+        <ToolCallout
+          title="Les mêmes calculs, gratuits et sans compte"
+          text="Révision IRL, dépôt de garantie, charges, quittance : nos outils gratuits appliquent les mêmes règles que Lokna."
+          tool={{ href: "/outils", label: "Voir les outils gratuits" }}
+        />
+      </div>
+
       {/* ── Feature groups ── */}
-      <main className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
         <div className="space-y-24">
           {featureGroups.map((group, groupIdx) => {
             const Icon = group.icon;
@@ -419,7 +428,7 @@ export default function FeaturesPage() {
             );
           })}
         </div>
-      </main>
+      </div>
 
       {/* ── Integration strip ── */}
       <section className="border-y border-stone-200 bg-white">

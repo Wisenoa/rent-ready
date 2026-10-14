@@ -313,11 +313,11 @@ export default function CongeLocatairePage() {
           </div>
         </section>
 
-        <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
+        <section className="mb-16 rounded-2xl bg-forest px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-semibold sm:text-3xl">
             Envoyez un congé en conformité légale
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          <p className="mx-auto mt-3 max-w-xl text-cream/80">
             Notre modèle respecte les délais et formes légales. Téléchargez,
             personnalisez et envoyez en recommandée AR.
           </p>

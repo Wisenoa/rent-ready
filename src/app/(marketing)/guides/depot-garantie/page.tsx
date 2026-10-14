@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { ToolCallout } from "@/components/marketing/site/ToolCallout";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -89,6 +90,13 @@ export default function DepotGarantieGuidePage() {
         </p>
       </header>
 
+      <ToolCallout
+        className="mb-10"
+        title="Calculer le plafond du dépôt de garantie"
+        text="Un mois de loyer hors charges en location vide, deux en meublé : vérifiez le montant pour votre bail."
+        tool={{ href: "/outils/calculateur-depot-garantie", label: "Calculer le plafond" }}
+        secondary={{ href: "/outils/checklist-etat-lieux", label: "Checklist état des lieux" }}
+      />
       <div className="prose prose-stone max-w-none">
         <h2>Quel montant de dépôt de garantie ?</h2>
         <p>
