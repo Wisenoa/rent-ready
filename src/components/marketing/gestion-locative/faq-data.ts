@@ -30,7 +30,7 @@ export const GESTION_FAQ_ITEMS: FaqItem[] = [
   },
   {
     question: "Les quittances sont-elles envoyées automatiquement ?",
-    answer: `La quittance est générée lorsque vous enregistrez le paiement qui solde le mois. Vous la téléchargez en PDF, et votre locataire la retrouve dans son espace en ligne si vous l'y avez invité. ${SITE_NAME} ne l'envoie pas par e-mail à votre place.`,
+    answer: `Non. La quittance est générée lorsque vous enregistrez le paiement qui solde le mois, à condition que votre adresse de bailleur soit renseignée dans votre profil. Vous la téléchargez en PDF quand vous en avez besoin et la transmettez vous-même à votre locataire : ${SITE_NAME} ne l'envoie pas à votre place.`,
   },
   {
     question: "Faut-il connecter son compte bancaire ?",

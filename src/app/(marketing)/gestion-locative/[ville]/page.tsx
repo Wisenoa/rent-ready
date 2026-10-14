@@ -121,13 +121,13 @@ function getFeatures(city: City) {
     },
     {
       icon: "📊",
-      title: "Relances de loyer",
-      description: `En cas de retard à ${city.name}, envoyez à votre locataire une relance par e-mail en trois tons : rappel cordial, relance formelle, mise en demeure.`,
+      title: "Retards visibles",
+      description: `Un loyer en retard à ${city.name} reste affiché avec son reste dû et sa date d'échéance : vous relancez votre locataire avec les bons montants.`,
     },
     {
       icon: "🏠",
-      title: "Portail locataire",
-      description: `Offrez à vos locataires à ${city.name} un espace personnel pour consulter leurs quittances, signaler un problème technique avec photos, et suivre l'avancement des interventions.`,
+      title: "Quittances en PDF",
+      description: `Les quittances et reçus de vos locataires à ${city.name} se téléchargent en PDF, à la demande. Lokna ne les envoie pas : vous les transmettez vous-même.`,
     },
     {
       icon: ctx.isZoneTendue ? "⚖️" : "📑",
@@ -165,7 +165,7 @@ function getFaqs(city: City) {
     },
     {
       question: `Comment démarrer la gestion locative de mes biens à ${city.name} ?`,
-      answer: `Créez votre compte gratuitement en 2 minutes, ajoutez vos biens situés à ${city.name} et vos locataires, puis enregistrez les paiements reçus : Lokna calcule le reste dû, génère les quittances et les reçus, prépare les relances et calcule la révision IRL. Aucune installation n'est nécessaire, tout fonctionne depuis votre navigateur ou votre smartphone.`,
+      answer: `Créez votre compte gratuitement en 2 minutes, ajoutez vos biens situés à ${city.name} et vos locataires, puis enregistrez les paiements reçus : Lokna calcule le reste dû, génère les quittances et les reçus, montre les retards et calcule la révision IRL. Aucune installation n'est nécessaire, tout fonctionne depuis votre navigateur ou votre smartphone.`,
     },
     ...(ctx.isZoneTendue ? [{
       question: `L'encadrement des loyers s'applique-t-il à ${city.name} ?`,
@@ -215,7 +215,7 @@ function getHowToSteps(city: City) {
     },
     {
       name: `Enregistrer vos locataires et générer les quittances`,
-      text: `Ajoutez les informations de vos locataires et utilisez la fonctionnalité de génération de quittances pour produire des documents conformes à la loi de 1989, téléchargeables en PDF et accessibles à votre locataire dans son espace en ligne.`,
+      text: `Ajoutez les informations de vos locataires et utilisez la fonctionnalité de génération de quittances pour produire des documents conformes à la loi de 1989, téléchargeables en PDF à la demande.`,
       url: "/register",
     },
     {

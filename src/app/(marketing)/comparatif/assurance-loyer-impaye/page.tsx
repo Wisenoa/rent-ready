@@ -309,7 +309,7 @@ export default function AssuranceLoyerImpayé() {
             Protégez vos revenus locatifs avec Lokna
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
-            Lokna ne remplace pas une GLI, mais il suit vos encaissements et vous alerte en cas d'écart. Combinez gestion rigoureuse et assurance pour une protection complète.
+            Lokna ne remplace pas une GLI, mais il suit vos encaissements et affiche le reste dû en cas d'écart. Combinez gestion rigoureuse et assurance pour une protection complète.
           </p>
           <Link
             href="/register"

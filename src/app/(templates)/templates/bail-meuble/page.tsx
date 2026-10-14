@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Meublé Gratuit 2026 — Contrat Conforme Loi 1989",
   description:
-    "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. Téléchargez en PDF, personnalisez les clauses, signature électronique incluse.",
+    "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. Téléchargez en PDF et personnalisez les clauses.",
   keywords: [
     "modele bail meuble",
     "bail meuble 2026",
@@ -497,7 +497,6 @@ export default function BailMeublePage() {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
             Remplissez en ligne, téléchargez en PDF, envoyez à votre locataire.
-            Signature électronique incluse.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link

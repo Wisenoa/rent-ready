@@ -25,7 +25,7 @@ export async function generateMetadata() {
     title:
       "Gestion Locations 2026 — Tableau de bord unifié",
     description:
-      `Gérez tous vos biens locatifs avec ${SITE_NAME} : tableau de bord temps réel, suivi loyers, portail locataire et documents centralisés. Essai gratuit 2026.`,
+      `Gérez tous vos biens locatifs avec ${SITE_NAME} : tableau de bord, suivi des loyers et des retards, quittances et reçus centralisés. Essai gratuit 2026.`,
     url: "/locations",
     ogType: "feature",
   });
@@ -52,9 +52,9 @@ description:
 icon: "📁",
 },
 {
-title: "Portail locataire intégré",
+title: "Quittances et reçus à télécharger",
 description:
-"Vos locataires accèdent à leur espace pour déclarer les incidents, consulter leurs documents et communiquer.",
+"Chaque document se télécharge en PDF, à la demande. Vous le transmettez vous-même à votre locataire.",
 icon: "👤",
 },
 {
@@ -88,9 +88,9 @@ const faqData = [
       `Oui. ${SITE_NAME} est conçu pour gérer de 1 à 10 biens. Chaque bien a ses propres locataires, baux, quittances et historique. Vous avez une vue unifiée ou détaillée par bien selon vos besoins.`,
   },
   {
-    question: "Les documents sont-ils accessibles aux deux parties ?",
+    question: "Où retrouver les documents de mes locations ?",
     answer:
-      "Oui. Vos locataires accèdent à leur portail dédié pour consulter leurs baux, quittances et déclarer des incidents. Vous conservez l'accès complet à tous les documents depuis votre tableau de bord.",
+      "Vous les retrouvez tous dans votre tableau de bord. Vos locataires n'ont pas d'accès en ligne : vous téléchargez les quittances et reçus en PDF et les leur transmettez.",
   },
 ];
 
@@ -148,7 +148,7 @@ const LOCATIONS_SCHEMA = {
       operatingSystem: "Web",
       url: `${SITE_URL}/locations`,
       description:
-        "Gérez tous vos biens locatifs : suivi des loyers, état des lieux, documents centralisés, portail locataire intégré. Logiciel pour propriétaires bailleurs.",
+        "Gérez tous vos biens locatifs : suivi des loyers et des retards, quittances et reçus, dépenses par logement. Logiciel pour propriétaires bailleurs.",
       offers: {
         ...paidOffer(),
       },
@@ -156,7 +156,7 @@ const LOCATIONS_SCHEMA = {
         "Tableau de bord unifié",
         "Suivi des loyers attendus et du reste dû",
         "Documents centralisés",
-        "Portail locataire intégré",
+        "Quittances et reçus téléchargeables en PDF",
         "Historique complet par bien",
         "Révision IRL calculée avec l'indice INSEE",
       ],

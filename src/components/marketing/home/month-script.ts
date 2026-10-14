@@ -85,9 +85,9 @@ export const MONTH_STEPS: MonthStep[] = [
   {
     day: 12,
     date: "12 oct.",
-    title: "Un rappel, au bon ton",
-    text: "Le solde est en retard. Un rappel part par e-mail depuis le suivi. S'il le faut, vous passez à une relance formelle, puis à une mise en demeure.",
-    event: "Rappel envoyé à Emma Laurent",
+    title: "Un retard en évidence",
+    text: "Le solde est en retard. Le suivi affiche les 350 € restant dus et depuis quand : vous relancez Emma Laurent avec les bons montants.",
+    event: "350,00 € en retard pour Emma Laurent",
   },
   {
     day: 18,
@@ -175,7 +175,9 @@ function monthAt(day: number, event: string): MonthState {
       outstanding: formatCurrency(settlement.outstanding),
       status,
       document,
-      reminder: reminded ? `Rappel envoyé le ${dayLabel(lease.reminderDay ?? day)}` : null,
+      // Lokna shows the delay; it does not send the reminder (no e-mail provider in
+      // production). The landlord relaunches with the amounts shown here.
+      reminder: reminded ? `En retard depuis le ${DUE_DAY} oct.` : null,
     };
   });
 

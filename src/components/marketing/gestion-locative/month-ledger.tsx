@@ -135,8 +135,8 @@ function Row({ row, mark }: { row: ExampleRow; mark?: number }) {
           {formatCurrency(row.due)}. La quittance attendra le solde de{" "}
           {formatCurrency(row.outstanding)}.{" "}
           <span className="text-[#15241F]">
-            Dans Lokna&nbsp;: relancer {row.tenant.split(" ")[0]} ou enregistrer
-            le solde à réception.
+            Vous relancez {row.tenant.split(" ")[0]} avec ces montants, puis
+            vous enregistrez le solde à réception.
           </span>
         </p>
       ) : null}
@@ -145,8 +145,8 @@ function Row({ row, mark }: { row: ExampleRow; mark?: number }) {
 }
 
 const NOTES = [
-  "Un loyer réglé reste discret. Sa quittance est prête à télécharger, et votre locataire la retrouve dans son espace.",
-  "Un versement incomplet reste visible jusqu'au solde : reçu de paiement partiel, reste dû, relance si besoin.",
+  "Un loyer réglé reste discret. Sa quittance est prête à télécharger en PDF.",
+  "Un versement incomplet reste visible jusqu'au solde : reçu de paiement partiel, reste dû, de quoi relancer si besoin.",
   "Les montants attendus viennent des baux. Vous enregistrez ce qui arrive, Lokna fait les comptes.",
 ];
 

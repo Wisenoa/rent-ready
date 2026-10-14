@@ -79,7 +79,7 @@ const SETUP_STEPS = [
   },
   {
     title: "Le locataire",
-    text: "Identité et coordonnées, pour les documents et les relances.",
+    text: "Identité et coordonnées, pour les documents.",
   },
   {
     title: "Le bail",
@@ -104,8 +104,8 @@ const MONTHLY_STEPS = [
 
 const ALSO = [
   {
-    term: "Relancer",
-    text: "Quand un loyer manque, envoyez depuis le suivi un rappel, une relance formelle ou une mise en demeure par e-mail. Lokna vous dit si l'envoi est bien parti.",
+    term: "Suivre les retards",
+    text: "Quand un loyer manque, le suivi du mois affiche le reste dû et depuis quand. Vous relancez votre locataire avec ces montants, par exemple avec notre modèle de lettre.",
     link: { href: "/outils/lettre-relance-loyer", label: "Modèle de lettre de relance" },
   },
   {
@@ -114,8 +114,8 @@ const ALSO = [
     link: { href: "/outils/calculateur-irl", label: "Calculateur de révision IRL" },
   },
   {
-    term: "Partager",
-    text: "Chaque locataire peut être invité dans son espace en ligne : il y retrouve ses quittances et peut vous signaler un problème dans le logement.",
+    term: "Télécharger",
+    text: "Chaque quittance et chaque reçu se télécharge en PDF, à la demande. Lokna ne les envoie pas : vous les transmettez à votre locataire.",
   },
   {
     term: "Retrouver",

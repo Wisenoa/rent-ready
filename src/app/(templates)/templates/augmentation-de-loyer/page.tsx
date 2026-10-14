@@ -425,9 +425,8 @@ export default function AugmentationDeLoyerPage() {
             Calculer et générer vos lettres d'augmentation automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Lokna calcule automatiquement l'augmentation IRL, génère le
-            courrier PDF et vous alerte 2 mois avant la date d'anniversaire
-            du bail.
+            Lokna calcule la révision avec le dernier IRL publié par l'INSEE ;
+            le nouveau loyer s'applique au bail après votre validation.
           </p>
           <Link
             href="/register"

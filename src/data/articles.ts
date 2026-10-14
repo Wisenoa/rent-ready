@@ -119,7 +119,7 @@ Non, la GLI ne couvre pas tous les cas. Elle exclut généralement les impayés 
 
 La lettre de relance doit mentionner le montant dû, la date d'échéance révolue, et le délai supplémentaire accordé (généralement 8 jours). Elle doit être signée par le bailleur ou son représentant. Conservez une copie et envoyez de préférence en recommandé avec accusé de réception pour faire foi de l'envoi. Un modèle gratuit est disponible sur Lokna.
 
-[CTA : Anticipez les impayés et gérez automatiquement vos relances avec Lokna — essai gratuit 14 jours]
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]
 
 ## FAQ — Loyer impaye
 **Que faire quand un locataire ne paie plus son loyer ?**
@@ -360,7 +360,7 @@ Pour une location meublée, le dépôt de garantie ne peut pas dépasser 2 mois 
 
 En cas de non-restitution dans les délais légaux, le montant du dépôt restant dû au locataire est majoré de 10 % du loyer mensuel (hors charges) par mois de retard commencé (art. 22 de la loi du 6 juillet 1989) : cette pénalité est due par le locataire, pas par le bailleur. Le locataire peut d'abord tenter une mise en demeure par courrier recommandé, puis saisir la commission départementale de conciliation (gratuite), ou le tribunal judiciaire si échec de la médiation. Conservez tous les échanges écrits.
 
-[CTA : Gérez automatiquement vos dépôts de garantie et suivez les états des lieux avec Lokna — essai gratuit 14 jours]
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]
 
 ## FAQ — Depot de garantie
 **Quel est le délai maximum pour restituer un dépôt de garantie ?**
@@ -478,7 +478,7 @@ L'état des lieux doit mentionner : l'identité des parties, l'adresse du bien, 
 
 Le dépôt de garantie est conçu pour couvrir les éventuelles dégradations constatées à la sortie par rapport à l'état des lieux d'entrée. Sans état des lieux, le bailleur perd cette protection. Un état des lieux minutieux à l'entrée est donc la meilleure assurance contre les litiges de dépôt de garantie à la sortie.
 
-[CTA : Réalisez vos états des lieux automatiquement avec photos et comparaison'entrée/sortie sur Lokna — essai gratuit 14 jours]
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]
 
 ## FAQ — état des lieux
 **L'état des lieux est-il obligatoire et quelle forme doit-il prendre ?**
@@ -575,7 +575,7 @@ Non, le propriétaire ne peut pas refuser un garant au seul motif qu'il ne rési
 
 Non, seules les locations vides et meublées en zone tendue sont concernée. Les locations saisonnières, les logement sociaux et les locations de courte durée en sont exclues.
 
-[CTA : Restez conformité avec la loi ALUR et gérez vos locations automatiquement avec Lokna — essai gratuit 14 jours]`,
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`,
   },
   {
     slug: "optimiser-fiscalite-loyers",
@@ -662,7 +662,7 @@ Oui, des dispositifs spécifiques existent comme MaPrimeRénov' et les déductio
 
 Non, la TVA payée sur l'acquisition d'un bien locatif n'est pas déductible. En revanche, si vous opsitez pour la location meublée soumise à TVA (option irrévocable), vous pouvez récupérer la TVA sur les dépenses.
 
-[CTA : Gérez automatiquement votre comptabilité locative et générez vos déclarations fiscales avec Lokna — essai gratuit 14 jours]`,
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`,
   },
   {
     slug: "quittance-loyer-pdf-gratuit",
@@ -1188,7 +1188,7 @@ Le dépôt de garantie doit être restitué dans un délai de 1 mois si l'état 
 
 L'état des lieux doit être contradictoire : les deux parties doivent être présentes ou représentées. Il doit être conservé pendant 5 ans. Les photos datées et géolocalisées constituent une preuve indiscutable.
 
-[CTA : Générez automatiquement vos états des lieux conformes avec Lokna — essai gratuit 14 jours]`,
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`,
   },
   {
     slug: "bail-location-vide-2026",
@@ -1723,7 +1723,7 @@ Avant de quitter le logement, le locataire doit :
 6. Résilier les contrats d'énergie et d'assurance habitation
 7. Mettre à jour son adresse auprès des administrations (CPAM, Impôts, CAF)
 
-[CTA : Générez vos lettres de congé et gérez vos état des lieux avec Lokna — essayer gratuitement]`,
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`,
   },
   {
     slug: "preavis-depart-locataire",
@@ -1856,7 +1856,7 @@ Oui, le locataire doit payer le loyer pendant toute la durée du préavis, même
 
 Lorsque le congé est donné pour la vente du logement, aucune indemnité de préavis n'est due au locataire. En revanche, si l'acquéreur ne réoccupe pas lui-même le logement et ne le reloue pas dans les douze mois suivant le congé, le locataire benefit d'une indemnité d'occupation égale à la différence entre le loyer effectivement pratiqué par le nouvel occupant et le loyer qu'il payait (article 24-2 de la loi n° 89-462).
 
-[CTA : Calculez votre préavis et générez votre lettre de congé avec Lokna — essayer gratuitement]
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]
 
 ## FAQ — préavis de depart
 **Quel est le délai de préavis pour un locataire qui donne conge ?**
@@ -1989,7 +1989,7 @@ Ce mécanisme, appelé « encadrement à la baisse », a été suspendu et réta
 
 Les plafonds de loyer sont actualisés chaque année en fonction de l'évolution de l'IRL et des données du marché. Pour 2026, les arrêtés préfectoraux ont intégré les dernières évolutions du marché locatif parisien, avec une augmentation modérée des loyers de référence dans certains secteurs.
 
-[CTA : Vérifiez si votre loyer respecte les plafondsparisiens avec Lokna — essayer gratuitement]`,
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`,
   },
   {
     slug: "sci-gestion-locative",
@@ -2580,7 +2580,7 @@ Le bailleur ne peut pas prélever sur le dépôt de garantie pour couvrir les ri
 - Les sommes dues au titre des charges
 - Les impayés de loyer
 
-[CTA : Comparez les assurances habitation locataire et trouvez la meilleure offre avec Lokna — essayer gratuitement]`,
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`,
   },
   {
     slug: "indexation-loyer-formule-2026",
@@ -3758,7 +3758,7 @@ En cas de départ d'un colocataire solidaire, le bailleur peut retenir sa part d
 
 Pour sécuriser le dépôt de garantie, le propriétaire peut vérifier systématiquement l'état des lieux d'entrée avec des photos datees, faire un état des lieux de sortie comparatif des la remise des clés, conserver tous les justificatifs de dégradation pour démontrer l'origine des dommages, et souscrive une GLI (Garantie Loyer Impayé) qui couvre les dégradations et les impayés.
 
-[CTA : Generez des etats des lieux professionnels et suivez vos dépôts de garantie avec Lokna -- essai gratuit]
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]
 
 ## FAQ -- Dépôt de garantie meuble
 
@@ -3844,7 +3844,7 @@ Pour le propriétaire : rédigez un état des lieux d'entrée le plus détaillé
 
 Pour le locataire : conservez votre exemplaire de l'état des lieux d'entrée signé, photographiez chaque pièce dès l'entrée, payez vos loyers et charges jusqu'à la sortie, et communiquez votre nouvelle adresse au bailleur lors de la remise des clés.
 
-[CTA : Gérez vos états des lieux et suivez vos dépôts de garantie avec Lokna — essai gratuit]
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]
 
 ## FAQ — Litige dépôt de garantie
 
@@ -3922,7 +3922,7 @@ Plusieurs erreurs sont à éviter dans la rédaction d'une lettre de relance. N'
 
 La lettre doit être factuelle, précise et respectueuse. Elle doit indiquer clairement le montant dû, la période concernée et le délai de paiement. Elle doit également mentionner les conséquences du non-paiement, sans franchir la limite de la menace.
 
-[CTA : Automatisez vos relances de loyers impayés avec Lokna -- essai gratuit 14 jours]
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]
 
 ## FAQ -- Lettre de relance loyer impayé
 
@@ -3986,7 +3986,7 @@ Trois scénarios sont possibles. Le locataire paie : le dossier est clos, le pro
 
 Lorsque l'affaire est portée devant le juge, celui-ci examine le bail, l'historique des paiements, les lettres envoyées et les arguments du locataire. Le juge peut ordonner la résiliation du bail et l'expulsion si la situation est grave, organiser un échéancier de remboursement si le locataire fait preuve de bonne foi, ou rejeter la demande si la somme impayée est modique ou le dossier du bailleur insuffisant.
 
-[CTA : Automatisez la gestion de vos impayés et suivez vos procédures avec Lokna -- essai gratuit]
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]
 
 ## FAQ -- Mise en demeure loyer
 
@@ -4070,7 +4070,7 @@ Seuls les revenus du travail (salaire, primes, vacations) peuvent etre saisis da
 
 Pour éviter d'en arriver a la saisie sur salaire, le bailleur peut vérifier la solvabilité du locataire avant la signature (fiches de paie, avis d'imposition, contrat de travail), souscrive une GLI pour etre remboursé en cas d'impaye, mettre en place des solutions de paiement échelonné des le premier impayé, et agir tot (plus la procédure est engagée tot, plus les arriérés sont faibles).
 
-[CTA : Protegez vos revenus locatifs avec Lokna -- suivi des paiements et alertes en temps réel]
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]
 
 ## FAQ -- Saisie sur salaire pour impayé
 
@@ -4154,7 +4154,7 @@ La révision du loyer doit être notifiée au locataire par lettre recommandée 
 
 Si le bailleur omet de notifier la révision dans les délais, il ne peut pas rattraper les augmentations non appliquées. Le loyer reste figé jusqu'à la prochaine date de révision possible.
 
-[CTA : Calculez automatiquement vos révisions de loyer et générez les notifications avec Lokna -- essai gratuit]
+[CTA : Calculez vos révisions de loyer IRL avec Lokna — essai gratuit 14 jours]
 
 ## FAQ -- Augmentation de loyer IRL
 
@@ -4441,7 +4441,7 @@ En cas d'état des lieux conforme : dans le mois suivant la remise des clés. En
 
 Non, le dépôt de garantie ne peut couvrir que les dégradations imputables au locataire.
 
-[CTA : Automatisez la gestion des états des lieux et le calcul des retenues avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
 
   {
@@ -4527,7 +4527,7 @@ Oui, le simulateur IRL de Lokna est entièrement gratuit.
 
 Oui, le simulateur fonctionne pour tout type de bail.
 
-[CTA : Automatisez le calcul et la notification de vos révisions de loyer avec Lokna — essai gratuit 14 jours]`
+[CTA : Calculez vos révisions de loyer IRL avec Lokna — essai gratuit 14 jours]`
   },
 
   {
@@ -4564,7 +4564,7 @@ La durée totale varie de 4 à 8 mois selon la procédure choisie et le tribunal
 
 Vérifiez la réalité de la situation, proposez éventuellement un échéancier, et orientez le locataire vers les aides sociales disponibles (FSL).
 
-[CTA : Anticipez les impayés et gérez automatiquement vos relances avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]`
   },
 
   {
@@ -4770,7 +4770,7 @@ En moyenne, il faut compter entre 8 mois et 2 ans.
 
 Oui, en pratique la trêve hivernale peut ajouter 1 à 4 mois à la procédure.
 
-[CTA : Protégez votre bien et anticipez les procédures avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
 
   {
@@ -5040,7 +5040,7 @@ Le calcul se fait toujours sur le loyer hors charges. Séparez bien le montant d
 
 Si le propriétaire exige un dépôt supérieur au plafond, le locataire peut refuser ou demander le remboursement de la différence. En cas de litige, le locataire peut saisir la commission départementale de conciliation.
 
-[CTA : Calculez automatiquement les dépôts de garantie et suivez les états des lieux avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "depot-garantie-etat-des-lieux",
@@ -5154,7 +5154,7 @@ Envoyez une lettre recommandée avec accusé de réception au propriétaire expo
 
 Non, la retenue est réduite proportionnellement à la durée de vie déjà écoulée. Si un élément est neuf, la retenue sera maximale. S'il est déjà très ancien, la retenue sera faible ou nulle.
 
-[CTA : Gérez automatiquement vos états des lieux et calculez les retenues avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "recours-garde-a-vue",
@@ -5430,7 +5430,7 @@ La rentabilité nette se calcule en divisant le résultat net annuel (loyers - c
 
 Pour une gestion simple avec quelques biens, vous pouvez réaliser le bilan vous-même à l'aide d'un tableur ou d'un logiciel de gestion locative. Pour une gestion complexe ou un patrimoine important, le recours à un comptable est recommandé.
 
-[CTA : Automatisez votre comptabilité locative et générez vos bilans avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "fiscalite-lmnp-vs-lmp",
@@ -5836,7 +5836,7 @@ En location vide, le propriétaire n'a pas à motiver son congé s'il est donné
 
 Oui, un bail saisonnier peut être renouvelé pour une nouvelle période de 90 jours. Le locataire peut donc revenir chaque année, mais sans continuité de séjour.
 
-[CTA : Gérez automatiquement les échéances de vos baux avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "gestion-compte-banque-separe",
@@ -6047,7 +6047,7 @@ Oui, les constructions nouvelles bénéficient d'une exonération de taxe fonci�
 
 Oui, la taxe foncière est due pour l'année entière. Si vous vendez un bien en cours d'année, le prorata est appliqué entre le vendeur et l'acheteur lors de la vente.
 
-[CTA : Automatisez le suivi de vos charges locatives avec Lokna — taxe foncière et comptabilité intégrés — essai gratuit]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "reduction-impot-location",
@@ -6298,7 +6298,7 @@ Les travaux ne s'amortissent pas mais sont déductibles comme charges. Seuls les
 
 Les amortissements non déduits sont pris en compte dans le calcul de la plus-value lors de la vente. Cela peut réduire l'imposition sur la plus-value et optimiser votre opération.
 
-[CTA : Gérez votre comptabilité LMNP facilement avec Lokna — amortissement automatique et déclarations — essai gratuit]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "parental-garantie",
@@ -6711,7 +6711,7 @@ Vous devez déclarer le sinistre à votre assureur dans un délai de 5 jours ouv
 
 Si vous êtes propriétaire de plusieurs biens, vous pouvez négocier un contrat multi-risques pour l'ensemble de votre patrimoine avec des tarifs préférentiels. Contactez votre assureur pour obtenir une proposition personnalisée.
 
-[CTA : Protégez votre patrimoine locatif avec Lokna — gestion des assurances et suivi des sinistres — essai gratuit]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "entretien-chaudiere",
@@ -6835,7 +6835,7 @@ Pour les chaudières gaz, le ramonage doit être effectué au moins une fois par
 
 Le professionnel doit vous remettre un procès-verbal d'intervention mentionnant les vérifications effectuées et les éventuelles recommandations. Conservez ce document pendant au moins 5 ans comme preuve.
 
-[CTA : Planifiez automatiquement l'entretien de vos équipements avec Lokna — rappels et suivi des interventions — essai gratuit]`
+[CTA : Suivez les dépenses de travaux de chaque logement avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "preavis-location-etranger",
@@ -6949,7 +6949,7 @@ Le dépôt doit être restitué par virement bancaire international. Prévoyez l
 
 Oui, le locataire étranger dispose des mêmes droits que tout autre locataire. Il peut contester les charges dans le délai légal et exiger un justificatif détaillé de toutes les sommes réclamées.
 
-[CTA : Gérez les départs de locataires en toute conformité avec Lokna — états des lieux et restitutions — essai gratuit]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "encadrement-des-loyers",
@@ -7079,7 +7079,7 @@ Non, le loyer de référence concerne le loyer nu, hors charges. Les provisions 
 
 Non, un propriétaire ne peut pas refuser de louer un bien uniquement pour éviter l'encadrement. Ce refus serait constitutif d'une discrimination passible de sanctions. La loi punit le refus de location pour des motifs irrecevable.
 
-[CTA : Vérifiez automatiquement les plafonds de loyer avec Lokna — conformité garantie — essai gratuit]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "location-saisonniere-fiscale",
@@ -7346,7 +7346,7 @@ Non, l'abattement ne s'applique qu'aux logements effectivement loués. Un logeme
 
 Faites une simulation en comparant vos charges réelles avec l'abattement de 30 %. Si vos charges sont supérieures, le régime réel sera plus intéressant. Un conseiller fiscal peut vous aider dans cette analyse.
 
-[CTA : Optimisez votre régime fiscal automatiquement avec Lokna — simulation et déclarations intégrées — essai gratuit]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "declaration-fonciere-2044",
@@ -7489,7 +7489,7 @@ Oui, dans la limite de 10 700 euros par an, le déficit foncier peut être imput
 
 Les déficits sont reportables sur les revenus fonciers des 10 années suivantes. Vous pouvez constituer un déficit reportable pendant plusieurs années, en attendant que vos revenus fonciers augmentent pour absorber le déficit.
 
-[CTA : Générez automatiquement votre déclaration 2044 avec Lokna — charges déductibles et déficit — essai gratuit]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "assurance-loyer-impaye-gli",
@@ -7643,7 +7643,7 @@ Non, certains profils sont exclus (étudiants sans garant, CDD très récents, e
 
 Vous devez déclarer l'impayé à votre assureur dans un délai spécifié (généralement 30 à 60 jours après l'échéance non payée). Joignez les justificatifs : bail, quittances, courriers de relance et mise en demeure.
 
-[CTA : Protégez vos revenus locatifs avec la GLI via Lokna — couverture et déclarations intégrées — essai gratuit]`
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "recouvrement-judiciaire-loyer",
@@ -7787,7 +7787,7 @@ Si le conjoint est codébiteur du bail, il peut être tenu responsable des impay
 
 Oui, si une caution a été fournie, vous pouvez vous retourner contre elle selon les termes du cautionnement (simple ou solidaire). Pour le cautionnement solidaire, vous pouvez agir directement sans pursue préalable du locataire.
 
-[CTA : Gérez vos impayés efficacement avec Lokna — suivi des procédures et relances automatisées — essai gratuit]`
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "gestion-locative-investisseur",
@@ -8143,7 +8143,7 @@ Oui, la quittance peut être délivrée sous forme électronique (PDF par email)
 
 Vous êtes tenu de fournir un duplicata si le locataire le demande. Votre espace Lokna conserve l'historique de toutes vos quittances générées, vous permettant de rééditer un reçu en un clic.
 
-[CTA : Gérez toutes vos quittances automatiquement avec Lokna — historique complet, envoi email, archivage — essai gratuit]`
+[CTA : Générez vos quittances de loyer conformes avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "relance-loyer-impaye-modele-lettre",
@@ -8225,7 +8225,7 @@ Au-delà de deux mois d'impayé, vous pouvez engager une procédure judiciaire. 
 - Plus complète, permettant de demander des dommages et intérêts
 - Nécessaire pour certaines situations complexes
 
-[CTA : Automatisez vos relances de loyer impayé avec Lokna — alertes en temps réel et modèles de lettres — essai gratuit]
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]
 
 ## Les erreurs à éviter lors d'une relance
 
@@ -8267,7 +8267,7 @@ Coût : entre 2 % et 4 % du montant annuel du loyer charges comprises.
 
 ### Utiliser un logiciel de gestion locative
 
-Un [logiciel de gestion locative](/features) comme Lokna vous alerte automatiquement en cas de retard, génère les lettres de relance, archive vos échanges et constitue un dossier solide en cas de procédure.
+Un [logiciel de gestion locative](/features) comme Lokna fait apparaître les retards et le reste dû de chaque loyer, ce qui vous donne les montants exacts pour relancer et constituer un dossier en cas de procédure.
 
 ## FAQ : Questions fréquentes sur la relance de loyer impayé
 
@@ -8291,7 +8291,7 @@ La clause résolutoire du bail permet la résiliation automatique en cas d'impay
 
 Si vous obtenez gain de cause devant le tribunal, vous pouvez demander la condamnation du locataire aux frais de procédure. Le juge fixe le montant en fonction des circonstances.
 
-[CTA : Lokna vous accompagne dans la gestion de vos impayés — suivi automatique, modèles de lettres, archivage — essai gratuit]`
+[CTA : Suivez vos impayés et le reste dû de chaque loyer avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "etat-des-lieux-modele-conseils",
@@ -8352,7 +8352,7 @@ Notre [modèle d'état des lieux d'entrée](/templates/etat-des-lieux) vous perm
 - Portes d'entrée et serrures
 - Balcon, terrasse ou cave (le cas échéant)
 
-[CTA : Utilisez l'outil d'état des lieux de Lokna — checklist interactive, photos intégrées, archivage automatique — essai gratuit]
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]
 
 ## Comment réaliser l'état des lieux
 
@@ -8454,7 +8454,7 @@ Oui, mais uniquement pour couvrir le montant des réparations justifiées. Vous 
 
 Oui, le relevé des compteurs d'eau, d'électricité et de gaz est obligatoire lors de l'état des lieux d'entrée et de sortie. Ces relevés servent de base au réglement des charges.
 
-[CTA : Gérez vos états des lieux facilement avec Lokna — outil numérique, signature électronique, archivage — essai gratuit]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "augmentation-loyer-regles-procedure",
@@ -8593,7 +8593,7 @@ Joignez à votre courrier le détail du calcul (anciens et nouveaux indices, for
 Si vous avez réalisé des travaux d'amélioration, conservez les factures et les devis. Ils justifient une augmentation supérieure à l'IRL en zone tendue.
 
 **Utilisez un logiciel de gestion locative**
-Un [logiciel comme Lokna](/features) calcule automatiquement vos augmentations de loyer, vous alerte en cas de plafonds dépassés et archive vos échanges.
+Un [logiciel comme Lokna](/features) calcule vos révisions de loyer avec l'IRL publié par l'INSEE ; le nouveau loyer ne s'applique qu'après votre validation.
 
 ## FAQ : Questions fréquentes sur l'augmentation de loyer
 
@@ -8617,7 +8617,7 @@ En zone non tendue, si votre bail ne contient pas de clause de plafonnement, vou
 
 Appliquez la procédure de relance pour loyer impayé. Si le locataire conteste l'augmentation, saisez la commission de conciliation. Ne mettez pas en œuvre une procédure d'expulsion sans avoir obtenu un titre exécutoire.
 
-[CTA : Gérez vos augmentations de loyer automatiquement avec Lokna — calcul IRL, alertes, archivage — essai gratuit]`
+[CTA : Calculez vos révisions de loyer IRL avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "gestion-locative-en-ligne-avantages-comparatif-2026",
@@ -8969,7 +8969,7 @@ Oui, les travaux d'amélioration de la performance énergétique sont déductibl
 
 Conservez toutes les factures avec mention claire de la nature des travaux, du montant et de la date. Les paiements par chèque ou virement sont preferables aux paiements en especes.
 
-[CTA : Suivez automatiquement vos charges déductibles et générez vos déclarations avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "frais-gestion-locative-deductibles",
@@ -9073,7 +9073,7 @@ Oui, si vos charges dépassent vos revenus fonciers, le déficit s'impute sur vo
 
 La loi ne l'exige pas, mais c'est fortement recommandé pour une bonne gestion et pour justifier vos dépenses en cas de contrôle fiscal.
 
-[CTA : Automatisez votre comptabilité locative et deducterez vos frais facilement avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "deficit-foncier-impot-2026",
@@ -9176,7 +9176,7 @@ Non, le régime LMNP utilise l'amortissement, pas le déficit foncier. Le défic
 
 Oui, les travaux d'amélioration énergétique sont déductibles et peuvent créer un déficit foncier. De plus, des crédits d'impôt spécifiques peuvent s'y ajouter.
 
-[CTA : Calculez automatiquement votre déficit foncier et optimisez votre imposition avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "amenagement-local-pro-impot",
@@ -9275,7 +9275,7 @@ Oui, les travaux d'amélioration énergétique peuvent être amortis comme les a
 
 Non, le déficit LMNP (amortissement) reporte uniquement sur les bénéfices LMNP des années suivantes. Seule la fraction correspondant aux charges réelles (hors amortissement) peut, sous conditions, s'imputer sur le revenu global.
 
-[CTA : Gérez votre LMNP efficacement avec Lokna — suivi des amortissements et comptabilité integrée — essai gratuit 14 jours]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "recours-locataire-procedure",
@@ -9695,7 +9695,7 @@ Oui, le locataire peut demander une attestation d'assurance PNO. En cas de défa
 
 Les tarifs varient de 100 à 400 € par an selon la valeur du bien, sa localisation et les garanties choisies. C'est un investissement modeste au regard des risques couverts.
 
-[CTA : Gérez vos assurances et votre patrimoine locatif en ligne avec Lokna — suivi des contrats et alertes — essai gratuit 14 jours]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "assurance-proprietaire-bailleur-protection",
@@ -10708,7 +10708,7 @@ Oui, le locataire peut librement donner son propre préavis sans justification.
 
 Le bailleur doit engager une procédure d'expulsion auprès du tribunal.
 
-[CTA : Automatisez la gestion de vos congés et le suivi des délais légaux avec Lokna — essai gratuit 14 jours]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "sous-location-regles-et-limites",
@@ -10938,7 +10938,7 @@ Mentions trop vagues, oubli des annexes (cave, garage), absence de photos datée
 
 Les deux parties ensemble ou un huissier en cas de désaccord.
 
-[CTA : Générez des états des lieux conformes avec Lokna — essai gratuit]`
+[CTA : Suivez loyers, quittances et dépenses de vos logements avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "cout-gestion-locative-prix-2026",
@@ -11092,7 +11092,7 @@ Immeuble neuf : 2 à 3 % par an. Mobilier : 10 à 20 % par an. Durée : 30-40 an
 
 Oui, pour des biens différents.
 
-[CTA : Gérez votre comptabilité LMNP avec Lokna — essai gratuit]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "declaration-revenus-locatifs-2026",
@@ -11124,7 +11124,7 @@ Formulaire 2044 pour le résultat foncier, formulaire 2031 pour le LMNP micro-BI
 
 Oui, dans un délai de 3 mois après la date limite.
 
-[CTA : Automatisez votre comptabilité locative avec Lokna — essai gratuit]`
+[CTA : Suivez loyers encaissés et dépenses pour préparer votre déclaration avec Lokna — essai gratuit 14 jours]`
   },
   {
     slug: "micro-foncier-ou-reel-comparaison-2026",

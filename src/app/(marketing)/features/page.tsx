@@ -4,15 +4,12 @@ import Link from "next/link";
 import {
   FileText,
   Building2,
-  Users,
   Receipt,
   RefreshCcw,
   Wrench,
   ShieldCheck,
-  BrainCircuit,
   BarChart3,
   Bell,
-  Smartphone,
   Lock,
   CreditCard,
   Search,
@@ -47,7 +44,7 @@ export async function generateMetadata() {
     title:
       "Fonctionnalités Lokna — quittances auto, IRL et suivi des loyers (2026)",
     description:
-      `Quittances conformes loi 1989, reçus de paiement partiel, suivi des loyers, révision IRL INSEE et portail locataire. À partir de ${formatEntryPrice()}.`,
+      `Quittances conformes loi 1989, reçus de paiement partiel, suivi des loyers et des retards, révision IRL INSEE. À partir de ${formatEntryPrice()}.`,
     url: "/features",
     ogType: "feature",
   });
@@ -73,9 +70,9 @@ const featureFaqs = [
       "Le calcul l'est : Lokna applique la formule légale avec l'indice de référence des loyers publié par l'INSEE. La révision n'est appliquée au bail qu'après votre validation.",
   },
   {
-    question: "Comment le locataire accède-t-il à son portail ?",
+    question: "Lokna envoie-t-il les quittances et les relances à mon locataire ?",
     answer:
-      "Par un lien personnel que vous lui envoyez depuis Lokna, sans mot de passe à créer. Il y consulte ses quittances et ses paiements, et peut signaler un incident.",
+      "Non. Les quittances et les reçus se téléchargent en PDF, à la demande, et vous les transmettez vous-même à votre locataire. Pour un retard, le suivi du mois affiche le reste dû ; vous relancez avec ces montants, par exemple avec notre modèle de lettre de relance gratuit.",
   },
   {
     question: "Combien de biens puis-je gérer avec Lokna ?",
@@ -130,8 +127,8 @@ function FeaturesJsonLd() {
         "Reçu en cas de paiement partiel",
         "Suivi des loyers attendus, payés et du reste dû",
         "Révision IRL calculée avec l'indice INSEE",
-        "Portail locataire avec signalement d'incident",
-        "Relance de loyer par e-mail",
+        "Suivi des retards et du reste dû",
+        "Dépenses par logement",
         "Export CSV des paiements",
       ],
     }),
@@ -199,9 +196,9 @@ const featureGroups = [
       },
       {
         icon: Bell,
-        title: "Relance par e-mail",
+        title: "Retards visibles",
         detail:
-          "En cas de retard, vous envoyez au locataire une relance en trois tons, du rappel cordial à la mise en demeure.",
+          "Un loyer en retard reste affiché avec son reste dû : vous relancez votre locataire avec les bons montants.",
       },
     ],
   },
@@ -228,52 +225,24 @@ const featureGroups = [
     ],
   },
   {
-    id: "portail-locataire",
-    icon: Users,
-    title: "Portail Locataire",
-    tagline: "Un espace pour votre locataire",
-    description:
-      "Si vous l'invitez, votre locataire accède à son espace pour consulter ses paiements, télécharger ses quittances et signaler un incident.",
-    features: [
-      {
-        icon: Smartphone,
-        title: "Espace dédié",
-        detail:
-          "Historique des paiements, quittances et reçus du locataire, au même endroit.",
-      },
-      {
-        icon: Wrench,
-        title: "Signalement d'incident",
-        detail:
-          "Le locataire décrit le problème, indique l'urgence et joint des photos.",
-      },
-      {
-        icon: Lock,
-        title: "Accès par lien personnel",
-        detail:
-          "Le locataire entre par un lien que vous lui envoyez. Il ne voit que son propre logement.",
-      },
-    ],
-  },
-  {
-    id: "maintenance",
+    id: "depenses",
     icon: Wrench,
-    title: "Suivi Maintenance",
-    tagline: "De la déclaration à la résolution",
+    title: "Dépenses par logement",
+    tagline: "Ce que coûte chaque bien",
     description:
-      "Les incidents signalés par vos locataires sont rattachés au logement, avec leur urgence et leur état d'avancement.",
+      "Travaux, taxe foncière, assurance, charges de copropriété : vous enregistrez les dépenses de chaque logement et vous savez ce qu'il coûte réellement.",
     features: [
       {
         icon: Building2,
-        title: "Lien avec le bien",
+        title: "Rattachées au logement",
         detail:
-          "Chaque intervention est liée au logement concerné. Vous gardez l'historique de chaque bien.",
+          "Chaque dépense est liée au bien concerné, avec sa catégorie et sa date.",
       },
       {
-        icon: BrainCircuit,
-        title: "Suivi de l'état",
+        icon: BarChart3,
+        title: "Une vue par année",
         detail:
-          "Ouvert, en cours, résolu : le locataire voit l'avancement depuis son portail.",
+          "Les dépenses de l'année sont reprises avec vos loyers encaissés pour préparer votre déclaration de revenus fonciers.",
       },
     ],
   },
@@ -307,8 +276,7 @@ const quickFeatures = [
   "Reçu en cas de paiement partiel",
   "Suivi des loyers attendus et du reste dû",
   "Révision IRL calculée avec l'indice INSEE",
-  "Portail locataire avec signalement d'incident",
-  "Relance par e-mail en trois tons",
+  "Retards et reste dû visibles",
   "Suivi des dépenses par bien",
   "Export CSV des paiements",
   "Jusqu'à 10 logements",
@@ -344,9 +312,9 @@ export default function FeaturesPage() {
               </span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600 sm:text-xl">
-              Quittances, suivi des paiements, révision IRL, portail
-              locataire, maintenance : les mêmes fonctionnalités dans chaque
-              formule, à partir de {formatEntryPrice()}.
+              Quittances et reçus, suivi des paiements et des retards, révision
+              IRL, dépenses : les mêmes fonctionnalités dans chaque formule, à
+              partir de {formatEntryPrice()}.
             </p>
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link

@@ -40,6 +40,6 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Lokna remplace-t-il une agence de gestion locative ?",
     answer:
-      "Non. Lokna ne cherche pas de locataire et n'encaisse pas les loyers à votre place. C'est l'outil des propriétaires qui gèrent eux-mêmes : il tient le suivi des loyers, prépare quittances, reçus et relances, et calcule la révision du loyer.",
+      "Non. Lokna ne cherche pas de locataire et n'encaisse pas les loyers à votre place. C'est l'outil des propriétaires qui gèrent eux-mêmes : il tient le suivi des loyers, montre les retards, prépare quittances et reçus, et calcule la révision du loyer.",
   },
 ];

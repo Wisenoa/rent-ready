@@ -27,7 +27,7 @@ export async function generateMetadata() {
   return baseMetadata({
     title: `Démo ${SITE_NAME} — Découvrez la gestion locative en 30 min | Gratuit`,
     description:
-      `Réservez votre démo ${SITE_NAME} gratuite de 30 minutes. Voir en live : quittances et reçus, suivi des loyers, révision IRL, portail locataire. Sans engagement.`,
+      `Réservez votre démo ${SITE_NAME} gratuite de 30 minutes. Voir en live : quittances et reçus, suivi des loyers et des retards, révision IRL. Sans engagement.`,
     url: "/demo",
     ogType: "template",
   });
@@ -50,9 +50,9 @@ const benefits = [
       "Le nouveau loyer est calcul\u00e9 avec l'indice de r\u00e9f\u00e9rence des loyers publi\u00e9 par l'INSEE. Vous le validez avant qu'il s'applique au bail.",
   },
   {
-    title: "Portail locataire clef en main",
+    title: "Documents \u00e0 la demande",
     description:
-      "Vos locataires acc\u00e8dent \u00e0 leurs documents, signalent des probl\u00e8mes et communiquent avec vous en un seul endroit.",
+      "Quittances et re\u00e7us se t\u00e9l\u00e9chargent en PDF quand vous en avez besoin. Vous les transmettez vous-m\u00eame \u00e0 vos locataires.",
   },
 ];
 
@@ -76,7 +76,7 @@ const faqData = [
   {
     question: "De quoi allons-nous parler pendant la démo ?",
     answer:
-      "Nous faisons le tour de la plateforme ensemble : creation de bail, generation de quittances, suivi des loyers, portail locataire. Nous répondons a toutes vos questions et discutons de votre configuration.",
+      "Nous faisons le tour de la plateforme ensemble : creation de bail, generation de quittances, suivi des loyers et des retards. Nous répondons a toutes vos questions et discutons de votre configuration.",
   },
   {
     question: "Puis-je avoir une démo même si je gère déjà mes biens avec un autre outil ?",

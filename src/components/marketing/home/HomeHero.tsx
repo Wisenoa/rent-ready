@@ -34,7 +34,7 @@ export function HomeHero() {
           </h1>
           <p className="mt-5 max-w-[34rem] text-[16px] leading-7 text-[#FAF9F5]/80 sm:mt-6 sm:text-lg sm:leading-8">
             D&apos;un à dix logements, Lokna sait ce qui est dû chaque mois,
-            montre ce qui manque et prépare quittances, reçus et relances. Sans
+            montre ce qui manque et prépare quittances et reçus. Sans
             tableur à tenir.
           </p>
           <div className="mt-7 flex flex-col gap-4 sm:mt-9 sm:flex-row sm:items-center sm:gap-7">

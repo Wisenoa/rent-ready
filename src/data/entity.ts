@@ -155,8 +155,7 @@ export const FEATURE_LIST = [
   "Quittances de loyer conformes à la loi du 6 juillet 1989",
   "Suivi des loyers et détection des impayés",
   "Révision de loyer indexée sur l'IRL publié par l'INSEE",
-  "Génération des baux, états des lieux et lettres de relance",
-  "Portail locataire",
+  "Suivi des dépenses par logement",
   "Reçu de paiement partiel, quittance une fois le mois soldé",
 ];
 

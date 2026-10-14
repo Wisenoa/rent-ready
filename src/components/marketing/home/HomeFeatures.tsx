@@ -14,17 +14,21 @@ const TOOLS = [
 ];
 
 /**
- * Three things a landlord does outside the monthly loop, each shown with the
- * product's own wording: the e-mail subjects Lokna sends
- * (`sendPaymentReminder`), the revision computed by `calculateRentRevision`,
- * and the tenant space's sections (`/portal/[token]`).
+ * Three things a landlord does outside the monthly loop, each shown as it works
+ * in production today: the balance left on a late month (`settlePeriodPayments`),
+ * the revision computed by `calculateRentRevision`, and the documents of a
+ * lease, downloaded on demand.
+ *
+ * No e-mail and no tenant space here: reminder e-mails cannot leave production
+ * (no e-mail provider configured) and no screen lets a landlord invite a tenant
+ * to the portal. Show them again only once both work.
  */
 
 const TABS: FeatureTab[] = [
   {
     id: "relancer",
-    label: "Relancer",
-    summary: "Un rappel, une relance formelle, une mise en demeure : envoyés par e-mail depuis le suivi.",
+    label: "Suivre un retard",
+    summary: "Ce qui est dû, ce qui a été versé, ce qui reste : les montants exacts pour relancer.",
   },
   {
     id: "reviser",
@@ -33,8 +37,8 @@ const TABS: FeatureTab[] = [
   },
   {
     id: "partager",
-    label: "Partager",
-    summary: "Un espace en ligne où votre locataire retrouve ses quittances.",
+    label: "Documents",
+    summary: "Les quittances et reçus de chaque mois, à télécharger en PDF quand vous en avez besoin.",
   },
 ];
 
@@ -51,38 +55,33 @@ function Surface({ title, meta, children }: { title: string; meta: string; child
 }
 
 function RemindPanel() {
-  const steps = [
-    { tone: "Rappel", subject: "Rappel : votre loyer en attente", extra: null },
-    {
-      tone: "Relance formelle",
-      subject: "Relance pour loyer impayé - boulevard Foch",
-      extra: "avec une lettre de relance à télécharger",
-    },
-    {
-      tone: "Mise en demeure",
-      subject: "MISE EN DEMEURE - boulevard Foch - Loyer impayé",
-      extra: "avec la lettre de mise en demeure",
-    },
+  const lines = [
+    { label: "Loyer et charges d'octobre", value: "700,00 €", extra: "échéance du 5 octobre" },
+    { label: "Versement reçu le 7 octobre", value: "350,00 €", extra: "reçu de paiement partiel" },
+    { label: "Reste dû", value: "350,00 €", extra: "en retard depuis le 5 octobre" },
   ];
   return (
     <Surface title="Emma Laurent · T3 boulevard Foch" meta="350,00 € en retard">
       <ol>
-        {steps.map((step, i) => (
-          <li key={step.tone} className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-2 border-b border-[#E7E3DA] px-5 py-4 last:border-b-0">
+        {lines.map((line, i) => (
+          <li key={line.label} className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-2 border-b border-[#E7E3DA] px-5 py-4 last:border-b-0">
             <span className="text-[13px] font-medium tabular-nums text-[#5C6560]">0{i + 1}</span>
-            <div className="min-w-0">
-              <p className="text-[14px] font-semibold">{step.tone}</p>
-              <p className="mt-1 break-words rounded-md border border-[#E7E3DA] bg-[#F4F1EA] px-3 py-2 text-[13px] text-[#15241F]">
-                <span className="text-[#5C6560]">Objet : </span>
-                {step.subject}
+            <div className="flex min-w-0 items-baseline justify-between gap-4">
+              <p className="text-[14px] font-semibold">
+                {line.label}
+                <span className="mt-0.5 block text-[12.5px] font-normal text-[#4F5D56]">{line.extra}</span>
               </p>
-              {step.extra ? <p className="mt-1.5 text-[12.5px] text-[#4F5D56]">{step.extra}</p> : null}
+              <p className="shrink-0 text-[14px] tabular-nums">{line.value}</p>
             </div>
           </li>
         ))}
       </ol>
       <p className="border-t border-[#E7E3DA] bg-[#F4F1EA] px-5 py-3 text-[12.5px] text-[#4F5D56]">
-        Possible dès que l&apos;échéance est passée. Si l&apos;envoi échoue, Lokna vous le dit.
+        Pour relancer, notre{" "}
+        <Link href="/outils/lettre-relance-loyer" className="underline underline-offset-2">
+          modèle de lettre gratuit
+        </Link>{" "}
+        reprend ces montants. C&apos;est vous qui l&apos;envoyez.
       </p>
     </Surface>
   );
@@ -134,33 +133,28 @@ function RevisePanel() {
 }
 
 function SharePanel() {
-  const receipts = ["Octobre 2026", "Septembre 2026", "Août 2026"];
+  const receipts = [
+    { month: "Octobre 2026", kind: "Reçu", detail: "Versement partiel · 350,00 €" },
+    { month: "Septembre 2026", kind: "Quittance", detail: "Loyer + charges · 700,00 €" },
+    { month: "Août 2026", kind: "Quittance", detail: "Loyer + charges · 700,00 €" },
+  ];
   return (
-    <Surface title="Espace de Léa Bernard" meta="T2 rue Saint-Aubin">
-      <div className="px-5 pt-4">
-        <p className="text-[13px] font-medium text-[#4F5D56]">Mes quittances</p>
-        <ul className="mt-2">
-          {receipts.map((month) => (
-            <li key={month} className="flex items-center justify-between gap-4 border-b border-[#E7E3DA] py-3 text-[14px]">
-              <span>
-                Quittance · {month}
-                <span className="block text-[12.5px] text-[#5C6560]">Loyer + charges · 700,00 €</span>
-              </span>
-              <span aria-hidden="true" className="rounded-md border border-[#D9D5CC] px-2.5 py-1 text-[12.5px] text-[#15241F]">
-                PDF
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="flex items-center justify-between gap-4 px-5 py-4">
-        <span className="text-[13px] font-medium text-[#4F5D56]">Mes demandes</span>
-        <span aria-hidden="true" className="rounded-md bg-[#1E3A2F] px-3 py-1.5 text-[12.5px] text-[#FAF9F5]">
-          Nouvelle demande
-        </span>
-      </div>
+    <Surface title="Documents · Léa Bernard" meta="T2 rue Saint-Aubin">
+      <ul className="px-5 pt-2">
+        {receipts.map((doc) => (
+          <li key={doc.month} className="flex items-center justify-between gap-4 border-b border-[#E7E3DA] py-3 text-[14px] last:border-b-0">
+            <span>
+              {doc.kind} · {doc.month}
+              <span className="block text-[12.5px] text-[#5C6560]">{doc.detail}</span>
+            </span>
+            <span aria-hidden="true" className="rounded-md border border-[#D9D5CC] px-2.5 py-1 text-[12.5px] text-[#15241F]">
+              PDF
+            </span>
+          </li>
+        ))}
+      </ul>
       <p className="border-t border-[#E7E3DA] bg-[#F4F1EA] px-5 py-3 text-[12.5px] text-[#4F5D56]">
-        Vous l&apos;invitez par e-mail. Il retrouve ses quittances et peut signaler un problème dans le logement.
+        Chaque document se télécharge à la demande. Lokna ne l&apos;envoie pas : vous le transmettez à votre locataire.
       </p>
     </Surface>
   );

@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!city) return {};
 
   const title = `Quittance de loyer à ${city.name} — Générez en 1 clic 2026`;
-  const description = `Générez une quittance de loyer conforme à ${city.name}. PDF générée au paiement, reçu en cas de paiement partiel, espace locataire. Essai gratuit 14 jours — sans carte bancaire.`;
+  const description = `Générez une quittance de loyer conforme à ${city.name}. PDF générée au paiement, reçu en cas de paiement partiel, téléchargement à la demande. Essai gratuit 14 jours — sans carte bancaire.`;
 
   return baseMetadata({
     title,
@@ -83,7 +83,7 @@ function getLocalParagraphs(city: City) {
     ? `${city.name} est en zone tendue : l'encadrement des loyers porte sur le montant fixé dans le bail, à la mise en location ou au renouvellement, et non sur la quittance. Celle-ci reprend les sommes versées en distinguant le loyer et les charges ; après une révision IRL, elle reflète simplement le nouveau montant.`
     : `Pour toute location soumise à la loi du 6 juillet 1989, le bailleur doit remettre gratuitement une quittance au locataire qui la demande (article 21). Elle détaille les sommes versées en distinguant le loyer et les charges ; en pratique, elle indique aussi la période couverte et la date du paiement.`;
 
-  const closing = `Avec Lokna, la quittance PDF est générée lorsque vous enregistrez le paiement qui solde le mois — sans tableau Excel, sans modèle Word. Chaque quittance est archivée, et votre locataire la retrouve dans son espace en ligne si vous l'y avez invité.`;
+  const closing = `Avec Lokna, la quittance PDF est générée lorsque vous enregistrez le paiement qui solde le mois — sans tableau Excel, sans modèle Word. Chaque quittance est archivée et se télécharge à la demande ; vous la transmettez vous-même à votre locataire.`;
 
   return { intro, regulation, closing };
 }
@@ -109,8 +109,8 @@ function getFeatures(city: City) {
     },
     {
       icon: "🏠",
-      title: "Espace locataire",
-      description: `Votre locataire retrouve ses quittances dans son espace en ligne, si vous l'y avez invité. Vous pouvez aussi télécharger chaque PDF.`,
+      title: "PDF à la demande",
+      description: `Chaque quittance se télécharge en PDF quand vous en avez besoin. Lokna ne l'envoie pas : vous la transmettez à votre locataire, en main propre ou par e-mail avec son accord.`,
     },
     {
       icon: "🗄️",
@@ -180,7 +180,7 @@ function getHowToSteps(city: City) {
     },
     {
       name: `Télécharger ou partager la quittance`,
-      text: `La quittance est archivée dans votre espace et téléchargeable en PDF à tout moment. Votre locataire la retrouve dans son espace en ligne si vous l'y avez invité.`,
+      text: `La quittance est archivée dans votre espace et téléchargeable en PDF à tout moment. Vous la transmettez vous-même à votre locataire.`,
       url: "/register",
     },
   ];
@@ -269,7 +269,7 @@ function buildQuittanceVilleSchema(city: City) {
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/quittances/${city.slug}`,
-        description: `Quittances de loyer conformes à la loi du 6 juillet 1989 pour vos biens à ${city.name} : générées au paiement, reçu en cas de paiement partiel, espace locataire.`,
+        description: `Quittances de loyer conformes à la loi du 6 juillet 1989 pour vos biens à ${city.name} : générées au paiement, reçu en cas de paiement partiel, PDF à télécharger.`,
         offers: {
           ...paidOffer(),
         },

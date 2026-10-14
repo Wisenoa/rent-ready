@@ -79,7 +79,7 @@ const alternatives: Alternative[] = [
       "Reste dû calculé à partir des paiements que vous enregistrez",
       "Calcul de la révision IRL avec les indices INSEE",
       "Impayés et retards visibles dans le suivi du mois",
-      "Portail locataire et historique sécurisé",
+      "Quittances, reçus et historique des paiements par logement",
     ],
     cons: [
       "Conçu pour 1 à 10 lots, pas adapté aux syndics de copropriété",
@@ -134,7 +134,7 @@ const criteria = [
   "Reçu en cas de paiement partiel",
   "Calcul de la révision IRL",
   "Reste dû calculé chaque mois",
-  "Portail locataire inclus",
+  "Historique des paiements par logement",
   "Sans commission sur les loyers",
   "Temps de gestion mensuel estimé",
 ];

@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   //
   // Ce que Lokna fait reellement est deterter l'impaye. La page le dit.
   const title = `Loyer impayé à ${city.name} : le détecter, la relancer, le facturer`;
-  const description = `Lokna fait apparaître les loyers impayés et vous permet d'envoyer les relances. La GLI reste une assurance à souscrire auprès d'un assureur : nous ne la vendons pas.`;
+  const description = `Lokna fait apparaître les loyers impayés et le reste dû pour relancer. La GLI reste une assurance à souscrire auprès d'un assureur : nous ne la vendons pas.`;
 
   return baseMetadata({
     title,
@@ -166,8 +166,8 @@ function getCoverageTiers(city: City) {
       cta: "Voir les impayés",
     },
     {
-      name: "Relances prêtes à envoyer",
-      description: "Rappel, relance formelle puis mise en demeure, rédigés depuis les données réelles du dossier. Vous décidez de l'envoi.",
+      name: "Les montants pour relancer",
+      description: "Reste dû, échéances et versements reçus : les montants exacts à reprendre dans votre lettre de relance, avec notre modèle gratuit.",
       cta: "Voir la lettre de relance",
     },
     {
@@ -313,7 +313,7 @@ function buildGliVilleSchema(city: City) {
       {
         "@type": "WebPage",
         name: `Assurance loyer impayé à ${city.name} — GLI 2026`,
-        description: `Lokna fait apparaître les impayés et vous permet d'envoyer les relances à ${city.name}. La GLI est une assurance souscrite auprès d’un assureur : nous ne la vendons pas.`,
+        description: `Lokna fait apparaître les impayés et le reste dû à ${city.name}. La GLI est une assurance souscrite auprès d’un assureur : nous ne la vendons pas.`,
         url: `${SITE_URL}/assurance-loyer-impaye/${city.slug}`,
         isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },

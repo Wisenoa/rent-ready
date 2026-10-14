@@ -75,8 +75,7 @@ const criteria = [
   "Quittances automatiques",
   "Suivi des paiements",
   "Révision IRL",
-  "Portail locataire",
-  "Relance impayé",
+  "Suivi des retards",
   "Suivi quotidien",
   "Conseil juridique",
 ];
@@ -93,8 +92,7 @@ function getScore(software: string, criterion: string): "check" | "cross" | "min
       "Quittances automatiques": "check",
       "Suivi des paiements": "check",
       "Révision IRL": "check",
-      "Portail locataire": "check",
-      "Relance impayé": "check",
+      "Suivi des retards": "check",
       "Suivi quotidien": "check",
       "Conseil juridique": "cross",
     },
@@ -103,8 +101,7 @@ function getScore(software: string, criterion: string): "check" | "cross" | "min
       "Quittances automatiques": "cross",
       "Suivi des paiements": "cross",
       "Révision IRL": "cross",
-      "Portail locataire": "cross",
-      "Relance impayé": "cross",
+      "Suivi des retards": "cross",
       "Suivi quotidien": "cross",
       "Conseil juridique": "check",
     },
@@ -236,7 +233,7 @@ export default function LoknaVsLegalPlace() {
                 <div>
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-green-700">Avantages</p>
                   <ul className="space-y-1">
-                    {["Quittance générée quand le mois est soldé", "Reçu en cas de paiement partiel", "Relance de loyer par e-mail", "Portail locataire inclus", "Essai gratuit sans engagement"].map((pro) => (
+                    {["Quittance générée quand le mois est soldé", "Reçu en cas de paiement partiel", "Retards et reste dû visibles", "Quittances et reçus en PDF", "Essai gratuit sans engagement"].map((pro) => (
                       <li key={pro} className="flex items-start gap-2 text-sm text-stone-600">
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
                         {pro}

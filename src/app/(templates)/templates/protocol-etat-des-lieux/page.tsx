@@ -93,7 +93,7 @@ const faqData = [
   {
     question: "L'état des lieux peut-il être fait sur smartphone ?",
     answer:
-      "Oui, l'état des lieux peut être réalisé sur smartphone ou tablette avec un outil dédié comme Lokna. Les avantages : signature électronique, photos horodatées, transmission instantanée aux deux parties. L'état des lieux numériques a la même valeur juridique qu'un document papier s'il est signé par les deux parties.",
+      "Oui, l'état des lieux peut être réalisé sur smartphone ou tablette avec un outil dédié. Les avantages : photos horodatées et document partagé entre les deux parties. L'état des lieux numériques a la même valeur juridique qu'un document papier s'il est signé par les deux parties.",
   },
   {
     question: "Que faire si le locataire refuse de signer l'état des lieux ?",
@@ -122,7 +122,7 @@ function ProtocolEtatDesLieuxJsonLd() {
       {
         "@type": "HowTo",
         name: "Comment realizar un état des lieux conforme",
-        description: "Protocole gratuit d'état des lieux. Check-list pièce par pièce, photos commentées, signature électronique.",
+        description: "Protocole gratuit d'état des lieux. Check-list pièce par pièce, photos commentées.",
         step: [
           { "@type": "HowToStep", name: "Préparer le dossier", text: "Rassemblez le bail, les précédents documents, l'appareil photo. Imprimez la check-list Lokna." },
           { "@type": "HowToStep", name: "Inspecter chaque pièce", text: "Parcourez le logement pièce par pièce, notez l'état de chaque élément avec description précise." },
@@ -264,9 +264,9 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Générez vos états des lieux avec Lokna</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Suivez vos locations avec Lokna</h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            État des lieux interactif, signature électronique, photos intégrées. Protocole complet pour protéger votre dépôt de garantie. Essai gratuit 14 jours.
+            Ce protocole protège votre dépôt de garantie ; Lokna suit ensuite loyers, quittances et dépenses. Essai gratuit 14 jours.
           </p>
           <Link href="/register" className="mt-8 inline-block rounded-lg bg-amber-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-amber-700">
             Essai gratuit 14 jours →

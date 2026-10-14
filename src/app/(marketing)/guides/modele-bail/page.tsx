@@ -204,8 +204,8 @@ export default function ModeleBailGuidePage() {
           Besoin d&apos;aller plus loin ?
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
-          Avec Lokna, gérez vos baux automatiquement : généréz les contrats,
-          envoyez-les pour signature électronique, et suivi des renouvellements.
+          Avec Lokna, chaque bail fixe le loyer et les charges attendus chaque
+          mois : vous enregistrez les paiements, Lokna prépare quittances et reçus.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link

@@ -107,7 +107,7 @@ function PricingJsonLd() {
     buildWebPageSchema({
       name: "Tarifs Lokna",
       description:
-        "À partir de 9 €/mois. Gestion locative en ligne : quittances conformes, suivi des loyers, révision IRL, portail locataire.",
+        "À partir de 9 €/mois. Gestion locative en ligne : quittances conformes, suivi des loyers et des retards, révision IRL.",
       url: `${SITE_URL}/pricing`,
     }),
     buildSoftwareAppSchema({
@@ -153,8 +153,7 @@ function PricingJsonLd() {
         "Reçu en cas de paiement partiel",
         "Suivi des loyers attendus, payés et du reste dû",
         "Révision IRL calculée avec l'indice INSEE",
-        "Portail locataire avec signalement d'incident",
-        "Relance de loyer par e-mail",
+        "Dépenses par logement",
         "Export CSV des paiements",
       ],
     }),
@@ -200,16 +199,10 @@ const comparisonData = [
     agency: "✅ Inclus",
   },
   {
-    feature: "Portail locataire",
-    starter: "✅ Inclus",
-    pro: "✅ Inclus",
-    agency: "✅ Inclus",
-  },
-  {
-    feature: "Relance de loyer par e-mail",
-    starter: "✅ Incluse",
-    pro: "✅ Incluse",
-    agency: "✅ Incluse",
+    feature: "Dépenses par logement",
+    starter: "✅ Incluses",
+    pro: "✅ Incluses",
+    agency: "✅ Incluses",
   },
   {
     feature: "Export CSV des paiements",

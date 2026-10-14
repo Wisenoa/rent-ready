@@ -65,13 +65,13 @@ icon: "📎",
 {
 title: "Suivi des échéances",
 description:
-"Fin de bail, préavis, renouvellement — soyez alerté automatiquement à chaque étape.",
+"Dates de début, de fin et de révision du bail, rattachées au logement et au locataire.",
 icon: "📅",
 },
 {
-title: "Portail locataire",
+title: "Loyer et charges séparés",
 description:
-"Votre locataire accède à son bail, signe elektroniquement et consulte les documents.",
+"Le bail fixe le loyer et les provisions pour charges : chaque échéance mensuelle en découle.",
 icon: "✍️",
 },
 {
@@ -109,9 +109,9 @@ description:
 },
 {
 step: "4",
-title: "Partagez au locataire",
+title: "Suivez les échéances",
 description:
-"Le locataire consulte et signe elektroniquement via son portail.",
+"Chaque mois, le loyer attendu est créé à partir du bail : vous enregistrez les paiements reçus.",
 },
 ];
 
@@ -134,7 +134,7 @@ const faqData = [
   {
     question: "Comment renouveler un bail arrivant à échéance ?",
     answer:
-      `${SITE_NAME} vous alerte automatiquement 3 mois avant l'échéance de votre bail. Vous pouvez alors renouveler le contrat pour la même durée ou le convertir (par exemple, bail vide vers bail meublé), avec mise à jour automatique du loyer si l'IRL le permet.`,
+      `La date de fin du bail figure dans sa fiche ${SITE_NAME}. À l'échéance, vous pouvez renouveler le contrat pour la même durée ou le convertir (par exemple, bail vide vers bail meublé), avec mise à jour automatique du loyer si l'IRL le permet.`,
   },
 ];
 
@@ -168,17 +168,14 @@ const BAIL_SCHEMA = {
       operatingSystem: "Web",
       url: `${SITE_URL}/bail`,
       description:
-        "Créez, suivez et renouvelez vos contrats de location facilement. Modèles de baux conformes loi Alur et ÉLAN, assistant guidée, signature électronique.",
+        "Créez, suivez et renouvelez vos contrats de location facilement. Modèles de baux conformes loi Alur et ÉLAN, assistant guidé.",
       offers: {
         ...paidOffer(),
       },
       featureList: [
         "Création de bail guidée conforme loi 1989",
-        "Suivi automatique des échéances",
-        "Signature électronique locataire",
-        "Export PDF légal",
-        "Archivage sécurisé",
-        "Alertes renouvellement",
+        "Échéances mensuelles créées à partir du bail",
+        "Loyer et charges séparés",
       ],
     },
     {
@@ -348,7 +345,7 @@ dépôt de garantie, etc.).
           Créez votre premier bail en 10 minutes
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-stone-300">
-          Modèle prêt à remplir, assistant guidé, signature électronique incluse.
+          Modèle prêt à remplir, assistant guidé.
         </p>
         <Link
           href="/register"

@@ -95,6 +95,91 @@ describe("promesses commerciales", () => {
   });
 });
 
+/**
+ * Rendered public surfaces only. Unrendered components under
+ * src/components/landing (testimonial-strip, monthly-cycle-story, …) still
+ * carry old copy and are listed for deletion separately; scanning them here
+ * would make this test about dead code.
+ */
+const LIVE_PREFIXES = [
+  "src/app/page.tsx",
+  "src/app/(marketing)/",
+  "src/app/(outils)/",
+  "src/app/(templates)/",
+  "src/app/register/",
+  "src/components/marketing/",
+  "src/components/seo/",
+  "src/components/landing/pricing-section-wrapper.tsx",
+  "src/components/landing/testimonials-section.tsx",
+  "src/components/landing/social-proof.tsx",
+  "src/data/",
+  // Organization and SoftwareApplication JSON-LD shared by most pages.
+  "src/lib/seo/",
+];
+
+function liveOffenders(pattern: RegExp, allow: string[] = []): string[] {
+  return marketingFiles()
+    .filter(({ path }) => LIVE_PREFIXES.some((prefix) => path.startsWith(prefix)))
+    .filter(({ path }) => !allow.some((prefix) => path.startsWith(prefix)))
+    .filter(({ text }) => pattern.test(text))
+    .map(({ path }) => path);
+}
+
+/**
+ * Articles and regulatory notes talk about rental software and public services
+ * in general ("un logiciel peut relancer…", "l'espace personnel impots.gouv").
+ * Their claims about Lokna itself are the CTA markers, checked separately.
+ */
+const GENERIC_PROSE = ["src/data/articles.ts", "src/data/regulatory-sources.ts"];
+
+describe("fonctions indisponibles en production", () => {
+  it("article CTAs promise only what Lokna does", () => {
+    const articles = readFileSync(join(SRC, "data/articles.ts"), "utf8");
+    const ctas = [...articles.matchAll(/\[CTA\s*:\s*([^\]\n]+)\]/g)]
+      .map((m) => m[1])
+      .filter((text) => text.includes("Lokna"));
+    expect(ctas.length).toBeGreaterThan(0);
+    const misleading = ctas.filter((text) =>
+      /relanc|alerte|envoi|signature|[ée]tats? des lieux|notification|rappel|plafond|archivage|2044|procédures/i.test(text)
+    );
+    expect(misleading).toEqual([]);
+  });
+
+  // No e-mail provider is configured in production: a reminder answers
+  // « Échec de l'envoi » and nothing leaves. Lokna shows the delay and the
+  // amount owed; the landlord relaunches.
+  it("never presents e-mail reminders as working", () => {
+    expect(
+      liveOffenders(
+        /relances? (?:de loyer )?par e-?mail|envoyés par e-mail depuis le suivi|rappel part par e-mail|envoyez (?:au locataire )?une relance|prépare les relances|envoyer les relances|Rappel envoyé|relances? automati|automatisez vos relances/i,
+        GENERIC_PROSE
+      )
+    ).toEqual([]);
+  });
+
+  // The tenant portal exists in code but no screen lets a landlord invite a
+  // tenant, so no tenant can reach it — nor the incident form inside it.
+  it("never promises a tenant portal, an invitation or tenant incident reporting", () => {
+    expect(
+      liveOffenders(
+        /portail locataire|son portail|leur portail|espace (?:en ligne|locataire|personnel|dédié)|vous l'y avez invité|vous l'invitez|lien personnel|signalent une panne|signalement d'incident/i,
+        ["src/components/seo/Breadcrumb.tsx", ...GENERIC_PROSE]
+      )
+    ).toEqual([]);
+  });
+
+  it("never offers an electronic signature, which the product does not have", () => {
+    expect(
+      liveOffenders(/signature électronique (?:incluse|locataire)|assistant guidée?, signature|signe électroniquement|elektroniquement/i)
+    ).toEqual([]);
+  });
+
+  it("states that quittances are downloaded, not sent", () => {
+    const faq = readFileSync(join(SRC, "components/marketing/gestion-locative/faq-data.ts"), "utf8");
+    expect(faq).toMatch(/ne l'envoie pas à votre place/);
+  });
+});
+
 describe("exactitude juridique des pages quittance", () => {
   const QUITTANCE_COPY = [
     "src/app/(marketing)/outils/generateur-quittance/calculator-client.tsx",

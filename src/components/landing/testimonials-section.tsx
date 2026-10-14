@@ -47,7 +47,7 @@ const capabilities: Capability[] = [
     points: [
       "La révision IRL se calcule depuis le bail, à sa date anniversaire",
       "Les retards affichent le montant dû et l'ancienneté de la dette",
-      "Le locataire dispose d'un portail pour consulter et régler son loyer",
+      "Quittances et reçus se téléchargent en PDF, à la demande",
     ],
   },
 ];

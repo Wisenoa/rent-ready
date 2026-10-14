@@ -86,7 +86,7 @@ export function buildOrganizationSchema(input: OrganizationSchemaInput = {}) {
       : {}),
     description:
       input.description ??
-      "Lokna est le logiciel de gestion locative pour propriétaires bailleurs indépendants en France. Quittances et reçus conformes à la loi de 1989, suivi des paiements, révision IRL, portail locataire.",
+      "Lokna est le logiciel de gestion locative pour propriétaires bailleurs indépendants en France. Quittances et reçus conformes à la loi de 1989, suivi des paiements et des retards, révision IRL.",
     sameAs: input.sameAs ?? SAME_AS,
     contactPoint: input.contact ?? {
       "@type": "ContactPoint",

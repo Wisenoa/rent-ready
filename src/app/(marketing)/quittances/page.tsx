@@ -38,7 +38,7 @@ export async function generateMetadata() {
     title:
       "Quittances de Loyer 2026 — Génération Automatique PDF Conforme",
     description:
-      "Quittances de loyer conformes à la loi de 1989, générées quand le paiement solde le mois. Reçu en cas de paiement partiel, espace locataire. Essai gratuit sans engagement.",
+      "Quittances de loyer conformes à la loi de 1989, générées quand le paiement solde le mois. Reçu en cas de paiement partiel, PDF à télécharger. Essai gratuit sans engagement.",
     url: "/quittances",
     ogType: "template",
   });
@@ -65,9 +65,9 @@ description:
 icon: "🧾",
 },
 {
-title: "Espace locataire",
+title: "PDF à la demande",
 description:
-"Votre locataire retrouve ses quittances dans son espace en ligne, si vous l'y avez invité.",
+"Chaque quittance se télécharge quand vous en avez besoin. Lokna ne l'envoie pas : vous la transmettez à votre locataire.",
 icon: "🏠",
 },
 {
@@ -110,7 +110,7 @@ const faqData = [
   {
     question: "Comment envoyer la quittance au locataire ?",
     answer:
-      "Téléchargez la quittance en PDF et transmettez-la à votre locataire, par exemple par e-mail s'il a donné son accord. Si vous l'avez invité, il la retrouve aussi dans son espace en ligne. Lokna n'envoie pas la quittance par e-mail à votre place.",
+      "Téléchargez la quittance en PDF et transmettez-la à votre locataire, par exemple par e-mail s'il a donné son accord. Lokna n'envoie pas la quittance par e-mail à votre place.",
   },
   {
     question: "Les quittances sont-elles horodatées ?",
@@ -173,7 +173,7 @@ const QUITTANCES_SCHEMA = {
       operatingSystem: "Web",
       url: `${SITE_URL}/quittances`,
       description:
-        "Quittances de loyer conformes à la loi du 6 juillet 1989, générées quand le paiement enregistré solde le mois. Reçu en cas de paiement partiel, espace locataire.",
+        "Quittances de loyer conformes à la loi du 6 juillet 1989, générées quand le paiement enregistré solde le mois. Reçu en cas de paiement partiel, PDF à télécharger.",
       offers: {
         ...paidOffer(),
       },
@@ -181,7 +181,7 @@ const QUITTANCES_SCHEMA = {
         "Quittance générée au paiement",
         "PDF conforme loi 1989",
         "Reçu de paiement partiel",
-        "Espace locataire",
+        "PDF à télécharger",
         "Archivage illimité",
         "Export CSV",
       ],

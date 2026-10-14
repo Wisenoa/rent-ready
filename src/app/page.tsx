@@ -46,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const metadata = baseMetadata({
     title: TITLE,
     description:
-      "Loyers suivis, quittances et reçus prêts, relances et révision IRL : Lokna, la gestion locative en ligne des propriétaires qui louent seuls. Essai 14 jours.",
+      "Loyers suivis, quittances et reçus prêts, retards et révision IRL : Lokna, la gestion locative en ligne des propriétaires qui louent seuls. Essai 14 jours.",
     url: "",
     ogType: "default",
   });

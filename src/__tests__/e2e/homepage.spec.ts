@@ -68,7 +68,7 @@ test.describe('Homepage', () => {
     await story.locator('li[data-active]').nth(3).scrollIntoViewIfNeeded();
     await page.evaluate(() => window.scrollBy(0, 1));
     await expect(current).toHaveText('12 oct.');
-    await expect(story).toContainText('Rappel envoyé le 12 oct.');
+    await expect(story).toContainText('En retard depuis le 5 oct.');
 
     await story.getByRole('button', { name: '18 oct.' }).click();
     await expect(current).toHaveText('18 oct.');
@@ -78,7 +78,7 @@ test.describe('Homepage', () => {
 
   test('feature tabs work from the keyboard', async ({ page }) => {
     await page.goto('/');
-    const first = page.getByRole('tab', { name: /Relancer/ });
+    const first = page.getByRole('tab', { name: /Suivre un retard/ });
     await first.focus();
     await page.keyboard.press('ArrowDown');
     const revise = page.getByRole('tab', { name: /Réviser le loyer/ });

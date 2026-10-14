@@ -14,9 +14,9 @@ export const revalidate = 3600;
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Suivi Maintenance 2026 — Déclarez et résolvez les interventions",
+      "Entretien des logements 2026 — Suivez les travaux et leurs dépenses",
     description:
-      "Vos locataires signalent un incident avec photos et niveau d'urgence ; vous suivez l'intervention jusqu'à sa résolution. Historique complet par logement.",
+      "Gardez la trace des travaux de chaque logement : dépenses par catégorie, historique par bien, reprise pour la déclaration. Le signalement par le locataire n'est pas encore disponible.",
     // /maintenance is the authenticated dashboard route; this public page is
     // its own canonical.
     url: "/entretien",
@@ -25,87 +25,79 @@ export async function generateMetadata() {
 }
 ;
 
+// What exists today: expenses recorded per property, by category. Tenants cannot
+// report an incident yet — the reporting form lives in the tenant portal, and no
+// screen lets a landlord give a tenant access to it. Say so; do not describe the
+// reporting flow until it can be reached.
 const features = [
   {
-    title: "Déclaration en ligne",
+    title: "Dépenses par logement",
     description:
-      "Vos locataires signalent une panne ou incident depuis leur portail. Photos, description, urgence — en quelques clics.",
-    icon: "📲",
-  },
-  {
-    title: "Niveau d'urgence",
-    description:
-      "Le locataire indique l'urgence de sa demande : faible, moyenne, élevée ou urgente. Vous voyez d'abord ce qui ne peut pas attendre.",
-    icon: "🚦",
+      "Plomberie, électricité, entretien, rénovation : chaque dépense est rattachée au logement concerné, avec sa catégorie, sa date et son montant.",
+    icon: "🧾",
   },
   {
     title: "Historique par bien",
     description:
-      "Toutes les interventions sont archivées par propriété. Historique complet pour anticiper les gros travaux.",
+      "Tous les travaux d'un logement au même endroit, pour anticiper les gros chantiers et répondre quand on vous demande ce qui a été fait.",
     icon: "📋",
   },
   {
-    title: "Suivi de l'avancement",
+    title: "Utile pour la déclaration",
     description:
-      "Ouvert, en cours, résolu : le locataire voit l'état de sa demande depuis son portail. Plus besoin d'appels pour savoir où ça en est.",
-    icon: "⚡",
+      "Les dépenses de l'année sont reprises avec vos loyers encaissés pour préparer votre déclaration de revenus fonciers.",
+    icon: "📊",
   },
   {
-    title: "Photos jointes",
+    title: "Signalement par le locataire",
     description:
-      "Le locataire joint des photos du problème à sa demande. Elles restent rattachées à l'intervention.",
-    icon: "📷",
+      "Pas encore disponible : vos locataires ne peuvent pas encore déclarer un incident en ligne. Ils vous contactent comme aujourd'hui.",
+    icon: "⏳",
   },
-
 ];
 
 const steps = [
   {
     step: "1",
-    title: "Le locataire signale",
+    title: "Le locataire vous prévient",
     description:
-      "Depuis son portail, il décrit le problème, ajoute des photos et indique le niveau d'urgence.",
+      "Par téléphone, e-mail ou courrier, comme aujourd'hui : il décrit le problème et son urgence.",
   },
   {
     step: "2",
     title: "Vous évaluez",
     description:
-      "Vous consultez la demande depuis votre espace et lancez l'intervention.",
+      "Réparation locative à la charge du locataire, ou travaux à la vôtre ? Le décret n° 87-712 liste les réparations locatives.",
   },
   {
     step: "3",
-    title: "Intervention et suivi",
+    title: "Vous faites intervenir",
     description:
-      "Vous passez la demande « en cours » : le locataire voit que l'intervention avance.",
+      "Artisan, devis, rendez-vous : vous organisez l'intervention.",
   },
   {
     step: "4",
-    title: "Clôture et archivage",
+    title: "Vous enregistrez la dépense",
     description:
-      "L'intervention est marquée résolue et reste dans l'historique du logement.",
+      "Le coût est rattaché au logement dans Lokna et reste dans son historique.",
   },
 ];
 
 const faqData = [
   {
-    question: "Comment un locataire signale-t-il une panne ?",
+    question: "Mes locataires peuvent-ils signaler une panne dans Lokna ?",
     answer:
-      "Le locataire se connecte à son portail dédié, clique sur « Signaler un incident », ajoute une description, des photos et indique le niveau d'urgence. La demande apparaît dans votre espace.",
+      "Pas encore. Le signalement en ligne par le locataire n'est pas disponible aujourd'hui : vos locataires vous préviennent comme d'habitude, et vous enregistrez ensuite les travaux dans Lokna.",
   },
   {
-    question: "Comment sont classées les demandes de maintenance ?",
+    question: "Comment garder une trace des travaux d'un logement ?",
     answer:
-      "Le locataire choisit le niveau d'urgence en déclarant l'incident : faible, moyenne, élevée ou urgente. Une fuite d'eau, une panne de chauffage ou une porte qui ne ferme plus relèvent de l'urgence ; une retouche de peinture peut attendre."
+      "Enregistrez chaque dépense dans Lokna : montant, date, catégorie (plomberie, électricité, entretien, rénovation…) et logement concerné. L'historique de chaque bien reste consultable à tout moment.",
   },
   {
-    question: "Puis-je garder une trace des travaux ?",
+    question: "Qui paie une réparation : le bailleur ou le locataire ?",
     answer:
-      "Oui. Chaque intervention reste dans l'historique du logement, avec les photos jointes par le locataire. Le coût des travaux s'enregistre dans le suivi des dépenses du même logement.",
-  },
-  {
-    question: "Le locataire voit-il l'avancement de l'intervention ?",
-    answer:
-      "Oui. Le locataire voit l'état de sa demande (ouverte, en cours, résolue) depuis son portail, et vous depuis votre espace. Plus besoin d'appels ou de relances pour savoir où en est la réparation.",
+      "Le locataire prend en charge l'entretien courant et les menues réparations, listés par le décret n° 87-712 du 26 août 1987. Les réparations dues à la vétusté, à un vice de construction ou à un cas de force majeure restent à la charge du bailleur (article 7 de la loi du 6 juillet 1989).",
   },
 ];
 
@@ -131,33 +123,30 @@ function MaintenanceJsonLd() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Suivi des interventions",
+            name: "Entretien des logements",
             item: `${SITE_URL}/entretien`,
           },
         ],
       },
       {
         "@type": "SoftwareApplication",
-        name: `${SITE_NAME} — Suivi des interventions`,
+        name: `${SITE_NAME} — Entretien des logements`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/entretien`,
         description:
-          "Gérez les demandes de réparation de vos locations : déclaration en ligne par le locataire, niveau d'urgence, historique par bien, suivi de l'avancement.",
+          "Suivez les travaux de vos locations : dépenses par logement et par catégorie, historique par bien.",
         offers: {
           ...paidOffer(),
         },
         featureList: [
-          "Déclaration d'incident en ligne",
-          "Niveau d'urgence indiqué par le locataire",
-          "Historique par bien",
-          "Suivi de l'avancement",
-          "Photos jointes",
+          "Dépenses par logement et par catégorie",
+          "Historique des travaux par bien",
         ],
       },
       {
         "@type": "FAQPage",
-        name: `FAQ — Suivi des interventions ${SITE_NAME}`,
+        name: `FAQ — Entretien des logements ${SITE_NAME}`,
         mainEntity: faqData.map((item) => ({
           "@type": "Question",
           name: item.question,
@@ -186,13 +175,14 @@ export default function MaintenancePage() {
         {/* Hero */}
         <header className="mb-16 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
-            Suivez vos interventions
+            Gardez la trace
             <br />
-            sans courir après.
+            de vos travaux.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
-            Chaque demande de réparation déclarée, suivie et résolue — avec
-            historique et photos. Le locataire voit où en est sa demande.
+            Chaque dépense de travaux rattachée à son logement, avec son
+            historique. Le signalement en ligne par le locataire n&apos;est pas
+            encore disponible.
           </p>
         </header>
 
@@ -240,8 +230,8 @@ export default function MaintenancePage() {
             Priorités selon la gravité
           </h2>
           <p className="mb-6 text-stone-700">
-            Le locataire indique la gravité de l&apos;incident pour vous permettre
-            de traiter les vraies urgences en premier. Quelques repères :
+            Quand un locataire vous signale un problème, quelques repères pour
+            traiter les vraies urgences en premier :
           </p>
           <ul className="grid gap-3 sm:grid-cols-3">
             <li className="flex items-start gap-2 text-sm text-stone-600">
@@ -262,11 +252,11 @@ export default function MaintenancePage() {
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-bold sm:text-3xl">
-            Gérez toutes vos interventions en un seul endroit
+            Tous les travaux de vos logements au même endroit
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Plus de messages éparpillés, plus de dossiers oubliés. Chaque
-            intervention est traçable du signalement à la résolution.
+            Plus de factures éparpillées : chaque dépense est rattachée à son
+            logement et reprise pour votre déclaration.
           </p>
           <Link
             href="/register"

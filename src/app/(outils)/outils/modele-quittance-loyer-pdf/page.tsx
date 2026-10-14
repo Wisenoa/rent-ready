@@ -53,7 +53,7 @@ const faqs = [
     question:
       "Comment automatiser les quittances chaque mois ?",
     answer:
-      "Avec Lokna, la quittance est générée lorsque vous enregistrez le paiement qui solde le mois ; un paiement partiel donne un reçu. Vous la téléchargez en PDF, et votre locataire la retrouve dans son espace en ligne si vous l'y avez invité.",
+      "Avec Lokna, la quittance est générée lorsque vous enregistrez le paiement qui solde le mois ; un paiement partiel donne un reçu. Vous la téléchargez en PDF, à la demande, et la transmettez vous-même à votre locataire.",
   },
 ];
 

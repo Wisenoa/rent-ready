@@ -397,7 +397,7 @@ export default function ContratDeLocationPage() {
             Créez votre bail de location en 10 minutes
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Modèle gratuit, assistant guidé, signature électronique. Fini les
+            Modèle gratuit, assistant guidé. Fini les
             allers-retours fastidieux entre Word et PDF.
           </p>
           <Link

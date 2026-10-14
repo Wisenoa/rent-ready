@@ -55,7 +55,7 @@ const faqSchema = {
       name: "Peut-on envoyer une quittance de loyer par email ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Oui, depuis la loi du 17 décembre 2014, la quittance peut être transmise par voie électronique (email, espace locataire) si le locataire ne s'y oppose pas. Elle a la même valeur juridique qu'une quittance papier.",
+        text: "Oui. Avec l'accord exprès du locataire, le bailleur peut lui transmettre la quittance par voie dématérialisée, par exemple par e-mail (article 21 de la loi du 6 juillet 1989). Elle a la même valeur juridique qu'une quittance papier.",
       },
     },
     {

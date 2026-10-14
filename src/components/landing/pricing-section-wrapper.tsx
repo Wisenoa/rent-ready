@@ -16,8 +16,8 @@ const SHARED_FEATURES = [
   "Quittances et reçus conformes loi 1989",
   "Suivi des loyers et du reste dû",
   "Révision IRL calculée avec l'indice INSEE",
-  "Portail locataire avec signalement d'incident",
-  "Relance de loyer par e-mail",
+  "Quittances et reçus en PDF, à télécharger",
+  "Dépenses par logement",
   "Export CSV des paiements",
 ];
 
