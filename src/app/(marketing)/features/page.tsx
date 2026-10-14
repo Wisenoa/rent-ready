@@ -24,19 +24,11 @@ import { TrustLogos } from "@/components/seo/TrustLogos";
 import { ContentReviewBadge } from "@/components/seo/ContentReviewBadge";
 import { baseMetadata } from "@/lib/seo/metadata";
 
-// Dynamic import: FinalCta and MarketingFooter use framer-motion (heavy)
-// → code-split so they don't block initial JS bundle or INP
+// Dynamic import: FinalCta uses framer-motion (heavy)
+// → code-split so it doesn't block initial JS bundle or INP
 const FinalCta = dynamicImport(
   () => import("@/components/landing/final-cta").then((mod) => mod.FinalCta),
   { loading: () => <div style={{ minHeight: 400 }} aria-hidden="true" /> }
-);
-const MarketingFooter = dynamicImport(
-  () => import("@/components/landing/marketing-footer").then((mod) => mod.MarketingFooter),
-  { loading: () => <div aria-hidden="true" /> }
-);
-const GlassNav = dynamicImport(
-  () => import("@/components/landing/glass-nav").then((mod) => mod.GlassNav),
-  { loading: () => <div style={{ minHeight: 64 }} aria-hidden="true" /> }
 );
 
 export async function generateMetadata() {
@@ -292,7 +284,6 @@ export default function FeaturesPage() {
   return (
     <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
       <FeaturesJsonLd />
-      <GlassNav />
 
       {/* ── Hero ── */}
       <header className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
@@ -454,7 +445,6 @@ export default function FeaturesPage() {
 
       {/* ── CTA ── */}
       <FinalCta />
-      <MarketingFooter />
     </div>
   );
 }

@@ -4,6 +4,34 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Lokna marketing palette — the single source of truth for every public page
+ * (homepage V2.1 is the reference). Use these utilities (bg-forest, text-ink,
+ * border-line, bg-sage-50…) instead of raw hex values or Tailwind's blue scale,
+ * which was the previous, unrelated identity. The authenticated dashboard keeps
+ * the shadcn tokens below and does not use these.
+ */
+@theme {
+  --color-cream: #FAF9F5;
+  --color-paper: #F5F3EF;
+  --color-line: #D9D5CC;
+  --color-line-soft: #E7E3DA;
+  --color-ink: #15241F;
+  --color-ink-muted: #4F5D56;
+  --color-ink-soft: #5C6560;
+  --color-forest: #1E3A2F;
+  --color-forest-hover: #172E25;
+  --color-forest-deep: #0B3B2C;
+  --color-sage: #7FA68E;
+  --color-sage-50: #EFF4F0;
+  --color-sage-100: #E2ECE5;
+  --color-sage-200: #CADBCF;
+  --color-sage-300: #A8C4B1;
+  --color-sage-400: #8FB39C;
+  --color-sage-600: #4F7A61;
+  --color-sage-700: #3D624D;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

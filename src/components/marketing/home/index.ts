@@ -1,4 +1,3 @@
-export * from "./HomeNavbar";
 export * from "./HomeHero";
 export * from "./HomeShift";
 export * from "./HomeMonth";
@@ -7,5 +6,4 @@ export * from "./HomeForWho";
 export * from "./HomePricing";
 export * from "./HomeFaq";
 export * from "./HomeFinalCTA";
-export * from "./HomeFooter";
 export * from "./faq-data";

@@ -24,8 +24,9 @@ import {
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
 import { MotionRoot } from "@/components/marketing/home/MotionRoot";
+import { SiteFooter } from "@/components/marketing/site/SiteFooter";
+import { SiteHeader } from "@/components/marketing/site/SiteHeader";
 import {
-  HomeNavbar,
   HomeHero,
   HomeShift,
   HomeMonth,
@@ -34,7 +35,6 @@ import {
   HomePricing,
   HomeFaq,
   HomeFinalCTA,
-  HomeFooter,
   HOME_FAQ_ITEMS,
 } from "@/components/marketing/home";
 
@@ -70,7 +70,7 @@ export default function HomePage() {
           __html: JSON.stringify(structuredData),
         }}
       />
-      <HomeNavbar />
+      <SiteHeader />
       <main id="main">
         <MotionRoot>
           <HomeHero />
@@ -83,7 +83,7 @@ export default function HomePage() {
           <HomeFinalCTA />
         </MotionRoot>
       </main>
-      <HomeFooter />
+      <SiteFooter />
     </div>
   );
 }
