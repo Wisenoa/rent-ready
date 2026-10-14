@@ -133,7 +133,7 @@ export function Breadcrumb({ items, showHomeIcon = true, className = "", pageIte
         {crumbs.map((crumb, index) => (
           <span key={crumb.href} className="flex items-center gap-1">
             {index === 0 && showHomeIcon ? (
-              <Link href="/" className="flex items-center hover:text-stone-700 transition-colors">
+              <Link href="/" className="-m-1 flex min-h-6 min-w-6 items-center justify-center p-1 hover:text-stone-700 transition-colors">
                 <Home className="h-3.5 w-3.5" aria-hidden="true" />
                 <span className="sr-only">Accueil</span>
               </Link>
