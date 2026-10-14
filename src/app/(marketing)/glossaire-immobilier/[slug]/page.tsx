@@ -302,6 +302,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                 const label = href
                   .replace(/\/templates\//, "Modèle ")
                   .replace(/\/outils\//, "Outil ")
+                  .replace(/\/guides\//, "Guide ")
                   .replace(/\/glossaire-immobilier/, "Glossaire")
                   .replace(/-/g, " ")
                   .replace(/\b\w/g, (c) => c.toUpperCase());

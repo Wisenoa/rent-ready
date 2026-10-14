@@ -344,6 +344,9 @@ Essai gratuit 14 jours
 
 {/* Internal links */}
 <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
+  <Link href="/guides/quittance-loyer" className="text-forest hover:underline">
+    Guide de la quittance de loyer →
+  </Link>
 <Link
 href="/locations"
 className="text-forest hover:underline"

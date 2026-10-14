@@ -275,6 +275,9 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
+          <Link href="/guides/depot-garantie" className="text-forest hover:underline">
+            Guide du dépôt de garantie →
+          </Link>
           <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">État des lieux →</Link>
           <Link href="/templates/bail-vide" className="text-forest hover:underline">Bail vide →</Link>
           <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>

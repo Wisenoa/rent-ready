@@ -10,6 +10,7 @@
       "loyer-nu"
     ],
     "seeFurtherLinks": [
+      "/guides/quittance-loyer",
       "/templates/recu-loyer"
     ],
     "updatedAt": "2026-04-15"
@@ -69,6 +70,7 @@
       "quittance-loyer"
     ],
     "seeFurtherLinks": [
+      "/guides/depot-garantie",
       "/templates/etat-des-lieux"
     ],
     "updatedAt": "2026-04-15"
@@ -155,6 +157,7 @@
       "bail-location"
     ],
     "seeFurtherLinks": [
+      "/guides/depot-garantie",
       "/outils/calculateur-depot-garantie"
     ],
     "updatedAt": "2026-04-15"

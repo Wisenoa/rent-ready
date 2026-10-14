@@ -102,6 +102,8 @@ export const NAV_GROUPS: NavGroup[] = [
     hub: { href: "/guides", label: "Tous les guides" },
     links: [
       { href: "/guides", label: "Guides du bailleur", description: "Quittance, bail, IRL, dépôt de garantie" },
+      { href: "/guides/quittance-loyer", label: "Guide de la quittance", description: "Contenu, paiement partiel, charges" },
+      { href: "/guides/depot-garantie", label: "Guide du dépôt de garantie", description: "Montant, restitution, retenues" },
       { href: "/blog", label: "Blog", description: "Questions concrètes de propriétaires" },
       { href: "/templates", label: "Modèles", description: "Baux, congés, relances, état des lieux" },
       { href: "/glossaire-immobilier", label: "Glossaire", description: "Les termes de la location expliqués" },
