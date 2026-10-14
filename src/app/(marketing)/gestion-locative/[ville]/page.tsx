@@ -27,23 +27,6 @@ export function generateStaticParams() {
   return cities.map((city) => ({ ville: city.slug }));
 }
 
-/* ---------- Average rent data by city (€/m², 2025 source: CLAMEU/SeLoger) ---------- */
-
-const AVG_RENT_DATA: Record<string, { studio: number; t2: number; t3: number; source: string }> = {
-  paris:       { studio: 28, t2: 25, t3: 22, source: "SeLoger / CLAMEU 2025" },
-  marseille:   { studio: 16, t2: 14, t3: 12, source: "SeLoger / CLAMEU 2025" },
-  lyon:        { studio: 17, t2: 15, t3: 13, source: "SeLoger / CLAMEU 2025" },
-  toulouse:    { studio: 14, t2: 12, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  nice:        { studio: 15, t2: 13, t3: 12, source: "SeLoger / CLAMEU 2025" },
-  nantes:      { studio: 13, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  montpellier: { studio: 14, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  strasbourg:  { studio: 13, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  bordeaux:    { studio: 15, t2: 13, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  lille:       { studio: 14, t2: 12, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  rennes:      { studio: 13, t2: 11, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  grenoble:    { studio: 13, t2: 11, t3: 10, source: "SeLoger / CLAMEU 2025" },
-};
-
 /* ---------- Zone tendue ---------- */
 
 const ZONES_TENDUES = new Set([
@@ -82,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!city) return {};
 
   const title = `Gestion locative à ${city.name} (${city.department})`;
-  const description = `Gérez vos locations à ${city.name} sans effort : quittances légales, détection des loyers, révision IRL. Essai gratuit 14 jours, sans carte bancaire.`;
+  const description = `Gérez vos locations à ${city.name} sans effort : quittances légales, suivi des loyers, révision IRL. Essai gratuit 14 jours, sans carte bancaire.`;
 
   return baseMetadata({
     title,
@@ -102,23 +85,18 @@ function getCityContext(city: City) {
   const pop = city.population;
   const isZoneTendue = ZONES_TENDUES.has(city.slug);
 
-  let avgRent: number;
   let bracketLabel: string;
   if (pop > 500000) {
-    avgRent = 14;
     bracketLabel = "métropole";
   } else if (pop > 200000) {
-    avgRent = 12;
     bracketLabel = "grande ville";
   } else if (pop > 100000) {
-    avgRent = 10;
     bracketLabel = "ville moyenne";
   } else {
-    avgRent = 9;
     bracketLabel = "ville";
   }
 
-  return { isZoneTendue, avgRent, bracketLabel };
+  return { isZoneTendue, bracketLabel };
 }
 
 /* ---------- Features ---------- */
@@ -129,33 +107,33 @@ function getFeatures(city: City) {
     {
       icon: "📄",
       title: "Quittances automatiques",
-      description: `Générez et envoyez les quittances de loyer à vos locataires à ${city.name} en un clic. Conformes à l'article 21 de la loi du 6 juillet 1989, avec distinction obligatoire entre loyer nu et provisions pour charges.`,
+      description: `La quittance est générée lorsque vous enregistrez le paiement qui solde le mois de votre locataire à ${city.name}. Conforme à l'article 21 de la loi du 6 juillet 1989, avec distinction obligatoire entre loyer et provisions pour charges ; un paiement partiel donne un reçu.`,
     },
     {
       icon: "💶",
-      title: "Détection des paiements",
-      description: `Connectez votre compte bancaire en lecture seule via Open Banking (DSP2). Lokna détecte automatiquement les virements de vos locataires dans le ${city.department} et marque les loyers comme encaissés.`,
+      title: "Suivi des paiements",
+      description: `Vous enregistrez les paiements reçus de vos locataires dans le ${city.department} ; Lokna les impute sur les loyers attendus, calcule le reste dû et distingue les mois payés, partiels et impayés.`,
     },
     {
       icon: "📈",
-      title: "Révision IRL automatique",
-      description: `Le calcul de l'Indice de Référence des Loyers est connecté à l'INSEE. Pour vos biens à ${city.name}, Lokna applique la formule légale et notifie vos locataires de la révision annuelle.`,
+      title: "Révision IRL",
+      description: `Pour vos biens à ${city.name}, Lokna calcule la révision annuelle avec l'indice de référence des loyers publié par l'INSEE, selon la formule légale. Le nouveau loyer s'applique après votre validation.`,
     },
     {
       icon: "📊",
-      title: "Conformité Factur-X",
-      description: `Préparez dès maintenant le e-reporting B2C obligatoire en septembre 2027. Lokna génère vos documents au format Factur-X (norme EN 16931), compatible avec la plateforme publique de facturation.`,
+      title: "Relances de loyer",
+      description: `En cas de retard à ${city.name}, envoyez à votre locataire une relance par e-mail en trois tons : rappel cordial, relance formelle, mise en demeure.`,
     },
     {
       icon: "🏠",
       title: "Portail locataire",
-      description: `Offrez à vos locataires à ${city.name} un espace personnel pour consulter leurs quittances, signaler un problème technique avec photo ou vidéo, et suivre l'avancement des interventions.`,
+      description: `Offrez à vos locataires à ${city.name} un espace personnel pour consulter leurs quittances, signaler un problème technique avec photos, et suivre l'avancement des interventions.`,
     },
     {
       icon: ctx.isZoneTendue ? "⚖️" : "📑",
       title: ctx.isZoneTendue ? "Encadrement des loyers" : "Analyse fiscale",
       description: ctx.isZoneTendue
-        ? `${city.name} fait partie des zones tendues soumises à l'encadrement des loyers. Lokna vérifie que vos montants respectent les plafonds et vous alerte en cas de dépassement du loyer de référence majoré.`
+        ? `${city.name} est en zone tendue : à la mise en location ou au renouvellement, l'évolution du loyer est encadrée. Vérifiez les règles applicables à votre commune avant de fixer le loyer du bail.`
         : `Visualisez vos revenus fonciers, charges déductibles et simulez le régime fiscal le plus avantageux pour vos biens à ${city.name} — micro-foncier, réel, LMNP classique ou dispositif Jeanbrun 2026.`,
     },
   ];
@@ -165,20 +143,17 @@ function getFeatures(city: City) {
 
 function getFaqs(city: City) {
   const ctx = getCityContext(city);
-  const rentData = AVG_RENT_DATA[city.slug];
   return [
     {
       question: `Pourquoi utiliser un logiciel de gestion locative à ${city.name} ?`,
       answer: `Gérer des biens locatifs à ${city.name} implique de respecter la législation française (quittances conformes à la loi de 1989, diagnostics obligatoires${ctx.isZoneTendue ? ", respect de l'encadrement des loyers en zone tendue" : ""}). Lokna automatise ces tâches pour vous faire gagner du temps et rester en conformité, quelle que soit la taille de votre patrimoine.` },
     {
       question: `Quel est le loyer moyen à ${city.name} en 2026 ?`,
-      answer: rentData
-        ? `Le loyer moyen à ${city.name} se situe autour de ${rentData.studio} à ${rentData.t3} €/m² selon le type de bien (studio à T3). Ces chiffres sont donnés à titre indicatif — le loyer réel dépend de l'état, de l'emplacement et des équipements. Source : ${rentData.source}.`
-        : `Le marché locatif de ${city.name} offre des opportunités intéressant pour les propriétaires. Utilisez notre calculateur pour estimer le rendement de votre bien et comparer avec les standards du marché local.`,
+      answer: `Lokna ne publie pas de loyer moyen par ville. Pour connaître les loyers pratiqués à ${city.name}, consultez l'observatoire local des loyers s'il en existe un, ou la carte des loyers publiée par le ministère chargé du Logement. Le loyer réel dépend de l'état, de l'emplacement et des équipements du bien.`,
     },
     {
       question: `La gestion locative à ${city.name} est-elle obligatoire ?`,
-      answer: `Aucun texte n'oblige les propriétaires à utiliser un logiciel de gestion locative. En revanche, la loi leur impose des obligations précises : remise d'une quittance dans les 24h suivant le paiement, notification de révision de loyer un mois avant la date d'anniversaire, transmission annuelle de la déclaration de revenus fonciers. Un logiciel comme Lokna vous aide à respecter ces échéances sans y consacrer du temps chaque mois.`,
+      answer: `Aucun texte n'oblige les propriétaires à utiliser un logiciel de gestion locative. En revanche, la loi leur impose des obligations précises : remettre gratuitement une quittance au locataire qui la demande, en distinguant le loyer et les charges ; régulariser chaque année les provisions pour charges ; déclarer les revenus fonciers. Un logiciel comme Lokna vous aide à respecter ces échéances sans y consacrer du temps chaque mois.`,
     },
     {
       question: `Lokna est-il adapté au marché locatif de ${city.name} ?`,
@@ -186,15 +161,15 @@ function getFaqs(city: City) {
     },
     {
       question: `Combien coûte la gestion locative à ${city.name} avec Lokna ?`,
-      answer: `Lokna coûte ${formatEntryPrice()} par mois pour 3 biens, ou ${formatProPrice()} pour 10 biens (${formatProAnnualPrice()} par an, soit 2 mois offerts). C'est 4 à 5 fois moins cher qu'une agence immobilière à ${city.name} qui facture en moyenne 7 % du loyer annuel, soit environ ${ctx.avgRent * 70} € par an pour un loyer de ${ctx.avgRent * 1000 / 10} € mensuels. Essai gratuit de 14 jours sans carte bancaire.`,
+      answer: `Lokna coûte ${formatEntryPrice()} par mois pour 3 biens, ou ${formatProPrice()} pour 10 biens (${formatProAnnualPrice()} par an, soit 2 mois offerts). Une agence facture en général un pourcentage des loyers encaissés : à 7 %, un loyer de 800 € par mois coûte 672 € par an en frais de gestion. Essai gratuit de 14 jours sans carte bancaire.`,
     },
     {
       question: `Comment démarrer la gestion locative de mes biens à ${city.name} ?`,
-      answer: `Créez votre compte gratuitement en 2 minutes, ajoutez vos biens situés à ${city.name} et vos locataires, et Lokna s'occupe du reste : quittances automatiques, suivi des paiements, relances, révision IRL et préparation des documents fiscaux. Aucune installation n'est nécessaire, tout fonctionne depuis votre navigateur ou votre smartphone.`,
+      answer: `Créez votre compte gratuitement en 2 minutes, ajoutez vos biens situés à ${city.name} et vos locataires, puis enregistrez les paiements reçus : Lokna calcule le reste dû, génère les quittances et les reçus, prépare les relances et calcule la révision IRL. Aucune installation n'est nécessaire, tout fonctionne depuis votre navigateur ou votre smartphone.`,
     },
     ...(ctx.isZoneTendue ? [{
       question: `L'encadrement des loyers s'applique-t-il à ${city.name} ?`,
-      answer: `Oui. ${city.name} est une commune en zone tendue soumise à l'encadrement des loyers. Lors de la mise en location ou au renouvellement du bail, le loyer ne peut pas dépasser le loyer de référence majoré fixé par arrêté préfectoral. Vous pouvez demander un complément de loyer pour atypie (vue exceptionnelle, surface significative, etc.) dans la limite de 20 % au-dessus du loyer de référence majoré. Consultez les arrêtés préfectoraux sur le site de la préfecture du ${city.department}.`,
+      answer: `Oui. ${city.name} est en zone tendue : à la relocation, le loyer du nouveau bail ne peut en principe pas dépasser celui du précédent locataire, sauf exceptions prévues par décret (travaux importants, loyer manifestement sous-évalué). Certaines communes appliquent en plus un plafonnement par des loyers de référence fixés par arrêté préfectoral. Pour savoir si c'est le cas à ${city.name}, consultez la préfecture du ${city.department} ou l'ADIL.`,
     }] : []),
   ];
 }
@@ -204,23 +179,22 @@ function getFaqs(city: City) {
 function getLocalParagraphs(city: City) {
   const ctx = getCityContext(city);
   const pop = city.population;
-  const rentData = AVG_RENT_DATA[city.slug];
 
   const intro =
     pop > 500000
-      ? `${city.name} est l'une des principales métropoles françaises, avec ${formatPopulation(pop)} habitants et un marché locatif parmi les plus dynamiques de la région ${city.region}. La demande locative y est soutenue par un bassin d'emploi diversifié, une population étudiante importante et un réseau de transports en commun dense. Le loyer moyen au m² y${rentData ? ` se situe autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " se situe au-dessus de la moyenne nationale"}`
+      ? `${city.name} est l'une des principales métropoles françaises, avec ${formatPopulation(pop)} habitants et un marché locatif parmi les plus dynamiques de la région ${city.region}. La demande locative y est soutenue par un bassin d'emploi diversifié, une population étudiante importante et un réseau de transports en commun dense.`
         : pop > 100000
-          ? `${city.name} (${formatPopulation(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement et stabilité, avec une demande régulière portée par les actifs et les familles. Le loyer moyen au m² y${rentData ? ` tourne autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " reste modéré par rapport aux métropoles"}`
+          ? `${city.name} (${formatPopulation(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement et stabilité, avec une demande régulière portée par les actifs et les familles.`
           : `Située dans le département ${city.department} (${city.region}), ${city.name} compte ${formatPopulation(pop)} habitants. Le marché locatif local se caractérise par des loyers modérés et un taux de vacance faible, ce qui en fait un territoire de choix pour les investisseurs locatifs à la recherche de rendements réguliers.`;
 
   const regulation = ctx.isZoneTendue
-    ? `En tant que zone tendue, ${city.name} est soumise à l'encadrement des loyers. Les propriétaires bailleurs doivent respecter le loyer de référence fixé par arrêté préfectoral, sous peine de sanctions. Les arrêtés relatifs aux loyers de référence pour ${city.name} sont disponibles sur le site de la préfecture du ${city.department}. La législation évolue rapidement — obligation de facturation électronique Factur-X dès 2026, e-reporting B2C en 2027 — et Lokna intègre ces évolutions pour que vous n'ayez pas à vous en soucier.`
-    : `Que vous soyez propriétaire d'un appartement en centre-ville ou d'une maison en périphérie de ${city.name}, une gestion locative rigoureuse est essentielle pour sécuriser vos revenus et respecter vos obligations légales. La réglementation française évolue rapidement — obligation de facturation électronique Factur-X dès 2026, e-reporting B2C en septembre 2027 — et Lokna intègre ces évolutions pour que vous n'ayez pas à vous en soucier.`;
+    ? `En tant que zone tendue, ${city.name} est soumise à l'encadrement de l'évolution des loyers à la relocation. Certaines communes appliquent en plus des loyers de référence fixés par arrêté préfectoral ; la préfecture du ${city.department} et l'ADIL indiquent les règles en vigueur pour ${city.name}. Lokna, de son côté, tient le registre des loyers attendus, des paiements reçus et des documents qui en découlent.`
+    : `Que vous soyez propriétaire d'un appartement en centre-ville ou d'une maison en périphérie de ${city.name}, une gestion locative rigoureuse est essentielle pour sécuriser vos revenus et respecter vos obligations légales : quittances, régularisation des charges, révision du loyer. Lokna tient le registre des loyers attendus, des paiements reçus et des documents qui en découlent.`;
 
   const closing =
     pop > 200000
-      ? `Pour un propriétaire bailleur à ${city.name}, automatiser la gestion locative représente un gain de temps considérable : fin du pointage manuel des virements, quittances conformes générées sans intervention, et révision de loyer calculée automatiquement. Le marché de ${city.name} attire chaque année de nouveaux investisseurs — anticiper les obligations légales avec un outil dédié vous permet de rester concentré sur la sélection de vos locataires.`
-      : `Pour les propriétaires bailleurs à ${city.name} et dans le département ${city.department}, Lokna élimine les tâches répétitives : quittances automatiques conformes à la loi de 1989, détection des virements via Open Banking, et calcul de la révision IRL connecté à l'INSEE. Vous gardez le contrôle total de vos biens sans y consacrer des heures chaque mois.`;
+      ? `Pour un propriétaire bailleur à ${city.name}, automatiser la gestion locative représente un gain de temps considérable : reste dû calculé à chaque paiement enregistré, quittances conformes générées dès que le mois est soldé, et révision de loyer calculée avec l'indice INSEE. Le marché de ${city.name} attire chaque année de nouveaux investisseurs — anticiper les obligations légales avec un outil dédié vous permet de rester concentré sur la sélection de vos locataires.`
+      : `Pour les propriétaires bailleurs à ${city.name} et dans le département ${city.department}, Lokna élimine les tâches répétitives : quittances conformes à la loi de 1989 générées au paiement, calcul du reste dû, et calcul de la révision IRL avec l'indice INSEE. Vous gardez le contrôle total de vos biens sans y consacrer des heures chaque mois.`;
 
   return { intro, regulation, closing };
 }
@@ -241,12 +215,12 @@ function getHowToSteps(city: City) {
     },
     {
       name: `Enregistrer vos locataires et générer les quittances`,
-      text: `Ajoutez les informations de vos locataires et utilisez la fonctionnalité de génération de quittances pour produire des documents conformes à la loi de 1989, prêts à être envoyés par email depuis l'application.`,
+      text: `Ajoutez les informations de vos locataires et utilisez la fonctionnalité de génération de quittances pour produire des documents conformes à la loi de 1989, téléchargeables en PDF et accessibles à votre locataire dans son espace en ligne.`,
       url: "/register",
     },
     {
-      name: `Activer le suivi automatique des paiements`,
-      text: `Connectez votre compte bancaire en lecture seule. Lokna détecte automatiquement les virements de vos locataires et met à jour le statut de chaque paiement, sans aucune manipulation de votre part.`,
+      name: `Suivre les paiements chaque mois`,
+      text: `Enregistrez les paiements reçus depuis le suivi du mois. Lokna met à jour le statut de chaque loyer — payé, partiel ou impayé — et le reste dû.`,
       url: "/register",
     },
   ];
@@ -258,9 +232,6 @@ function buildGestionLocativeVilleSchema(city: City) {
   const ctx = getCityContext(city);
   const faqs = getFaqs(city);
   const howToSteps = getHowToSteps(city);
-  const rentData = AVG_RENT_DATA[city.slug];
-
-  const avgRentPerSqm = rentData ? (rentData.studio + rentData.t3) / 2 : null;
 
   return {
     "@context": "https://schema.org",
@@ -299,7 +270,6 @@ function buildGestionLocativeVilleSchema(city: City) {
         ],
         tool: [
           { "@type": "HowToTool", name: "Lokna — Logiciel de gestion locative" },
-          { "@type": "HowToTool", name: "Connexion Open Banking (optionnel)" },
         ],
         about: {
           "@type": "City",
@@ -314,7 +284,7 @@ function buildGestionLocativeVilleSchema(city: City) {
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/gestion-locative/${city.slug}`,
-        description: `Logiciel de gestion locative pour propriétaires bailleurs à ${city.name} (${city.department}). Quittances conformes, détection des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
+        description: `Logiciel de gestion locative pour propriétaires bailleurs à ${city.name} (${city.department}). Quittances conformes, suivi des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
         offers: {
           ...paidOffer(),
         },
@@ -336,24 +306,6 @@ function buildGestionLocativeVilleSchema(city: City) {
         description: `Service de gestion locative en ligne pour propriétaires bailleurs à ${city.name} (département ${city.department}, ${city.region}). Automatisation des quittances, suivi des paiements, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}.`,
         url: `${SITE_URL}/gestion-locative/${city.slug}`,
         image: `${SITE_URL}/opengraph-image`,
-        ...(avgRentPerSqm ? {
-          priceRange: `€€`,
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            name: `Loyers de référence ${city.name} 2026`,
-            hasOfferCatalog: [
-              {
-                "@type": "OfferCatalog",
-                name: "Estimation loyer au m²",
-                hasOffer: [
-                  { "@type": "Offer", description: "Studio / T1", priceSpecification: { "@type": "UnitPriceSpecification", price: avgRentPerSqm - 2, priceCurrency: "EUR", unitText: "€/m²/mois" } },
-                  { "@type": "Offer", description: "T2 / T3", priceSpecification: { "@type": "UnitPriceSpecification", price: avgRentPerSqm, priceCurrency: "EUR", unitText: "€/m²/mois" } },
-                  { "@type": "Offer", description: "T4 et plus", priceSpecification: { "@type": "UnitPriceSpecification", price: avgRentPerSqm - 3, priceCurrency: "EUR", unitText: "€/m²/mois" } },
-                ],
-              },
-            ],
-          },
-        } : {}),
         areaServed: {
           "@type": "City",
           name: city.name,
@@ -381,7 +333,7 @@ function buildGestionLocativeVilleSchema(city: City) {
       {
         "@type": "WebPage",
         name: `Gestion locative à ${city.name} — Logiciel en ligne 2026`,
-        description: `Découvrez comment Lokna simplifie la gestion locative à ${city.name}. Quittances légales, détection des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}. Essai gratuit 14 jours.`,
+        description: `Découvrez comment Lokna simplifie la gestion locative à ${city.name}. Quittances légales, suivi des loyers, révision IRL${ctx.isZoneTendue ? ", encadrement des loyers" : ""}. Essai gratuit 14 jours.`,
         url: `${SITE_URL}/gestion-locative/${city.slug}`,
         isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
@@ -429,7 +381,6 @@ export default async function GestionLocativeVille({ params }: Props) {
   const faqs = getFaqs(city);
   const local = getLocalParagraphs(city);
   const ctx = getCityContext(city);
-  const rentData = AVG_RENT_DATA[city.slug];
 
   return (
     <>
@@ -482,33 +433,6 @@ export default async function GestionLocativeVille({ params }: Props) {
             </div>
           </div>
         </section>
-
-        {/* ── Average rent reference (top 12 cities) ── */}
-        {rentData && (
-          <section className="bg-white border-y border-stone-200 px-4 py-8 sm:px-6">
-            <div className="mx-auto max-w-4xl">
-              <p className="mb-4 text-center text-sm font-medium text-stone-600 uppercase tracking-wide">
-                Loyer moyen à {city.name} — estimation {rentData.source}
-              </p>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  { label: "Studio / T1", value: `~${rentData.studio} €/m²/mois` },
-                  { label: "T2 / T3", value: `~${rentData.t2} €/m²/mois` },
-                  { label: "T4 et plus", value: `~${rentData.t3} €/m²/mois` },
-                ].map((r) => (
-                  <div key={r.label} className="rounded-lg bg-[#f8f7f4] border border-stone-200 p-4 text-center">
-                    <p className="text-lg font-bold text-stone-900">{r.value}</p>
-                    <p className="mt-1 text-sm text-stone-600">{r.label}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-3 text-center text-xs text-stone-600">
-                Estimation indicative — le loyer réel dépend de l&apos;état, de l&apos;emplacement et des équipements du bien.
-                {ctx.isZoneTendue && ` Plafonds de loyer en zone tendue : consultez l'arrêté préfectoral du ${city.department}.`}
-              </p>
-            </div>
-          </section>
-        )}
 
         {/* ── Features ── */}
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
@@ -699,7 +623,7 @@ export default async function GestionLocativeVille({ params }: Props) {
               Commencez votre essai gratuit à&nbsp;{city.name}
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
-              Rejoignez les propriétaires qui simplifient leur gestion locative à{" "}
+              Simplifiez la gestion de vos locations à{" "}
               {city.name} avec Lokna. Sans carte bancaire, sans engagement.
             </p>
             <Link

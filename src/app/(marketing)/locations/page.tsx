@@ -40,9 +40,9 @@ description:
 icon: "📊",
 },
 {
-title: "Suivi des loyers en temps réel",
+title: "Suivi des loyers du mois",
 description:
-"Suivez les paiements automatiquement via Open Banking DSP2. Recevez des alertes pour les impayés.",
+"Enregistrez les paiements reçus : le reste dû et les impayés du mois s'affichent dans votre tableau de bord.",
 icon: "💸",
 },
 {
@@ -80,7 +80,7 @@ const faqData = [
   {
     question: "Comment suivre les paiements de mes locataires ?",
     answer:
-      `${SITE_NAME} détecte automatiquement les virements entrants via Open Banking DSP2. Chaque paiement est automatiquement rapproché avec le locataire et le bien correspondants. Vous recevez une alerte en cas d'impayé.`,
+      `Vous enregistrez chaque paiement reçu depuis le suivi du mois. ${SITE_NAME} l'impute sur le loyer attendu du locataire, calcule le reste dû et signale les mois partiellement payés ou impayés. Aucune connexion bancaire n'est nécessaire.`,
   },
   {
     question: "Puis-je gérer plusieurs biens avec des locataires différents ?",
@@ -148,17 +148,17 @@ const LOCATIONS_SCHEMA = {
       operatingSystem: "Web",
       url: `${SITE_URL}/locations`,
       description:
-        "Gérez tous vos biens locatifs : suivi des loyers en temps réel, état des lieux, documents centralisés, portail locataire intégré. Logiciel pour propriétaires bailleurs.",
+        "Gérez tous vos biens locatifs : suivi des loyers, état des lieux, documents centralisés, portail locataire intégré. Logiciel pour propriétaires bailleurs.",
       offers: {
         ...paidOffer(),
       },
       featureList: [
         "Tableau de bord unifié",
-        "Suivi des loyers en temps réel via Open Banking",
+        "Suivi des loyers attendus et du reste dû",
         "Documents centralisés",
         "Portail locataire intégré",
         "Historique complet par bien",
-        "Alertes intelligentes (IRL, fin de bail, assurance)",
+        "Révision IRL calculée avec l'indice INSEE",
       ],
     },
     {

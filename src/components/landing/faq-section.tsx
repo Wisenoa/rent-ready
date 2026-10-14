@@ -51,7 +51,7 @@ const faqs: FaqItem[] = [
     question:
       "Comment fonctionne la détection des paiements et le pointage ?",
     answer:
-      "Lokna vous permet de pointer vos encaissements en un clic dès réception de vos virements bancaires, ou via synchronisation bancaire. L'algorithme de contrôle vérifie si le montant reçu correspond à l'échéance exigible. Si le versement est complet, la quittance officielle est débloquée. Si le versement est partiel, un reçu est émis et le solde restant reste dû sur le grand livre.",
+      "Lokna vous permet d'enregistrer vos encaissements en un clic dès réception de vos virements bancaires. L'algorithme de contrôle vérifie si le montant reçu correspond à l'échéance exigible. Si le versement est complet, la quittance officielle est débloquée. Si le versement est partiel, un reçu est émis et le solde restant reste dû sur le grand livre.",
   },
   {
     question:
@@ -63,7 +63,7 @@ const faqs: FaqItem[] = [
     question:
       "Combien coûte Lokna et y a-t-il un engagement ?",
     answer:
-      `Lokna part à ${formatEntryPrice()} par mois sans engagement pour 3 biens, et ${formatProPrice()} pour 10 biens (149 € par an, soit 2 mois offerts). Chaque palier inclut un nombre illimité de locataires, toutes les fonctionnalités (quittancement, détection des virements, révision IRL, portail locataire, OCR des factures artisans par IA, simulateur fiscal) et les mises à jour légales et réglementaires. Vous bénéficiez d'un essai gratuit de 14 jours sans carte bancaire. Il n'y a aucun frais caché, aucune commission sur les loyers encaissés, et vous pouvez résilier en un clic depuis votre espace.`,
+      `Lokna part à ${formatEntryPrice()} par mois sans engagement pour 3 biens, et ${formatProPrice()} pour 10 biens (149 € par an, soit 2 mois offerts). Chaque palier inclut un nombre illimité de locataires, toutes les fonctionnalités (quittancement, suivi des paiements, révision IRL, portail locataire, simulateur fiscal) et les mises à jour légales et réglementaires. Vous bénéficiez d'un essai gratuit de 14 jours sans carte bancaire. Il n'y a aucun frais caché, aucune commission sur les loyers encaissés, et vous pouvez résilier en un clic depuis votre espace.`,
   },
 ];
 

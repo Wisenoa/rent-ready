@@ -25,16 +25,16 @@ const trustItems: TrustLogoItem[] = [
     description: "Conforme au Règlement Général sur la Protection des Données",
   },
   {
-    label: "Hébergement UE",
-    description: "Données hébergées sur des serveurs européens",
+    label: "Hébergement France",
+    description: "Données hébergées en France (OVH)",
   },
   {
-    label: "DSP2",
-    description: "Accès bancaire sécurisé via Open Banking DSP2",
+    label: "Loi de 1989",
+    description: "Quittances et reçus conformes à la loi du 6 juillet 1989",
   },
   {
-    label: "CNIL",
-    description: "Déclaration CNIL pour le traitement des données personnelles",
+    label: "IRL INSEE",
+    description: "Révision de loyer calculée avec l'indice publié par l'INSEE",
   },
 ];
 

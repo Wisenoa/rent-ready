@@ -28,7 +28,7 @@ const faqSchema = {
       name: "Quel est le meilleur mode de gestion locative pour un propriétaire indépendant ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: `Pour 1 à 10 logements, un logiciel spécialisé comme Lokna offre le meilleur équilibre : il automatise les tâches chronophages (quittances, détection des paiements, révision IRL) dès ${formatEntryPrice()}, sans les honoraires élevés d'une agence (7 à 10 % des loyers) ni la charge mentale d'un tableur Excel manuel.`,
+        text: `Pour 1 à 10 logements, un logiciel spécialisé comme Lokna offre le meilleur équilibre : il automatise les tâches chronophages (quittances, calcul du reste dû, révision IRL) dès ${formatEntryPrice()}, sans les honoraires élevés d'une agence (7 à 10 % des loyers) ni la charge mentale d'un tableur Excel manuel.`,
       },
     },
     {
@@ -75,14 +75,16 @@ const alternatives: Alternative[] = [
     price: formatEntryPrice(),
     priceDetail: "sans commission, essai gratuit sans CB",
     pros: [
-      "Quittances automatiques loi du 6 juillet 1989",
-      "Détection des virements par synchronisation bancaire",
-      "Calcul automatique de la révision IRL (indices INSEE)",
-      "Alertes immédiates en cas d'impayé ou de retard",
+      "Quittances conformes à la loi du 6 juillet 1989, reçu en cas de paiement partiel",
+      "Reste dû calculé à partir des paiements que vous enregistrez",
+      "Calcul de la révision IRL avec les indices INSEE",
+      "Impayés et retards visibles dans le suivi du mois",
       "Portail locataire et historique sécurisé",
-      "Gestion calme par exception : le système veille en arrière-plan",
     ],
-    cons: ["Conçu pour 1 à 10 lots, pas adapté aux syndics de copropriété"],
+    cons: [
+      "Conçu pour 1 à 10 lots, pas adapté aux syndics de copropriété",
+      "Pas de connexion bancaire : les paiements reçus sont saisis par vous",
+    ],
     bestFor: "Propriétaires particuliers qui gèrent eux-mêmes",
     url: "/register",
     highlight: true,
@@ -129,9 +131,9 @@ const alternatives: Alternative[] = [
 
 const criteria = [
   "Quittances conformes loi 1989",
-  "Détection automatique des paiements",
-  "Révision annuelle IRL automatique",
-  "Alertes impayé en temps réel",
+  "Reçu en cas de paiement partiel",
+  "Calcul de la révision IRL",
+  "Reste dû calculé chaque mois",
   "Portail locataire inclus",
   "Sans commission sur les loyers",
   "Temps de gestion mensuel estimé",
@@ -147,7 +149,7 @@ function getScore(alternativeName: string, criterion: string): "check" | "cross"
   }
   if (alternativeName.startsWith("Agence")) {
     if (criterion === "Quittances conformes loi 1989") return "check";
-    if (criterion === "Révision annuelle IRL automatique") return "check";
+    if (criterion === "Calcul de la révision IRL") return "check";
     if (criterion === "Sans commission sur les loyers") return "cross";
     if (criterion === "Temps de gestion mensuel estimé") return "check";
     return "minus";

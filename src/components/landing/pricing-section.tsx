@@ -192,11 +192,7 @@ export function PricingSection() {
                 </li>
                 <li className="flex items-center gap-2.5">
                   <Check className="size-4 text-emerald-600 shrink-0" />
-                  <span>Relances automatiques des retards par email</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <Check className="size-4 text-emerald-600 shrink-0" />
-                  <span>OCR et analyse des factures artisans par IA</span>
+                  <span>Les mêmes fonctionnalités que Starter</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <Check className="size-4 text-emerald-600 shrink-0" />

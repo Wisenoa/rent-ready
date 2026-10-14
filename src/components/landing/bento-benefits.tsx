@@ -24,9 +24,9 @@ interface BentoItem {
 const items: BentoItem[] = [
   {
     icon: BellRing,
-    title: "Encaissement automatique via Open Banking",
+    title: "Suivi des encaissements",
     description:
-      "Fini le pointage manuel de vos relevés. Lokna se connecte à votre banque en lecture seule via une API conforme à la directive européenne DSP2 (Bridge API / Powens). Chaque virement entrant est comparé automatiquement aux loyers attendus. Si le montant, la référence et l'émetteur correspondent, la transaction est marquée comme payée et la quittance part automatiquement.",
+      "Vous enregistrez chaque paiement reçu ; Lokna l'impute sur le loyer attendu du mois, calcule le reste dû et indique si le mois est payé, partiel ou impayé. Aucune connexion bancaire n'est nécessaire.",
     accent: "from-blue-500/10 to-blue-600/5",
     iconBg: "bg-blue-50 text-blue-600",
   },

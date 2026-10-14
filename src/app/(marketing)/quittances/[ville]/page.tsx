@@ -26,23 +26,6 @@ export function generateStaticParams() {
   return cities.map((city) => ({ ville: city.slug }));
 }
 
-/* ---------- Average rent data (€/m², 2025 source: CLAMEU/SeLoger) ---------- */
-
-const AVG_RENT_DATA: Record<string, { studio: number; t2: number; t3: number; source: string }> = {
-  paris:       { studio: 28, t2: 25, t3: 22, source: "SeLoger / CLAMEU 2025" },
-  marseille:   { studio: 16, t2: 14, t3: 12, source: "SeLoger / CLAMEU 2025" },
-  lyon:        { studio: 17, t2: 15, t3: 13, source: "SeLoger / CLAMEU 2025" },
-  toulouse:    { studio: 14, t2: 12, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  nice:        { studio: 15, t2: 13, t3: 12, source: "SeLoger / CLAMEU 2025" },
-  nantes:      { studio: 13, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  montpellier: { studio: 14, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  strasbourg:  { studio: 13, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  bordeaux:    { studio: 15, t2: 13, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  lille:       { studio: 14, t2: 12, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  rennes:      { studio: 13, t2: 11, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  grenoble:    { studio: 13, t2: 11, t3: 10, source: "SeLoger / CLAMEU 2025" },
-};
-
 /* ---------- Zone tendue ---------- */
 
 const ZONES_TENDUES = new Set([
@@ -60,13 +43,7 @@ const ZONES_TENDUES = new Set([
 
 function getCityContext(city: City) {
   const isZoneTendue = ZONES_TENDUES.has(city.slug);
-  const pop = city.population;
-  let avgRent: number;
-  if (pop > 500000) avgRent = 14;
-  else if (pop > 200000) avgRent = 12;
-  else if (pop > 100000) avgRent = 10;
-  else avgRent = 9;
-  return { isZoneTendue, avgRent };
+  return { isZoneTendue };
 }
 
 /* ---------- Metadata ---------- */
@@ -77,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!city) return {};
 
   const title = `Quittance de loyer à ${city.name} — Générez en 1 clic 2026`;
-  const description = `Générez une quittance de loyer conforme à ${city.name}. PDF automatique, mention IRL INSEE intégrée, envoi direct au locataire. Essai gratuit 14 jours — sans carte bancaire.`;
+  const description = `Générez une quittance de loyer conforme à ${city.name}. PDF générée au paiement, reçu en cas de paiement partiel, espace locataire. Essai gratuit 14 jours — sans carte bancaire.`;
 
   return baseMetadata({
     title,
@@ -92,22 +69,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 function getLocalParagraphs(city: City) {
   const ctx = getCityContext(city);
   const pop = city.population;
-  const rentData = AVG_RENT_DATA[city.slug];
 
   const intro =
     pop > 500000
-      ? `${city.name} est l'une des principales métropoles françaises avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif y est très actif — chaque mois, des milliers de propriétaires doivent générer des quittances de loyer conformes à la loi du 6 juillet 1989. Le loyer moyen au m² y${rentData ? ` se situe autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " se situe au-dessus de la moyenne nationale"}`
+      ? `${city.name} est l'une des principales métropoles françaises avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif y est très actif — chaque mois, des milliers de propriétaires doivent générer des quittances de loyer conformes à la loi du 6 juillet 1989.`
       : pop > 200000
         ? `Avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants, ${city.name} (département ${city.department}, ${city.region}) possède un marché locatif dynamique. Propriétaires et gestionnaires doivent y produire des quittances régulières pour chaque paiement reçu.`
         : pop > 100000
           ? `${city.name} (${new Intl.NumberFormat("fr-FR").format(pop)} habitants, ${city.region}) est une ville à taille humaine où le marché locatif reste actif. Quittance manuelle ou automatisée — la conformité légale reste la même.`
-          : `Située dans le département ${city.department} (${city.region}), ${city.name} compte ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Même pour les pequeños patrimoine locatifs, la quittance de loyer est une obligation légale vis-à-vis du locataire et du fisc.`;
+          : `Située dans le département ${city.department} (${city.region}), ${city.name} compte ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Même pour un petit patrimoine locatif, le bailleur doit remettre une quittance au locataire qui la demande.`;
 
   const regulation = ctx.isZoneTendue
-    ? `En zone tendue comme ${city.name}, la quittance doit également mentionner, le cas échéant, le loyer de référence et le complément de loyer appliqué. En cas de révision de loyer IRL, la quittance doit refléter le nouveau montant.`
-    : `La quittance de loyer est obligatoire dans tout location soumise à la loi du 6 juillet 1989. Elle doit mentionner le montant du loyer, des charges, la période couverte, la date de paiement et le mode de paiement.`;
+    ? `${city.name} est en zone tendue : l'encadrement des loyers porte sur le montant fixé dans le bail, à la mise en location ou au renouvellement, et non sur la quittance. Celle-ci reprend les sommes versées en distinguant le loyer et les charges ; après une révision IRL, elle reflète simplement le nouveau montant.`
+    : `Pour toute location soumise à la loi du 6 juillet 1989, le bailleur doit remettre gratuitement une quittance au locataire qui la demande (article 21). Elle détaille les sommes versées en distinguant le loyer et les charges ; en pratique, elle indique aussi la période couverte et la date du paiement.`;
 
-  const closing = `Avec Lokna, générez des quittances PDF conformes en 1 clic — sans tableau Excel, sans modèle Word. Chaque quittance est horodatée, archivée et prête à être envoyée à votre locataire par email.`;
+  const closing = `Avec Lokna, la quittance PDF est générée lorsque vous enregistrez le paiement qui solde le mois — sans tableau Excel, sans modèle Word. Chaque quittance est archivée, et votre locataire la retrouve dans son espace en ligne si vous l'y avez invité.`;
 
   return { intro, regulation, closing };
 }
@@ -115,27 +91,26 @@ function getLocalParagraphs(city: City) {
 /* ---------- Features ---------- */
 
 function getFeatures(city: City) {
-  const ctx = getCityContext(city);
   return [
     {
       icon: "⚡",
-      title: "Génération en 1 clic",
-      description: `Sélectionnez le locataire à ${city.name} et le mois — la quittance est générée automatiquement avec tous les montants pré-remplis. Zéro saisie manuelle.`,
+      title: "Générée au paiement",
+      description: `Enregistrez le paiement de votre locataire à ${city.name} : quand le mois est soldé, la quittance est générée avec les montants du bail. Aucune ressaisie.`,
     },
     {
       icon: "📋",
       title: "PDF conforme à la loi",
-      description: `Chaque quittance respecte les mentions obligatoires de la loi du 6 juillet 1989 : période, montant du loyer, charges, date, mode de paiement, signature du bailleur.`,
+      description: `Chaque quittance distingue le loyer et les charges, comme l'exige l'article 21 de la loi du 6 juillet 1989, et indique la période couverte et la date du paiement.`,
     },
     {
-      icon: "📊",
-      title: "Indice IRL INSEE intégré",
-      description: `L'indice de référence des loyers de l'INSEE est automatiquement intégré à la quittance — indispensable pour les révisions annuelles à ${city.name}.`,
+      icon: "🧾",
+      title: "Reçu de paiement partiel",
+      description: `Si votre locataire ne règle qu'une partie du loyer, Lokna émet un reçu, pas une quittance. La quittance suit quand le mois est soldé.`,
     },
     {
-      icon: "📧",
-      title: "Envoi automatique au locataire",
-      description: `La quittance est envoyée par email au locataire ou stockée dans son portail — finies les transmissions manuelles par courrier ou photo.`,
+      icon: "🏠",
+      title: "Espace locataire",
+      description: `Votre locataire retrouve ses quittances dans son espace en ligne, si vous l'y avez invité. Vous pouvez aussi télécharger chaque PDF.`,
     },
     {
       icon: "🗄️",
@@ -143,11 +118,9 @@ function getFeatures(city: City) {
       description: `Toutes vos quittances pour vos biens à ${city.name} sont stockées en ligne, accessibles à tout moment. Historique complet pour vos déclarations fiscales.`,
     },
     {
-      icon: ctx.isZoneTendue ? "⚖️" : "🔒",
-      title: ctx.isZoneTendue ? "Mention zone tendue intégrée" : "Preuve légale en cas de litige",
-      description: ctx.isZoneTendue
-        ? `Pour ${city.name}, la quittance peut intégrer la mention du loyer de référence et du complément atypie — conforme à l'encadrement des loyers.`
-        : `Chaque quittance horodatée constitue une preuve légale de paiement. En cas de litige avec un locataire à ${city.name}, vous êtes couvert.`,
+      icon: "🔒",
+      title: "Preuve de paiement",
+      description: `La quittance atteste que le loyer et les charges de la période ont été payés. Elle sert de justificatif au locataire comme au bailleur à ${city.name}.`,
     },
   ];
 }
@@ -156,35 +129,32 @@ function getFeatures(city: City) {
 
 function getFaqs(city: City) {
   const ctx = getCityContext(city);
-  const rentData = AVG_RENT_DATA[city.slug];
   return [
     {
       question: `La quittance de loyer est-elle obligatoire à ${city.name} ?`,
-      answer: `Oui. Tout bailleur doit remettre une quittance au locataire qui en fait la demande, conformément à l'article 21 de la loi du 6 juillet 1989. Cette obligation s'applique à ${city.name} comme sur tout le territoire français. La quittance peut être envoyée par email ou remise en main propre.`,
+      answer: `Oui. Tout bailleur doit remettre gratuitement une quittance au locataire qui en fait la demande, conformément à l'article 21 de la loi du 6 juillet 1989. Cette obligation s'applique à ${city.name} comme sur tout le territoire français. La quittance peut être remise en main propre ou, avec l'accord exprès du locataire, transmise par voie dématérialisée.`,
     },
     {
       question: `Que doit contenir une quittance de loyer à ${city.name} ?`,
-      answer: `Une quittance doit mentionner : le nom du bailleur et du locataire, l'adresse du bien situé à ${city.name}, la période couverte, le montant du loyer hors charges et le montant des charges, la date de paiement, le mode de paiement utilisé, et la signature du bailleur. En zone tendue, la mention du loyer de référence peut être requise.`,
+      answer: `La loi exige que la quittance détaille les sommes versées en distinguant le loyer et les charges. En pratique, elle mentionne aussi le nom du bailleur et du locataire, l'adresse du bien situé à ${city.name}, la période couverte et la date de paiement.`,
     },
     {
       question: `Quel est le délai pour envoyer une quittance à ${city.name} ?`,
-      answer: `La loi impose de fournir la quittance dans les 24 heures suivant le paiement. Avec Lokna, l'envoi est automatique — dès que le virement est détecté (via Open Banking), la quittance est générée et transmise au locataire à ${city.name} sans délai.`,
+      answer: `La loi ne fixe pas de délai précis : le bailleur doit transmettre la quittance au locataire qui la demande, une fois le loyer et les charges de la période payés. Avec Lokna, la quittance est générée dès que vous enregistrez le paiement qui solde le mois.`,
     },
     {
       question: `Comment calculer le montant de la révision de loyer pour ${city.name} ?`,
-      answer: rentData
-        ? `La révision de loyer se fait via l'Indice de Référence des Loyers (IRL) publié par l'INSEE chaque trimestre. Pour un bien à ${city.name}, le nouveau loyer = ancien loyer × (IRL du trimestre / IRL du même trimestre de l'année précédente). Le loyer ne peut pas dépasser le loyer de référence majoré en zone tendue.`
-        : `La révision de loyer utilise l'Indice de Référence des Loyers (IRL) de l'INSEE. Utilisez notre simulateur de révision IRL pour calculer le nouveau montant en quelques secondes, sans erreur de calcul.`,
+      answer: `Si le bail prévoit une clause de révision, le loyer peut être révisé une fois par an : nouveau loyer = loyer actuel × (dernier IRL publié par l'INSEE / IRL du même trimestre de l'année précédente). Les logements classés F ou G au diagnostic de performance énergétique ne peuvent plus être révisés. Notre calculateur IRL fait le calcul en quelques secondes.`,
     },
     {
       question: `L'encadrement des loyers impacte-t-il les quittances à ${city.name} ?`,
       answer: ctx.isZoneTendue
-        ? `Oui. ${city.name} étant en zone tendue, toute quittance relative à un nouveau bail ou un renouvellement doit mentionner le loyer de référence et un éventuel complément pour atypie. En cas de dépassement du plafond, vous risquez un redressement. Lokna intègre automatiquement ces mentions.`
-        : `Nous ne pouvons pas l'affirmer pour ${city.name} : un « non » serait trompeur. L'encadrement à la relocation vaut pour toute commune en zone tendue, et le plafonnement du niveau des loyers exige un arrêté préfectoral, propre à uneudisaine de communes seulement. Vérifiez l'arrêté du ${city.department} : s'il fixe un loyer de référence majoré, mentionnez-le sur la quittance, sinon aucun champ dédié n'est requis.`,
+        ? `Pas directement. ${city.name} est en zone tendue : l'encadrement des loyers porte sur le montant fixé dans le bail, à la mise en location ou au renouvellement. Dans les communes où un arrêté préfectoral fixe des loyers de référence, c'est le bail qui doit les mentionner. La quittance, elle, reprend les sommes versées en distinguant le loyer et les charges.`
+        : `Pas directement. L'encadrement des loyers porte sur le montant fixé dans le bail, à la mise en location ou au renouvellement, dans les communes en zone tendue. Là où un arrêté préfectoral fixe des loyers de référence, c'est le bail qui doit les mentionner, pas la quittance. Vérifiez la situation de ${city.name} auprès de la préfecture du ${city.department} ou de l'ADIL.`,
     },
     {
       question: `La quittance numérique est-elle valable à ${city.name} ?`,
-      answer: `Oui. Depuis la loi du 24 mars 2024, la quittance de loyer électronique a la même valeur juridique que la version papier. Elle est parfaitement valable à ${city.name} — à condition de comporter toutes les mentions obligatoires et d'être transmise au locataire par voie électronique.`,
+      answer: `Oui. Depuis la loi ALUR du 24 mars 2014, le bailleur peut transmettre la quittance par voie dématérialisée, avec l'accord exprès du locataire (article 21 de la loi du 6 juillet 1989). Elle a la même valeur que la version papier à ${city.name}, à condition de détailler les sommes versées.`,
     },
   ];
 }
@@ -204,13 +174,13 @@ function getHowToSteps(city: City) {
       url: "/register",
     },
     {
-      name: `Activer la détection automatique des paiements`,
-      text: `Connectez votre compte bancaire en lecture seule via Open Banking. Chaque virement de votre locataire à ${city.name} est détecté automatiquement — la quittance est générée sans aucune action de votre part.`,
+      name: `Enregistrer le paiement reçu`,
+      text: `Quand votre locataire à ${city.name} paie, enregistrez le paiement depuis le suivi du mois. Lokna calcule le reste dû ; si le mois est soldé, la quittance est générée.`,
       url: "/register",
     },
     {
-      name: `Recevoir et envoyer la quittance`,
-      text: `La quittance est automatiquement archivée dans votre espace et envoyée par email à votre locataire. Téléchargeable en PDF à tout moment.`,
+      name: `Télécharger ou partager la quittance`,
+      text: `La quittance est archivée dans votre espace et téléchargeable en PDF à tout moment. Votre locataire la retrouve dans son espace en ligne si vous l'y avez invité.`,
       url: "/register",
     },
   ];
@@ -223,7 +193,6 @@ function buildQuittanceVilleSchema(city: City) {
   const faqs = getFaqs(city);
   const features = getFeatures(city);
   const howToSteps = getHowToSteps(city);
-  const rentData = AVG_RENT_DATA[city.slug];
 
   return {
     "@context": "https://schema.org",
@@ -260,7 +229,7 @@ function buildQuittanceVilleSchema(city: City) {
       {
         "@type": "HowTo",
         name: `Comment générer une quittance de loyer à ${city.name}`,
-        description: `Générez une quittance de loyer conforme à ${city.name} en 1 clic avec Lokna. PDF automatique, mention IRL INSEE, envoi email instantané.`,
+        description: `Générez une quittance de loyer conforme à ${city.name} avec Lokna : PDF générée au paiement, loyer et charges distingués, reçu en cas de paiement partiel.`,
         image: `${SITE_URL}/opengraph-image`,
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
@@ -300,7 +269,7 @@ function buildQuittanceVilleSchema(city: City) {
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/quittances/${city.slug}`,
-        description: `Générez des quittances de loyer conformes à la loi en 1 clic pour vos biens à ${city.name}. PDF automatique, mention IRL INSEE, envoi email instantané.${ctx.isZoneTendue ? " Zone tendue : mention loyer de référence intégrée." : ""}`,
+        description: `Quittances de loyer conformes à la loi du 6 juillet 1989 pour vos biens à ${city.name} : générées au paiement, reçu en cas de paiement partiel, espace locataire.`,
         offers: {
           ...paidOffer(),
         },
@@ -319,7 +288,7 @@ function buildQuittanceVilleSchema(city: City) {
       {
         "@type": "LocalBusiness",
         name: `Lokna — Quittances de loyer ${city.name}`,
-        description: `Service de génération de quittances de loyer pour propriétaires bailleurs à ${city.name}. PDF conformes, détection automatique des paiements via Open Banking, envoi email instantané.${ctx.isZoneTendue ? " Mention zone tendue intégrée." : ""}`,
+        description: `Service de génération de quittances de loyer pour propriétaires bailleurs à ${city.name}. PDF conformes à la loi du 6 juillet 1989, reçu en cas de paiement partiel, suivi des paiements.`,
         url: `${SITE_URL}/quittances/${city.slug}`,
         areaServed: {
           "@type": "City",
@@ -345,7 +314,7 @@ function buildQuittanceVilleSchema(city: City) {
       {
         "@type": "WebPage",
         name: `Quittance de loyer à ${city.name} — Générateur PDF gratuit 2026`,
-        description: `Générez une quittance de loyer PDF gratuite et conforme à ${city.name}. En 1 clic — sans inscription. Mention IRL INSEE intégrée, envoi email au locataire.${rentData ? ` Loyer moyen indicatif : ${rentData.studio}-${rentData.t2} €/m².` : ""}`,
+        description: `Générez une quittance de loyer PDF gratuite et conforme à ${city.name}, sans inscription, avec notre générateur en ligne.`,
         url: `${SITE_URL}/quittances/${city.slug}`,
         isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
@@ -365,7 +334,6 @@ export default async function QuittanceVillePage({ params }: Props) {
   const faqs = getFaqs(city);
   const local = getLocalParagraphs(city);
   const ctx = getCityContext(city);
-  const rentData = AVG_RENT_DATA[city.slug];
 
   return (
     <>
@@ -389,20 +357,20 @@ export default async function QuittanceVillePage({ params }: Props) {
               Quittance de loyer à&nbsp;{city.name}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-stone-600">
-              Générez une quittance de loyer PDF gratuite et conforme à la loi en 1 clic.
-              Mention IRL INSEE intégrée, envoi email instantané à votre locataire.
+              Générez gratuitement une quittance de loyer PDF conforme à la loi
+              du 6 juillet 1989, sans inscription.
             </p>
             {ctx.isZoneTendue && (
               <div className="mx-auto mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-4 py-2 text-sm text-amber-800">
                 <span>⚠️</span>
                 <span>
-                  {city.name} est en zone tendue — la quittance doit mentionner le loyer de référence
+                  {city.name} est en zone tendue — l&apos;encadrement des loyers s&apos;applique au bail, pas à la quittance
                 </span>
               </div>
             )}
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
-                href="/register"
+                href="/outils/generateur-quittance"
                 className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
               >
                 Générer ma quittance — gratuit
@@ -417,29 +385,6 @@ export default async function QuittanceVillePage({ params }: Props) {
           </div>
         </section>
 
-        {/* ── Average rent reference ── */}
-        {rentData && (
-          <section className="bg-white border-y border-stone-200 px-4 py-8 sm:px-6">
-            <div className="mx-auto max-w-4xl">
-              <p className="mb-4 text-center text-sm font-medium text-stone-600 uppercase tracking-wide">
-                Loyer moyen à {city.name} — estimation {rentData.source}
-              </p>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  { label: "Studio / T1", value: `~${rentData.studio} €/m²/mois` },
-                  { label: "T2 / T3", value: `~${rentData.t2} €/m²/mois` },
-                  { label: "T4 et plus", value: `~${rentData.t3} €/m²/mois` },
-                ].map((r) => (
-                  <div key={r.label} className="rounded-lg bg-[#f8f7f4] border border-stone-200 p-4 text-center">
-                    <p className="text-lg font-bold text-stone-900">{r.value}</p>
-                    <p className="mt-1 text-sm text-stone-600">{r.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
         {/* ── Features ── */}
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-6xl">
@@ -447,7 +392,7 @@ export default async function QuittanceVillePage({ params }: Props) {
               Pourquoi utiliser Lokna pour vos quittances à {city.name}
             </h2>
             <p className="mb-12 text-center text-stone-600">
-              Automatisez la génération et l'envoi — sans tableau Excel, sans oubli.
+              Automatisez la génération — sans tableau Excel, sans oubli.
             </p>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((f) => (
@@ -627,7 +572,7 @@ export default async function QuittanceVillePage({ params }: Props) {
               Générez votre première quittance pour {city.name}
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
-              Rejoignez les propriétaires de {city.name} qui automatisent leurs quittances avec Lokna. Essai gratuit 14 jours, sans carte bancaire.
+              Automatisez vos quittances pour vos biens à {city.name} avec Lokna. Essai gratuit 14 jours, sans carte bancaire.
             </p>
             <Link
               href="/register"

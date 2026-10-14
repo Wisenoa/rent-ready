@@ -135,7 +135,7 @@ export default function VillesPage() {
           Gérez vos biens où que vous soyez en France
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-stone-300">
-          Quittances automatiques, suivi des loyers, conformité Factur-X — tout en
+          Quittances automatiques, suivi des loyers, révision IRL — tout en
           un seul logiciel.
         </p>
         <Link

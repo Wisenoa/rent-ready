@@ -61,8 +61,8 @@ export default function RegisterPage() {
           <ul className="space-y-2 text-[13px] text-muted-foreground">
             {[
               "Quittances générées depuis vos données réelles, pas depuis un formulaire",
-              "Rapprochement automatique des virements reçus",
-              "Rappel de la révision IRL à la date anniversaire du bail",
+              "Reçu en cas de paiement partiel, quittance une fois le mois soldé",
+              "Révision IRL calculée avec l'indice publié par l'INSEE",
             ].map((item) => (
               <li key={item} className="flex gap-2">
                 <span aria-hidden="true" className="text-blue-500">✓</span>
@@ -74,7 +74,7 @@ export default function RegisterPage() {
           {/* Trust badges */}
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             {[
-              { icon: "🛡️", label: "DSP2 sécurisé" },
+              { icon: "🛡️", label: "Sans engagement" },
               { icon: "🇫🇷", label: "Hébergement France" },
               { icon: "📋", label: "Conforme Loi 1989" },
             ].map((badge) => (

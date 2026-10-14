@@ -27,7 +27,7 @@ export async function generateMetadata() {
   return baseMetadata({
     title: `Démo ${SITE_NAME} — Découvrez la gestion locative en 30 min | Gratuit`,
     description:
-      `Réservez votre démo ${SITE_NAME} gratuite de 30 minutes. Voir en live : quittances auto, détection loyer DSP2, IRL, portail locataire. Sans engagement.`,
+      `Réservez votre démo ${SITE_NAME} gratuite de 30 minutes. Voir en live : quittances et reçus, suivi des loyers, révision IRL, portail locataire. Sans engagement.`,
     url: "/demo",
     ogType: "template",
   });
@@ -37,17 +37,17 @@ const benefits = [
   {
     title: "Quittances en 30 secondes",
     description:
-      "Plus de generation manuelle. Chaque quittance est conforms a la loi du 6 juillet 1989 et archiv\u00e9e automatiquement.",
+      "Plus de g\u00e9n\u00e9ration manuelle. Chaque quittance est conforme \u00e0 la loi du 6 juillet 1989 et archiv\u00e9e automatiquement.",
   },
   {
-    title: "D\u00e9tection automatique des paiements",
+    title: "Suivi des paiements du mois",
     description:
-      "Open Banking DSP2 reconnait vos locataires qui payent. Fini les rapprochements bancaires manuels.",
+      "Vous enregistrez les paiements re\u00e7us ; Lokna calcule le reste d\u00fb et distingue les mois pay\u00e9s, partiels et impay\u00e9s.",
   },
   {
     title: "R\u00e9vision IRL connect\u00e9e INSEE",
     description:
-      "L'indice de r\u00e9f\u00e9rence des loyers est mis \u00e0 jour automatiquement. Les notifications de r\u00e9vision sont envoy\u00e9es pour vous.",
+      "Le nouveau loyer est calcul\u00e9 avec l'indice de r\u00e9f\u00e9rence des loyers publi\u00e9 par l'INSEE. Vous le validez avant qu'il s'applique au bail.",
   },
   {
     title: "Portail locataire clef en main",
@@ -76,7 +76,7 @@ const faqData = [
   {
     question: "De quoi allons-nous parler pendant la démo ?",
     answer:
-      "Nous faisons le tour de la plateforme ensemble : creation de bail, generation de quittances, detection des loyers, portail locataire. Nous répondons a toutes vos questions et discutons de votre configuration.",
+      "Nous faisons le tour de la plateforme ensemble : creation de bail, generation de quittances, suivi des loyers, portail locataire. Nous répondons a toutes vos questions et discutons de votre configuration.",
   },
   {
     question: "Puis-je avoir une démo même si je gère déjà mes biens avec un autre outil ?",

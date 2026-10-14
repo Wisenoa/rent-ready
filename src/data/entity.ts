@@ -82,7 +82,7 @@ export const PLANS: Plan[] = [
     monthlyPrice: 15,
     annualPrice: 149,
     properties: 10,
-    summary: "Jusqu'à 10 biens, OCR IA, Factur-X, relance automatique",
+    summary: "Jusqu'à 10 biens, mêmes fonctionnalités que Starter",
   },
   {
     id: "agency",
@@ -90,7 +90,7 @@ export const PLANS: Plan[] = [
     monthlyPrice: null,
     annualPrice: null,
     properties: null,
-    summary: "Biens illimités, support dédié, API et intégrations",
+    summary: "Plus de 10 biens, sur devis",
   },
 ];
 
@@ -157,7 +157,7 @@ export const FEATURE_LIST = [
   "Révision de loyer indexée sur l'IRL publié par l'INSEE",
   "Génération des baux, états des lieux et lettres de relance",
   "Portail locataire",
-  "Conformité Factur-X et e-reporting B2C",
+  "Reçu de paiement partiel, quittance une fois le mois soldé",
 ];
 
 /**

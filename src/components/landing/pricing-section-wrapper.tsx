@@ -6,11 +6,26 @@ import { PricingCard } from "@/components/landing/pricing-card";
 import { SubscribeButton } from "@/components/subscribe-button";
 import { AnnualSubscribeButton } from "@/components/annual-subscribe-button";
 
+/**
+ * Starter and Pro give access to the same features; they differ by the number
+ * of properties. A feature appears here only once it is available in the
+ * product — planned features stay out until they ship (AGENTS.md §37).
+ */
+const SHARED_FEATURES = [
+  "Locataires illimités",
+  "Quittances et reçus conformes loi 1989",
+  "Suivi des loyers et du reste dû",
+  "Révision IRL calculée avec l'indice INSEE",
+  "Portail locataire avec signalement d'incident",
+  "Relance de loyer par e-mail",
+  "Export CSV des paiements",
+];
+
 const plans = {
   starter: {
     name: "Starter",
     description:
-      "Pour les propriétaires qui commencent à investir et veulent structurer leur gestion locative.",
+      "Pour les propriétaires qui louent jusqu'à 3 logements.",
     monthlyPrice: 9,
     annualPrice: 89,
     badge: "Idéal pour démarrer",
@@ -18,49 +33,27 @@ const plans = {
     isHighlighted: false,
     highlightColor: "blue" as const,
     propertyLimit: "Jusqu'à 3 biens",
-    features: [
-      "Jusqu'à 3 biens immobiliers",
-      "Locataires illimités",
-      "Quittances conformes loi 1989",
-      "Détection automatique des loyers (Open Banking)",
-      "Révision IRL connectée INSEE",
-      "Portail locataire",
-      "Support email",
-      "Mises à jour légales incluses",
-    ],
+    features: ["Jusqu'à 3 biens immobiliers", ...SHARED_FEATURES],
     ctaNote: "Sans carte bancaire · Annulable en 1 clic",
   },
   pro: {
     name: "Pro",
     description:
-      "Pour les propriétaires aguerris qui gèrent plusieurs biens et veulent une automatisation complète.",
+      "Les mêmes fonctionnalités, pour les propriétaires qui louent jusqu'à 10 logements.",
     monthlyPrice: 15,
     annualPrice: 149,
-    badge: "Le plus populaire",
+    badge: "Au-delà de 3 logements",
     badgeColor: "emerald" as const,
     isHighlighted: true,
     highlightColor: "emerald" as const,
     propertyLimit: "Jusqu'à 10 biens",
-    features: [
-      "Jusqu'à 10 biens immobiliers",
-      "Locataires illimités",
-      "Quittances et reçus conformes loi 1989",
-      "Détection automatique des loyers (Open Banking DSP2)",
-      "Révision IRL connectée INSEE",
-      "Portail locataire avec gestion maintenance",
-      "OCR factures artisans (IA)",
-      "Conformité Factur-X et e-reporting B2C 2026",
-      "Support email prioritaire",
-      "Mises à jour légales incluses",
-      "Export comptable",
-      "Relance automatique impayés",
-    ],
+    features: ["Jusqu'à 10 biens immobiliers", ...SHARED_FEATURES],
     ctaNote: "Sans carte bancaire · Annulable en 1 clic",
   },
   agency: {
     name: "Agency",
     description:
-      "Pour les gestionnaires de biens et agences qui supervisent des portfolios importants.",
+      "Pour les propriétaires qui louent plus de 10 logements.",
     monthlyPrice: null,
     annualPrice: null,
     badge: "Volume adapté",
@@ -68,17 +61,7 @@ const plans = {
     isHighlighted: false,
     highlightColor: "amber" as const,
     propertyLimit: "Plus de 10 biens",
-    features: [
-      "Biens illimités",
-      "Locataires illimités",
-      "Tout du plan Pro",
-      "Multi-utilisateurs & rôles",
-      "API & intégrations",
-      "Onboarding personnalisé",
-      "Support dédié + SLA",
-      "Reporting avancé",
-      "Conformité Factur-X & e-reporting",
-    ],
+    features: ["Plus de 10 biens immobiliers", ...SHARED_FEATURES],
     ctaNote: "Contacter notre équipe commerciale",
   },
 };

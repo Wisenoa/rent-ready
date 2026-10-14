@@ -37,7 +37,7 @@ const ZONES_TENDUES = new Set([
 export async function generateMetadata() {
   return baseMetadata({
     title: "Loyer impayé : détecter, relancer, facturer — 50 villes en France",
-    description: `La GLI est une assurance souscrite auprès d'un assureur : ${SITE_NAME} ne la vend pas. Ce que nous faisons : détecter les loyers impayés et déclencher la relance, ville par ville.`,
+    description: `La GLI est une assurance souscrite auprès d'un assureur : ${SITE_NAME} ne la vend pas. Ce que nous faisons : faire apparaître les loyers impayés et vous aider à relancer, ville par ville.`,
     url: "/assurance-loyer-impaye",
     ogType: "feature",
   });
@@ -196,7 +196,7 @@ export default function AssuranceLoyerImpayéIndex() {
             Protégez vos revenus locatifs partout en France
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            GLI, détection automatique des paiements, alertes en temps réel — combinez gestion intelligente et assurance pour une protection complète.
+            GLI chez un assureur, suivi des paiements et relances avec Lokna — combinez les deux pour protéger vos revenus.
           </p>
           <Link
             href="/register"

@@ -46,8 +46,8 @@ const integrations = [
     ),
   },
   {
-    label: "Factur-X",
-    sub: "Conformité e-reporting B2C",
+    label: "Export CSV",
+    sub: "Vos paiements, à tout moment",
     icon: (
       <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <rect x="6" y="2" width="10" height="12" rx="1.5" />

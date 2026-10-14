@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title:
       "Tarifs Lokna 2026 — à partir de 9 €/mois, essai gratuit sans engagement",
     description:
-      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, suivi des loyers, révision IRL automatique. Essai gratuit sans engagement.",
+      "Plans dès 9 €/mois — Starter (3 biens), Pro (10 biens), Agency. Quittances conformes, suivi des loyers, révision IRL. Essai gratuit sans engagement.",
     url: "/pricing",
     ogType: "pricing",
   });
@@ -58,7 +58,7 @@ import {
   buildBreadcrumbSchema,
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
-import { SITE_URL } from "@/data/entity";
+import { SITE_URL, formatEntryPrice, formatProPrice } from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -81,19 +81,19 @@ const pricingFaqs = [
   },
   {
     question: "Le prix inclut-il les mises à jour légales ?",
-    answer: "Oui, toutes les mises à jour liées aux évolutions légales et réglementaires françaises (Loi Alur, IRL, Factur-X, e-reporting B2C) sont incluses dans votre abonnement, sans frais supplémentaires.",
+    answer: "Oui. Les mises à jour du logiciel, dont celles liées aux évolutions légales qu'il prend en charge (indices IRL publiés par l'INSEE, contenu des quittances et des reçus), sont incluses dans votre abonnement, sans frais supplémentaires.",
   },
   {
     question: "Y a-t-il des frais d'installation ou de mise en service ?",
-    answer: "Non, il n'y a aucun frais d'installation. Vous créez votre compte, connectez votre compte bancaire via Open Banking, et votre espace de gestion est opérationnel en quelques minutes.",
+    answer: "Non, il n'y a aucun frais d'installation. Vous créez votre compte, ajoutez votre logement, votre locataire et le bail, et votre espace de gestion est opérationnel en quelques minutes. Aucune connexion bancaire n'est nécessaire.",
   },
   {
-    question: "Quelle est la différence entre le plan Starter et Pro ?",
-    answer: "Le plan Starter est idéal pour commencer (3 biens max). Le plan Pro ajoute l'OCR par IA pour les factures artisans, la conformité Factur-X complète, l'export comptable et la relance automatique des impayés — indispensable pour une gestion locative professionnelle.",
+    question: "Quelle est la différence entre Starter et Pro ?",
+    answer: "Les deux formules donnent accès aux fonctionnalités de gestion locative actuellement disponibles dans Lokna. La principale différence concerne le nombre de logements : Starter permet de gérer jusqu'à 3 logements, contre 10 avec Pro. Vous pouvez choisir la formule adaptée à votre patrimoine locatif.",
   },
   {
-    question: "Le plan Agency inclut-il un support dédié ?",
-    answer: "Oui, le plan Agency inclut un support dédié avec SLA et un onboarding personnalisé. Vous avez également accès à l'API et aux intégrations, au multi-utilisateurs avec rôles, et à un reporting avancé.",
+    question: "À qui s'adresse le plan Agency ?",
+    answer: "Aux propriétaires qui gèrent plus de 10 logements. Il donne accès aux mêmes fonctionnalités que Starter et Pro ; son tarif est établi sur devis selon le nombre de logements. Contactez-nous pour en discuter.",
   },
 ];
 
@@ -107,7 +107,7 @@ function PricingJsonLd() {
     buildWebPageSchema({
       name: "Tarifs Lokna",
       description:
-        "À partir de 9 €/mois. Gestion locative automatisée : quittances conformes, détection loyers, révision IRL, portail locataire.",
+        "À partir de 9 €/mois. Gestion locative en ligne : quittances conformes, suivi des loyers, révision IRL, portail locataire.",
       url: `${SITE_URL}/pricing`,
     }),
     buildSoftwareAppSchema({
@@ -137,7 +137,7 @@ function PricingJsonLd() {
         {
           name: "Pro mensuel",
           description:
-            "15 €/mois — jusqu'à 10 biens, OCR IA, Factur-X, relance auto",
+            "15 €/mois — jusqu'à 10 biens, mêmes fonctionnalités que Starter",
           price: "15.00",
           priceCurrency: "EUR",
         },
@@ -149,14 +149,13 @@ function PricingJsonLd() {
         },
       ],
       features: [
-        "Quittances de loyer conformes loi 1989",
-        "Détection automatique des loyers via Open Banking DSP2",
-        "Révision IRL connectée à l'INSEE",
-        "Portail locataire avec gestion de la maintenance",
-        "OCR factures artisans par intelligence artificielle",
-        "Conformité Factur-X et e-reporting B2C 2026",
-        "Export comptable",
-        "Relance automatique impayés",
+        "Quittances de loyer conformes à la loi du 6 juillet 1989",
+        "Reçu en cas de paiement partiel",
+        "Suivi des loyers attendus, payés et du reste dû",
+        "Révision IRL calculée avec l'indice INSEE",
+        "Portail locataire avec signalement d'incident",
+        "Relance de loyer par e-mail",
+        "Export CSV des paiements",
       ],
     }),
     buildFAQPageSchema(pricingFaqs)
@@ -170,30 +169,35 @@ function PricingJsonLd() {
   );
 }
 
+// Starter, Pro and Agency share every feature; only the number of properties
+// differs. The previous table showed OCR, Factur-X, accounting export and
+// automatic reminders as Pro-only: nothing in the product is gated by plan, OCR
+// has no AI provider configured in production, and reminders are sent by hand.
+// A feature appears here once it is available to the landlord, not before.
 const comparisonData = [
   {
     feature: "Nombre de biens",
     starter: "Jusqu'à 3",
     pro: "Jusqu'à 10",
-    agency: "Illimité",
+    agency: "Plus de 10",
   },
   {
-    feature: "Quittances conformes loi 1989",
-    starter: "✅ Automatique",
-    pro: "✅ Automatique",
-    agency: "✅ Automatique",
+    feature: "Quittances et reçus conformes loi 1989",
+    starter: "✅ Inclus",
+    pro: "✅ Inclus",
+    agency: "✅ Inclus",
   },
   {
-    feature: "Détection des loyers",
-    starter: "✅ Open Banking",
-    pro: "✅ Open Banking DSP2",
-    agency: "✅ Open Banking DSP2",
+    feature: "Suivi des loyers et du reste dû",
+    starter: "✅ Inclus",
+    pro: "✅ Inclus",
+    agency: "✅ Inclus",
   },
   {
-    feature: "Révision IRL INSEE",
-    starter: "✅ Automatique",
-    pro: "✅ Automatique",
-    agency: "✅ Automatique",
+    feature: "Révision IRL (indice INSEE)",
+    starter: "✅ Inclus",
+    pro: "✅ Inclus",
+    agency: "✅ Inclus",
   },
   {
     feature: "Portail locataire",
@@ -202,46 +206,22 @@ const comparisonData = [
     agency: "✅ Inclus",
   },
   {
-    feature: "OCR factures artisans (IA)",
-    starter: "❌ Non disponible",
-    pro: "✅ IA incluse",
-    agency: "✅ IA incluse",
-  },
-  {
-    feature: "Conformité Factur-X 2026",
-    starter: "❌ Non conforme",
-    pro: "✅ Prêt",
-    agency: "✅ Prêt",
-  },
-  {
-    feature: "Export comptable",
-    starter: "❌ Non disponible",
-    pro: "✅ Inclus",
-    agency: "✅ Inclus",
-  },
-  {
-    feature: "Relance automatique impayés",
-    starter: "❌ Non disponible",
+    feature: "Relance de loyer par e-mail",
+    starter: "✅ Incluse",
     pro: "✅ Incluse",
     agency: "✅ Incluse",
   },
   {
-    feature: "Multi-utilisateurs & rôles",
-    starter: "❌ Non disponible",
-    pro: "❌ Non disponible",
+    feature: "Export CSV des paiements",
+    starter: "✅ Inclus",
+    pro: "✅ Inclus",
     agency: "✅ Inclus",
   },
   {
-    feature: "API & intégrations",
-    starter: "❌ Non disponible",
-    pro: "❌ Non disponible",
-    agency: "✅ Inclus",
-  },
-  {
-    feature: "Support",
-    starter: "Email standard",
-    pro: "Email prioritaire",
-    agency: "Support dédié + SLA",
+    feature: "Tarif",
+    starter: formatEntryPrice(),
+    pro: formatProPrice(),
+    agency: "Sur devis",
   },
 ];
 
@@ -330,6 +310,23 @@ export default function PricingPage() {
               </tbody>
             </table>
           </div>
+          <p className="mt-6 text-center text-sm text-stone-600">
+            Vous hésitez entre un logiciel, un tableur et une agence ?{" "}
+            <Link
+              href="/comparatif/logiciel-gestion-locative"
+              className="font-medium text-blue-700 underline underline-offset-2 hover:text-blue-800"
+            >
+              Comparer les modes de gestion locative
+            </Link>{" "}
+            ou{" "}
+            <Link
+              href="/comparatif"
+              className="font-medium text-blue-700 underline underline-offset-2 hover:text-blue-800"
+            >
+              voir tous nos comparatifs
+            </Link>
+            .
+          </p>
         </section>
 
         {/* ── Testimonials ─────────────────────────────────────── */}

@@ -73,7 +73,7 @@ const faqSchema = {
 const criteria = [
   "Rédaction de bail",
   "Quittances automatiques",
-  "Détection paiements",
+  "Suivi des paiements",
   "Révision IRL",
   "Portail locataire",
   "Relance impayé",
@@ -91,7 +91,7 @@ function getScore(software: string, criterion: string): "check" | "cross" | "min
     Lokna: {
       "Rédaction de bail": "minus",
       "Quittances automatiques": "check",
-      "Détection paiements": "check",
+      "Suivi des paiements": "check",
       "Révision IRL": "check",
       "Portail locataire": "check",
       "Relance impayé": "check",
@@ -101,7 +101,7 @@ function getScore(software: string, criterion: string): "check" | "cross" | "min
     LegalPlace: {
       "Rédaction de bail": "check",
       "Quittances automatiques": "cross",
-      "Détection paiements": "cross",
+      "Suivi des paiements": "cross",
       "Révision IRL": "cross",
       "Portail locataire": "cross",
       "Relance impayé": "cross",
@@ -236,7 +236,7 @@ export default function LoknaVsLegalPlace() {
                 <div>
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-green-700">Avantages</p>
                   <ul className="space-y-1">
-                    {["Quittances légales automatiques", "Détection paiements via Open Banking", "Relance automatique impayés", "Portail locataire inclus", "Essai gratuit sans engagement"].map((pro) => (
+                    {["Quittance générée quand le mois est soldé", "Reçu en cas de paiement partiel", "Relance de loyer par e-mail", "Portail locataire inclus", "Essai gratuit sans engagement"].map((pro) => (
                       <li key={pro} className="flex items-start gap-2 text-sm text-stone-600">
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
                         {pro}
@@ -315,7 +315,7 @@ export default function LoknaVsLegalPlace() {
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-bold sm:text-3xl">Gérez vos locations au quotidien avec Lokna</h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
-            Quittances automatiques, détection des paiements, relances. Gérez vos locations en toute sérénité.
+            Quittances, suivi des paiements, relances. Gérez vos locations en toute sérénité.
             Essai gratuit sans carte bancaire.
           </p>
           <Link

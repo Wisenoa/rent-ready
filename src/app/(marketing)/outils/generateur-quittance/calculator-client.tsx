@@ -17,16 +17,18 @@ const breadcrumbItems = [
   { label: "Générateur de Quittance", href: "/outils/generateur-quittance" },
 ];
 
+// Legal answers: article 21 of loi n° 89-462 du 6 juillet 1989 (Légifrance).
+// It sets no deadline and requires no IRL mention; do not add either back.
 const faqData = [
   {
     question: "La quittance de loyer est-elle obligatoire ?",
     answer:
-      "Non, la quittance de loyer n'est pas obligatoire pour le bailleur. Cependant, depuis la loi du 6 juillet 1989, le locataire peut demander une quittance à tout moment et le bailleur doit la fournir dans un délai d'un mois. La quittance est donc quasi-indispensable en pratique.",
+      "Oui, dès que le locataire la demande : le bailleur doit alors la lui transmettre gratuitement (article 21 de la loi du 6 juillet 1989). La loi ne fixe pas de délai précis. Si le locataire n'a payé qu'une partie du loyer, le bailleur lui délivre un reçu, pas une quittance.",
   },
   {
     question: "Que doit contenir une quittance de loyer conforme ?",
     answer:
-      "Une quittance conforme doit mentionner : le nom et adresse du bailleur, le nom du locataire, l'adresse du bien, le montant du loyer et des charges, la période concernée, la signature du bailleur, et optionally le rappel de l'indice IRL utilisé pour les révisions.",
+      "La loi exige que la quittance détaille les sommes versées en distinguant le loyer et les charges. En pratique, elle mentionne aussi le nom du bailleur et du locataire, l'adresse du logement, la période couverte et la date du paiement, et elle est souvent signée par le bailleur.",
   },
   {
     question: "Peut-on demander des frais pour générer une quittance ?",
@@ -34,9 +36,9 @@ const faqData = [
       "Non. La délivrance d'une quittance de loyer est gratuite pour le locataire. Le bailleur ne peut pas facturer ce service. Notre générateur est 100% gratuit.",
   },
   {
-    question: "Comment fonctionne la mention IRL sur la quittance ?",
+    question: "Faut-il mentionner l'IRL sur la quittance ?",
     answer:
-      "Si le loyer a été révisé selon l'IRL (Indice de Référence des Loyers), la quittance doit mentionner l'indice utilisé et sa date de référence. Notre générateur inclut automatiquement cette mention si vous utilisez la révision IRL.",
+      "Non, la loi ne l'exige pas. L'indice de référence des loyers sert à calculer la révision annuelle du loyer ; après une révision, la quittance indique simplement le nouveau montant. Pour calculer une révision, utilisez notre calculateur IRL.",
   },
 ];
 

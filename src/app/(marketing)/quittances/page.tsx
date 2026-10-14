@@ -38,7 +38,7 @@ export async function generateMetadata() {
     title:
       "Quittances de Loyer 2026 — Génération Automatique PDF Conforme",
     description:
-      "Générez des quittances de loyer conformes en 1 clic. PDF automatique avec mention légale INSEE, envoi direct au locataire. Essai gratuit sans engagement.",
+      "Quittances de loyer conformes à la loi de 1989, générées quand le paiement solde le mois. Reçu en cas de paiement partiel, espace locataire. Essai gratuit sans engagement.",
     url: "/quittances",
     ogType: "template",
   });
@@ -47,28 +47,28 @@ export async function generateMetadata() {
 
 const features = [
 {
-title: "Génération en 1 clic",
+title: "Générée au paiement",
 description:
-"Sélectionnez le mois, le locataire, et la quittance est générée automatiquement. Zéro saisie manuelle.",
+"Enregistrez le paiement reçu : quand le mois est soldé, la quittance est générée avec les montants du bail. Zéro ressaisie.",
 icon: "⚡",
 },
 {
 title: "PDF conforme à la loi",
 description:
-"Chaque quittance respecte les mentions légales obligatoires (loyer, charges, période, nom du locataire).",
+"Chaque quittance distingue le loyer et les charges, comme l'exige l'article 21 de la loi du 6 juillet 1989.",
 icon: "📋",
 },
 {
-title: "Mention IRL INSEE intégrée",
+title: "Reçu de paiement partiel",
 description:
-"La quittance affiche automatiquement l'indice IRL de référence pour l'année en cours.",
-icon: "📊",
+"Un versement qui ne couvre pas tout le mois donne un reçu, pas une quittance. La quittance suit quand le solde est réglé.",
+icon: "🧾",
 },
 {
-title: "Envoi automatique au locataire",
+title: "Espace locataire",
 description:
-"La quittance est envoyée par email au locataire ou disponible dans son portail.",
-icon: "📧",
+"Votre locataire retrouve ses quittances dans son espace en ligne, si vous l'y avez invité.",
+icon: "🏠",
 },
 {
 title: "Archivage illimité",
@@ -77,41 +77,40 @@ description:
 icon: "🗄️",
 },
 {
-title: "Export comptable",
+title: "Export CSV",
 description:
-"Exportez vos quittances pour votre expert-comptable. Compatible tous les cabinets.",
+"Exportez les paiements de loyer de l'année au format CSV, par exemple pour votre déclaration de revenus fonciers.",
 icon: "📤",
 },
 ];
 
+// Article 21 of loi n° 89-462 requires only the detail of the sums paid, rent
+// and charges distinguished; the other items are standard practice. The IRL is
+// not a quittance mention and must not be listed as one.
 const legalRequirements = [
+"Montant du loyer, distinct des charges (exigé par la loi)",
+"Montant des charges (exigé par la loi)",
 "Période couverte (mois et année)",
-"Nom du locataire",
+"Nom du bailleur et du locataire",
 "Adresse du bien",
-"Montant du loyer hors charges",
-"Montant des charges",
 "Date de paiement",
-"Mode de paiement",
-"Référence du bail",
-"Signature du bailleur",
-"Indice IRL INSEE (si applicable)",
 ];
 
 const faqData = [
   {
     question: "Comment générer une quittance de loyer ?",
     answer:
-      `Avec ${SITE_NAME}, sélectionnez simplement le locataire et le mois concerné. La quittance est générée automatiquement avec tous les montants pré-remplis depuis votre base. En 1 clic, elle est prête à être envoyée ou archivée.`,
+      `Avec ${SITE_NAME}, enregistrez le paiement reçu depuis le suivi du mois. Quand le mois est soldé, la quittance est générée avec les montants du bail ; un paiement partiel donne un reçu. Sans compte, vous pouvez aussi utiliser notre générateur gratuit.`,
   },
   {
     question: "La quittance est-elle conforme à la loi ?",
     answer:
-      "Oui. Chaque quittance générée respecte les mentions obligatoires de la loi du 6 juillet 1989 : période couverte, nom du locataire, adresse du bien, montant du loyer et des charges, date de paiement, mode de paiement, référence du bail, signature du bailleur et indice IRL INSEE.",
+      "Oui. La loi du 6 juillet 1989 (article 21) exige que la quittance détaille les sommes versées en distinguant le loyer et les charges, ce que fait chaque quittance générée. Elle mentionne aussi les parties, l'adresse du bien, la période couverte et la date du paiement.",
   },
   {
     question: "Comment envoyer la quittance au locataire ?",
     answer:
-      "La quittance peut être envoyée automatiquement par email au locataire, ou rendue disponible dans son portail locataire dédié. Vous pouvez aussi la télécharger en PDF pour l'archiver ou la transmettre manuellement.",
+      "Téléchargez la quittance en PDF et transmettez-la à votre locataire, par exemple par e-mail s'il a donné son accord. Si vous l'avez invité, il la retrouve aussi dans son espace en ligne. Lokna n'envoie pas la quittance par e-mail à votre place.",
   },
   {
     question: "Les quittances sont-elles horodatées ?",
@@ -174,17 +173,17 @@ const QUITTANCES_SCHEMA = {
       operatingSystem: "Web",
       url: `${SITE_URL}/quittances`,
       description:
-        "Générez des quittances de loyer conformes à la loi du 6 juillet 1989 en 1 clic. PDF automatique, mention IRL INSEE, envoi automatique au locataire.",
+        "Quittances de loyer conformes à la loi du 6 juillet 1989, générées quand le paiement enregistré solde le mois. Reçu en cas de paiement partiel, espace locataire.",
       offers: {
         ...paidOffer(),
       },
       featureList: [
-        "Génération de quittance en 1 clic",
+        "Quittance générée au paiement",
         "PDF conforme loi 1989",
-        "Mention IRL INSEE intégrée",
-        "Envoi automatique par email",
+        "Reçu de paiement partiel",
+        "Espace locataire",
         "Archivage illimité",
-        "Export comptable",
+        "Export CSV",
       ],
     },
     {
@@ -254,11 +253,11 @@ className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm back
 {/* Legal requirements */}
 <section className="mb-20">
 <h2 className="mb-6 text-2xl font-bold text-stone-900">
-Mentions légales obligatoires
+Contenu d&apos;une quittance
 </h2>
 <p className="mb-6 text-stone-600">
-Chaque quittance générée par {SITE_NAME} respecte les mentions obligatoires
-définies par la loi du 6 juillet 1989 :
+La loi du 6 juillet 1989 exige que la quittance distingue le loyer et les
+charges. Chaque quittance générée par {SITE_NAME} contient :
 </p>
 <div className="rounded-xl border border-stone-200 bg-white p-6">
 <ul className="grid gap-2 sm:grid-cols-2">
@@ -307,11 +306,11 @@ litige.
 </div>
 <div className="rounded-xl border border-stone-200 bg-white p-6">
 <h3 className="mb-3 text-lg font-semibold text-stone-900">
-🧾 Conformité Factur-X
+🧾 Paiement partiel
 </h3>
 <p className="text-sm text-stone-600">
-Prêt pour la facture électronique B2C 2026. Format standardisé et
-interopérable.
+Un versement incomplet donne un reçu, jamais une quittance : la
+quittance n&apos;atteste que d&apos;un mois entièrement réglé.
 </p>
 </div>
 </div>

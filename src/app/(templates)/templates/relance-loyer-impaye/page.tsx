@@ -431,11 +431,11 @@ export default function RelanceLoyerImpayePage() {
         {/* CTA final */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
           <h2 className="text-2xl font-bold sm:text-3xl">
-            Gérez vos relances automatiquement
+            Gérez vos relances avec Lokna
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Lokna détecte automatiquement les impayés et génère les lettres
-            de relance. Workflow complet, archivage légal.
+            Lokna calcule le reste dû à partir des paiements enregistrés et
+            prépare les relances, du rappel cordial à la mise en demeure.
           </p>
           <Link
             href="/register"

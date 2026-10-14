@@ -30,7 +30,7 @@ const capabilities: Capability[] = [
     title: "Le cycle complet, sans tableur",
     points: [
       "Bien, bail, échéance : la même règle s'applique à tout le parc",
-      "Les virements reçus sont rapprochés automatiquement des loyers attendus",
+      "Chaque paiement enregistré est imputé sur le loyer attendu du mois",
       "L'état payé, partiel ou impayé est calculé, jamais saisi à la main",
     ],
   },
@@ -45,7 +45,7 @@ const capabilities: Capability[] = [
   {
     title: "Le relais quand il le faut",
     points: [
-      "La révision IRL est signalée à la date anniversaire du bail",
+      "La révision IRL se calcule depuis le bail, à sa date anniversaire",
       "Les retards affichent le montant dû et l'ancienneté de la dette",
       "Le locataire dispose d'un portail pour consulter et régler son loyer",
     ],
@@ -123,7 +123,7 @@ export function TestimonialsSection() {
                   <path d="M5.5 7V5a2.5 2.5 0 015 0v2" />
                 </svg>
               ),
-              text: "Synchronisation bancaire DSP2 sécurisée",
+              text: "Aucune connexion bancaire requise",
             },
             {
               icon: (

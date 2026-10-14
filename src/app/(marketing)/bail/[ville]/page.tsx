@@ -26,23 +26,6 @@ export function generateStaticParams() {
   return cities.map((city) => ({ ville: city.slug }));
 }
 
-/* ---------- Average rent data (€/m², 2025 source: CLAMEU/SeLoger) ---------- */
-
-const AVG_RENT_DATA: Record<string, { studio: number; t2: number; t3: number; source: string }> = {
-  paris:       { studio: 28, t2: 25, t3: 22, source: "SeLoger / CLAMEU 2025" },
-  marseille:   { studio: 16, t2: 14, t3: 12, source: "SeLoger / CLAMEU 2025" },
-  lyon:        { studio: 17, t2: 15, t3: 13, source: "SeLoger / CLAMEU 2025" },
-  toulouse:    { studio: 14, t2: 12, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  nice:        { studio: 15, t2: 13, t3: 12, source: "SeLoger / CLAMEU 2025" },
-  nantes:      { studio: 13, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  montpellier: { studio: 14, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  strasbourg:  { studio: 13, t2: 12, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  bordeaux:    { studio: 15, t2: 13, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  lille:       { studio: 14, t2: 12, t3: 11, source: "SeLoger / CLAMEU 2025" },
-  rennes:      { studio: 13, t2: 11, t3: 10, source: "SeLoger / CLAMEU 2025" },
-  grenoble:    { studio: 13, t2: 11, t3: 10, source: "SeLoger / CLAMEU 2025" },
-};
-
 /* ---------- Zone tendue ---------- */
 
 const ZONES_TENDUES = new Set([
@@ -78,12 +61,7 @@ const PREFECTURE_URLS: Record<string, string> = {
 function getCityContext(city: City) {
   const isZoneTendue = ZONES_TENDUES.has(city.slug);
   const pop = city.population;
-  let avgRent: number;
-  if (pop > 500000) avgRent = 14;
-  else if (pop > 200000) avgRent = 12;
-  else if (pop > 100000) avgRent = 10;
-  else avgRent = 9;
-  return { isZoneTendue, avgRent };
+  return { isZoneTendue };
 }
 
 /* ---------- Metadata ---------- */
@@ -109,19 +87,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 function getLocalParagraphs(city: City) {
   const ctx = getCityContext(city);
   const pop = city.population;
-  const rentData = AVG_RENT_DATA[city.slug];
 
   const intro =
     pop > 500000
-      ? `${city.name} compte ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif de la ${city.region} est l'un des plus dynamiques de France, avec une demande locative portée par un bassin d'emploi diversifié, une population étudiante massive et des transports en commun denses. Trouver un locataire n'y est pas difficile — encore faut-il que le bail soit parfaitement rédigé. Le loyer moyen au m² y${rentData ? ` se situe autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " se situe au-dessus de la moyenne nationale"}. `
+      ? `${city.name} compte ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif de la ${city.region} est l'un des plus dynamiques de France, avec une demande locative portée par un bassin d'emploi diversifié, une population étudiante massive et des transports en commun denses. Trouver un locataire n'y est pas difficile — encore faut-il que le bail soit parfaitement rédigé. `
       : pop > 200000
-        ? `Avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants, ${city.name} (département ${city.department}, ${city.region}) s'affirme comme une grande ville attractive. Son marché locatif est porté par une croissance démographique régulière et des projets urbains qui renforcent l'attractivité des quartiers résidentiels. Le loyer moyen au m² y${rentData ? ` se situe aux alentours de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " reste inférieur à celui des grandes métropoles"}.`
+        ? `Avec ${new Intl.NumberFormat("fr-FR").format(pop)} habitants, ${city.name} (département ${city.department}, ${city.region}) s'affirme comme une grande ville attractive. Son marché locatif est porté par une croissance démographique régulière et des projets urbains qui renforcent l'attractivité des quartiers résidentiels.`
         : pop > 100000
-          ? `${city.name} (${new Intl.NumberFormat("fr-FR").format(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement locatif et stabilité pour les propriétaires bailleurs. Le loyer moyen au m² y${rentData ? ` tourne autour de ${rentData.studio}-${rentData.t2} €/m² (observatoire SeLoger / CLAMEU 2025)` : " reste modéré par rapport aux métropoles"}. `
+          ? `${city.name} (${new Intl.NumberFormat("fr-FR").format(pop)} habitants, département ${city.department}) est une ville moyenne dynamique de la région ${city.region}. Le marché locatif y offre un équilibre intéressant entre rendement locatif et stabilité pour les propriétaires bailleurs. `
           : `Située dans le département ${city.department} (${city.region}), ${city.name} compte ${new Intl.NumberFormat("fr-FR").format(pop)} habitants. Le marché locatif local se caractérise par des loyers accessibles et un taux de vacance faible.`;
 
   const regulation = ctx.isZoneTendue
-    ? `En tant que commune en zone tendue, ${city.name} est soumise à l'encadrement des loyers à la relocation. Depuis 2024, le loyer de relocation ne peut pas dépasser le loyer de référence majoré fixé par le Préfet, sous peine de sanctions. Le bail doit intégrer les mentions obligatoires relatives à cet encadrement. Notre modèle est automatiquement mis à jour pour refléter les dernières évolutions réglementaires et les arrêtés préfectoraux applicables dans le ${city.department}.`
+    ? `En tant que commune en zone tendue, ${city.name} est soumise à l'encadrement des loyers à la relocation. À la relocation, le loyer du nouveau bail ne peut en principe pas dépasser celui du précédent locataire, sauf exceptions prévues par décret, et le bail doit mentionner le dernier loyer appliqué. Certaines communes appliquent en plus des loyers de référence fixés par arrêté préfectoral : vérifiez auprès de la préfecture du ${city.department} ou de l'ADIL si c'est le cas à ${city.name}.`
     : `Que vous soyez propriétaire d'un appartement en centre-ville ou d'une maison en périphérie de ${city.name}, la rédaction du bail est une étape déterminante. Elle conditionne la relation avec votre locataire pour toute la durée de la location. Notre modèle de bail vous garantit un document juridiquement valide, prêt à être signé en quelques minutes.`;
 
   const closing = `Les modèles de bail proposés par Lokna sont téléchargés gratuitement et mis à jour avec les dernières évolutions législatives. Que vous louiez à ${city.name} un logement vide ou meublé, en colocation ou en bail mobilité, vous trouverez le modèle adapté à votre situation.`;
@@ -185,23 +162,20 @@ function getBailTypes(city: City) {
 
 function getFaqs(city: City) {
   const ctx = getCityContext(city);
-  const rentData = AVG_RENT_DATA[city.slug];
   return [
     {
       question: `Comment rédiger un bail de location à ${city.name} ?`,
-      answer: `Téléchargez notre modèle gratuit de bail de location adapté à ${city.name}. Remplissez les champs obligatoires (identification des parties, description du bien, loyer, dépôt de garantie, durée), puis signez en deux exemplaires. Le modèle intègre les mentions légales spécifiques à la réglementation française et, si ${city.name} est en zone tendue, les obligations liées à l'encadrement des loyers${ctx.isZoneTendue ? ` — loyer de référence majoré du ${city.department}` : ""}.`,
+      answer: `Téléchargez notre modèle gratuit de bail de location adapté à ${city.name}. Remplissez les champs obligatoires (identification des parties, description du bien, loyer, dépôt de garantie, durée), puis signez en deux exemplaires. Le modèle intègre les mentions légales spécifiques à la réglementation française et, si ${city.name} est en zone tendue, les obligations liées à l'encadrement des loyers.`,
     },
     {
       question: `Quel est le loyer moyen à ${city.name} en 2026 ?`,
-      answer: rentData
-        ? `Le loyer moyen à ${city.name} se situe autour de ${rentData.studio} à ${rentData.t3} €/m² selon le type de bien (studio à T3). En zone tendue, le loyer ne peut pas dépasser le loyer de référence majoré fixé par arrêté préfectoral. Source indicative : ${rentData.source}.`
-        : `Le marché locatif de ${city.name} offre des opportunités intéressantes pour les propriétaires. Utilisez notre calculateur de loyer pour vérifier la conformité de votre loyer au regard des références locales.`,
+      answer: `Lokna ne publie pas de loyer moyen par ville. Pour connaître les loyers pratiqués à ${city.name}, consultez l'observatoire local des loyers s'il en existe un, ou la carte des loyers publiée par le ministère chargé du Logement. Le loyer réel dépend de l'état, de l'emplacement et des équipements du bien.`,
     },
     {
       question: `L'encadrement des loyers s'applique-t-il à ${city.name} ?`,
       answer: ctx.isZoneTendue
-        ? `Oui, à deux titres. D'abord l'encadrement à la relocation : ${city.name} étant en zone tendue, le loyer ne peut pas augmenter lors d'une remise en location ou d'un renouvellement (sauf logement vacant plus de 18 mois ou travaux d'amélioration). Ensuite, un arrêté préfectoral annuel y fixe un loyer de référence majoré qui plafonne le loyer ; un complément pour atypie reste possible dans la limite de 20 % au-dessus du loyer de référence. Ces montants changent chaque année : vérifiez l'arrêté en vigueur sur le site de la préfecture du ${city.department}.`
-        : `Nous ne pouvons pas le confirmer pour ${city.name}, et vous répondre « non » serait trompeur. Deux dispositifs coexistent : l'encadrement à la relocation, qui vaut pour toute commune en zone tendue, et le plafonnement du niveau des loyers, qui exige un arrêté préfectoral et ne concerne qu'uneudisaine de communes (Paris, Lyon, Lille, Bordeaux, Montpellier, Grenoble, Nice, Marseille, Nantes, Strasbourg, Toulouse, Rennes). ${city.name} ne figure pas dans notre liste vérifiée des communes dotées d'un arrêté — ce qui ne préjuge ni de son classement en zone tendue, ni des communes limitrophes visées. Faites foi : l'arrêté préfectoral du ${city.department} et la liste publiée par le ministère.`,
+        ? `Oui. ${city.name} étant en zone tendue, l'encadrement à la relocation s'applique : le loyer du nouveau bail ne peut en principe pas dépasser celui du précédent locataire, sauf exceptions prévues par décret (travaux importants, loyer manifestement sous-évalué, logement vacant depuis plus de 18 mois). Certaines communes, comme Paris, Lyon, Lille, Bordeaux ou Montpellier, appliquent en plus un plafonnement par des loyers de référence fixés par arrêté préfectoral. Vérifiez la situation de ${city.name} auprès de la préfecture du ${city.department} ou de l'ADIL.`
+        : `Nous ne pouvons pas le confirmer pour ${city.name}, et vous répondre « non » serait trompeur. Deux dispositifs coexistent : l'encadrement à la relocation, qui vaut pour toute commune en zone tendue, et le plafonnement du niveau des loyers, qui exige un arrêté préfectoral et ne concerne qu'un petit nombre de communes, comme Paris, Lyon, Lille, Bordeaux ou Montpellier. ${city.name} ne figure pas dans notre liste vérifiée des communes dotées d'un arrêté — ce qui ne préjuge ni de son classement en zone tendue, ni des communes limitrophes visées. Faites foi : l'arrêté préfectoral du ${city.department} et la liste publiée par le ministère.`,
     },
     {
       question: `Quel dépôt de garantie pour une location à ${city.name} ?`,
@@ -251,7 +225,6 @@ function buildBailVilleSchema(city: City) {
   const faqs = getFaqs(city);
   const bailTypes = getBailTypes(city);
   const ctx = getCityContext(city);
-  const rentData = AVG_RENT_DATA[city.slug];
   const howToSteps = getHowToSteps(city);
 
   return {
@@ -386,7 +359,7 @@ function buildBailVilleSchema(city: City) {
       {
         "@type": "WebPage",
         name: `Modèle de bail à ${city.name} — Téléchargement gratuit 2026`,
-        description: `Téléchargez un modèle de bail gratuit et conforme à ${city.name}. Bail vide, meublé, colocation, mobilité.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers applicable." : ""} Préparez votre location en 5 minutes.${rentData ? ` Loyer moyen indicatif : ${rentData.studio}-${rentData.t2} €/m².` : ""}`,
+        description: `Téléchargez un modèle de bail gratuit et conforme à ${city.name}. Bail vide, meublé, colocation, mobilité.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers applicable." : ""} Préparez votre location en 5 minutes.`,
         url: `${SITE_URL}/bail/${city.slug}`,
         isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
@@ -406,7 +379,6 @@ export default async function BailVillePage({ params }: Props) {
   const faqs = getFaqs(city);
   const local = getLocalParagraphs(city);
   const ctx = getCityContext(city);
-  const rentData = AVG_RENT_DATA[city.slug];
 
   return (
     <>
@@ -458,37 +430,6 @@ export default async function BailVillePage({ params }: Props) {
             </div>
           </div>
         </section>
-
-        {/* ── Average rent reference ── */}
-        {rentData && (
-          <section className="bg-white border-y border-stone-200 px-4 py-8 sm:px-6">
-            <div className="mx-auto max-w-4xl">
-              <p className="mb-4 text-center text-sm font-medium text-stone-600 uppercase tracking-wide">
-                Loyer moyen à {city.name} — estimation {rentData.source}
-              </p>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  { label: "Studio / T1", value: `~${rentData.studio} €/m²/mois` },
-                  { label: "T2 / T3", value: `~${rentData.t2} €/m²/mois` },
-                  { label: "T4 et plus", value: `~${rentData.t3} €/m²/mois` },
-                ].map((r) => (
-                  <div key={r.label} className="rounded-lg bg-[#f8f7f4] border border-stone-200 p-4 text-center">
-                    <p className="text-lg font-bold text-stone-900">{r.value}</p>
-                    <p className="mt-1 text-sm text-stone-600">{r.label}</p>
-                  </div>
-                ))}
-              </div>
-              {ctx.isZoneTendue && (
-                <p className="mt-3 text-center text-xs text-amber-700">
-                  ⚠️ En zone tendue, votre loyer ne peut pas dépasser le loyer de référence majoré.{" "}
-                  <a href={PREFECTURE_URLS[city.slug]} target="_blank" rel="noopener noreferrer" className="underline">
-                    Consultez l'arrêté préfectoral du {city.department} →
-                  </a>
-                </p>
-              )}
-            </div>
-          </section>
-        )}
 
         {/* ── Bail type cards ── */}
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">

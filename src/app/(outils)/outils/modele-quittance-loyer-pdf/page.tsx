@@ -47,13 +47,13 @@ const faqs = [
   {
     question: "Quel format pour une quittance de loyer en 2026 ?",
     answer:
-      "Le format PDF reste le standard le plus courant et parfaitement valide. Pour anticiper les obligations de facturation électronique, certains logiciels comme Lokna génèrent également des quittances au format Factur-X.",
+      "La loi n'impose pas de format : le PDF est le plus courant. Avec l'accord exprès du locataire, la quittance peut lui être transmise par voie dématérialisée, par exemple par e-mail (article 21 de la loi du 6 juillet 1989).",
   },
   {
     question:
-      "Comment automatiser l'envoi de quittances chaque mois ?",
+      "Comment automatiser les quittances chaque mois ?",
     answer:
-      "Avec Lokna, les quittances sont générées et envoyées automatiquement dès que le virement du locataire est détecté sur votre compte bancaire via l'Open Banking. Plus besoin de créer et envoyer manuellement chaque document.",
+      "Avec Lokna, la quittance est générée lorsque vous enregistrez le paiement qui solde le mois ; un paiement partiel donne un reçu. Vous la téléchargez en PDF, et votre locataire la retrouve dans son espace en ligne si vous l'y avez invité.",
   },
 ];
 
@@ -165,9 +165,9 @@ export default function ModeleQuittanceLoyerPdfPage() {
             Automatisez vos quittances chaque mois
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-blue-100">
-            Lokna génère et envoie automatiquement les quittances conformes
-            dès que le loyer est détecté sur votre compte bancaire. Essai gratuit
-            14&nbsp;jours.
+            Lokna génère la quittance conforme dès que vous enregistrez le
+            paiement qui solde le mois, et un reçu en cas de paiement partiel.
+            Essai gratuit 14&nbsp;jours.
           </p>
           <Link
             href="/register"

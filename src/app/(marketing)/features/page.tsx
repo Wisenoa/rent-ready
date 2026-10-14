@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { formatProPrice, formatProAnnualPrice } from "@/data/entity";
+import { formatEntryPrice, formatProPrice, formatProAnnualPrice } from "@/data/entity";
 import Link from "next/link";
 import {
   FileText,
@@ -47,43 +47,40 @@ export async function generateMetadata() {
     title:
       "Fonctionnalités Lokna — quittances auto, IRL et suivi des loyers (2026)",
     description:
-      "Quittances conformes loi 1989, suivi des loyers via Open Banking DSP2, révision IRL INSEE, portail locataire et gestion des baux. À partir de 9 €/mois.",
+      `Quittances conformes loi 1989, reçus de paiement partiel, suivi des loyers, révision IRL INSEE et portail locataire. À partir de ${formatEntryPrice()}.`,
     url: "/features",
     ogType: "feature",
   });
 }
 
 /* ─── FAQ data for schema ─── */
+// Every answer here is also published as FAQPage structured data. Describe what
+// the product does today, checked against the code — never a planned feature.
 const featureFaqs = [
   {
     question: "Lokna génère-t-il des quittances de loyer conformes à la loi ?",
     answer:
-      "Oui. Chaque quittance inclut toutes les mentions obligatoires de la loi du 6 juillet 1989 : identité du bailleur et du locataire, adresse du bien, période couverte, montant du loyer charges comprises, date de paiement, mode de paiement, référence du bail, signature et indice IRL INSEE.",
+      "Oui. La quittance distingue le loyer et les charges, comme l'exige l'article 21 de la loi du 6 juillet 1989, et reprend les parties, le logement, la période et la date du paiement. Elle n'est délivrée qu'une fois le mois réglé en totalité ; un paiement partiel donne lieu à un reçu.",
   },
   {
-    question: "Comment fonctionne la détection des loyers via Open Banking ?",
+    question: "Comment les paiements de loyer sont-ils suivis ?",
     answer:
-      "Via l'Open Banking DSP2, Lokna lit les mouvements bancaires de votre compte pour identifier les virements de loyer. Chaque loyer reçu est catégorisé et archivé sans saisie manuelle.",
+      "Vous enregistrez chaque paiement reçu depuis le suivi du mois. Lokna l'impute sur le loyer attendu, calcule le reste dû et indique si le mois est payé, partiellement payé ou impayé. Lokna ne se connecte pas à votre banque.",
   },
   {
     question: "La révision de loyer IRL est-elle automatique ?",
     answer:
-      "Oui. Lokna se connecte aux indices officiels de l'INSEE pour calculer la nouvelle provision de loyer. Vous recevez une alerte quand la révision doit être appliquée.",
+      "Le calcul l'est : Lokna applique la formule légale avec l'indice de référence des loyers publié par l'INSEE. La révision n'est appliquée au bail qu'après votre validation.",
   },
   {
-    question: "Le portail locataire est-il accessible sans mot de passe ?",
+    question: "Comment le locataire accède-t-il à son portail ?",
     answer:
-      "Oui. Le locataire accède à son portail via un lien sécurisé envoyé par email. Aucun mot de passe n'est nécessaire. Il peut consulter ses quittances, soumettre des demandes et voir l'historique de ses règlements.",
-  },
-  {
-    question: "Lokna est-il adapté aux obligations Factur-X ?",
-    answer:
-      "Oui. Lokna prépare votre gestion pour les standards de facturation et les échéances fiscales à venir.",
+      "Par un lien personnel que vous lui envoyez depuis Lokna, sans mot de passe à créer. Il y consulte ses quittances et ses paiements, et peut signaler un incident.",
   },
   {
     question: "Combien de biens puis-je gérer avec Lokna ?",
     answer:
-      `L'abonnement à ${formatProPrice()} permet de gérer jusqu'à 10 biens immobiliers avec locataires illimités. L'abonnement annuel à ${formatProAnnualPrice()} vous offre 2 mois gratuits.`,
+      `La formule Starter couvre jusqu'à 3 logements, la formule Pro jusqu'à 10 logements à ${formatProPrice()} (${formatProAnnualPrice()} par an, soit 2 mois offerts). Les deux formules donnent accès aux mêmes fonctionnalités.`,
   },
 ];
 
@@ -129,14 +126,13 @@ function FeaturesJsonLd() {
         },
       ],
       features: [
-        "Quittances de loyer conformes loi 1989",
-        "Détection automatique des virements Open Banking",
-        "Révision IRL connectée INSEE",
-        "Portail locataire avec maintenance",
-        "OCR factures artisans par IA",
-        "Conformité Factur-X",
-        "Relance automatique impayés",
-        "Export comptable",
+        "Quittances de loyer conformes à la loi du 6 juillet 1989",
+        "Reçu en cas de paiement partiel",
+        "Suivi des loyers attendus, payés et du reste dû",
+        "Révision IRL calculée avec l'indice INSEE",
+        "Portail locataire avec signalement d'incident",
+        "Relance de loyer par e-mail",
+        "Export CSV des paiements",
       ],
     }),
     buildFAQPageSchema(featureFaqs)
@@ -159,53 +155,53 @@ const featureGroups = [
     title: "Quittances & Reçus",
     tagline: "Conformes loi du 6 juillet 1989",
     description:
-      "Générez des quittances de loyer parfaitement conformes à la loi de 1989. Chaque quittance inclut toutes les mentions obligatoires et est horodatée.",
+      "La quittance est générée lorsque le paiement enregistré solde le mois. Elle sépare le loyer et les charges, comme l'exige l'article 21 de la loi du 6 juillet 1989.",
     features: [
       {
         icon: FileText,
-        title: "Quittance PDF personnalisée",
+        title: "Quittance PDF",
         detail:
-          "Logo, mentions légales, dégradé de garantie, tudo automatique. Prête à signer et à envoyer.",
+          "Bailleur, locataire, logement, période, loyer et charges : les montants viennent du bail et des paiements enregistrés.",
       },
       {
         icon: CreditCard,
-        title: "Détection des paiements",
+        title: "Reçu de paiement partiel",
         detail:
-          "Connexion Open Banking DSP2 : les virements arrivent automatiquement et déclenchent la quittance.",
+          "Un versement qui ne couvre pas tout le mois donne un reçu, pas une quittance. La quittance suit quand le solde est réglé.",
       },
       {
         icon: Search,
-        title: "Historique des quittances",
+        title: "Historique des documents",
         detail:
-          "Chaque quittance est archivée et retrouvable en 1 clic. Recherchez par locataire, bien ou date.",
+          "Chaque quittance et chaque reçu restent rattachés au mois et au bail concernés, téléchargeables à tout moment.",
       },
     ],
   },
   {
-    id: "gestion-bancaire",
+    id: "suivi-paiements",
     icon: RefreshCcw,
-    title: "Automatisation Bancaire",
-    tagline: "Open Banking DSP2",
+    title: "Suivi des paiements",
+    tagline: "Le mois en un coup d'œil",
     description:
-      "Oubliez la saisie manuelle des paiements. Lokna se connecte à votre banque et détecte automatiquement les versements de loyer.",
+      "Lokna sait ce que chaque locataire doit payer chaque mois. Vous enregistrez les paiements reçus ; Lokna calcule le reste dû. Aucune connexion bancaire n'est nécessaire.",
     features: [
       {
         icon: Zap,
-        title: "Détection temps réel",
+        title: "Paiement enregistré en quelques secondes",
         detail:
-          "Chaque virement de loyer est repéré en temps réel via l'API bancaire. Zéro saisie, zéro oubli.",
-      },
-      {
-        icon: ShieldCheck,
-        title: "Sécurité maximale",
-        detail:
-          "Accès lecture seule à votre compte. Aucune possibilité de prélèvements ou d'opérations.",
+          "Montant, date, mode de paiement : le versement est imputé sur le loyer attendu du mois.",
       },
       {
         icon: BarChart3,
-        title: "Suivi des retards",
+        title: "Payé, partiel ou impayé",
         detail:
-          "Historique visuel des paiements. Les retards sont immédiatement signalés dans le dashboard.",
+          "L'état du mois est calculé à partir des paiements, jamais saisi à la main. Plusieurs versements peuvent solder un même mois.",
+      },
+      {
+        icon: Bell,
+        title: "Relance par e-mail",
+        detail:
+          "En cas de retard, vous envoyez au locataire une relance en trois tons, du rappel cordial à la mise en demeure.",
       },
     ],
   },
@@ -213,27 +209,21 @@ const featureGroups = [
     id: "revision-irl",
     icon: CalendarDays,
     title: "Révision de Loyer IRL",
-    tagline: "Connectée INSEE en temps réel",
+    tagline: "Indice INSEE",
     description:
-      "La révision de loyer basée sur l'Indice de Référence des Loyers (IRL) est automatiques. L'INSEE met à jour l'indice ? Votre nouveau loyer est calculé instantanément.",
+      "La révision annuelle est calculée avec l'indice de référence des loyers publié par l'INSEE, selon la formule de l'article 17-1 de la loi du 6 juillet 1989.",
     features: [
       {
         icon: RefreshCcw,
-        title: "Calcul automatique",
+        title: "Calcul du nouveau loyer",
         detail:
-          "À chaque date anniversaire de bail, le nouveau loyer est recalculé avec l'IRL le plus récent.",
+          "Lokna compare l'indice de référence du bail au dernier indice publié et affiche le nouveau montant.",
       },
       {
         icon: FileCheck2,
-        title: "Courrier de révision",
+        title: "Validation par vous",
         detail:
-          "Un courrier de notification prêt à envoyer au locataire avec le nouveau montant et la méthode de calcul.",
-      },
-      {
-        icon: Bell,
-        title: "Alerte 30 jours avant",
-        detail:
-          "Vous recevez une notification 30 jours avant la date de révision pour anticiper et valider.",
+          "Le nouveau loyer ne s'applique au bail qu'après votre confirmation.",
       },
     ],
   },
@@ -241,27 +231,27 @@ const featureGroups = [
     id: "portail-locataire",
     icon: Users,
     title: "Portail Locataire",
-    tagline: "Réduction de vos tâches administratives",
+    tagline: "Un espace pour votre locataire",
     description:
-      "Vos locataires accèdent à leur espace pour consulter leurs paiements, télécharger leurs quittances et déclarer des incidents. Vous gagnez du temps, ils gagnent en transparence.",
+      "Si vous l'invitez, votre locataire accède à son espace pour consulter ses paiements, télécharger ses quittances et signaler un incident.",
     features: [
       {
         icon: Smartphone,
         title: "Espace dédié",
         detail:
-          "Chaque locataire a son propre portail avec historique des paiements, loyers en cours et reçus.",
+          "Historique des paiements, quittances et reçus du locataire, au même endroit.",
       },
       {
         icon: Wrench,
-        title: "Demande de maintenance",
+        title: "Signalement d'incident",
         detail:
-          "Les locataires peuvent déclarer un incident en quelques clics avec photo. Vous êtes notifié immédiatement.",
+          "Le locataire décrit le problème, indique l'urgence et joint des photos.",
       },
       {
         icon: Lock,
-        title: "Accès sécurisé",
+        title: "Accès par lien personnel",
         detail:
-          "Authentification par email + mot de passe. Vous contrôlez qui a accès à quel bien.",
+          "Le locataire entre par un lien que vous lui envoyez. Il ne voit que son propre logement.",
       },
     ],
   },
@@ -271,53 +261,41 @@ const featureGroups = [
     title: "Suivi Maintenance",
     tagline: "De la déclaration à la résolution",
     description:
-      "Gérez les interventions de maintenance de vos biens : déclaration, suivi artisan, validation des factures, paiement. Tout est tracé.",
+      "Les incidents signalés par vos locataires sont rattachés au logement, avec leur urgence et leur état d'avancement.",
     features: [
-      {
-        icon: BrainCircuit,
-        title: "OCR des factures",
-        detail:
-          "Scannez une facture artisanale et l'IA en extrait automatiquement le montant, la date et le prestataire.",
-      },
       {
         icon: Building2,
         title: "Lien avec le bien",
         detail:
-          "Chaque intervention est liée au bien concerné. Vous avez l'historique complet de chaque logement.",
+          "Chaque intervention est liée au logement concerné. Vous gardez l'historique de chaque bien.",
       },
       {
-        icon: Bell,
-        title: "Notifications",
+        icon: BrainCircuit,
+        title: "Suivi de l'état",
         detail:
-          "Rappels automatiques pour les interventions en attente. Plus jamais une réparation qui traîne.",
+          "Ouvert, en cours, résolu : le locataire voit l'avancement depuis son portail.",
       },
     ],
   },
   {
     id: "conformite",
     icon: ShieldCheck,
-    title: "Conformité & Sécurité",
-    tagline: "Conforme Factur-X et e-reporting B2C 2027",
+    title: "Données & Export",
+    tagline: "Vos données restent les vôtres",
     description:
-      "La réglementation évolue. Lokna intègre en avance les obligations légales : Factur-X pour la facturation, e-reporting B2C pour les plateformes.",
+      "Vos données sont hébergées en France et exportables à tout moment.",
     features: [
       {
-        icon: ShieldCheck,
-        title: "Conformité Factur-X",
+        icon: FileText,
+        title: "Export CSV",
         detail:
-          "Format factures accepté par l'administration fiscale française. Plus de rejet de vos fichiers.",
+          "Exportez les paiements de loyer de l'année, par exemple pour préparer votre déclaration de revenus fonciers.",
       },
       {
         icon: Lock,
-        title: "Hébergement sécurisé",
+        title: "Hébergement en France",
         detail:
-          "Données hébergées en France (OVH). Chiffrement AES-256 au repos et TLS 1.3 en transit.",
-      },
-      {
-        icon: FileText,
-        title: "Audit trail",
-        detail:
-          "Chaque action dans le système est tracée. Vous avez une piste d'audit complète pour votre comptabilité.",
+          "Serveurs OVH situés en France, connexion chiffrée (HTTPS).",
       },
     ],
   },
@@ -326,17 +304,14 @@ const featureGroups = [
 /* ─── Feature list for quick-scan table ─── */
 const quickFeatures = [
   "Quittances PDF conformes loi 1989",
-  "Détection automatique virements (Open Banking DSP2)",
-  "Révision IRL automatique avec alerte 30 jours",
-  "Portail locataire avec maintenance",
-  "OCR factures artisans par IA",
-  "Conformité Factur-X et e-reporting B2C 2027",
-  "Dashboard propriétaire en temps réel",
-  "Export comptable (CSV, PDF)",
-  "Relance automatique des impayés",
-  "Mises à jour légales incluses",
-  "Jusqu'à 10 biens immobiliers",
-  "Support email prioritaire",
+  "Reçu en cas de paiement partiel",
+  "Suivi des loyers attendus et du reste dû",
+  "Révision IRL calculée avec l'indice INSEE",
+  "Portail locataire avec signalement d'incident",
+  "Relance par e-mail en trois tons",
+  "Suivi des dépenses par bien",
+  "Export CSV des paiements",
+  "Jusqu'à 10 logements",
 ];
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -369,9 +344,9 @@ export default function FeaturesPage() {
               </span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600 sm:text-xl">
-              Quitances, bancauterie automatique, révision IRL, portail
-              locataire, maintenance — tout est inclus dans un seul abonnement
-              à 15 €/mois.
+              Quittances, suivi des paiements, révision IRL, portail
+              locataire, maintenance : les mêmes fonctionnalités dans chaque
+              formule, à partir de {formatEntryPrice()}.
             </p>
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link
@@ -491,13 +466,13 @@ export default function FeaturesPage() {
       <section className="border-y border-stone-200 bg-white">
         <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
           <p className="mb-10 text-center text-sm font-semibold uppercase tracking-[0.15em] text-stone-600">
-            Écosystème & Conformité
+            Sur quoi Lokna s'appuie
           </p>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {[
-              { label: "Open Banking", sub: "DSP2 — Lecture compte" },
-              { label: "Factur-X", sub: "Format officiel facturas" },
-              { label: "e-reporting B2C", sub: "Obligation 2027" },
+              { label: "Loi du 6 juillet 1989", sub: "Quittances et reçus" },
+              { label: "INSEE", sub: "Indice de référence des loyers" },
+              { label: "Export CSV", sub: "Vos données, à tout moment" },
               { label: "Hébergement FR", sub: "OVH — Données en France" },
             ].map((item) => (
               <div key={item.label} className="text-center">

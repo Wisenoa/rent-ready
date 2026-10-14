@@ -3011,16 +3011,16 @@ Les meilleurs éditeurs utilisent le chiffrement des données, l'authentificatio
 La gestion locative englobe toutes les tâches liées à la mise en location d'un bien : rédaction du bail, perception des loyers, remise des quittances, suivi des charges, révision annuelle et gestion des incidents. Le propriétaire peut assurer lui-même ces missions ou les déléguer à un professionnel ou un logiciel.
 **Quel est le prix d'un logiciel de gestion locative en 2026 ?**
 
-Les tarifs varient selon la solution : les agences traditionnelles facturent entre 5 % et 10 % du loyer annuel, tandis qu'un logiciel de gestion locative comme Lokna coûte entre 15 € et 30 € par mois, quel que soit le nombre de biens gérés. Cette différence représente une économie annuelle de plusieurs centaines à plusieurs milliers d'euros.
+Les tarifs varient selon la solution : les agences traditionnelles facturent entre 5 % et 10 % du loyer annuel, tandis qu'un logiciel de gestion locative coûte quelques dizaines d'euros par mois au plus : Lokna, par exemple, coûte 9 €/mois jusqu'à 3 logements et 15 €/mois jusqu'à 10. Cette différence représente une économie annuelle de plusieurs centaines à plusieurs milliers d'euros.
 **Comment choisir entre un logiciel de gestion locative et une agence immobilière ?**
 
 Le logiciel de gestion locative offre un contrôle total, une disponibilité en permanence, et un coût fixe prévisible. L'agence apporte un accompagnement humain et une expertise locale, mais à un coût proportionnel au loyer. Pour les propriétaires autonomes avec 1 à 10 biens, le logiciel représente le meilleur rapport qualité-prix.
 **La gestion locative en ligne est-elle fiable et sécurisée ?**
 
-Oui, les logiciels de gestion locative modernes sont fiables. Ils utilisent le chiffrement des données, l'authentification forte, et des sauvegardes régulières. Pour la détection automatique des paiements, le protocole Open Banking (DSP2) garantit un accès en lecture seule à votre compte bancaire, sans aucun risque de mouvement de fonds.
+Oui, les logiciels de gestion locative modernes sont fiables. Ils utilisent le chiffrement des données, l'authentification forte, et des sauvegardes régulières. Certains logiciels proposent une connexion bancaire en lecture seule ; d'autres, comme Lokna, fonctionnent sans connexion bancaire : vous enregistrez vous-même les paiements reçus.
 **Quelles tâches un logiciel de gestion locative automatise-t-il ?**
 
-Un logiciel de gestion locative automatise la génération de quittances, la détection des paiements entrants, le calcul de la révision IRL, l'envoi de relances en cas d'impayé, et la préparation des documents fiscaux annuels. Il centralise également les documents (baux, diagnostics, quittances) dans un espace numérique sécurisé.
+Un logiciel de gestion locative automatise la génération de quittances, le calcul du reste dû, le calcul de la révision IRL, l'envoi de relances en cas d'impayé, et la préparation des documents fiscaux annuels. Il centralise également les documents (baux, diagnostics, quittances) dans un espace numérique sécurisé.
 
 [CTA : Découvrez comment Lokna peut vous aider à gérer vos locations efficacement — essayer gratuitement]`,
   },

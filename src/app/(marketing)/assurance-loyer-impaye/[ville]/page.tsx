@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   //
   // Ce que Lokna fait reellement est deterter l'impaye. La page le dit.
   const title = `Loyer impayé à ${city.name} : le détecter, la relancer, le facturer`;
-  const description = `Lokna détecte les loyers impayés et déclenche les relances. La GLI reste une assurance à souscrire auprès d'un assureur : nous ne la vendons pas.`;
+  const description = `Lokna fait apparaître les loyers impayés et vous permet d'envoyer les relances. La GLI reste une assurance à souscrire auprès d'un assureur : nous ne la vendons pas.`;
 
   return baseMetadata({
     title,
@@ -101,7 +101,7 @@ function getLocalParagraphs(city: City) {
         ? `À ${city.name}, le marché locatif reste tendu malgré une taille modérée. Un impayé prolongé peut rapidement impacter votre trésorerie personnelle. La GLI prend en charge le remboursement des loyers et les frais de procédure.`
         : `Même si ${city.name} présente un risque modéré, un impayé de quelques mois peut survenir pour des raisons indépendantes de votre volonté (perte d'emploi du locataire, divorce, maladie). La GLI vous couvre sans effort.`;
 
-  const closing = `Avec Lokna, détectez automatiquement les paiements manquants et soyez alerté en temps réel. Combinez une gestion locative intelligente avec une assurance loyer impayé pour une protection complète de vos revenus à ${city.name}.`;
+  const closing = `Avec Lokna, les loyers impayés ou partiellement payés apparaissent dans le suivi du mois, à partir des paiements que vous enregistrez. Combinez une gestion locative intelligente avec une assurance loyer impayé pour une protection complète de vos revenus à ${city.name}.`;
 
   return { intro, whyGli, closing };
 }
@@ -128,17 +128,17 @@ function getFeatures(city: City) {
     },
     {
       icon: "📱",
-      title: "Alerte impayé en temps réel",
-      description: `Avec Lokna, détectez automatiquement les paiements manquants pour vos biens à ${city.name}. Alerte immédiate en cas de retard — pour agir vite et déclarer le sinistre à votre assureur dans les délais.`,
+      title: "Impayés visibles dans le suivi du mois",
+      description: `Avec Lokna, le reste dû de chaque loyer de vos biens à ${city.name} est calculé à partir des paiements que vous enregistrez. Un retard se voit immédiatement — pour agir vite et déclarer le sinistre à votre assureur dans les délais.`,
     },
     {
       icon: "📋",
-      title: "Déclaration de sinistre simplifiée",
-      description: `En cas d'impayé à ${city.name}, déclarez le sinistre en quelques clics. Nous vous accompagnons dans la constitution du dossier pour maximiser le remboursement.`,
+      title: "Un historique des paiements à jour",
+      description: `En cas d'impayé à ${city.name}, l'assureur demande le détail des sommes dues et des versements reçus. Lokna conserve ce relevé, mois par mois, pour constituer votre dossier.`,
     },
     {
       icon: ctx.isZoneTendue ? "⚠️" : "🏠",
-      title: ctx.isZoneTendue ? "Obligation de protection en zone tendue" : "Couverture adaptée à votre bien",
+      title: ctx.isZoneTendue ? "Zone tendue : un risque plus coûteux" : "Couverture adaptée à votre bien",
       description: ctx.isZoneTendue
         ? `${city.name} est en zone tendue. Les délais d'expulsion y sont parmi les plus longs de France — 12 à 18 mois. Sans GLI, vous assumez l'intégralité du risque.`
         : `Que votre bien à ${city.name} soit loué vide ou meublé, la GLI s'adapte à votre situation : bail habitation, bail commercial, ou colocation.`,
@@ -161,13 +161,13 @@ function getCoverageTiers(city: City) {
   // dire, pas rediriger la demande vers une autre vente.
   return [
     {
-      name: "Détection automatique des impayés",
-      description: `Chaque mois, Lokna rapproche les échéances des paiements et signale les loyers non réglés à ${city.name}.`,
+      name: "Suivi des impayés",
+      description: `Chaque mois, Lokna compare les loyers attendus aux paiements que vous enregistrez et signale les loyers non réglés à ${city.name}.`,
       cta: "Voir les impayés",
     },
     {
-      name: "Relances envoyées sans que vous les écriviez",
-      description: "Lettre de relance puis mise en demeure, générées depuis les données réelles du dossier.",
+      name: "Relances prêtes à envoyer",
+      description: "Rappel, relance formelle puis mise en demeure, rédigés depuis les données réelles du dossier. Vous décidez de l'envoi.",
       cta: "Voir la lettre de relance",
     },
     {
@@ -190,7 +190,7 @@ function getFaqs(city: City) {
     },
     {
       question: `Quel est le coût d'une GLI pour un bien à ${city.name} ?`,
-      answer: `Une GLI coûte généralement entre 2 % et 4 % du montant annuel du loyer charges comprises. Par exemple, pour un loyer de 1 000 €/mois à ${city.name}, comptez entre 240 € et 480 €/an. Ce coût est déductible de vos revenus fonciers.`,
+      answer: `Une GLI coûte généralement entre 2 % et 4 % du montant annuel du loyer charges comprises. Par exemple, pour un loyer de 1 000 €/mois à ${city.name}, comptez entre 240 € et 480 €/an. Au régime réel, ce coût est déductible de vos revenus fonciers.`,
     },
     {
       question: `La GLI couvre-t-elle les impayés dès le premier mois à ${city.name} ?`,
@@ -207,8 +207,8 @@ function getFaqs(city: City) {
     {
       question: `Comment déclarer un impayé à ${city.name} ?`,
       answer: ctx.isZoneTendue
-        ? `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours après la date d'échéance non payée. À ${city.name} (zone tendue), la rapidité et le délai d'intervention sont cruciaux. Avec Lokna, l'alerte automatique vous permet de déclarer rapidement et de respecter les délais contractuels.`
-        : `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours. Avec Lokna, l'alerte automatique vous permet de détecter l'impayé rapidement et de constituer votre dossier sans délai.`,
+        ? `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours après la date d'échéance non payée. À ${city.name} (zone tendue), la rapidité et le délai d'intervention sont cruciaux. Avec Lokna, le reste dû apparaît dans le suivi du mois dès qu'une échéance n'est pas réglée, ce qui vous aide à respecter les délais contractuels.`
+        : `La déclaration d'impayé doit se faire dans les conditions prévues au contrat — généralement sous 30 à 60 jours. Avec Lokna, le reste dû apparaît dans le suivi du mois dès qu'une échéance n'est pas réglée, et l'historique des paiements vous aide à constituer votre dossier.`,
     },
   ];
 }
@@ -228,13 +228,13 @@ function getHowToSteps(city: City) {
       url: "/register",
     },
     {
-      name: `Activer la détection automatique des paiements`,
-      text: `Avec Lokna, connectez votre compte bancaire via Open Banking. Chaque échéance de loyer pour votre bien à ${city.name} est automatiquement vérifiée — alerte instantanée en cas d'impayé.`,
+      name: `Suivre les paiements chaque mois`,
+      text: `Avec Lokna, enregistrez les paiements reçus pour votre bien à ${city.name} : chaque échéance non réglée apparaît dans le suivi du mois, avec le reste dû.`,
       url: "/register",
     },
     {
       name: `Déclarer le sinistre si nécessaire`,
-      text: `En cas d'impayé détecté à ${city.name}, déclarez le sinistre à votre assureur GLI en joignant les pièces justificatives. Lokna vous accompagne dans la constitution du dossier.`,
+      text: `En cas d'impayé à ${city.name}, déclarez le sinistre à votre assureur GLI en joignant les pièces justificatives, dont l'historique des paiements que Lokna conserve.`,
       url: "/register",
     },
   ];
@@ -279,7 +279,7 @@ function buildGliVilleSchema(city: City) {
       {
         "@type": "HowTo",
         name: `Comment se protéger des loyers impayés à ${city.name}`,
-        description: `Guide complet : évaluation du risque, souscription GLI, détection automatique et déclaration de sinistre pour un bien locatif à ${city.name}.`,
+        description: `Guide complet : évaluation du risque, souscription GLI, suivi des paiements et déclaration de sinistre pour un bien locatif à ${city.name}.`,
         image: `${SITE_URL}/opengraph-image`,
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
@@ -297,7 +297,7 @@ function buildGliVilleSchema(city: City) {
           { "@type": "HowToSupply", name: `Compte Lokna (essai gratuit 14 jours)` },
         ],
         tool: [
-          { "@type": "HowToTool", name: "Lokna — Détection automatique des paiements" },
+          { "@type": "HowToTool", name: "Lokna — Suivi des paiements" },
         ],
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
       },
@@ -313,7 +313,7 @@ function buildGliVilleSchema(city: City) {
       {
         "@type": "WebPage",
         name: `Assurance loyer impayé à ${city.name} — GLI 2026`,
-        description: `Lokna détecte les impayés et déclenche les relances à ${city.name}. La GLI est une assurance souscrite auprès d’un assureur : nous ne la vendons pas.`,
+        description: `Lokna fait apparaître les impayés et vous permet d'envoyer les relances à ${city.name}. La GLI est une assurance souscrite auprès d’un assureur : nous ne la vendons pas.`,
         url: `${SITE_URL}/assurance-loyer-impaye/${city.slug}`,
         isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
