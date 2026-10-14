@@ -19,9 +19,9 @@ const FinalCta = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Protocole État des Lieux 2026 — Guide Complet & Formulaire PDF",
+      "Protocole État des Lieux 2026 — Guide Complet & Check-list",
     description:
-      "Protocole officiel état des lieux 2026. Document de référence avec checklist complète pour inventorier le logement à l'entrée et sortie. PDF gratuit.",
+      "Protocole officiel état des lieux 2026. Document de référence avec checklist complète pour inventorier le logement à l'entrée et sortie. Gratuit, à consulter en ligne.",
     url: "/templates/protocol-etat-des-lieux",
     ogType: "template",
   });
@@ -157,7 +157,7 @@ export default function ProtocolEtatDesLieuxPage() {
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Protocole État des Lieux
             <br />
-            <span className="text-amber-600">Guide Complet et Check-list PDF</span>
+            <span className="text-amber-600">Guide Complet et Check-list</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Utilisez notre protocole d'état des lieux détaillé pour une inspection complète et sans oubli. Check-list pièce par pièce, documentation photo, signature électronique.

@@ -19,9 +19,9 @@ const FinalCta = dynamicImport(
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Modèle Répartition des Charges 2026 — Gratuit & PDF Instantané",
+      "Modèle Répartition des Charges 2026 — Gratuit et Conforme",
     description:
-      "Convention répartition charges locatives 2026 modèle gratuit. Calculez et partagez les coûts propriétaire/locataire. PDF instantané, conforme.",
+      "Convention répartition charges locatives 2026 modèle gratuit. Calculez et partagez les coûts propriétaire/locataire. Conforme, à consulter en ligne.",
     url: "/templates/repartition-charges",
     ogType: "template",
   });

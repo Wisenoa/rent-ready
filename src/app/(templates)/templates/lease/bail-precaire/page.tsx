@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Précaire 2026 — Location Temporaire avec Préavis Court",
   description:
-    "Modèle de bail précaire gratuit. Location temporaire avec délai de préavis réduit. Motif obligatoire. Téléchargez en PDF. Mise à jour 2026.",
+    "Modèle de bail précaire gratuit. Location temporaire avec délai de préavis réduit. Motif obligatoire. Modèle à consulter en ligne. Mise à jour 2026.",
   keywords: [
     "modele bail precaire",
     "bail temporaire",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Modèle Bail Précaire 2026 — Lokna",
     description:
-      "Bail précaire pour occupation temporaire. Gratuit, téléchargeable en PDF. Préavis réduit.",
+      "Bail précaire pour occupation temporaire. Gratuit, à consulter en ligne. Préavis réduit.",
     type: "website",
     url: "https://lokna.fr/templates/lease/bail-precaire",
     siteName: "Lokna",
@@ -216,7 +216,7 @@ export default function BailPrecairePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link

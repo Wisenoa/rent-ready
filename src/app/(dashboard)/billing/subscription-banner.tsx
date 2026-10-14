@@ -7,6 +7,7 @@ import { fr } from "date-fns/locale";
 import { Crown, CreditCard, ExternalLink, Loader2, ShieldCheck, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { createSubscriptionCheckout, createBillingPortal } from "@/lib/actions/subscription-actions";
+import { CONTACT_EMAIL } from "@/data/entity";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -165,7 +166,8 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
               </p>
               <p className="text-sm text-amber-700">
                 Votre essai expire le {format(new Date(trialEndsAt), "d MMMM yyyy", { locale: fr })}.
-                Souscrivez pour débloquer toutes les fonctionnalités.
+                Le paiement en ligne n&apos;est pas encore ouvert : pour continuer après
+                l&apos;essai, écrivez-nous à {CONTACT_EMAIL}, nous activons votre abonnement.
               </p>
             </div>
           </div>
@@ -200,7 +202,7 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
               ) : (
                 <Crown className="size-4 mr-1" />
               )}
-              S&apos;abonner
+              Demander l&apos;activation
             </Button>
           </div>
         </CardContent>
@@ -218,11 +220,31 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
               <AlertTriangle className="size-5 text-red-600" />
             </div>
             <div>
+              {/* A TRIAL with no end date lands here too (sign-up leaves
+                  trialEndsAt empty until getCurrentUser backfills it). It is
+                  not cancelled: say "essai", not "résilié". Display only — the
+                  access rule lives in SubscriptionGate and is unchanged. */}
               <p className="font-semibold text-red-900">
-                {status === "TRIAL" && trialExpired ? "Essai expiré" : "Abonnement résilié"}
+                {status === "TRIAL"
+                  ? trialExpired
+                    ? "Essai expiré"
+                    : "Période d'essai"
+                  : "Abonnement résilié"}
               </p>
               <p className="text-sm text-red-700">
-                Souscrivez pour continuer à utiliser Lokna et accéder à toutes les fonctionnalités.
+                {status === "TRIAL" && !trialExpired ? (
+                  <>
+                    Le paiement en ligne n&apos;est pas encore ouvert : pour continuer
+                    après l&apos;essai, écrivez-nous à {CONTACT_EMAIL}, nous activons
+                    votre abonnement.
+                  </>
+                ) : (
+                  <>
+                    Le paiement en ligne n&apos;est pas encore ouvert : écrivez-nous à{" "}
+                    {CONTACT_EMAIL} pour activer votre abonnement et retrouver l&apos;accès à
+                    vos biens et à vos baux.
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -257,7 +279,7 @@ export function SubscriptionBanner({ status, trialEndsAt, stripeCustomerId }: Su
               ) : (
                 <Crown className="size-4 mr-1" />
               )}
-              S&apos;abonner
+              Demander l&apos;activation
             </Button>
           </div>
         </CardContent>

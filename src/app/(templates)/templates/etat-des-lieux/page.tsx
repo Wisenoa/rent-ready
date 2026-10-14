@@ -149,8 +149,8 @@ export default function EtatuDesLieuxPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Checklist complète pour un état des lieux recevable. Pièce par
-            pièce, comparez entrée et sortie, joignez des photos, téléchargez
-            en PDF.
+            pièce, comparez entrée et sortie, joignez des photos à votre
+            exemplaire.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
@@ -207,10 +207,10 @@ export default function EtatuDesLieuxPage() {
               "Grille d'état des lieux pièce par pièce",
               "Échelle de notation : neuf, bon état, état moyen, mauvais état",
               "Zone de photos intégrée pour chaque pièce",
-              "Comparaison automatique entrée / sortie",
+              "Colonnes entrée / sortie pour comparer",
               "Mention des compteurs (eau, électricité, gaz)",
               "Clause de signature double (propriétaire + locataire)",
-              "PDF généré automatiquement",
+              "Grille à remplir sur papier ou sur tablette",
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
                 <Check className="size-5 text-purple-600" />

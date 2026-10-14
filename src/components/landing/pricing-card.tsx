@@ -148,7 +148,7 @@ export function PricingCard({
           )}
           {!isAnnual && monthlyPrice && (
             <p className="mt-1.5 text-sm text-stone-600">
-              Sans engagement · Résiliez quand vous voulez
+              Sans engagement · Activation sur demande
             </p>
           )}
         </div>

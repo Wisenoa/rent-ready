@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import Link from "next/link";
-import { ArrowRight, FileText, Download, Check } from "lucide-react";
+import { ArrowRight, FileText, Check } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title:
       "Modèle de Bail de Location 2026 — Gratuit & Conforme Loi 1989",
     description:
-      "Téléchargez notre modèle de bail de location gratuit et conforme à la loi du 6 juillet 1989. Bail vide, bail meublé, bail mobilité — personnalisez et utilisez immédiatement.",
+      "Consultez notre modèle de bail de location gratuit et conforme à la loi du 6 juillet 1989. Bail vide, bail meublé, bail mobilité — à reprendre et personnaliser.",
     url: "/guides/modele-bail",
     ogType: "website",
   });
@@ -84,7 +84,7 @@ export default function ModeleBailGuidePage() {
           Modèle de bail de location gratuit 2026
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-stone-600">
-          Téléchargez notre modèle de bail de location gratuit, conforme à la loi du
+          Consultez notre modèle de bail de location gratuit, conforme à la loi du
           6 juillet 1989 et mis à jour pour 2026. Bail vide, bail meublé, bail
           mobilité — tous les contrats dont vous avez besoin pour louer en toute
           sérénité.
@@ -96,11 +96,11 @@ export default function ModeleBailGuidePage() {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-xl font-bold text-stone-900">
-              Modèle de bail gratuit à télécharger
+              Modèle de bail gratuit à consulter
             </h2>
             <p className="mt-1 text-stone-600">
-              Format Word modifiable — personnalisez les clauses puis imprimez.
-              Entièrement gratuit, sans inscription requise.
+              Les clauses du contrat type, à lire en ligne et à reprendre dans
+              votre bail. Entièrement gratuit, sans inscription requise.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:items-end">
@@ -108,10 +108,10 @@ export default function ModeleBailGuidePage() {
               href="/templates/bail-vide"
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
             >
-              <Download className="size-4" />
-              Télécharger le modèle
+              <FileText className="size-4" />
+              Voir le modèle
             </Link>
-            <p className="text-xs text-stone-600">Word (.docx) · Mis à jour avril 2026</p>
+            <p className="text-xs text-stone-600">Consultable en ligne · Mis à jour avril 2026</p>
           </div>
         </div>
       </div>

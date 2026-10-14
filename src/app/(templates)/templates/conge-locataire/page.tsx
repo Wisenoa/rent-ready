@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Congé Locataire Gratuit 2026 — Délai & Motif Obligatoire",
   description:
-    "Modèle de congé locataire gratuit. Le propriétaire donne congé à son locataire avec motif obligatoire et délai légal. Téléchargez en PDF.",
+    "Modèle de congé locataire gratuit. Le propriétaire donne congé à son locataire avec motif obligatoire et délai légal. Modèle à consulter en ligne.",
   keywords: [
     "conge locataire",
     "modele conge locataire",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Modèle Congé Locataire 2026 — Lokna",
     description:
-      "Congé locataire gratuit avec motif obligatoire et délai légal. PDF téléchargeable.",
+      "Congé locataire gratuit avec motif obligatoire et délai légal. À consulter en ligne.",
     type: "website",
     url: "https://lokna.fr/templates/conge-locataire",
     siteName: "Lokna",
@@ -97,7 +97,7 @@ function CongeLocataireJsonLd() {
         "@type": "WebPage",
         name: "Modèle Congé Locataire 2026 — Lokna",
         description:
-          "Modèle de congé locataire gratuit avec motif obligatoire et délai légal. PDF téléchargeable.",
+          "Modèle de congé locataire gratuit avec motif obligatoire et délai légal. À consulter en ligne.",
         url: "https://lokna.fr/templates/conge-locataire",
         isPartOf: {
           "@type": "WebSite",
@@ -144,15 +144,15 @@ export default function CongeLocatairePage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Lettre de congédiement du propriétaire au locataire. Respecte les
-            délais légaux et les motifs obligatoires. Téléchargez en PDF et envoyez
-            en recommandée AR.
+            délais légaux et les motifs obligatoires. Reprenez le modèle et
+            envoyez-le en recommandé avec accusé de réception.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link
@@ -186,8 +186,8 @@ export default function CongeLocatairePage() {
                 icon: "📮",
               },
               {
-                title: "PDF téléchargeable",
-                desc: "Lettre formatée prête à imprimer et à envoyer en 2 clics.",
+                title: "Modèle à reprendre",
+                desc: "Le texte de la lettre, à copier, compléter et envoyer.",
                 icon: "📄",
               },
             ].map((item) => (

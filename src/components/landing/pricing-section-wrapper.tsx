@@ -34,7 +34,7 @@ const plans = {
     highlightColor: "blue" as const,
     propertyLimit: "Jusqu'à 3 biens",
     features: ["Jusqu'à 3 biens immobiliers", ...SHARED_FEATURES],
-    ctaNote: "Sans carte bancaire · Annulable en 1 clic",
+    ctaNote: "Essai sans carte bancaire · Activation sur demande",
   },
   pro: {
     name: "Pro",
@@ -48,7 +48,7 @@ const plans = {
     highlightColor: "emerald" as const,
     propertyLimit: "Jusqu'à 10 biens",
     features: ["Jusqu'à 10 biens immobiliers", ...SHARED_FEATURES],
-    ctaNote: "Sans carte bancaire · Annulable en 1 clic",
+    ctaNote: "Essai sans carte bancaire · Activation sur demande",
   },
   agency: {
     name: "Agency",
@@ -70,7 +70,7 @@ function StarterCTA({ isAnnual }: { isAnnual: boolean }) {
   if (isAnnual) {
     return (
       <AnnualSubscribeButton
-        annualPriceLabel="S'abonner — 89 €/an"
+        annualPriceLabel="Demander l'activation — 89 €/an"
         badgeLabel="2 mois gratuits"
       />
     );
@@ -83,7 +83,7 @@ function ProCTA({ isAnnual }: { isAnnual: boolean }) {
     return (
       <AnnualSubscribeButton
         plan="pro"
-        annualPriceLabel="S'abonner — 149 €/an"
+        annualPriceLabel="Demander l'activation — 149 €/an"
         badgeLabel="2 mois gratuits"
       />
     );

@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Meublé Gratuit 2026 — Contrat Conforme Loi 1989",
   description:
-    "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. Téléchargez en PDF et personnalisez les clauses.",
+    "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. Consultez-le en ligne et adaptez les clauses.",
   keywords: [
     "modele bail meuble",
     "bail meuble 2026",
@@ -65,9 +65,9 @@ const features = [
     icon: "✍️",
   },
   {
-    title: "Export PDF légal",
+    title: "Modèle complet",
     description:
-      "Téléchargez un PDF prêt à imprimer et à signer. Format conforme pour archivage et dépôt chez un notaire.",
+      "Toutes les clauses du contrat type, à reprendre dans votre bail et à faire signer en deux exemplaires.",
     icon: "📄",
   },
 ];
@@ -202,7 +202,7 @@ function BailMeubleJsonLd() {
           {
             "@type": "HowToStep",
             name: "Télécharger le modèle",
-            text: "Obtenir le modèle de bail meublé en PDF mis à jour pour 2026.",
+            text: "Consulter le modèle de bail meublé mis à jour pour 2026.",
           },
           {
             "@type": "HowToStep",
@@ -235,7 +235,7 @@ function BailMeubleJsonLd() {
         "@type": "WebPage",
         name: "Modèle Bail Meublé 2026 — Lokna",
         description:
-          "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. Téléchargeable en PDF.",
+          "Modèle de bail meublé gratuit et conforme à la loi du 6 juillet 1989. À consulter en ligne.",
         url: "https://lokna.fr/templates/bail-meuble",
         isPartOf: {
           "@type": "WebSite",
@@ -283,15 +283,15 @@ export default function BailMeublePage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail meublé conforme à la loi du 6 juillet 1989, mis à jour avec la
-            dernière IRL. Téléchargez en PDF, personnalisez les clauses,
-            envoyez à votre locataire.
+            dernière IRL. Consultez le modèle en ligne, adaptez les clauses,
+            faites-le signer à votre locataire.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link
@@ -415,7 +415,7 @@ export default function BailMeublePage() {
               {
                 step: "2",
                 title: "Téléchargez le modèle",
-                desc: "Cliquez sur le bouton de téléchargement pour obtenir le modèle de bail meublé en PDF, mis à jour pour 2026.",
+                desc: "Lisez les clauses du modèle de bail meublé sur cette page, mis à jour pour 2026, et reprenez-les dans votre contrat.",
               },
               {
                 step: "3",
@@ -496,7 +496,7 @@ export default function BailMeublePage() {
             Générez votre bail meublé en 5 minutes
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Remplissez en ligne, téléchargez en PDF, envoyez à votre locataire.
+            Consultez le modèle en ligne, adaptez-le, faites-le signer à votre locataire.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link

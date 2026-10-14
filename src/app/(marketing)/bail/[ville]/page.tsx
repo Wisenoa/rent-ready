@@ -72,7 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!city) return {};
 
   const title = `Modèle bail de location à ${city.name} — Gratuit 2026`;
-  const description = `Téléchargez un modèle de bail de location adapté à ${city.name}. Vide, meublé, colocation — tous conformes à la loi 1989 et à la réglementation${city ? " "+city.name : ""} (${city ? city.department : ""}).`;
+  const description = `Consultez un modèle de bail de location adapté à ${city.name}. Vide, meublé, colocation — tous conformes à la loi 1989 et à la réglementation${city ? " "+city.name : ""} (${city ? city.department : ""}).`;
 
   return baseMetadata({
     title,
@@ -101,7 +101,7 @@ function getLocalParagraphs(city: City) {
     ? `En tant que commune en zone tendue, ${city.name} est soumise à l'encadrement des loyers à la relocation. À la relocation, le loyer du nouveau bail ne peut en principe pas dépasser celui du précédent locataire, sauf exceptions prévues par décret, et le bail doit mentionner le dernier loyer appliqué. Certaines communes appliquent en plus des loyers de référence fixés par arrêté préfectoral : vérifiez auprès de la préfecture du ${city.department} ou de l'ADIL si c'est le cas à ${city.name}.`
     : `Que vous soyez propriétaire d'un appartement en centre-ville ou d'une maison en périphérie de ${city.name}, la rédaction du bail est une étape déterminante. Elle conditionne la relation avec votre locataire pour toute la durée de la location. Notre modèle de bail vous garantit un document juridiquement valide, prêt à être signé en quelques minutes.`;
 
-  const closing = `Les modèles de bail proposés par Lokna sont téléchargés gratuitement et mis à jour avec les dernières évolutions législatives. Que vous louiez à ${city.name} un logement vide ou meublé, en colocation ou en bail mobilité, vous trouverez le modèle adapté à votre situation.`;
+  const closing = `Les modèles de bail proposés par Lokna sont gratuits et mis à jour avec les dernières évolutions législatives. Que vous louiez à ${city.name} un logement vide ou meublé, en colocation ou en bail mobilité, vous trouverez le modèle adapté à votre situation.`;
 
   return { intro, regulation, closing };
 }
@@ -165,7 +165,7 @@ function getFaqs(city: City) {
   return [
     {
       question: `Comment rédiger un bail de location à ${city.name} ?`,
-      answer: `Téléchargez notre modèle gratuit de bail de location adapté à ${city.name}. Remplissez les champs obligatoires (identification des parties, description du bien, loyer, dépôt de garantie, durée), puis signez en deux exemplaires. Le modèle intègre les mentions légales spécifiques à la réglementation française et, si ${city.name} est en zone tendue, les obligations liées à l'encadrement des loyers.`,
+      answer: `Consultez notre modèle gratuit de bail de location adapté à ${city.name}. Remplissez les champs obligatoires (identification des parties, description du bien, loyer, dépôt de garantie, durée), puis signez en deux exemplaires. Le modèle intègre les mentions légales spécifiques à la réglementation française et, si ${city.name} est en zone tendue, les obligations liées à l'encadrement des loyers.`,
     },
     {
       question: `Quel est le loyer moyen à ${city.name} en 2026 ?`,
@@ -187,7 +187,7 @@ function getFaqs(city: City) {
     },
     {
       question: `Comment utiliser le modèle de bail pour ${city.name} ?`,
-      answer: `Sélectionnez le type de bail correspondant à votre situation (vide, meublé, colocation ou mobilité), téléchargez le modèle, puis personnalisez les champs : identité du bailleur et du locataire, adresse du bien, montant du loyer et des charges, date de début de location. Joignez les annexes obligatoires (DPE, état des lieux, diagnostics), puis signez les deux exemplaires.`,
+      answer: `Sélectionnez le type de bail correspondant à votre situation (vide, meublé, colocation ou mobilité), consultez le modèle, puis reprenez-le en personnalisant les champs : identité du bailleur et du locataire, adresse du bien, montant du loyer et des charges, date de début de location. Joignez les annexes obligatoires (DPE, état des lieux, diagnostics), puis signez les deux exemplaires.`,
     },
   ];
 }
@@ -197,8 +197,8 @@ function getFaqs(city: City) {
 function getHowToSteps(city: City) {
   return [
     {
-      name: `Télécharger le modèle de bail adapté à ${city.name}`,
-      text: `Choisissez le type de bail correspondant à votre location (vide, meublé, colocation ou mobilité). Téléchargez le modèle gratuit conforme à la réglementation en vigueur pour ${city.name}.`,
+      name: `Choisir le modèle de bail adapté à ${city.name}`,
+      text: `Choisissez le type de bail correspondant à votre location (vide, meublé, colocation ou mobilité). Consultez le modèle gratuit conforme à la réglementation en vigueur pour ${city.name}.`,
       url: `/bail/${city.slug}`,
     },
     {
@@ -262,7 +262,7 @@ function buildBailVilleSchema(city: City) {
       {
         "@type": "HowTo",
         name: `Comment rédiger un bail de location à ${city.name}`,
-        description: `Guide pour rédiger un bail de location conforme à ${city.name}. Téléchargement gratuit du modèle, étapes de personnalisation, annexes obligatoires, signature.${ctx.isZoneTendue ? " Inclut les obligations d'encadrement des loyers en zone tendue." : ""}`,
+        description: `Guide pour rédiger un bail de location conforme à ${city.name}. Modèle gratuit, étapes de personnalisation, annexes obligatoires, signature.${ctx.isZoneTendue ? " Inclut les obligations d'encadrement des loyers en zone tendue." : ""}`,
         image: `${SITE_URL}/opengraph-image`,
         step: howToSteps.map((step, i) => ({
           "@type": "HowToStep",
@@ -276,7 +276,7 @@ function buildBailVilleSchema(city: City) {
         })),
         totalTime: "PT15M",
         supply: [
-          { "@type": "HowToSupply", name: `Modèle de bail pour ${city.name} (téléchargeable)` },
+          { "@type": "HowToSupply", name: `Modèle de bail pour ${city.name} (gratuit)` },
           { "@type": "HowToSupply", name: "DPE, état des lieux, diagnostics" },
           { "@type": "HowToSupply", name: `${ctx.isZoneTendue ? "Formulaire information loyer de référence" : "Documents d'identité bailleur et locataire"}` },
         ],
@@ -303,7 +303,7 @@ function buildBailVilleSchema(city: City) {
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: `${SITE_URL}/bail/${city.slug}`,
-        description: `Modèles de bail gratuits et conformes pour les propriétaires bailleurs à ${city.name}. Bail vide, meublé, colocation, mobilité. Téléchargez et personnalisez en ligne.${ctx.isZoneTendue ? " Mis à jour avec les obligations d'encadrement des loyers." : ""}`,
+        description: `Modèles de bail gratuits et conformes pour les propriétaires bailleurs à ${city.name}. Bail vide, meublé, colocation, mobilité. À consulter et personnaliser en ligne.${ctx.isZoneTendue ? " Mis à jour avec les obligations d'encadrement des loyers." : ""}`,
         offers: {
           "@type": "Offer",
           price: "0",
@@ -330,7 +330,7 @@ function buildBailVilleSchema(city: City) {
       {
         "@type": "LocalBusiness",
         name: `Lokna — Modèles de bail ${city.name}`,
-        description: `Téléchargement de modèles de bail gratuits et conformes pour propriétaires bailleurs à ${city.name}. Bail vide, meublé, colocation, mobilité. Téléchargez et personnalisez en ligne.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers intégré." : ""}`,
+        description: `Modèles de bail gratuits et conformes pour propriétaires bailleurs à ${city.name}. Bail vide, meublé, colocation, mobilité. À consulter et personnaliser en ligne.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers intégré." : ""}`,
         url: `${SITE_URL}/bail/${city.slug}`,
         areaServed: {
           "@type": "City",
@@ -358,8 +358,8 @@ function buildBailVilleSchema(city: City) {
       /* WebPage */
       {
         "@type": "WebPage",
-        name: `Modèle de bail à ${city.name} — Téléchargement gratuit 2026`,
-        description: `Téléchargez un modèle de bail gratuit et conforme à ${city.name}. Bail vide, meublé, colocation, mobilité.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers applicable." : ""} Préparez votre location en 5 minutes.`,
+        name: `Modèle de bail à ${city.name} — Gratuit 2026`,
+        description: `Consultez un modèle de bail gratuit et conforme à ${city.name}. Bail vide, meublé, colocation, mobilité.${ctx.isZoneTendue ? " Zone tendue : encadrement des loyers applicable." : ""} Préparez votre location en 5 minutes.`,
         url: `${SITE_URL}/bail/${city.slug}`,
         isPartOf: { "@type": "WebSite", name: "Lokna", url: SITE_URL },
         about: { "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } },
@@ -401,7 +401,7 @@ export default async function BailVillePage({ params }: Props) {
               Modèle de bail à&nbsp;{city.name}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-stone-600">
-              Téléchargez le modèle de bail adapté à votre location à {city.name}.
+              Consultez le modèle de bail adapté à votre location à {city.name}.
               Vide, meublé, colocation — gratuit et conforme à la réglementation
               en vigueur.
             </p>
@@ -481,7 +481,7 @@ export default async function BailVillePage({ params }: Props) {
                     href={card.href}
                     className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-600"
                   >
-                    Télécharger →
+                    Voir le modèle →
                   </Link>
                 </div>
               ))}

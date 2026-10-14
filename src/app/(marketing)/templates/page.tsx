@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title:
       "Modèles Gratuits de Location 2026 | Bail, Quittance, Courrier",
     description:
-      "Téléchargez gratuitement nos modèles de bail, quittances de loyer, lettres de relance et plus. Documents conformes loi 1989, personnalisables et gratuits.",
+      "Consultez gratuitement nos modèles de bail, quittances de loyer, lettres de relance et plus. Documents conformes loi 1989, personnalisables et gratuits.",
     url: "/templates",
     ogType: "website",
   });
@@ -118,7 +118,7 @@ export default function TemplatesPage() {
             Modèles gratuits de location
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-600">
-            Téléchargez nos modèles gratuits pour la gestion locative : bail de
+            Consultez nos modèles gratuits pour la gestion locative : bail de
             location, quittance de loyer, lettre de relance et plus. Documents
             conformes au droit français, personnalisables en ligne.
           </p>

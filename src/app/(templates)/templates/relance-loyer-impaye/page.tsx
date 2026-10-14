@@ -117,7 +117,7 @@ function RelanceLoyerJsonLd() {
         "@type": "Article",
         name: "Modèle Relance Loyer Impayé — Lokna",
         description:
-          "Modèle gratuit de lettre de relance loyer impayé et de mise en demeure. Téléchargement PDF instantané.",
+          "Modèle gratuit de lettre de relance loyer impayé et de mise en demeure. À consulter et copier en ligne.",
         author: {
           "@type": "Organization",
           name: "Lokna",
@@ -275,7 +275,7 @@ export default function RelanceLoyerImpayePage() {
           </h2>
           <p className="mb-6 text-stone-700">
             Voici le modèle de lettre de relance que vous pouvez utiliser.
-            Téléchargez la version PDF prête à personnaliser :
+            Copiez-le et personnalisez-le :
           </p>
           <div className="rounded-xl border border-stone-200 bg-stone-50 p-6 font-mono text-sm text-stone-800">
             <p className="mb-2 font-bold">[Votre nom et adresse]</p>
@@ -313,7 +313,7 @@ export default function RelanceLoyerImpayePage() {
               href="/register"
               className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
             >
-              Télécharger le modèle PDF →
+              Essai gratuit 14 jours →
             </Link>
             <Link
               href="/register"

@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèles de Bail de Location — Tous nos Contrats Gratuits 2026",
   description:
-    "Tous nos modèles de bail de location gratuits et conformes : bail vide, meublé, mobilité, parking, saisonnier, précaire, étudiant. Téléchargez en PDF. Mise à jour 2026.",
+    "Tous nos modèles de bail de location gratuits et conformes : bail vide, meublé, mobilité, parking, saisonnier, précaire, étudiant. Modèle à consulter en ligne. Mise à jour 2026.",
   keywords: [
     "modele bail location",
     "bail gratuit",
@@ -185,7 +185,7 @@ export default function LeaseTemplatesPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Choisissez le modèle adapté à votre situation. Chaque modèle est
-            gratuit, conforme à la loi française, et prêt à télécharger en PDF.
+            gratuit, conforme à la loi française, et consultable en ligne.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link

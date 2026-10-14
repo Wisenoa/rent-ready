@@ -21,7 +21,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Comment fonctionne l'essai gratuit de 14 jours ?",
     answer:
-      "Vous créez votre compte avec votre nom et votre e-mail, sans carte bancaire. Pendant 14 jours, vous ajoutez vos logements, vos locataires et vos baux, et vous utilisez le suivi en conditions réelles. Vous choisissez une formule ensuite, si Lokna vous convient.",
+      "Vous créez votre compte avec votre nom et votre e-mail, sans carte bancaire. Pendant 14 jours, vous ajoutez vos logements, vos locataires et vos baux, et vous utilisez le suivi en conditions réelles. Si Lokna vous convient, vous nous écrivez ensuite pour activer votre formule : le paiement en ligne n'est pas encore ouvert.",
   },
   {
     question: "Que se passe-t-il en cas de versement partiel d'un locataire ?",

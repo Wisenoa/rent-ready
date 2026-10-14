@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Congé Donné par le Propriétaire 2026 — Motif & Délai Légal",
   description:
-    "Modèle gratuit de congé donné par le propriétaire au locataire. Motif obligatoire, délai de 3 ou 6 mois selon le motif. Téléchargez en PDF.",
+    "Modèle gratuit de congé donné par le propriétaire au locataire. Motif obligatoire, délai de 3 ou 6 mois selon le motif. Modèle à consulter en ligne.",
   keywords: [
     "conge proprietaire",
     "modele conge proprietaire",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Modèle Congé Propriétaire 2026 — Lokna",
     description:
-      "Congé donné par le propriétaire. Motif obligatoire et délai légal. PDF téléchargeable.",
+      "Congé donné par le propriétaire. Motif obligatoire et délai légal. À consulter en ligne.",
     type: "website",
     url: "https://lokna.fr/templates/conge-proprietaire",
     siteName: "Lokna",
@@ -152,7 +152,7 @@ export default function CongeProprietairePage() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link

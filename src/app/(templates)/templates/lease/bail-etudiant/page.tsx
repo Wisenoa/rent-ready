@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Étudiant Gratuit 2026 — Location Meublée Étudiant",
   description:
-    "Modèle de bail étudiant gratuit. Bail meublé adapté aux locataires étudiants avec garantie VISALE. Téléchargez en PDF. Mise à jour 2026.",
+    "Modèle de bail étudiant gratuit. Bail meublé adapté aux locataires étudiants avec garantie VISALE. Modèle à consulter en ligne. Mise à jour 2026.",
   keywords: [
     "bail Etudiant",
     "modele bail Etudiant",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Modèle Bail Étudiant 2026 — Lokna",
     description:
-      "Bail meublé pour étudiants. Gratuit, conforme, avec clause VISALE et garant. Téléchargeable en PDF.",
+      "Bail meublé pour étudiants. Gratuit, conforme, avec clause VISALE et garant. À consulter en ligne.",
     type: "website",
     url: "https://lokna.fr/templates/lease/bail-etudiant",
     siteName: "Lokna",
@@ -196,14 +196,14 @@ export default function BailEtudiantPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail meublé pour étudiants, avec clause VISALE et clauses adaptées.
-            Téléchargez en PDF, personnalisez selon votre situation.
+            Consultez le modèle en ligne, adaptez-le à votre situation.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-purple-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link

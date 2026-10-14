@@ -81,9 +81,9 @@ description:
 icon: "🔒",
 },
 {
-title: "Export PDF légal",
+title: "Fiche du bail",
 description:
-"Téléchargez vos baux en PDF conformes, prêts à être envoyés ou archivés.",
+"Loyer, charges, dépôt de garantie et dates réunis dans la fiche du bail, rattachée au logement.",
 icon: "📄",
 },
 ];

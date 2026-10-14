@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Mobilité Gratuit 2026 — Sans Garantie Loyer",
   description:
-    "Modèle de bail mobilité gratuit (1 à 10 mois). Location de courte durée sans garantie loyer. Idéal mutations, stages, CDD. Téléchargez en PDF.",
+    "Modèle de bail mobilité gratuit (1 à 10 mois). Location de courte durée sans garantie loyer. Idéal mutations, stages, CDD. Modèle à consulter en ligne.",
   keywords: [
     "bail mobilite",
     "modele bail mobilite",

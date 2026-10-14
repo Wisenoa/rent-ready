@@ -174,6 +174,29 @@ describe("fonctions indisponibles en production", () => {
     ).toEqual([]);
   });
 
+  // Stripe is not configured in production: the trial works, the paid plan is
+  // activated on request. Nothing may suggest instant checkout or one-click
+  // cancellation.
+  it("does not present online subscription or one-click cancellation as available", () => {
+    expect(
+      liveOffenders(/annulable en (?:1|un) clic|résiliable en (?:1|un) clic|résilier en (?:1|un) clic|S'abonner maintenant|S'abonner — \d/i)
+    ).toEqual([]);
+    const pricing = readFileSync(join(SRC, "app/(marketing)/pricing/page.tsx"), "utf8");
+    expect(pricing).toContain("{SUBSCRIPTION_ACTIVATION_NOTE}");
+  });
+
+  // Lease, notice and inventory templates are read on the page; no file is
+  // produced, and the app cannot render a lease PDF without object storage.
+  // Quittance and partial-receipt PDFs do work and may be promised.
+  it("promises no downloadable lease, notice or inventory file", () => {
+    expect(
+      liveOffenders(/Télécharger le modèle PDF|Export PDF légal|Word \(\.docx\)|Format Word modifiable|PDF généré automatiquement|Téléchargez un PDF prêt|Remplissez en ligne, téléchargez en PDF/i, [
+        "src/app/(templates)/templates/recu-loyer/",
+        ...GENERIC_PROSE,
+      ])
+    ).toEqual([]);
+  });
+
   it("states that quittances are downloaded, not sent", () => {
     const faq = readFileSync(join(SRC, "components/marketing/gestion-locative/faq-data.ts"), "utf8");
     expect(faq).toMatch(/ne l'envoie pas à votre place/);

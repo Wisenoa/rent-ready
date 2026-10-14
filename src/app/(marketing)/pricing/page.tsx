@@ -58,7 +58,13 @@ import {
   buildBreadcrumbSchema,
   buildGraphSchema,
 } from "@/lib/seo/structured-data";
-import { SITE_URL, formatEntryPrice, formatProPrice } from "@/data/entity";
+import {
+  SITE_URL,
+  CONTACT_EMAIL,
+  SUBSCRIPTION_ACTIVATION_NOTE,
+  formatEntryPrice,
+  formatProPrice,
+} from "@/data/entity";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -69,15 +75,15 @@ export const revalidate = 3600;
 const pricingFaqs = [
   {
     question: "Combien coûte Lokna et y a-t-il un engagement ?",
-    answer: "Lokna propose 3 plans : Starter à 9 €/mois, Pro à 15 €/mois, et Agency sur devis. Sans engagement sur les plans mensuels. Le tarif annuel offre 2 mois gratuits (89 €/an Starter, 149 €/an Pro). Essai gratuit sans carte bancaire.",
+    answer: `Lokna propose 3 plans : Starter à 9 €/mois, Pro à 15 €/mois, et Agency sur devis. Sans engagement sur les plans mensuels. Le tarif annuel offre 2 mois gratuits (89 €/an Starter, 149 €/an Pro). Essai gratuit sans carte bancaire. ${SUBSCRIPTION_ACTIVATION_NOTE}`,
   },
   {
     question: "Que se passe-t-il si je dépasse la limite de biens ?",
     answer: "Le plan Starter couvre jusqu'à 3 biens, le plan Pro jusqu'à 10 biens. Si vous dépassez cette limite, vous pouvez migrer vers le plan Agency (sur devis) ou contacter notre équipe pour un abonnement adapté à votre portfolio. Aucun frais caché.",
   },
   {
-    question: "Puis-je résilier à tout moment ?",
-    answer: "Oui, vous pouvez résilier en un clic depuis votre espace, sans préavis ni pénalité. Vous conservez l'accès à vos données pendant 30 jours après la résiliation.",
+    question: "Comment s'abonner, et peut-on arrêter à tout moment ?",
+    answer: `Le paiement en ligne n'est pas encore ouvert. À la fin de votre essai, vous nous écrivez à ${CONTACT_EMAIL} pour activer la formule choisie, au mois ou à l'année. Les formules mensuelles sont sans engagement : pour arrêter, il suffit de nous l'écrire à la même adresse.`,
   },
   {
     question: "Le prix inclut-il les mises à jour légales ?",
@@ -238,7 +244,8 @@ export default function PricingPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Tout ce dont vous avez besoin pour gérer vos locations, au prix
-            d&apos;un café par jour. Essai gratuit, sans engagement.
+            d&apos;un café par jour. Essai gratuit de 14 jours, sans carte
+            bancaire ; l&apos;abonnement est ensuite activé sur demande.
           </p>
 
           {/* E-E-A-T: content review badge */}
@@ -260,6 +267,9 @@ export default function PricingPage() {
         {/* ── Pricing section with toggle ─────────────────────── */}
         <section aria-label="Plans tarifaires">
           <PricingSectionWrapper />
+          <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-stone-600">
+            {SUBSCRIPTION_ACTIVATION_NOTE}
+          </p>
         </section>
 
         {/* ── Comparison table ────────────────────────────────── */}

@@ -25,7 +25,8 @@ export function HomePricing() {
           </h2>
           <p className="max-w-[34rem] text-[17px] leading-8 text-[#4F5D56] lg:col-span-5 lg:col-start-8 lg:pt-3">
             Chaque formule commence par 14 jours d&apos;essai, sans carte
-            bancaire. Vous choisissez ensuite, au mois ou à l&apos;année.
+            bancaire. L&apos;abonnement, au mois ou à l&apos;année, est ensuite
+            activé sur demande : le paiement en ligne n&apos;est pas encore ouvert.
           </p>
         </div>
 

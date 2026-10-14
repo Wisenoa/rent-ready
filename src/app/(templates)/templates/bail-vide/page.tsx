@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Vide 2026 — Contrat Location Non Meublée Conforme",
   description:
-    "Modèle de bail de location vide gratuit et conforme à la loi du 6 juillet 1989. Téléchargez en PDF et personnalisez les clauses.",
+    "Modèle de bail de location vide gratuit et conforme à la loi du 6 juillet 1989. Consultez-le en ligne et adaptez les clauses.",
   keywords: [
     "modele bail vide",
     "bail location vide 2026",
@@ -79,9 +79,9 @@ const features = [
     icon: "✍️",
   },
   {
-    title: "Export PDF légal",
+    title: "Modèle complet",
     description:
-      "Téléchargez un PDF prêt à imprimer et à signer. Format conforme pour archivage et dépôt chez un notaire.",
+      "Toutes les clauses du contrat type, à reprendre dans votre bail et à faire signer en deux exemplaires.",
     icon: "📄",
   },
 ];
@@ -182,7 +182,7 @@ function BailVideJsonLd() {
         "@type": "SoftwareApplication",
         name: "Modèle Bail Vide — Lokna",
         description:
-          "Générez votre bail vide conforme à la loi du 6 juillet 1989. Téléchargement PDF gratuit.",
+          "Générez votre bail vide conforme à la loi du 6 juillet 1989. Modèle gratuit à consulter en ligne.",
         url: "https://lokna.fr/templates/bail-vide",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
@@ -217,7 +217,7 @@ function BailVideJsonLd() {
           {
             "@type": "HowToStep",
             name: "Téléchargez et signez",
-            text: "Exportez le bail en PDF, faites-le signer et annexez l'état des lieux.",
+            text: "Reprenez le modèle, faites-le signer et annexez l'état des lieux.",
           },
         ],
       },
@@ -225,7 +225,7 @@ function BailVideJsonLd() {
         "@type": "WebPage",
         name: "Modèle Bail Vide 2026 — Lokna",
         description:
-          "Modèle de bail vide gratuit et conforme à la loi du 6 juillet 1989. Téléchargeable en PDF.",
+          "Modèle de bail vide gratuit et conforme à la loi du 6 juillet 1989. À consulter en ligne.",
         url: "https://lokna.fr/templates/bail-vide",
         isPartOf: {
           "@type": "WebSite",
@@ -273,22 +273,22 @@ export default function BailVidePage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail vide conforme à la loi du 6 juillet 1989, mis à jour avec la
-            dernière IRL. Téléchargez en PDF, personnalisez les clauses,
-            envoyez à votre locataire.
+            dernière IRL. Consultez le modèle en ligne, adaptez les clauses,
+            faites-le signer à votre locataire.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-sm border border-blue-200 transition-colors hover:bg-blue-50"
             >
-              Générer avec Lokna →
+              Suivre mes baux avec Lokna →
             </Link>
           </div>
         </header>
@@ -304,7 +304,7 @@ export default function BailVidePage() {
                 📄
               </div>
               <div>
-                <p className="font-semibold text-stone-900">bail-vide-2026.pdf</p>
+                <p className="font-semibold text-stone-900">Modèle de bail vide 2026</p>
                 <p className="text-sm text-stone-500">2 pages · 245 Ko · Mis à jour janvier 2026</p>
               </div>
             </div>
@@ -325,7 +325,7 @@ export default function BailVidePage() {
             { icon: <Shield className="size-5 text-blue-600" />, label: "Conforme loi 89-462" },
             { icon: <Clock className="size-5 text-blue-600" />, label: "Mis à jour 2026" },
             { icon: <Users className="size-5 text-blue-600" />, label: "Bail conforme à la loi du 6 juillet 1989" },
-            { icon: <FileText className="size-5 text-blue-600" />, label: "PDF prêt à signer" },
+            { icon: <FileText className="size-5 text-blue-600" />, label: "Clauses du contrat type" },
           ].map((badge) => (
             <div key={badge.label} className="flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm text-stone-600">
               {badge.icon}
@@ -439,8 +439,8 @@ export default function BailVidePage() {
             {[
               {
                 step: "1",
-                title: "Téléchargez le modèle PDF",
-                desc: "Cliquez sur le bouton de téléchargement ci-dessus pour obtenir le modèle de bail vide en PDF.",
+                title: "Consultez le modèle",
+                desc: "Lisez les clauses du modèle de bail vide sur cette page et reprenez-les dans votre contrat.",
               },
               {
                 step: "2",
@@ -526,7 +526,7 @@ export default function BailVidePage() {
             Générez votre bail vide en 5 minutes
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Remplissez en ligne, téléchargez en PDF, envoyez à votre locataire.
+            Consultez le modèle en ligne, adaptez-le, faites-le signer à votre locataire.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link

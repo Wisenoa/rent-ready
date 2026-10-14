@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Saisonnier Gratuit 2026 — Location de Vacances Conforme",
   description:
-    "Modèle de bail saisonnier gratuit pour location de vacances. Meublé de tourisme classé obligatoire. Téléchargez en PDF. Mise à jour 2026.",
+    "Modèle de bail saisonnier gratuit pour location de vacances. Meublé de tourisme classé obligatoire. Modèle à consulter en ligne. Mise à jour 2026.",
   keywords: [
     "modele bail saisonnier",
     "location vacances",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Modèle Bail Saisonnier 2026 — Lokna",
     description:
-      "Bail saisonnier pour location de vacances. Gratuit, conforme, téléchargeable en PDF. Mise à jour 2026.",
+      "Bail saisonnier pour location de vacances. Gratuit, conforme, à consulter en ligne. Mise à jour 2026.",
     type: "website",
     url: "https://lokna.fr/templates/lease/bail-saisonnier",
     siteName: "Lokna",
@@ -193,15 +193,15 @@ export default function BailSaisonnierPage() {
             <span className="text-cyan-600">Location de Vacances Conforme 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
-            Bail saisonnier pour meublé de tourisme classé. Téléchargez en PDF,
-            personnalisez selon votre bien et votre saison.
+            Bail saisonnier pour meublé de tourisme classé. Consultez le modèle en ligne,
+            adaptez-le à votre bien et à votre saison.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-cyan-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-cyan-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link

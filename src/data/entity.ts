@@ -150,6 +150,17 @@ export function formatEntryPrice(): string {
  */
 export const PRICE_VALID_UNTIL = "2027-12-31";
 
+/** Public contact address (mentions légales, subscription activation). */
+export const CONTACT_EMAIL = "contact@lokna.fr";
+
+/**
+ * How a subscription starts today. Online payment is not open in production
+ * (no Stripe keys or prices are configured), so the trial is real but the
+ * paid plan is activated on request. Say it wherever a price or a subscribe
+ * button appears; remove this once checkout works end to end.
+ */
+export const SUBSCRIPTION_ACTIVATION_NOTE = `Le paiement en ligne n'est pas encore ouvert : à la fin de l'essai, l'abonnement est activé sur demande, en écrivant à ${CONTACT_EMAIL}.`;
+
 /** Capabilities advertised in SoftwareApplication `featureList`. */
 export const FEATURE_LIST = [
   "Quittances de loyer conformes à la loi du 6 juillet 1989",

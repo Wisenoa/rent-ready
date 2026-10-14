@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Parking Gratuit 2026 — Garage, Box, Place de Parking",
   description:
-    "Modèle de bail de parking, garage ou box gratuit. Téléchargez en PDF, personnalisez la durée et les charges. Conforme au droit français. Mise à jour 2026.",
+    "Modèle de bail de parking, garage ou box gratuit. Consultez-le en ligne et adaptez la durée et les charges. Conforme au droit français. Mise à jour 2026.",
   keywords: [
     "modele bail parking",
     "bail garage",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Modèle Bail Parking 2026 — Lokna",
     description:
-      "Bail de parking/garage gratuit et conforme. Téléchargeable en PDF, personnalisable. Mise à jour 2026.",
+      "Bail de parking/garage gratuit et conforme. À consulter en ligne, personnalisable. Mise à jour 2026.",
     type: "website",
     url: "https://lokna.fr/templates/lease/bail-parking",
     siteName: "Lokna",
@@ -65,9 +65,9 @@ const features = [
     icon: "🔒",
   },
   {
-    title: "Export PDF",
+    title: "Modèle complet",
     description:
-      "Téléchargez un PDF prêt à imprimer et à signer. Format conforme pour archivage.",
+      "Les clauses essentielles du bail de parking, à reprendre et à faire signer en deux exemplaires.",
     icon: "📄",
   },
 ];
@@ -151,7 +151,7 @@ function BailParkingJsonLd() {
         "@type": "WebPage",
         name: "Modèle Bail Parking 2026 — Lokna",
         description:
-          "Modèle de bail de parking/garage gratuit et conforme. Téléchargeable en PDF.",
+          "Modèle de bail de parking/garage gratuit et conforme. À consulter en ligne.",
         url: "https://lokna.fr/templates/lease/bail-parking",
         isPartOf: {
           "@type": "WebSite",
@@ -198,15 +198,15 @@ export default function BailParkingPage() {
             <span className="text-emerald-700">Gratuit &amp; Conforme 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
-            Bail de parking, garage ou box conforme au Code civil. Téléchargez
-            en PDF, personnalisez les clauses, envoyez à votre locataire.
+            Bail de parking, garage ou box conforme au Code civil. Consultez
+            le modèle en ligne, adaptez les clauses, faites-le signer à votre locataire.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link

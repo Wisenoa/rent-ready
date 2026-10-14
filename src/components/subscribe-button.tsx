@@ -68,7 +68,7 @@ export function SubscribeButton({
               Redirection…
             </>
           ) : (
-            "S'abonner maintenant"
+            "Demander l'activation"
           )}
         </Button>
       );

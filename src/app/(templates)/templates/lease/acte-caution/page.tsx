@@ -11,9 +11,9 @@ import { buildHreflang } from "@/lib/seo/metadata";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Modèle Acte de Caution Gratuite 2026 — Caution Solidaire PDF",
+  title: "Modèle Acte de Caution Gratuite 2026 — Caution Solidaire",
   description:
-    "Modèle d'acte de caution gratuite. Téléchargez en PDF, faites signer par votre garant. Caution solidaire conforme. Mise à jour 2026.",
+    "Modèle d'acte de caution gratuite. Consultez-le en ligne et faites-le signer par votre garant. Caution solidaire conforme. Mise à jour 2026.",
   keywords: [
     "acte caution",
     "modele caution",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Acte de Caution Solidaire 2026 — Lokna",
     description:
-      "Acte de caution solidaire gratuit pour location. Téléchargeable en PDF, personnalisable. Mise à jour 2026.",
+      "Acte de caution solidaire gratuit pour location. À consulter en ligne, personnalisable. Mise à jour 2026.",
     type: "website",
     url: "https://lokna.fr/templates/lease/acte-caution",
     siteName: "Lokna",
@@ -169,7 +169,7 @@ function ActeCautionJsonLd() {
         "@type": "WebPage",
         name: "Acte de Caution Solidaire 2026 — Lokna",
         description:
-          "Modèle d'acte de caution solidaire gratuit pour bail de location. Téléchargeable en PDF.",
+          "Modèle d'acte de caution solidaire gratuit pour bail de location. À consulter en ligne.",
         url: "https://lokna.fr/templates/lease/acte-caution",
         isPartOf: {
           "@type": "WebSite",
@@ -216,15 +216,15 @@ export default function ActeCautionPage() {
             <span className="text-rose-600">Gratuit &amp; Conforme 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
-            Acte de caution solidaire pour garant de location. Téléchargez en
-            PDF, faites signer manuellement par votre garant.
+            Acte de caution solidaire pour garant de location. Consultez le
+            modèle en ligne, faites-le signer manuellement par votre garant.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-rose-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-rose-700"
             >
-              Télécharger le modèle PDF
+              Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link

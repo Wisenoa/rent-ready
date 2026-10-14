@@ -13,7 +13,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Modèle Bail Commercial Gratuit 2026 — Bail Précaire Conforme",
   description:
-    "Modèle de bail commercial gratuit pour local professionnel. Bail 3/6/9 ans conforme au Code de commerce. Téléchargez en PDF, clauses personnalisables.",
+    "Modèle de bail commercial gratuit pour local professionnel. Bail 3/6/9 ans conforme au Code de commerce. Clauses personnalisables, à consulter en ligne.",
   keywords: [
     "bail commercial",
     "modele bail commercial",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Modèle Bail Commercial 2026 — Lokna",
     description:
-      "Bail commercial gratuit pour local professionnel. PDF téléchargeable. Conforme Code de commerce.",
+      "Bail commercial gratuit pour local professionnel. À consulter en ligne. Conforme Code de commerce.",
     type: "website",
     url: "https://lokna.fr/templates/bail-commercial",
     siteName: "Lokna",
@@ -132,7 +132,7 @@ function BailCommercialJsonLd() {
         "@type": "WebPage",
         name: "Modèle Bail Commercial 2026 — Lokna",
         description:
-          "Modèle de bail commercial gratuit (3/6/9 ans). PDF téléchargeable. Conforme Code de commerce.",
+          "Modèle de bail commercial gratuit (3/6/9 ans). À consulter en ligne. Conforme Code de commerce.",
         url: "https://lokna.fr/templates/bail-commercial",
         isPartOf: {
           "@type": "WebSite",

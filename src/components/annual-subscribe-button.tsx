@@ -16,7 +16,7 @@ interface AnnualSubscribeButtonProps {
 }
 
 export function AnnualSubscribeButton({
-  annualPriceLabel = "S'abonner — 144 €/an",
+  annualPriceLabel = "Demander l'activation",
   badgeLabel = "2 mois gratuits",
   plan = "pro",
 }: AnnualSubscribeButtonProps) {

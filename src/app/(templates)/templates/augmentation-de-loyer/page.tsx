@@ -382,7 +382,7 @@ export default function AugmentationDeLoyerPage() {
                 href="/register"
                 className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
               >
-                Télécharger le modèle PDF →
+                Essai gratuit 14 jours →
               </Link>
               <Link
                 href="/register"

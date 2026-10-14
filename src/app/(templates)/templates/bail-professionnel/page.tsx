@@ -21,7 +21,7 @@ export async function generateMetadata() {
     title:
       "Modèle Bail Professionnel 2026 — Gratuit & Conforme",
     description:
-      "Téléchargez le modèle bail professionnel gratuit. Location de bureaux et locaux commerciaux, clauses essentielles et annexes. PDF instantané, prêt à utiliser.",
+      "Téléchargez le modèle bail professionnel gratuit. Location de bureaux et locaux commerciaux, clauses essentielles et annexes. Prêt à consulter en ligne.",
     url: "/templates/bail-professionnel",
     ogType: "template",
   });

@@ -19,9 +19,9 @@ export const revalidate = 3600;
 export async function generateMetadata() {
   return baseMetadata({
     title:
-      "Modèle Contrat de Location 2026 — Gratuit, Conforme & PDF",
+      "Modèle Contrat de Location 2026 — Gratuit et Conforme",
     description:
-      "Modèle contrat de location gratuit 2026. Bail résidentiel conforme loi Alur avec toutes les clauses obligatoires. PDF instantané, personnalisable en 2 min.",
+      "Modèle contrat de location gratuit 2026. Bail résidentiel conforme loi Alur avec toutes les clauses obligatoires. Personnalisable en ligne.",
     url: "/templates/contrat-de-location",
     ogType: "template",
   });
@@ -303,12 +303,12 @@ export default function ContratDeLocationPage() {
           </p>
           <ul className="mb-6 grid gap-3">
             {[
-              "✓ Clauses obligatoires intégrées automatiquement",
-              "✓ Clauses interdites signalées et bloquées",
-              "✓ DPE et diagnostics joints automatiquement",
-              "✓ Calcul du dépôt de garantie selon la zone",
+              "✓ Clauses obligatoires intégrées",
+              "✓ Clauses interdites signalées",
+              "✓ Liste des diagnostics à annexer (DPE…)",
+              "✓ Plafond du dépôt de garantie rappelé",
               "✓ Option bail vide ou bail meublé",
-              "✓ Export PDF prêt à signer",
+              "✓ À faire signer en deux exemplaires",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-stone-700">
                 <span className="text-emerald-700">{item.split(" ")[0]}</span>
@@ -397,8 +397,8 @@ export default function ContratDeLocationPage() {
             Créez votre bail de location en 10 minutes
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
-            Modèle gratuit, assistant guidé. Fini les
-            allers-retours fastidieux entre Word et PDF.
+            Modèle gratuit, à consulter en ligne. Ensuite, Lokna suit le loyer
+            et les charges de chaque mois.
           </p>
           <Link
             href="/register"
