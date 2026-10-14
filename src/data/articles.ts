@@ -3781,78 +3781,90 @@ L'état des lieux d'entrée doit etre le plus détaille possible. En cas de liti
     excerpt: "Dépôt de garantie non restitué, retenue abusive, état des lieux contesté : tous les recours en cas de litige entre bailleur et locataire.",
     category: "Juridique",
     date: "2026-04-28",
-    updatedAt: "2026-04-28",
+    updatedAt: "2026-10-14",
     content: `## Litige sur le dépôt de garantie : tous vos recours en 2026
 
-Le dépôt de garantie est une source fréquente de litiges entre bailleurs et locataires. Mauvaise foi, état des lieux conteste, retenue abusive : voici comment faire valoir vos droits, que vous soyez locataire ou propriétaire.
+Le dépôt de garantie est une source fréquente de litiges entre bailleurs et locataires : retenue contestée, état des lieux de sortie discuté, restitution tardive. Voici les règles fixées par l'article 22 de la loi du 6 juillet 1989 et les recours possibles, que vous soyez locataire ou propriétaire.
 
 ### Les motifs de litige les plus fréquents
 
-Le dépôt de garantie génère des conflits dans plusieurs situations récurrentes : le locataire parti sans payer ses derniers mois de loyer (le bailleur retient tout ou partie du dépôt), l'état des lieux de sortie conteste (désaccord sur les dégradations), les charges non régularisées, le délai de restitution dépassé, et le désaccord sur la qualification de certains dommages (marques sur les murs, sols us es, équipements défaillants).
+Le dépôt de garantie génère des conflits dans plusieurs situations récurrentes : des loyers ou des charges restés impayés au départ du locataire, un état des lieux de sortie contesté (désaccord sur les dégradations), des retenues pour usure normale, un délai de restitution dépassé, ou un désaccord sur la qualification de certains dommages (marques sur les murs, sols usés, équipements défaillants).
+
+### Ce que dit la loi : délais et retenues
+
+Le bailleur doit restituer le dépôt de garantie dans un délai d'**un mois** à compter de la remise des clés lorsque l'état des lieux de sortie est conforme à l'état des lieux d'entrée, et de **deux mois** dans le cas contraire (article 22 de la loi du 6 juillet 1989).
+
+Il peut en déduire, justificatifs à l'appui, les sommes restant dues au titre du bail : loyers et charges impayés, réparations locatives imputables au locataire. L'usure normale due à la vétusté reste à sa charge. Dans un immeuble en copropriété, il peut conserver au plus 20 % du dépôt jusqu'à l'approbation des comptes annuels de l'immeuble.
+
+À défaut de restitution dans les délais, le dépôt restant dû est majoré d'une somme égale à **10 % du loyer mensuel hors charges pour chaque mois de retard commencé**. Cette majoration n'est pas due si le retard vient de l'absence de nouvelle adresse transmise par le locataire.
 
 ### Recours du locataire en cas de retenue abusive
 
-Si le locataire estime que le bailleur retient tout ou partie du dépôt de garantie de manière abusive, il dispose de plusieurs voies de recours.
+Si le locataire estime que le bailleur retient tout ou partie du dépôt de garantie de manière injustifiée, il dispose de plusieurs voies de recours, de la plus simple à la plus contraignante.
 
-**Etape 1 : la réclamation amiable**
+**Étape 1 : la réclamation amiable**
 
-Avant de saisir le juge, le locataire doit envoyer une lettre recommandée avec accusé de réception au bailleur, reclamant la restitution du dépôt ou l'explication des déductions opérées. Cette lettre doit etre envoyée dans les 2 mois suivant la remise des clés.
+Le locataire envoie au bailleur une lettre recommandée avec accusé de réception, réclamant la restitution du dépôt ou le détail et les justificatifs des sommes retenues, et rappelant la majoration de 10 % par mois de retard. Il conserve une copie du courrier et l'accusé de réception.
 
-Le locataire doit garder une photocopie du courrier et conserver l'accuse de réception comme preuve. En l'absence de réponse satisfaisante dans un délai de 15 jours, le recours judiciaire devient possible.
+**Étape 2 : la commission départementale de conciliation (CDC)**
 
-**Etape 2 : la saisine du juge des contentieux de la protection**
+Les litiges sur le dépôt de garantie relèvent de la commission départementale de conciliation (article 20 de la loi du 6 juillet 1989). Sa saisine est gratuite et se fait par lettre recommandée avec accusé de réception, en joignant le bail, les états des lieux d'entrée et de sortie, les échanges avec l'autre partie et les justificatifs des retenues contestées.
 
-Le locataire peut saisir le juge des contentieux de la protection de son tribunal judiciaire (anciennement tribunal d'instance). La saisine se fait par assignation ou par déclaration au greffe.
+La commission entend les deux parties et cherche un accord. Elle ne peut rien imposer : si aucun accord n'est trouvé, elle rend un avis et chaque partie peut ensuite saisir le juge.
 
-Le juge examine les pièces présentées par les deux parties : le bail de location, les etats des lieux d'entrée et de sortie, les photos, les factures de travaux, les rec.us de paiement des charges, et la correspondance entre les parties.
+**Étape 3 : la saisine du juge des contentieux de la protection**
 
-Le juge peut ordonner la restitution partielle ou totale du dépôt, avec inter ets de retard au taux légal. En cas de mauvaise foi manifeste du bailleur, des dommages et inter ets peuvent etre octroyés.
+Le locataire peut saisir le juge des contentieux de la protection du tribunal judiciaire du lieu du logement. Lorsque la somme réclamée ne dépasse pas 5 000 €, la demande doit en principe être précédée d'une tentative de résolution amiable : conciliation, médiation ou procédure participative (article 750-1 du code de procédure civile).
 
-**Etape 3 : l'expertise judiciaire**
+Le juge examine les pièces présentées par les deux parties : le bail, les états des lieux d'entrée et de sortie, les photos, les factures de travaux, les justificatifs de paiement des charges et la correspondance échangée. Il peut ordonner la restitution totale ou partielle du dépôt, avec la majoration légale de retard, et accorder des dommages et intérêts en cas de préjudice distinct.
 
-En cas de désaccord technique sur l'état du logement, le juge peut ordonner une expertise judiciaire. Un expert assermenté se déplacé sur place, examine le logement et rédigé un rapport détaille sur l'état du bien et les dégradations.
+**Étape 4 : l'expertise judiciaire**
 
-Le coût de l'expertise est généralement avance par la partie qui la demande, et peut etre mis a la charge de la partie perdante a l'issue du procès.
+En cas de désaccord technique sur l'état du logement, le juge peut ordonner une expertise. Un expert se rend sur place, examine le logement et rédige un rapport sur son état et les dégradations. Le coût de l'expertise est généralement avancé par la partie qui la demande et peut être mis à la charge de la partie perdante.
 
 ### Recours du propriétaire en cas de dégradations
 
-Le propriétaire qui constate des dégradations lors de l'état des lieux de sortie doit pouvoir prouver l'état antérieur du logement. Cela passe par un état des lieux d'entrée précis et détaille, des photos datees de chaque pièce et équipement, et les factures d'achat des équipements signalés comme dégradés.
+Le propriétaire qui constate des dégradations lors de l'état des lieux de sortie doit pouvoir prouver l'état antérieur du logement : un état des lieux d'entrée précis, des photos datées de chaque pièce et équipement, les factures d'achat des équipements dégradés et les devis ou factures de remise en état.
 
-Si le dépôt de garantie ne suffit pas a couvrir les travaux de remise en état, le propriétaire peut demander au locataire le versement des sommes supplementaires. Cette demande doit etre faite dans les 2 mois suivant la remise des clés.
+Si le dépôt de garantie ne suffit pas à couvrir les sommes dues, le propriétaire peut réclamer le complément au locataire, d'abord à l'amiable, puis devant la commission de conciliation ou le juge.
 
-### Délais de prescription et d'action
+### Délais de prescription
 
-Le délai pour contester une retenue sur le dépôt de garantie est de 3 ans a compter de la remise des clés (action personnelle). Pas se ce délai, le locataire ne peut plus réclamer la restitution.
-
-Pour le bailleur, le délai pour réclamer le paiement de dégradations dépassant le dépôt est également de 3 ans, mais il doit agir rapidement pour maximiser les chances de récupération des sommes.
+Les actions dérivant d'un contrat de bail se prescrivent par **trois ans** (article 7-1 de la loi du 6 juillet 1989). Le locataire dispose donc de trois ans pour réclamer la restitution de son dépôt, et le bailleur du même délai pour réclamer les sommes qui dépassent le dépôt. Agir vite reste préférable : les preuves sont plus faciles à réunir.
 
 ### L'état des lieux : clé de la résolution des litiges
 
-L'état des lieux est la preuve déterminante dans un litige sur le dépôt de garantie. Un état des lieux d'entrée incomplet ou impr ecis désavantage le propriétaire en cas de contestation, car il ne peut pas démontrer que les dommages existaient avant l'entrée du locataire.
+L'état des lieux est la preuve déterminante dans un litige sur le dépôt de garantie. Un état des lieux d'entrée incomplet ou imprécis désavantage le propriétaire, car il ne peut pas démontrer que les dommages existaient avant l'entrée du locataire.
 
-L'état des lieux doit etre signé par les deux parties. Chaque partie conserve une copie. En cas de refus de signature par l'une des parties, un témoin peut attester de l'état du logement.
+L'état des lieux est établi contradictoirement et signé par les deux parties, chacune en conservant un exemplaire. Si les parties ne parviennent pas à l'établir ensemble, il peut être dressé par un commissaire de justice, à frais partagés.
 
 ### Astuces pour éviter les litiges sur le dépôt de garantie
 
-Pour le propriétaire : rédigez un état des lieux d'entrée le plus détaille possible, envoyez le dépôt de garantie dans les 2 mois avec un reçu détaille, conservez les factures des travaux pour prouver les coûts de remise en état, et souscrivez une GLI pour couvrir les risques.
+Pour le propriétaire : rédigez un état des lieux d'entrée le plus détaillé possible, restituez le dépôt dans le délai légal avec un décompte détaillé des retenues, et conservez les factures des travaux pour justifier chaque somme déduite.
 
-Pour le locataire : faites-vous remettre une copie de l'état des lieux d'entrée signé, photographiez chaque pièce des l'entrée et conservez les photos, payez vos loyers et charges intégralement jusqu'a la sortie, et en cas de départ anticipe, anticipez les sommes qui pourraient etre réclamées.
+Pour le locataire : conservez votre exemplaire de l'état des lieux d'entrée signé, photographiez chaque pièce dès l'entrée, payez vos loyers et charges jusqu'à la sortie, et communiquez votre nouvelle adresse au bailleur lors de la remise des clés.
 
-[CTA : Gerez vos etats des lieux et suivez vos dépôts de garantie automatiquement avec Lokna -- essai gratuit]
+[CTA : Gérez vos états des lieux et suivez vos dépôts de garantie avec Lokna — essai gratuit]
 
-## FAQ -- Litige dépôt de garantie
+## FAQ — Litige dépôt de garantie
 
 **Le bailleur peut-il retenir le dépôt de garantie pour des travaux de peinture ?**
 
-Seules les dégradations constatées a l'état des lieux de sortie peuvent justifier une retenue. L'usure normale (peinture jaunie, murs marques) est a la charge du propriétaire. Toutefois, si le locataire a cause des marques importantes (tâches, griffures profondes), le bailleur peut déduire les coûts de remise en état.
+Seules les dégradations imputables au locataire, constatées en comparant les états des lieux d'entrée et de sortie, peuvent justifier une retenue. L'usure normale (peinture jaunie avec le temps, traces d'usage courant) reste à la charge du propriétaire. En revanche, des dégradations importantes (taches, trous, griffures profondes) peuvent justifier une retenue, sur justificatifs.
 
-**Que faire si le bailleur ne répond pas a ma réclamation ?**
+**Le bailleur peut-il déduire des loyers impayés du dépôt de garantie ?**
 
-Si le bailleur ne répond pas a la lettre recommandée dans 15 jours, saissez le juge des contentieux de la protection. Le délai de 2 mois pour la restitution du dépôt continue de courir, et le retard peut générer des inter ets au taux légal.
+Oui. L'article 22 de la loi du 6 juillet 1989 l'autorise à déduire du dépôt les sommes restant dues au titre du bail, dont les loyers et charges impayés, à condition de les justifier.
 
-**Le dépôt de garantie peut-il etre utilise pour payer le dernier mois de loyer ?**
+**Que faire si le bailleur ne répond pas à ma réclamation ?**
 
-Non, sauf accord expr es du bailleur. Le dépôt de garantie doit etre verse en même temps que le premier loyer. Il n'est pas destiné a remplacer le dernier mois de location.`,
+Saisissez la commission départementale de conciliation, ou le juge des contentieux de la protection après une tentative de résolution amiable lorsque la somme ne dépasse pas 5 000 €. Le retard de restitution fait courir la majoration de 10 % du loyer mensuel hors charges par mois commencé.
+
+**Le dépôt de garantie peut-il servir à payer le dernier mois de loyer ?**
+
+Non, sauf accord du bailleur. Le locataire doit payer son loyer jusqu'à la fin du bail ; le dépôt de garantie est restitué après la remise des clés, déduction faite des sommes justifiées.
+
+**Sources :** loi n° 89-462 du 6 juillet 1989, articles 7-1, 20 et 22 ; code de procédure civile, article 750-1 (Légifrance).`,
   },
 
   {
@@ -5143,142 +5155,6 @@ Envoyez une lettre recommandée avec accusé de réception au propriétaire expo
 Non, la retenue est réduite proportionnellement à la durée de vie déjà écoulée. Si un élément est neuf, la retenue sera maximale. S'il est déjà très ancien, la retenue sera faible ou nulle.
 
 [CTA : Gérez automatiquement vos états des lieux et calculez les retenues avec Lokna — essai gratuit 14 jours]`
-  },
-    {
-    slug: "litige-depot-garantie-procedure",
-    title: "Litige sur le dépôt de garantie : procédure et recours",
-    excerpt:
-      "Comment résoudre un litige sur le dépôt de garantie. Procédures amiables, saisine de la CDC et actions en justice.",
-    category: "Juridique",
-    date: "2026-04-18",
-    updatedAt: "2026-04-18",
-    content: `## Litige sur le dépôt de garantie : les procédures de recours
-
-Les litiges relatifs au dépôt de garantie sont parmi les contentieux locatifs les plus fréquents en France. Qu'il s'agisse d'un refus de restitution, de retenues contestées ou de délais non respectés, le droit français offre plusieurs niveaux de recours pour résoudre ces différends. Découvrez la procédure à suivre selon votre situation.
-
-## Les motifs courants de litige sur le dépôt de garantie
-
-### Le refus de restitution totale
-
-Certains propriétaires refusent de restituer le dépôt de garantie pour des motifs non justifiés : prétexte de travaux qui n'existent pas, charges fictives ou simplement par négligence. Cette situation est sanctionnée par la loi qui prévoit des intérêts en cas de retard.
-
-### Les retenues excessives
-
-Un propriétaire peut effectuer des retenues supérieures à ce qui est légalement admissible. Cela inclut :
-- Des retenues pour usure normale (vétusté)
-- Des montants non justifiés par des factures ou devis
-- Des travaux qui n'étaient pas mentionnés dans le bail comme à la charge du locataire
-- Des réparations qui n'ont pas été réellement effectuées
-
-### Le non-respect du délai de restitution
-
-Le dépassement du délai de 2 mois sans motif légitime constitue un motif de litige. Le propriétaire qui conserve le dépôt au-delà de ce délai sans justification peut être contraint de verser des intérêts.
-
-## La procédure amiable : première étape indispensable
-
-Avant toute action en justice, il est recommandé de tenter une résolution amiable du litige. Cette étape permet souvent d'éviter les frais de procédure et de trouver un accord plus rapidement.
-
-### La lettre de mise en demeure
-
-Adressez une lettre en recommandé avec accusé de réception au propriétaire. Cette lettre doit contenir :
-- Le montant total du dépôt de garantie
-- La date-limite de restitution (2 mois après la sortie)
-- Le relevé détaillé des sommes contestées
-- Une demande explicite de restitution dans un délai de 15 jours
-- La mention des sanctions applicables en cas de non-paiement (intérêts au taux légal)
-
-Cette mise en demeure crée une trace écrite et fixe formally le point de départ des intérêts éventuels.
-
-### La négociation directe
-
-Si la mise en demeure reste sans réponse, essayez de contacter directement le propriétaire pour trouver un arrangement. Une discussion telephone peut parfois résoudre le problème plus efficacement qu'un courrier. Notez systématiquement le contenu de ces échanges par écrit.
-
-## La commission départementale de conciliation (CDC)
-
-Si la négociation amiable échoue, la saisine de la CDC constitue l'étape suivante. Cette commission est gratuite et sa saisine doit intervenir dans les **3 mois suivant la sortie du logement**.
-
-### Comment saisir la CDC
-
-La saisine s'effectue par lettre recommandée avec accusé de réception adressée à la CDC de votre département. Le dossier doit inclure :
-- Une copie du bail
-- L'état des lieux d'entrée et de sortie
-- Les correspondances échangées avec le propriétaire
-- Les justificatifs des retenues contestées (devis, factures)
-- Le décompte du dépôt de garantie
-- Toute preuve utile à l'appui de votre demande
-
-### Déroulement de la conciliation
-
-La CDC convoque les deux parties à une réunion de conciliation. Un médiateur impartial entend les arguments de chacun et propose éventuellement un accord. La présence personnelle est recommandée mais pas obligatoire.
-
-### Les limites de la CDC
-
-La CDC n'a pas de pouvoir de contrainte. Sa seule force est morale. Si une partie refuse l'accord proposé, il faudra saisir le tribunal. Toutefois, un accord trouvé devant la CDC a valeur de contrat et peut être exécuté forzatamente en cas de défaillance.
-
-## L'action en justice : tribunal judiciaire
-
-En cas d'échec de la conciliation, le recours au tribunal judiciaire devient nécessaire. Cette procédure est gratuite pour le demandeur mais demande du temps et de la préparation.
-
-### Quand saisir le tribunal
-
-Vous pouvez saisir le tribunal si :
-- Le propriétaire refuse de restituer le dépôt malgré la mise en demeure
-- Les retainedes sont manifestement excessives et non justifiées
-- Le propriétaire ne respecte pas l'accord trouvé devant la CDC
-
-### La procédure à suivre
-
-#### L'assignation
-
-L'assignation est l'acte par lequel vous convoquez le propriétaire devant le tribunal. Elle doit être rédigée avec précision et contenir :
-- L'identité complète des parties
-- L'exposé des faits et de vos griefs
-- Les arguments juridiques invoqués
-- Les pièces jointes en annexe
-- Les conclusions demandées au juge
-
-Il est fortement recommandé de faire appel à un avocat pour rédiger l'assignation, notamment pour les litiges importants.
-
-#### L'audience
-
-Le tribunal convoque les parties à une audience. Les deux côtés peuvent présenter leurs arguments et produire leurs preuves. Le juge rend généralement sa décision dans les semaines suivant l'audience.
-
-### Les preuves à rassembler
-
-Pour réussir votre demande, vous devez prouver :
-- Le montant du dépôt versé (reçu, mention dans le bail)
-- La date de sortie effective (état des lieux signé, remise des clés)
-- L'absence ou l'insuffisance des dégradations (photos comparatives)
-- Le caractère excessif des retenues (devis contradictoires, témoignages)
-- Le non-respect du délai de restitution (courriers, recommandé)
-
-## Les sanctions applicables au propriétaire
-
-En cas de procédure judiciaire favorable au locataire, le propriétaire peut être condamné à :
-- Restituer l'intégralité du dépôt ou le solde non justifié
-- Verser des intérêts au taux légal depuis la date de sortie
-- Payer les frais de procédure
-- Indemniser le locataire pour le préjudice subi
-
-## FAQ — Litige sur le dépôt de garantie
-
-**Quel est le délai pour contester un dépôt de garantie ?**
-
-Le délai de contestation est de 3 mois après la sortie pour saisir la CDC. Passé ce délai, vous pouvez toujours saisir le tribunal, mais la CDC ne pourra plus intervenir.
-
-**Peut-on obtenir des dommages-intérêts en plus de la restitution ?**
-
-Oui, si vous pouvez prouver un préjudice distinct de la simple privation de fonds (frais de procédure, stress, temps perdu), le juge peut vous accorder des dommages-intérêts.
-
-**Le propriétaire peut-il compenser le dépôt avec des loyers impayés ?**
-
-Non, le dépôt de garantie et les loyers sont des comptes séparés. Le propriétaire ne peut pas décider unilatéralement de compenser. Il doit suivre la procédure légale de recouvrement des impayés.
-
-**Que faire si le propriétaire est insolvable ?**
-
-Si le propriétaire ne peut pas payer malgré un jugement favorable, vous pouvez engager une procédure d'exécution forcée sur ses biens. Un huissier de justice pourra être mandaté pour récupérer les sommes dues.
-
-[CTA : Anticipez les litiges et documentez chaque étape avec Lokna — essai gratuit 14 jours]`
   },
     {
     slug: "recours-garde-a-vue",

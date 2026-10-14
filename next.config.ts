@@ -241,6 +241,16 @@ const config: NextConfig = {
         permanent: true,
       },
 
+      {
+        // Third exact title collision: "Litige sur le dépôt de garantie :
+        // procédure et recours" under two slugs. The kept URL has more internal
+        // links and the plainer slug; its body was corrected and absorbed the
+        // conciliation-commission section of the removed one.
+        source: '/blog/litige-depot-garantie-procedure',
+        destination: '/blog/litige-depot-garantie',
+        permanent: true,
+      },
+
       // ────────────────────────────────────────
       // Duplicate deposit calculators: one crashed, one was correct
       // ────────────────────────────────────────
