@@ -8,26 +8,9 @@ This document describes the CI/CD pipeline, quality gates, deployment process, a
 
 ## Pipeline Architecture
 
-### CI Pipeline (`.github/workflows/ci.yml`)
+### Vérifications
 
-Runs on every pull request to `main` or `develop` and on every push to those branches.
-
-| Job | Purpose | Timeout |
-|-----|---------|---------|
-| `lint` | ESLint validation | 5 min |
-| `typecheck` | TypeScript type checking (`tsc --noEmit`) | 5 min |
-| `unit-tests` | Vitest unit tests | 10 min |
-| `build` | Next.js production build | 15 min |
-| `e2e` | Playwright E2E smoke tests | 20 min |
-| `lighthouse` | Lighthouse CI performance budgets | 15 min |
-| `security` | Snyk vulnerability scan | 5 min |
-| `seo-checks` | SEO lint, meta validator, schema validator | 5 min |
-| `docker-build` | Docker image build + smoke test | 10 min |
-| `notify-failure` | Slack notification on any failure | - |
-
-### Quality Gates
-
-All jobs must pass before merging. The `seo-checks` job uses `continue-on-error: true` so it reports but does not block.
+Il n'y a pas d'intégration continue GitHub : le workflow `.github/workflows/ci.yml` a été supprimé le 14/10/2026. Les vérifications se lancent localement avant chaque commit et chaque déploiement : `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm vitest run`, `pnpm build` (voir AGENTS.md, §28).
 
 #### Performance Budgets (Lighthouse CI)
 

@@ -10,7 +10,7 @@
 |------|-------|
 | Repo | `git@github.com:Wisenoa/rent-ready.git` |
 | Branch | `master` |
-| CI/CD | GitHub Actions (`.github/workflows/ci.yml`) |
+| CI/CD | Aucune CI GitHub (supprimée le 14/10/2026) ; vérifications locales |
 | Build target | Docker (standalone Node.js) |
 | Infra | Docker Compose (local), Vercel (planned) |
 | Deployment envs | staging (Docker), production (planned via Vercel) |
@@ -139,14 +139,9 @@ Run with: `prisma migrate dev --name <name>` or `prisma migrate deploy`
 
 ---
 
-## 6. CI/CD Pipeline (GitHub Actions)
+## 6. Vérifications
 
-File: `.github/workflows/ci.yml`
-
-**Jobs:**
-1. **Lint & Type Check** — `npx tsc --noEmit` (ESLint step disabled due to ESLint 9 + rushstack incompatibility)
-2. **Unit Tests** — `npm test -- --passWithNoTests` (Vitest)
-3. **Build Docker Image** — only on master/main, pushes to registry
+Il n'y a pas d'intégration continue GitHub : le workflow `.github/workflows/ci.yml` a été supprimé le 14/10/2026. Les vérifications se lancent localement avant chaque commit et chaque déploiement : `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm vitest run`, `pnpm build` (voir AGENTS.md, §28).
 
 ---
 

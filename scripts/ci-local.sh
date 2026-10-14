@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-# Reproduces .github/workflows/ci.yml locally, against a throwaway Postgres.
-#
-# Useful before pushing a change to CI: it runs the same steps in the same order
-# so a failure here is the same failure GitHub Actions would report.
+# The full local verification, against a throwaway Postgres. There is no GitHub
+# CI any more (removed 2026-10-14): run this before committing or deploying.
 #
 #   ./scripts/ci-local.sh
 #

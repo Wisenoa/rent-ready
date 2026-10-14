@@ -303,7 +303,7 @@ For infrastructure issues:
 
 ### Overview
 
-The staging environment mirrors production architecture and is automatically deployed on every push to `master` or `main` via the CI/CD pipeline (`.github/workflows/ci.yml`).
+The staging environment mirrors production architecture. Nothing deploys it automatically: there is no GitHub CI (`.github/workflows/ci.yml` was removed on 2026-10-14).
 
 ### Infrastructure Components
 
@@ -423,14 +423,7 @@ A healthy staging response looks like:
 
 ### CI/CD Pipeline
 
-The pipeline (`.github/workflows/ci.yml`) runs:
-
-1. **lint** — TypeScript type checking (`tsc --noEmit`)
-2. **test** — Unit tests (`vitest`)
-3. **build** — Docker image build + push to GHCR (on `master`/`main`)
-4. **deploy-staging** — SSH to staging server, pull image, run migrations, restart services (on `master`/`main`)
-5. **vercel-preview** — Vercel preview deployment (on every PR)
-6. **migration-check** — Prisma schema validation (on all PRs)
+None. The GitHub Actions workflow was removed on 2026-10-14; run `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm vitest run` and `pnpm build` locally before deploying (AGENTS.md §28).
 
 ### Troubleshooting
 
