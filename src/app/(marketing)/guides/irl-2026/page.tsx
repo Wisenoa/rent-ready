@@ -110,7 +110,7 @@ const faqSchema = {
       name: "Comment informer le locataire de la révision ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Le bailleur doit informer le locataire de la révision par lettre recommandée avec accusé de réception (LRAR), en joignant un tableau détaillé montrant le calcul effectué (ancien loyer, ancien IRL, nouvel IRL, nouveau loyer).",
+        text: "La loi n'impose pas de forme : le bailleur adresse sa demande de révision au locataire, et le nouveau loyer s'applique à partir de cette demande, sans effet rétroactif (article 17-1 de la loi du 6 juillet 1989). L'ANIL conseille une lettre recommandée avec avis de réception, qui prouve la date de la demande. Joindre le détail du calcul (ancien loyer, indices, nouveau loyer) évite les contestations.",
       },
     },
   ],
@@ -216,9 +216,10 @@ export default function IRL2026GuidePage() {
           anniversaire, il ne peut pas rattraper les mois passés.
         </p>
         <p>
-          Le bailleur doit informer le locataire de la révision par lettre recommandée
-          avec accusé de réception (LRAR), en joignant un tableau montrant le calcul
-          effectué.
+          La loi n&apos;impose pas de forme pour demander la révision. Une lettre
+          recommandée avec avis de réception est toutefois conseillée par
+          l&apos;ANIL : elle prouve la date de la demande, à partir de laquelle le
+          nouveau loyer s&apos;applique. Joignez-y le détail du calcul effectué.
         </p>
 
         <h2>Que faire si l&apos;IRL baisse ?</h2>
@@ -278,7 +279,7 @@ référence majoré en vigueur à la date de signature du bail. Cette règle por
             },
             {
               q: "Comment informer le locataire de la révision ?",
-              a: "Le bailleur doit informer le locataire de la révision par LRAR, en joignant un tableau détaillé du calcul (ancien loyer, ancien IRL, nouvel IRL, nouveau loyer).",
+              a: "La loi n'impose pas de forme. L'ANIL conseille une lettre recommandée avec avis de réception, qui prouve la date de la demande : le nouveau loyer s'applique à partir de cette date, sans effet rétroactif. Joignez le détail du calcul (ancien loyer, indices, nouveau loyer).",
             },
           ].map((item, i) => (
             <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">

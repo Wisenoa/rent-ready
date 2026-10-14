@@ -52,7 +52,7 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       name: "Automatiser la génération des quittances",
-      text: "Utilisez un outil de gestion locative pour générer automatiquement les quittances à chaque paiement enregistré. Envoyez-les directement par email au locataire ou téléchargez-les en PDF. Évitez les erreurs de calcul et les oublis.",
+      text: "Utilisez un outil de gestion locative qui génère la quittance quand le paiement enregistré solde le mois, et un reçu en cas de paiement partiel. Téléchargez le PDF et transmettez-le au locataire. Vous évitez les erreurs de calcul et les oublis.",
     },
   ],
 };
@@ -193,8 +193,9 @@ export default function QuittanceLoyerGuidePage() {
 
         <h2>Mentions obligatoires sur une quittance</h2>
         <p>
-          Une quittance mal rédigée peut être contestée. Assurez-vous d&apos;inclure
-          systématiquement les éléments suivants :
+          La loi impose de détailler les sommes versées en distinguant le loyer et
+          les charges (article 21 de la loi du 6 juillet 1989). Les autres éléments
+          ci-dessous sont d&apos;usage et facilitent la preuve du paiement :
         </p>
         <ul>
           <li><strong>Nom et adresse du bailleur</strong> (ou du gestionnaire mandataire)</li>
@@ -230,9 +231,10 @@ export default function QuittanceLoyerGuidePage() {
 
         <h2>Comment automatiser</h2>
         <p>
-          Avec Lokna, les quittances sont générées automatiquement à chaque paiement
-          enregistré. Vous pouvez les envoyer directement au locataire par email ou les
-          télécharger en PDF. Fini les erreurs de calcul et les oublis.
+          Avec Lokna, la quittance est générée lorsque vous enregistrez le paiement
+          qui solde le mois, et un reçu en cas de paiement partiel. Vous la
+          téléchargez en PDF et la transmettez à votre locataire : Lokna ne
+          l&apos;envoie pas à votre place. Fini les erreurs de calcul et les oublis.
         </p>
       </div>
 

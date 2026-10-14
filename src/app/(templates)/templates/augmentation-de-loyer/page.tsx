@@ -43,9 +43,9 @@ const conditionsAugmentation = [
       "L'augmentation ne peut pas dépasser la variation de l'IRL (Indice de Référence des Loyers) publié par l'INSEE, ou l'ILAT pour les locations commerciales.",
   },
   {
-    titre: "Délai de prévenance",
+    titre: "Délai pour demander",
     description:
-      "Le bailleur doit informer le locataire au moins 1 mois avant la date anniversaire du bail, y compris pour une location meublée (art. 17-3 loi 89-462).",
+      "La loi n'impose aucun délai de prévenance : le bailleur a un an à compter de la date de révision prévue au bail pour la demander, et le nouveau loyer s'applique à partir de sa demande, sans effet rétroactif (art. 17-1 loi 89-462).",
   },
 ];
 
@@ -121,8 +121,8 @@ function AugmentationLoyerJsonLd() {
           },
           {
             "@type": "HowToStep",
-            name: "Envoyer dans les délais",
-            text: "Envoyez la lettre au moins 1 mois avant la date d'anniversaire du bail.",
+            name: "Envoyer la demande dans l'année",
+            text: "Envoyez la lettre dans l'année qui suit la date de révision prévue au bail. Un envoi recommandé avec avis de réception prouve la date à partir de laquelle le nouveau loyer s'applique.",
           },
         ],
         tool: {

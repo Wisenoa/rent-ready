@@ -250,7 +250,7 @@ export default function PricingPage() {
 
           {/* E-E-A-T: content review badge */}
           <div className="mt-6">
-            <ContentReviewBadge updatedAt="2026-04-25" category="article" />
+            <ContentReviewBadge updatedAt="2026-10-14" category="article" />
           </div>
         </header>
 

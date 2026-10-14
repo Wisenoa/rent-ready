@@ -325,7 +325,7 @@ export default function FeaturesPage() {
 
             {/* E-E-A-T: content review badge */}
             <div className="mt-8 flex justify-center">
-              <ContentReviewBadge updatedAt="2026-04-10" category="article" />
+              <ContentReviewBadge updatedAt="2026-10-14" category="article" />
             </div>
           </div>
         </div>

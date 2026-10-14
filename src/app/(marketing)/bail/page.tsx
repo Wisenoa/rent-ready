@@ -125,7 +125,7 @@ const faqData = [
   {
     question: "Le bail créé est-il juridiquement valide ?",
     answer:
-      "Oui. Nos modèles de bail sont élaborés en collaboration avec des juristes spécialisés en droit locatif et mis à jour à chaque évolution législative (Loi Alur, Loi ÉLAN, etc.). Ils respectent les mentions obligatoires et les annexes requises.",
+      "Nos modèles de bail reprennent les mentions obligatoires de la loi du 6 juillet 1989 et la liste des annexes à joindre (état des lieux, diagnostics, notice d'information). Pour une situation particulière, faites relire votre bail par l'ADIL de votre département.",
   },
   {
     question: "Puis-je personnaliser les clauses du bail ?",

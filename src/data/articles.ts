@@ -236,7 +236,7 @@ Si la clause de révision est dans le bail, la révision est un droit légal. Ex
 ## FAQ — Révision de loyer IRL
 **Comment calculer une révision de loyer avec l'IRL ?**
 
-Pour réviser le loyer avec l'IRL : nouveau_loyer = ancien_loyer × (nouvel_IRL / ancien_IRL). La clause de révision doit être prévue dans le bail et préciser la date de publication de l'IRL utilisé (généralement celui du trimestre précédant la date d'anniversaire du bail). La demande de révision doit être notifiée au locataire au moins 1 mois avant la date d'application.
+Pour réviser le loyer avec l'IRL : nouveau_loyer = ancien_loyer × (nouvel_IRL / ancien_IRL). La clause de révision doit être prévue dans le bail et préciser la date de publication de l'IRL utilisé (généralement celui du trimestre précédant la date d'anniversaire du bail). Aucun délai de prévenance ni aucune forme ne sont imposés : le bailleur a un an pour demander la révision, qui s'applique à partir de sa demande, sans effet rétroactif (article 17-1 de la loi du 6 juillet 1989).
 **Quand peut-on appliquer une révision de loyer ?**
 
 La révision de loyer ne peut intervenir qu'une fois par an, à la date d'anniversaire du bail, et uniquement si une clause de révision est inscrite dans le bail. Sans cette clause, le loyer reste figé pendant toute la durée du bail. En zone tendue, le loyer révisé ne peut pas dépasser le loyer de référence majoré en vigueur.
@@ -255,7 +255,7 @@ La formule est : Nouveau loyer = Loyer hors charges × (IRL du trimestre de réf
 ## FAQ — Revision de loyer IRL
 **Comment calculer une revision de loyer avec l'IRL ?**
 
-Pour réviser le loyer avec l'IRL : nouveau_loyer = ancien_loyer x (nouvel_IRL / ancien_IRL). La clause de révision doit être prévue dans le bail et préciser la date de publication de l'IRL utilisé (généralement celui du trimestre précédant la date d'anniversaire du bail). La demande de révision doit être notifiée au locataire au moins 1 mois avant la date d'application.
+Pour réviser le loyer avec l'IRL : nouveau_loyer = ancien_loyer x (nouvel_IRL / ancien_IRL). La clause de révision doit être prévue dans le bail et préciser la date de publication de l'IRL utilisé (généralement celui du trimestre précédant la date d'anniversaire du bail). Aucun délai de prévenance ni aucune forme ne sont imposés : le bailleur a un an pour demander la révision, qui s'applique à partir de sa demande, sans effet rétroactif (article 17-1 de la loi du 6 juillet 1989).
 
 La revision de loyer ne peut intervenir qu'une fois par an, a la date d'anniversaire du bail, et uniquement si une clause de revision est inscrite dans le bail. Sans cette clause, le loyer reste fige pendant toute la duree du bail. En zone tendue, le loyer revisé ne peut pas depasser le loyer de reference majore en vigueur.
 **L'IRL est-il publie chaque trimestre ?**
@@ -4150,9 +4150,9 @@ L'augmentation ne peut pas dépasser 15 % du coût des travaux TTC, étalé sur 
 
 ### Comment mettre en œuvre la révision de loyer ?
 
-La révision du loyer doit être notifiée au locataire par lettre recommandée avec accusé de réception, au moins 1 mois avant la date de révision. Le bailleur doit inclure le détail du calcul : ancien loyer, nouvel IRL, coefficient de révision, nouveau loyer.
+La loi n'impose ni forme ni délai de prévenance : le bailleur adresse sa demande au locataire, et le nouveau loyer s'applique à partir de cette demande. L'ANIL conseille une lettre recommandée avec avis de réception, qui prouve la date de la demande. Indiquez le détail du calcul : ancien loyer, indices, coefficient de révision, nouveau loyer.
 
-Si le bailleur omet de notifier la révision dans les délais, il ne peut pas rattraper les augmentations non appliquées. Le loyer reste figé jusqu'à la prochaine date de révision possible.
+La révision n'est pas rétroactive : les mois écoulés entre la date prévue au bail et la demande ne peuvent pas être rattrapés. Au-delà d'un an sans demande, la révision de l'année est perdue (article 17-1 de la loi du 6 juillet 1989).
 
 [CTA : Calculez vos révisions de loyer IRL avec Lokna — essai gratuit 14 jours]
 
@@ -8579,12 +8579,12 @@ Une erreur de calcul peut rendre l'augmentation contestable. Utilisez toujours u
 
 ### Oublier d'informer le locataire
 
-Le non-respect du délai d'information (en général 1 mois avant la date d'effet) peut rendre l'augmentation non applicable pour l'année en cours.
+La révision ne s'applique qu'à partir de la demande, sans effet rétroactif, et elle est perdue si le bailleur ne la demande pas dans l'année qui suit la date prévue au bail.
 
 ## Comment réduire le risque de litige
 
 **Informez toujours votre locataire en avance**
-Adressez votre courrier d'augmentation au moins 2 mois avant la date d'anniversaire du bail. Cela laisse le temps à votre locataire de s'organiser.
+Aucun délai de prévenance n'est imposé, mais prévenir votre locataire quelques semaines avant la date de révision lui laisse le temps de s'organiser. Un courrier recommandé avec avis de réception prouve la date de votre demande.
 
 **Soyez transparent sur le calcul**
 Joignez à votre courrier le détail du calcul (anciens et nouveaux indices, formule appliquée). Cela démontre votre bonne foi et évite les contestations.

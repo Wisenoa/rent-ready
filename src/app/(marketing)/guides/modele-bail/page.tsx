@@ -52,7 +52,7 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       name: "Utiliser un modèle de bail gratuit et conforme",
-      text: "Utilisez un modèle préparé par des juristes spécialisés incluant toutes les clauses obligatoires, les clauses interdites à éviter, et une notice explicative pour chaque section. Personnalisez les champs indiqués, puis imprimez.",
+      text: "Partez d'un modèle qui comporte les mentions obligatoires de la loi du 6 juillet 1989 et signale les clauses interdites. Complétez les champs indiqués, puis faites signer le bail en deux exemplaires.",
     },
   ],
 };
@@ -191,15 +191,17 @@ export default function ModeleBailGuidePage() {
           prise en compte et l&apos;indice de référence.
         </p>
         <p>
-          Le bailleur doit informer le locataire de la révision par lettre recommandée
-          avec accusé de réception ou par acte.extrajudiciaire. Le manquement à cette
-          obligation ne bloque pas la révision mais expose à des sanctions.
+          La loi n&apos;impose pas de forme pour demander la révision : le bailleur
+          a un an à compter de la date prévue au bail, et le nouveau loyer
+          s&apos;applique à partir de sa demande, sans effet rétroactif (article
+          17-1 de la loi du 6 juillet 1989). Une lettre recommandée avec avis de
+          réception est conseillée, car elle prouve la date de la demande.
         </p>
 
         <h2>Notre modèle gratuit vous fait gagner du temps</h2>
         <p>
-          Notre modèle de bail gratuit a été préparé par des juristes spécialisés en
-          droit locatif. Il inclut toutes les clauses obligatoires, des exemples de
+          Notre modèle de bail gratuit reprend les mentions obligatoires de la loi
+          du 6 juillet 1989. Il inclut les clauses obligatoires, des exemples de
           clauses interdites à éviter, et une notice explicative pour chaque section.
           Vous pouvez le personnaliser en toute simplicité : remplacez les champs
           indiqués, ajoutez vos clauses spécifiques, puis imprimez.

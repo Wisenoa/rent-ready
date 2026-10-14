@@ -63,7 +63,7 @@ const faqData = [
     question:
       "Le modèle de bail est-il conforme à la loi Alur et à la loi ÉLAN ?",
     answer:
-      "Oui, notre modèle de bail est élaboré en collaboration avec des juristes spécialisés en droit locatif. Il intègre automatiquement les dernières évolutions législatives : encadrement des loyers en zone tendue, état des lieux numérique, dépôt de garantie limité à 1 mois (2 mois en zone tendue), et Clause résolutoire obligatoire pour les impayés.",
+      "Il comporte les mentions obligatoires prévues par la loi du 6 juillet 1989 : identité des parties, désignation du logement, durée, loyer et charges, et dépôt de garantie, limité à un mois de loyer hors charges en location vide et à deux mois en meublé. Une clause résolutoire peut être ajoutée, mais elle n'est pas obligatoire. Pour une situation particulière, faites relire votre bail par l'ADIL de votre département.",
   },
   {
     question:
@@ -242,7 +242,7 @@ export default function ContratDeLocationPage() {
               <ul className="space-y-2 text-sm text-stone-700">
                 <li>• Durée minimale : <strong>3 ans</strong></li>
                 <li>• Préavis minimum : <strong>3 mois</strong></li>
-                <li>• Dépôt de garantie : <strong>1 mois</strong> (2 mois en zone tendue)</li>
+                <li>• Dépôt de garantie : <strong>1 mois</strong> de loyer hors charges au plus</li>
                 <li>• Révision du loyer : selon IRL uniquement</li>
                 <li>• Aucune obligation d'équipements</li>
                 <li>• Encadrement des loyers applicable en zone tendue</li>

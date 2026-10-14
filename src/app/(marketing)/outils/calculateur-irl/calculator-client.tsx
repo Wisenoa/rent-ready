@@ -54,7 +54,7 @@ const faqData = [
   {
     question: "Quand peut-on réviser un loyer avec l'IRL ?",
     answer:
-      "La révision via l'IRL ne peut intervenir qu'une fois par an, à la date anniversaire du contrat de location. Le bailleur doit informer le locataire au moins 1 mois avant la date d'application (3 mois pour les locations meublées). Il faut aussi que le bail contienne une clause de révision.",
+      "La révision via l'IRL ne peut intervenir qu'une fois par an, à la date prévue au bail ou, à défaut, à sa date anniversaire, et seulement si le bail contient une clause de révision. Aucun délai de prévenance n'est imposé : le bailleur a un an pour la demander, et le nouveau loyer s'applique à partir de sa demande, sans effet rétroactif (article 17-1 de la loi du 6 juillet 1989).",
   },
   {
     question: "Quelle est la valeur actuelle de l'IRL ?",

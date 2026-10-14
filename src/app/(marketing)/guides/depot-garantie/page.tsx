@@ -36,8 +36,8 @@ const howToSchema = {
     },
     {
       "@type": "HowToStep",
-      name: "Restituer le dépôt dans les 2 mois",
-      text: "Le dépôt doit être restitué au locataire dans les 2 mois suivant la remise des clés. En cas de retenue, le bailleur doit justifier chaque montant avec l'état des lieux comparatif et des factures. Passé le délai, des intérêts s'appliquent.",
+      name: "Restituer le dépôt dans le délai légal",
+      text: "Le dépôt doit être restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, de deux mois sinon. En cas de retenue, le bailleur justifie chaque montant. En cas de retard, le solde dû est majoré de 10 % du loyer mensuel hors charges par mois de retard commencé (article 22 de la loi du 6 juillet 1989).",
     },
     {
       "@type": "HowToStep",
@@ -52,7 +52,7 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       name: "Respecter le tableau récapitulatif légal",
-      text: "Location vide : 1 mois max, restitution 2 mois. Location meublée : 2 mois max, restitution 2 mois. Bail mobilité : dépôt interdit. Toute clause supérieure est nulle et le locataire peut demander remboursement.",
+      text: "Location vide : 1 mois de loyer hors charges au plus. Location meublée : 2 mois au plus. Bail mobilité : dépôt interdit. Restitution : 1 mois après la remise des clés si l'état des lieux de sortie est conforme, 2 mois sinon. Toute clause supérieure est nulle et le locataire peut demander le remboursement.",
     },
   ],
 };
@@ -110,19 +110,23 @@ export default function DepotGarantieGuidePage() {
         </ul>
         <p>
           Une clause exigeant un dépôt supérieur est <strong>nulle de plein droit</strong>.
-          Le locataire peut demander le remboursement du surplus dans les 2 mois suivant
-          la signature.
+          Le locataire peut demander le remboursement du surplus ; cette action se
+          prescrit par trois ans (article 7-1 de la loi du 6 juillet 1989).
         </p>
 
         <h2>Restitution du dépôt de garantie</h2>
         <p>
-          Le dépôt de garantie doit être restitué au locataire dans un délai maximum de{' '}
-          <strong>2 mois</strong> après la remise des clés par le locataire.
+          Le dépôt de garantie doit être restitué au locataire dans un délai
+          d&apos;<strong>un mois</strong> après la remise des clés si l&apos;état des
+          lieux de sortie est conforme à celui d&apos;entrée, et de{' '}
+          <strong>deux mois</strong> dans le cas contraire (article 22 de la loi du 6
+          juillet 1989).
         </p>
         <p>
           En cas de retenue, le bailleur doit justifier chaque montant déduit en joignant
-          un état des lieux comparatif et des factures. Passé le délai de 2 mois sans
-          restitution, le dépôt produit <strong>intérêts au taux légal</strong>.
+          un état des lieux comparatif et des factures. En cas de retard, le solde
+          restant dû est majoré de <strong>10 % du loyer mensuel hors charges pour
+          chaque mois de retard commencé</strong>.
         </p>
 
         <h2>Quand peut-on retenir une partie du dépôt ?</h2>
@@ -161,12 +165,12 @@ export default function DepotGarantieGuidePage() {
               <tr className="border-b border-stone-100">
                 <td className="py-2">Vide</td>
                 <td className="py-2">1 mois hors charges</td>
-                <td className="py-2">2 mois après sortie</td>
+                <td className="py-2">1 mois si état des lieux conforme, 2 mois sinon</td>
               </tr>
               <tr className="border-b border-stone-100">
                 <td className="py-2">Meublée</td>
                 <td className="py-2">2 mois hors charges</td>
-                <td className="py-2">2 mois après sortie</td>
+                <td className="py-2">1 mois si état des lieux conforme, 2 mois sinon</td>
               </tr>
               <tr>
                 <td className="py-2">Mobilité</td>
@@ -183,8 +187,8 @@ export default function DepotGarantieGuidePage() {
           Gérez vos dépôts de garantie avec Lokna
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
-          Suivez les dépôts reçus, générez automatiquement les reçus, et gérez les
-          régularisations de sortie en toute conformité.
+          Le dépôt de garantie est enregistré avec le bail, à côté du loyer et des
+          charges, pour le retrouver au moment de la sortie du locataire.
         </p>
         <Link
           href="/register"
