@@ -6,9 +6,9 @@
  * T3 2026 is scheduled for 15/10/2026 at 08:45 and was NOT published when this
  * test was written: it must not appear in the data before that.
  *
- * When T3 2026 is published, the IRL mini-PR adds it to IRL_INDICES and to the
- * calculator's history and updates LATEST below. /guides/irl-2026 reads
- * IRL_INDICES, so it follows without an edit.
+ * When T3 2026 is published, the IRL mini-PR adds it to IRL_INDICES and updates
+ * LATEST below. /guides/irl-2026 and /outils/calculateur-irl read IRL_INDICES,
+ * so both follow without an edit.
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "fs";
@@ -35,19 +35,12 @@ describe("indices IRL publiés", () => {
     expect(findIrlIndex("T3-2026")).toBeUndefined();
   });
 
-  it("the calculator's history table shows the same values as the library", () => {
-    const client = readFileSync(
-      join(process.cwd(), "src/app/(marketing)/outils/calculateur-irl/calculator-client.tsx"),
-      "utf8"
-    );
-    const rows = [...client.matchAll(/\{ quarter: "T([1-4]) (\d{4})", value: ([\d.]+)/g)];
-    expect(rows.length).toBeGreaterThan(8);
-    for (const [, trimester, year, value] of rows) {
-      const entry = IRL_INDICES.find((e) => e.quarter === `T${trimester}-${year}`);
-      expect(entry, `T${trimester}-${year} missing from IRL_INDICES`).toBeDefined();
-      expect(entry!.value).toBe(Number(value));
+  it("the calculator and its page read IRL_INDICES and type no index by hand", () => {
+    for (const file of ["IrlCalculator.tsx", "page.tsx"]) {
+      const source = readFileSync(join(process.cwd(), "src/app/(marketing)/outils/calculateur-irl", file), "utf8");
+      expect(source, file).not.toMatch(/\b1[34]\d[.,]\d{1,2}\b/);
+      expect(source, file).toMatch(/from "@\/lib\/(irl-calculator|tools\/irl-revision)"/);
     }
-    expect(rows[0].slice(1, 3).join("-")).toBe("2-2026");
   });
 
   it("a revision with the latest year-on-year indices gives the expected rent", () => {
