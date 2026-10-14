@@ -5,7 +5,7 @@
     "shortDefinition": "Document officiel remis au locataire confirmant le paiement d'un loyer.",
     "fullDefinition": "La quittance de loyer est un document comptable que le bailleur remet au locataire pour attester du paiement effectif du loyer et des charges. Depuis la loi du 6 juillet 1989, le bailleur est tenu de fournir une quittance dans le mois suivant la demande du locataire. Elle doit mentionner le montant du loyer, les sommes éventuellement dues au titre des charges, le mode de paiement utilisé, la date du paiement, le nom du locataire, et l'adresse du bien.",
     "relatedTerms": [
-      "bail",
+      "bail-location",
       "charges-recuperables",
       "loyer-nu"
     ],
@@ -83,7 +83,7 @@
       "loyer-nu"
     ],
     "seeFurtherLinks": [
-      "/outils/calculateur-irl-2026"
+      "/outils/calculateur-irl"
     ],
     "updatedAt": "2026-04-15"
   },
@@ -123,7 +123,7 @@
     "fullDefinition": "Le congé est la notification par laquelle l'une des parties (bailleur ou locataire) met fin au bail de location. Le congé doit respecter un délai de préavisvariable selon les cas : 3 mois pour le locataire en location vide (1 mois en zone tendue), 6 mois pour le bailleur qui reprend le bien, avec des motifs stricts définis par la loi (reprise pour habiter, vente, motif légitime et sérieux).",
     "relatedTerms": [
       "bail-location",
-      "preavis",
+      "preavis-loyer",
       "depot-garantie"
     ],
     "seeFurtherLinks": [
@@ -179,11 +179,10 @@
     "shortDefinition": "Location d'un même bien par plusieurs locataires, chacun ayant son propre bail ou un bail commun.",
     "fullDefinition": "La colocation est une situation dans laquelle plusieurs locataires occupeant un même logement partagent les espaces communs et le loyer. Elle peut être régie par un bail unique avec clause de solidarité (chaque colocataire est responsable de l'intégralité du loyer) ou par des baux individuels (chaque locataire ne gère que sa part). La colocation est encadrée par la loi du 6 juillet 1989 et doit respecter les règles de surface minimale (9m² et 2,20m de hauteur sous plafond).",
     "relatedTerms": [
-      "bail-location",
-      "clauses-solidarite"
+      "bail-location"
     ],
     "seeFurtherLinks": [
-      "/templates/colocation"
+      "/templates/bail-colocation"
     ],
     "updatedAt": "2026-04-15"
   },
@@ -238,8 +237,7 @@
     "fullDefinition": "L'encadrement des loyers est une mesure visant à limiter les montants des loyers dans les zones où la demande de logement est très supérieure à l'offre (zones tendues). Créé par la loi ALUR du 24 mars 2014 (art. 6), il a été repris et étendu par la loi ELAN du 23 novembre 2018 (art. 140), qui en a fait un dispositif expérimental dans les communes en zone tendue. Le loyer de relocation ne peut dépasser le loyer de référence majoré de 20%, sous peine de sanctions pour le bailleur.",
     "relatedTerms": [
       "loyer-nu",
-      "IRL",
-      "zone-tendue"
+      "irl-indice-reference-loyers"
     ],
     "seeFurtherLinks": [
       "/outils/simulateur-loi-jeanbrun"
@@ -270,7 +268,7 @@
       "loyer-nu"
     ],
     "seeFurtherLinks": [
-      "/outils/calculateur-irl-2026"
+      "/outils/calculateur-irl"
     ],
     "updatedAt": "2026-04-15"
   },
@@ -280,8 +278,7 @@
     "shortDefinition": "Sommes d'argent dont dispose l'emprunteur sans recourir à l'emprunt.",
     "fullDefinition": "L'apport personnel désigne les économies ou fonds propres que l'investisseur utilise pour financer une partie de son acquisition immobilière, sans avoir recours à un emprunt bancaire. Plus l'apport personnel est élevé, plus les conditions de prêt seront avantageuses et plus le taux d'endettement sera maîtrisé. On recommande généralement un apport de 10 à 20% du prix d'achat.",
     "relatedTerms": [
-      "rendement-locatif",
-      "pret-immobilier"
+      "rendement-locatif"
     ],
     "seeFurtherLinks": [
       "/outils/calculateur-rendement"
@@ -322,8 +319,7 @@
     "shortDefinition": "Surface de plancher construite après déduction des murs, cloisons, marches, gaines.",
     "fullDefinition": "La surface habitable est définie par l'article R. 156-1 du CCH comme la surface de plancher construite, après déduction des surfaces occupées par les murs, cloisons, marches et cages d'escaliers, gaines, embrasures de portes et fenêtres. Elle doit être au minimum de 9m² et la hauteur sous plafond d'au moins 2,20m pour être considérée comme habitable. C'est cette surface qui est utilisée pour fixer le montant du loyer en zone tendue.",
     "relatedTerms": [
-      "loi-carrez",
-      "zone-tendue"
+      "loi-carrez"
     ],
     "seeFurtherLinks": [
       "/glossaire-immobilier"
@@ -336,8 +332,7 @@
     "shortDefinition": "Loi imposant la mention de la surface privative dans les actes de vente.",
     "fullDefinition": "La loi Carrez (du nom du député Gilles Carrez) impose la mention obligatoire de la surface privative dans tout contrat de vente d'un lot de copropriété. Cette surface correspond à la surface habitable majorée des annexes (cave, garage, terrasse dans certains cas). La mention de cette surface dans l'acte de vente protège l'acquéreur et peut entraîner l'annulation de la vente en cas d'erreur supérieure à 5%.",
     "relatedTerms": [
-      "surface-habitable",
-      "copropriete"
+      "surface-habitable"
     ],
     "seeFurtherLinks": [
       "/glossaire-immobilier"
@@ -350,8 +345,7 @@
     "shortDefinition": "Déclaration annuelle des revenus tirés de la location d'un bien immobilier.",
     "fullDefinition": "Tout propriétaire bailleur doit déclarer les revenus fonciers tirés de ses locations dans sa déclaration annuelle de revenus. Les revenus locatifs sont imposés dans la catégorie des revenus fonciers, selon le régime microfoncier (abattement de 30%) ou le régime réel (déduction des charges réelles). Cette déclaration permet également de bénéficier de déficit foncier en cas de travaux importants.",
     "relatedTerms": [
-      "rendement-locatif",
-      "fiscalite-immobiliere"
+      "rendement-locatif"
     ],
     "seeFurtherLinks": [
       "/glossaire-immobilier"
@@ -396,7 +390,7 @@
       "charges-recuperables"
     ],
     "seeFurtherLinks": [
-      "/maintenance"
+      "/entretien"
     ],
     "updatedAt": "2026-04-15"
   },

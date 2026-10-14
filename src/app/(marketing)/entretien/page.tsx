@@ -16,8 +16,10 @@ export async function generateMetadata() {
     title:
       "Suivi Maintenance 2026 — Déclarez et résolvez les interventions",
     description:
-      "Déclarez, suivez et résolvez les interventions de maintenance. Historique complet, photos, priorisation. Simplifiez la gestion locative 2026.",
-    url: "/maintenance",
+      "Vos locataires signalent un incident avec photos et niveau d'urgence ; vous suivez l'intervention jusqu'à sa résolution. Historique complet par logement.",
+    // /maintenance is the authenticated dashboard route; this public page is
+    // its own canonical.
+    url: "/entretien",
     ogType: "template",
   });
 }
@@ -31,9 +33,9 @@ const features = [
     icon: "📲",
   },
   {
-    title: "Priorisation automatique",
+    title: "Niveau d'urgence",
     description:
-      "Chaque demande est catégorisée (urgent, normal, cosmetic). Vous savez immédiatement ce qui ne peut pas attendre.",
+      "Le locataire indique l'urgence de sa demande : faible, moyenne, élevée ou urgente. Vous voyez d'abord ce qui ne peut pas attendre.",
     icon: "🚦",
   },
   {
@@ -43,23 +45,18 @@ const features = [
     icon: "📋",
   },
   {
-    title: "Suivi en temps réel",
+    title: "Suivi de l'avancement",
     description:
-      "Locataire et bailleur voient l'état d'avancement. Plus besoin d'appels ou de relances pour savoir où ça en est.",
+      "Ouvert, en cours, résolu : le locataire voit l'état de sa demande depuis son portail. Plus besoin d'appels pour savoir où ça en est.",
     icon: "⚡",
   },
   {
-    title: "Pièces jointes et photos",
+    title: "Photos jointes",
     description:
-      "Photos du problème, devis, factures — tout est rangé dans le dossier de l'intervention. Plus rien ne s'égare.",
+      "Le locataire joint des photos du problème à sa demande. Elles restent rattachées à l'intervention.",
     icon: "📷",
   },
-  {
-    title: "Rappels automatiques",
-    description:
-      "Les interventions non résolues génèrent des rappels. Vous ne ratez plus aucun dossier.",
-    icon: "⏰",
-  },
+
 ];
 
 const steps = [
@@ -71,21 +68,21 @@ const steps = [
   },
   {
     step: "2",
-    title: "Vous évaluez et attribuez",
+    title: "Vous évaluez",
     description:
-      "Vous consultez la demande, la catégorisez (urgent/normal/cosmétique) et lancez l'intervention.",
+      "Vous consultez la demande depuis votre espace et lancez l'intervention.",
   },
   {
     step: "3",
     title: "Intervention et suivi",
     description:
-      "Artisan notifié, rendez-vous planifié, photos du résultat — tout est enregistré.",
+      "Vous passez la demande « en cours » : le locataire voit que l'intervention avance.",
   },
   {
     step: "4",
     title: "Clôture et archivage",
     description:
-      "L'intervention est marquée résolue. Factures et photos sont archivées automatiquement.",
+      "L'intervention est marquée résolue et reste dans l'historique du logement.",
   },
 ];
 
@@ -93,22 +90,22 @@ const faqData = [
   {
     question: "Comment un locataire signale-t-il une panne ?",
     answer:
-      "Le locataire se connecte à son portail dédié, clique sur « Signaler un incident », ajoute une description, des photos et indique le niveau d'urgence. Vous êtes immédiatement notifié.",
+      "Le locataire se connecte à son portail dédié, clique sur « Signaler un incident », ajoute une description, des photos et indique le niveau d'urgence. La demande apparaît dans votre espace.",
   },
   {
     question: "Comment sont classées les demandes de maintenance ?",
     answer:
-      "Chaque demande est automatiquement catégorisée en trois niveaux : Urgent (fuite d'eau, panne chauffage, porte verrouillée), Normal (réparation électroménager, fuite mineure) et Cosmétique (peinture, petites retouches). Cela vous permet de traiter les vraies urgences en premier.",
+      "Le locataire choisit le niveau d'urgence en déclarant l'incident : faible, moyenne, élevée ou urgente. Une fuite d'eau, une panne de chauffage ou une porte qui ne ferme plus relèvent de l'urgence ; une retouche de peinture peut attendre."
   },
   {
-    question: "Puis-je archiver les factures et devis liés à une intervention ?",
+    question: "Puis-je garder une trace des travaux ?",
     answer:
-      "Oui. Chaque intervention dispose d'un dossier dédié où vous pouvez joindre les devis, factures et photos de l'intervention résolue. Cet historique est lié au bien et consultable à tout moment.",
+      "Oui. Chaque intervention reste dans l'historique du logement, avec les photos jointes par le locataire. Le coût des travaux s'enregistre dans le suivi des dépenses du même logement.",
   },
   {
     question: "Le locataire voit-il l'avancement de l'intervention ?",
     answer:
-      "Oui. Locataire et bailleur voient l'état d'avancement en temps réel depuis leur portail respectif. Plus besoin d'appels ou de relances pour savoir où en est la réparation.",
+      "Oui. Le locataire voit l'état de sa demande (ouverte, en cours, résolue) depuis son portail, et vous depuis votre espace. Plus besoin d'appels ou de relances pour savoir où en est la réparation.",
   },
 ];
 
@@ -135,7 +132,7 @@ function MaintenanceJsonLd() {
             "@type": "ListItem",
             position: 2,
             name: "Suivi des interventions",
-            item: `${SITE_URL}/maintenance`,
+            item: `${SITE_URL}/entretien`,
           },
         ],
       },
@@ -144,19 +141,18 @@ function MaintenanceJsonLd() {
         name: `${SITE_NAME} — Suivi des interventions`,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: `${SITE_URL}/maintenance`,
+        url: `${SITE_URL}/entretien`,
         description:
-          "Gérez les demandes de réparation et maintenance de vos locations : déclaration en ligne, priorisation automatique, historique par bien, suivi en temps réel.",
+          "Gérez les demandes de réparation de vos locations : déclaration en ligne par le locataire, niveau d'urgence, historique par bien, suivi de l'avancement.",
         offers: {
           ...paidOffer(),
         },
         featureList: [
-          "Déclaration de maintenance en ligne",
-          "Priorisation automatique (urgent/normal/cosmétique)",
+          "Déclaration d'incident en ligne",
+          "Niveau d'urgence indiqué par le locataire",
           "Historique par bien",
-          "Suivi en temps réel",
-          "Pièces jointes et photos",
-          "Rappels automatiques",
+          "Suivi de l'avancement",
+          "Photos jointes",
         ],
       },
       {
@@ -196,8 +192,7 @@ export default function MaintenancePage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Chaque demande de réparation déclarée, suivie et résolue — avec
-            historique, photos et rappels. Locataire et bailleur voient tout en
-            temps réel.
+            historique et photos. Le locataire voit où en est sa demande.
           </p>
         </header>
 
@@ -245,8 +240,8 @@ export default function MaintenancePage() {
             Priorités selon la gravité
           </h2>
           <p className="mb-6 text-stone-700">
-            Chaque incident est classé automatiquement pour vous permettre de
-            traiter les vrais urgences en premier.
+            Le locataire indique la gravité de l&apos;incident pour vous permettre
+            de traiter les vraies urgences en premier. Quelques repères :
           </p>
           <ul className="grid gap-3 sm:grid-cols-3">
             <li className="flex items-start gap-2 text-sm text-stone-600">

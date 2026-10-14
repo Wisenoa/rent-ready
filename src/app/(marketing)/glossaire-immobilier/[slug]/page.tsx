@@ -79,15 +79,13 @@ function findGlossaryEntry(slug: string): GlossaryEntry | undefined {
   );
 }
 
-/** Resolve a related term slug to its display term */
-function resolveRelatedTerm(slugOrTerm: string): { slug: string; label: string } {
+/**
+ * Resolve a related term to an existing entry. An unknown term resolves to
+ * nothing: linking it would point at a 404 (nine such links shipped before).
+ */
+function resolveRelatedTerm(slugOrTerm: string): { slug: string; label: string } | null {
   const entry = findGlossaryEntry(slugOrTerm);
-  if (entry) return { slug: entry.slug, label: entry.term };
-  // Fallback: treat as-is with human-readable formatting
-  const label = slugOrTerm
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
-  return { slug: slugOrTerm, label };
+  return entry ? { slug: entry.slug, label: entry.term } : null;
 }
 
 /* ─── Metadata ─── */
@@ -161,7 +159,10 @@ export default async function GlossaryTermPage({ params }: Props) {
   const entry = findGlossaryEntry(slug);
   if (!entry) notFound();
 
-  const resolvedRelated = (entry.relatedTerms ?? []).map(resolveRelatedTerm);
+  const resolvedRelated = (entry.relatedTerms ?? []).flatMap((term) => {
+    const resolved = resolveRelatedTerm(term);
+    return resolved ? [resolved] : [];
+  });
   const seeFurtherLinks = entry.seeFurtherLinks ?? [];
 
   // Related articles for this glossary term

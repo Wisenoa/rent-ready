@@ -28,7 +28,15 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-const templateCategories = [
+interface TemplateLink {
+  slug: string;
+  title: string;
+  desc: string;
+  /** Set when the page lives outside /templates (otherwise /templates/{slug}). */
+  href?: string;
+}
+
+const templateCategories: { name: string; description: string; templates: TemplateLink[] }[] = [
   {
     name: "Baux de location",
     description: "Contrats conformes à la loi du 6 juillet 1989 pour tous les types de location.",
@@ -38,6 +46,9 @@ const templateCategories = [
       { slug: "bail-mobilite", title: "Bail mobilité", desc: "Location meublée 1-10 mois, sans dépôt de garantie." },
       { slug: "bail-colocation", title: "Bail colocation", desc: "Contrat pour plusieurs locataires, clause de solidité." },
       { slug: "bail-commercial", title: "Bail commercial", desc: "Location de locaux commerciaux, bail 3/6/9 ans." },
+      { slug: "bail-professionnel", title: "Bail professionnel", desc: "Location de bureaux à une profession libérale." },
+      { slug: "contrat-de-location", title: "Contrat de location", desc: "Bail d'habitation avec les clauses obligatoires." },
+      { slug: "lease", title: "Autres baux", desc: "Bail étudiant, saisonnier, précaire, parking, acte de caution." },
     ],
   },
   {
@@ -48,6 +59,7 @@ const templateCategories = [
       { slug: "recu-loyer", title: "Quittance de loyer", desc: "Modèle gratuit avec mentions obligatoires." },
       { slug: "relance-loyer-impaye", title: "Lettre de relance", desc: "Modèle de relance pour loyer impayé." },
       { slug: "augmentation-de-loyer", title: "Révision de loyer", desc: "Lettre de notification d'augmentation IRL." },
+      { slug: "repartition-charges", title: "Répartition des charges", desc: "Charges récupérables et charges du propriétaire." },
     ],
   },
   {
@@ -62,7 +74,7 @@ const templateCategories = [
     name: "Calculateurs",
     description: "Outils gratuits pour calculer loyer, rentabilité et charges.",
     templates: [
-      { slug: "calculateur-rendement-locatif", title: "Rendement locatif", desc: "Calculez votre rentabilité brute et nette." },
+      { slug: "calculateur-rendement", href: "/outils/calculateur-rendement", title: "Rendement locatif", desc: "Calculez votre rentabilité brute et nette." },
     ],
   },
 ];
@@ -77,13 +89,13 @@ function TemplatesPageJsonLd() {
     cat.templates.map((t) => ({
       name: t.title,
       description: t.desc,
-      url: `${SITE_URL}/modeles/${t.slug}`,
+      url: `${SITE_URL}${t.href ?? `/templates/${t.slug}`}`,
     }))
   );
   const schema = buildGraphSchema(
     buildBreadcrumbSchema([
       { name: "Accueil", url: SITE_URL },
-      { name: "Modèles", url: `${SITE_URL}/modeles` },
+      { name: "Modèles", url: `${SITE_URL}/templates` },
     ]),
     buildItemListSchema({
       name: "Modèles gratuits de location",
@@ -126,7 +138,7 @@ export default function TemplatesPage() {
               {category.templates.map((template) => (
                 <Link
                   key={template.slug}
-                  href={`/templates/${template.slug}`}
+                  href={template.href ?? `/templates/${template.slug}`}
                   className="group rounded-xl border border-stone-200/60 bg-white p-5 shadow-sm transition-all hover:border-blue-200 hover:shadow-md"
                 >
                   <div className="mb-3 flex items-start justify-between">
@@ -155,8 +167,8 @@ export default function TemplatesPage() {
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
             Créez vos documents en quelques clics, sans manipulation de fichiers.
-            Quittances automatiques, baux générés, signature électronique — tout
-            dans un seul outil.
+            Quittances générées au paiement, reçus de paiement partiel, baux et
+            relances — tout dans un seul outil.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
