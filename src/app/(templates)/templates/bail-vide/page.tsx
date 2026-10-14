@@ -128,7 +128,7 @@ const faqData = [
   {
     question: "Quel dépôt de garantie pour un bail vide ?",
     answer:
-      "Le dépôt de garantie est limité à 1 mois de loyer hors charges (contre 2 mois pour un bail meublé). Il doit être restitué dans les 2 mois suivant la remise des clés, déduction faite des sommes dues. Voir notre modèle d'état des lieux pour évaluer les retenues posibles.",
+      "Le dépôt de garantie est limité à 1 mois de loyer hors charges (contre 2 mois pour un bail meublé). Il doit être restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon, déduction faite des sommes dues. Voir notre modèle d'état des lieux pour évaluer les retenues posibles.",
   },
   {
     question: "Le bail vide doit-il contenir un état des lieux ?",

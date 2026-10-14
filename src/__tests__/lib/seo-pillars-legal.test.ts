@@ -5,8 +5,12 @@
  * Sources (checked 14/10/2026): service-public.gouv.fr F13723 (révision: within
  * one year, from the date of the request, not retroactive); ANIL (registered
  * letter "vivement conseillé", i.e. advised, not required); loi n° 89-462
- * art. 17-1 (révision), art. 22 (dépôt: 1 or 2 months, +10 % per month late),
- * art. 7-1 (three-year limitation).
+ * art. 17-1 (révision), art. 22 (dépôt: 1 or 2 months, +10 % per month late,
+ * not due if the tenant gave no new address; 20 % copropriété provision),
+ * art. 7-1 (three-year limitation), art. 24 as amended by loi n° 2023-668
+ * (every residential lease contains a clause résolutoire, effective six weeks
+ * after a commandement de payer; two months for leases signed before
+ * 29/07/2023 and not renewed since, ANIL) and art. 25-3 (applies to furnished).
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync, statSync } from "fs";
@@ -108,6 +112,26 @@ describe("règles juridiques", () => {
     expect(guide).not.toMatch(/intérêts au taux légal|des intérêts s'appliquent|2 mois après sortie|Restituer le dépôt dans les 2 mois/);
     expect(guide).toMatch(/10 % du loyer mensuel hors charges/);
     expect(guide).toMatch(/un mois/);
+  });
+
+  it("no public page gives two months as the only restitution delay, or legal interest as the penalty", () => {
+    expect(
+      offenders(/restitu\w*[^.]{0,60}dans (?:les |un délai (?:maximal |maximum )?de )(?:\*\*)?(?:2|deux) mois(?:\*\*)?(?: maximum\*\*| maximum)? (?:suivant|à compter|a compter|après)/i)
+    ).toEqual([]);
+    expect(offenders(/(?:intérêts? au taux légal|productif d'inter ?êts)[^.]{0,80}(?:dépôt|restitu)|(?:dépôt|restitu)[^.]{0,120}intérêts? au taux légal/i)).toEqual([]);
+  });
+
+  it("the deposit guide states the new-address exception and the copropriété provision", () => {
+    const guide = read("src/app/(marketing)/guides/depot-garantie/page.tsx");
+    expect(guide).toMatch(/nouvelle adresse/);
+    expect(guide).toMatch(/20 % du dépôt/);
+  });
+
+  it("the clause résolutoire is mandatory and runs from a commandement de payer, not a 30-day notice", () => {
+    expect(offenders(/clause résolutoire[^.]{0,60}(?:n'est pas obligatoire|facultative)/i)).toEqual([]);
+    expect(offenders(/30 jours avant (?:application|activation) de la clause résolutoire|délai de prévenance minimum de 30 jours|délai de grâce de 30 jours/i)).toEqual([]);
+    expect(read("src/app/(templates)/templates/contrat-de-location/page.tsx")).toMatch(/tout bail d'habitation doit aussi contenir une clause résolutoire/);
+    expect(read("src/app/(templates)/templates/relance-loyer-impaye/page.tsx")).toMatch(/six semaines/);
   });
 
   it("the deposit cap depends on furnished or not, never on zone tendue", () => {

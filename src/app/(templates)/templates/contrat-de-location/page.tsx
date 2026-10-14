@@ -63,7 +63,7 @@ const faqData = [
     question:
       "Le modèle de bail est-il conforme à la loi Alur et à la loi ÉLAN ?",
     answer:
-      "Il comporte les mentions obligatoires prévues par la loi du 6 juillet 1989 : identité des parties, désignation du logement, durée, loyer et charges, et dépôt de garantie, limité à un mois de loyer hors charges en location vide et à deux mois en meublé. Une clause résolutoire peut être ajoutée, mais elle n'est pas obligatoire. Pour une situation particulière, faites relire votre bail par l'ADIL de votre département.",
+      "Il comporte les mentions obligatoires prévues par la loi du 6 juillet 1989 : identité des parties, désignation du logement, durée, loyer et charges, et dépôt de garantie, limité à un mois de loyer hors charges en location vide et à deux mois en meublé. Depuis la loi du 27 juillet 2023, tout bail d'habitation doit aussi contenir une clause résolutoire pour défaut de paiement du loyer ou des charges et pour non-versement du dépôt de garantie (article 24). Pour une situation particulière, faites relire votre bail par l'ADIL de votre département.",
   },
   {
     question:

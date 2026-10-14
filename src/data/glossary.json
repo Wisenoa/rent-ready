@@ -151,7 +151,7 @@
     "slug": "depot-garantie",
     "term": "Dépôt de garantie",
     "shortDefinition": "Sommes versées par le locataire au bailleur pour garantir l'exécution du bail.",
-    "fullDefinition": "Le dépôt de garantie est une somme d'argent versée par le locataire au bailleur lors de la signature du bail. Son montant maximum est fixé par la loi : 1 mois de loyer hors charges pour une location vide, 2 mois pour une location meublée. Le dépôt de garantie doit être restitué dans les 2 mois suivant la remise des clés par le locataire, déduction faite des éventuelles dégradations constatées à l'état des lieux de sortie.",
+    "fullDefinition": "Le dépôt de garantie est une somme d'argent versée par le locataire au bailleur lors de la signature du bail. Son montant maximum est fixé par la loi : 1 mois de loyer hors charges pour une location vide, 2 mois pour une location meublée. Le dépôt de garantie doit être restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon, déduction faite des éventuelles dégradations constatées à l'état des lieux de sortie.",
     "relatedTerms": [
       "etat-des-lieux",
       "bail-location"

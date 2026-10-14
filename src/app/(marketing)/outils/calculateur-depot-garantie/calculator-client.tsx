@@ -24,7 +24,7 @@ const faqData = [
   {
     question: "Le dépôt doit-il être restitué avec intérêts ?",
     answer:
-      "Non, le dépôt de garantie n'est pas productif d'intérêts au bénéfice du locataire. Il doit être restitué dans les 2 mois suivant la remise des clés, déduction faite des sommes dues au titre des dégradations constatoes ou des impayés de loyer.",
+      "Non, le dépôt de garantie n'est pas productif d'intérêts au bénéfice du locataire. Il doit être restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon, déduction faite des sommes dues au titre des dégradations constatoes ou des impayés de loyer.",
   },
   {
     question: " Peut-on demander une caution en plus du dépôt ?",
@@ -179,7 +179,7 @@ export function DepotGarantieCalculatorClient() {
                   <svg className="size-5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                   </svg>
-                  <span>Ce montant ne peut pas être dépassé. Le dépôt doit être restitué dans les 2 mois suivant la fin du bail.</span>
+                  <span>Ce montant ne peut pas être dépassé. Il est restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme, de deux mois sinon.</span>
                 </div>
               </div>
             )}

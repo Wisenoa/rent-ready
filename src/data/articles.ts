@@ -291,9 +291,9 @@ Le dépôt de garantie ne peut être exigé pour les locations saisonnières ni 
 
 ### Le délai de restitution
 
-Le propriétaire doit restituer le dépôt de garantie dans un délai de **2 mois maximum** après la remise des clés par le locataire. Ce délai court à compter de la remise des clés par le locataire (art. 22 loi 89-462).
+Le propriétaire doit restituer le dépôt de garantie dans un délai d'**un mois** après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, de **deux mois** sinon (art. 22 loi 89-462).
 
-Si le dépôt n'est pas restitué dans ce délai, le locataire peut demander des intérêts au taux légal. Le dépôt restant dû au locataire est alors majoré de 10 % du loyer mensuel en principal par période mensuelle commencée en retard (art. 22 de la loi du 6 juillet 1989).
+Si le dépôt n'est pas restitué dans ce délai, le dépôt restant dû au locataire est alors majoré de 10 % du loyer mensuel en principal par période mensuelle commencée en retard (art. 22 de la loi du 6 juillet 1989).
 
 ### Les deductions autorisées
 
@@ -327,7 +327,7 @@ Non, le montant du dépôt de garantie est fixé lors de la signature du bail et
 
 ### Que faire si le propriétaire refuse de restituer le dépôt de garantie ?
 
-Envoyez une lettre recommandée avec accusé de réception réclamant la restitution dans le délai légal de 2 mois après la remise des clés. En cas de refus persiste, le locataire dispose de 3 mois après la restitution du dépôt pour saisir la commission départementale de conciliation, et de 3 mois à compter de la réception de son avis pour saisir le juge des contentieux de la protection (art. 23-1 loi 89-462).
+Envoyez une lettre recommandée avec accusé de réception réclamant la restitution dans le délai légal (un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon). En cas de refus persistant, le locataire peut saisir la commission départementale de conciliation, puis le juge des contentieux de la protection.
 
 ### Le dépôt de garantie doit-il être actualisé lors du renouvellement du bail ?
 
@@ -335,7 +335,7 @@ Le montant du dépôt de garantie ne porte pas intérêt au bénéfice du locata
 
 ### Comment prouver l'état du logement lors de la remise des clés ?
 
-L'état des lieux de sortie constitue la preuve principale de l'état du logement. Pour les dégradations, fournissez des photos horodatées montrant clairement les dommages. Ces preuves doivent être jointes à la lettre de restitution partielle ou de refus dans les 2 mois.
+L'état des lieux de sortie constitue la preuve principale de l'état du logement. Pour les dégradations, fournissez des photos horodatées montrant clairement les dommages. Ces preuves doivent être jointes à la lettre de restitution partielle ou de refus, dans le délai légal de restitution.
 
 ### Le locataire peut-il déduire les réparations de son dépôt de garantie ?
 
@@ -1226,9 +1226,9 @@ La clause de révision du loyer, basée sur l'Indice de Référence des Loyers (
 
 ## Le dépôt de garantie : modalités en 2026
 
-Le dépôt de garantie pour un bail vide ne peut pas dépasser un mois de loyer hors charges. Il est versé par le locataire lors de la signature du bail et doit être restitué dans un délai maximal de deux mois à compter de la remise des clés par le locataire.
+Le dépôt de garantie pour un bail vide ne peut pas dépasser un mois de loyer hors charges. Il est versé par le locataire lors de la signature du bail et doit être restitué dans un délai maximal d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon.
 
-Depuis la loi du 24 mars 2022, le dépôt de garantie doit être restitué avec le versement d'un montant égal si le bailleur retient tout ou partie de cette somme. En cas de retard, le solde restant dû produit des intérêts au taux légal. Le bailleur doit fournir un reçu mentionnant le montant du dépôt initial et les éventuelles déductions opérées.
+En cas de retard, le solde restant dû est majoré de 10 % du loyer mensuel hors charges pour chaque mois de retard commencé. Le bailleur doit fournir un reçu mentionnant le montant du dépôt initial et les éventuelles déductions opérées.
 
 ### Déductions autorisées sur le dépôt de garantie
 
@@ -1418,7 +1418,7 @@ Le loyer peut être révisé chaque année selon une clause prévue dans le bail
 
 Le dépôt de garantie en location meublée ne peut pas dépasser deux mois de loyer hors charges, contre un mois seulement pour la location vide. Ce dépôt est destiné à couvrir les éventuels impayés, dégradations ou charges non régularisées en fin de bail.
 
-Le régime de restitution du dépôt de garantie est le même qu'en location vide : restitution dans un délai de deux mois à compter de la remise des clés, avec un reçu détaillé en cas de retenues.
+Le régime de restitution du dépôt de garantie est le même qu'en location vide : restitution dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon, avec un reçu détaillé en cas de retenues.
 
 ## Charges et fiscalité en location meublée
 
@@ -1697,7 +1697,7 @@ Les dégradations excédant l'usure normale donnent lieu à une retenue sur le d
 
 ## La restitution du dépôt de garantie
 
-Le dépôt de garantie doit être restitué au locataire dans un délai de deux mois à compter de la remise des clés. Ce délai court à partir de la date de l'état des lieux de sortie.
+Le dépôt de garantie doit être restitué au locataire dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon.
 
 Le bailleur doit fournir un reçu détaillé en cas de retenues, mentionnant les montants déduits et les justifications (dégradations, charges impayées).
 
@@ -1816,7 +1816,7 @@ Le bailleur peut accepter de dispenser le locataire du préavis restant. Cette d
 
 ## Le dépôt de garantie et le préavis
 
-Le préavis n'a pas d'incidence directe sur le dépôt de garantie. Quel que soit le délai de préavis applicable, le bailleur doit restituer le dépôt de garantie dans les deux mois suivant la remise des clés, déduction faite des sommes légitimement retenues.
+Le préavis n'a pas d'incidence directe sur le dépôt de garantie. Quel que soit le délai de préavis applicable, le bailleur doit restituer le dépôt de garantie dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon, déduction faite des sommes légitimement retenues.
 
 Si le locataire part avant la fin du préavis (sans dispense), il reste redevable des loyers mais le dépôt de garantie doit toujours être restitué dans les délais légaux.
 
@@ -3668,7 +3668,7 @@ Les charges locatives récupérables incluent les taxes foncieres, les charges d
 
 Le dépôt de garantie en bail professionnel n'est pas soumis a un plafonnement légal (contrairement au bail d'habitation). Il est fixe librement entre les parties, généralement entre 1 et 3 mois de loyer HT.
 
-En pratique, le dépôt de garantie sert a couvrir les impayés de loyer, les charges et les dégradations constatées a la sortie du locataire. Il doit etre restitué dans un délai de 2 mois après la remise des clés, déduction faite des sommes dûes.
+En pratique, le dépôt de garantie sert a couvrir les impayés de loyer, les charges et les dégradations constatées a la sortie du locataire. Il est restitué dans les conditions prévues au bail, déduction faite des sommes dues.
 
 ### Cession du bail professionnel
 
@@ -3726,11 +3726,11 @@ En location meublée de tourisme (saisonnière), le dépôt de garantie peut etr
 
 Le bail mobilité, crée par la loi ELAN de 2018, est un bail meubre de courte durée (1 a 10 mois) destiné aux personnes en mobilité professionnelle. Aucun dépôt de garantie ne peut etre exige en bail mobilité : la clause prévoyant un dépôt de garantie est interdite et réputée non écrite (art. 25-13 et 25-17 loi 89-462). Le bailleur peut en revanche demander une caution, notamment la garantie Visale.
 
-### Restitution du dépôt de garantie : délai de 2 mois
+### Restitution du dépôt de garantie : un ou deux mois
 
-Le bailleur doit restituer le dépôt de garantie dans un délai maximal de 2 mois a compter de la remise des clés par le locataire. Pas se ce délai, le solde restant doit etre productif d'inter ets au taux légal, sans que le locataire ait besoin de prouver un préjudice.
+Le bailleur doit restituer le dépôt de garantie dans un délai maximal d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon. Passé ce délai, le solde restant dû est majoré de 10 % du loyer mensuel hors charges pour chaque mois de retard commencé, sauf si le retard vient de ce que le locataire n'a pas indiqué sa nouvelle adresse.
 
-Le taux légal est actualisé chaque semestre par l'administration. Le bailleur doit fournir un reçu détaille mentionnant le montant du dépôt initial, les déductions opérées (loyers impayés, charges, dégradations) et le solde restitué.
+Le bailleur doit fournir un reçu détaille mentionnant le montant du dépôt initial, les déductions opérées (loyers impayés, charges, dégradations) et le solde restitué.
 
 ### Les déductions autorisées sur le dépôt de garantie
 
@@ -4622,7 +4622,7 @@ Le bail doit contenir : l'identité complète du propriétaire et du locataire, 
 
 ## Les clauses essentielles
 
-La clause de résidence (logement utilisé comme résidence principale), la clause de révision (si le propriétaire souhaite pouvoir réviser le loyer), la clause résolutoire (en cas de manquement grave), et la clause de garantie.
+La clause de résidence (logement utilisé comme résidence principale), la clause de révision (si le propriétaire souhaite pouvoir réviser le loyer), la clause résolutoire (obligatoire depuis la loi du 27 juillet 2023, pour défaut de paiement du loyer ou des charges et non-versement du dépôt de garantie), et la clause de garantie.
 
 ## Les pièges à éviter
 
@@ -4997,7 +4997,7 @@ Le propriétaire doit remettre un reçu au locataire attestant du paiement effec
 
 ## La restitution du dépôt de garantie : délais et conditions
 
-À la fin du bail, le propriétaire doit restituer le dépôt de garantie dans un délai de **2 mois maximum** à compter de la remise des clés par le locataire. Ce délai est une obligation légale absolue et son non-respect expose le propriétaire à des sanctions financières.
+À la fin du bail, le propriétaire doit restituer le dépôt de garantie dans un délai d'**un mois** à compter de la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, de **deux mois** sinon. Ce délai est une obligation légale et son non-respect expose le propriétaire à des sanctions financières.
 
 ### Les déductions autorisées sur le dépôt
 
@@ -5107,9 +5107,9 @@ Par exemple, pour un parquet endommagé coûtant 500 euros de réparation, avec 
 
 ## La procédure de restitution du dépôt
 
-### Le délai légal de 2 mois
+### Le délai légal : un ou deux mois
 
-Le propriétaire dispose de **2 mois maximum** après la remise des clés pour restituer le dépôt de garantie. Ce délai court à partir de la date de restitution effective des clés par le locataire.
+Le propriétaire dispose d'**un mois** après la remise des clés pour restituer le dépôt de garantie si l'état des lieux de sortie est conforme à celui d'entrée, de **deux mois** sinon.
 
 Dans ce délai, le propriétaire doit :
 1. Évaluer les éventuelles retenues en comparant les états des lieux
@@ -5119,9 +5119,8 @@ Dans ce délai, le propriétaire doit :
 
 ### Les conséquences du non-respect du délai
 
-Si le propriétaire ne respecte pas le délai de 2 mois, il s'expose à des sanctions :
-- Le locataire peut réclamer des intérêts au taux légal sur l'intégralité du dépôt
-- Au-delà de 2 mois sans restitution ni contestation, le dépôt est considéré comme acquis au locataire
+Si le propriétaire ne respecte pas le délai légal, il s'expose à des sanctions :
+- Le solde restant dû est majoré de 10 % du loyer mensuel hors charges pour chaque mois de retard commencé, sauf si le retard vient de ce que le locataire n'a pas indiqué sa nouvelle adresse
 - Le locataire peut saisir le tribunal pour obtenir la restitution forcée
 
 ## Les obligations d'information du propriétaire
@@ -6896,7 +6895,7 @@ Le locataire partant à l'étranger doit remettre les clés selon les mêmes mod
 
 ### Gestion du dépôt de garantie
 
-Le dépôt de garantie doit être restitué dans un délai maximal de 2 mois suivant l'état des lieux de sortie. Si le locataire est à l'étranger, le virement bancaire international peut engendrer des frais supplémentaires qui sont généralement à la charge du propriétaire.
+Le dépôt de garantie doit être restitué dans un délai maximal d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon. Si le locataire est à l'étranger, le virement bancaire international peut engendrer des frais supplémentaires qui sont généralement à la charge du propriétaire.
 
 ## Obligations du propriétaire envers le locataire étranger
 
@@ -8285,7 +8284,7 @@ Demandez un justificatif de paiement (relevé bancaire, reçu). Si le paiement a
 
 **Puis-je résilier le bail en cas d'impayé ?**
 
-La clause résolutoire du bail permet la résiliation automatique en cas d'impayé. Mais la procédure doit respecter la trêve hivernale (1er novembre au 31 mars) et le délai de grâce. Consultez un avocat pour mettre en œuvre cette clause.
+La clause résolutoire, que tout bail d'habitation doit contenir, permet de faire constater la résiliation par le juge si la dette n'est pas réglée dans les six semaines suivant un commandement de payer délivré par un commissaire de justice. La procédure doit respecter la trêve hivernale (1er novembre au 31 mars) et le délai de grâce. Consultez un avocat pour mettre en œuvre cette clause.
 
 **Comment récupérer les frais de procédure ?**
 
@@ -8409,7 +8408,7 @@ L'usure normale résulte de l'utilisation paisible du logement et ne justifie au
 2. Comparez avec l'état des lieux d'entrée
 3. Établissez la liste des éventuelles réparations
 4. Demandez des devis pour les travaux
-5. Restituez le dépôt dans un délai de 2 mois (déduction faite des sommes dues)
+5. Restituez le dépôt dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon (déduction faite des sommes dues)
 6. Adressez un relevé de charges et un décompte détaillé
 
 **Si le montant des réparations excède le dépôt :**
@@ -8448,7 +8447,7 @@ Si le locataire refuse de signer l'état des lieux d'entrée, réalisez-le de ma
 
 **Le dépôt de garantie peut-il être conservé en cas de dégradation ?**
 
-Oui, mais uniquement pour couvrir le montant des réparations justifiées. Vous devez restituer le surplus éventuel dans les 2 mois. Sans justification dans ce délai, vous risquez une pénalité.
+Oui, mais uniquement pour couvrir le montant des réparations justifiées. Vous devez restituer le surplus éventuel dans le délai légal (un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon). En cas de retard, le solde est majoré de 10 % du loyer mensuel hors charges par mois de retard commencé.
 
 **Doit-on relever les compteurs lors de l'état des lieux ?**
 
@@ -10531,7 +10530,7 @@ Certaines protections s'appliquent :
 
 ### délai de restitution
 
-Le dépôt de garantie doit être restitué dans les 2 mois suivant l'état des lieux de sortie.
+Le dépôt de garantie doit être restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon.
 
 ### Les deductions autorisees
 

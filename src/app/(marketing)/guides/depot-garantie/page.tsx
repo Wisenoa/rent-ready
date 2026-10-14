@@ -126,7 +126,15 @@ export default function DepotGarantieGuidePage() {
           En cas de retenue, le bailleur doit justifier chaque montant déduit en joignant
           un état des lieux comparatif et des factures. En cas de retard, le solde
           restant dû est majoré de <strong>10 % du loyer mensuel hors charges pour
-          chaque mois de retard commencé</strong>.
+          chaque mois de retard commencé</strong>. Cette majoration n&apos;est pas
+          due si le retard vient de ce que le locataire n&apos;a pas indiqué sa
+          nouvelle adresse lors de la remise des clés.
+        </p>
+        <p>
+          Dans un immeuble en copropriété, le bailleur peut conserver une provision
+          d&apos;au plus <strong>20 % du dépôt</strong> jusqu&apos;à l&apos;approbation
+          définitive des comptes de l&apos;immeuble ; il régularise alors les charges
+          et restitue le solde dans le mois qui suit.
         </p>
 
         <h2>Quand peut-on retenir une partie du dépôt ?</h2>

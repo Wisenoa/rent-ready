@@ -22,12 +22,12 @@ const faqData = [
   {
     question: "La lettre de relance doit-elle être en recommandée ?",
     answer:
-      "Pour la première relance amiable (email ou courrier simple), le recommandé n'est pas obligatoire. En revanche, la mise en demeure qui précède toute procédure judiciaire DOIT être envoyée en recommandée avec accusé de réception pour avoir une valeur juridique probante.",
+      "Pour la première relance amiable (email ou courrier simple), le recommandé n'est pas obligatoire. Pour la mise en demeure, la loi n'impose pas de forme, mais le recommandé avec accusé de réception est vivement conseillé : il prouve la date de votre demande.",
   },
   {
     question: "Que faire si le locataire ne paie toujours pas ?",
     answer:
-      "Si le loyer reste impayé malgré la mise en demeure, vous pouvez activer la clause résolutoire du bail et engager une procédure judiciaire. Attention : la trêve hivernale (1er novembre au 31 mars) suspend les procédures d'expulsion.",
+      "Faites délivrer un commandement de payer par un commissaire de justice. Si la dette n'est pas réglée dans les six semaines, la clause résolutoire du bail permet de demander au juge de constater la résiliation. Attention : la trêve hivernale (1er novembre au 31 mars) suspend l'exécution des expulsions.",
   },
   {
     question: "Puis-je déduire les impayés de mes revenus ?",
@@ -97,7 +97,7 @@ export function LettreRelanceClient() {
 
     const contenu = letterType === "relance"
       ? `Par la présente, je me permets de vous rappeler que le loyer du mois de ${periode}, d'un montant de ${montantDu} EUR, n'a pas été réglé à ce jour.\n\nJe vous prie de bien vouloir effectuer le règlement dans un délai de ${delai} jours à compter de la réception du présent courrier, par virement bancaire sur mon compte :\n\nTitulaire : ${bailleurNom}\nIBAN : ${iban}\n\nÀ défaut de règlement dans ce délai, je me verrai dans l'obligation d'engager les procédures prévues par le bail et la législation en vigueur.`
-      : `Par la présente, je vous mets en demeure de régler dans un délai de ${delai} jours à compter de la réception du présent courrier le montant de ${montantDu} EUR au titre du loyer impayé pour la période de ${periode}.\n\nPassé ce délai, et conformément à la clause résolutoire de notre bail, je serai contraint d'assigner l'affaire devant le tribunal judiciaire compétent et d'engager la procédure d'expulsion, sans autre préavis.\n\nVous pouvez effectuer le règlement par virement sur mon compte :\n\nTitulaire : ${bailleurNom}\nIBAN : ${iban}`;
+      : `Par la présente, je vous mets en demeure de régler dans un délai de ${delai} jours à compter de la réception du présent courrier le montant de ${montantDu} EUR au titre du loyer impayé pour la période de ${periode}.\n\nPassé ce délai, je ferai délivrer un commandement de payer par commissaire de justice visant la clause résolutoire de notre bail.\n\nVous pouvez effectuer le règlement par virement sur mon compte :\n\nTitulaire : ${bailleurNom}\nIBAN : ${iban}`;
 
     return `${bailleurNom}\n${bailleurAdresse}\n${bailleurCodePostal} ${bailleurVille}\n\n${locataireNom}\n${locataireAdresse}\n\n${objet}\n\n${contenu}\n\nDans l'attente de votre réponse, je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations.\n\n${bailleurNom}`;
   }
@@ -160,7 +160,7 @@ export function LettreRelanceClient() {
                 <p className="text-xs text-stone-600 mt-2">
                   {letterType === "relance"
                     ? "Courrier informel pour les premiers retards. Pas de valeur juridique contraignante."
-                    : "Courrier formel avec délai de grâce de 30 jours. Point de départ de la procédure judiciaire."}
+                    : "Courrier formel fixant un dernier délai de paiement amiable, avant le commandement de payer."}
                 </p>
               </div>
 
@@ -280,7 +280,7 @@ export function LettreRelanceClient() {
           {letterType === "miseEnDemeurer" && (
             <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-8">
               <p className="text-sm text-red-700">
-                <strong>⚠️ Important :</strong> La mise en demeure doit être envoyée en <strong>recommandé avec accusé de réception</strong> pour avoir une valeur juridique. Conservez le récépissé cacheté comme preuve.
+                <strong>⚠️ Important :</strong> Envoyez la mise en demeure en <strong>recommandé avec accusé de réception</strong> : ce n'est pas imposé, mais c'est la preuve de la date de votre demande. Conservez le récépissé.
               </p>
             </div>
           )}
@@ -299,7 +299,7 @@ export function LettreRelanceClient() {
               <div className="bg-red-50 border border-red-200 rounded-xl p-5">
                 <h3 className="font-semibold text-red-800 mb-2">Mise en demeure</h3>
                 <p className="text-sm text-red-700">
-                  À utiliser après 30 jours d'impayé persistant. C'est le document officiel qui lance le compte à rebours de 30 jours avant application de la clause résolutoire. Obligatoirement en recommandé AR.
+                  À utiliser quand la relance amiable reste sans effet. Elle fixe un dernier délai amiable mais ne déclenche pas la clause résolutoire : seul un commandement de payer délivré par un commissaire de justice le fait, avec six semaines pour payer.
                 </p>
               </div>
             </div>

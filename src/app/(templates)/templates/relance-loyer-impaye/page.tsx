@@ -53,10 +53,10 @@ const etapesRelance = [
 ];
 
 const protectionsLocataire = [
-  "Le locataire est protégé pendant la trêve hivernale (1er novembre - 31 mars) : aucune procédure d'expulsion ne peut être engagée.",
+  "Le locataire est protégé pendant la trêve hivernale (1er novembre - 31 mars) : aucune expulsion ne peut être exécutée, même si la procédure peut être engagée.",
   "En cas de surendettement, le locataire peut demander un délai de grâce au juge, ce qui suspend la procédure.",
   "Le bailleur ne peut pas couper l'eau, l'électricité ou le chauffage sous peine de sanctions pénales.",
-  "Toute clause résolutoire doit respecter un délai de prévenance minimum de 30 jours avant application.",
+  "La clause résolutoire ne produit effet que si un commandement de payer, délivré par un commissaire de justice, reste sans effet pendant six semaines (deux mois pour un bail conclu avant le 29 juillet 2023 et ni reconduit ni renouvelé depuis).",
 ];
 
 const faqData = [
@@ -70,13 +70,13 @@ const faqData = [
     question:
       "La mise en demeure doit-elle être envoyée en recommandé avec accusé de réception ?",
     answer:
-      "Oui, la mise en demeure doit être adressée par lettre recommandée avec accusé de réception pour avoir une valeur juridique. Elle constitue le point de départ du délai de 30 jours avant application de la clause résolutoire. Conservez une copie cachetée par La Poste.",
+      "La loi ne l'impose pas, mais c'est vivement conseillé : l'avis de réception prouve la date de votre demande. La mise en demeure ne déclenche pas la clause résolutoire : seul un commandement de payer délivré par un commissaire de justice le fait, avec un délai de six semaines pour payer (article 24 de la loi du 6 juillet 1989).",
   },
   {
     question:
       "Que se passe-t-il après 2 mois d'impayé ?",
     answer:
-      "Après 2 mois d'impayé, le bailleur peut engager une procédure d'expulsion. Cela passe par l'activation de la clause résolutoire dans le bail, puis une assignation au tribunal. Attention : la trêve hivernale suspend toute procédure entre novembre et mars. Un délai de grâce peut aussi être accordé au locataire.",
+      "La loi ne fixe pas de seuil de deux mois. Dès qu'une échéance reste impayée, le bailleur peut faire délivrer un commandement de payer par un commissaire de justice. Si la dette n'est pas réglée dans les six semaines, il peut assigner le locataire pour faire constater la résiliation du bail. Le juge peut accorder des délais de paiement et suspendre la clause résolutoire. La trêve hivernale (1er novembre – 31 mars) suspend l'exécution des expulsions, pas la procédure.",
   },
 ];
 
@@ -255,7 +255,7 @@ export default function RelanceLoyerImpayePage() {
             <li>• <strong>Adresse du bien</strong> concerné</li>
             <li>• <strong>Montant exact</strong> de l'impayé (loyer + charges)</li>
             <li>• <strong>Période(s)</strong> concernée(s)</li>
-            <li>• <strong>Deadline</strong> pour le règlement (minimum 30 jours)</li>
+            <li>• <strong>Date limite</strong> de règlement</li>
             <li>• <strong>Mention de la clause résolutoire</strong> du bail</li>
             <li>• <strong>Signature</strong> du bailleur</li>
           </ul>
@@ -340,11 +340,11 @@ export default function RelanceLoyerImpayePage() {
               </div>
               <div>
                 <h3 className="mb-1 text-base font-semibold text-ink">
-                  Courrier en recommandé avec AR
+                  Commandement de payer
                 </h3>
                 <p className="text-sm text-stone-600">
-                  Envoyez la mise en demeure. C'est le point de départ du délai
-                  de grâce de 30 jours.
+                  Faites-le délivrer par un commissaire de justice. Le locataire
+                  dispose de six semaines pour régler sa dette.
                 </p>
               </div>
             </div>
@@ -357,8 +357,9 @@ export default function RelanceLoyerImpayePage() {
                   Assignation au tribunal judiciaire
                 </h3>
                 <p className="text-sm text-stone-600">
-                  Passé le délai de 30 jours, saisissez le tribunal pour faire
-                  constat de l'inexécution du bail.
+                  Passé ce délai, assignez le locataire devant le juge des
+                  contentieux de la protection pour faire constater la
+                  résiliation du bail.
                 </p>
               </div>
             </div>
@@ -372,7 +373,7 @@ export default function RelanceLoyerImpayePage() {
                 </h3>
                 <p className="text-sm text-stone-600">
                   Obtention d'une décision judiciaire, puis intervention d'un
-                  huissier pour l'expulsion. Possible uniquement hors trêve
+                  commissaire de justice pour l'expulsion. Possible uniquement hors trêve
                   hivernale.
                 </p>
               </div>

@@ -83,7 +83,7 @@ const faqData = [
   {
     question: "Comment protéger le dépôt de garantie avec le protocole ?",
     answer:
-      "Le protocole d'état des lieux constitue la preuve de l'état du logement à l'entrée. Conservez-le précieusement avec les photos. En cas de contestation à la sortie, comparez l'état de sortie avec l'état d'entrée pour distinguer usure normale et dégradations. Le dépôt doit être restitué dans les 2 mois sauf justificatifs de dégradations.",
+      "Le protocole d'état des lieux constitue la preuve de l'état du logement à l'entrée. Conservez-le précieusement avec les photos. En cas de contestation à la sortie, comparez l'état de sortie avec l'état d'entrée pour distinguer usure normale et dégradations. Le dépôt est restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon.",
   },
   {
     question: "Combien de temps conserver l'état des lieux ?",
@@ -240,7 +240,7 @@ export default function ProtocolEtatDesLieuxPage() {
                 <li>• Comparé avec l'état d'entrée</li>
                 <li>• Identifie les dégradations (vs usure normale)</li>
                 <li>• Détermine les sommes à déduire du dépôt</li>
-                <li>• Restitution du dépôt dans les 2 mois</li>
+                <li>• Restitution du dépôt sous un mois si l&apos;état des lieux est conforme, deux mois sinon</li>
               </ul>
             </div>
           </div>

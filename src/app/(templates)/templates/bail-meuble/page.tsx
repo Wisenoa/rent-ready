@@ -114,7 +114,7 @@ const faqData = [
   {
     question: "Quel dépôt de garantie pour un bail meublé ?",
     answer:
-      "Le dépôt de garantie est limité à 2 mois de loyer hors charges (contre 1 mois pour un bail vide, loi Alur). Il doit être restitué dans les 2 mois suivant la remise des clés, déduction faite des sommes dues. En cas de litige, le dépôt est consigné auprès de la CLE (Commission de Litigation).",
+      "Le dépôt de garantie est limité à 2 mois de loyer hors charges (contre 1 mois pour un bail vide, loi Alur). Il doit être restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon, déduction faite des sommes dues. En cas de litige, bailleur ou locataire peut saisir la commission départementale de conciliation.",
   },
   {
     question: "Le bail meublé doit-il contenir un état des lieux ?",
