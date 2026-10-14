@@ -94,16 +94,16 @@ export default function RecuLoyerPage() {
   return (
     <>
       <RecuLoyerJsonLd />
-      <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+      <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-16 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest">
             🧾 Quittance de loyer
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle de Quittance de Loyer
             <br />
-            <span className="text-blue-600">Gratuite &amp; Conforme</span>
+            <span className="text-forest">Gratuite &amp; Conforme</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Téléchargez votre quittance de loyer en PDF. Conforme à la loi du 6
@@ -112,7 +112,7 @@ export default function RecuLoyerPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-hover"
             >
               Générer ma quittance
               <ArrowRight className="size-4" />
@@ -127,7 +127,7 @@ export default function RecuLoyerPage() {
         </header>
 
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Ce que contient le modèle
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -168,15 +168,15 @@ export default function RecuLoyerPage() {
                 className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm"
               >
                 <div className="mb-2 text-2xl">{item.icon}</div>
-                <h3 className="mb-1 text-sm font-semibold text-stone-900">{item.title}</h3>
+                <h3 className="mb-1 text-sm font-semibold text-ink">{item.title}</h3>
                 <p className="text-xs text-stone-600">{item.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="mb-20 rounded-2xl bg-blue-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-20 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Quand délivrer une quittance de loyer ?
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -189,7 +189,7 @@ export default function RecuLoyerPage() {
               "Lors de la relocation (avec état des lieux)",
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
-                <Check className="size-5 text-blue-600" />
+                <Check className="size-5 text-forest" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}
@@ -197,7 +197,7 @@ export default function RecuLoyerPage() {
         </section>
 
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Gérez vos quittances automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -205,14 +205,14 @@ export default function RecuLoyerPage() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours
           </Link>
         </section>
 
         <section className="mb-16">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="mx-auto max-w-3xl space-y-4">
@@ -221,7 +221,7 @@ export default function RecuLoyerPage() {
                 key={i}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-stone-900 list-none">
+                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-ink list-none">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -237,7 +237,7 @@ export default function RecuLoyerPage() {
 
         {/* Related content */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
-          <h2 className="mb-4 text-lg font-bold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Ressources complémentaires
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -249,7 +249,7 @@ export default function RecuLoyerPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-forest hover:underline"
               >
                 {link.label}
               </Link>
@@ -258,13 +258,13 @@ export default function RecuLoyerPage() {
         </section>
 
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/bail-meuble" className="text-blue-600 hover:underline">
+          <Link href="/templates/bail-meuble" className="text-forest hover:underline">
             Bail meublé →
           </Link>
-          <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">
+          <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">
             État des lieux →
           </Link>
-          <Link href="/templates" className="text-blue-600 hover:underline">
+          <Link href="/templates" className="text-forest hover:underline">
             ← Tous les modèles
           </Link>
         </nav>

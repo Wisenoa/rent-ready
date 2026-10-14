@@ -70,7 +70,7 @@ function CellValue({ value, highlight }: { value: string | boolean; highlight?: 
     return value ? (
       <Check
         className={`mx-auto size-[18px] ${
-          highlight ? "text-blue-600" : "text-stone-700"
+          highlight ? "text-forest" : "text-stone-700"
         }`}
         strokeWidth={2.5}
       />
@@ -81,7 +81,7 @@ function CellValue({ value, highlight }: { value: string | boolean; highlight?: 
   return (
     <span
       className={`text-[13px] ${
-        highlight ? "font-semibold text-blue-700" : "text-stone-600"
+        highlight ? "font-semibold text-forest" : "text-stone-600"
       }`}
     >
       {value}
@@ -102,11 +102,11 @@ export function ComparisonSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={spring.gentle}
         >
-          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
+          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">
             Pourquoi se contenter d&apos;Excel
             <br />
             ou payer une agence{" "}
-            <span className="text-blue-600">7&nbsp;%</span> ?
+            <span className="text-forest">7&nbsp;%</span> ?
           </h2>
         </motion.div>
 
@@ -138,11 +138,11 @@ export function ComparisonSection() {
                       Gratuit
                     </span>
                   </th>
-                  <th className="py-5 px-4 text-center bg-blue-50/50 rounded-t-2xl">
-                    <span className="block text-[13px] font-bold text-blue-700">
+                  <th className="py-5 px-4 text-center bg-sage-50/50 rounded-t-2xl">
+                    <span className="block text-[13px] font-bold text-forest">
                       Lokna
                     </span>
-                    <span className="block text-[11px] text-blue-500 mt-0.5">
+                    <span className="block text-[11px] text-sage-600 mt-0.5">
                       Dès {formatEntryPrice()}
                     </span>
                   </th>
@@ -167,7 +167,7 @@ export function ComparisonSection() {
                     <td className="py-3.5 px-4 text-center">
                       <CellValue value={row.excel} />
                     </td>
-                    <td className="py-3.5 px-4 text-center bg-blue-50/30">
+                    <td className="py-3.5 px-4 text-center bg-sage-50/30">
                       <CellValue value={row.lokna} highlight />
                     </td>
                   </motion.tr>

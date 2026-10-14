@@ -24,8 +24,8 @@ const painPoints = [
     icon: Calculator,
     title: "La complexité fiscale et réglementaire",
     text: "Régime micro-foncier ou réel ? LMNP classique ou dispositif Jeanbrun 2026 ? E-reporting obligatoire ou non pour votre SCI ? Factur-X, norme EN 16931, prélèvements sociaux à 18,6 %… La législation française change chaque année, et une erreur de déclaration peut coûter des milliers d'euros en redressement. Aucun propriétaire particulier ne devrait avoir à décrypter seul le Code général des impôts.",
-    accent: "from-violet-500/8 to-blue-500/5",
-    iconColor: "text-violet-600 bg-violet-50",
+    accent: "from-forest/8 to-sage-600/5",
+    iconColor: "text-forest bg-sage-50",
   },
 ];
 
@@ -45,7 +45,7 @@ export function ProblemSection() {
           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-600">
             Le problème que nous résolvons
           </p>
-          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
+          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">
             Gérer ses biens en direct,
             <br />
             c&apos;est un second emploi non rémunéré.
@@ -77,7 +77,7 @@ export function ProblemSection() {
                 >
                   <point.icon className="size-5" strokeWidth={1.8} />
                 </div>
-                <h3 className="mb-3 text-lg font-semibold tracking-tight text-stone-900">
+                <h3 className="mb-3 text-lg font-semibold tracking-tight text-ink">
                   {point.title}
                 </h3>
                 <p className="text-[15px] leading-relaxed text-stone-600">

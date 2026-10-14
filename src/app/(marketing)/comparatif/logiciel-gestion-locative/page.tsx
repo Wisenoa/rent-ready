@@ -184,7 +184,7 @@ export default function ComparatifLogicielGestionLocative() {
           <p className="mb-3 text-sm font-semibold tracking-wide text-emerald-800 uppercase">
             Guide comparatif 2026
           </p>
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Gestion locative : Logiciel en ligne, Tableur Excel ou Agence ?
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
@@ -198,7 +198,7 @@ export default function ComparatifLogicielGestionLocative() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-stone-200">
-                  <th className="py-3 pr-4 text-left font-semibold text-stone-900 w-52">
+                  <th className="py-3 pr-4 text-left font-semibold text-ink w-52">
                     Critère
                   </th>
                   {alternatives.map((alt) => (
@@ -243,9 +243,9 @@ export default function ComparatifLogicielGestionLocative() {
                   </tr>
                 ))}
                 <tr className="border-t-2 border-stone-200 font-semibold">
-                  <td className="py-3 pr-4 text-stone-900">Coût estimé</td>
+                  <td className="py-3 pr-4 text-ink">Coût estimé</td>
                   {alternatives.map((alt) => (
-                    <td key={alt.name} className="py-3 px-3 text-center text-stone-900">
+                    <td key={alt.name} className="py-3 px-3 text-center text-ink">
                       {alt.price}
                     </td>
                   ))}
@@ -272,7 +272,7 @@ export default function ComparatifLogicielGestionLocative() {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <h2 className="text-xl font-bold text-stone-900">{alt.name}</h2>
+                    <h2 className="text-xl font-semibold text-ink">{alt.name}</h2>
                     {alt.highlight && (
                       <span className="rounded-full bg-emerald-800 px-2.5 py-0.5 text-xs font-semibold text-white">
                         Recommandé pour bailleurs autonomes
@@ -331,13 +331,13 @@ export default function ComparatifLogicielGestionLocative() {
 
         {/* FAQ */}
         <section className="mb-16 bg-[#fbfbfa] rounded-2xl border border-stone-200/60 p-8">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="divide-y divide-stone-200">
             {faqSchema.mainEntity.map((faq) => (
               <details key={faq.name} className="group py-5">
-                <summary className="flex cursor-pointer items-center justify-between font-semibold text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between font-semibold text-ink">
                   {faq.name}
                   <span className="ml-4 shrink-0 text-stone-500 transition-transform group-open:rotate-45">
                     +
@@ -353,7 +353,7 @@ export default function ComparatifLogicielGestionLocative() {
 
         {/* CTA */}
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Passez du tableur à la gestion sereine
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">

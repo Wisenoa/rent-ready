@@ -108,7 +108,7 @@ export default function GuidesPage() {
       <GuidesPageJsonLd />
       <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-12 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl text-balance">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl text-balance">
             Guides pratiques — Propriétaire Bailleur
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
@@ -127,7 +127,7 @@ export default function GuidesPage() {
                 className="group rounded-xl border border-stone-200/60 bg-white p-6 shadow-sm transition-all hover:shadow-md"
               >
                 <div className="mb-4 flex items-center gap-3">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-sage-100 text-forest">
                     <Icon className="size-5" />
                   </div>
                   <span className="rounded-full bg-stone-100 px-2.5 py-0.5 text-xs font-medium text-stone-600">
@@ -135,7 +135,7 @@ export default function GuidesPage() {
                   </span>
                 </div>
 
-                <h2 className="mb-2 text-lg font-semibold text-stone-900 group-hover:text-blue-700">
+                <h2 className="mb-2 text-lg font-semibold text-ink group-hover:text-forest">
                   <Link href={guide.href}>{guide.title}</Link>
                 </h2>
 
@@ -145,7 +145,7 @@ export default function GuidesPage() {
 
                 <Link
                   href={guide.href}
-                  className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-forest hover:text-forest"
                 >
                   {guide.slug === "modele-bail" ? (
                     <>
@@ -164,8 +164,8 @@ export default function GuidesPage() {
           })}
         </section>
 
-        <section className="rounded-xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-blue-100/50 p-8 text-center sm:p-10">
-          <h2 className="mb-3 text-xl font-bold text-stone-900 sm:text-2xl">
+        <section className="rounded-xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-sage-100/50 p-8 text-center sm:p-10">
+          <h2 className="mb-3 text-xl font-semibold text-ink sm:text-2xl">
             Générez vos documents automatiquement
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
@@ -174,7 +174,7 @@ export default function GuidesPage() {
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             Commencer l'essai gratuit
             <ArrowRight className="size-4" />

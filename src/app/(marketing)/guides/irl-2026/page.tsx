@@ -141,10 +141,10 @@ export default function IRL2026GuidePage() {
           <span className="mx-2">›</span>
           <span>Révision IRL 2026</span>
         </nav>
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-3 py-1 text-xs font-medium text-forest">
           Mis à jour avril 2026
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl text-balance">
+        <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl text-balance">
           Indice de Référence des Loyers (IRL) 2026
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-stone-600">
@@ -154,13 +154,13 @@ export default function IRL2026GuidePage() {
       </header>
 
       {/* IRL Value Highlight */}
-      <div className="mb-12 rounded-2xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-white p-8">
+      <div className="mb-12 rounded-2xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-white p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-sm font-medium uppercase tracking-wide text-blue-600">
+            <h2 className="text-sm font-medium uppercase tracking-wide text-forest">
               Valeur IRL 2026 (Q4 2025)
             </h2>
-            <p className="mt-2 text-4xl font-bold text-stone-900">145,78</p>
+            <p className="mt-2 text-4xl font-bold text-ink">145,78</p>
             <p className="mt-1 text-sm text-stone-600">
               Source : INSEE — Indice de référence des loyers
             </p>
@@ -172,7 +172,7 @@ export default function IRL2026GuidePage() {
             </div>
             <Link
               href="/templates/augmentation-de-loyer"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
             >
               Calculer la révision
             </Link>
@@ -231,7 +231,7 @@ export default function IRL2026GuidePage() {
         <h2>Où trouver les valeurs de l&apos;IRL ?</h2>
         <p>
           Les valeurs de l&apos;IRL sont publiées par l&apos;INSEE et accessibles gratuitement sur
-          <Link href="https://www.insee.fr" className="text-blue-600 hover:underline">
+          <Link href="https://www.insee.fr" className="text-forest hover:underline">
             www.insee.fr
           </Link>. Les valeurs sont disponibles par trimestre et par année depuis 2008.
         </p>
@@ -253,7 +253,7 @@ référence majoré en vigueur à la date de signature du bail. Cette règle por
 
       {/* FAQ Section */}
       <section className="mt-16 rounded-2xl border border-stone-200/60 bg-white p-8">
-        <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes sur l'IRL 2026</h2>
+        <h2 className="mb-6 text-2xl font-semibold text-ink">Questions fréquentes sur l'IRL 2026</h2>
         <div className="space-y-4">
           {[
             {
@@ -282,7 +282,7 @@ référence majoré en vigueur à la date de signature du bail. Cette règle por
             },
           ].map((item, i) => (
             <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">
-              <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-stone-900 hover:text-blue-600">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-ink hover:text-forest">
                 {item.q}
                 <span className="shrink-0 text-stone-600 transition-transform group-open:rotate-180">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -299,7 +299,7 @@ référence majoré en vigueur à la date de signature du bail. Cette règle por
       </section>
 
       <div className="mt-12 rounded-xl border border-stone-200/60 bg-stone-50 p-8 text-center">
-        <h2 className="mb-3 text-xl font-bold text-stone-900">
+        <h2 className="mb-3 text-xl font-semibold text-ink">
           Calculez automatiquement vos révisions IRL
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
@@ -309,7 +309,7 @@ référence majoré en vigueur à la date de signature du bail. Cette règle por
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours
             <ArrowRight className="size-4" />

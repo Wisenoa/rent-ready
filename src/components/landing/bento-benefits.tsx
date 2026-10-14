@@ -27,8 +27,8 @@ const items: BentoItem[] = [
     title: "Suivi des encaissements",
     description:
       "Vous enregistrez chaque paiement reçu ; Lokna l'impute sur le loyer attendu du mois, calcule le reste dû et indique si le mois est payé, partiel ou impayé. Aucune connexion bancaire n'est nécessaire.",
-    accent: "from-blue-500/10 to-blue-600/5",
-    iconBg: "bg-blue-50 text-blue-600",
+    accent: "from-forest/10 to-sage-600/5",
+    iconBg: "bg-sage-50 text-forest",
   },
   {
     icon: FileCheck,
@@ -51,16 +51,16 @@ const items: BentoItem[] = [
     title: "Portail locataire et gestion de la maintenance",
     description:
       "Vos locataires disposent d'un espace dédié pour télécharger leurs quittances et signaler un incident technique (fuite, panne de chaudière) avec photo ou vidéo à l'appui. Chaque demande est horodatée et centralisée. Vous validez l'intervention d'un artisan en un clic, sans appel nocturne ni échange de SMS interminables.",
-    accent: "from-violet-500/10 to-violet-600/5",
-    iconBg: "bg-violet-50 text-violet-600",
+    accent: "from-forest/10 to-sage-600/5",
+    iconBg: "bg-sage-50 text-forest",
   },
   {
     icon: Shield,
     title: "Conforme Factur-X et e-reporting 2027",
     description:
       "La réforme française de facturation électronique impose le format Factur-X (PDF/A-3 avec XML embarqué, norme EN 16931) pour toutes les transactions. Pour les micro-entrepreneurs et SCI, le e-reporting B2C sera obligatoire dès le 1ᵉʳ septembre 2027. Lokna génère déjà ses documents dans un format compatible et agrège vos encaissements mensuels pour la transmission à la plateforme publique de facturation.",
-    accent: "from-teal-500/10 to-cyan-600/5",
-    iconBg: "bg-teal-50 text-teal-600",
+    accent: "from-forest/10 to-sage-600/5",
+    iconBg: "bg-sage-50 text-forest",
   },
 ];
 
@@ -97,7 +97,7 @@ function BentoCard({
           <item.icon className="size-5" strokeWidth={1.8} />
         </div>
         <h3
-          className={`font-semibold tracking-tight text-stone-900 ${
+          className={`font-semibold tracking-tight text-ink ${
             large ? "text-xl sm:text-2xl" : "text-lg"
           }`}
         >
@@ -130,10 +130,10 @@ export function BentoBenefits() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={spring.gentle}
         >
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-blue-600">
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-forest">
             Ce que Lokna fait pour vous
           </p>
-          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
+          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">
             Des résultats concrets.
             <br />
             Pas des fonctionnalités.

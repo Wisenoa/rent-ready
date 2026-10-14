@@ -134,18 +134,18 @@ function EtatuDesLieuxJsonLd() {
 
 export default function EtatuDesLieuxPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <EtatuDesLieuxJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-16 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-purple-100 px-4 py-1.5 text-sm font-medium text-purple-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest">
             📋 État des lieux
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle d'État des Lieux
             <br />
-            <span className="text-purple-600">Gratuit &amp; Conforme 2026</span>
+            <span className="text-forest">Gratuit &amp; Conforme 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Checklist complète pour un état des lieux recevable. Pièce par
@@ -155,7 +155,7 @@ export default function EtatuDesLieuxPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-purple-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-hover"
             >
               Utiliser ce modèle
               <ArrowRight className="size-4" />
@@ -170,7 +170,7 @@ export default function EtatuDesLieuxPage() {
         </header>
 
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Checklist par pièce
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -179,7 +179,7 @@ export default function EtatuDesLieuxPage() {
                 key={room.name}
                 className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm"
               >
-                <h3 className="mb-3 text-sm font-semibold text-stone-900">
+                <h3 className="mb-3 text-sm font-semibold text-ink">
                   {room.name}
                 </h3>
                 <ul className="space-y-1.5">
@@ -198,8 +198,8 @@ export default function EtatuDesLieuxPage() {
           </div>
         </section>
 
-        <section className="mb-20 rounded-2xl bg-purple-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-20 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Ce que contient le modèle
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -213,7 +213,7 @@ export default function EtatuDesLieuxPage() {
               "Grille à remplir sur papier ou sur tablette",
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
-                <Check className="size-5 text-purple-600" />
+                <Check className="size-5 text-forest" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}
@@ -221,7 +221,7 @@ export default function EtatuDesLieuxPage() {
         </section>
 
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Évitez les litiges avec un état des lieux précis
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -230,14 +230,14 @@ export default function EtatuDesLieuxPage() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-purple-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-purple-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours
           </Link>
         </section>
 
         <section className="mb-16">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="mx-auto max-w-3xl space-y-4">
@@ -246,7 +246,7 @@ export default function EtatuDesLieuxPage() {
                 key={i}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-stone-900 list-none">
+                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-ink list-none">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -261,13 +261,13 @@ export default function EtatuDesLieuxPage() {
         </section>
 
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/bail-meuble" className="text-blue-600 hover:underline">
+          <Link href="/templates/bail-meuble" className="text-forest hover:underline">
             Bail meublé →
           </Link>
-          <Link href="/templates/recu-loyer" className="text-blue-600 hover:underline">
+          <Link href="/templates/recu-loyer" className="text-forest hover:underline">
             Quittance de loyer →
           </Link>
-          <Link href="/templates" className="text-blue-600 hover:underline">
+          <Link href="/templates" className="text-forest hover:underline">
             ← Tous les modèles
           </Link>
         </nav>

@@ -125,10 +125,10 @@ export default function LoknaVsLegalPlace() {
 
       <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-16 text-center">
-          <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
+          <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
             Comparatif — Gestion locative et services juridiques
           </p>
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Lokna vs LegalPlace : quelles différences ?
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
@@ -142,12 +142,12 @@ export default function LoknaVsLegalPlace() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-stone-200">
-                  <th className="py-3 pr-4 text-left font-semibold text-stone-900 w-44">Fonctionnalité</th>
+                  <th className="py-3 pr-4 text-left font-semibold text-ink w-44">Fonctionnalité</th>
                   {softwareList.map((sw) => (
                     <th
                       key={sw}
                       className={`py-3 px-4 text-center font-semibold ${
-                        sw === "Lokna" ? "text-blue-600" : "text-stone-700"
+                        sw === "Lokna" ? "text-forest" : "text-stone-700"
                       }`}
                     >
                       {sw}
@@ -172,9 +172,9 @@ export default function LoknaVsLegalPlace() {
                   </tr>
                 ))}
                 <tr className="border-t-2 border-stone-200 font-semibold">
-                  <td className="py-3 pr-4 text-stone-900">Usage principal</td>
-                  <td className="py-3 px-4 text-center text-stone-900">Gestion locative</td>
-                  <td className="py-3 px-4 text-center text-stone-900">Services juridiques</td>
+                  <td className="py-3 pr-4 text-ink">Usage principal</td>
+                  <td className="py-3 px-4 text-center text-ink">Gestion locative</td>
+                  <td className="py-3 px-4 text-center text-ink">Services juridiques</td>
                 </tr>
               </tbody>
             </table>
@@ -185,15 +185,15 @@ export default function LoknaVsLegalPlace() {
         </section>
 
         {/* Use case: LegalPlace for documents, Lokna for management */}
-        <section className="mb-12 rounded-xl border border-blue-200 bg-blue-50 p-6">
-          <h2 className="text-lg font-bold text-stone-900 mb-2">La combinaison recommandée</h2>
+        <section className="mb-12 rounded-xl border border-sage-200 bg-sage-50 p-6">
+          <h2 className="text-lg font-semibold text-ink mb-2">La combinaison recommandée</h2>
           <p className="text-sm text-stone-600 mb-4">
             De nombreux propriétaires utilisent <strong>LegalPlace</strong> pour rédiger leurs baux avec les bonnes clauses
             juridiques, puis <strong>Lokna</strong> pour gérer leurs locations au quotidien.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-lg bg-white p-4 border border-blue-100">
-              <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-2">Avec LegalPlace</p>
+            <div className="rounded-lg bg-white p-4 border border-sage-100">
+              <p className="text-xs font-semibold uppercase tracking-wide text-forest mb-2">Avec LegalPlace</p>
               <ul className="space-y-1">
                 {["Rédaction du bail de location", "Consultation avocat en ligne", "Formalités de création"].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-stone-600">
@@ -203,8 +203,8 @@ export default function LoknaVsLegalPlace() {
                 ))}
               </ul>
             </div>
-            <div className="rounded-lg bg-white p-4 border border-blue-100">
-              <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-2">Avec Lokna</p>
+            <div className="rounded-lg bg-white p-4 border border-sage-100">
+              <p className="text-xs font-semibold uppercase tracking-wide text-forest mb-2">Avec Lokna</p>
               <ul className="space-y-1">
                 {["Suivi des paiements", "Quittances automatiques", "Relance loyer impayé", "Révision IRL"].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-stone-600">
@@ -217,12 +217,12 @@ export default function LoknaVsLegalPlace() {
           </div>
         </section>
 
-        <section className="mb-12 rounded-xl border border-blue-200 bg-blue-50 p-6">
+        <section className="mb-12 rounded-xl border border-sage-200 bg-sage-50 p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-3">
-                <h3 className="text-lg font-bold text-stone-900">Lokna</h3>
-                <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white">
+                <h3 className="text-lg font-bold text-ink">Lokna</h3>
+                <span className="rounded-full bg-forest px-2 py-0.5 text-xs font-medium text-white">
                   Gestion locative
                 </span>
               </div>
@@ -246,7 +246,7 @@ export default function LoknaVsLegalPlace() {
             <div className="shrink-0">
               <Link
                 href="/register"
-                className="inline-block rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700"
+                className="inline-block rounded-lg bg-forest px-5 py-2.5 text-sm font-medium text-white shadow transition-colors hover:bg-forest-hover"
               >
                 Essayer gratuitement →
               </Link>
@@ -257,7 +257,7 @@ export default function LoknaVsLegalPlace() {
         <section className="mb-12 rounded-xl border border-stone-200 bg-white p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-stone-900">LegalPlace</h3>
+              <h3 className="text-lg font-bold text-ink">LegalPlace</h3>
               <p className="mt-1 text-sm font-medium text-stone-700">
                 Payant à l'acte <span className="font-normal text-stone-600">consultation et rédaction</span>
               </p>
@@ -294,12 +294,12 @@ export default function LoknaVsLegalPlace() {
           </div>
         </section>
 
-        <section className="mb-16 rounded-2xl bg-[#f8f7f4] p-8">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes : Lokna vs LegalPlace</h2>
+        <section className="mb-16 rounded-2xl bg-cream p-8">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">Questions fréquentes : Lokna vs LegalPlace</h2>
           <div className="divide-y divide-stone-200">
             {faqSchema.mainEntity.map((faq) => (
               <details key={faq.name} className="group py-5">
-                <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between font-medium text-ink">
                   {faq.name}
                   <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">+</span>
                 </summary>
@@ -310,14 +310,14 @@ export default function LoknaVsLegalPlace() {
         </section>
 
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Gérez vos locations au quotidien avec Lokna</h2>
+          <h2 className="text-2xl font-semibold sm:text-3xl">Gérez vos locations au quotidien avec Lokna</h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
             Quittances, suivi des paiements, relances. Gérez vos locations en toute sérénité.
             Essai gratuit sans carte bancaire.
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Créer mon compte gratuitement
           </Link>

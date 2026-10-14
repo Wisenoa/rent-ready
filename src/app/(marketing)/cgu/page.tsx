@@ -82,7 +82,7 @@ export default function CguPage() {
     <>
       <CguJsonLd />
     <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
-      <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+      <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
         Conditions Générales d&apos;Utilisation
       </h1>
       <p className="mt-4 text-sm text-stone-600">
@@ -190,12 +190,12 @@ export default function CguPage() {
             Le traitement des données personnelles est détaillé dans notre{" "}
             <a
               href="/politique-confidentialite"
-              className="text-blue-600 underline underline-offset-2"
+              className="text-forest underline underline-offset-2"
             >
               Politique de Confidentialité
             </a>
             . L&apos;utilisateur peut exercer ses droits RGPD en contactant{" "}
-            <a href="mailto:dpo@lokna.fr" className="text-blue-600 underline underline-offset-2">dpo@lokna.fr</a>.
+            <a href="mailto:dpo@lokna.fr" className="text-forest underline underline-offset-2">dpo@lokna.fr</a>.
           </p>
         </section>
 

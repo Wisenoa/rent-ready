@@ -89,7 +89,7 @@ export default function VillesPage() {
       />
 
       <header className="mb-12">
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
           Gestion locative : la règle dépend de votre ville
         </h1>
         <p className="mx-auto mt-4 max-w-3xl text-stone-700">
@@ -114,9 +114,9 @@ export default function VillesPage() {
                   <li key={city.slug}>
                     <Link
                       href={`/gestion-locative/${city.slug}`}
-                      className="group flex items-center justify-between rounded-lg border border-stone-200 bg-white px-4 py-3 shadow-sm transition-all hover:border-blue-300 hover:shadow-md"
+                      className="group flex items-center justify-between rounded-lg border border-stone-200 bg-white px-4 py-3 shadow-sm transition-all hover:border-sage-300 hover:shadow-md"
                     >
-                      <span className="font-medium text-stone-800 group-hover:text-blue-700">
+                      <span className="font-medium text-stone-800 group-hover:text-forest">
                         {city.name}
                       </span>
                       <span className="text-xs text-stone-600">
@@ -131,7 +131,7 @@ export default function VillesPage() {
       </div>
 
       <section className="mt-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white">
-        <h2 className="text-2xl font-bold sm:text-3xl">
+        <h2 className="text-2xl font-semibold sm:text-3xl">
           Gérez vos biens où que vous soyez en France
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -140,7 +140,7 @@ export default function VillesPage() {
         </p>
         <Link
           href="/register"
-          className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+          className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
         >
           Essai gratuit 14 jours
         </Link>

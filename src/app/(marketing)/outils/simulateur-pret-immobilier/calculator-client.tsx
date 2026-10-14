@@ -94,7 +94,7 @@ export function SimulateurPretClient() {
               placeholder="Ex. : 250000"
               value={purchasePrice}
               onChange={(e) => setPurchasePrice(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
             />
           </div>
 
@@ -110,7 +110,7 @@ export function SimulateurPretClient() {
               placeholder="Ex. : 50000"
               value={downPayment}
               onChange={(e) => setDownPayment(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
             />
           </div>
 
@@ -128,7 +128,7 @@ export function SimulateurPretClient() {
                 placeholder="Ex. : 4.2"
                 value={rate}
                 onChange={(e) => setRate(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
               />
             </div>
 
@@ -140,7 +140,7 @@ export function SimulateurPretClient() {
                 id="duration"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
               >
                 <option value="10">10 ans</option>
                 <option value="15">15 ans</option>
@@ -154,7 +154,7 @@ export function SimulateurPretClient() {
           <button
             type="button"
             onClick={calculate}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl text-lg transition-colors shadow-sm"
+            className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors shadow-sm"
           >
             Calculer ma mensualité
           </button>
@@ -198,7 +198,7 @@ export function SimulateurPretClient() {
       {/* Amortization Table */}
       {result && (
         <div className="bg-white rounded-2xl shadow border border-stone-200 p-6">
-          <h2 className="text-lg font-bold text-stone-800 mb-4">Tableau d'amortissement (par année)</h2>
+          <h2 className="text-lg font-semibold text-stone-800 mb-4">Tableau d'amortissement (par année)</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -238,7 +238,7 @@ export function SimulateurPretClient() {
 
       {/* FAQ */}
       <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8">
-        <h2 className="text-xl font-bold text-stone-800 mb-6">Questions fréquentes</h2>
+        <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
         <div className="space-y-5">
           {faqData.map((item, i) => (
             <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
@@ -250,9 +250,9 @@ export function SimulateurPretClient() {
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/outils/calculateur-rendement" className="text-blue-600 hover:underline">Calculateur rendement locatif →</Link>
-        <Link href="/templates" className="text-blue-600 hover:underline">Modèles de bail gratuits →</Link>
-        <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
+        <Link href="/outils/calculateur-rendement" className="text-forest hover:underline">Calculateur rendement locatif →</Link>
+        <Link href="/templates" className="text-forest hover:underline">Modèles de bail gratuits →</Link>
+        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
       </div>
     </div>
   );

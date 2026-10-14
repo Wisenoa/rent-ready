@@ -183,7 +183,7 @@ const LOCATIONS_SCHEMA = {
 
 export default function LocationsPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <SchemaMarkup data={LOCATIONS_SCHEMA} breadcrumbRenderedByComponent />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
@@ -197,7 +197,7 @@ export default function LocationsPage() {
 
 {/* Hero */}
 <header className="mb-16 text-center">
-<h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+<h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
 Gérez toutes vos locations
 <br />
 en un seul endroit.
@@ -218,7 +218,7 @@ key={feature.title}
 className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md"
 >
 <div className="mb-3 text-3xl">{feature.icon}</div>
-<h3 className="mb-2 text-lg font-semibold text-stone-900">
+<h3 className="mb-2 text-lg font-semibold text-ink">
 {feature.title}
 </h3>
 <p className="text-sm text-stone-600">{feature.description}</p>
@@ -229,12 +229,12 @@ className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm back
 
 {/* Use cases */}
 <section className="mb-20">
-<h2 className="mb-8 text-2xl font-bold text-stone-900">
+<h2 className="mb-8 text-2xl font-semibold text-ink">
 Cas d'usage concrets
 </h2>
 <div className="grid gap-6 sm:grid-cols-2">
 <div className="rounded-xl border border-stone-200 bg-white p-6">
-<h3 className="mb-3 text-lg font-semibold text-stone-900">
+<h3 className="mb-3 text-lg font-semibold text-ink">
 📍 Propriétaires de 1 à 10 biens
 </h3>
 <p className="text-sm text-stone-600">
@@ -243,7 +243,7 @@ modeste. Ayez une vision claire sans complexité.
 </p>
 </div>
 <div className="rounded-xl border border-stone-200 bg-white p-6">
-<h3 className="mb-3 text-lg font-semibold text-stone-900">
+<h3 className="mb-3 text-lg font-semibold text-ink">
 🏢 Gestionnaires immobiliers
 </h3>
 <p className="text-sm text-stone-600">
@@ -252,7 +252,7 @@ navigateurs d'onglets et feuilles de calcul.
 </p>
 </div>
 <div className="rounded-xl border border-stone-200 bg-white p-6">
-<h3 className="mb-3 text-lg font-semibold text-stone-900">
+<h3 className="mb-3 text-lg font-semibold text-ink">
 📋 SCI et copropriétés
 </h3>
 <p className="text-sm text-stone-600">
@@ -261,7 +261,7 @@ associés à chaque lot.
 </p>
 </div>
 <div className="rounded-xl border border-stone-200 bg-white p-6">
-<h3 className="mb-3 text-lg font-semibold text-stone-900">
+<h3 className="mb-3 text-lg font-semibold text-ink">
 🧾 Experts-comptables
 </h3>
 <p className="text-sm text-stone-600">
@@ -274,7 +274,7 @@ données pour la comptabilité.
 
 {/* CTA */}
 <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-<h2 className="text-2xl font-bold sm:text-3xl">
+<h2 className="text-2xl font-semibold sm:text-3xl">
 Commencez à gérer vos locations en 5 minutes
 </h2>
 <p className="mx-auto mt-3 max-w-xl text-stone-700">
@@ -283,7 +283,7 @@ Simple et rapide.
 </p>
 <Link
 href="/register"
-className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
 >
 Essai gratuit 14 jours
 </Link>
@@ -293,19 +293,19 @@ Essai gratuit 14 jours
 <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/bail"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Gestion des baux →
 </Link>
 <Link
 href="/quittances"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Génération de quittances →
 </Link>
 <Link
 href="/pricing"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Tarifs →
 </Link>

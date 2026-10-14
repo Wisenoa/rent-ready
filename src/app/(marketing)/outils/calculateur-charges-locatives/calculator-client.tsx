@@ -160,7 +160,7 @@ function ChargesCalculatorInner() {
               placeholder="Ex. : 750"
               value={monthlyRent}
               onChange={(e) => setMonthlyRent(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest focus:border-transparent"
             />
           </div>
 
@@ -169,21 +169,28 @@ function ChargesCalculatorInner() {
               Charges réelles (optionnel — laissez vide pour estimation moyenne)
             </p>
             <div className="space-y-3">
-              {CHARGES_CATEGORIES.map((cat) => (
-                <div key={cat.label} className="flex items-center gap-3">
-                  <label className="w-48 text-sm text-stone-600 shrink-0">
+              {CHARGES_CATEGORIES.map((cat, index) => (
+                <div
+                  key={cat.label}
+                  className="grid grid-cols-1 items-center gap-x-3 gap-y-1 sm:grid-cols-[12rem_minmax(0,1fr)_10rem]"
+                >
+                  <label
+                    htmlFor={`charge-${index}`}
+                    className="text-sm text-stone-600"
+                  >
                     {cat.label}
                   </label>
                   <input
+                    id={`charge-${index}`}
                     type="number"
                     min="0"
                     step="10"
                     placeholder={`~${cat.avgPercent}%`}
                     value={customCharges[cat.label] || ""}
                     onChange={(e) => handleCatChange(cat.label, e.target.value)}
-                    className="flex-1 border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="min-w-0 border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
                   />
-                  <span className="text-xs text-stone-600 w-40 shrink-0">/{cat.note}</span>
+                  <span className="text-xs text-stone-600">/{cat.note}</span>
                 </div>
               ))}
             </div>
@@ -192,7 +199,7 @@ function ChargesCalculatorInner() {
           <button
             type="button"
             onClick={calculate}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl text-lg transition-colors shadow-sm"
+            className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors shadow-sm"
           >
             Calculer les charges
           </button>
@@ -217,7 +224,7 @@ function ChargesCalculatorInner() {
                 -{result.totalAnnual.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
               </span>
             </div>
-            <div className="border-t border-green-200 pt-2 flex justify-between font-bold text-stone-900">
+            <div className="border-t border-green-200 pt-2 flex justify-between font-bold text-ink">
               <span>Revenu net annuel estimé</span>
               <span className="text-green-700">
                 {result.netIncome * 12 <= 0 ? "0" : (result.netIncome * 12).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
@@ -244,15 +251,15 @@ export function ChargesCalculatorClient() {
     <>
       <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-3xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
           <div className="mb-8">
-            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-2 bg-sage-100 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <span>🧮</span> Outil gratuit
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3 leading-tight">
               Calculateur de Charges Locatives
             </h1>
             <p className="text-lg text-stone-600 leading-relaxed">
@@ -265,7 +272,7 @@ export function ChargesCalculatorClient() {
           </div>
 
           <div className="prose prose-stone max-w-none mb-10">
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">
+            <h2 className="text-2xl font-semibold text-ink mb-4">
               Charges locatives : ce que vous devez savoir
             </h2>
             <p className="text-stone-700 leading-relaxed mb-4">
@@ -273,7 +280,7 @@ export function ChargesCalculatorClient() {
             </p>
 
             <h3 className="text-xl font-semibold text-stone-800 mb-3">Charges récupérables (décret 1982)</h3>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+            <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 mb-4">
               <ul className="list-disc pl-5 space-y-1 text-stone-700 text-sm">
                 <li>Eau froide et eaux usées</li>
                 <li>Taxe d'enlèvement des ordures ménagères (TEOM)</li>
@@ -296,7 +303,7 @@ export function ChargesCalculatorClient() {
           </div>
 
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8 mb-10">
-            <h2 className="text-xl font-bold text-stone-800 mb-6">Questions fréquentes</h2>
+            <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
             <div className="space-y-5">
               {faqData.map((item, i) => (
                 <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
@@ -308,10 +315,10 @@ export function ChargesCalculatorClient() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
-            <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
-            <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
-            <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
-            <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
+            <Link href="/bail" className="text-forest hover:underline">Bail de location →</Link>
+            <Link href="/quittances" className="text-forest hover:underline">Quittances automatiques →</Link>
+            <Link href="/templates" className="text-forest hover:underline">Modèles gratuits →</Link>
+            <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
           </div>
 
           <FinalCta />

@@ -39,7 +39,7 @@ const integrations = [
     label: "INSEE",
     sub: "Indice IRL en temps réel",
     icon: (
-      <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="size-4 text-forest shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <path d="M8 1L2 4v4.5c0 3.1 2.6 6 6 6s6-2.9 6-6V4L8 1z" />
         <path d="M5.5 8l1.8 1.8L10.5 6.5" />
       </svg>
@@ -49,7 +49,7 @@ const integrations = [
     label: "Export CSV",
     sub: "Vos paiements, à tout moment",
     icon: (
-      <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="size-4 text-forest shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <rect x="6" y="2" width="10" height="12" rx="1.5" />
         <path d="M6 6h4M6 9h4M6 12h2" />
       </svg>
@@ -59,7 +59,7 @@ const integrations = [
     label: "RGPD",
     sub: "Données hébergées en France",
     icon: (
-      <svg className="size-4 text-blue-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="size-4 text-forest shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="8" cy="8" r="6.5" />
         <path d="M5.5 8l1.8 1.8L10.5 6.5" />
       </svg>
@@ -82,7 +82,7 @@ export function SocialProof() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.07, duration: 0.4 }}
             >
-              <p className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
+              <p className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
                 {item.value}
               </p>
               <p className="mt-1 text-[12px] sm:text-[13px] text-stone-600">

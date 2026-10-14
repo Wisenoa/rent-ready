@@ -139,18 +139,18 @@ function BailColocJsonLd() {
 
 export default function BailColocationPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <BailColocJsonLd />
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="mb-4 inline-block rounded-lg bg-purple-100 px-4 py-1.5 text-sm font-medium text-purple-700">
+          <div className="mb-4 inline-block rounded-lg bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest">
             Modèle gratuit — Téléchargement instantané
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle Bail Colocation
             <br />
-            <span className="text-purple-600">Contrat Multi-Locataire</span>
+            <span className="text-forest">Contrat Multi-Locataire</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Téléchargez notre modèle de bail colocation gratuit. Clauses solidarité, partage des charges, gestion des départs.
@@ -159,7 +159,7 @@ export default function BailColocationPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-purple-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-purple-700 w-full sm:w-auto"
+              className="inline-block rounded-lg bg-forest px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-forest-hover w-full sm:w-auto"
             >
               Utiliser avec Lokna →
             </Link>
@@ -174,13 +174,13 @@ export default function BailColocationPage() {
 
         {/* Colocation types */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Les 3 types de colocation
           </h2>
           <div className="grid gap-6 sm:grid-cols-3">
             {typesColoc.map((t) => (
               <div key={t.titre} className="rounded-xl border border-stone-200 bg-white p-6">
-                <h3 className="mb-3 text-lg font-semibold text-stone-900">✓ {t.titre}</h3>
+                <h3 className="mb-3 text-lg font-semibold text-ink">✓ {t.titre}</h3>
                 <p className="text-sm text-stone-600">{t.description}</p>
               </div>
             ))}
@@ -189,7 +189,7 @@ export default function BailColocationPage() {
 
         {/* Obligations */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Obligations du bailleur en colocation
           </h2>
           <p className="mb-6 text-stone-700">
@@ -198,9 +198,9 @@ export default function BailColocationPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {obligationsColoc.map((o) => (
               <div key={o.titre} className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50 p-4">
-                <span className="mt-0.5 text-purple-600 font-bold">✓</span>
+                <span className="mt-0.5 text-forest font-bold">✓</span>
                 <div>
-                  <p className="font-semibold text-stone-900">{o.titre}</p>
+                  <p className="font-semibold text-ink">{o.titre}</p>
                   <p className="text-sm text-stone-600">{o.detail}</p>
                 </div>
               </div>
@@ -209,8 +209,8 @@ export default function BailColocationPage() {
         </section>
 
         {/* Clause solidarité */}
-        <section className="mb-16 rounded-2xl bg-purple-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-16 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             La clause de solidarité : notre recommandation
           </h2>
           <p className="mb-4 text-stone-700">
@@ -228,13 +228,13 @@ export default function BailColocationPage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes sur la colocation
           </h2>
           <div className="space-y-4">
             {faqData.map((item) => (
               <details key={item.question} className="group rounded-xl border border-stone-200 bg-white">
-                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-ink">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">▼</span>
                 </summary>
@@ -246,7 +246,7 @@ export default function BailColocationPage() {
 
         {/* CTA final */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Gérez vos colocations avec Lokna
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -254,7 +254,7 @@ export default function BailColocationPage() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-purple-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-purple-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours →
           </Link>
@@ -262,11 +262,11 @@ export default function BailColocationPage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/bail-vide" className="text-blue-600 hover:underline">Bail vide →</Link>
-          <Link href="/templates/bail-meuble" className="text-blue-600 hover:underline">Bail meublé →</Link>
-          <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">État des lieux →</Link>
-          <Link href="/templates/conge-locataire" className="text-blue-600 hover:underline">Congé locataire →</Link>
-          <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
+          <Link href="/templates/bail-vide" className="text-forest hover:underline">Bail vide →</Link>
+          <Link href="/templates/bail-meuble" className="text-forest hover:underline">Bail meublé →</Link>
+          <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">État des lieux →</Link>
+          <Link href="/templates/conge-locataire" className="text-forest hover:underline">Congé locataire →</Link>
+          <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
         </nav>
       </article>
       <FinalCta />

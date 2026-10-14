@@ -384,6 +384,7 @@ export default async function BailVillePage({ params }: Props) {
     <>
       <SchemaMarkup data={buildBailVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
+        className="mx-auto max-w-6xl flex-wrap px-4 pt-5 sm:px-6"
         items={[
           { label: "Accueil", href: "/" },
           { label: "Bail de location", href: "/bail" },
@@ -394,10 +395,10 @@ export default async function BailVillePage({ params }: Props) {
         {/* ── Hero ── */}
         <section className="bg-gradient-to-b from-[#f8f7f4] to-white px-4 py-20 text-center sm:px-6 sm:py-28">
           <div className="mx-auto max-w-3xl">
-            <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
+            <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
               Modèles gratuits · {city.region}
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+            <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
               Modèle de bail à&nbsp;{city.name}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-stone-600">
@@ -423,7 +424,7 @@ export default async function BailVillePage({ params }: Props) {
               </Link>
               <Link
                 href="/register"
-                className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+                className="rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
               >
                 Essai gratuit 14 jours
               </Link>
@@ -434,7 +435,7 @@ export default async function BailVillePage({ params }: Props) {
         {/* ── Bail type cards ── */}
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-6xl">
-            <h2 className="mb-2 text-center text-2xl font-bold text-stone-900 sm:text-3xl">
+            <h2 className="mb-2 text-center text-2xl font-semibold text-ink sm:text-3xl">
               Modèles de bail pour {city.name}
             </h2>
             <p className="mb-12 text-center text-stone-600">
@@ -444,11 +445,11 @@ export default async function BailVillePage({ params }: Props) {
               {bailTypes.map((card) => (
                 <div
                   key={card.type}
-                  className="group relative overflow-hidden rounded-2xl border border-stone-200 bg-[#f8f7f4] p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  className="group relative overflow-hidden rounded-2xl border border-stone-200 bg-cream p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   {card.popular && (
                     <div className="absolute -right-1 -top-1">
-                      <span className="inline-flex items-center rounded-bl-lg rounded-tr-lg bg-blue-600 px-3 py-1 text-xs font-semibold text-white">
+                      <span className="inline-flex items-center rounded-bl-lg rounded-tr-lg bg-forest px-3 py-1 text-xs font-semibold text-white">
                         Populaire
                       </span>
                     </div>
@@ -457,7 +458,7 @@ export default async function BailVillePage({ params }: Props) {
                     {card.emoji}
                   </span>
                   <div className="mt-3 flex items-center justify-between">
-                    <h3 className="text-base font-semibold text-stone-900">
+                    <h3 className="text-base font-semibold text-ink">
                       {card.type}
                     </h3>
                     <span className="rounded border border-stone-300 bg-white px-2 py-0.5 text-xs text-stone-600">
@@ -479,7 +480,7 @@ export default async function BailVillePage({ params }: Props) {
                   </dl>
                   <Link
                     href={card.href}
-                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-600"
+                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-forest-hover"
                   >
                     Voir le modèle →
                   </Link>
@@ -489,13 +490,13 @@ export default async function BailVillePage({ params }: Props) {
 
             {/* Internal links */}
             <div className="mt-10 flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-              <Link href="/quittances" className="text-blue-600 hover:underline">
+              <Link href="/quittances" className="text-forest hover:underline">
                 Générer une quittance →
               </Link>
-              <Link href="/outils/calculateur-depot-garantie" className="text-blue-600 hover:underline">
+              <Link href="/outils/calculateur-depot-garantie" className="text-forest hover:underline">
                 Calculateur dépôt →
               </Link>
-              <Link href="/gestion-locative" className="text-blue-600 hover:underline">
+              <Link href="/gestion-locative" className="text-forest hover:underline">
                 Gestion locative →
               </Link>
               {ctx.isZoneTendue && (
@@ -508,9 +509,9 @@ export default async function BailVillePage({ params }: Props) {
         </section>
 
         {/* ── Local context ── */}
-        <section className="bg-[#f8f7f4] px-4 py-16 sm:px-6 sm:py-24">
+        <section className="bg-cream px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-4xl">
-            <h2 className="mb-6 text-2xl font-bold text-stone-900 sm:text-3xl">
+            <h2 className="mb-6 text-2xl font-semibold text-ink sm:text-3xl">
               Louer à {city.name} en 2026 — ce qu&apos;il faut savoir
             </h2>
             <div className="space-y-4 text-stone-700 leading-relaxed">
@@ -530,7 +531,7 @@ export default async function BailVillePage({ params }: Props) {
                   key={stat.label}
                   className="rounded-lg border border-stone-200/80 bg-white p-5 text-center shadow-sm"
                 >
-                  <p className="text-2xl font-bold text-stone-900">{stat.value}</p>
+                  <p className="text-2xl font-bold text-ink">{stat.value}</p>
                   <p className="mt-1 text-sm text-stone-600">{stat.label}</p>
                 </div>
               ))}
@@ -539,7 +540,7 @@ export default async function BailVillePage({ params }: Props) {
             {/* ── Neighborhoods: Paris ── */}
             {city.slug === "paris" && (
               <div className="mt-10">
-                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                <h3 className="mb-4 text-lg font-semibold text-ink">
                   Quartiers parisiens — ce qu'un bailleur doit savoir
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -554,7 +555,7 @@ export default async function BailVillePage({ params }: Props) {
                     <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="font-semibold text-stone-900">{q.name}</p>
+                          <p className="font-semibold text-ink">{q.name}</p>
                           <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
                         </div>
                         <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
@@ -574,7 +575,7 @@ export default async function BailVillePage({ params }: Props) {
             {/* ── Neighborhoods: Lyon ── */}
             {city.slug === "lyon" && (
               <div className="mt-10">
-                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                <h3 className="mb-4 text-lg font-semibold text-ink">
                   Quartiers lyonnais — bail et loyer de référence
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -587,7 +588,7 @@ export default async function BailVillePage({ params }: Props) {
                     { name: "Gerland", detail: "En hausse, biotech/tertiaire" },
                   ].map((q) => (
                     <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
-                      <p className="font-semibold text-stone-900">{q.name}</p>
+                      <p className="font-semibold text-ink">{q.name}</p>
                       <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
                     </div>
                   ))}
@@ -598,7 +599,7 @@ export default async function BailVillePage({ params }: Props) {
             {/* ── Neighborhoods: Marseille ── */}
             {city.slug === "marseille" && (
               <div className="mt-10">
-                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                <h3 className="mb-4 text-lg font-semibold text-ink">
                   Quartiers marseillais — marché locatif local
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -611,7 +612,7 @@ export default async function BailVillePage({ params }: Props) {
                     { name: "Castellane", detail: "Commerçant, accessible" },
                   ].map((q) => (
                     <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
-                      <p className="font-semibold text-stone-900">{q.name}</p>
+                      <p className="font-semibold text-ink">{q.name}</p>
                       <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
                     </div>
                   ))}
@@ -645,13 +646,13 @@ export default async function BailVillePage({ params }: Props) {
         {/* ── FAQ ── */}
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-3xl">
-            <h2 className="mb-8 text-center text-2xl font-bold text-stone-900 sm:text-3xl">
+            <h2 className="mb-8 text-center text-2xl font-semibold text-ink sm:text-3xl">
               Questions fréquentes — Bail à {city.name}
             </h2>
             <div className="divide-y divide-stone-200">
               {faqs.map((faq) => (
                 <details key={faq.question} className="group py-5">
-                  <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
+                  <summary className="flex cursor-pointer items-center justify-between font-medium text-ink">
                     {faq.question}
                     <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                       +
@@ -667,9 +668,9 @@ export default async function BailVillePage({ params }: Props) {
         </section>
 
         {/* ── CTA ── */}
-        <section className="bg-[#f8f7f4] px-4 py-16 sm:px-6 sm:py-24">
+        <section className="bg-cream px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-2xl rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-            <h2 className="text-2xl font-bold sm:text-3xl">
+            <h2 className="text-2xl font-semibold sm:text-3xl">
               Gérez vos baux et vos quittances à {city.name} avec Lokna
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
@@ -678,7 +679,7 @@ export default async function BailVillePage({ params }: Props) {
             </p>
             <Link
               href="/register"
-              className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+              className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
             >
               Créer mon compte gratuitement
             </Link>

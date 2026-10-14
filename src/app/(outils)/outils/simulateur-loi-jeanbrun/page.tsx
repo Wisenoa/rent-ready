@@ -129,8 +129,8 @@ const jeanbrunJsonLd = {
 
 function LegalBasis() {
   return (
-    <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-5">
-      <p className="flex items-start gap-2 text-sm text-blue-800">
+    <div className="rounded-xl border border-sage-100 bg-sage-50/50 p-5">
+      <p className="flex items-start gap-2 text-sm text-ink">
         <Info className="mt-0.5 size-4 shrink-0" />
         <span>
           <strong>Basis légale :</strong> Loi de finances 2025 (dispositif
@@ -205,7 +205,7 @@ export default function SimulateurJeanbrunPage() {
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
         {/* ── H1 + intro ── */}
         <section className="mb-12 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Simulateur Loi Jeanbrun 2026 : comparez LMNP et nouveau dispositif
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-stone-600">
@@ -227,7 +227,7 @@ export default function SimulateurJeanbrunPage() {
 
         {/* ── How-to use ── */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Comment utiliser ce simulateur pour choisir votre régime fiscal
           </h2>
           <div className="rounded-xl border border-stone-200/60 bg-white p-6 sm:p-8">
@@ -271,7 +271,7 @@ export default function SimulateurJeanbrunPage() {
 
         {/* ── Jeanbrun vs LMNP comparison ── */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Dispositif Jeanbrun vs LMNP : quelle différence ?
           </h2>
           <div className="overflow-hidden rounded-xl border border-stone-200/60">
@@ -371,7 +371,7 @@ export default function SimulateurJeanbrunPage() {
 
         {/* ── FAQ ── */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes sur la loi Jeanbrun et le LMNP
           </h2>
           <div className="space-y-3">
@@ -393,13 +393,13 @@ export default function SimulateurJeanbrunPage() {
 
         {/* ── Related resources ── */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Ressources complémentaires
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <Link
               href="/blog/statut-lmnp-2026-guide-complet"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30">
+              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-sage-200 hover:bg-sage-50/30">
               <span className="text-2xl">📄</span>
               <div>
                 <p className="font-medium text-stone-800">
@@ -410,7 +410,7 @@ export default function SimulateurJeanbrunPage() {
             </Link>
             <Link
               href="/blog/lmnp-declaration-fiscale-2026"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30">
+              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-sage-200 hover:bg-sage-50/30">
               <span className="text-2xl">📊</span>
               <div>
                 <p className="font-medium text-stone-800">
@@ -421,7 +421,7 @@ export default function SimulateurJeanbrunPage() {
             </Link>
             <Link
               href="/templates/bail-vide"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30">
+              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-sage-200 hover:bg-sage-50/30">
               <span className="text-2xl">📄</span>
               <div>
                 <p className="font-medium text-stone-800">
@@ -432,7 +432,7 @@ export default function SimulateurJeanbrunPage() {
             </Link>
             <Link
               href="/glossaire-immobilier"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30">
+              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-sage-200 hover:bg-sage-50/30">
               <span className="text-2xl">📖</span>
               <div>
                 <p className="font-medium text-stone-800">
@@ -446,10 +446,10 @@ export default function SimulateurJeanbrunPage() {
 
         {/* ── CTA Banner ── */}
         <section
-          className="rounded-xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-blue-100/50 p-8 text-center sm:p-10"
+          className="rounded-xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-sage-100/50 p-8 text-center sm:p-10"
           aria-label="Appel à l'action"
         >
-          <h2 className="mb-3 text-xl font-bold text-stone-900 sm:text-2xl">
+          <h2 className="mb-3 text-xl font-semibold text-ink sm:text-2xl">
             Gérez vos investissements locatifs en un seul outil
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
@@ -459,7 +459,7 @@ export default function SimulateurJeanbrunPage() {
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             Commencer l&apos;essai gratuit
             <ArrowRight className="size-4" />

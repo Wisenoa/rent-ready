@@ -172,10 +172,10 @@ export function JeanbrunSimulator() {
       {/* ── Input form ── */}
       <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
         <div className="mb-6 flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-sage-50 text-forest">
             <Calculator className="size-5" />
           </div>
-          <h2 className="text-lg font-semibold text-stone-900">
+          <h2 className="text-lg font-semibold text-ink">
             Paramètres de simulation
           </h2>
         </div>
@@ -217,7 +217,7 @@ export function JeanbrunSimulator() {
                 id="tmi"
                 value={tmi}
                 onChange={(e) => setTmi(Number(e.target.value))}
-                className="h-10 w-full appearance-none rounded-lg border border-stone-200 bg-white px-3 pr-10 text-sm text-stone-900 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                className="h-10 w-full appearance-none rounded-lg border border-stone-200 bg-white px-3 pr-10 text-sm text-ink transition-colors focus:border-forest focus:ring-2 focus:ring-forest/20 focus:outline-none"
               >
                 {TMI_OPTIONS.map((rate) => (
                   <option key={rate} value={rate}>
@@ -234,10 +234,10 @@ export function JeanbrunSimulator() {
       {/* ── Result cards ── */}
       <div>
         <div className="mb-4 flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-sage-50 text-forest">
             <TrendingUp className="size-5" />
           </div>
-          <h2 className="text-lg font-semibold text-stone-900">
+          <h2 className="text-lg font-semibold text-ink">
             Comparaison des régimes fiscaux
           </h2>
         </div>
@@ -248,17 +248,17 @@ export function JeanbrunSimulator() {
               key={r.label}
               className={`relative rounded-2xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md ${
                 i === bestIdx
-                  ? "border-blue-600 ring-1 ring-blue-600"
+                  ? "border-forest ring-1 ring-forest"
                   : "border-stone-200"
               }`}
             >
               {i === bestIdx && (
-                <span className="absolute -top-3 left-4 rounded-full bg-blue-600 px-3 py-0.5 text-xs font-semibold text-white">
+                <span className="absolute -top-3 left-4 rounded-full bg-forest px-3 py-0.5 text-xs font-semibold text-white">
                   Recommandé
                 </span>
               )}
 
-              <h3 className="mb-4 text-base font-semibold text-stone-900">
+              <h3 className="mb-4 text-base font-semibold text-ink">
                 {r.label}
               </h3>
 
@@ -308,7 +308,7 @@ export function JeanbrunSimulator() {
 
       {/* ── 9-year projection table ── */}
       <div>
-        <h2 className="mb-4 text-lg font-semibold text-stone-900">
+        <h2 className="mb-4 text-lg font-semibold text-ink">
           Projection sur 9 ans : Jeanbrun vs Réel
         </h2>
         <div className="overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-sm">
@@ -365,7 +365,7 @@ export function JeanbrunSimulator() {
             </tbody>
             <tfoot>
               <tr className="border-t-2 border-stone-200 bg-stone-50 font-semibold">
-                <td className="px-4 py-3 text-stone-900" colSpan={4}>
+                <td className="px-4 py-3 text-ink" colSpan={4}>
                   Total économie sur 9 ans
                 </td>
                 <td
@@ -427,7 +427,7 @@ function NumberInput({
           const v = Number(e.target.value);
           if (!Number.isNaN(v)) onChange(v);
         }}
-        className="h-10 w-full rounded-lg border border-stone-200 bg-white px-3 text-sm text-stone-900 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+        className="h-10 w-full rounded-lg border border-stone-200 bg-white px-3 text-sm text-ink transition-colors focus:border-forest focus:ring-2 focus:ring-forest/20 focus:outline-none"
       />
     </div>
   );
@@ -456,9 +456,9 @@ function ResultRow({
       <dd
         className={`text-right tabular-nums ${
           highlight
-            ? "font-bold text-blue-600"
+            ? "font-bold text-forest"
             : bold
-              ? "font-semibold text-stone-900"
+              ? "font-semibold text-ink"
               : negative
                 ? "text-red-500"
                 : "text-stone-700"

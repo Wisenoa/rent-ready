@@ -81,14 +81,14 @@ export default function SimulateurFiscalLmnpPage() {
   return (
     <>
       <SimulateurFiscalLmnpJsonLd />
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-3xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
           <div className="mb-8">
-            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-2 bg-sage-100 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <span>🏠</span> Outil gratuit
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3 leading-tight">
               Simulateur Fiscal LMNP
             </h1>
             <p className="text-lg text-stone-600 leading-relaxed">

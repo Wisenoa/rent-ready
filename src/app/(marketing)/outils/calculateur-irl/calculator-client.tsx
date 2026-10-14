@@ -95,19 +95,19 @@ export function IRLCalculatorClient() {
   return (
     <>
 
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-5xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
           {/* Header */}
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-1.5 bg-sage-50 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
               Mis à jour Avril 2025 — Source INSEE
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3">
               Calculateur IRL — Indice de Référence des Loyers
             </h1>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -117,7 +117,7 @@ export function IRLCalculatorClient() {
 
           {/* IRL Table */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-1">Historique des IRL</h2>
+            <h2 className="text-xl font-semibold text-ink mb-1">Historique des IRL</h2>
             <p className="text-sm text-stone-600 mb-6">Derniers trimestres publies par l'INSEE</p>
 
             <div className="overflow-x-auto">
@@ -137,11 +137,11 @@ export function IRLCalculatorClient() {
                     return (
                       <tr
                         key={q.quarter}
-                        className={`border-b border-stone-100 hover:bg-stone-50 cursor-pointer ${selectedQuarter.quarter === q.quarter ? "bg-blue-50" : ""}`}
+                        className={`border-b border-stone-100 hover:bg-stone-50 cursor-pointer ${selectedQuarter.quarter === q.quarter ? "bg-sage-50" : ""}`}
                         onClick={() => setSelectedQuarter(q)}
                       >
-                        <td className="py-3 px-4 font-medium text-stone-900">{q.quarter} <span className="text-stone-600 text-xs">({q.date})</span></td>
-                        <td className="py-3 px-4 text-right font-mono font-semibold text-stone-900">{q.value}</td>
+                        <td className="py-3 px-4 font-medium text-ink">{q.quarter} <span className="text-stone-600 text-xs">({q.date})</span></td>
+                        <td className="py-3 px-4 text-right font-mono font-semibold text-ink">{q.value}</td>
                         <td className={`py-3 px-4 text-right font-semibold ${pct && parseFloat(pct) >= 0 ? "text-green-600" : "text-red-500"}`}>
                           {pct ? `${parseFloat(pct) >= 0 ? "+" : ""}${pct}%` : "—"}
                         </td>
@@ -155,15 +155,15 @@ export function IRLCalculatorClient() {
 
           {/* Selected IRL Detail */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Trimestre selectionne : {selectedQuarter.quarter}</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Trimestre selectionne : {selectedQuarter.quarter}</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-stone-50 rounded-xl p-4 text-center">
                 <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Valeur IRL</div>
-                <div className="text-2xl font-bold text-stone-900">{selectedQuarter.value}</div>
+                <div className="text-2xl font-bold text-ink">{selectedQuarter.value}</div>
               </div>
               <div className="bg-stone-50 rounded-xl p-4 text-center">
                 <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Date de publication</div>
-                <div className="text-2xl font-bold text-stone-900">{selectedQuarter.date}</div>
+                <div className="text-2xl font-bold text-ink">{selectedQuarter.date}</div>
               </div>
               {variation && (
                 <div className="bg-stone-50 rounded-xl p-4 text-center">
@@ -173,9 +173,9 @@ export function IRLCalculatorClient() {
                   </div>
                 </div>
               )}
-              <div className="bg-blue-50 rounded-xl p-4 text-center">
-                <div className="text-xs text-blue-600 uppercase tracking-wide mb-1">Statut</div>
-                <div className="text-2xl font-bold text-blue-700">Actif</div>
+              <div className="bg-sage-50 rounded-xl p-4 text-center">
+                <div className="text-xs text-forest uppercase tracking-wide mb-1">Statut</div>
+                <div className="text-2xl font-bold text-forest">Actif</div>
               </div>
             </div>
 
@@ -192,12 +192,12 @@ export function IRLCalculatorClient() {
 
           {/* FAQ */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-6">Questions fréquentes sur l'IRL</h2>
+            <h2 className="text-xl font-semibold text-ink mb-6">Questions fréquentes sur l'IRL</h2>
             <div className="space-y-4">
               {faqData.map((faq, i) => (
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
-                    <span className="font-semibold text-stone-900">{faq.question}</span>
+                    <span className="font-semibold text-ink">{faq.question}</span>
                     <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
@@ -210,33 +210,33 @@ export function IRLCalculatorClient() {
 
           {/* Internal Links */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Outils complémentaires</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Outils complémentaires</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📈</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Calculateur de Révision de Loyer</div>
+                  <div className="font-semibold text-ink">Calculateur de Révision de Loyer</div>
                   <div className="text-sm text-stone-600">Apply the IRL to your rent</div>
                 </div>
               </Link>
-              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
+                  <div className="font-semibold text-ink">Modèle de Bail de Location</div>
                   <div className="text-sm text-stone-600">Bail conforme avec clause IRL</div>
                 </div>
               </Link>
-              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
+                  <div className="font-semibold text-ink">Glossaire Immobilier</div>
                   <div className="text-sm text-stone-600">Toutes les definitions legales</div>
                 </div>
               </Link>
-              <Link href="/outils/calculateur-depot-garantie" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-depot-garantie" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">🔐</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Calculateur Caution</div>
+                  <div className="font-semibold text-ink">Calculateur Caution</div>
                   <div className="text-sm text-stone-600">Deposit maximum legal</div>
                 </div>
               </Link>
@@ -244,16 +244,16 @@ export function IRLCalculatorClient() {
           </div>
 
           {/* CTA */}
-          <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-bold mb-2">Genererez vos documents avec l'IRL</h2>
-            <p className="text-blue-100 mb-6 max-w-xl mx-auto">
+          <div className="bg-forest rounded-2xl p-8 text-center text-white mb-8">
+            <h2 className="text-2xl font-semibold mb-2">Genererez vos documents avec l'IRL</h2>
+            <p className="text-cream/80 mb-6 max-w-xl mx-auto">
               Lokna calcul automatiquement la révision IRL de vos loyers et genere les annexes pour vos baux.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
+              <Link href="/register" className="inline-block bg-white text-forest font-bold px-8 py-3.5 rounded-xl hover:bg-sage-50 transition-colors">
                 Essai gratuit 14 jours
               </Link>
-              <Link href="/outils" className="inline-block border-2 border-blue-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-blue-500 transition-colors">
+              <Link href="/outils" className="inline-block border-2 border-sage-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-forest transition-colors">
                 Autres outils gratuits
               </Link>
             </div>

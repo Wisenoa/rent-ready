@@ -129,7 +129,7 @@ function CongeLocataireJsonLd() {
 
 export default function CongeLocatairePage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <CongeLocataireJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
@@ -137,7 +137,7 @@ export default function CongeLocatairePage() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-red-100 px-4 py-1.5 text-sm font-medium text-red-700">
             📬 Congé du locataire
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle de Congé Locataire
             <br />
             <span className="text-red-600">Par le Propriétaire</span>
@@ -165,7 +165,7 @@ export default function CongeLocatairePage() {
         </header>
 
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Ce que contient le modèle
           </h2>
           <div className="grid gap-6 sm:grid-cols-2">
@@ -197,7 +197,7 @@ export default function CongeLocatairePage() {
               >
                 <span className="text-2xl">{item.icon}</span>
                 <div>
-                  <h3 className="mb-1 font-semibold text-stone-900">{item.title}</h3>
+                  <h3 className="mb-1 font-semibold text-ink">{item.title}</h3>
                   <p className="text-sm text-stone-600">{item.desc}</p>
                 </div>
               </div>
@@ -206,7 +206,7 @@ export default function CongeLocatairePage() {
         </section>
 
         <section className="mb-20 rounded-2xl bg-red-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Motifs de congé légitimes
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -231,7 +231,7 @@ export default function CongeLocatairePage() {
 
         {/* Step-by-step */}
         <section className="mb-20 rounded-2xl bg-white p-8 shadow-sm sm:p-10">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Comment donner congé à un locataire
           </h2>
           <div className="space-y-6">
@@ -267,7 +267,7 @@ export default function CongeLocatairePage() {
                   {item.step}
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-stone-900">{item.title}</h3>
+                  <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
                   <p className="text-sm text-stone-600">{item.desc}</p>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export default function CongeLocatairePage() {
 
         {/* Comparison */}
         <section className="mb-20 rounded-2xl bg-stone-100 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Congé donné par le propriétaire vs. congé donné par le locataire
           </h2>
           <p className="mb-6 text-stone-600">
@@ -288,8 +288,8 @@ export default function CongeLocatairePage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-stone-300">
-                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Critère</th>
-                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Par le Propriétaire</th>
+                  <th className="text-left py-3 px-4 font-semibold text-ink">Critère</th>
+                  <th className="text-left py-3 px-4 font-semibold text-ink">Par le Propriétaire</th>
                   <th className="text-left py-3 px-4 font-semibold text-red-700">Par le Locataire</th>
                 </tr>
               </thead>
@@ -314,7 +314,7 @@ export default function CongeLocatairePage() {
         </section>
 
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Envoyez un congé en conformité légale
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -338,7 +338,7 @@ export default function CongeLocatairePage() {
         </section>
 
         <section className="mb-16">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="mx-auto max-w-3xl space-y-4">
@@ -347,7 +347,7 @@ export default function CongeLocatairePage() {
                 key={i}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-stone-900 list-none">
+                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-ink list-none">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -362,7 +362,7 @@ export default function CongeLocatairePage() {
         </section>
 
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
-          <h2 className="mb-4 text-lg font-bold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Ressources complémentaires
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -375,7 +375,7 @@ export default function CongeLocatairePage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-forest hover:underline"
               >
                 {link.label}
               </Link>
@@ -385,7 +385,7 @@ export default function CongeLocatairePage() {
 
         {/* Related templates */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
-          <h2 className="mb-4 text-lg font-bold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Téléchargez aussi
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -400,7 +400,7 @@ export default function CongeLocatairePage() {
               >
                 <span className="text-2xl">{t.emoji}</span>
                 <div>
-                  <p className="font-medium text-stone-900">{t.label}</p>
+                  <p className="font-medium text-ink">{t.label}</p>
                   <p className="text-xs text-stone-500">{t.desc}</p>
                 </div>
               </Link>
@@ -409,13 +409,13 @@ export default function CongeLocatairePage() {
         </section>
 
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/conge-proprietaire" className="text-blue-600 hover:underline">
+          <Link href="/templates/conge-proprietaire" className="text-forest hover:underline">
             Congé propriétaire →
           </Link>
-          <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">
+          <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">
             État des lieux →
           </Link>
-          <Link href="/templates" className="text-blue-600 hover:underline">
+          <Link href="/templates" className="text-forest hover:underline">
             ← Tous les modèles
           </Link>
         </nav>

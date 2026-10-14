@@ -75,7 +75,7 @@ export function FaqSection() {
           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-600">
             Questions fréquentes
           </p>
-          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
+          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">
             Tout ce que vous devez savoir
             <br />
             sur la gestion locative automatisée

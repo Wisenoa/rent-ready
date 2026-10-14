@@ -94,7 +94,7 @@ async function generateQuittancePdf(data: QuittanceData) {
       fontSize: 12,
       fontFamily: "Helvetica-Bold",
       marginBottom: 6,
-      color: "#2563eb",
+      color: "#1E3A2F",
       textTransform: "uppercase",
       letterSpacing: 1,
     },
@@ -130,7 +130,7 @@ async function generateQuittancePdf(data: QuittanceData) {
       justifyContent: "space-between",
       paddingVertical: 8,
       paddingHorizontal: 10,
-      backgroundColor: "#2563eb",
+      backgroundColor: "#1E3A2F",
       borderRadius: 4,
       marginTop: 4,
     },
@@ -324,7 +324,7 @@ export function QuittanceGenerator() {
   }
 
   const inputClass =
-    "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-stone-900 placeholder:text-stone-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors text-sm";
+    "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-ink placeholder:text-stone-400 focus:border-forest focus:ring-2 focus:ring-forest/20 focus:outline-none transition-colors text-sm";
   const labelClass = "block text-sm font-medium text-stone-700 mb-1";
 
   return (
@@ -334,7 +334,7 @@ export function QuittanceGenerator() {
     >
       {/* Bailleur */}
       <fieldset>
-        <legend className="mb-4 text-lg font-semibold text-stone-900">
+        <legend className="mb-4 text-lg font-semibold text-ink">
           Bailleur
         </legend>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -402,7 +402,7 @@ export function QuittanceGenerator() {
 
       {/* Locataire */}
       <fieldset>
-        <legend className="mb-4 text-lg font-semibold text-stone-900">
+        <legend className="mb-4 text-lg font-semibold text-ink">
           Locataire
         </legend>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -470,7 +470,7 @@ export function QuittanceGenerator() {
 
       {/* Paiement */}
       <fieldset>
-        <legend className="mb-4 text-lg font-semibold text-stone-900">
+        <legend className="mb-4 text-lg font-semibold text-ink">
           Paiement
         </legend>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -572,7 +572,7 @@ export function QuittanceGenerator() {
           <span>Provisions pour charges</span>
           <span>{formatMontant(parseFloat(charges) || 0)} €</span>
         </div>
-        <div className="mt-2 flex items-center justify-between border-t border-stone-200 pt-2 text-base font-semibold text-stone-900">
+        <div className="mt-2 flex items-center justify-between border-t border-stone-200 pt-2 text-base font-semibold text-ink">
           <span>Total</span>
           <span>
             {formatMontant(
@@ -587,7 +587,7 @@ export function QuittanceGenerator() {
       <button
         type="submit"
         disabled={loading}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-forest px-6 py-3.5 font-semibold text-white shadow-sm transition-colors hover:bg-forest-hover focus:ring-2 focus:ring-forest/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading ? (
           <>

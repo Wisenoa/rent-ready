@@ -146,7 +146,7 @@ function ProtocolEtatDesLieuxJsonLd() {
 
 export default function ProtocolEtatDesLieuxPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <ProtocolEtatDesLieuxJsonLd />
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
@@ -154,7 +154,7 @@ export default function ProtocolEtatDesLieuxPage() {
           <div className="mb-4 inline-block rounded-lg bg-amber-100 px-4 py-1.5 text-sm font-medium text-amber-700">
             Modèle gratuit — Téléchargement instantané
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Protocole État des Lieux
             <br />
             <span className="text-amber-600">Guide Complet et Check-list</span>
@@ -174,7 +174,7 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* Définition */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Pourquoi utiliser un protocole d'état des lieux ?</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">Pourquoi utiliser un protocole d'état des lieux ?</h2>
           <p className="mb-4 text-stone-700">
             Le <strong>protocole d'état des lieux</strong> est un guide méthodique pour réaliser une inspection complète du logement. Il vous permet de documenter l'état du bien de manière objective et contradictoire, protégeant à la fois le bailleur et le locataire.
           </p>
@@ -185,14 +185,14 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* Étapes */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">Les 6 étapes du protocole d'état des lieux</h2>
+          <h2 className="mb-6 text-2xl font-semibold text-ink">Les 6 étapes du protocole d'état des lieux</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {etapesProtocole.map((e, i) => (
               <div key={e.titre} className="rounded-xl border border-stone-200 bg-white p-6">
                 <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-700">
                   {i + 1}
                 </div>
-                <h3 className="mb-3 text-lg font-semibold text-stone-900">{e.titre}</h3>
+                <h3 className="mb-3 text-lg font-semibold text-ink">{e.titre}</h3>
                 <p className="text-sm text-stone-600">{e.description}</p>
               </div>
             ))}
@@ -201,12 +201,12 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* Zones d'inspection */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Zones d'inspection pièce par pièce</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">Zones d'inspection pièce par pièce</h2>
           <p className="mb-6 text-stone-700">Utilisez cette check-list pour ne rien oublier lors de l'inspection :</p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {zonesInspection.map((z) => (
               <div key={z.piece} className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-                <h3 className="mb-2 font-semibold text-stone-900">{z.piece}</h3>
+                <h3 className="mb-2 font-semibold text-ink">{z.piece}</h3>
                 <ul className="space-y-1">
                   {z.elements.map((el) => (
                     <li key={el} className="flex items-start gap-2 text-sm text-stone-600">
@@ -221,7 +221,7 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* Comparaison entrée/sortie */}
         <section className="mb-16 rounded-2xl bg-amber-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">État des lieux d'entrée vs de sortie</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">État des lieux d'entrée vs de sortie</h2>
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-xl border border-stone-200 bg-white p-6">
               <h3 className="mb-3 font-semibold text-emerald-700">✓ État des lieux d'entrée</h3>
@@ -248,11 +248,11 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes sur le protocole d'état des lieux</h2>
+          <h2 className="mb-6 text-2xl font-semibold text-ink">Questions fréquentes sur le protocole d'état des lieux</h2>
           <div className="space-y-4">
             {faqData.map((item) => (
               <details key={item.question} className="group rounded-xl border border-stone-200 bg-white">
-                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-ink">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">▼</span>
                 </summary>
@@ -264,7 +264,7 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Suivez vos locations avec Lokna</h2>
+          <h2 className="text-2xl font-semibold sm:text-3xl">Suivez vos locations avec Lokna</h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
             Ce protocole protège votre dépôt de garantie ; Lokna suit ensuite loyers, quittances et dépenses. Essai gratuit 14 jours.
           </p>
@@ -275,10 +275,10 @@ export default function ProtocolEtatDesLieuxPage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">État des lieux →</Link>
-          <Link href="/templates/bail-vide" className="text-blue-600 hover:underline">Bail vide →</Link>
-          <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
-          <Link href="/templates" className="text-blue-600 hover:underline">Tous les modèles →</Link>
+          <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">État des lieux →</Link>
+          <Link href="/templates/bail-vide" className="text-forest hover:underline">Bail vide →</Link>
+          <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
+          <Link href="/templates" className="text-forest hover:underline">Tous les modèles →</Link>
         </nav>
       </article>
       <FinalCta />

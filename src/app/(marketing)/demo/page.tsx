@@ -159,17 +159,17 @@ function DemoJsonLd() {
 
 export default function DemoPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <DemoJsonLd />
 
       <main className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
           {/* Left column — pitch */}
           <div>
-            <p className="mb-4 inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+            <p className="mb-4 inline-flex items-center rounded-full bg-sage-50 px-3 py-1 text-xs font-semibold text-forest">
               D\u00e9mo gratuite \u00b7 30 minutes
             </p>
-            <h1 className="mt-4 text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+            <h1 className="mt-4 text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
               Voyez {SITE_NAME} en action.
               <br />
               Sans engagement.
@@ -187,7 +187,7 @@ export default function DemoPage() {
                     \u2713
                   </span>
                   <div>
-                    <strong className="text-sm font-semibold text-stone-900">
+                    <strong className="text-sm font-semibold text-ink">
                       {b.title}
                     </strong>
                     <p className="mt-1 text-sm text-stone-600">{b.description}</p>
@@ -197,7 +197,7 @@ export default function DemoPage() {
             </ul>
 
             <div className="mt-10 rounded-2xl border border-stone-200 bg-white/60 p-6">
-              <p className="text-sm font-semibold text-stone-900">
+              <p className="text-sm font-semibold text-ink">
                 Ce qu'on couvre en 30 min :
               </p>
               <ul className="mt-4 space-y-2">
@@ -216,7 +216,7 @@ export default function DemoPage() {
           {/* Right column — form */}
           <div>
             <div className="rounded-[2rem] border border-stone-200/30 bg-white/60 shadow-2xl shadow-stone-900/[0.04] backdrop-blur-xl p-8 sm:p-10">
-              <h2 className="text-2xl font-bold text-stone-900">
+              <h2 className="text-2xl font-semibold text-ink">
                 R\u00e9servez votre cr\u00e9neau
               </h2>
               <p className="mt-2 text-sm text-stone-600">

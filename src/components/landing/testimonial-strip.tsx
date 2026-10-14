@@ -50,11 +50,11 @@ export function TestimonialStrip() {
               viewport={{ once: true }}
               transition={{ ...spring.gentle, delay: i * 0.06 }}
             >
-              <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+              <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-sage-50 text-forest">
                 <Icon className="size-4" aria-hidden="true" />
               </div>
               <div>
-                <p className="text-[13px] font-semibold text-stone-900">{title}</p>
+                <p className="text-[13px] font-semibold text-ink">{title}</p>
                 <p className="mt-1 text-[12px] leading-relaxed text-stone-600">
                   {text}
                 </p>

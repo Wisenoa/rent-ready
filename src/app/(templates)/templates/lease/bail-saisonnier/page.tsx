@@ -178,19 +178,19 @@ function BailSaisonnierJsonLd() {
 
 export default function BailSaisonnierPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <BailSaisonnierJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-cyan-100 px-4 py-1.5 text-sm font-medium text-cyan-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest">
             🌊 Bail de location saisonnière
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle de Bail Saisonnier
             <br />
-            <span className="text-cyan-600">Location de Vacances Conforme 2026</span>
+            <span className="text-forest">Location de Vacances Conforme 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail saisonnier pour meublé de tourisme classé. Consultez le modèle en ligne,
@@ -199,14 +199,14 @@ export default function BailSaisonnierPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-cyan-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-cyan-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-cyan-700 shadow-sm border border-cyan-200 transition-colors hover:bg-cyan-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-forest shadow-sm border border-sage-200 transition-colors hover:bg-sage-50"
             >
               Générer avec Lokna →
             </Link>
@@ -215,7 +215,7 @@ export default function BailSaisonnierPage() {
 
         {/* Features */}
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Caractéristiques du bail saisonnier
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -225,7 +225,7 @@ export default function BailSaisonnierPage() {
                 className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm"
               >
                 <div className="mb-3 text-3xl">{feature.icon}</div>
-                <h3 className="mb-2 text-lg font-semibold text-stone-900">
+                <h3 className="mb-2 text-lg font-semibold text-ink">
                   {feature.title}
                 </h3>
                 <p className="text-sm text-stone-600">{feature.description}</p>
@@ -235,8 +235,8 @@ export default function BailSaisonnierPage() {
         </section>
 
         {/* Classification */}
-        <section className="mb-20 rounded-2xl bg-cyan-50 p-8 sm:p-10">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+        <section className="mb-20 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Classification des meublés de tourisme
           </h2>
           <p className="mb-6 text-stone-700">
@@ -248,10 +248,10 @@ export default function BailSaisonnierPage() {
             {etoiles.map((e) => (
               <div
                 key={e.titre}
-                className="rounded-xl border border-cyan-200 bg-white p-4 text-center"
+                className="rounded-xl border border-sage-200 bg-white p-4 text-center"
               >
                 <div className="mb-2 text-2xl">{e.etoile}</div>
-                <div className="text-sm font-semibold text-stone-900">{e.titre}</div>
+                <div className="text-sm font-semibold text-ink">{e.titre}</div>
                 <div className="mt-1 text-xs text-stone-600">{e.desc}</div>
               </div>
             ))}
@@ -260,7 +260,7 @@ export default function BailSaisonnierPage() {
 
         {/* Step by step */}
         <section className="mb-20 rounded-2xl bg-white p-8 shadow-sm sm:p-10">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Comment mettre en location saisonnière ?
           </h2>
           <div className="space-y-6">
@@ -292,11 +292,11 @@ export default function BailSaisonnierPage() {
               },
             ].map((item) => (
               <div key={item.step} className="flex gap-4">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-100 text-sm font-bold text-cyan-700">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sage-100 text-sm font-bold text-forest">
                   {item.step}
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-stone-900">{item.title}</h3>
+                  <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
                   <p className="text-sm text-stone-600">{item.desc}</p>
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default function BailSaisonnierPage() {
 
         {/* Legal */}
         <section className="mb-20 rounded-2xl bg-amber-50 border border-amber-200 p-8">
-          <h2 className="mb-3 text-lg font-bold text-stone-900">
+          <h2 className="mb-3 text-lg font-semibold text-ink">
             ⚠️ Réglementation en zone tendue
           </h2>
           <p className="text-sm text-stone-700">
@@ -322,7 +322,7 @@ export default function BailSaisonnierPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Louez votre bien en saison en toute sérénité
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -332,7 +332,7 @@ export default function BailSaisonnierPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-cyan-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-cyan-700"
+              className="inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours
             </Link>
@@ -347,7 +347,7 @@ export default function BailSaisonnierPage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="mx-auto max-w-3xl space-y-4">
@@ -356,7 +356,7 @@ export default function BailSaisonnierPage() {
                 key={i}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-stone-900 list-none">
+                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-ink list-none">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -372,7 +372,7 @@ export default function BailSaisonnierPage() {
 
         {/* Related */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
-          <h2 className="mb-4 text-lg font-bold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Ressources complémentaires
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -385,7 +385,7 @@ export default function BailSaisonnierPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-cyan-600 hover:underline"
+                className="text-sm text-forest hover:underline"
               >
                 {link.label}
               </Link>
@@ -395,16 +395,16 @@ export default function BailSaisonnierPage() {
 
         {/* Navigation */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/lease/bail-parking" className="text-cyan-600 hover:underline">
+          <Link href="/templates/lease/bail-parking" className="text-forest hover:underline">
             Bail parking →
           </Link>
-          <Link href="/templates/lease/bail-precaire" className="text-cyan-600 hover:underline">
+          <Link href="/templates/lease/bail-precaire" className="text-forest hover:underline">
             Bail précaire →
           </Link>
-          <Link href="/templates/lease/bail-etudiant" className="text-cyan-600 hover:underline">
+          <Link href="/templates/lease/bail-etudiant" className="text-forest hover:underline">
             Bail étudiant →
           </Link>
-          <Link href="/templates/lease" className="text-blue-600 hover:underline">
+          <Link href="/templates/lease" className="text-forest hover:underline">
             ← Tous les baux de location
           </Link>
         </nav>

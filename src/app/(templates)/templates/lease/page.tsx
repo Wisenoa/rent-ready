@@ -150,16 +150,16 @@ const leaseTypes = [
 ];
 
 const colorMap: Record<string, string> = {
-  blue: "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100",
-  indigo: "bg-indigo-50 text-indigo-700 border-indigo-200 hover:bg-indigo-100",
+  blue: "bg-sage-50 text-forest border-sage-200 hover:bg-sage-100",
+  indigo: "bg-sage-50 text-forest border-sage-200 hover:bg-sage-100",
   amber: "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100",
   emerald: "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100",
-  cyan: "bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100",
+  cyan: "bg-sage-50 text-forest border-sage-200 hover:bg-sage-100",
   orange: "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100",
-  purple: "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100",
+  purple: "bg-sage-50 text-forest border-sage-200 hover:bg-sage-100",
   rose: "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100",
   slate: "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100",
-  teal: "bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100",
+  teal: "bg-sage-50 text-forest border-sage-200 hover:bg-sage-100",
 };
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
@@ -171,17 +171,17 @@ export default function LeaseTemplatesPage() {
   return (
     <>
       <LeaseTemplatesJsonLd />
-      <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+      <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest">
             📋 Modèles de bail de location
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Tous nos Modèles de Bail
             <br />
-            <span className="text-blue-600">Gratuits &amp; Conformes 2026</span>
+            <span className="text-forest">Gratuits &amp; Conformes 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Choisissez le modèle adapté à votre situation. Chaque modèle est
@@ -190,14 +190,14 @@ export default function LeaseTemplatesPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-hover"
             >
               Générer un bail en ligne
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/templates"
-              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-sm border border-blue-200 transition-colors hover:bg-blue-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-forest shadow-sm border border-sage-200 transition-colors hover:bg-sage-50"
             >
               ← Tous les modèles
             </Link>
@@ -205,8 +205,8 @@ export default function LeaseTemplatesPage() {
         </header>
 
         {/* Intro */}
-        <section className="mb-16 rounded-2xl bg-blue-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-16 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Quel bail choisir pour votre location ?
           </h2>
           <p className="text-stone-700">
@@ -219,7 +219,7 @@ export default function LeaseTemplatesPage() {
 
         {/* Grid of lease types */}
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Nos modèles de bail
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -250,7 +250,7 @@ export default function LeaseTemplatesPage() {
 
         {/* Legal disclaimer */}
         <section className="mb-16 rounded-2xl bg-amber-50 border border-amber-200 p-8">
-          <h2 className="mb-3 text-lg font-bold text-stone-900">
+          <h2 className="mb-3 text-lg font-semibold text-ink">
             ⚠️ Avertissement juridique
           </h2>
           <p className="text-sm text-stone-700">
@@ -266,7 +266,7 @@ export default function LeaseTemplatesPage() {
 
         {/* CTA */}
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Créez et gérez vos bails en ligne
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -276,7 +276,7 @@ export default function LeaseTemplatesPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+              className="inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours
             </Link>

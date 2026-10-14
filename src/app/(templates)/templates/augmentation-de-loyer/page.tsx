@@ -161,19 +161,19 @@ function AugmentationLoyerJsonLd() {
 
 export default function AugmentationDeLoyerPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <AugmentationLoyerJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="inline-block rounded-lg bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700 mb-4">
+          <div className="inline-block rounded-lg bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest mb-4">
             Modèle gratuit — Téléchargement instantané
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle Lettre Augmentation de Loyer
             <br />
-            <span className="text-blue-600">Gratuit et Conforme IRL 2026</span>
+            <span className="text-forest">Gratuit et Conforme IRL 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Téléchargez notre modèle de lettre d'augmentation de loyer gratuit.
@@ -183,7 +183,7 @@ export default function AugmentationDeLoyerPage() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-blue-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-blue-700 w-full sm:w-auto"
+              className="inline-block rounded-lg bg-forest px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-forest-hover w-full sm:w-auto"
             >
               Calculer et générer →
             </Link>
@@ -198,7 +198,7 @@ export default function AugmentationDeLoyerPage() {
 
         {/* Lead */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Quand et comment un bailleur peut-il augmenter le loyer ?
           </h2>
           <p className="mb-4 text-stone-700">
@@ -223,7 +223,7 @@ export default function AugmentationDeLoyerPage() {
 
         {/* Conditions */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Les conditions pour augmenter le loyer
           </h2>
           <div className="grid gap-6 sm:grid-cols-2">
@@ -232,7 +232,7 @@ export default function AugmentationDeLoyerPage() {
                 key={condition.titre}
                 className="rounded-xl border border-stone-200 bg-white p-6"
               >
-                <h3 className="mb-3 text-lg font-semibold text-stone-900">
+                <h3 className="mb-3 text-lg font-semibold text-ink">
                   ✓ {condition.titre}
                 </h3>
                 <p className="text-sm text-stone-600">{condition.description}</p>
@@ -242,15 +242,15 @@ export default function AugmentationDeLoyerPage() {
         </section>
 
         {/* Calcul IRL */}
-        <section className="mb-16 rounded-2xl bg-blue-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-16 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Calculer l'augmentation : la formule IRL
           </h2>
           <p className="mb-6 text-stone-700">
             L'augmentation de loyer est calculée selon la formule suivante :
           </p>
-          <div className="mb-6 rounded-xl border border-blue-200 bg-white p-6 text-center">
-            <div className="font-mono text-lg font-bold text-stone-900">
+          <div className="mb-6 rounded-xl border border-sage-200 bg-white p-6 text-center">
+            <div className="font-mono text-lg font-bold text-ink">
               Nouveau loyer = Loyer actuel × (Nouvel IRL ÷ Ancien IRL)
             </div>
           </div>
@@ -275,7 +275,7 @@ export default function AugmentationDeLoyerPage() {
 
         {/* Zones tendues */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Zones tendues et plafonds 2026
           </h2>
           <p className="mb-6 text-stone-600">
@@ -289,7 +289,7 @@ export default function AugmentationDeLoyerPage() {
                 key={zone.ville}
                 className="flex items-center justify-between rounded-xl border border-stone-200 bg-white p-4"
               >
-                <span className="text-sm font-medium text-stone-900">{zone.ville}</span>
+                <span className="text-sm font-medium text-ink">{zone.ville}</span>
                 <span className="rounded bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
                   {zone.statut}
                 </span>
@@ -308,7 +308,7 @@ export default function AugmentationDeLoyerPage() {
 
         {/* Rédiger le courrier */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Rédiger le courrier d'augmentation : ce qu'il doit contenir
           </h2>
           <p className="mb-6 text-stone-700">
@@ -335,7 +335,7 @@ export default function AugmentationDeLoyerPage() {
         {/* Modèle de courrier */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-white shadow-lg">
           <div className="max-w-3xl mx-auto">
-            <h2 className="mb-4 text-xl font-bold text-white">
+            <h2 className="mb-4 text-xl font-semibold text-white">
               Modèle de courrier d'augmentation de loyer
             </h2>
             <p className="mb-6 text-stone-300">
@@ -380,7 +380,7 @@ export default function AugmentationDeLoyerPage() {
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
               <Link
                 href="/register"
-                className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+                className="inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
               >
                 Essai gratuit 14 jours →
               </Link>
@@ -396,7 +396,7 @@ export default function AugmentationDeLoyerPage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes sur l'augmentation de loyer
           </h2>
           <div className="space-y-4">
@@ -405,7 +405,7 @@ export default function AugmentationDeLoyerPage() {
                 key={item.question}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-ink">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -421,7 +421,7 @@ export default function AugmentationDeLoyerPage() {
 
         {/* CTA final */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Calculer et générer vos lettres d'augmentation automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -430,7 +430,7 @@ export default function AugmentationDeLoyerPage() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours →
           </Link>
@@ -438,16 +438,16 @@ export default function AugmentationDeLoyerPage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/bail" className="text-blue-600 hover:underline">
+          <Link href="/bail" className="text-forest hover:underline">
             Gestion des baux →
           </Link>
-          <Link href="/quittances" className="text-blue-600 hover:underline">
+          <Link href="/quittances" className="text-forest hover:underline">
             Quittances →
           </Link>
-          <Link href="/pricing" className="text-blue-600 hover:underline">
+          <Link href="/pricing" className="text-forest hover:underline">
             Tarifs →
           </Link>
-          <Link href="/blog" className="text-blue-600 hover:underline">
+          <Link href="/blog" className="text-forest hover:underline">
             Blog →
           </Link>
         </nav>

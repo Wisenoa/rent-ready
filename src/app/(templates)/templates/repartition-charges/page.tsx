@@ -139,7 +139,7 @@ function RepartitionChargesJsonLd() {
 
 export default function RepartitionChargesPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <RepartitionChargesJsonLd />
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
@@ -147,7 +147,7 @@ export default function RepartitionChargesPage() {
           <div className="mb-4 inline-block rounded-lg bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
             Modèle gratuit — Téléchargement instantané
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Répartition des Charges Locatives
             <br />
             <span className="text-emerald-700">Provisions et Régularisation Annuelle</span>
@@ -167,7 +167,7 @@ export default function RepartitionChargesPage() {
 
         {/* Définition */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">La répartition des charges locatives : comment ça marche ?</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">La répartition des charges locatives : comment ça marche ?</h2>
           <p className="mb-4 text-stone-700">
             En location vide ou meublée, le locataire participe aux charges de la vie courante du bâtiment via des <strong>provisions mensuelles</strong>. Ces provisions sont ensuite régularisées une fois par an pour refléter les dépenses réelles.
           </p>
@@ -178,11 +178,11 @@ export default function RepartitionChargesPage() {
 
         {/* Types de charges */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">Les 3 types de charges en location</h2>
+          <h2 className="mb-6 text-2xl font-semibold text-ink">Les 3 types de charges en location</h2>
           <div className="grid gap-6 sm:grid-cols-3">
             {typesCharges.map((c) => (
               <div key={c.titre} className="rounded-xl border border-stone-200 bg-white p-6">
-                <h3 className="mb-3 text-lg font-semibold text-stone-900">✓ {c.titre}</h3>
+                <h3 className="mb-3 text-lg font-semibold text-ink">✓ {c.titre}</h3>
                 <p className="text-sm text-stone-600">{c.description}</p>
               </div>
             ))}
@@ -191,13 +191,13 @@ export default function RepartitionChargesPage() {
 
         {/* Modalités */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Modalités de régularisation des charges</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">Modalités de régularisation des charges</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {modalitesRegul.map((m) => (
               <div key={m.titre} className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50 p-4">
                 <span className="mt-0.5 text-emerald-700 font-bold">✓</span>
                 <div>
-                  <p className="font-semibold text-stone-900">{m.titre}</p>
+                  <p className="font-semibold text-ink">{m.titre}</p>
                   <p className="text-sm text-stone-600">{m.detail}</p>
                 </div>
               </div>
@@ -207,7 +207,7 @@ export default function RepartitionChargesPage() {
 
         {/* Tableau charges */}
         <section className="mb-16 rounded-2xl bg-emerald-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Tableau récapitulatif des charges récupérables</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">Tableau récapitulatif des charges récupérables</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -236,11 +236,11 @@ export default function RepartitionChargesPage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes sur la répartition des charges</h2>
+          <h2 className="mb-6 text-2xl font-semibold text-ink">Questions fréquentes sur la répartition des charges</h2>
           <div className="space-y-4">
             {faqData.map((item) => (
               <details key={item.question} className="group rounded-xl border border-stone-200 bg-white">
-                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-ink">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">▼</span>
                 </summary>
@@ -252,7 +252,7 @@ export default function RepartitionChargesPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Automatisez la répartition des charges avec Lokna</h2>
+          <h2 className="text-2xl font-semibold sm:text-3xl">Automatisez la répartition des charges avec Lokna</h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
             Provisions, régularisation, décompte annuel. Lokna gère tout automatiquement pour vous. Essai gratuit 14 jours.
           </p>
@@ -263,10 +263,10 @@ export default function RepartitionChargesPage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/bail-vide" className="text-blue-600 hover:underline">Bail vide →</Link>
-          <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">État des lieux →</Link>
-          <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
-          <Link href="/templates" className="text-blue-600 hover:underline">Tous les modèles →</Link>
+          <Link href="/templates/bail-vide" className="text-forest hover:underline">Bail vide →</Link>
+          <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">État des lieux →</Link>
+          <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
+          <Link href="/templates" className="text-forest hover:underline">Tous les modèles →</Link>
         </nav>
       </article>
       <FinalCta />

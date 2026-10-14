@@ -62,8 +62,8 @@ function ChecklistEDLJsonLd() {
           text: "Cochez OK, défaillant ou absent pour chaque élément listé dans la pièce. Ajoutez des photos si nécessaire.",
         },
         {
-          name: "Générez le reçu de l'état des lieux",
-          text: "Téléchargez le reçu récapitulatif de l'état des lieux avec toutes les observations pour signature.",
+          name: "Reportez les observations",
+          text: "Reprenez les observations de chaque pièce dans l'état des lieux, signé par le bailleur et le locataire.",
         },
       ],
     })

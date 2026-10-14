@@ -222,3 +222,108 @@
     50% { opacity: 0.6; }
   }
 }
+/*
+ * Public pages only: shadcn components (Button, inputs) read --primary and
+ * --ring, which are the dashboard's blue. Inside .marketing they take the
+ * forest green of the marketing palette; the dashboard is unaffected.
+ */
+.marketing {
+  --primary: #1E3A2F;
+  --primary-foreground: #FAF9F5;
+  --ring: #1E3A2F;
+}
+
+/*
+ * Long-form content (guides, articles, glossary). Twelve public pages used
+ * `prose` without the typography plugin installed, so their headings, lists and
+ * links rendered as plain text. This is the small subset they need, in the
+ * marketing palette, instead of a new dependency.
+ */
+.marketing .prose {
+  color: var(--color-ink);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+.marketing .prose :where(p, ul, ol, blockquote, table, pre):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 1.1em;
+  margin-bottom: 1.1em;
+}
+.marketing .prose :where(h2):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 2.2em;
+  margin-bottom: 0.7em;
+  font-size: 1.55rem;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+.marketing .prose :where(h3):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 1.8em;
+  margin-bottom: 0.5em;
+  font-size: 1.2rem;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.marketing .prose :where(h4):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 1.5em;
+  font-weight: 600;
+}
+.marketing .prose :where(ul):not(:where(.not-prose, .not-prose *)) {
+  list-style: disc;
+  padding-left: 1.4em;
+}
+.marketing .prose :where(ol):not(:where(.not-prose, .not-prose *)) {
+  list-style: decimal;
+  padding-left: 1.4em;
+}
+.marketing .prose :where(li):not(:where(.not-prose, .not-prose *)) {
+  margin: 0.35em 0;
+}
+.marketing .prose :where(li)::marker {
+  color: var(--color-sage-600);
+}
+.marketing .prose :where(a):not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-forest);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--color-sage-300);
+  text-underline-offset: 3px;
+}
+.marketing .prose :where(a):not(:where(.not-prose, .not-prose *)):hover {
+  text-decoration-color: var(--color-forest);
+}
+.marketing .prose :where(strong):not(:where(.not-prose, .not-prose *)) {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.marketing .prose :where(blockquote):not(:where(.not-prose, .not-prose *)) {
+  border-left: 3px solid var(--color-sage-300);
+  padding-left: 1em;
+  color: var(--color-ink-muted);
+}
+.marketing .prose :where(table):not(:where(.not-prose, .not-prose *)) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  display: block;
+  overflow-x: auto;
+}
+.marketing .prose :where(th, td):not(:where(.not-prose, .not-prose *)) {
+  border-bottom: 1px solid var(--color-line);
+  padding: 0.55em 0.75em;
+  text-align: left;
+}
+.marketing .prose :where(th):not(:where(.not-prose, .not-prose *)) {
+  font-weight: 600;
+  background: var(--color-paper);
+}
+.marketing .prose :where(code):not(:where(.not-prose, .not-prose *, pre *)) {
+  background: var(--color-paper);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-size: 0.9em;
+}
+.marketing .prose > :first-child {
+  margin-top: 0;
+}

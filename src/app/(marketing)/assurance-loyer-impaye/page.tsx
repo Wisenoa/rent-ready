@@ -117,10 +117,10 @@ export default function AssuranceLoyerImpayéIndex() {
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
+          <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
             Protection du propriétaire
           </p>
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Assurance loyer impayé (GLI) en France
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
@@ -134,8 +134,8 @@ export default function AssuranceLoyerImpayéIndex() {
         </header>
 
         {/* What is GLI */}
-        <section className="mb-16 rounded-2xl bg-blue-50 p-8">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Qu'est-ce que la GLI ?</h2>
+        <section className="mb-16 rounded-2xl bg-sage-50 p-8">
+          <h2 className="mb-4 text-xl font-semibold text-ink">Qu'est-ce que la GLI ?</h2>
           <p className="mb-4 text-stone-700 leading-relaxed">
             La <strong>Garantie des Loyers Impayés (GLI)</strong> est une assurance qui rembourse le bailleur
             en cas de loyers ou de charges impayés par son locataire. Elle couvre généralement :
@@ -169,9 +169,9 @@ export default function AssuranceLoyerImpayéIndex() {
                     <li key={city.slug}>
                       <Link
                         href={`/assurance-loyer-impaye/${city.slug}`}
-                        className="group flex items-center justify-between rounded-lg border border-stone-200/80 bg-white px-4 py-3 shadow-sm transition-all hover:border-blue-300 hover:shadow-md"
+                        className="group flex items-center justify-between rounded-lg border border-stone-200/80 bg-white px-4 py-3 shadow-sm transition-all hover:border-sage-300 hover:shadow-md"
                       >
-                        <span className="font-medium text-stone-800 group-hover:text-blue-700">
+                        <span className="font-medium text-stone-800 group-hover:text-forest">
                           {city.name}
                         </span>
                         <div className="flex items-center gap-2">
@@ -192,7 +192,7 @@ export default function AssuranceLoyerImpayéIndex() {
 
         {/* CTA */}
         <section className="mt-20 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Protégez vos revenus locatifs partout en France
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -200,7 +200,7 @@ export default function AssuranceLoyerImpayéIndex() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours
           </Link>

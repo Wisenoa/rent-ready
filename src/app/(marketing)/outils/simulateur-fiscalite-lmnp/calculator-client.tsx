@@ -95,7 +95,7 @@ export function SimulateurLmnpClient() {
               placeholder="Ex. : 800"
               value={monthlyRent}
               onChange={(e) => setMonthlyRent(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
             />
           </div>
 
@@ -112,7 +112,7 @@ export function SimulateurLmnpClient() {
                 placeholder="Ex. : 800"
                 value={annualCharges}
                 onChange={(e) => setAnnualCharges(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
               />
             </div>
             <div>
@@ -127,7 +127,7 @@ export function SimulateurLmnpClient() {
                 placeholder="Ex. : 1200"
                 value={propertyTax}
                 onChange={(e) => setPropertyTax(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
               />
             </div>
           </div>
@@ -145,7 +145,7 @@ export function SimulateurLmnpClient() {
                 placeholder="Ex. : 300"
                 value={insurance}
                 onChange={(e) => setInsurance(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
               />
             </div>
             <div>
@@ -160,7 +160,7 @@ export function SimulateurLmnpClient() {
                 placeholder="Ex. : 600"
                 value={managementFees}
                 onChange={(e) => setManagementFees(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
               />
             </div>
           </div>
@@ -178,7 +178,7 @@ export function SimulateurLmnpClient() {
                 placeholder="Ex. : 3000"
                 value={interestPayments}
                 onChange={(e) => setInterestPayments(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
               />
             </div>
             <div>
@@ -193,7 +193,7 @@ export function SimulateurLmnpClient() {
                 placeholder="Ex. : 200000"
                 value={purchasePrice}
                 onChange={(e) => setPurchasePrice(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
               />
             </div>
           </div>
@@ -206,7 +206,7 @@ export function SimulateurLmnpClient() {
               id="taxBracket"
               value={taxBracket}
               onChange={(e) => setTaxBracket(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
             >
               <option value="0">0% (première tranche)</option>
               <option value="11">11% (deuxième tranche)</option>
@@ -219,7 +219,7 @@ export function SimulateurLmnpClient() {
           <button
             type="button"
             onClick={calculate}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl text-lg transition-colors"
+            className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors"
           >
             Calculer ma fiscalite LMNP
           </button>
@@ -227,7 +227,7 @@ export function SimulateurLmnpClient() {
           {result && (
             <div className="space-y-4">
               {/* Best regime badge */}
-              <div className={`rounded-xl p-4 text-center ${result.bestRegime === "micro" ? "bg-blue-50 border border-blue-300" : result.bestRegime === "real" ? "bg-green-50 border border-green-300" : "bg-stone-100 border border-stone-300"}`}>
+              <div className={`rounded-xl p-4 text-center ${result.bestRegime === "micro" ? "bg-sage-50 border border-sage-300" : result.bestRegime === "real" ? "bg-green-50 border border-green-300" : "bg-stone-100 border border-stone-300"}`}>
                 <p className="font-bold text-lg">
                   {result.bestRegime === "micro" ? "📊 Le régime micro-BIC est plus avantageux" :
                    result.bestRegime === "real" ? "✅ Le régime réel est plus avantageux" :
@@ -279,7 +279,7 @@ export function SimulateurLmnpClient() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-stone-600">Amortissement (25 ans)</span>
-                    <span className="text-blue-600">-{result.yearlyAmortization.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
+                    <span className="text-forest">-{result.yearlyAmortization.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
                   </div>
                   <div className="flex justify-between border-t border-green-200 pt-2">
                     <span className="text-stone-600">Revenu imposable</span>
@@ -305,7 +305,7 @@ export function SimulateurLmnpClient() {
 
       {/* FAQ */}
       <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8">
-        <h2 className="text-xl font-bold text-stone-800 mb-6">Questions fréquentes</h2>
+        <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
         <div className="space-y-5">
           {FAQ.map((item, i) => (
             <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
@@ -317,9 +317,9 @@ export function SimulateurLmnpClient() {
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/outils/calculateur-rendement" className="text-blue-600 hover:underline">Calculateur rendement →</Link>
-        <Link href="/templates" className="text-blue-600 hover:underline">Modèles de bail →</Link>
-        <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
+        <Link href="/outils/calculateur-rendement" className="text-forest hover:underline">Calculateur rendement →</Link>
+        <Link href="/templates" className="text-forest hover:underline">Modèles de bail →</Link>
+        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
       </div>
     </div>
   );

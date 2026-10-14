@@ -102,7 +102,7 @@ export default function BlogPage() {
 
       <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-12 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Blog Immobilier — Conseils Gestion Locative
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
@@ -138,9 +138,9 @@ export default function BlogPage() {
                 <span
                   className={`rounded-full px-2 py-0.5 ${
                     post.category === "Gestion"
-                      ? "bg-blue-100 text-blue-700"
+                      ? "bg-sage-100 text-forest"
                       : post.category === "Juridique"
-                        ? "bg-purple-100 text-purple-700"
+                        ? "bg-sage-100 text-forest"
                         : post.category === "Calculs"
                           ? "bg-green-100 text-green-700"
                           : "bg-amber-100 text-amber-700"
@@ -162,7 +162,7 @@ export default function BlogPage() {
                 </span>
               </div>
 
-              <h2 className="mb-2 text-lg font-semibold text-stone-900 group-hover:text-blue-700">
+              <h2 className="mb-2 text-lg font-semibold text-ink group-hover:text-forest">
                 <Link href={`/blog/${post.slug}`}>{post.title}</Link>
               </h2>
 
@@ -172,7 +172,7 @@ export default function BlogPage() {
 
               <Link
                 href={`/blog/${post.slug}`}
-                className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
+                className="inline-flex items-center gap-1 text-sm font-medium text-forest hover:text-forest"
               >
                 Lire l'article
                 <ArrowRight className="size-4" />
@@ -181,8 +181,8 @@ export default function BlogPage() {
           ))}
         </section>
 
-        <section className="mt-16 rounded-xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-blue-100/50 p-8 text-center sm:p-10">
-          <h2 className="mb-3 text-xl font-bold text-stone-900 sm:text-2xl">
+        <section className="mt-16 rounded-xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-sage-100/50 p-8 text-center sm:p-10">
+          <h2 className="mb-3 text-xl font-semibold text-ink sm:text-2xl">
             Automatisez votre gestion locative
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
@@ -191,7 +191,7 @@ export default function BlogPage() {
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             Commencer l'essai gratuit
             <ArrowRight className="size-4" />

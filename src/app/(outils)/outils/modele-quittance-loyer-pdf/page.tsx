@@ -72,7 +72,7 @@ export default function ModeleQuittanceLoyerPdfPage() {
       <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
         {/* ─── Hero ─── */}
         <header className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Modèle de quittance de loyer PDF gratuit — Conforme 2026
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-stone-600">
@@ -93,7 +93,7 @@ export default function ModeleQuittanceLoyerPdfPage() {
         <section className="mt-16 space-y-12">
           {/* Mentions obligatoires */}
           <div>
-            <h2 className="text-2xl font-semibold text-stone-900">
+            <h2 className="text-2xl font-semibold text-ink">
               Mentions obligatoires d&apos;une quittance de loyer
             </h2>
             <p className="mt-3 text-stone-600">
@@ -118,7 +118,7 @@ export default function ModeleQuittanceLoyerPdfPage() {
 
           {/* Quittance vs reçu */}
           <div>
-            <h2 className="text-2xl font-semibold text-stone-900">
+            <h2 className="text-2xl font-semibold text-ink">
               Quittance ou reçu de paiement : quelle différence ?
             </h2>
             <p className="mt-3 leading-relaxed text-stone-600">
@@ -138,7 +138,7 @@ export default function ModeleQuittanceLoyerPdfPage() {
 
           {/* FAQ */}
           <div>
-            <h2 className="text-2xl font-semibold text-stone-900">
+            <h2 className="text-2xl font-semibold text-ink">
               Questions fréquentes
             </h2>
             <div className="mt-4 divide-y divide-stone-200 rounded-xl border border-stone-200 bg-white">
@@ -160,18 +160,18 @@ export default function ModeleQuittanceLoyerPdfPage() {
         </section>
 
         {/* ─── CTA Banner ─── */}
-        <section className="mt-16 rounded-2xl bg-blue-600 px-6 py-10 text-center text-white shadow-lg sm:px-10">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+        <section className="mt-16 rounded-2xl bg-forest px-6 py-10 text-center text-white shadow-lg sm:px-10">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Automatisez vos quittances chaque mois
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-blue-100">
+          <p className="mx-auto mt-4 max-w-xl text-cream/80">
             Lokna génère la quittance conforme dès que vous enregistrez le
             paiement qui solde le mois, et un reçu en cas de paiement partiel.
             Essai gratuit 14&nbsp;jours.
           </p>
           <Link
             href="/register"
-            className="mt-6 inline-block rounded-xl bg-white px-8 py-3 font-semibold text-blue-600 shadow-sm transition-colors hover:bg-blue-50"
+            className="mt-6 inline-block rounded-xl bg-white px-8 py-3 font-semibold text-forest shadow-sm transition-colors hover:bg-sage-50"
           >
             Essayer gratuitement
           </Link>

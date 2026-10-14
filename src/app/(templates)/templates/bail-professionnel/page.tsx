@@ -149,24 +149,24 @@ function BailProfessionnelJsonLd() {
 
 export default function BailProfessionnelPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <BailProfessionnelJsonLd />
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="mb-4 inline-block rounded-lg bg-teal-100 px-4 py-1.5 text-sm font-medium text-teal-700">
+          <div className="mb-4 inline-block rounded-lg bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest">
             Modèle gratuit — Téléchargement instantané
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle Bail Professionnel
             <br />
-            <span className="text-teal-600">Location pour Professions Libérales</span>
+            <span className="text-forest">Location pour Professions Libérales</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Téléchargez notre modèle de bail professionnel gratuit. Contrats de location commerciale pour professions libérales, durée 6 ans, préavis 3 mois, révision libre du loyer.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/register" className="inline-block rounded-lg bg-teal-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-teal-700 w-full sm:w-auto">
+            <Link href="/register" className="inline-block rounded-lg bg-forest px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-forest-hover w-full sm:w-auto">
               Utiliser avec Lokna →
             </Link>
             <Link href="/templates" className="inline-block rounded-lg border border-stone-300 bg-white px-8 py-3.5 font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50 w-full sm:w-auto">
@@ -177,14 +177,14 @@ export default function BailProfessionnelPage() {
 
         {/* Définition */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Le bail professionnel : c'est quoi ?</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">Le bail professionnel : c'est quoi ?</h2>
           <p className="mb-4 text-stone-700">
             Le <strong>bail professionnel</strong> est le contrat de location destiné aux professions libérales et aux activités non commerciales. Il concerne notamment les avocats, médecins, architectes, experts-comptables, consultants, notaires et autres métiers réglementés.
           </p>
           <p className="mb-4 text-stone-700">
             La durée minimale est de <strong>6 ans</strong> pour les activités commerciales légères et de <strong>3 ans</strong> pour les professions libérales strictes. Le locataire peut donner congé à tout moment avec un préavis de 3 mois.
           </p>
-          <div className="mt-6 rounded-xl border border-teal-200 bg-teal-50 p-4">
+          <div className="mt-6 rounded-xl border border-sage-200 bg-sage-50 p-4">
             <p className="text-sm text-stone-700">
               <strong>⚠️ Bail professionnel vs Bail commercial :</strong> Le bail commercial offre plus de protection au locataire avec le droit au bail et l'encadrement du loyer. Le bail professionnel offre plus de flexibilité au locataire avec un préavis de 3 mois uniquement. Choisissez selon votre situation.
             </p>
@@ -193,11 +193,11 @@ export default function BailProfessionnelPage() {
 
         {/* Caractéristiques */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">Les 6 caractéristiques clés du bail professionnel</h2>
+          <h2 className="mb-6 text-2xl font-semibold text-ink">Les 6 caractéristiques clés du bail professionnel</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {caracteristiques.map((c) => (
               <div key={c.titre} className="rounded-xl border border-stone-200 bg-white p-6">
-                <h3 className="mb-3 text-lg font-semibold text-stone-900">✓ {c.titre}</h3>
+                <h3 className="mb-3 text-lg font-semibold text-ink">✓ {c.titre}</h3>
                 <p className="text-sm text-stone-600">{c.description}</p>
               </div>
             ))}
@@ -206,14 +206,14 @@ export default function BailProfessionnelPage() {
 
         {/* Obligations */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Obligations du bailleur en bail professionnel</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">Obligations du bailleur en bail professionnel</h2>
           <p className="mb-6 text-stone-700">Le bailleur en location professionnelle doit respecter des obligations essentielles :</p>
           <div className="grid gap-4 sm:grid-cols-2">
             {obligationsBailleur.map((o) => (
               <div key={o.titre} className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50 p-4">
-                <span className="mt-0.5 text-teal-600 font-bold">✓</span>
+                <span className="mt-0.5 text-forest font-bold">✓</span>
                 <div>
-                  <p className="font-semibold text-stone-900">{o.titre}</p>
+                  <p className="font-semibold text-ink">{o.titre}</p>
                   <p className="text-sm text-stone-600">{o.detail}</p>
                 </div>
               </div>
@@ -221,14 +221,14 @@ export default function BailProfessionnelPage() {
           </div>
         </section>
 
-        <section className="mb-16 rounded-2xl bg-teal-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Obligations du locataire professionnel</h2>
+        <section className="mb-16 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">Obligations du locataire professionnel</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {obligationsLocataire.map((o) => (
               <div key={o.titre} className="flex items-start gap-3 rounded-xl border border-stone-200 bg-white p-4">
-                <span className="mt-0.5 text-teal-600 font-bold">✓</span>
+                <span className="mt-0.5 text-forest font-bold">✓</span>
                 <div>
-                  <p className="font-semibold text-stone-900">{o.titre}</p>
+                  <p className="font-semibold text-ink">{o.titre}</p>
                   <p className="text-sm text-stone-600">{o.detail}</p>
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function BailProfessionnelPage() {
 
         {/* Documents */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">Documents à rassembler pour le bail professionnel</h2>
+          <h2 className="mb-4 text-xl font-semibold text-ink">Documents à rassembler pour le bail professionnel</h2>
           <p className="mb-6 text-stone-700">Avant de signer un bail professionnel, vérifiez que tous les documents sont en ordre :</p>
           <ul className="space-y-2 text-sm text-stone-700">
             <li>• <strong>Autorisation d'exercice</strong> — Justificatif d'inscription à l'ordre professionnel ou diplôme</li>
@@ -252,11 +252,11 @@ export default function BailProfessionnelPage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes sur le bail professionnel</h2>
+          <h2 className="mb-6 text-2xl font-semibold text-ink">Questions fréquentes sur le bail professionnel</h2>
           <div className="space-y-4">
             {faqData.map((item) => (
               <details key={item.question} className="group rounded-xl border border-stone-200 bg-white">
-                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-ink">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">▼</span>
                 </summary>
@@ -268,21 +268,21 @@ export default function BailProfessionnelPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">Gérez vos baux professionnels avec Lokna</h2>
+          <h2 className="text-2xl font-semibold sm:text-3xl">Gérez vos baux professionnels avec Lokna</h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
             Suivi des baux, révisions de loyer, résiliations, cession. Tout pour une gestion locative professionnelle sereine. Essai gratuit 14 jours.
           </p>
-          <Link href="/register" className="mt-8 inline-block rounded-lg bg-teal-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-teal-700">
+          <Link href="/register" className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover">
             Essai gratuit 14 jours →
           </Link>
         </section>
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/bail-commercial" className="text-blue-600 hover:underline">Bail commercial →</Link>
-          <Link href="/templates/bail-vide" className="text-blue-600 hover:underline">Bail vide →</Link>
-          <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
-          <Link href="/templates" className="text-blue-600 hover:underline">Tous les modèles →</Link>
+          <Link href="/templates/bail-commercial" className="text-forest hover:underline">Bail commercial →</Link>
+          <Link href="/templates/bail-vide" className="text-forest hover:underline">Bail vide →</Link>
+          <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
+          <Link href="/templates" className="text-forest hover:underline">Tous les modèles →</Link>
         </nav>
       </article>
       <FinalCta />

@@ -112,15 +112,15 @@ export function LettreRelanceClient() {
     <>
       <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-3xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
           <div className="mb-8">
-            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-2 bg-sage-100 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <span>✉️</span> Outil gratuit
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3 leading-tight">
               Générateur de Lettre de Relance Loyer
             </h1>
             <p className="text-lg text-stone-600 leading-relaxed">
@@ -139,8 +139,8 @@ export function LettreRelanceClient() {
                     onClick={() => setLetterType("relance")}
                     className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
                       letterType === "relance"
-                        ? "border-blue-600 bg-blue-50 text-blue-700"
-                        : "border-stone-200 text-stone-600 hover:border-blue-300"
+                        ? "border-forest bg-sage-50 text-forest"
+                        : "border-stone-200 text-stone-600 hover:border-sage-300"
                     }`}
                   >
                     Relance amiable
@@ -168,58 +168,58 @@ export function LettreRelanceClient() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label className="block text-xs font-semibold text-stone-600 mb-1">Nom du bailleur</label>
-                    <input name="bailleurNom" value={formData.bailleurNom} onChange={handleChange} placeholder="Jean Dupont" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input name="bailleurNom" value={formData.bailleurNom} onChange={handleChange} placeholder="Jean Dupont" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-stone-600 mb-1">Nom du locataire</label>
-                    <input name="locataireNom" value={formData.locataireNom} onChange={handleChange} placeholder="Marie Martin" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input name="locataireNom" value={formData.locataireNom} onChange={handleChange} placeholder="Marie Martin" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-600 mb-1">Adresse du bailleur</label>
-                  <input name="bailleurAdresse" value={formData.bailleurAdresse} onChange={handleChange} placeholder="12 rue de la Paix" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input name="bailleurAdresse" value={formData.bailleurAdresse} onChange={handleChange} placeholder="12 rue de la Paix" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
                   <div>
                     <label className="block text-xs font-semibold text-stone-600 mb-1">Code postal</label>
-                    <input name="bailleurCodePostal" value={formData.bailleurCodePostal} onChange={handleChange} placeholder="75001" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input name="bailleurCodePostal" value={formData.bailleurCodePostal} onChange={handleChange} placeholder="75001" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                   </div>
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-semibold text-stone-600 mb-1">Ville</label>
-                    <input name="bailleurVille" value={formData.bailleurVille} onChange={handleChange} placeholder="Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input name="bailleurVille" value={formData.bailleurVille} onChange={handleChange} placeholder="Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-600 mb-1">Adresse du bien (dans le bail)</label>
-                  <input name="bienAdresse" value={formData.bienAdresse} onChange={handleChange} placeholder="12 rue de la Paix, 75001 Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input name="bienAdresse" value={formData.bienAdresse} onChange={handleChange} placeholder="12 rue de la Paix, 75001 Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-600 mb-1">Adresse du locataire</label>
-                  <input name="locataireAdresse" value={formData.locataireAdresse} onChange={handleChange} placeholder="15 avenue des Champs, 75008 Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input name="locataireAdresse" value={formData.locataireAdresse} onChange={handleChange} placeholder="15 avenue des Champs, 75008 Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
                   <div>
                     <label className="block text-xs font-semibold text-stone-600 mb-1">Montant dû (€)</label>
-                    <input name="montantDu" value={formData.montantDu} onChange={handleChange} placeholder="800.00" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input name="montantDu" value={formData.montantDu} onChange={handleChange} placeholder="800.00" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-stone-600 mb-1">Période concernée</label>
-                    <input name="periode" value={formData.periode} onChange={handleChange} placeholder="Janvier 2026" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input name="periode" value={formData.periode} onChange={handleChange} placeholder="Janvier 2026" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-stone-600 mb-1">Délai (jours)</label>
-                    <input name="delai" value={formData.delai} onChange={handleChange} placeholder="10" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input name="delai" value={formData.delai} onChange={handleChange} placeholder="10" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-600 mb-1">IBAN (pour le règlement)</label>
-                  <input name="iban" value={formData.iban} onChange={handleChange} placeholder="FR76 XXXX XXXX XXXX XXXX XXX" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input name="iban" value={formData.iban} onChange={handleChange} placeholder="FR76 XXXX XXXX XXXX XXXX XXX" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
                 </div>
               </div>
             </div>
@@ -258,7 +258,7 @@ export function LettreRelanceClient() {
                   <Sparkles className="size-3.5" />
                   <span>Surveillance Lokna</span>
                 </div>
-                <h4 className="text-sm font-bold text-stone-900">
+                <h4 className="text-sm font-bold text-ink">
                   Anticipez les retards avant qu'ils ne deviennent des impayés
                 </h4>
                 <p className="text-xs text-stone-600 leading-relaxed">
@@ -286,13 +286,13 @@ export function LettreRelanceClient() {
           )}
 
           <div className="prose prose-stone max-w-none mb-10">
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">
+            <h2 className="text-2xl font-semibold text-ink mb-4">
               Quand utiliser chaque type de courrier ?
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
-                <h3 className="font-semibold text-blue-800 mb-2">Relance amiable</h3>
-                <p className="text-sm text-blue-700">
+              <div className="bg-sage-50 border border-sage-200 rounded-xl p-5">
+                <h3 className="font-semibold text-ink mb-2">Relance amiable</h3>
+                <p className="text-sm text-forest">
                   À utiliser dans les 5 à 15 jours suivant la date d'échéance. Elle rappelle au locataire ses obligations sans engager de procédure. Peut être envoyée par email ou courrier simple.
                 </p>
               </div>
@@ -306,7 +306,7 @@ export function LettreRelanceClient() {
           </div>
 
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8 mb-10">
-            <h2 className="text-xl font-bold text-stone-800 mb-6">Questions fréquentes</h2>
+            <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
             <div className="space-y-5">
               {faqData.map((item, i) => (
                 <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
@@ -318,10 +318,10 @@ export function LettreRelanceClient() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
-            <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
-            <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
-            <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
-            <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
+            <Link href="/bail" className="text-forest hover:underline">Bail de location →</Link>
+            <Link href="/quittances" className="text-forest hover:underline">Quittances automatiques →</Link>
+            <Link href="/templates" className="text-forest hover:underline">Modèles gratuits →</Link>
+            <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
           </div>
 
           <FinalCta />

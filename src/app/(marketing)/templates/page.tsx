@@ -114,7 +114,7 @@ export default function TemplatesPage() {
       <TemplatesPageJsonLd />
       <article className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-16 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-5xl text-balance">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl text-balance">
             Modèles gratuits de location
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-600">
@@ -127,8 +127,8 @@ export default function TemplatesPage() {
         {templateCategories.map((category) => (
           <section key={category.name} className="mb-12">
             <div className="mb-6 flex items-center gap-3">
-              <FileText className="size-5 text-blue-600" />
-              <h2 className="text-xl font-semibold text-stone-900">
+              <FileText className="size-5 text-forest" />
+              <h2 className="text-xl font-semibold text-ink">
                 {category.name}
               </h2>
             </div>
@@ -139,15 +139,15 @@ export default function TemplatesPage() {
                 <Link
                   key={template.slug}
                   href={template.href ?? `/templates/${template.slug}`}
-                  className="group rounded-xl border border-stone-200/60 bg-white p-5 shadow-sm transition-all hover:border-blue-200 hover:shadow-md"
+                  className="group rounded-xl border border-stone-200/60 bg-white p-5 shadow-sm transition-all hover:border-sage-200 hover:shadow-md"
                 >
                   <div className="mb-3 flex items-start justify-between">
-                    <div className="flex size-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                    <div className="flex size-9 items-center justify-center rounded-lg bg-sage-50 text-forest">
                       <FileText className="size-4" />
                     </div>
-                    <ArrowRight className="size-4 text-stone-600 transition-transform group-hover:translate-x-1 group-hover:text-blue-600" />
+                    <ArrowRight className="size-4 text-stone-600 transition-transform group-hover:translate-x-1 group-hover:text-forest" />
                   </div>
-                  <h3 className="mb-1 font-semibold text-stone-900 group-hover:text-blue-700">
+                  <h3 className="mb-1 font-semibold text-ink group-hover:text-forest">
                     {template.title}
                   </h3>
                   <p className="text-sm text-stone-600">{template.desc}</p>
@@ -159,10 +159,10 @@ export default function TemplatesPage() {
 
         {/* CTA */}
         <section className="mt-16 rounded-2xl border border-stone-200/60 bg-gradient-to-br from-stone-50 to-stone-100/50 p-8 text-center sm:p-12">
-          <div className="mx-auto mb-6 flex size-14 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+          <div className="mx-auto mb-6 flex size-14 items-center justify-center rounded-full bg-sage-100 text-forest">
             <Check className="size-7" />
           </div>
-          <h2 className="mb-3 text-xl font-bold text-stone-900 sm:text-2xl">
+          <h2 className="mb-3 text-xl font-semibold text-ink sm:text-2xl">
             Besoin de plus ? Utilisez {SITE_NAME}
           </h2>
           <p className="mx-auto mb-6 max-w-lg text-stone-600">
@@ -173,7 +173,7 @@ export default function TemplatesPage() {
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours
               <ArrowRight className="size-4" />

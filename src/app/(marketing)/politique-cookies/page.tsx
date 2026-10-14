@@ -85,7 +85,7 @@ export default function PolitiqueCookiesPage() {
     <>
       <PolitiqueCookiesJsonLd />
       <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
           Politique de Cookies
         </h1>
         <p className="mt-4 text-sm text-stone-600">
@@ -167,7 +167,7 @@ export default function PolitiqueCookiesPage() {
                   href="https://support.google.com/chrome/answer/95647"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 underline underline-offset-2"
+                  className="text-forest underline underline-offset-2"
                 >
                   Google Chrome
                 </a>
@@ -177,7 +177,7 @@ export default function PolitiqueCookiesPage() {
                   href="https://support.mozilla.org/fr/kb/cookies-permis-ou-bloques"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 underline underline-offset-2"
+                  className="text-forest underline underline-offset-2"
                 >
                   Mozilla Firefox
                 </a>
@@ -187,7 +187,7 @@ export default function PolitiqueCookiesPage() {
                   href="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 underline underline-offset-2"
+                  className="text-forest underline underline-offset-2"
                 >
                   Safari (macOS / iOS)
                 </a>
@@ -197,7 +197,7 @@ export default function PolitiqueCookiesPage() {
                   href="https://support.microsoft.com/fr-fr/microsoft-edge/supprimer-les-cookies-dans-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 underline underline-offset-2"
+                  className="text-forest underline underline-offset-2"
                 >
                   Microsoft Edge
                 </a>
@@ -243,7 +243,7 @@ export default function PolitiqueCookiesPage() {
                   href="https://stripe.com/cookies"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 underline underline-offset-2"
+                  className="text-forest underline underline-offset-2"
                 >
                   politique de cookies de Stripe
                 </a>
@@ -257,7 +257,7 @@ export default function PolitiqueCookiesPage() {
                   href="https://www.powens.com/cookies"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 underline underline-offset-2"
+                  className="text-forest underline underline-offset-2"
                 >
                   politique de cookies de Powens
                 </a>
@@ -277,7 +277,7 @@ export default function PolitiqueCookiesPage() {
               Email :{" "}
               <a
                 href="mailto:dpo@lokna.fr"
-                className="text-blue-600 underline underline-offset-2"
+                className="text-forest underline underline-offset-2"
               >
                 dpo@lokna.fr
               </a>
@@ -287,7 +287,7 @@ export default function PolitiqueCookiesPage() {
               consultez notre{" "}
               <a
                 href="/politique-confidentialite"
-                className="text-blue-600 underline underline-offset-2"
+                className="text-forest underline underline-offset-2"
               >
                 Politique de Confidentialite
               </a>

@@ -111,7 +111,7 @@ export function SurfaceHabitableClient() {
   return (
     <div className="space-y-8">
       <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-        <h2 className="text-lg font-bold text-stone-800 mb-4">Pièces du logement</h2>
+        <h2 className="text-lg font-semibold text-stone-800 mb-4">Pièces du logement</h2>
 
         {/* Default rooms */}
         <div className="space-y-4 mb-6">
@@ -121,14 +121,14 @@ export function SurfaceHabitableClient() {
                 type="checkbox"
                 checked={room.included}
                 onChange={() => toggleRoom(index)}
-                className="w-5 h-5 accent-blue-600 flex-shrink-0"
+                className="w-5 h-5 accent-forest flex-shrink-0"
               />
               <div className="flex-1 grid grid-cols-3 gap-3">
                 <input
                   type="text"
                   value={room.name}
                   onChange={(e) => updateRoom(index, "name", e.target.value)}
-                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
                   placeholder="Nom de la pièce"
                 />
                 <input
@@ -137,7 +137,7 @@ export function SurfaceHabitableClient() {
                   step="0.5"
                   value={room.surface}
                   onChange={(e) => updateRoom(index, "surface", e.target.value)}
-                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
                   placeholder="Surface (m²)"
                 />
                 <input
@@ -147,7 +147,7 @@ export function SurfaceHabitableClient() {
                   step="0.1"
                   value={room.ceilingHeight}
                   onChange={(e) => updateRoom(index, "ceilingHeight", e.target.value)}
-                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
                   placeholder="Hauteur (m)"
                 />
               </div>
@@ -170,7 +170,7 @@ export function SurfaceHabitableClient() {
                 type="text"
                 value={room.name}
                 onChange={(e) => updateCustomRoom(index, "name", e.target.value)}
-                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
                 placeholder="Nom de la pièce"
               />
               <input
@@ -179,7 +179,7 @@ export function SurfaceHabitableClient() {
                 step="0.5"
                 value={room.surface}
                 onChange={(e) => updateCustomRoom(index, "surface", e.target.value)}
-                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
                 placeholder="Surface (m²)"
               />
               <input
@@ -189,7 +189,7 @@ export function SurfaceHabitableClient() {
                 step="0.1"
                 value={room.ceilingHeight}
                 onChange={(e) => updateCustomRoom(index, "ceilingHeight", e.target.value)}
-                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
                 placeholder="Hauteur (m)"
               />
             </div>
@@ -199,7 +199,7 @@ export function SurfaceHabitableClient() {
         <button
           type="button"
           onClick={addRoom}
-          className="w-full border-2 border-dashed border-stone-300 hover:border-blue-400 text-stone-600 hover:text-blue-600 font-semibold py-3 rounded-xl transition-colors"
+          className="w-full border-2 border-dashed border-stone-300 hover:border-sage-400 text-stone-600 hover:text-forest font-semibold py-3 rounded-xl transition-colors"
         >
           + Ajouter une pièce
         </button>
@@ -222,9 +222,9 @@ export function SurfaceHabitableClient() {
       </div>
 
       {/* Info */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
-        <h3 className="font-bold text-blue-800 mb-2">📋 Ce qui est INCLUS dans la surface habitable</h3>
-        <ul className="text-sm text-blue-700 space-y-1">
+      <div className="bg-sage-50 border border-sage-200 rounded-xl p-5">
+        <h3 className="font-bold text-ink mb-2">📋 Ce qui est INCLUS dans la surface habitable</h3>
+        <ul className="text-sm text-forest space-y-1">
           <li>✅ Toutes les pièces principales (séjour, chambres, cuisine, salle de bain)</li>
           <li>✅ Les bureaux et dressings</li>
           <li>✅ Les parties de hauteur ≥ 1.80m sous combles aménagés</li>
@@ -241,7 +241,7 @@ export function SurfaceHabitableClient() {
 
       {/* FAQ */}
       <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8">
-        <h2 className="text-xl font-bold text-stone-800 mb-6">Questions fréquentes</h2>
+        <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
         <div className="space-y-5">
           {FAQ.map((item, i) => (
             <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
@@ -253,9 +253,9 @@ export function SurfaceHabitableClient() {
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/outils/calculateur-loyer" className="text-blue-600 hover:underline">Calculateur de loyer →</Link>
-        <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">Modèle état des lieux →</Link>
-        <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
+        <Link href="/outils/calculateur-loyer" className="text-forest hover:underline">Calculateur de loyer →</Link>
+        <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">Modèle état des lieux →</Link>
+        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
       </div>
     </div>
   );

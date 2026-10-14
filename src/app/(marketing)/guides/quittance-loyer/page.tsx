@@ -139,7 +139,7 @@ export default function QuittanceLoyerGuidePage() {
         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
           Guide gratuit
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
           Comment faire une quittance de loyer
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-stone-600">
@@ -150,10 +150,10 @@ export default function QuittanceLoyerGuidePage() {
       </header>
 
       {/* Download CTA */}
-      <div className="mb-12 rounded-2xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-white p-8">
+      <div className="mb-12 rounded-2xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-white p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl font-bold text-stone-900">
+            <h2 className="text-xl font-semibold text-ink">
               Modèle de quittance de loyer gratuit
             </h2>
             <p className="mt-1 text-stone-600">
@@ -162,7 +162,7 @@ export default function QuittanceLoyerGuidePage() {
           </div>
           <Link
             href="/templates/recu-loyer"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             <Download className="size-4" />
             Télécharger le modèle
@@ -231,7 +231,7 @@ export default function QuittanceLoyerGuidePage() {
 
       {/* FAQ Section */}
       <section className="mt-16 rounded-2xl border border-stone-200/60 bg-white p-8">
-        <h2 className="mb-6 text-2xl font-bold text-stone-900">Questions fréquentes sur la quittance de loyer</h2>
+        <h2 className="mb-6 text-2xl font-semibold text-ink">Questions fréquentes sur la quittance de loyer</h2>
         <div className="space-y-4">
           {[
             {
@@ -260,7 +260,7 @@ export default function QuittanceLoyerGuidePage() {
             },
           ].map((item, i) => (
             <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">
-              <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-stone-900 hover:text-blue-600">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-ink hover:text-forest">
                 {item.q}
                 <span className="shrink-0 text-stone-600 transition-transform group-open:rotate-180">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -277,7 +277,7 @@ export default function QuittanceLoyerGuidePage() {
       </section>
 
       <div className="mt-12 rounded-xl border border-stone-200/60 bg-stone-50 p-8 text-center">
-        <h2 className="mb-3 text-xl font-bold text-stone-900">
+        <h2 className="mb-3 text-xl font-semibold text-ink">
           Générez vos quittances automatiquement
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
@@ -287,7 +287,7 @@ export default function QuittanceLoyerGuidePage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours
             <ArrowRight className="size-4" />

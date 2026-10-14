@@ -13,7 +13,7 @@ export function DirectionC() {
   const [nantesSettled, setNantesSettled] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F4F5F7] text-slate-900 font-sans selection:bg-indigo-600 selection:text-white">
+    <div className="min-h-screen bg-[#F4F5F7] text-slate-900 font-sans selection:bg-forest selection:text-white">
       {/* 1. KINETIC HEADER */}
       <header className="sticky top-0 z-40 bg-[#F4F5F7]/90 backdrop-blur-md border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -22,8 +22,8 @@ export function DirectionC() {
               RR
             </div>
             <span className="font-bold tracking-tight text-lg text-slate-950">Lokna</span>
-            <span className="hidden sm:inline-flex items-center gap-1.5 ml-3 px-2 py-0.5 rounded text-[11px] font-mono bg-indigo-50 text-indigo-700 border border-indigo-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse" />
+            <span className="hidden sm:inline-flex items-center gap-1.5 ml-3 px-2 py-0.5 rounded text-[11px] font-mono bg-sage-50 text-forest border border-sage-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-forest animate-pulse" />
               Direction C · Fil du Mois
             </span>
           </div>
@@ -46,13 +46,13 @@ export function DirectionC() {
       <section className="pt-14 pb-20 px-6 max-w-5xl mx-auto">
         <div className="max-w-3xl mb-12">
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-slate-200/80 text-slate-700 font-mono text-xs mb-5">
-            <Activity className="w-3.5 h-3.5 text-indigo-600" />
+            <Activity className="w-3.5 h-3.5 text-forest" />
             FLUX CONTINU DU LOYER · OCTOBRE 2026
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-950 leading-[1.05] mb-6">
+          <h1 className="text-4xl sm:text-6xl font-semibold tracking-[-0.03em] text-slate-950 leading-[1.05] mb-6">
             Votre mois locatif <br />
-            <span className="text-indigo-600">ne s'arrête pas à un tableau.</span>
+            <span className="text-forest">ne s'arrête pas à un tableau.</span>
           </h1>
 
           <p className="text-lg text-slate-600 font-normal leading-relaxed max-w-2xl">
@@ -62,18 +62,18 @@ export function DirectionC() {
         </div>
 
         {/* LE CONDUIT D'ÉCHÉANCE (SIGNATURE VISUELLE UNIQUE) */}
-        <div className="relative pl-8 sm:pl-12 border-l-2 border-indigo-300 ml-4 sm:ml-6 space-y-12 my-14">
+        <div className="relative pl-8 sm:pl-12 border-l-2 border-sage-300 ml-4 sm:ml-6 space-y-12 my-14">
           {/* ÉTAPE 01 : LA SOURCE DU MOIS (1ER DU MOIS) */}
           <div className="relative">
             {/* Nœud lumineux sur le conduit */}
-            <div className="absolute -left-[41px] sm:-left-[57px] top-1.5 w-6 h-6 rounded-full bg-indigo-600 text-white font-mono text-xs flex items-center justify-center font-bold ring-4 ring-[#F4F5F7]">
+            <div className="absolute -left-[41px] sm:-left-[57px] top-1.5 w-6 h-6 rounded-full bg-forest text-white font-mono text-xs flex items-center justify-center font-bold ring-4 ring-[#F4F5F7]">
               1
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm max-w-3xl">
               <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-slate-100 pb-3 mb-4">
                 <div>
-                  <span className="font-mono text-xs text-indigo-600 uppercase font-semibold">
+                  <span className="font-mono text-xs text-forest uppercase font-semibold">
                     01 Octobre 2026 · Ouverture du mois
                   </span>
                   <h3 className="font-bold text-slate-900 text-lg">Loyers Exigibles Initialisés</h3>
@@ -196,7 +196,7 @@ export function DirectionC() {
             <div className="bg-slate-950 text-white p-6 rounded-xl shadow-lg max-w-3xl">
               <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
                 <div>
-                  <span className="font-mono text-xs text-indigo-400 uppercase font-semibold">
+                  <span className="font-mono text-xs text-sage-400 uppercase font-semibold">
                     Fin du cycle · Sécurité Juridique
                   </span>
                   <h3 className="font-bold text-white text-lg">Titres de Décharge Délivrés</h3>

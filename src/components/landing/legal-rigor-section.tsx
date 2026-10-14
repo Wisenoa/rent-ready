@@ -44,7 +44,7 @@ export function LegalRigorSection() {
           <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-500 mb-3">
             Rigueur juridique & technique
           </p>
-          <h2 className="text-[clamp(1.85rem,4vw,2.75rem)] font-bold tracking-tight text-stone-900 leading-tight">
+          <h2 className="text-[clamp(1.85rem,4vw,2.75rem)] font-semibold tracking-[-0.03em] text-ink leading-tight">
             Une gestion locative qui résiste aux contrôles.
           </h2>
           <p className="mt-4 text-base text-stone-600">
@@ -59,7 +59,7 @@ export function LegalRigorSection() {
             return (
               <motion.div
                 key={pillar.title}
-                className="group relative rounded-3xl border border-stone-200 bg-[#f8f7f4] p-7 sm:p-9 transition-all hover:border-stone-300 hover:shadow-lg"
+                className="group relative rounded-3xl border border-stone-200 bg-cream p-7 sm:p-9 transition-all hover:border-stone-300 hover:shadow-lg"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
@@ -74,7 +74,7 @@ export function LegalRigorSection() {
                   </span>
                 </div>
 
-                <h3 className="text-xl font-bold tracking-tight text-stone-900">
+                <h3 className="text-xl font-bold tracking-tight text-ink">
                   {pillar.title}
                 </h3>
                 <p className="mt-3 text-[14px] leading-relaxed text-stone-600">

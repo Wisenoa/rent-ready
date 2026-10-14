@@ -48,15 +48,15 @@ export function GenerateurQuittanceClient() {
   return (
     <>
 
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-3xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
           <div className="mb-8">
-            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-2 bg-sage-100 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <span>🧾</span> Outil gratuit
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3 leading-tight">
               Générateur de Quittance de Loyer
             </h1>
             <p className="text-lg text-stone-600 leading-relaxed">
@@ -69,7 +69,7 @@ export function GenerateurQuittanceClient() {
           </div>
 
           <div className="prose prose-stone max-w-none mb-10">
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">
+            <h2 className="text-2xl font-semibold text-ink mb-4">
               Pourquoi utiliser un générateur de quittance ?
             </h2>
             <p className="text-stone-700 leading-relaxed mb-4">
@@ -90,7 +90,7 @@ export function GenerateurQuittanceClient() {
           </div>
 
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8 mb-10">
-            <h2 className="text-xl font-bold text-stone-800 mb-6">Questions fréquentes</h2>
+            <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
             <div className="space-y-5">
               {faqData.map((item, i) => (
                 <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
@@ -102,10 +102,10 @@ export function GenerateurQuittanceClient() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
-            <Link href="/bail" className="text-blue-600 hover:underline">Bail de location →</Link>
-            <Link href="/quittances" className="text-blue-600 hover:underline">Quittances automatiques →</Link>
-            <Link href="/templates" className="text-blue-600 hover:underline">Modèles gratuits →</Link>
-            <Link href="/pricing" className="text-blue-600 hover:underline">Tarifs →</Link>
+            <Link href="/bail" className="text-forest hover:underline">Bail de location →</Link>
+            <Link href="/quittances" className="text-forest hover:underline">Quittances automatiques →</Link>
+            <Link href="/templates" className="text-forest hover:underline">Modèles gratuits →</Link>
+            <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
           </div>
 
           <FinalCta />

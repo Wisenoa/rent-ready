@@ -77,10 +77,10 @@ export default function DepotGarantieGuidePage() {
           <span className="mx-2">›</span>
           <span>Dépôt de garantie</span>
         </nav>
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-3 py-1 text-xs font-medium text-forest">
           Guide gratuit
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
           Dépôt de garantie : règles 2026 pour le propriétaire
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-stone-600">
@@ -144,9 +144,9 @@ export default function DepotGarantieGuidePage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-stone-200 text-left">
-                <th className="pb-3 font-semibold text-stone-900">Type de location</th>
-                <th className="pb-3 font-semibold text-stone-900">Dépôt maximum</th>
-                <th className="pb-3 font-semibold text-stone-900">Restitution</th>
+                <th className="pb-3 font-semibold text-ink">Type de location</th>
+                <th className="pb-3 font-semibold text-ink">Dépôt maximum</th>
+                <th className="pb-3 font-semibold text-ink">Restitution</th>
               </tr>
             </thead>
             <tbody className="text-stone-600">
@@ -171,7 +171,7 @@ export default function DepotGarantieGuidePage() {
       </div>
 
       <div className="mt-12 rounded-xl border border-stone-200/60 bg-stone-50 p-8 text-center">
-        <h2 className="mb-3 text-xl font-bold text-stone-900">
+        <h2 className="mb-3 text-xl font-semibold text-ink">
           Gérez vos dépôts de garantie avec Lokna
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
@@ -180,7 +180,7 @@ export default function DepotGarantieGuidePage() {
         </p>
         <Link
           href="/register"
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+          className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
         >
           Essai gratuit 14 jours
           <ArrowRight className="size-4" />

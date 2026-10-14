@@ -15,13 +15,13 @@ export function PricingSection() {
   const proPlan = PLANS.find((p) => p.id === "pro")!;
 
   return (
-    <section id="tarifs" className="py-24 sm:py-32 lg:py-40 bg-[#f8f7f4]">
+    <section id="tarifs" className="py-24 sm:py-32 lg:py-40 bg-cream">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <ScrollReveal className="mx-auto mb-14 max-w-2xl text-center">
           <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-500 mb-3">
             Tarifs clairs &amp; transparents
           </p>
-          <h2 className="text-[clamp(1.85rem,4vw,2.75rem)] font-bold tracking-tight text-stone-900 leading-tight">
+          <h2 className="text-[clamp(1.85rem,4vw,2.75rem)] font-semibold tracking-[-0.03em] text-ink leading-tight">
             Le juste prix pour votre patrimoine.
             <br />
             <span className="text-stone-600 font-normal">
@@ -82,7 +82,7 @@ export function PricingSection() {
 
               <div className="mt-6 mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-extrabold tracking-tight text-stone-900">
+                  <span className="text-5xl font-extrabold tracking-tight text-ink">
                     {billingCycle === "monthly" ? starterPlan.monthlyPrice : Math.round(starterPlan.annualPrice! / 12)}
                   </span>
                   <span className="text-xl font-bold text-stone-700">€</span>
@@ -164,7 +164,7 @@ export function PricingSection() {
 
               <div className="mt-6 mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-extrabold tracking-tight text-stone-900">
+                  <span className="text-5xl font-extrabold tracking-tight text-ink">
                     {billingCycle === "monthly" ? proPlan.monthlyPrice : Math.round(proPlan.annualPrice! / 12)}
                   </span>
                   <span className="text-xl font-bold text-stone-700">€</span>
@@ -182,7 +182,7 @@ export function PricingSection() {
               </p>
 
               <ul className="space-y-3 mb-8 text-[13px] text-stone-700">
-                <li className="flex items-center gap-2.5 font-medium text-stone-900">
+                <li className="flex items-center gap-2.5 font-medium text-ink">
                   <Check className="size-4 text-emerald-600 shrink-0" />
                   <span>Tout ce qui est inclus dans Starter</span>
                 </li>
@@ -228,12 +228,12 @@ export function PricingSection() {
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="rounded-xl bg-stone-50 p-3.5">
               <p className="text-xs text-stone-500 font-medium">Agence de gestion (7 %)</p>
-              <p className="text-lg font-bold text-stone-900 mt-1">~1 344 € / an</p>
+              <p className="text-lg font-bold text-ink mt-1">~1 344 € / an</p>
               <p className="text-[11px] text-stone-500 mt-0.5">+ frais d&apos;entrée</p>
             </div>
             <div className="rounded-xl bg-stone-50 p-3.5">
               <p className="text-xs text-stone-500 font-medium">Tableur Excel manuel</p>
-              <p className="text-lg font-bold text-stone-900 mt-1">0 €</p>
+              <p className="text-lg font-bold text-ink mt-1">0 €</p>
               <p className="text-[11px] text-amber-700 font-medium mt-0.5">~5 h / mois d&apos;astreinte</p>
             </div>
             <div className="rounded-xl bg-emerald-50/80 border border-emerald-200/60 p-3.5">

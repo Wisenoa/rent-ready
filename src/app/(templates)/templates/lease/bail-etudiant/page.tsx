@@ -180,19 +180,19 @@ function BailEtudiantJsonLd() {
 
 export default function BailEtudiantPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <BailEtudiantJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-purple-100 px-4 py-1.5 text-sm font-medium text-purple-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest">
             🎓 Bail de location étudiant
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle de Bail Étudiant
             <br />
-            <span className="text-purple-600">Location Meublée 2026</span>
+            <span className="text-forest">Location Meublée 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail meublé pour étudiants, avec clause VISALE et clauses adaptées.
@@ -201,14 +201,14 @@ export default function BailEtudiantPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-purple-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-purple-700 shadow-sm border border-purple-200 transition-colors hover:bg-purple-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-forest shadow-sm border border-sage-200 transition-colors hover:bg-sage-50"
             >
               Générer avec Lokna →
             </Link>
@@ -217,7 +217,7 @@ export default function BailEtudiantPage() {
 
         {/* Features */}
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Ce modèle est adapté aux étudiants grâce à
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -227,7 +227,7 @@ export default function BailEtudiantPage() {
                 className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm"
               >
                 <div className="mb-3 text-3xl">{feature.icon}</div>
-                <h3 className="mb-2 text-lg font-semibold text-stone-900">
+                <h3 className="mb-2 text-lg font-semibold text-ink">
                   {feature.title}
                 </h3>
                 <p className="text-sm text-stone-600">{feature.description}</p>
@@ -237,8 +237,8 @@ export default function BailEtudiantPage() {
         </section>
 
         {/* VISALE */}
-        <section className="mb-20 rounded-2xl bg-purple-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-20 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             La garantie VISALE pour les étudiants
           </h2>
           <p className="mb-4 text-stone-700">
@@ -255,7 +255,7 @@ export default function BailEtudiantPage() {
               ["Pour le propriétaire", "Garantie de paiement sans condition de revenus"],
             ].map(([label, value]) => (
               <div key={label} className="flex gap-3 text-sm">
-                <span className="font-medium text-stone-900">{label} :</span>
+                <span className="font-medium text-ink">{label} :</span>
                 <span className="text-stone-600">{value}</span>
               </div>
             ))}
@@ -268,13 +268,13 @@ export default function BailEtudiantPage() {
 
         {/* Rights */}
         <section className="mb-20 rounded-2xl bg-white p-8 shadow-sm sm:p-10">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Droits et obligations dans un bail étudiant
           </h2>
           <div className="space-y-3">
             {droits.map((item) => (
               <div key={item} className="flex items-start gap-3">
-                <Check className="mt-0.5 size-4 shrink-0 text-purple-600" />
+                <Check className="mt-0.5 size-4 shrink-0 text-forest" />
                 <span className="text-sm text-stone-700">{item}</span>
               </div>
             ))}
@@ -283,7 +283,7 @@ export default function BailEtudiantPage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Louez à des étudiants en toute sérénité
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -293,7 +293,7 @@ export default function BailEtudiantPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-purple-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-purple-700"
+              className="inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours
             </Link>
@@ -308,7 +308,7 @@ export default function BailEtudiantPage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="mx-auto max-w-3xl space-y-4">
@@ -317,7 +317,7 @@ export default function BailEtudiantPage() {
                 key={i}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-stone-900 list-none">
+                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-ink list-none">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -333,7 +333,7 @@ export default function BailEtudiantPage() {
 
         {/* Related */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
-          <h2 className="mb-4 text-lg font-bold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Ressources complémentaires
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -346,7 +346,7 @@ export default function BailEtudiantPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-purple-600 hover:underline"
+                className="text-sm text-forest hover:underline"
               >
                 {link.label}
               </Link>
@@ -356,16 +356,16 @@ export default function BailEtudiantPage() {
 
         {/* Navigation */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/templates/lease/bail-precaire" className="text-purple-600 hover:underline">
+          <Link href="/templates/lease/bail-precaire" className="text-forest hover:underline">
             Bail précaire →
           </Link>
-          <Link href="/templates/lease/acte-caution" className="text-purple-600 hover:underline">
+          <Link href="/templates/lease/acte-caution" className="text-forest hover:underline">
             Acte de caution →
           </Link>
-          <Link href="/templates/lease/bail-parking" className="text-purple-600 hover:underline">
+          <Link href="/templates/lease/bail-parking" className="text-forest hover:underline">
             Bail parking →
           </Link>
-          <Link href="/templates/lease" className="text-blue-600 hover:underline">
+          <Link href="/templates/lease" className="text-forest hover:underline">
             ← Tous les baux de location
           </Link>
         </nav>

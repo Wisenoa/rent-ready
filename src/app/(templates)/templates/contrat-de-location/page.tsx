@@ -148,19 +148,19 @@ function ContratLocationJsonLd() {
 
 export default function ContratDeLocationPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <ContratLocationJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="inline-block rounded-lg bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700 mb-4">
+          <div className="inline-block rounded-lg bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest mb-4">
             Modèle gratuit — Téléchargement instantané
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle Contrat de Location
             <br />
-            <span className="text-blue-600">Gratuit et Conforme Loi Alur</span>
+            <span className="text-forest">Gratuit et Conforme Loi Alur</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Téléchargez notre modèle de bail de location gratuit,100% conforme à
@@ -170,7 +170,7 @@ export default function ContratDeLocationPage() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-blue-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-blue-700 w-full sm:w-auto"
+              className="inline-block rounded-lg bg-forest px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-forest-hover w-full sm:w-auto"
             >
               Générer mon bail →
             </Link>
@@ -185,7 +185,7 @@ export default function ContratDeLocationPage() {
 
         {/* Lead */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Pourquoi un contrat de location conforme est essentiel ?
           </h2>
           <p className="mb-4 text-stone-700">
@@ -207,7 +207,7 @@ export default function ContratDeLocationPage() {
 
         {/* Clauses obligatoires */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Les clauses obligatoires du bail de location
           </h2>
           <p className="mb-6 text-stone-600">
@@ -231,12 +231,12 @@ export default function ContratDeLocationPage() {
 
         {/* Bail vide vs meublé */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Bail vide vs bail meublé : différences clés
           </h2>
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="rounded-xl border border-stone-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-bold text-stone-900">
+              <h3 className="mb-4 text-lg font-bold text-ink">
                 🏠 Bail vide (non meublé)
               </h3>
               <ul className="space-y-2 text-sm text-stone-700">
@@ -249,7 +249,7 @@ export default function ContratDeLocationPage() {
               </ul>
             </div>
             <div className="rounded-xl border border-stone-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-bold text-stone-900">
+              <h3 className="mb-4 text-lg font-bold text-ink">
                 🛋️ Bail meublé
               </h3>
               <ul className="space-y-2 text-sm text-stone-700">
@@ -266,7 +266,7 @@ export default function ContratDeLocationPage() {
 
         {/* Clauses interdites */}
         <section className="mb-16 rounded-2xl border border-red-200 bg-red-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             ⚠️ Clauses interdites et clauses abusives
           </h2>
           <p className="mb-6 text-stone-700">
@@ -292,8 +292,8 @@ export default function ContratDeLocationPage() {
         </section>
 
         {/* Notre modèle */}
-        <section className="mb-16 rounded-2xl bg-blue-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-16 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Notre modèle de contrat de location gratuit
           </h2>
           <p className="mb-6 text-stone-700">
@@ -318,7 +318,7 @@ export default function ContratDeLocationPage() {
           </ul>
           <Link
             href="/register"
-            className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Utiliser le modèle gratuit →
           </Link>
@@ -326,7 +326,7 @@ export default function ContratDeLocationPage() {
 
         {/* Combien de temps garder */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Combien de temps garder son bail ?
           </h2>
           <p className="mb-4 text-stone-700">
@@ -335,7 +335,7 @@ export default function ContratDeLocationPage() {
           </p>
           <ul className="space-y-3">
             <li className="flex items-start gap-3 text-sm text-stone-700">
-              <span className="text-blue-600 font-bold">📂</span>
+              <span className="text-forest font-bold">📂</span>
               <div>
                 <strong>Fiscalité :</strong> conservez vos baux et leurs annexes
                 pendant <strong>5 ans</strong> après la fin de la location pour
@@ -343,7 +343,7 @@ export default function ContratDeLocationPage() {
               </div>
             </li>
             <li className="flex items-start gap-3 text-sm text-stone-700">
-              <span className="text-blue-600 font-bold">⚖️</span>
+              <span className="text-forest font-bold">⚖️</span>
               <div>
                 <strong>Prescription civile :</strong> le délai de prescription
                 pour contester un bail ou un congé est de{" "}
@@ -352,7 +352,7 @@ export default function ContratDeLocationPage() {
               </div>
             </li>
             <li className="flex items-start gap-3 text-sm text-stone-700">
-              <span className="text-blue-600 font-bold">🏛️</span>
+              <span className="text-forest font-bold">🏛️</span>
               <div>
                 <strong>Preuve en cas de litige :</strong> en cas de procédure
                 judiciaire (impayés, dégradation, sortie du locataire), le bail
@@ -368,7 +368,7 @@ export default function ContratDeLocationPage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes sur le bail de location
           </h2>
           <div className="space-y-4">
@@ -377,7 +377,7 @@ export default function ContratDeLocationPage() {
                 key={item.question}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-ink">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -393,7 +393,7 @@ export default function ContratDeLocationPage() {
 
         {/* CTA final */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Créez votre bail de location en 10 minutes
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -402,7 +402,7 @@ export default function ContratDeLocationPage() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Commencer gratuitement →
           </Link>
@@ -410,16 +410,16 @@ export default function ContratDeLocationPage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/bail" className="text-blue-600 hover:underline">
+          <Link href="/bail" className="text-forest hover:underline">
             Gestion des baux →
           </Link>
-          <Link href="/templates/etat-des-lieux" className="text-blue-600 hover:underline">
+          <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">
             État des lieux →
           </Link>
-          <Link href="/quittances" className="text-blue-600 hover:underline">
+          <Link href="/quittances" className="text-forest hover:underline">
             Quittances →
           </Link>
-          <Link href="/pricing" className="text-blue-600 hover:underline">
+          <Link href="/pricing" className="text-forest hover:underline">
             Tarifs →
           </Link>
         </nav>

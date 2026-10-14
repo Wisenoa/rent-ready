@@ -37,7 +37,7 @@ export function HeroSection() {
   const [soldeRegle, setSoldeRegle] = useState(false);
 
   return (
-    <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28 lg:pt-40 lg:pb-32 bg-[#f8f7f4]">
+    <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28 lg:pt-40 lg:pb-32 bg-cream">
       {/* Subtle architectural atmosphere grid & ambient gradient */}
       <div
         aria-hidden="true"
@@ -71,10 +71,10 @@ export function HeroSection() {
           {/* H1 Headline */}
           <motion.h1
             variants={fadeUpVariants}
-            className="text-[clamp(2.35rem,5.2vw,3.75rem)] font-bold tracking-tight text-stone-900 leading-[1.1]"
+            className="text-[clamp(2.35rem,5.2vw,3.75rem)] font-bold tracking-tight text-ink leading-[1.1]"
           >
             Vos locations tournent.{" "}
-            <span className="block text-stone-900 sm:inline sm:text-stone-800">
+            <span className="block text-ink sm:inline sm:text-stone-800">
               Lokna s&apos;occupe du suivi.
             </span>
           </motion.h1>
@@ -149,7 +149,7 @@ export function HeroSection() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-[17px] font-semibold text-stone-900 tracking-tight">
+                    <h2 className="text-[17px] font-semibold text-ink tracking-[-0.03em]">
                       Octobre 2026
                     </h2>
                     <span className="inline-flex items-center rounded-md bg-stone-100 px-2 py-0.5 text-[11px] font-medium text-stone-700">
@@ -177,7 +177,7 @@ export function HeroSection() {
                   <p className="text-[11px] font-medium uppercase tracking-wider text-stone-500">
                     Loyers attendus
                   </p>
-                  <p className="mt-1 text-lg sm:text-xl font-bold tracking-tight text-stone-900">
+                  <p className="mt-1 text-lg sm:text-xl font-bold tracking-tight text-ink">
                     2 850,00 €
                   </p>
                 </div>
@@ -204,7 +204,7 @@ export function HeroSection() {
                   <p className="text-[11px] font-medium uppercase tracking-wider text-stone-500">
                     Quittances
                   </p>
-                  <p className="mt-1 text-lg sm:text-xl font-bold tracking-tight text-stone-900">
+                  <p className="mt-1 text-lg sm:text-xl font-bold tracking-tight text-ink">
                     {soldeRegle ? "3 émises" : "2 émises · 1 reçu"}
                   </p>
                 </div>
@@ -232,7 +232,7 @@ export function HeroSection() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="text-[14px] font-semibold text-stone-900">
+                      <p className="text-[14px] font-semibold text-ink">
                         Studio Rue Oberkampf · Paris 11ᵉ
                       </p>
                     </div>
@@ -244,7 +244,7 @@ export function HeroSection() {
 
                 <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
                   <div className="text-left sm:text-right">
-                    <p className="text-[14px] font-bold text-stone-900">750,00 €</p>
+                    <p className="text-[14px] font-bold text-ink">750,00 €</p>
                     <p className="text-[11px] font-medium text-emerald-700">Réglé le 02 oct.</p>
                   </div>
                   <span className="inline-flex items-center gap-1.5 rounded-md bg-stone-100 px-2.5 py-1 text-[11px] font-medium text-stone-700">
@@ -262,7 +262,7 @@ export function HeroSection() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="text-[14px] font-semibold text-stone-900">
+                      <p className="text-[14px] font-semibold text-ink">
                         T3 Avenue Victor Hugo · Lyon 2ᵉ
                       </p>
                     </div>
@@ -274,7 +274,7 @@ export function HeroSection() {
 
                 <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
                   <div className="text-left sm:text-right">
-                    <p className="text-[14px] font-bold text-stone-900">1 700,00 €</p>
+                    <p className="text-[14px] font-bold text-ink">1 700,00 €</p>
                     <p className="text-[11px] font-medium text-emerald-700">Réglé le 04 oct.</p>
                   </div>
                   <span className="inline-flex items-center gap-1.5 rounded-md bg-stone-100 px-2.5 py-1 text-[11px] font-medium text-stone-700">
@@ -300,7 +300,7 @@ export function HeroSection() {
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="text-[14px] font-semibold text-stone-900">
+                          <p className="text-[14px] font-semibold text-ink">
                             T2 Rue de la République · Nantes
                           </p>
                           <span className="inline-flex items-center rounded-md bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-900">
@@ -345,7 +345,7 @@ export function HeroSection() {
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="text-[14px] font-semibold text-stone-900">
+                          <p className="text-[14px] font-semibold text-ink">
                             T2 Rue de la République · Nantes
                           </p>
                           <span className="inline-flex items-center rounded-md bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-800">
@@ -360,7 +360,7 @@ export function HeroSection() {
 
                     <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-emerald-100">
                       <div className="text-left sm:text-right">
-                        <p className="text-[14px] font-bold text-stone-900">800,00 €</p>
+                        <p className="text-[14px] font-bold text-ink">800,00 €</p>
                         <p className="text-[11px] font-medium text-emerald-700">100 % soldé</p>
                       </div>
                       <span className="inline-flex items-center gap-1.5 rounded-md bg-stone-100 px-2.5 py-1 text-[11px] font-medium text-stone-700">

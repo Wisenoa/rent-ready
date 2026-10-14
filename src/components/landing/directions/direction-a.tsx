@@ -12,7 +12,7 @@ export function DirectionA() {
   const [nantesPaid, setNantesPaid] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] text-stone-900 font-sans selection:bg-stone-900 selection:text-white">
+    <div className="min-h-screen bg-[#FDFCFB] text-ink font-sans selection:bg-stone-900 selection:text-white">
       {/* 1. NAVIGATION */}
       <header className="sticky top-0 z-40 bg-[#FDFCFB]/90 backdrop-blur-md border-b border-stone-200/80 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -54,7 +54,7 @@ export function DirectionA() {
             Gestion locative pour propriétaires indépendants · Loi du 6 juillet 1989
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-stone-950 leading-[1.12] mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] text-stone-950 leading-[1.12] mb-6">
             Vos locations tournent.{" "}
             <br className="hidden sm:inline" />
             Lokna tient le compte.
@@ -104,7 +104,7 @@ export function DirectionA() {
                   10
                 </span>
                 <div>
-                  <h3 className="font-semibold text-stone-900 text-base">Octobre 2026</h3>
+                  <h3 className="font-semibold text-ink text-base">Octobre 2026</h3>
                   <p className="text-xs text-stone-500">Grand livre mensuel · 3 baux actifs</p>
                 </div>
               </div>
@@ -120,7 +120,7 @@ export function DirectionA() {
                 <span className="block text-[11px] font-medium uppercase tracking-wider text-stone-500 mb-1">
                   Loyers exigibles
                 </span>
-                <span className="text-xl font-bold font-mono text-stone-900">2 850,00 €</span>
+                <span className="text-xl font-bold font-mono text-ink">2 850,00 €</span>
               </div>
               <div className="p-5">
                 <span className="block text-[11px] font-medium uppercase tracking-wider text-stone-500 mb-1">
@@ -142,7 +142,7 @@ export function DirectionA() {
                 <span className="block text-[11px] font-medium uppercase tracking-wider text-stone-500 mb-1">
                   Documents
                 </span>
-                <span className="text-xl font-bold font-mono text-stone-900">
+                <span className="text-xl font-bold font-mono text-ink">
                   {nantesPaid ? "3 quittances" : "2 quitt. · 1 reçu"}
                 </span>
               </div>
@@ -157,13 +157,13 @@ export function DirectionA() {
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-stone-900 text-sm">Studio Rue Oberkampf · Paris 11e</h4>
+                    <h4 className="font-semibold text-ink text-sm">Studio Rue Oberkampf · Paris 11e</h4>
                     <p className="text-xs text-stone-500">Camille Laurent · Loyer nu 670 € + Provisions 80 €</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <span className="font-mono font-bold text-stone-900 text-sm">750,00 €</span>
+                    <span className="font-mono font-bold text-ink text-sm">750,00 €</span>
                     <span className="block text-[11px] text-emerald-600 font-medium">Réglé le 02 oct</span>
                   </div>
                   <span className="hidden sm:inline-flex items-center gap-1 text-xs text-stone-500 bg-stone-50 px-2.5 py-1 rounded border border-stone-200">
@@ -180,13 +180,13 @@ export function DirectionA() {
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-stone-900 text-sm">T3 Avenue Victor Hugo · Lyon 2e</h4>
+                    <h4 className="font-semibold text-ink text-sm">T3 Avenue Victor Hugo · Lyon 2e</h4>
                     <p className="text-xs text-stone-500">Alexandre Mercier · Loyer nu 1 520 € + Provisions 180 €</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <span className="font-mono font-bold text-stone-900 text-sm">1 700,00 €</span>
+                    <span className="font-mono font-bold text-ink text-sm">1 700,00 €</span>
                     <span className="block text-[11px] text-emerald-600 font-medium">Réglé le 04 oct</span>
                   </div>
                   <span className="hidden sm:inline-flex items-center gap-1 text-xs text-stone-500 bg-stone-50 px-2.5 py-1 rounded border border-stone-200">
@@ -212,7 +212,7 @@ export function DirectionA() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="font-semibold text-stone-900 text-sm">T2 Rue de la République · Nantes</h4>
+                      <h4 className="font-semibold text-ink text-sm">T2 Rue de la République · Nantes</h4>
                       {!nantesPaid && (
                         <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-800">
                           Acompte perçu
@@ -226,7 +226,7 @@ export function DirectionA() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <span className="font-mono font-bold text-sm text-stone-900">
+                    <span className="font-mono font-bold text-sm text-ink">
                       {nantesPaid ? "800,00 €" : "Reste 400,00 €"}
                     </span>
                     <span className="block text-[11px] text-stone-500">
@@ -262,7 +262,7 @@ export function DirectionA() {
           <span className="text-xs font-mono font-semibold uppercase tracking-wider text-stone-500 block mb-3">
             La mécanique sous le capot
           </span>
-          <h2 className="text-3xl font-bold tracking-tight text-stone-950 mb-4">
+          <h2 className="text-3xl font-semibold tracking-[-0.03em] text-stone-950 mb-4">
             Trois étapes. Zéro approximation.
           </h2>
           <p className="text-stone-600 text-base">

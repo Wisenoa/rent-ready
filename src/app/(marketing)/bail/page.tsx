@@ -200,7 +200,7 @@ const BAIL_SCHEMA = {
 
 export default function BailPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <SchemaMarkup data={BAIL_SCHEMA} breadcrumbRenderedByComponent />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
@@ -214,7 +214,7 @@ export default function BailPage() {
 
 {/* Hero */}
 <header className="mb-16 text-center">
-<h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+<h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
 Gérez vos baux
 <br />
 sans paperasse.
@@ -234,7 +234,7 @@ key={feature.title}
 className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md"
 >
 <div className="mb-3 text-3xl">{feature.icon}</div>
-<h3 className="mb-2 text-lg font-semibold text-stone-900">
+<h3 className="mb-2 text-lg font-semibold text-ink">
 {feature.title}
 </h3>
 <p className="text-sm text-stone-600">{feature.description}</p>
@@ -245,16 +245,16 @@ className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm back
 
 {/* Process */}
 <section className="mb-20">
-<h2 className="mb-8 text-2xl font-bold text-stone-900">
+<h2 className="mb-8 text-2xl font-semibold text-ink">
 Comment ça marche ?
 </h2>
 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 {steps.map((item) => (
 <div key={item.step} className="rounded-xl border border-stone-200 bg-white p-6">
-<div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-lg font-bold text-blue-600">
+<div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-sage-100 text-lg font-bold text-forest">
 {item.step}
 </div>
-<h3 className="mb-2 text-base font-semibold text-stone-900">
+<h3 className="mb-2 text-base font-semibold text-ink">
 {item.title}
 </h3>
 <p className="text-sm text-stone-600">{item.description}</p>
@@ -264,8 +264,8 @@ Comment ça marche ?
 </section>
 
 {/* Legal compliance */}
-<section className="mb-20 rounded-2xl bg-blue-50 p-8 sm:p-10">
-<h2 className="mb-4 text-xl font-bold text-stone-900">
+<section className="mb-20 rounded-2xl bg-sage-50 p-8 sm:p-10">
+<h2 className="mb-4 text-xl font-semibold text-ink">
 Conformité légale garantie
 </h2>
 <p className="mb-6 text-stone-700">
@@ -303,7 +303,7 @@ dépôt de garantie, etc.).
 
       {/* City listing */}
       <section className="mb-20">
-        <h2 className="mb-6 text-2xl font-bold text-stone-900">
+        <h2 className="mb-6 text-2xl font-semibold text-ink">
           Modèles de bail par ville
         </h2>
         <p className="mb-8 text-stone-600">
@@ -322,9 +322,9 @@ dépôt de garantie, etc.).
                     <li key={city.slug}>
                       <Link
                         href={`/bail/${city.slug}`}
-                        className="group flex items-center justify-between rounded-lg border border-stone-200/80 bg-white px-3 py-2 shadow-sm transition-all hover:border-blue-300 hover:shadow-sm"
+                        className="group flex items-center justify-between rounded-lg border border-stone-200/80 bg-white px-3 py-2 shadow-sm transition-all hover:border-sage-300 hover:shadow-sm"
                       >
-                        <span className="text-sm font-medium text-stone-700 group-hover:text-blue-700">
+                        <span className="text-sm font-medium text-stone-700 group-hover:text-forest">
                           {city.name}
                         </span>
                         <span className="text-xs text-stone-600">
@@ -341,7 +341,7 @@ dépôt de garantie, etc.).
 
       {/* CTA */}
       <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-        <h2 className="text-2xl font-bold sm:text-3xl">
+        <h2 className="text-2xl font-semibold sm:text-3xl">
           Créez votre premier bail en 10 minutes
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -349,7 +349,7 @@ dépôt de garantie, etc.).
         </p>
         <Link
           href="/register"
-          className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+          className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
         >
           Essai gratuit 14 jours
         </Link>
@@ -359,19 +359,19 @@ dépôt de garantie, etc.).
 <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/locations"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Gestion des locations →
 </Link>
 <Link
 href="/quittances"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Génération de quittances →
 </Link>
 <Link
 href="/pricing"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Tarifs →
 </Link>

@@ -129,8 +129,12 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-cream/10 bg-forest/95 text-cream backdrop-blur-md">
-      {/* The skip link to #main comes from the root layout. */}
+    <header className="sticky top-0 z-40 border-b border-cream/10 text-cream">
+      {/* The blur lives on its own layer: `backdrop-filter` on the header itself
+          would make it the containing block of the fixed mobile sheet, which
+          then collapsed into the 56px bar and let clicks fall through to the
+          page. The skip link to #main comes from the root layout. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-forest/95 backdrop-blur-md" />
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
         <div className="flex min-w-0 items-center gap-8">
           <Link
@@ -230,7 +234,8 @@ export function SiteHeader() {
             href={AUTH_LINKS.signup.href}
             className={`${styles.cta} whitespace-nowrap rounded-md bg-cream px-3.5 py-2 text-[14px] font-medium text-forest hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:px-4`}
           >
-            {AUTH_LINKS.signup.label}
+            <span className="sm:hidden">Essai gratuit</span>
+            <span className="hidden sm:inline">{AUTH_LINKS.signup.label}</span>
           </Link>
           <button
             ref={mobileToggleRef}

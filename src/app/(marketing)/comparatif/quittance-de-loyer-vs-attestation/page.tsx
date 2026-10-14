@@ -140,10 +140,10 @@ export default function QuittanceVsAttestation() {
       <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Header */}
         <header className="mb-16 text-center">
-          <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
+          <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
             Comparatif — Documents locatifs
           </p>
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Quittance de loyer vs attestation de paiement
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
@@ -153,9 +153,9 @@ export default function QuittanceVsAttestation() {
         </header>
 
         {/* Legal reminder */}
-        <div className="mb-12 rounded-xl border-l-4 border-blue-500 bg-blue-50 p-6">
-          <p className="font-semibold text-blue-900">Rappel légal</p>
-          <p className="mt-1 text-sm text-blue-800">
+        <div className="mb-12 rounded-xl border-l-4 border-forest bg-sage-50 p-6">
+          <p className="font-semibold text-ink">Rappel légal</p>
+          <p className="mt-1 text-sm text-ink">
             Selon l'article 21 de la loi du 6 juillet 1989, le bailleur doit fournir une{' '}
             <strong>quittance</strong> dans le mois suivant le paiement intégral du loyer, sur
             simple demande du locataire. L'attestation de paiement ne remplace pas la quittance.
@@ -164,13 +164,13 @@ export default function QuittanceVsAttestation() {
 
         {/* Comparison table */}
         <section className="mb-16 overflow-x-auto">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Comparaison des deux documents
           </h2>
           <table className="w-full text-sm min-w-[500px]">
             <thead>
               <tr className="border-b border-stone-200 text-left">
-                <th className="py-3 pr-4 font-semibold text-stone-900">Critère</th>
+                <th className="py-3 pr-4 font-semibold text-ink">Critère</th>
                 <th className="py-3 px-4 text-center font-semibold text-green-700">Quittance ✓</th>
                 <th className="py-3 px-4 text-center font-semibold text-stone-600">Attestation ✗</th>
               </tr>
@@ -234,14 +234,14 @@ export default function QuittanceVsAttestation() {
         </section>
 
         {/* FAQ */}
-        <section className="mb-16 bg-[#f8f7f4] rounded-2xl p-8">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+        <section className="mb-16 bg-cream rounded-2xl p-8">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="divide-y divide-stone-200">
             {faqSchema.mainEntity.map((faq) => (
               <details key={faq.name} className="group py-5">
-                <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between font-medium text-ink">
                   {faq.name}
                   <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
@@ -257,7 +257,7 @@ export default function QuittanceVsAttestation() {
 
         {/* CTA */}
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Générez des quittances légales automatiquement
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
@@ -266,7 +266,7 @@ export default function QuittanceVsAttestation() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Créer mon compte gratuitement →
           </Link>

@@ -57,7 +57,7 @@ export function DirectionB() {
             <div className="lg:col-span-3 pt-2 border-t-2 border-[#191817] lg:border-t-0 font-mono text-xs text-stone-600 space-y-6">
               <div>
                 <span className="block text-[10px] text-stone-400 uppercase tracking-widest mb-1">PÉRIODE D'ARRÊTÉ</span>
-                <span className="font-bold text-stone-900 text-sm">OCTOBRE 2026</span>
+                <span className="font-bold text-ink text-sm">OCTOBRE 2026</span>
               </div>
               <div>
                 <span className="block text-[10px] text-stone-400 uppercase tracking-widest mb-1">CADRE JURIDIQUE</span>
@@ -77,7 +77,7 @@ export function DirectionB() {
                 01 / INTENDANCE FONCIÈRE INDÉPENDANTE
               </span>
 
-              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.08] text-[#191817] tracking-tight mb-8">
+              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.08] text-[#191817] tracking-[-0.03em] mb-8">
                 De l'exigibilité du loyer <br />
                 <span className="italic">à la décharge conforme.</span>
               </h1>
@@ -176,7 +176,7 @@ export function DirectionB() {
                   </p>
                 </div>
                 <div className="md:col-span-3 font-mono text-xs">
-                  <span className="text-stone-900 font-bold">750,00 € RÉGLÉ</span>
+                  <span className="text-ink font-bold">750,00 € RÉGLÉ</span>
                   <span className="block text-stone-500 text-[11px]">Virement pointé le 02/10/2026</span>
                 </div>
                 <div className="md:col-span-3 text-left md:text-right font-mono text-xs">
@@ -198,7 +198,7 @@ export function DirectionB() {
                   </p>
                 </div>
                 <div className="md:col-span-3 font-mono text-xs">
-                  <span className="text-stone-900 font-bold">1 700,00 € RÉGLÉ</span>
+                  <span className="text-ink font-bold">1 700,00 € RÉGLÉ</span>
                   <span className="block text-stone-500 text-[11px]">Virement pointé le 04/10/2026</span>
                 </div>
                 <div className="md:col-span-3 text-left md:text-right font-mono text-xs">
@@ -231,7 +231,7 @@ export function DirectionB() {
                   </p>
                 </div>
                 <div className="md:col-span-3 font-mono text-xs">
-                  <span className={`font-bold ${nantesSettled ? "text-stone-900" : "text-amber-900"}`}>
+                  <span className={`font-bold ${nantesSettled ? "text-ink" : "text-amber-900"}`}>
                     {nantesSettled ? "800,00 € RÉGLÉ" : "SOLDE RESTANT : 400,00 €"}
                   </span>
                   <span className="block text-stone-500 text-[11px]">

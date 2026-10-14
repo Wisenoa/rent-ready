@@ -42,14 +42,14 @@ export function GlossarySidebar() {
             placeholder="Rechercher un terme..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
+            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-sage-400 focus:outline-none focus:ring-1 focus:ring-sage-400"
           />
         </div>
 
         {/* Term links */}
         <div className="rounded-xl border border-stone-200 bg-white p-4">
           <div className="mb-3 flex items-center gap-2">
-            <BookOpen className="size-4 text-blue-600" />
+            <BookOpen className="size-4 text-forest" />
             <span className="text-xs font-semibold uppercase tracking-widest text-stone-600">
               Glossaire
             </span>
@@ -59,9 +59,9 @@ export function GlossarySidebar() {
               <li key={term.slug}>
                 <Link
                   href={`/glossaire-immobilier/${term.slug}`}
-                  className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-stone-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                  className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-stone-600 transition-colors hover:bg-sage-50 hover:text-forest"
                 >
-                  <span className="flex h-5 w-5 items-center justify-center rounded bg-blue-100 text-xs font-medium text-blue-700">
+                  <span className="flex h-5 w-5 items-center justify-center rounded bg-sage-100 text-xs font-medium text-forest">
                     {term.label[0]}
                   </span>
                   {term.label}
@@ -72,13 +72,13 @@ export function GlossarySidebar() {
         </div>
 
         {/* CTA */}
-        <div className="rounded-xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-blue-100/50 p-5 text-center">
+        <div className="rounded-xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-sage-100/50 p-5 text-center">
           <p className="mb-3 text-sm font-medium text-stone-700">
             Appliquez ces termes dans votre gestion locative
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours
           </Link>

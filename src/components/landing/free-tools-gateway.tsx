@@ -53,7 +53,7 @@ export function FreeToolsGateway() {
           <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-500 mb-3">
             Outils &amp; calculateurs en libre accès
           </p>
-          <h2 className="text-[clamp(1.85rem,4vw,2.75rem)] font-bold tracking-tight text-stone-900 leading-tight">
+          <h2 className="text-[clamp(1.85rem,4vw,2.75rem)] font-semibold tracking-[-0.03em] text-ink leading-tight">
             Des simulateurs juridiques gratuits.
             <br />
             <span className="text-stone-600 font-normal">
@@ -71,7 +71,7 @@ export function FreeToolsGateway() {
             return (
               <motion.div
                 key={tool.href}
-                className="group rounded-2xl border border-stone-200 bg-[#f8f7f4] p-6 flex flex-col justify-between transition-all hover:border-stone-300 hover:shadow-md hover:-translate-y-1"
+                className="group rounded-2xl border border-stone-200 bg-cream p-6 flex flex-col justify-between transition-all hover:border-stone-300 hover:shadow-md hover:-translate-y-1"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
@@ -79,7 +79,7 @@ export function FreeToolsGateway() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-stone-900 border border-stone-200 shadow-sm">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-ink border border-stone-200 shadow-sm">
                       <Icon className="size-5" />
                     </div>
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-600 bg-white px-2 py-0.5 rounded border border-stone-200/60">
@@ -87,7 +87,7 @@ export function FreeToolsGateway() {
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-stone-900 mb-2">
+                  <h3 className="text-base font-bold text-ink mb-2">
                     {tool.title}
                   </h3>
                   <p className="text-[13px] text-stone-600 leading-relaxed">
@@ -98,7 +98,7 @@ export function FreeToolsGateway() {
                 <div className="mt-6 pt-4 border-t border-stone-200/70">
                   <Link
                     href={tool.href}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-900 group-hover:text-stone-700"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink group-hover:text-stone-700"
                   >
                     <span>{tool.cta}</span>
                     <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />

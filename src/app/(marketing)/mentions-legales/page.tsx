@@ -80,7 +80,7 @@ export default function MentionsLegalesPage() {
     <>
       <MentionsLegalesJsonLd />
     <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
-      <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+      <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
         Mentions Légales
       </h1>
       <p className="mt-4 text-sm text-stone-600">
@@ -101,7 +101,7 @@ export default function MentionsLegalesPage() {
             Président.
           </p>
           <p className="mt-2">
-            Contact : <a href="mailto:contact@lokna.fr" className="text-blue-600 underline underline-offset-2">contact@lokna.fr</a>
+            Contact : <a href="mailto:contact@lokna.fr" className="text-forest underline underline-offset-2">contact@lokna.fr</a>
           </p>
           <p className="mt-2">
             Numéro de TVA intracommunautaire : FR [numéro]
@@ -144,11 +144,11 @@ export default function MentionsLegalesPage() {
           </p>
           <p className="mt-2">
             Pour exercer ces droits, contactez :{" "}
-            <a href="mailto:dpo@lokna.fr" className="text-blue-600 underline underline-offset-2">dpo@lokna.fr</a>
+            <a href="mailto:dpo@lokna.fr" className="text-forest underline underline-offset-2">dpo@lokna.fr</a>
           </p>
           <p className="mt-2">
             Pour en savoir plus, consultez notre{" "}
-            <a href="/politique-confidentialite" className="text-blue-600 underline underline-offset-2">
+            <a href="/politique-confidentialite" className="text-forest underline underline-offset-2">
               Politique de Confidentialité
             </a>.
           </p>

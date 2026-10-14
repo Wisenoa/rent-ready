@@ -49,7 +49,7 @@ export function InlineCTA({
         aria-label={label}
       >
         <div>
-          <p className="font-semibold text-stone-900">{text}</p>
+          <p className="font-semibold text-ink">{text}</p>
           {conversionContext && (
             <p className="mt-0.5 text-sm text-stone-500">
               Aucune carte bancaire requise · Essai gratuit 14 jours
@@ -73,7 +73,7 @@ export function InlineCTA({
       <Link
         href={href}
         aria-label={label}
-        className={`inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 ${className}`}
+        className={`inline-flex items-center gap-2 rounded-xl bg-forest px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-forest-hover ${className}`}
       >
         {text}
         {showArrow && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
@@ -86,7 +86,7 @@ export function InlineCTA({
     <Link
       href={href}
       aria-label={label}
-      className={`inline-flex items-center gap-1 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 ${className}`}
+      className={`inline-flex items-center gap-1 text-sm font-medium text-forest transition-colors hover:text-ink ${className}`}
     >
       {text}
       {showArrow && <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />}

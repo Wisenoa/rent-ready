@@ -351,7 +351,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         {/* Back link */}
         <Link
           href="/blog"
-          className="mb-8 inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors"
+          className="mb-8 inline-flex items-center gap-1.5 text-sm text-forest hover:text-forest transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Retour au blog
@@ -359,10 +359,10 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         {/* Article header */}
         <header className="mb-12">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-3 py-1 text-xs font-medium text-forest">
             {article.category}
           </div>
-          <h1 className="mb-6 text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl leading-tight">
+          <h1 className="mb-6 text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl leading-tight">
             {article.title}
           </h1>
           <p className="mb-6 text-xl text-stone-600 leading-relaxed">
@@ -395,11 +395,11 @@ export default async function BlogPostPage({ params }: PageProps) {
                 prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:scroll-mt-24
                 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:scroll-mt-24
                 prose-p:text-stone-700 prose-p:leading-relaxed
-                prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-700
+                prose-a:text-forest prose-a:underline hover:prose-a:text-forest
                 prose-ul:text-stone-700 prose-li:marker:text-stone-600
                 prose-strong:text-stone-900
-                prose-blockquote:border-l-blue-500 prose-blockquote:text-stone-600
-                prose-code:text-blue-700 prose-code:bg-stone-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                prose-blockquote:border-l-forest prose-blockquote:text-stone-600
+                prose-code:text-forest prose-code:bg-stone-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
                 prose-pre:bg-stone-900 prose-pre:text-stone-100
               ">
                 <ReactMarkdown>{splitEditorialCTA(article.content).body}</ReactMarkdown>
@@ -410,9 +410,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 
             {/* Glossary terms section */}
             {glossaryTerms.length > 0 && (
-              <div className="mt-12 rounded-xl border border-blue-100 bg-blue-50 p-6">
-                <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-blue-900">
-                  <BookOpen className="size-5 text-blue-600" />
+              <div className="mt-12 rounded-xl border border-sage-100 bg-sage-50 p-6">
+                <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-ink">
+                  <BookOpen className="size-5 text-forest" />
                   Termes du glossaire utilisés dans cet article
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -420,14 +420,14 @@ export default async function BlogPostPage({ params }: PageProps) {
                     <Link
                       key={term.slug}
                       href={`/glossaire-immobilier/${term.slug}`}
-                      className="rounded-lg border border-blue-200 bg-white px-3 py-1.5 text-sm font-medium text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-100"
+                      className="rounded-lg border border-sage-200 bg-white px-3 py-1.5 text-sm font-medium text-forest transition-colors hover:border-sage-400 hover:bg-sage-100"
                     >
                       {term.term}
                     </Link>
                   ))}
                 </div>
-                <p className="mt-3 text-xs text-blue-700">
-                  <Link href="/glossaire-immobilier" className="underline hover:text-blue-900">
+                <p className="mt-3 text-xs text-forest">
+                  <Link href="/glossaire-immobilier" className="underline hover:text-ink">
                     Voir le glossaire complet
                   </Link>
                   {" "}— définitions des termes immobiliers
@@ -448,7 +448,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                     <a
                       key={item.id}
                       href={`#${item.id}`}
-                      className={`block text-sm text-stone-600 hover:text-blue-600 transition-colors ${
+                      className={`block text-sm text-stone-600 hover:text-forest transition-colors ${
                         item.level === 3 ? "pl-4 text-xs" : ""
                       }`}
                     >
@@ -472,7 +472,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-500 transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white hover:bg-forest transition-colors"
           >
             Créer un compte gratuit
           </Link>
@@ -481,7 +481,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         {/* Related articles */}
         {relatedArticles.length > 0 && (
           <div className="mt-16 border-t border-stone-200 pt-12">
-            <h2 className="mb-8 text-2xl font-bold text-stone-900">
+            <h2 className="mb-8 text-2xl font-semibold text-ink">
               Articles similaires
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -494,7 +494,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                   <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600">
                     {related.category}
                   </div>
-                  <h3 className="mb-2 font-semibold text-stone-900 group-hover:text-blue-700 transition-colors line-clamp-2">
+                  <h3 className="mb-2 font-semibold text-ink group-hover:text-forest transition-colors line-clamp-2">
                     {related.title}
                   </h3>
                   <p className="text-sm text-stone-600 line-clamp-2">

@@ -257,19 +257,19 @@ function BailVideJsonLd() {
 
 export default function BailVidePage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <BailVideJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest">
             🏠 Bail de location vide
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle de Bail Vide
             <br />
-            <span className="text-blue-600">Gratuit &amp; Conforme 2026</span>
+            <span className="text-forest">Gratuit &amp; Conforme 2026</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Bail vide conforme à la loi du 6 juillet 1989, mis à jour avec la
@@ -279,14 +279,14 @@ export default function BailVidePage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-sm border border-blue-200 transition-colors hover:bg-blue-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-forest shadow-sm border border-sage-200 transition-colors hover:bg-sage-50"
             >
               Suivre mes baux avec Lokna →
             </Link>
@@ -295,17 +295,17 @@ export default function BailVidePage() {
 
         {/* Document preview */}
         <section className="mb-16 rounded-2xl border border-stone-200/80 bg-white p-8 shadow-sm sm:p-10">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Aperçu du modèle
           </h2>
           <div className="rounded-xl border border-stone-200 bg-stone-50 p-6 sm:p-8">
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-2xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-sage-100 text-2xl">
                 📄
               </div>
               <div>
-                <p className="font-semibold text-stone-900">Modèle de bail vide 2026</p>
-                <p className="text-sm text-stone-500">2 pages · 245 Ko · Mis à jour janvier 2026</p>
+                <p className="font-semibold text-ink">Modèle de bail vide 2026</p>
+                <p className="text-sm text-stone-600">Clauses du contrat type · Mis à jour janvier 2026</p>
               </div>
             </div>
             <div className="space-y-3">
@@ -322,10 +322,10 @@ export default function BailVidePage() {
         {/* Trust badges */}
         <section className="mb-12 flex flex-wrap justify-center gap-6">
           {[
-            { icon: <Shield className="size-5 text-blue-600" />, label: "Conforme loi 89-462" },
-            { icon: <Clock className="size-5 text-blue-600" />, label: "Mis à jour 2026" },
-            { icon: <Users className="size-5 text-blue-600" />, label: "Bail conforme à la loi du 6 juillet 1989" },
-            { icon: <FileText className="size-5 text-blue-600" />, label: "Clauses du contrat type" },
+            { icon: <Shield className="size-5 text-forest" />, label: "Conforme loi 89-462" },
+            { icon: <Clock className="size-5 text-forest" />, label: "Mis à jour 2026" },
+            { icon: <Users className="size-5 text-forest" />, label: "Bail conforme à la loi du 6 juillet 1989" },
+            { icon: <FileText className="size-5 text-forest" />, label: "Clauses du contrat type" },
           ].map((badge) => (
             <div key={badge.label} className="flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm text-stone-600">
               {badge.icon}
@@ -336,7 +336,7 @@ export default function BailVidePage() {
 
         {/* Features */}
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Ce que contient le modèle
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -346,7 +346,7 @@ export default function BailVidePage() {
                 className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm"
               >
                 <div className="mb-3 text-3xl">{feature.icon}</div>
-                <h3 className="mb-2 text-lg font-semibold text-stone-900">
+                <h3 className="mb-2 text-lg font-semibold text-ink">
                   {feature.title}
                 </h3>
                 <p className="text-sm text-stone-600">{feature.description}</p>
@@ -357,7 +357,7 @@ export default function BailVidePage() {
 
         {/* Clauses */}
         <section className="mb-20 rounded-2xl bg-white p-8 shadow-sm sm:p-10">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Clauses disponibles
           </h2>
           <div className="space-y-4">
@@ -369,7 +369,7 @@ export default function BailVidePage() {
                 <div
                   className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
                     clause.required
-                      ? "bg-blue-100 text-blue-600"
+                      ? "bg-sage-100 text-forest"
                       : "bg-stone-100 text-stone-400"
                   }`}
                 >
@@ -381,11 +381,11 @@ export default function BailVidePage() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-semibold text-stone-900">
+                    <h3 className="text-sm font-semibold text-ink">
                       {clause.title}
                     </h3>
                     {clause.required && (
-                      <span className="rounded bg-blue-100 px-1.5 py-0.5 text-xs text-blue-700">
+                      <span className="rounded bg-sage-100 px-1.5 py-0.5 text-xs text-forest">
                         Obligatoire
                       </span>
                     )}
@@ -405,8 +405,8 @@ export default function BailVidePage() {
         </section>
 
         {/* Legal */}
-        <section className="mb-20 rounded-2xl bg-blue-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-20 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Conformité légale
           </h2>
           <p className="mb-6 text-stone-700">
@@ -432,7 +432,7 @@ export default function BailVidePage() {
 
         {/* Step-by-step */}
         <section className="mb-20 rounded-2xl bg-white p-8 shadow-sm sm:p-10">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Comment utiliser ce modèle de bail vide
           </h2>
           <div className="space-y-6">
@@ -469,11 +469,11 @@ export default function BailVidePage() {
               },
             ].map((item) => (
               <div key={item.step} className="flex gap-4">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-700">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sage-100 text-sm font-bold text-forest">
                   {item.step}
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-stone-900">{item.title}</h3>
+                  <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
                   <p className="text-sm text-stone-600">{item.desc}</p>
                 </div>
               </div>
@@ -483,7 +483,7 @@ export default function BailVidePage() {
 
         {/* Comparison table */}
         <section className="mb-20 rounded-2xl bg-stone-100 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Bail vide vs bail meublé : que choisir ?
           </h2>
           <p className="mb-6 text-stone-600">
@@ -494,9 +494,9 @@ export default function BailVidePage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-stone-300">
-                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Critère</th>
-                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Bail Vide</th>
-                  <th className="text-left py-3 px-4 font-semibold text-blue-700">Bail Meublé</th>
+                  <th className="text-left py-3 px-4 font-semibold text-ink">Critère</th>
+                  <th className="text-left py-3 px-4 font-semibold text-ink">Bail Vide</th>
+                  <th className="text-left py-3 px-4 font-semibold text-forest">Bail Meublé</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-200">
@@ -512,7 +512,7 @@ export default function BailVidePage() {
                   <tr key={critere} className="hover:bg-stone-50">
                     <td className="py-3 px-4 font-medium text-stone-700">{critere}</td>
                     <td className="py-3 px-4 text-stone-600">{vide}</td>
-                    <td className="py-3 px-4 text-blue-700 font-medium">{meuble}</td>
+                    <td className="py-3 px-4 text-forest font-medium">{meuble}</td>
                   </tr>
                 ))}
               </tbody>
@@ -522,7 +522,7 @@ export default function BailVidePage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Générez votre bail vide en 5 minutes
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -531,13 +531,13 @@ export default function BailVidePage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+              className="inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours
             </Link>
             <Link
               href="/outils/calculateur-irl"
-              className="inline-block rounded-lg border border-blue-500 px-6 py-3 font-medium text-blue-300 transition-colors hover:bg-blue-800"
+              className="inline-block rounded-lg border border-forest px-6 py-3 font-medium text-sage-300 transition-colors hover:bg-forest-hover"
             >
               Simulateur IRL →
             </Link>
@@ -546,7 +546,7 @@ export default function BailVidePage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="mx-auto max-w-3xl space-y-4">
@@ -555,7 +555,7 @@ export default function BailVidePage() {
                 key={i}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-stone-900 list-none">
+                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-ink list-none">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -571,7 +571,7 @@ export default function BailVidePage() {
 
         {/* Related content */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
-          <h2 className="mb-4 text-lg font-bold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Ressources complémentaires
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -584,7 +584,7 @@ export default function BailVidePage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-forest hover:underline"
               >
                 {link.label}
               </Link>
@@ -594,7 +594,7 @@ export default function BailVidePage() {
 
         {/* Related templates */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
-          <h2 className="mb-4 text-lg font-bold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Téléchargez aussi
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -611,7 +611,7 @@ export default function BailVidePage() {
               >
                 <span className="text-2xl">{t.emoji}</span>
                 <div>
-                  <p className="font-medium text-stone-900">{t.label}</p>
+                  <p className="font-medium text-ink">{t.label}</p>
                   <p className="text-xs text-stone-500">{t.desc}</p>
                 </div>
               </Link>
@@ -623,31 +623,31 @@ export default function BailVidePage() {
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
           <Link
             href="/templates/bail-meuble"
-            className="text-blue-600 hover:underline"
+            className="text-forest hover:underline"
           >
             Bail meublé →
           </Link>
           <Link
             href="/templates/bail-commercial"
-            className="text-blue-600 hover:underline"
+            className="text-forest hover:underline"
           >
             Bail commercial →
           </Link>
           <Link
             href="/templates/bail-mobilite"
-            className="text-blue-600 hover:underline"
+            className="text-forest hover:underline"
           >
             Bail mobilité →
           </Link>
           <Link
             href="/templates/etat-des-lieux"
-            className="text-blue-600 hover:underline"
+            className="text-forest hover:underline"
           >
             État des lieux →
           </Link>
           <Link
             href="/templates"
-            className="text-blue-600 hover:underline"
+            className="text-forest hover:underline"
           >
             ← Tous les modèles
           </Link>

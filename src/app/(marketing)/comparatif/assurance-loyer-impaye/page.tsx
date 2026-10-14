@@ -180,10 +180,10 @@ export default function AssuranceLoyerImpayé() {
       <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Header */}
         <header className="mb-16 text-center">
-          <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
+          <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
             Comparatif — Protection du propriétaire
           </p>
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Assurance loyer impayé : comparatif des solutions 2026
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
@@ -193,14 +193,14 @@ export default function AssuranceLoyerImpayé() {
         </header>
 
         {/* Context stat */}
-        <div className="mb-12 rounded-xl border border-blue-200 bg-blue-50 p-6 text-center">
-          <p className="text-sm font-medium text-blue-700 uppercase tracking-wide">
+        <div className="mb-12 rounded-xl border border-sage-200 bg-sage-50 p-6 text-center">
+          <p className="text-sm font-medium text-forest uppercase tracking-wide">
             Chiffre clé — France 2025
           </p>
-          <p className="mt-1 text-2xl font-bold text-blue-900">
+          <p className="mt-1 text-2xl font-bold text-ink">
             ~2,5 % des loyers sont impayés pendant plus de 2 mois
           </p>
-          <p className="mt-1 text-sm text-blue-700">
+          <p className="mt-1 text-sm text-forest">
             Soit en moyenne 1 mois de loyer non recouvré par an pour un propriétaire avec 6 biens
           </p>
         </div>
@@ -270,9 +270,9 @@ export default function AssuranceLoyerImpayé() {
         </section>
 
         {/* Recommendation */}
-        <div className="mb-16 rounded-xl border border-blue-200 bg-blue-50 p-6">
-          <h2 className="text-lg font-bold text-blue-900">Notre recommandation</h2>
-          <p className="mt-2 text-sm text-blue-800 leading-relaxed">
+        <div className="mb-16 rounded-xl border border-sage-200 bg-sage-50 p-6">
+          <h2 className="text-lg font-semibold text-ink">Notre recommandation</h2>
+          <p className="mt-2 text-sm text-ink leading-relaxed">
             Pour la majorité des propriétaires, la GLI offre le meilleur équilibre coût/protection,
             surtout en zone tendue où les procédure d'expulsion sont longues et coûteuses. Si vous
             avez plusieurs biens et une bonne sélection de locataires (vérification des revenus,
@@ -282,14 +282,14 @@ export default function AssuranceLoyerImpayé() {
         </div>
 
         {/* FAQ */}
-        <section className="mb-16 bg-[#f8f7f4] rounded-2xl p-8">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+        <section className="mb-16 bg-cream rounded-2xl p-8">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes sur l'assurance loyer impayé
           </h2>
           <div className="divide-y divide-stone-200">
             {faqSchema.mainEntity.map((faq) => (
               <details key={faq.name} className="group py-5">
-                <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between font-medium text-ink">
                   {faq.name}
                   <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
@@ -305,7 +305,7 @@ export default function AssuranceLoyerImpayé() {
 
         {/* CTA */}
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Protégez vos revenus locatifs avec Lokna
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
@@ -313,7 +313,7 @@ export default function AssuranceLoyerImpayé() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essayer gratuitement →
           </Link>

@@ -97,7 +97,7 @@ export function PlusValueClient() {
       <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
         <div className="text-center py-8">
           <span className="text-5xl mb-4 block">🏠</span>
-          <h2 className="text-2xl font-bold text-stone-800 mb-3">Exonération résidence principale</h2>
+          <h2 className="text-2xl font-semibold text-stone-800 mb-3">Exonération résidence principale</h2>
           <p className="text-stone-600 max-w-lg mx-auto">
             La vente de votre résidence principale est <strong>totalement exonérée de plus-value immobilière</strong>. Vous n'avez aucun impôt à payer sur la plus-value.
           </p>
@@ -119,7 +119,7 @@ export function PlusValueClient() {
               type="checkbox"
               checked={isPrimaryResidence}
               onChange={(e) => setIsPrimaryResidence(e.target.checked)}
-              className="w-5 h-5 accent-blue-600"
+              className="w-5 h-5 accent-forest"
             />
             <label htmlFor="isPrimary" className="text-sm font-semibold text-stone-700">
               Ce bien est ma résidence principale (vente avec exonération totale)
@@ -138,7 +138,7 @@ export function PlusValueClient() {
               placeholder="Ex. : 200000"
               value={purchasePrice}
               onChange={(e) => setPurchasePrice(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
             />
           </div>
 
@@ -154,7 +154,7 @@ export function PlusValueClient() {
               placeholder="Ex. : 300000"
               value={salePrice}
               onChange={(e) => setSalePrice(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
             />
           </div>
 
@@ -166,7 +166,7 @@ export function PlusValueClient() {
               id="acquisitionDate"
               value={acquisitionDate}
               onChange={(e) => setAcquisitionDate(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
             >
               {[2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005].map(y => (
                 <option key={y} value={y}>{y}</option>
@@ -186,7 +186,7 @@ export function PlusValueClient() {
               placeholder="Ex. : 20000"
               value={worksAmount}
               onChange={(e) => setWorksAmount(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
             />
             <p className="text-xs text-stone-600 mt-1">
               Travaux de construction, reconstruction, extension ou amélioration (non déjà déductibles).
@@ -196,7 +196,7 @@ export function PlusValueClient() {
           <button
             type="button"
             onClick={calculate}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl text-lg transition-colors"
+            className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors"
           >
             Calculer ma plus-value
           </button>
@@ -256,8 +256,8 @@ export function PlusValueClient() {
               </div>
 
               {result.yearsHeld >= 22 && (
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
-                  <p className="text-blue-700 text-sm">
+                <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 text-center">
+                  <p className="text-forest text-sm">
                     🎉 Après 22 ans de détention, vous êtes <strong>totalement exonéré d'impôt sur le revenu</strong> (reste CSG/CRDS après 30 ans).
                   </p>
                 </div>
@@ -269,7 +269,7 @@ export function PlusValueClient() {
 
       {/* FAQ */}
       <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8">
-        <h2 className="text-xl font-bold text-stone-800 mb-6">Questions fréquentes</h2>
+        <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
         <div className="space-y-5">
           {FAQ.map((item, i) => (
             <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
@@ -281,8 +281,8 @@ export function PlusValueClient() {
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/outils/calculateur-rendement" className="text-blue-600 hover:underline">Calculateur rendement →</Link>
-        <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
+        <Link href="/outils/calculateur-rendement" className="text-forest hover:underline">Calculateur rendement →</Link>
+        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
       </div>
     </div>
   );

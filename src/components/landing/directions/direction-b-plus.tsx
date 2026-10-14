@@ -172,7 +172,7 @@ export function DirectionBPlus({
                   Gestion locative directe · Bailleurs indépendants
                 </div>
 
-                <h1 className="font-serif text-3xl sm:text-4xl lg:text-[3.15rem] leading-[1.12] text-[#151413] tracking-tight">
+                <h1 className="font-serif text-3xl sm:text-4xl lg:text-[3.15rem] leading-[1.12] text-[#151413] tracking-[-0.03em]">
                   Vos locations tournent.
                   <br />
                   <span className="italic font-normal">
@@ -216,7 +216,7 @@ export function DirectionBPlus({
                     <span className="block text-[10px] uppercase tracking-widest text-[#6B6760] font-medium">
                       RELEVÉ D'ENCAISSEMENT
                     </span>
-                    <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-[#151413]">
+                    <h2 className="font-serif text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-[#151413]">
                       Grand Livre · Octobre 2026
                     </h2>
                   </div>
@@ -353,7 +353,7 @@ export function DirectionBPlus({
               <span className="text-[11px] uppercase tracking-widest text-[#6B6760] font-semibold block mb-2">
                 LA RÈGLE DU SILENCE VISUEL · OCTOBRE 2026
               </span>
-              <h2 className="font-serif text-2xl sm:text-4xl lg:text-[2.6rem] text-[#151413] font-normal tracking-tight leading-tight">
+              <h2 className="font-serif text-2xl sm:text-4xl lg:text-[2.6rem] text-[#151413] font-normal tracking-[-0.03em] leading-tight">
                 Tout ce qui va bien devient silencieux.
                 <br />
                 <span className="italic font-semibold">
@@ -605,7 +605,7 @@ export function DirectionBPlus({
               <span className="text-[11px] uppercase tracking-widest text-[#6B6760] font-semibold block mb-2">
                 LA HOME BASE DU LOGEMENT
               </span>
-              <h2 className="font-serif text-2xl sm:text-4xl text-[#151413] font-normal tracking-tight">
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#151413] font-normal tracking-[-0.03em]">
                 Chaque logement garde son histoire.
                 <br />
                 <span className="italic font-semibold">
@@ -888,7 +888,7 @@ export function DirectionBPlus({
         ───────────────────────────────────────────────────────────── */}
         <section className="py-16 sm:py-24 px-5 sm:px-8 lg:px-12 text-center border-t border-[#151413]/10">
           <div className="max-w-2xl mx-auto space-y-5 sm:space-y-6">
-            <h2 className="font-serif text-3xl sm:text-5xl text-[#151413] font-normal tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-5xl text-[#151413] font-normal tracking-[-0.03em]">
               Passez votre prochain mois au calme.
             </h2>
             <p className="text-sm sm:text-base text-[#6B6760] max-w-lg mx-auto leading-relaxed">

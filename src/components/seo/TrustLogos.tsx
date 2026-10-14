@@ -162,7 +162,7 @@ export function CertificationBadge({
   return (
     <div className="inline-flex items-center gap-2 rounded-full border border-stone-200/60 bg-white/60 px-3 py-1.5">
       <svg
-        className="size-3.5 shrink-0 text-blue-600"
+        className="size-3.5 shrink-0 text-forest"
         viewBox="0 0 16 16"
         fill="none"
         stroke="currentColor"

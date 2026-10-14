@@ -146,10 +146,10 @@ export default function BailElectroniqueVsPapier() {
       <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Header */}
         <header className="mb-16 text-center">
-          <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
+          <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
             Comparatif — Signature du bail
           </p>
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Bail électronique vs bail papier : lequel choisir ?
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
@@ -170,14 +170,14 @@ export default function BailElectroniqueVsPapier() {
 
         {/* Comparison table */}
         <section className="mb-16 overflow-x-auto">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Comparaison directe
           </h2>
           <table className="w-full text-sm min-w-[540px]">
             <thead>
               <tr className="border-b border-stone-200 text-left">
-                <th className="py-3 pr-4 font-semibold text-stone-900">Critère</th>
-                <th className="py-3 px-4 text-center font-semibold text-blue-700">Bail électronique ✓</th>
+                <th className="py-3 pr-4 font-semibold text-ink">Critère</th>
+                <th className="py-3 px-4 text-center font-semibold text-forest">Bail électronique ✓</th>
                 <th className="py-3 px-4 text-center font-semibold text-stone-600">Bail papier</th>
               </tr>
             </thead>
@@ -237,21 +237,21 @@ export default function BailElectroniqueVsPapier() {
               <span className="text-3xl" role="img" aria-hidden="true">
                 {benefit.icon}
               </span>
-              <h3 className="mt-3 text-lg font-bold text-stone-900">{benefit.title}</h3>
+              <h3 className="mt-3 text-lg font-bold text-ink">{benefit.title}</h3>
               <p className="mt-2 text-sm text-stone-600 leading-relaxed">{benefit.description}</p>
             </div>
           ))}
         </section>
 
         {/* FAQ */}
-        <section className="mb-16 bg-[#f8f7f4] rounded-2xl p-8">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+        <section className="mb-16 bg-cream rounded-2xl p-8">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="divide-y divide-stone-200">
             {faqSchema.mainEntity.map((faq) => (
               <details key={faq.name} className="group py-5">
-                <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between font-medium text-ink">
                   {faq.name}
                   <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                     +
@@ -267,7 +267,7 @@ export default function BailElectroniqueVsPapier() {
 
         {/* CTA */}
         <section className="rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Créez et signez vos baux en ligne
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-stone-300">
@@ -275,7 +275,7 @@ export default function BailElectroniqueVsPapier() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essayer gratuitement →
           </Link>

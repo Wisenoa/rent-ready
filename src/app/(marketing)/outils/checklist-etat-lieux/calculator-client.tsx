@@ -214,19 +214,19 @@ export function ChecklistEDLClient() {
     <>
       <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-5xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
           {/* Header */}
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-1.5 bg-sage-50 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
-              Outil gratuit — Téléchargement PDF inclus
+              Outil gratuit, sans inscription
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3">
               Checklist État des Lieux
             </h1>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -237,7 +237,7 @@ export function ChecklistEDLClient() {
           {/* Progress Bar */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold text-stone-900">Progression</h2>
+              <h2 className="text-lg font-semibold text-ink">Progression</h2>
               <span className="text-sm text-stone-600">{totalOk + totalKo} / {totalItems} items vérifiés</span>
             </div>
             <div className="w-full bg-stone-200 rounded-full h-3 mb-4">
@@ -249,15 +249,15 @@ export function ChecklistEDLClient() {
             <div className="flex gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <div className="size-3 rounded-full bg-green-500" />
-                <span className="text-stone-600">OK: <strong className="text-stone-900">{totalOk}</strong></span>
+                <span className="text-stone-600">OK: <strong className="text-ink">{totalOk}</strong></span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="size-3 rounded-full bg-red-500" />
-                <span className="text-stone-600">Dégradations: <strong className="text-stone-900">{totalKo}</strong></span>
+                <span className="text-stone-600">Dégradations: <strong className="text-ink">{totalKo}</strong></span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="size-3 rounded-full bg-stone-300" />
-                <span className="text-stone-600">Non vérifié: <strong className="text-stone-900">{totalItems - totalOk - totalKo}</strong></span>
+                <span className="text-stone-600">Non vérifié: <strong className="text-ink">{totalItems - totalOk - totalKo}</strong></span>
               </div>
             </div>
           </div>
@@ -270,7 +270,7 @@ export function ChecklistEDLClient() {
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-3xl">{room.icon}</span>
                   <div className="flex-1">
-                    <h2 className="text-xl font-bold text-stone-900">{room.label}</h2>
+                    <h2 className="text-xl font-semibold text-ink">{room.label}</h2>
                     <p className="text-sm text-stone-600">
                       {progress.total} / {progress.totalItems} vérifiés
                       {progress.ko > 0 && (
@@ -280,7 +280,7 @@ export function ChecklistEDLClient() {
                   </div>
                   <div className="w-24 bg-stone-200 rounded-full h-2">
                     <div
-                      className={`h-2 rounded-full ${progress.ko > 0 ? "bg-red-400" : progress.total === progress.totalItems ? "bg-green-400" : "bg-blue-400"}`}
+                      className={`h-2 rounded-full ${progress.ko > 0 ? "bg-red-400" : progress.total === progress.totalItems ? "bg-green-400" : "bg-sage-400"}`}
                       style={{ width: `${(progress.total / progress.totalItems) * 100}%` }}
                     />
                   </div>
@@ -302,7 +302,7 @@ export function ChecklistEDLClient() {
                           className={`size-8 rounded-full border-2 flex items-center justify-center transition-colors ${
                             state === "ok" ? "border-green-500 bg-green-500 text-white" :
                             state === "ko" ? "border-red-500 bg-red-500 text-white" :
-                            "border-stone-300 hover:border-blue-400"
+                            "border-stone-300 hover:border-sage-400"
                           }`}
                           aria-label={state === "ok" ? "Marquer comme OK" : state === "ko" ? "Marquer comme dégradation" : "Non vérifié"}
                         >
@@ -325,7 +325,7 @@ export function ChecklistEDLClient() {
                           placeholder="Note (ex: rayure mineure)"
                           value={notes[`${room.id}_${item.id}`] || ""}
                           onChange={(e) => setNotes((prev) => ({ ...prev, [`${room.id}_${item.id}`]: e.target.value }))}
-                          className="flex-1 text-sm border border-stone-200 rounded-lg px-3 py-1.5 focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+                          className="flex-1 text-sm border border-stone-200 rounded-lg px-3 py-1.5 focus:border-sage-400 focus:ring-1 focus:ring-sage-200"
                         />
                       </div>
                     );
@@ -337,7 +337,7 @@ export function ChecklistEDLClient() {
 
           {/* Signature Section */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Signatures</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Signatures</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="border border-stone-200 rounded-xl p-4">
                 <h3 className="font-semibold text-stone-700 mb-3">Bailleur</h3>
@@ -389,12 +389,12 @@ export function ChecklistEDLClient() {
 
           {/* FAQ */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-6">Questions fréquentes</h2>
+            <h2 className="text-xl font-semibold text-ink mb-6">Questions fréquentes</h2>
             <div className="space-y-4">
               {faqData.map((faq, i) => (
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
-                    <span className="font-semibold text-stone-900">{faq.question}</span>
+                    <span className="font-semibold text-ink">{faq.question}</span>
                     <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
@@ -407,33 +407,33 @@ export function ChecklistEDLClient() {
 
           {/* Internal Links */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Ressources complémentaires</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Ressources complémentaires</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Modèle Officiel État des Lieux</div>
+                  <div className="font-semibold text-ink">Modèle Officiel État des Lieux</div>
                   <div className="text-sm text-stone-600">Modèle légal à télécharger</div>
                 </div>
               </Link>
-              <Link href="/templates/protocol-etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/protocol-etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📋</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Protocole État des Lieux</div>
+                  <div className="font-semibold text-ink">Protocole État des Lieux</div>
                   <div className="text-sm text-stone-600">Guide complet et détaillé</div>
                 </div>
               </Link>
-              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
+                  <div className="font-semibold text-ink">Glossaire Immobilier</div>
                   <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📝</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
+                  <div className="font-semibold text-ink">Modèle de Bail de Location</div>
                   <div className="text-sm text-stone-600">Bail conforme à la loi 1989</div>
                 </div>
               </Link>
@@ -441,16 +441,16 @@ export function ChecklistEDLClient() {
           </div>
 
           {/* CTA */}
-          <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-bold mb-2">Gérez vos états des lieux avec Lokna</h2>
-            <p className="text-blue-100 mb-6 max-w-xl mx-auto">
+          <div className="bg-forest rounded-2xl p-8 text-center text-white mb-8">
+            <h2 className="text-2xl font-semibold mb-2">Gérez vos états des lieux avec Lokna</h2>
+            <p className="text-cream/80 mb-6 max-w-xl mx-auto">
               Générez des états des lieux PDF conformes, stockez les photos, et comparez automatiquement entrée et sortie.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
+              <Link href="/register" className="inline-block bg-white text-forest font-bold px-8 py-3.5 rounded-xl hover:bg-sage-50 transition-colors">
                 Essai gratuit 14 jours
               </Link>
-              <Link href="/outils" className="inline-block border-2 border-blue-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-blue-500 transition-colors">
+              <Link href="/outils" className="inline-block border-2 border-sage-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-forest transition-colors">
                 Autres outils gratuits
               </Link>
             </div>

@@ -130,19 +130,19 @@ export function PreavisCalculatorClient() {
     <>
       <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-5xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
           {/* Header */}
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-1.5 bg-sage-50 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
               Mis à jour — Base légale 2025
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3">
               Calculateur de Préavis Locataire
             </h1>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -152,7 +152,7 @@ export function PreavisCalculatorClient() {
 
           {/* Calculator */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-6">Votre situation</h2>
+            <h2 className="text-xl font-semibold text-ink mb-6">Votre situation</h2>
 
             <div className="space-y-6">
               <div>
@@ -162,7 +162,7 @@ export function PreavisCalculatorClient() {
                     type="button"
                     onClick={() => setIsZoneTendue(true)}
                     className={`flex-1 rounded-xl border px-6 py-4 font-semibold transition-colors text-center ${
-                      isZoneTendue === true ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isZoneTendue === true ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Oui — zone tendue
@@ -171,7 +171,7 @@ export function PreavisCalculatorClient() {
                     type="button"
                     onClick={() => setIsZoneTendue(false)}
                     className={`flex-1 rounded-xl border px-6 py-4 font-semibold transition-colors text-center ${
-                      isZoneTendue === false ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isZoneTendue === false ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Non — zone non tendue
@@ -186,7 +186,7 @@ export function PreavisCalculatorClient() {
                     type="button"
                     onClick={() => setIsFurnished(false)}
                     className={`flex-1 rounded-xl border px-6 py-4 font-semibold transition-colors text-center ${
-                      isFurnished === false ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isFurnished === false ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Location vide
@@ -195,7 +195,7 @@ export function PreavisCalculatorClient() {
                     type="button"
                     onClick={() => setIsFurnished(true)}
                     className={`flex-1 rounded-xl border px-6 py-4 font-semibold transition-colors text-center ${
-                      isFurnished === true ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isFurnished === true ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Location meublée
@@ -217,10 +217,10 @@ export function PreavisCalculatorClient() {
                       type="button"
                       onClick={() => setNoticeType(option.value)}
                       className={`rounded-xl border px-4 py-3 text-left transition-colors ${
-                        noticeType === option.value ? "border-blue-500 bg-blue-50" : "border-stone-200 hover:bg-stone-50"
+                        noticeType === option.value ? "border-forest bg-sage-50" : "border-stone-200 hover:bg-stone-50"
                       }`}
                     >
-                      <div className="font-semibold text-stone-900">{option.label}</div>
+                      <div className="font-semibold text-ink">{option.label}</div>
                       <div className="text-xs text-stone-600 mt-0.5">{option.desc}</div>
                     </button>
                   ))}
@@ -231,7 +231,7 @@ export function PreavisCalculatorClient() {
             <button
               type="button"
               onClick={calculate}
-              className="mt-6 w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-4 rounded-xl transition-colors"
+              className="mt-6 w-full md:w-auto bg-forest hover:bg-forest-hover text-white font-bold px-10 py-4 rounded-xl transition-colors"
             >
               Calculer mon préavis
             </button>
@@ -242,13 +242,13 @@ export function PreavisCalculatorClient() {
             <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
               <div className="text-center mb-6">
                 <div className="text-xs text-stone-600 uppercase tracking-wide mb-2">Durée de préavis légale</div>
-                <div className="text-5xl font-bold text-blue-700">{result.months} <span className="text-2xl">mois</span></div>
+                <div className="text-5xl font-bold text-forest">{result.months} <span className="text-2xl">mois</span></div>
               </div>
 
               <div className="space-y-4">
                 <div className="bg-stone-50 rounded-xl p-4">
                   <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Date de fin de préavis (estimation)</div>
-                  <div className="text-lg font-bold text-stone-900">À partir du {result.endDate}</div>
+                  <div className="text-lg font-bold text-ink">À partir du {result.endDate}</div>
                   <p className="text-sm text-stone-600 mt-1">Le préavis commence dès réception de votre lettre recommandée par le bailleur.</p>
                 </div>
 
@@ -257,8 +257,8 @@ export function PreavisCalculatorClient() {
                   <div className="text-sm text-stone-700 font-medium">{result.legalBasis}</div>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                  <div className="text-sm text-blue-800 leading-relaxed">{result.explanation}</div>
+                <div className="bg-sage-50 border border-sage-200 rounded-xl p-4">
+                  <div className="text-sm text-ink leading-relaxed">{result.explanation}</div>
                 </div>
 
                 {noticeType === "normal" && isZoneTendue === false && !isFurnished && (
@@ -280,13 +280,13 @@ export function PreavisCalculatorClient() {
 
           {/* Zone Tendue List */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Principales communes en zone tendue</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Principales communes en zone tendue</h2>
             <p className="text-stone-600 text-sm mb-4">
               Ces communes ont un préavis réduit à 1 mois pour tous les types de location depuis la loi ALUR 2014.
             </p>
             <div className="flex flex-wrap gap-2">
               {ZONES_TENDUES.map((city) => (
-                <span key={city} className="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-full font-medium">
+                <span key={city} className="bg-sage-50 text-forest text-sm px-3 py-1 rounded-full font-medium">
                   {city}
                 </span>
               ))}
@@ -298,12 +298,12 @@ export function PreavisCalculatorClient() {
 
           {/* FAQ */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-6">Questions fréquentes</h2>
+            <h2 className="text-xl font-semibold text-ink mb-6">Questions fréquentes</h2>
             <div className="space-y-4">
               {faqData.map((faq, i) => (
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
-                    <span className="font-semibold text-stone-900">{faq.question}</span>
+                    <span className="font-semibold text-ink">{faq.question}</span>
                     <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
@@ -316,33 +316,33 @@ export function PreavisCalculatorClient() {
 
           {/* Internal Links */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Outils complémentaires</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Outils complémentaires</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/templates/conge-locataire" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/conge-locataire" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Modèle de Congé Locataire</div>
+                  <div className="font-semibold text-ink">Modèle de Congé Locataire</div>
                   <div className="text-sm text-stone-600">Lettre de résiliation de bail</div>
                 </div>
               </Link>
-              <Link href="/outils/lettre-relance-loyer" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/lettre-relance-loyer" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">✉️</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Lettre de Relance Loyer</div>
+                  <div className="font-semibold text-ink">Lettre de Relance Loyer</div>
                   <div className="text-sm text-stone-600">Avant de partir, vérifiez vos paiements</div>
                 </div>
               </Link>
-              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
+                  <div className="font-semibold text-ink">Glossaire Immobilier</div>
                   <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📝</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
+                  <div className="font-semibold text-ink">Modèle de Bail de Location</div>
                   <div className="text-sm text-stone-600">Conforme à la loi 1989</div>
                 </div>
               </Link>
@@ -350,16 +350,16 @@ export function PreavisCalculatorClient() {
           </div>
 
           {/* CTA */}
-          <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-bold mb-2">Gérez vos locations en toute conformité</h2>
-            <p className="text-blue-100 mb-6 max-w-xl mx-auto">
+          <div className="bg-forest rounded-2xl p-8 text-center text-white mb-8">
+            <h2 className="text-2xl font-semibold mb-2">Gérez vos locations en toute conformité</h2>
+            <p className="text-cream/80 mb-6 max-w-xl mx-auto">
               Avec Lokna, vous avez accès à tous les modèles de documents, calculs légaux, et suivi de vos obligations baillistes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
+              <Link href="/register" className="inline-block bg-white text-forest font-bold px-8 py-3.5 rounded-xl hover:bg-sage-50 transition-colors">
                 Essai gratuit 14 jours
               </Link>
-              <Link href="/pricing" className="inline-block border-2 border-blue-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-blue-500 transition-colors">
+              <Link href="/pricing" className="inline-block border-2 border-sage-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-forest transition-colors">
                 Voir les tarifs
               </Link>
             </div>

@@ -77,10 +77,10 @@ export default function ModeleBailGuidePage() {
           <span className="mx-2">›</span>
           <span>Modèle de bail gratuit</span>
         </nav>
-        <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 mb-4">
+        <div className="inline-flex items-center gap-2 rounded-full bg-sage-100 px-3 py-1 text-xs font-medium text-forest mb-4">
           Guide gratuit
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
           Modèle de bail de location gratuit 2026
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-stone-600">
@@ -92,10 +92,10 @@ export default function ModeleBailGuidePage() {
       </header>
 
       {/* Download CTA */}
-      <div className="mb-12 rounded-2xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-white p-8">
+      <div className="mb-12 rounded-2xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-white p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl font-bold text-stone-900">
+            <h2 className="text-xl font-semibold text-ink">
               Modèle de bail gratuit à consulter
             </h2>
             <p className="mt-1 text-stone-600">
@@ -106,7 +106,7 @@ export default function ModeleBailGuidePage() {
           <div className="flex flex-col gap-3 sm:items-end">
             <Link
               href="/templates/bail-vide"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
             >
               <FileText className="size-4" />
               Voir le modèle
@@ -133,7 +133,7 @@ export default function ModeleBailGuidePage() {
             { type: "Bail colocation", dur: "3 ans / 1 an", depot: "1 mois/term", desc: "Plusieurs locataires, un seul bail. Peut prévoir la clause de solidarité." },
           ].map((bail) => (
             <div key={bail.type} className="rounded-xl border border-stone-200 bg-white p-5">
-              <h3 className="font-semibold text-stone-900">{bail.type}</h3>
+              <h3 className="font-semibold text-ink">{bail.type}</h3>
               <p className="mt-1 text-sm text-stone-600">{bail.desc}</p>
               <div className="mt-3 flex gap-4 text-xs text-stone-600">
                 <span>⏱ {bail.dur}</span>
@@ -200,7 +200,7 @@ export default function ModeleBailGuidePage() {
 
       {/* Bottom CTA */}
       <div className="mt-12 rounded-xl border border-stone-200/60 bg-stone-50 p-8 text-center">
-        <h2 className="mb-3 text-xl font-bold text-stone-900">
+        <h2 className="mb-3 text-xl font-semibold text-ink">
           Besoin d&apos;aller plus loin ?
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
@@ -210,7 +210,7 @@ export default function ModeleBailGuidePage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours
             <ArrowRight className="size-4" />

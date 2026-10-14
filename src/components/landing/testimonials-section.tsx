@@ -59,7 +59,7 @@ export function TestimonialsSection() {
           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-600">
             Le fonctionnement
           </p>
-          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-stone-900">
+          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">
             Ce que Lokna fait,
             <br />
             du paiement à la quittance.
@@ -77,9 +77,9 @@ export function TestimonialsSection() {
               transition={{ ...spring.gentle, delay: i * stagger.normal }}
               whileHover={{ y: -3 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] to-teal-500/[0.02] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-br from-forest/[0.03] to-sage-600/[0.02] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative">
-                <h3 className="text-[16px] font-semibold leading-snug text-stone-900">
+                <h3 className="text-[16px] font-semibold leading-snug text-ink">
                   {capability.title}
                 </h3>
                 <ul className="mt-5 space-y-3">
@@ -88,7 +88,7 @@ export function TestimonialsSection() {
                       key={point}
                       className="flex gap-2.5 text-[14px] leading-relaxed text-stone-600"
                     >
-                      <Check className="mt-0.5 size-4 shrink-0 text-blue-600" />
+                      <Check className="mt-0.5 size-4 shrink-0 text-forest" />
                       <span>{point}</span>
                     </li>
                   ))}

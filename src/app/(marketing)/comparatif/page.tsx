@@ -33,7 +33,7 @@ const comparatifs = [
       "Comparez logiciel dédié, tableur Excel et agence immobilière : coûts réels, temps passé et conformité légale.",
     href: "/comparatif/logiciel-gestion-locative",
     badge: "Populaire",
-    badgeColor: "bg-blue-100 text-blue-700",
+    badgeColor: "bg-sage-100 text-forest",
   },
   {
     title: "Lokna vs LegalPlace",
@@ -57,7 +57,7 @@ const comparatifs = [
       "Le bail électronique a la même valeur juridique qu'un bail papier depuis 2017. Comparez les avantages pratiques.",
     href: "/comparatif/bail-electronique-vs-papier",
     badge: "Pratique",
-    badgeColor: "bg-purple-100 text-purple-700",
+    badgeColor: "bg-sage-100 text-forest",
   },
   {
     title: "Assurance loyer impayé (GLI)",
@@ -101,10 +101,10 @@ export default function ComparatifIndex() {
       <ComparatifIndexJsonLd />
       <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
       <header className="mb-12 text-center">
-        <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
+        <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
           Guides comparatifs
         </p>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
           Comparatifs pour propriétaires bailleurs
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
@@ -118,10 +118,10 @@ export default function ComparatifIndex() {
           <Link
             key={comp.href}
             href={comp.href}
-            className="group rounded-xl border border-stone-200 bg-white p-6 shadow-sm transition-all hover:border-blue-300 hover:shadow-md"
+            className="group rounded-xl border border-stone-200 bg-white p-6 shadow-sm transition-all hover:border-sage-300 hover:shadow-md"
           >
             <div className="flex items-start justify-between gap-3">
-              <h2 className="text-lg font-bold text-stone-900 group-hover:text-blue-700">
+              <h2 className="text-lg font-semibold text-ink group-hover:text-forest">
                 {comp.title}
               </h2>
               <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${comp.badgeColor}`}>
@@ -131,17 +131,17 @@ export default function ComparatifIndex() {
             <p className="mt-2 text-sm text-stone-600 leading-relaxed">
               {comp.description}
             </p>
-            <p className="mt-4 text-sm font-medium text-blue-600 group-hover:text-blue-700">
+            <p className="mt-4 text-sm font-medium text-forest group-hover:text-forest">
               Voir le comparatif →
             </p>
           </Link>
         ))}
       </section>
 
-      <div className="mt-12 rounded-xl border border-stone-200 bg-[#f8f7f4] p-6 text-center">
+      <div className="mt-12 rounded-xl border border-stone-200 bg-cream p-6 text-center">
         <p className="text-sm text-stone-600">
           Besoin d'un outil spécifique ?{' '}
-          <Link href="/outils" className="font-medium text-blue-600 hover:text-blue-700">
+          <Link href="/outils" className="font-medium text-forest hover:text-forest">
             Explorez nos calculateurs et outils gratuits →
           </Link>
         </p>

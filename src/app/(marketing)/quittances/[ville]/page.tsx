@@ -339,6 +339,7 @@ export default async function QuittanceVillePage({ params }: Props) {
     <>
       <SchemaMarkup data={buildQuittanceVilleSchema(city)} breadcrumbRenderedByComponent />
       <Breadcrumb
+        className="mx-auto max-w-6xl flex-wrap px-4 pt-5 sm:px-6"
         items={[
           { label: "Accueil", href: "/" },
           { label: "Quittances de loyer", href: "/quittances" },
@@ -350,10 +351,10 @@ export default async function QuittanceVillePage({ params }: Props) {
         {/* ── Hero ── */}
         <section className="bg-gradient-to-b from-[#f8f7f4] to-white px-4 py-20 text-center sm:px-6 sm:py-28">
           <div className="mx-auto max-w-3xl">
-            <p className="mb-3 text-sm font-medium tracking-wide text-blue-600 uppercase">
+            <p className="mb-3 text-sm font-medium tracking-wide text-forest uppercase">
               Quittances de loyer · {city.region}
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+            <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
               Quittance de loyer à&nbsp;{city.name}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-stone-600">
@@ -371,7 +372,7 @@ export default async function QuittanceVillePage({ params }: Props) {
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/outils/generateur-quittance"
-                className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+                className="rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
               >
                 Générer ma quittance — gratuit
               </Link>
@@ -388,7 +389,7 @@ export default async function QuittanceVillePage({ params }: Props) {
         {/* ── Features ── */}
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-6xl">
-            <h2 className="mb-2 text-center text-2xl font-bold text-stone-900 sm:text-3xl">
+            <h2 className="mb-2 text-center text-2xl font-semibold text-ink sm:text-3xl">
               Pourquoi utiliser Lokna pour vos quittances à {city.name}
             </h2>
             <p className="mb-12 text-center text-stone-600">
@@ -398,12 +399,12 @@ export default async function QuittanceVillePage({ params }: Props) {
               {features.map((f) => (
                 <div
                   key={f.title}
-                  className="rounded-xl border border-stone-200/80 bg-[#f8f7f4] p-6 shadow-sm"
+                  className="rounded-xl border border-stone-200/80 bg-cream p-6 shadow-sm"
                 >
                   <span className="text-2xl" role="img" aria-hidden="true">
                     {f.icon}
                   </span>
-                  <h3 className="mt-3 text-lg font-semibold text-stone-900">{f.title}</h3>
+                  <h3 className="mt-3 text-lg font-semibold text-ink">{f.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-stone-600">
                     {f.description}
                   </p>
@@ -414,9 +415,9 @@ export default async function QuittanceVillePage({ params }: Props) {
         </section>
 
         {/* ── Local context ── */}
-        <section className="bg-[#f8f7f4] px-4 py-16 sm:px-6 sm:py-24">
+        <section className="bg-cream px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-4xl">
-            <h2 className="mb-6 text-2xl font-bold text-stone-900 sm:text-3xl">
+            <h2 className="mb-6 text-2xl font-semibold text-ink sm:text-3xl">
               La quittance de loyer à {city.name} en 2026
             </h2>
             <div className="space-y-4 text-stone-700 leading-relaxed">
@@ -436,7 +437,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                   key={stat.label}
                   className="rounded-lg border border-stone-200/80 bg-white p-5 text-center shadow-sm"
                 >
-                  <p className="text-2xl font-bold text-stone-900">{stat.value}</p>
+                  <p className="text-2xl font-bold text-ink">{stat.value}</p>
                   <p className="mt-1 text-sm text-stone-600">{stat.label}</p>
                 </div>
               ))}
@@ -445,7 +446,7 @@ export default async function QuittanceVillePage({ params }: Props) {
             {/* ── Neighborhoods: Paris ── */}
             {city.slug === "paris" && (
               <div className="mt-10">
-                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                <h3 className="mb-4 text-lg font-semibold text-ink">
                   Quartiers parisiens — Loyers et quittances
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -460,7 +461,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                     <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="font-semibold text-stone-900">{q.name}</p>
+                          <p className="font-semibold text-ink">{q.name}</p>
                           <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
                         </div>
                         <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
@@ -480,7 +481,7 @@ export default async function QuittanceVillePage({ params }: Props) {
             {/* ── Neighborhoods: Lyon ── */}
             {city.slug === "lyon" && (
               <div className="mt-10">
-                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                <h3 className="mb-4 text-lg font-semibold text-ink">
                   Quartiers lyonnais — loyer de référence et quittances
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -493,7 +494,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                     { name: "Gerland", detail: "En hausse, loyer révisé IRL" },
                   ].map((q) => (
                     <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
-                      <p className="font-semibold text-stone-900">{q.name}</p>
+                      <p className="font-semibold text-ink">{q.name}</p>
                       <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
                     </div>
                   ))}
@@ -504,7 +505,7 @@ export default async function QuittanceVillePage({ params }: Props) {
             {/* ── Neighborhoods: Marseille ── */}
             {city.slug === "marseille" && (
               <div className="mt-10">
-                <h3 className="mb-4 text-lg font-semibold text-stone-900">
+                <h3 className="mb-4 text-lg font-semibold text-ink">
                   Quartiers marseillais — quittances de loyer locales
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -517,7 +518,7 @@ export default async function QuittanceVillePage({ params }: Props) {
                     { name: "Castellane", detail: "Commerçant, accessible" },
                   ].map((q) => (
                     <div key={q.name} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
-                      <p className="font-semibold text-stone-900">{q.name}</p>
+                      <p className="font-semibold text-ink">{q.name}</p>
                       <p className="mt-1 text-sm text-stone-600">{q.detail}</p>
                     </div>
                   ))}
@@ -546,13 +547,13 @@ export default async function QuittanceVillePage({ params }: Props) {
         {/* ── FAQ ── */}
         <section className="bg-white px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-3xl">
-            <h2 className="mb-8 text-center text-2xl font-bold text-stone-900 sm:text-3xl">
+            <h2 className="mb-8 text-center text-2xl font-semibold text-ink sm:text-3xl">
               Questions fréquentes — Quittance de loyer à {city.name}
             </h2>
             <div className="divide-y divide-stone-200">
               {faqs.map((faq) => (
                 <details key={faq.question} className="group py-5">
-                  <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-900">
+                  <summary className="flex cursor-pointer items-center justify-between font-medium text-ink">
                     {faq.question}
                     <span className="ml-4 shrink-0 text-stone-600 transition-transform group-open:rotate-45">
                       +
@@ -566,9 +567,9 @@ export default async function QuittanceVillePage({ params }: Props) {
         </section>
 
         {/* ── CTA ── */}
-        <section className="bg-[#f8f7f4] px-4 py-16 sm:px-6 sm:py-24">
+        <section className="bg-cream px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-2xl rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-            <h2 className="text-2xl font-bold sm:text-3xl">
+            <h2 className="text-2xl font-semibold sm:text-3xl">
               Générez votre première quittance pour {city.name}
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-stone-300">
@@ -576,7 +577,7 @@ export default async function QuittanceVillePage({ params }: Props) {
             </p>
             <Link
               href="/register"
-              className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+              className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
             >
               Commencer gratuitement
             </Link>

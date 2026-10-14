@@ -12,7 +12,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
     <div className="flex items-center justify-center gap-4">
       <span
         className={`text-sm font-medium transition-colors ${
-          !isAnnual ? "text-stone-900" : "text-stone-600"
+          !isAnnual ? "text-ink" : "text-stone-600"
         }`}
       >
         Mensuel
@@ -23,7 +23,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
         aria-checked={isAnnual}
         aria-label="Choisir un abonnement annuel ou mensuel"
         onClick={() => onToggle(!isAnnual)}
-        className="relative inline-flex h-7 w-13 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent bg-stone-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        className="relative inline-flex h-7 w-13 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent bg-stone-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2"
         style={{ width: 52, height: 28 }}
       >
         <span
@@ -45,7 +45,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
       <span className="flex items-center gap-2">
         <span
           className={`text-sm font-medium transition-colors ${
-            isAnnual ? "text-stone-900" : "text-stone-600"
+            isAnnual ? "text-ink" : "text-stone-600"
           }`}
         >
           Annuel

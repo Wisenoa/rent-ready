@@ -143,19 +143,19 @@ function RelanceLoyerJsonLd() {
 
 export default function RelanceLoyerImpayePage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <RelanceLoyerJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <div className="inline-block rounded-lg bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700 mb-4">
+          <div className="inline-block rounded-lg bg-sage-100 px-4 py-1.5 text-sm font-medium text-forest mb-4">
             Modèle gratuit — Téléchargement instantané
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle Relance Loyer Impayé
             <br />
-            <span className="text-blue-600">Gratuit et Conforme</span>
+            <span className="text-forest">Gratuit et Conforme</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
             Télécharger notre modèle de lettre de relance loyer impayé gratuit.
@@ -165,7 +165,7 @@ export default function RelanceLoyerImpayePage() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-blue-600 px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-blue-700 w-full sm:w-auto"
+              className="inline-block rounded-lg bg-forest px-8 py-3.5 font-medium text-white shadow transition-colors hover:bg-forest-hover w-full sm:w-auto"
             >
               Utiliser le modèle →
             </Link>
@@ -180,7 +180,7 @@ export default function RelanceLoyerImpayePage() {
 
         {/* Lead */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Le problème des loyers impayés et l'importance de la documentation
           </h2>
           <p className="mb-4 text-stone-700">
@@ -203,7 +203,7 @@ export default function RelanceLoyerImpayePage() {
 
         {/* Relance amiable */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Relance amiable : première étape
           </h2>
           <p className="mb-6 text-stone-600">
@@ -216,10 +216,10 @@ export default function RelanceLoyerImpayePage() {
                 key={etape.etape}
                 className="rounded-xl border border-stone-200 bg-white p-6"
               >
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-lg font-bold text-blue-600">
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-sage-100 text-lg font-bold text-forest">
                   {etape.etape}
                 </div>
-                <h3 className="mb-2 text-base font-semibold text-stone-900">
+                <h3 className="mb-2 text-base font-semibold text-ink">
                   {etape.titre}
                 </h3>
                 <p className="text-sm text-stone-600">{etape.description}</p>
@@ -227,7 +227,7 @@ export default function RelanceLoyerImpayePage() {
             ))}
           </div>
           <div className="mt-6 rounded-xl border border-stone-200 bg-white p-6">
-            <h3 className="mb-3 text-base font-semibold text-stone-900">
+            <h3 className="mb-3 text-base font-semibold text-ink">
               Contenu d'une lettre de relance amiable
             </h3>
             <ul className="space-y-2 text-sm text-stone-700">
@@ -241,8 +241,8 @@ export default function RelanceLoyerImpayePage() {
         </section>
 
         {/* Mise en demeure */}
-        <section className="mb-16 rounded-2xl bg-blue-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+        <section className="mb-16 rounded-2xl bg-sage-50 p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Mise en demeure : l'avertissement formel
           </h2>
           <p className="mb-4 text-stone-700">
@@ -270,7 +270,7 @@ export default function RelanceLoyerImpayePage() {
 
         {/* Template de lettre */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Modèle de lettre de relance loyer impayé
           </h2>
           <p className="mb-6 text-stone-700">
@@ -311,7 +311,7 @@ export default function RelanceLoyerImpayePage() {
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
             <Link
               href="/register"
-              className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+              className="inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
             >
               Essai gratuit 14 jours →
             </Link>
@@ -326,7 +326,7 @@ export default function RelanceLoyerImpayePage() {
 
         {/* Procédure impayé persistant */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Procédure en cas d'impayé persistant
           </h2>
           <p className="mb-6 text-stone-700">
@@ -339,7 +339,7 @@ export default function RelanceLoyerImpayePage() {
                 1
               </div>
               <div>
-                <h3 className="mb-1 text-base font-semibold text-stone-900">
+                <h3 className="mb-1 text-base font-semibold text-ink">
                   Courrier en recommandé avec AR
                 </h3>
                 <p className="text-sm text-stone-600">
@@ -353,7 +353,7 @@ export default function RelanceLoyerImpayePage() {
                 2
               </div>
               <div>
-                <h3 className="mb-1 text-base font-semibold text-stone-900">
+                <h3 className="mb-1 text-base font-semibold text-ink">
                   Assignation au tribunal judiciaire
                 </h3>
                 <p className="text-sm text-stone-600">
@@ -367,7 +367,7 @@ export default function RelanceLoyerImpayePage() {
                 3
               </div>
               <div>
-                <h3 className="mb-1 text-base font-semibold text-stone-900">
+                <h3 className="mb-1 text-base font-semibold text-ink">
                   Procédure d'expulsion
                 </h3>
                 <p className="text-sm text-stone-600">
@@ -382,7 +382,7 @@ export default function RelanceLoyerImpayePage() {
 
         {/* Protections locataire */}
         <section className="mb-16 rounded-2xl border border-amber-200 bg-amber-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             🛡️ Protections du locataire à connaître
           </h2>
           <p className="mb-6 text-stone-700">
@@ -405,7 +405,7 @@ export default function RelanceLoyerImpayePage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-stone-900">
+          <h2 className="mb-6 text-2xl font-semibold text-ink">
             Questions fréquentes sur les loyers impayés
           </h2>
           <div className="space-y-4">
@@ -414,7 +414,7 @@ export default function RelanceLoyerImpayePage() {
                 key={item.question}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-stone-900">
+                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-ink">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -430,7 +430,7 @@ export default function RelanceLoyerImpayePage() {
 
         {/* CTA final */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Suivez vos impayés avec Lokna
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -439,7 +439,7 @@ export default function RelanceLoyerImpayePage() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours →
           </Link>
@@ -447,16 +447,16 @@ export default function RelanceLoyerImpayePage() {
 
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-500">
-          <Link href="/bail" className="text-blue-600 hover:underline">
+          <Link href="/bail" className="text-forest hover:underline">
             Gestion des baux →
           </Link>
-          <Link href="/quittances" className="text-blue-600 hover:underline">
+          <Link href="/quittances" className="text-forest hover:underline">
             Quittances →
           </Link>
-          <Link href="/pricing" className="text-blue-600 hover:underline">
+          <Link href="/pricing" className="text-forest hover:underline">
             Tarifs →
           </Link>
-          <Link href="/blog" className="text-blue-600 hover:underline">
+          <Link href="/blog" className="text-forest hover:underline">
             Blog →
           </Link>
         </nav>

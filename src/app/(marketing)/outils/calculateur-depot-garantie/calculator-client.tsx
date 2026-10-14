@@ -71,19 +71,19 @@ export function DepotGarantieCalculatorClient() {
   return (
     <>
 
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-5xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
           {/* Header */}
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-1.5 bg-sage-50 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
               Mis à jour — Base légale 2025
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3">
               Calculateur de Dépôt de Garantie
             </h1>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -93,7 +93,7 @@ export function DepotGarantieCalculatorClient() {
 
           {/* Calculator */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-6">Estimez le dépôt maximum</h2>
+            <h2 className="text-xl font-semibold text-ink mb-6">Estimez le dépôt maximum</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div>
@@ -106,7 +106,7 @@ export function DepotGarantieCalculatorClient() {
                   placeholder="Ex. 800"
                   value={monthlyRent}
                   onChange={(e) => setMonthlyRent(e.target.value)}
-                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-stone-900 placeholder-stone-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-ink placeholder-stone-400 focus:border-forest focus:ring-2 focus:ring-sage-200"
                 />
               </div>
               <div>
@@ -116,7 +116,7 @@ export function DepotGarantieCalculatorClient() {
                     type="button"
                     onClick={() => setIsZoneTendue(true)}
                     className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isZoneTendue === true ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isZoneTendue === true ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Oui
@@ -125,7 +125,7 @@ export function DepotGarantieCalculatorClient() {
                     type="button"
                     onClick={() => setIsZoneTendue(false)}
                     className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isZoneTendue === false ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isZoneTendue === false ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Non
@@ -139,7 +139,7 @@ export function DepotGarantieCalculatorClient() {
                     type="button"
                     onClick={() => setIsFurnished(false)}
                     className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isFurnished === false ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isFurnished === false ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Vide
@@ -148,7 +148,7 @@ export function DepotGarantieCalculatorClient() {
                     type="button"
                     onClick={() => setIsFurnished(true)}
                     className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isFurnished === true ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isFurnished === true ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Meublé
@@ -160,7 +160,7 @@ export function DepotGarantieCalculatorClient() {
             <button
               type="button"
               onClick={calculate}
-              className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
+              className="w-full md:w-auto bg-forest hover:bg-forest-hover text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
             >
               Calculer le dépôt maximum
             </button>
@@ -187,7 +187,7 @@ export function DepotGarantieCalculatorClient() {
 
           {/* Reference Table */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Règles de dépôt par situation</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Règles de dépôt par situation</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -199,13 +199,13 @@ export function DepotGarantieCalculatorClient() {
                 </thead>
                 <tbody>
                   {[
-                    { situation: "Location vide", zone: "Tendue", deposit: "1 mois de loyer", bg: "bg-blue-50" },
+                    { situation: "Location vide", zone: "Tendue", deposit: "1 mois de loyer", bg: "bg-sage-50" },
                     { situation: "Location vide", zone: "Non tendue", deposit: "1 mois de loyer", bg: "" },
-                    { situation: "Location meublée", zone: "Tendue", deposit: "1 mois de loyer", bg: "bg-blue-50" },
+                    { situation: "Location meublée", zone: "Tendue", deposit: "1 mois de loyer", bg: "bg-sage-50" },
                     { situation: "Location meublée", zone: "Non tendue", deposit: "2 mois de loyer", bg: "" },
                   ].map((row, i) => (
                     <tr key={i} className={`border-b border-stone-100 ${row.bg}`}>
-                      <td className="py-3 px-4 font-medium text-stone-900">{row.situation}</td>
+                      <td className="py-3 px-4 font-medium text-ink">{row.situation}</td>
                       <td className="py-3 px-4 text-stone-600">{row.zone}</td>
                       <td className="py-3 px-4 text-right font-semibold text-green-700">{row.deposit}</td>
                     </tr>
@@ -218,12 +218,12 @@ export function DepotGarantieCalculatorClient() {
 
           {/* FAQ */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-6">Questions fréquentes</h2>
+            <h2 className="text-xl font-semibold text-ink mb-6">Questions fréquentes</h2>
             <div className="space-y-4">
               {faqData.map((faq, i) => (
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
-                    <span className="font-semibold text-stone-900">{faq.question}</span>
+                    <span className="font-semibold text-ink">{faq.question}</span>
                     <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
@@ -236,33 +236,33 @@ export function DepotGarantieCalculatorClient() {
 
           {/* Internal Links */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Outils complémentaires</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Outils complémentaires</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/outils/calculateur-loyer" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-loyer" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">🏠</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Calculateur de Loyer</div>
+                  <div className="font-semibold text-ink">Calculateur de Loyer</div>
                   <div className="text-sm text-stone-600">Estimez le loyer au m²</div>
                 </div>
               </Link>
-              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
+                  <div className="font-semibold text-ink">Modèle de Bail de Location</div>
                   <div className="text-sm text-stone-600">Conforme à la loi 1989</div>
                 </div>
               </Link>
-              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
+                  <div className="font-semibold text-ink">Glossaire Immobilier</div>
                   <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">🏠</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Modèle État des Lieux</div>
+                  <div className="font-semibold text-ink">Modèle État des Lieux</div>
                   <div className="text-sm text-stone-600">Checklist entrée et sortie</div>
                 </div>
               </Link>
@@ -270,16 +270,16 @@ export function DepotGarantieCalculatorClient() {
           </div>
 
           {/* CTA */}
-          <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-bold mb-2">Gérez vos dépôts de garantie facilement</h2>
-            <p className="text-blue-100 mb-6 max-w-xl mx-auto">
+          <div className="bg-forest rounded-2xl p-8 text-center text-white mb-8">
+            <h2 className="text-2xl font-semibold mb-2">Gérez vos dépôts de garantie facilement</h2>
+            <p className="text-cream/80 mb-6 max-w-xl mx-auto">
               Lokna vous aide à calculer les dépôts, suivre les restitutions, et gérer les retenues en toute conformité.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
+              <Link href="/register" className="inline-block bg-white text-forest font-bold px-8 py-3.5 rounded-xl hover:bg-sage-50 transition-colors">
                 Essai gratuit 14 jours
               </Link>
-              <Link href="/outils" className="inline-block border-2 border-blue-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-blue-500 transition-colors">
+              <Link href="/outils" className="inline-block border-2 border-sage-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-forest transition-colors">
                 Autres outils gratuits
               </Link>
             </div>

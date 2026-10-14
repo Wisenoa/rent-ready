@@ -120,11 +120,11 @@ export default function GlossaireImmobilierPage() {
 
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-12 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sage-200 bg-sage-50 px-4 py-1.5 text-sm font-medium text-forest">
             <BookOpen className="size-4" />
             lexique immobilier français
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             Glossaire Immobilier — Définitions Location et Investissement
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
@@ -160,7 +160,7 @@ export default function GlossaireImmobilierPage() {
             <section className="space-y-12">
               {Object.entries(alphabetGroups).map(([letter, terms]) => (
                 <div key={letter} id={letter}>
-                  <h2 className="mb-6 border-b-2 border-blue-600 pb-2 text-2xl font-bold text-stone-900">
+                  <h2 className="mb-6 border-b-2 border-forest pb-2 text-2xl font-semibold text-ink">
                     {letter}
                   </h2>
                   <dl className="space-y-6">
@@ -172,7 +172,7 @@ export default function GlossaireImmobilierPage() {
                               left all 30 glossary pages orphaned. */}
                           <Link
                             href={`/glossaire-immobilier/${item.slug}`}
-                            className="hover:text-blue-700 hover:underline"
+                            className="hover:text-forest hover:underline"
                           >
                             {item.term}
                           </Link>
@@ -187,8 +187,8 @@ export default function GlossaireImmobilierPage() {
               ))}
             </section>
 
-            <section className="mt-16 rounded-xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-blue-100/50 p-8 text-center sm:p-10">
-              <h2 className="mb-3 text-xl font-bold text-stone-900 sm:text-2xl">
+            <section className="mt-16 rounded-xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-sage-100/50 p-8 text-center sm:p-10">
+              <h2 className="mb-3 text-xl font-semibold text-ink sm:text-2xl">
                 Simplifiez votre gestion locative
               </h2>
               <p className="mx-auto mb-6 max-w-lg text-stone-600">
@@ -198,7 +198,7 @@ export default function GlossaireImmobilierPage() {
               </p>
               <Link
                 href="/register"
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+                className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
               >
                 Commencer l'essai gratuit
                 <ArrowRight className="size-4" />

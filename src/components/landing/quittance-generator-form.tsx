@@ -80,7 +80,7 @@ async function generateQuittancePdf(data: QuittanceFormData) {
       fontSize: 12,
       fontFamily: "Helvetica-Bold",
       marginBottom: 6,
-      color: "#2563eb",
+      color: "#1E3A2F",
       textTransform: "uppercase",
       letterSpacing: 1,
     },
@@ -110,7 +110,7 @@ async function generateQuittancePdf(data: QuittanceFormData) {
       justifyContent: "space-between",
       paddingVertical: 8,
       paddingHorizontal: 10,
-      backgroundColor: "#2563eb",
+      backgroundColor: "#1E3A2F",
       borderRadius: 4,
       marginTop: 4,
     },
@@ -264,7 +264,7 @@ export function QuittanceGeneratorForm() {
   const total = (parseFloat(loyer) || 0) + (parseFloat(charges) || 0);
 
   const inputClass =
-    "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm text-stone-900 placeholder:text-stone-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors";
+    "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm text-ink placeholder:text-stone-600 focus:border-forest focus:ring-2 focus:ring-forest/20 focus:outline-none transition-colors";
   const labelClass = "block text-sm font-medium text-stone-700 mb-1";
 
   return (
@@ -397,7 +397,7 @@ export function QuittanceGeneratorForm() {
       {total > 0 && (
         <div className="rounded-lg bg-stone-50 p-3 text-center">
           <span className="text-sm text-stone-600">Total à acquitter : </span>
-          <span className="text-base font-semibold text-stone-900">
+          <span className="text-base font-semibold text-ink">
             {formatMontant(total)} €
           </span>
         </div>
@@ -433,7 +433,7 @@ export function QuittanceGeneratorForm() {
               <Sparkles className="size-3.5" />
               <span>Automatisation Lokna</span>
             </div>
-            <h3 className="text-base font-bold text-stone-900">
+            <h3 className="text-base font-bold text-ink">
               Automatisez vos quittances pour le mois prochain
             </h3>
             <p className="text-sm text-stone-600 leading-relaxed">

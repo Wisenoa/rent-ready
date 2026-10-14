@@ -103,7 +103,7 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
     <div className="space-y-8">
       {/* Info box */}
       <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
-        <h2 className="font-bold text-amber-800 mb-3">⚠️ Informations importantes</h2>
+        <h2 className="font-semibold text-amber-800 mb-3">⚠️ Informations importantes</h2>
         <div className="space-y-3">
           {INFO.map((item, i) => (
             <div key={i}>
@@ -116,19 +116,19 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
 
       {/* Form */}
       <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-        <h2 className="text-lg font-bold text-stone-800 mb-5">Vos informations</h2>
+        <h2 className="text-lg font-semibold text-stone-800 mb-5">Vos informations</h2>
         <div className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-stone-700 mb-1">Nom et Prénom du Bailleur</label>
               <input type="text" value={formData.landlordName} onChange={(e) => update("landlordName", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                 placeholder="Ex. : Dupont Jean" />
             </div>
             <div>
               <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse du Bailleur</label>
               <input type="text" value={formData.landlordAddress} onChange={(e) => update("landlordAddress", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                 placeholder="Ex. : 12 rue de la Paix, 75002 Paris" />
             </div>
           </div>
@@ -137,13 +137,13 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
             <div>
               <label className="block text-sm font-semibold text-stone-700 mb-1">Nom et Prénom du Locataire</label>
               <input type="text" value={formData.tenantName} onChange={(e) => update("tenantName", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                 placeholder="Ex. : Martin Sophie" />
             </div>
             <div>
               <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse du bien loué</label>
               <input type="text" value={formData.tenantAddress} onChange={(e) => update("tenantAddress", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                 placeholder="même adresse que le bien" />
             </div>
           </div>
@@ -151,7 +151,7 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
           <div>
             <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse complète du bien</label>
             <input type="text" value={formData.propertyAddress} onChange={(e) => update("propertyAddress", e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
               placeholder="Ex. : 45 avenue des Champs, 75008 Paris" />
           </div>
 
@@ -159,18 +159,18 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
             <div>
               <label className="block text-sm font-semibold text-stone-700 mb-1">Date de début du bail</label>
               <input type="date" value={formData.leaseStartDate} onChange={(e) => update("leaseStartDate", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest" />
             </div>
             <div>
               <label className="block text-sm font-semibold text-stone-700 mb-1">Prix de vente envisagé (€)</label>
               <input type="text" value={formData.salePrice} onChange={(e) => update("salePrice", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                 placeholder="Ex. : 350 000" />
             </div>
           </div>
 
           <details className="group">
-            <summary className="cursor-pointer text-sm text-blue-600 font-semibold hover:text-blue-700">
+            <summary className="cursor-pointer text-sm text-forest font-semibold hover:text-forest">
               + Informations optionnelles (notaire, agence)
             </summary>
             <div className="mt-4 space-y-4 pt-2 border-t border-stone-200">
@@ -178,13 +178,13 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
                 <div>
                   <label className="block text-sm font-semibold text-stone-700 mb-1">Nom du Notaire</label>
                   <input type="text" value={formData.notaryName} onChange={(e) => update("notaryName", e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                     placeholder="Optionnel" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse du Notaire</label>
                   <input type="text" value={formData.notaryAddress} onChange={(e) => update("notaryAddress", e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                     placeholder="Optionnel" />
                 </div>
               </div>
@@ -192,13 +192,13 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
                 <div>
                   <label className="block text-sm font-semibold text-stone-700 mb-1">Agence immobilière</label>
                   <input type="text" value={formData.agentName} onChange={(e) => update("agentName", e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                     placeholder="Optionnel" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse de l'agence</label>
                   <input type="text" value={formData.agentAddress} onChange={(e) => update("agentAddress", e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
                     placeholder="Optionnel" />
                 </div>
               </div>
@@ -208,7 +208,7 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
           <button
             type="button"
             onClick={generate}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl text-lg transition-colors"
+            className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors"
           >
             Générer le congé pour vente
           </button>
@@ -219,7 +219,7 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
       {result && (
         <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-stone-800">Votre lettre de congé pour vente</h2>
+            <h2 className="text-lg font-semibold text-stone-800">Votre lettre de congé pour vente</h2>
             <button
               onClick={() => navigator.clipboard.writeText(result)}
               className="text-sm bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold px-4 py-2 rounded-lg transition-colors"
@@ -240,9 +240,9 @@ ${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${
 
       {/* Related links */}
       <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/templates/conge-proprietaire" className="text-blue-600 hover:underline">Modèle congé propriétaire →</Link>
-        <Link href="/templates/bail-vide" className="text-blue-600 hover:underline">Modèle bail vide →</Link>
-        <Link href="/pricing" className="text-blue-600 hover:underline">Essai gratuit →</Link>
+        <Link href="/templates/conge-proprietaire" className="text-forest hover:underline">Modèle congé propriétaire →</Link>
+        <Link href="/templates/bail-vide" className="text-forest hover:underline">Modèle bail vide →</Link>
+        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
       </div>
     </div>
   );

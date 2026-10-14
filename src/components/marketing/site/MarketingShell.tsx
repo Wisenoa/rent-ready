@@ -10,7 +10,7 @@ import { SiteHeader } from "./SiteHeader";
  */
 export function MarketingShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col bg-cream font-sans text-ink">
+    <div className="marketing flex min-h-screen flex-col bg-cream font-sans text-ink">
       <SiteHeader />
       <main id="main" className="flex-1">
         {children}

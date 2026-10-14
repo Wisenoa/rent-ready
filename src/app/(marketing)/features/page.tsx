@@ -282,23 +282,23 @@ const quickFeatures = [
 /* ─── Component ─── */
 export default function FeaturesPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <FeaturesJsonLd />
 
       {/* ── Hero ── */}
-      <header className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
+      <header className="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-gradient-to-br from-blue-100/50 via-teal-50/30 to-transparent blur-3xl"
+          className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-gradient-to-br from-sage-100/50 via-sage-50/30 to-transparent blur-3xl"
         />
         <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.2em] text-blue-600">
+            <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.2em] text-forest">
               Fonctionnalités
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl lg:text-6xl">
               Un outil complet pour gérer vos{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-forest to-sage-600 bg-clip-text text-transparent">
                 locations sans stress
               </span>
             </h1>
@@ -346,7 +346,7 @@ export default function FeaturesPage() {
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {quickFeatures.map((f) => (
               <li key={f} className="flex items-start gap-3 text-sm text-stone-600">
-                <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600">
+                <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-sage-100 text-[10px] font-bold text-forest">
                   ✓
                 </span>
                 {f}
@@ -372,14 +372,14 @@ export default function FeaturesPage() {
                 {/* Copy */}
                 <div className={isReversed ? "lg:order-2" : ""}>
                   <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-stone-200/60 bg-white shadow-sm">
-                    <Icon className="h-6 w-6 text-blue-600" strokeWidth={1.75} />
+                    <Icon className="h-6 w-6 text-forest" strokeWidth={1.75} />
                   </div>
-                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-[0.15em] text-blue-600">
+                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-[0.15em] text-forest">
                     {group.tagline}
                   </p>
                   <h2
                     id={`${group.id}-heading`}
-                    className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl"
+                    className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl"
                   >
                     {group.title}
                   </h2>
@@ -391,7 +391,7 @@ export default function FeaturesPage() {
                       const FeatIcon = feat.icon;
                       return (
                         <li key={feat.title} className="flex gap-4">
-                          <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-stone-200 bg-stone-50 text-blue-600">
+                          <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-stone-200 bg-stone-50 text-forest">
                             <FeatIcon className="h-4 w-4" strokeWidth={1.75} />
                           </span>
                           <div>
@@ -411,8 +411,8 @@ export default function FeaturesPage() {
                   }`}
                   aria-hidden
                 >
-                  <div className="flex h-48 w-48 items-center justify-center rounded-full bg-gradient-to-br from-blue-100/60 to-teal-100/60">
-                    <Icon className="h-20 w-20 text-blue-600/40" strokeWidth={1} />
+                  <div className="flex h-48 w-48 items-center justify-center rounded-full bg-gradient-to-br from-sage-100/60 to-sage-100/60">
+                    <Icon className="h-20 w-20 text-forest/40" strokeWidth={1} />
                   </div>
                 </div>
               </section>

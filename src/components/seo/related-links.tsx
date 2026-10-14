@@ -179,7 +179,7 @@ export function RelatedContent({
                 {iconMap[page.type]}
               </span>
               <div>
-                <p className="text-sm font-medium text-stone-800 group-hover:text-blue-600 transition-colors">
+                <p className="text-sm font-medium text-stone-800 group-hover:text-forest transition-colors">
                   {page.title}
                 </p>
                 <p className="mt-0.5 text-xs text-stone-500 line-clamp-2">

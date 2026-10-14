@@ -208,7 +208,7 @@ const QUITTANCES_SCHEMA = {
 
 export default function QuittancesPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <SchemaMarkup data={QUITTANCES_SCHEMA} breadcrumbRenderedByComponent />
 
 <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
@@ -221,7 +221,7 @@ export default function QuittancesPage() {
 />
 {/* Hero */}
 <header className="mb-16 text-center">
-<h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+<h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
 Quittances de loyer
 <br />
 automatiques et conformes.
@@ -241,7 +241,7 @@ key={feature.title}
 className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md"
 >
 <div className="mb-3 text-3xl">{feature.icon}</div>
-<h3 className="mb-2 text-lg font-semibold text-stone-900">
+<h3 className="mb-2 text-lg font-semibold text-ink">
 {feature.title}
 </h3>
 <p className="text-sm text-stone-600">{feature.description}</p>
@@ -252,7 +252,7 @@ className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm back
 
 {/* Legal requirements */}
 <section className="mb-20">
-<h2 className="mb-6 text-2xl font-bold text-stone-900">
+<h2 className="mb-6 text-2xl font-semibold text-ink">
 Contenu d&apos;une quittance
 </h2>
 <p className="mb-6 text-stone-600">
@@ -273,12 +273,12 @@ charges. Chaque quittance générée par {SITE_NAME} contient :
 
 {/* Use cases */}
 <section className="mb-20">
-<h2 className="mb-8 text-2xl font-bold text-stone-900">
+<h2 className="mb-8 text-2xl font-semibold text-ink">
 Pourquoi automatiser vos quittances ?
 </h2>
 <div className="grid gap-6 sm:grid-cols-2">
 <div className="rounded-xl border border-stone-200 bg-white p-6">
-<h3 className="mb-3 text-lg font-semibold text-stone-900">
+<h3 className="mb-3 text-lg font-semibold text-ink">
 ⏱️ Gagner du temps
 </h3>
 <p className="text-sm text-stone-600">
@@ -287,7 +287,7 @@ manuelle.
 </p>
 </div>
 <div className="rounded-xl border border-stone-200 bg-white p-6">
-<h3 className="mb-3 text-lg font-semibold text-stone-900">
+<h3 className="mb-3 text-lg font-semibold text-ink">
 ✅ Zéro erreur
 </h3>
 <p className="text-sm text-stone-600">
@@ -296,7 +296,7 @@ ou d'oubli de mentions.
 </p>
 </div>
 <div className="rounded-xl border border-stone-200 bg-white p-6">
-<h3 className="mb-3 text-lg font-semibold text-stone-900">
+<h3 className="mb-3 text-lg font-semibold text-ink">
 📤 Traçabilité
 </h3>
 <p className="text-sm text-stone-600">
@@ -305,7 +305,7 @@ litige.
 </p>
 </div>
 <div className="rounded-xl border border-stone-200 bg-white p-6">
-<h3 className="mb-3 text-lg font-semibold text-stone-900">
+<h3 className="mb-3 text-lg font-semibold text-ink">
 🧾 Paiement partiel
 </h3>
 <p className="text-sm text-stone-600">
@@ -318,7 +318,7 @@ quittance n&apos;atteste que d&apos;un mois entièrement réglé.
 
 {/* CTA */}
 <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-<h2 className="text-2xl font-bold sm:text-3xl">
+<h2 className="text-2xl font-semibold sm:text-3xl">
 Générez votre première quittance gratuitement
 </h2>
 <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -327,7 +327,7 @@ vos locataires.
 </p>
 <Link
 href="/register"
-className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
 >
 Essai gratuit 14 jours
 </Link>
@@ -337,19 +337,19 @@ Essai gratuit 14 jours
 <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
 <Link
 href="/locations"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Gestion des locations →
 </Link>
 <Link
 href="/bail"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Gestion des baux →
 </Link>
 <Link
 href="/pricing"
-className="text-blue-600 hover:underline"
+className="text-forest hover:underline"
 >
 Tarifs →
 </Link>
@@ -367,7 +367,7 @@ Tarifs →
           Same grouping by region, same Link pattern, so the hubs stay
           consistent rather than four slightly different lists. */}
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+        <h2 className="text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
           Quittances de loyer par ville
         </h2>
         <p className="mt-3 max-w-2xl text-stone-600">

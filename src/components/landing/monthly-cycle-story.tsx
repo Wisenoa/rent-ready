@@ -63,7 +63,7 @@ export function MonthlyCycleStory() {
           <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-500 mb-3">
             La colonne vertébrale du produit
           </p>
-          <h2 className="text-[clamp(1.85rem,4vw,2.75rem)] font-bold tracking-tight text-stone-900 leading-tight">
+          <h2 className="text-[clamp(1.85rem,4vw,2.75rem)] font-semibold tracking-[-0.03em] text-ink leading-tight">
             Le cycle mensuel idéal.
             <br />
             <span className="text-stone-600 font-normal">
@@ -87,7 +87,7 @@ export function MonthlyCycleStory() {
                 onClick={() => setActiveStep(idx)}
                 className={`text-left rounded-2xl p-5 border transition-all ${
                   isCurrent
-                    ? "bg-[#f8f7f4] border-stone-900 shadow-md ring-1 ring-stone-900/10"
+                    ? "bg-cream border-stone-900 shadow-md ring-1 ring-stone-900/10"
                     : "bg-white border-stone-200/80 hover:border-stone-300 hover:bg-stone-50/50"
                 }`}
               >
@@ -103,7 +103,7 @@ export function MonthlyCycleStory() {
                     {step.tag}
                   </span>
                 </div>
-                <h3 className="text-[15px] font-semibold text-stone-900 mb-1">
+                <h3 className="text-[15px] font-semibold text-ink mb-1">
                   {step.title}
                 </h3>
                 <p className="text-[12px] text-stone-500 line-clamp-2">
@@ -115,14 +115,14 @@ export function MonthlyCycleStory() {
         </div>
 
         {/* Dynamic Interactive Stage Demonstration */}
-        <div className="rounded-3xl border border-stone-200 bg-[#f8f7f4] p-6 sm:p-10 lg:p-12">
+        <div className="rounded-3xl border border-stone-200 bg-cream p-6 sm:p-10 lg:p-12">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Descriptive prose & legal context */}
             <div className="lg:col-span-5">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-200/80 px-3 py-1 text-[11px] font-semibold text-stone-700 mb-4">
                 Étape {STEPS[activeStep].number} · {STEPS[activeStep].tag}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
+              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink">
                 {STEPS[activeStep].title}
               </h3>
               <p className="mt-4 text-[15px] leading-relaxed text-stone-700">
@@ -176,7 +176,7 @@ export function MonthlyCycleStory() {
                       <div className="flex items-center gap-2.5">
                         <CalendarClock className="size-5 text-stone-700" />
                         <div>
-                          <p className="text-[14px] font-semibold text-stone-900">
+                          <p className="text-[14px] font-semibold text-ink">
                             Avis d&apos;échéance · Octobre 2026
                           </p>
                           <p className="text-[11px] text-stone-500">
@@ -192,19 +192,19 @@ export function MonthlyCycleStory() {
                     <div className="mt-5 space-y-3">
                       <div className="flex justify-between items-center py-2 px-3 rounded-lg bg-stone-50">
                         <span className="text-[13px] text-stone-700">Loyer nu mensuel</span>
-                        <span className="text-[14px] font-mono font-semibold text-stone-900">
+                        <span className="text-[14px] font-mono font-semibold text-ink">
                           670,00 €
                         </span>
                       </div>
                       <div className="flex justify-between items-center py-2 px-3 rounded-lg bg-stone-50">
                         <span className="text-[13px] text-stone-700">Provisions pour charges locatives</span>
-                        <span className="text-[14px] font-mono font-semibold text-stone-900">
+                        <span className="text-[14px] font-mono font-semibold text-ink">
                           80,00 €
                         </span>
                       </div>
                       <div className="flex justify-between items-center pt-3 border-t border-stone-100 px-3">
-                        <span className="text-[14px] font-bold text-stone-900">Total exigible</span>
-                        <span className="text-[16px] font-mono font-bold text-stone-900">
+                        <span className="text-[14px] font-bold text-ink">Total exigible</span>
+                        <span className="text-[16px] font-mono font-bold text-ink">
                           750,00 €
                         </span>
                       </div>
@@ -230,7 +230,7 @@ export function MonthlyCycleStory() {
                       <div className="flex items-center gap-2.5">
                         <ArrowRightLeft className="size-5 text-stone-700" />
                         <div>
-                          <p className="text-[14px] font-semibold text-stone-900">
+                          <p className="text-[14px] font-semibold text-ink">
                             Enregistrement du règlement perçu
                           </p>
                           <p className="text-[11px] text-stone-500">
@@ -275,7 +275,7 @@ export function MonthlyCycleStory() {
 
                     <div className="mt-5 flex items-center justify-between text-[12px] text-stone-600 bg-stone-50 rounded-xl p-3 border border-stone-100">
                       <span>Rapprochement sans approximation</span>
-                      <span className="font-semibold text-stone-900">1 clic de validation</span>
+                      <span className="font-semibold text-ink">1 clic de validation</span>
                     </div>
                   </motion.div>
                 )}
@@ -293,7 +293,7 @@ export function MonthlyCycleStory() {
                       <div className="flex items-center gap-2.5">
                         <FileCheck2 className="size-5 text-emerald-700" />
                         <div>
-                          <p className="text-[14px] font-semibold text-stone-900">
+                          <p className="text-[14px] font-semibold text-ink">
                             Quittance certifiée conforme · Loi du 6 juillet 1989
                           </p>
                           <p className="text-[11px] text-stone-500">
@@ -325,7 +325,7 @@ export function MonthlyCycleStory() {
                           <span>PROVISIONS CHARGES :</span>
                           <span className="font-bold">80,00 €</span>
                         </div>
-                        <div className="flex justify-between text-stone-900 font-bold pt-1 border-t border-stone-300">
+                        <div className="flex justify-between text-ink font-bold pt-1 border-t border-stone-300">
                           <span>TOTAL RÉGLÉ REÇU :</span>
                           <span>750,00 €</span>
                         </div>

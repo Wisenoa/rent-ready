@@ -63,7 +63,7 @@ export default function HomePage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F5F3EF] text-[#15241F] font-sans antialiased selection:bg-[#1E3A2F] selection:text-[#F5F3EF]">
+    <div className="marketing min-h-screen bg-[#F5F3EF] text-[#15241F] font-sans antialiased selection:bg-[#1E3A2F] selection:text-[#F5F3EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

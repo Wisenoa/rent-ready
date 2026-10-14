@@ -122,7 +122,7 @@ export function DemoForm() {
           id="demo-name"
           name="name"
           required
-          className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-900 placeholder-stone-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-ink placeholder-stone-400 shadow-sm focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20"
           placeholder="Jean Dupont"
         />
       </div>
@@ -136,7 +136,7 @@ export function DemoForm() {
           id="demo-email"
           name="email"
           required
-          className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-900 placeholder-stone-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-ink placeholder-stone-400 shadow-sm focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20"
           placeholder="jean@exemple.fr"
         />
       </div>
@@ -148,7 +148,7 @@ export function DemoForm() {
         <select
           id="demo-properties"
           name="properties"
-          className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-ink shadow-sm focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20"
         >
           <option value="1-3">1 à 3 biens</option>
           <option value="4-10">4 à 10 biens</option>
@@ -164,7 +164,7 @@ export function DemoForm() {
           id="demo-message"
           name="message"
           rows={3}
-          className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-900 placeholder-stone-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="mt-1.5 block w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-ink placeholder-stone-400 shadow-sm focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20"
           placeholder="Par exemple : je gère une SCI, je veux comprendre comment importer mes baux..."
         />
       </div>

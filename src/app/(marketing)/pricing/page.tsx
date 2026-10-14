@@ -231,13 +231,13 @@ const comparisonData = [
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <PricingJsonLd />
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         <header className="mb-16 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl text-balance">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl text-balance">
             Un tarif transparent.
             <br />
             Zéro surprise.
@@ -274,17 +274,17 @@ export default function PricingPage() {
 
         {/* ── Comparison table ────────────────────────────────── */}
         <section className="mt-20" aria-label="Comparaison des plans">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Tous les plans en un coup d&apos;œil
           </h2>
           <div className="overflow-x-auto rounded-xl border border-stone-200 bg-white shadow-xl">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-stone-200 bg-stone-50/50">
                 <tr>
-                  <th className="px-6 py-4 font-semibold text-stone-900">
+                  <th className="px-6 py-4 font-semibold text-ink">
                     Fonctionnalité
                   </th>
-                  <th className="px-6 py-4 text-center font-semibold text-blue-600">
+                  <th className="px-6 py-4 text-center font-semibold text-forest">
                     Starter
                   </th>
                   <th className="px-6 py-4 text-center font-semibold text-emerald-700">
@@ -299,7 +299,7 @@ export default function PricingPage() {
                 {comparisonData.map((row) => (
                   <tr key={row.feature} className="hover:bg-stone-50/50">
                     <td className="px-6 py-4 text-stone-700">{row.feature}</td>
-                    <td className="px-6 py-4 text-center text-blue-600">
+                    <td className="px-6 py-4 text-center text-forest">
                       {row.starter}
                     </td>
                     <td className="px-6 py-4 text-center text-emerald-700">
@@ -317,14 +317,14 @@ export default function PricingPage() {
             Vous hésitez entre un logiciel, un tableur et une agence ?{" "}
             <Link
               href="/comparatif/logiciel-gestion-locative"
-              className="font-medium text-blue-700 underline underline-offset-2 hover:text-blue-800"
+              className="font-medium text-forest underline underline-offset-2 hover:text-ink"
             >
               Comparer les modes de gestion locative
             </Link>{" "}
             ou{" "}
             <Link
               href="/comparatif"
-              className="font-medium text-blue-700 underline underline-offset-2 hover:text-blue-800"
+              className="font-medium text-forest underline underline-offset-2 hover:text-ink"
             >
               voir tous nos comparatifs
             </Link>
@@ -339,13 +339,13 @@ export default function PricingPage() {
 
         {/* ── FAQ ─────────────────────────────────────────────── */}
         <section className="mt-20" aria-label="Questions fréquentes">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <dl className="mx-auto max-w-2xl space-y-6">
             {pricingFaqs.map((faq) => (
               <div key={faq.question}>
-                <dt className="text-base font-semibold text-stone-900">
+                <dt className="text-base font-semibold text-ink">
                   {faq.question}
                 </dt>
                 <dd className="mt-2 text-stone-600">{faq.answer}</dd>

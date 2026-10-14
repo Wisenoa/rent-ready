@@ -193,7 +193,7 @@ function BailPrecaireJsonLd() {
 
 export default function BailPrecairePage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <BailPrecaireJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
@@ -202,7 +202,7 @@ export default function BailPrecairePage() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-orange-100 px-4 py-1.5 text-sm font-medium text-orange-700">
             ⏱️ Bail de location temporaire
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Modèle de Bail Précaire
             <br />
             <span className="text-orange-700">Location Temporaire 2026</span>
@@ -230,7 +230,7 @@ export default function BailPrecairePage() {
 
         {/* Features */}
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Caractéristiques du bail précaire
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -240,7 +240,7 @@ export default function BailPrecairePage() {
                 className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm"
               >
                 <div className="mb-3 text-3xl">{feature.icon}</div>
-                <h3 className="mb-2 text-lg font-semibold text-stone-900">
+                <h3 className="mb-2 text-lg font-semibold text-ink">
                   {feature.title}
                 </h3>
                 <p className="text-sm text-stone-600">{feature.description}</p>
@@ -251,7 +251,7 @@ export default function BailPrecairePage() {
 
         {/* Motifs */}
         <section className="mb-20 rounded-2xl bg-orange-50 p-8 sm:p-10">
-          <h2 className="mb-6 text-xl font-bold text-stone-900">
+          <h2 className="mb-6 text-xl font-semibold text-ink">
             Motifs légitimes pour un bail précaire
           </h2>
           <p className="mb-6 text-stone-700">
@@ -264,7 +264,7 @@ export default function BailPrecairePage() {
               <div key={m.motif} className="flex items-start gap-4 rounded-xl border border-orange-200 bg-white p-4">
                 <Check className="mt-0.5 size-5 shrink-0 text-orange-700" />
                 <div>
-                  <h3 className="text-sm font-semibold text-stone-900">{m.motif}</h3>
+                  <h3 className="text-sm font-semibold text-ink">{m.motif}</h3>
                   <p className="mt-1 text-sm text-stone-600">{m.desc}</p>
                 </div>
               </div>
@@ -274,16 +274,16 @@ export default function BailPrecairePage() {
 
         {/* Comparison */}
         <section className="mb-20 rounded-2xl bg-stone-100 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Bail précaire vs bail classique vs bail mobilité
           </h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-stone-300">
-                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Critère</th>
-                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Bail Précaire</th>
-                  <th className="text-left py-3 px-4 font-semibold text-stone-900">Bail Classique</th>
+                  <th className="text-left py-3 px-4 font-semibold text-ink">Critère</th>
+                  <th className="text-left py-3 px-4 font-semibold text-ink">Bail Précaire</th>
+                  <th className="text-left py-3 px-4 font-semibold text-ink">Bail Classique</th>
                   <th className="text-left py-3 px-4 font-semibold text-orange-700">Bail Mobilité</th>
                 </tr>
               </thead>
@@ -310,7 +310,7 @@ export default function BailPrecairePage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Gérez vos locations temporaires facilement
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -335,7 +335,7 @@ export default function BailPrecairePage() {
 
         {/* FAQ */}
         <section className="mb-16">
-          <h2 className="mb-8 text-center text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-center text-2xl font-semibold text-ink">
             Questions fréquentes
           </h2>
           <div className="mx-auto max-w-3xl space-y-4">
@@ -344,7 +344,7 @@ export default function BailPrecairePage() {
                 key={i}
                 className="group rounded-xl border border-stone-200 bg-white"
               >
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-stone-900 list-none">
+                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-ink list-none">
                   {item.question}
                   <span className="ml-4 text-stone-400 transition-transform group-open:rotate-180">
                     ▼
@@ -360,7 +360,7 @@ export default function BailPrecairePage() {
 
         {/* Related */}
         <section className="mb-16 rounded-2xl border border-stone-200 bg-white p-8">
-          <h2 className="mb-4 text-lg font-bold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Ressources complémentaires
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -392,7 +392,7 @@ export default function BailPrecairePage() {
           <Link href="/templates/lease/acte-caution" className="text-orange-700 hover:underline">
             Acte de caution →
           </Link>
-          <Link href="/templates/lease" className="text-blue-600 hover:underline">
+          <Link href="/templates/lease" className="text-forest hover:underline">
             ← Tous les baux de location
           </Link>
         </nav>

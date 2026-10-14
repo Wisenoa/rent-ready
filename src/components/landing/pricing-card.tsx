@@ -21,13 +21,13 @@ interface PricingCardProps {
 }
 
 const badgeStyles = {
-  blue: "bg-blue-50 text-blue-700",
+  blue: "bg-sage-50 text-forest",
   emerald: "bg-emerald-100 text-emerald-700",
   amber: "bg-amber-100 text-amber-700",
 };
 
 const highlightStyles = {
-  blue: "border-blue-200/50 from-blue-50/40 to-white/60 shadow-blue-900/5",
+  blue: "border-sage-200/50 from-sage-50/40 to-white/60 shadow-forest/5",
   emerald:
     "border-emerald-200/50 from-emerald-50/40 to-white/60 shadow-emerald-900/5",
   amber:
@@ -35,7 +35,7 @@ const highlightStyles = {
 };
 
 const checkStyles = {
-  blue: "bg-blue-100 text-blue-600",
+  blue: "bg-sage-100 text-forest",
   emerald: "bg-emerald-100 text-emerald-700",
   amber: "bg-amber-100 text-amber-600",
 };
@@ -76,11 +76,11 @@ export function PricingCard({
               ? "bg-emerald-100/40"
               : highlightColor === "amber"
               ? "bg-amber-100/40"
-              : "bg-blue-100/40"
+              : "bg-sage-100/40"
             : "bg-stone-100/20"
         }`}
       />
-      <div aria-hidden className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-teal-100/20 blur-3xl" />
+      <div aria-hidden className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-sage-100/20 blur-3xl" />
 
       <div className="relative flex flex-col flex-1">
         {/* Badge */}
@@ -96,7 +96,7 @@ export function PricingCard({
 
         {/* Plan name + limit */}
         <div className="mb-2">
-          <h3 className="text-xl font-bold text-stone-900">{name}</h3>
+          <h3 className="text-xl font-bold text-ink">{name}</h3>
           {propertyLimit && (
             <p className="mt-0.5 text-sm text-stone-600">{propertyLimit}</p>
           )}
@@ -117,7 +117,7 @@ export function PricingCard({
                 className={`text-5xl font-extrabold tracking-tighter ${
                   isHighlighted && highlightColor === "emerald"
                     ? "text-emerald-700"
-                    : "text-stone-900"
+                    : "text-ink"
                 }`}
               >
                 {displayPrice}
@@ -134,7 +134,7 @@ export function PricingCard({
               <span className="text-base text-stone-600">{period}</span>
             </div>
           ) : (
-            <div className="text-4xl font-extrabold tracking-tight text-stone-900">
+            <div className="text-4xl font-extrabold tracking-tight text-ink">
               Sur devis
             </div>
           )}

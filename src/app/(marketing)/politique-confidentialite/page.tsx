@@ -85,7 +85,7 @@ export default function PolitiqueConfidentialitePage() {
     <>
       <PolitiqueConfidentialiteJsonLd />
     <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
-      <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+      <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
         Politique de Confidentialité
       </h1>
       <p className="mt-4 text-sm text-stone-600">
@@ -99,7 +99,7 @@ export default function PolitiqueConfidentialitePage() {
             Le responsable du traitement des données collectées sur le site
             lokna.fr est la société éditrice de Lokna, [adresse du siège
             social]. Délégué à la protection des données (DPO) :{" "}
-            <a href="mailto:dpo@lokna.fr" className="text-blue-600 underline underline-offset-2">dpo@lokna.fr</a>
+            <a href="mailto:dpo@lokna.fr" className="text-forest underline underline-offset-2">dpo@lokna.fr</a>
           </p>
         </section>
 
@@ -224,12 +224,12 @@ export default function PolitiqueConfidentialitePage() {
           </ul>
           <p className="mt-2">
             Pour exercer ces droits :{" "}
-            <a href="mailto:dpo@lokna.fr" className="text-blue-600 underline underline-offset-2">dpo@lokna.fr</a>
+            <a href="mailto:dpo@lokna.fr" className="text-forest underline underline-offset-2">dpo@lokna.fr</a>
           </p>
           <p className="mt-2">
             En cas de litige, vous pouvez introduire une réclamation auprès de
             la Commission Nationale de l&apos;Informatique et des Libertés (CNIL) :
-            <a href="https://www.cnil.fr" className="ml-1 text-blue-600 underline underline-offset-2" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>
+            <a href="https://www.cnil.fr" className="ml-1 text-forest underline underline-offset-2" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>
           </p>
         </section>
 

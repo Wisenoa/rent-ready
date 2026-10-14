@@ -168,13 +168,13 @@ function MaintenanceJsonLd() {
 
 export default function MaintenancePage() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4] font-[family-name:var(--font-sans)] antialiased">
+    <div className="min-h-screen bg-cream font-[family-name:var(--font-sans)] antialiased">
       <MaintenanceJsonLd />
 
       <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         {/* Hero */}
         <header className="mb-16 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
             Gardez la trace
             <br />
             de vos travaux.
@@ -195,7 +195,7 @@ export default function MaintenancePage() {
                 className="rounded-2xl border border-stone-200/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md"
               >
                 <div className="mb-3 text-3xl">{feature.icon}</div>
-                <h3 className="mb-2 text-lg font-semibold text-stone-900">
+                <h3 className="mb-2 text-lg font-semibold text-ink">
                   {feature.title}
                 </h3>
                 <p className="text-sm text-stone-600">{feature.description}</p>
@@ -206,7 +206,7 @@ export default function MaintenancePage() {
 
         {/* Process */}
         <section className="mb-20">
-          <h2 className="mb-8 text-2xl font-bold text-stone-900">
+          <h2 className="mb-8 text-2xl font-semibold text-ink">
             Comment ça marche ?
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -215,7 +215,7 @@ export default function MaintenancePage() {
                 <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-lg font-bold text-orange-700">
                   {item.step}
                 </div>
-                <h3 className="mb-2 text-base font-semibold text-stone-900">
+                <h3 className="mb-2 text-base font-semibold text-ink">
                   {item.title}
                 </h3>
                 <p className="text-sm text-stone-600">{item.description}</p>
@@ -226,7 +226,7 @@ export default function MaintenancePage() {
 
         {/* Urgency levels */}
         <section className="mb-20 rounded-2xl bg-orange-50 p-8 sm:p-10">
-          <h2 className="mb-4 text-xl font-bold text-stone-900">
+          <h2 className="mb-4 text-xl font-semibold text-ink">
             Priorités selon la gravité
           </h2>
           <p className="mb-6 text-stone-700">
@@ -251,7 +251,7 @@ export default function MaintenancePage() {
 
         {/* CTA */}
         <section className="mb-16 rounded-2xl bg-stone-900 px-6 py-14 text-center text-white shadow-lg">
-          <h2 className="text-2xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
             Tous les travaux de vos logements au même endroit
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-stone-300">
@@ -260,7 +260,7 @@ export default function MaintenancePage() {
           </p>
           <Link
             href="/register"
-            className="mt-8 inline-block rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow transition-colors hover:bg-blue-700"
+            className="mt-8 inline-block rounded-lg bg-forest px-6 py-3 font-medium text-white shadow transition-colors hover:bg-forest-hover"
           >
             Essai gratuit 14 jours
           </Link>
@@ -270,19 +270,19 @@ export default function MaintenancePage() {
         <nav className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
           <Link
             href="/bail"
-            className="text-blue-600 hover:underline"
+            className="text-forest hover:underline"
           >
             Gestion des baux →
           </Link>
           <Link
             href="/quittances"
-            className="text-blue-600 hover:underline"
+            className="text-forest hover:underline"
           >
             Quittances de loyer →
           </Link>
           <Link
             href="/pricing"
-            className="text-blue-600 hover:underline"
+            className="text-forest hover:underline"
           >
             Tarifs →
           </Link>

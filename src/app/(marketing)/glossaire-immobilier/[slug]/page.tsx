@@ -189,7 +189,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Back navigation */}
         <Link
           href="/glossaire-immobilier"
-          className="mb-8 inline-flex items-center gap-1.5 text-sm text-stone-600 hover:text-blue-600 transition-colors"
+          className="mb-8 inline-flex items-center gap-1.5 text-sm text-stone-600 hover:text-forest transition-colors"
         >
           <ArrowLeft className="size-4" />
           Glossaire immobilier
@@ -201,12 +201,12 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Header */}
         <header className="mb-8">
           <div className="mb-3 flex items-center gap-2">
-            <BookOpen className="size-5 text-blue-600" />
-            <span className="text-xs font-medium uppercase tracking-wider text-blue-600">
+            <BookOpen className="size-5 text-forest" />
+            <span className="text-xs font-medium uppercase tracking-wider text-forest">
               Glossaire Immobilier
             </span>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
             {entry.term}
           </h1>
           <p className="mt-4 text-lg font-medium text-stone-700">
@@ -221,7 +221,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
         {/* Main definition */}
         <div className="rounded-xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="mb-4 text-lg font-semibold text-stone-900">
+          <h2 className="mb-4 text-lg font-semibold text-ink">
             Définition complète
           </h2>
           <div className="prose prose-stone max-w-none">
@@ -240,7 +240,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                 <Link
                   key={rel.slug}
                   href={`/glossaire-immobilier/${rel.slug}`}
-                  className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-sm font-medium text-stone-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700"
+                  className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-sm font-medium text-stone-700 transition-colors hover:border-sage-400 hover:bg-sage-50 hover:text-forest"
                 >
                   {rel.label}
                 </Link>
@@ -251,8 +251,8 @@ export default async function GlossaryTermPage({ params }: Props) {
 
         {/* Related articles from the blog */}
         {relatedArticles.length > 0 && (
-          <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-6">
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-blue-600">
+          <div className="mt-6 rounded-xl border border-sage-100 bg-sage-50 p-6">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-forest">
               Articles du blog
             </h3>
             <div className="space-y-4">
@@ -260,16 +260,16 @@ export default async function GlossaryTermPage({ params }: Props) {
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
-                  className="group flex items-start gap-3 rounded-lg p-2 hover:bg-blue-100/60 transition-colors"
+                  className="group flex items-start gap-3 rounded-lg p-2 hover:bg-sage-100/60 transition-colors"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-white px-2 py-0.5 text-xs font-medium text-stone-600">
                       {article.category}
                     </div>
-                    <h4 className="text-sm font-semibold text-blue-900 group-hover:text-blue-700 line-clamp-2 leading-snug">
+                    <h4 className="text-sm font-semibold text-ink group-hover:text-forest line-clamp-2 leading-snug">
                       {article.title}
                     </h4>
-                    <div className="mt-1 flex items-center gap-2 text-xs text-blue-600">
+                    <div className="mt-1 flex items-center gap-2 text-xs text-forest">
                       <span className="inline-flex items-center gap-1">
                         <Calendar className="size-3" />
                         {new Date(article.date).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })}
@@ -283,8 +283,8 @@ export default async function GlossaryTermPage({ params }: Props) {
                 </Link>
               ))}
             </div>
-            <p className="mt-3 text-xs text-blue-700">
-              <Link href="/blog" className="underline hover:text-blue-900">
+            <p className="mt-3 text-xs text-forest">
+              <Link href="/blog" className="underline hover:text-ink">
                 Voir tous les articles du blog
               </Link>
             </p>
@@ -293,8 +293,8 @@ export default async function GlossaryTermPage({ params }: Props) {
 
         {/* See further links */}
         {seeFurtherLinks.length > 0 && (
-          <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-6">
-            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-blue-600">
+          <div className="mt-6 rounded-xl border border-sage-100 bg-sage-50 p-6">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-forest">
               Aller plus loin
             </h3>
             <div className="flex flex-wrap gap-3">
@@ -309,7 +309,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                   <Link
                     key={href}
                     href={href}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-700 shadow-sm transition-colors hover:bg-blue-100"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-forest shadow-sm transition-colors hover:bg-sage-100"
                   >
                     {label}
                     <ExternalLink className="size-3" />
@@ -322,7 +322,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
         {/* CTA */}
         <div className="mt-10 rounded-xl border border-stone-200 bg-gradient-to-br from-stone-50 to-stone-100/50 p-6 text-center">
-          <h3 className="mb-2 text-lg font-semibold text-stone-900">
+          <h3 className="mb-2 text-lg font-semibold text-ink">
             Maîtrisez votre gestion locative
           </h3>
           <p className="mb-4 text-sm text-stone-600">
@@ -331,7 +331,7 @@ export default async function GlossaryTermPage({ params }: Props) {
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
           >
             Commencer l'essai gratuit
           </Link>

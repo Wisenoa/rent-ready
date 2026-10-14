@@ -96,19 +96,19 @@ export function LoyerCalculatorClient() {
     <>
       <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
 
-      <div className="min-h-screen bg-[#f8f7f4]">
+      <div className="min-h-screen bg-cream">
         <div className="max-w-5xl mx-auto px-4 py-12">
           <Breadcrumb items={breadcrumbItems} />
 
           {/* Header */}
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            <div className="inline-flex items-center gap-1.5 bg-sage-50 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
               <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
               Outil gratuit — Mise à jour 2025
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3">
               Calculateur de Loyer au m²
             </h1>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -118,7 +118,7 @@ export function LoyerCalculatorClient() {
 
           {/* Calculator */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-6">Estimez votre loyer</h2>
+            <h2 className="text-xl font-semibold text-ink mb-6">Estimez votre loyer</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div>
@@ -131,7 +131,7 @@ export function LoyerCalculatorClient() {
                   placeholder="Ex. 65"
                   value={surface}
                   onChange={(e) => setSurface(e.target.value)}
-                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-stone-900 placeholder-stone-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-ink placeholder-stone-400 focus:border-forest focus:ring-2 focus:ring-sage-200"
                 />
               </div>
               <div>
@@ -144,7 +144,7 @@ export function LoyerCalculatorClient() {
                   placeholder="Ex. 18"
                   value={pricePerSqm}
                   onChange={(e) => setPricePerSqm(e.target.value)}
-                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-stone-900 placeholder-stone-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-ink placeholder-stone-400 focus:border-forest focus:ring-2 focus:ring-sage-200"
                 />
               </div>
               <div>
@@ -154,7 +154,7 @@ export function LoyerCalculatorClient() {
                     type="button"
                     onClick={() => setIsZoneTendue(true)}
                     className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isZoneTendue === true ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isZoneTendue === true ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Oui
@@ -163,7 +163,7 @@ export function LoyerCalculatorClient() {
                     type="button"
                     onClick={() => setIsZoneTendue(false)}
                     className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isZoneTendue === false ? "bg-blue-600 text-white border-blue-600" : "border-stone-300 text-stone-700 hover:bg-stone-50"
+                      isZoneTendue === false ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
                     }`}
                   >
                     Non
@@ -175,26 +175,26 @@ export function LoyerCalculatorClient() {
             <button
               type="button"
               onClick={calculate}
-              className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
+              className="w-full md:w-auto bg-forest hover:bg-forest-hover text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
             >
               Calculer le loyer
             </button>
 
             {result && (
-              <div className="mt-6 p-6 bg-blue-50 border border-blue-200 rounded-xl">
+              <div className="mt-6 p-6 bg-sage-50 border border-sage-200 rounded-xl">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="text-center">
-                    <div className="text-xs text-blue-600 uppercase tracking-wide mb-1">Loyer mensuel</div>
-                    <div className="text-3xl font-bold text-blue-700">{result.monthlyRent.toLocaleString("fr-FR")} €</div>
-                    <div className="text-sm text-blue-600 mt-1">charges comprises</div>
+                    <div className="text-xs text-forest uppercase tracking-wide mb-1">Loyer mensuel</div>
+                    <div className="text-3xl font-bold text-forest">{result.monthlyRent.toLocaleString("fr-FR")} €</div>
+                    <div className="text-sm text-forest mt-1">charges comprises</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-xs text-blue-600 uppercase tracking-wide mb-1">Loyer annuel</div>
-                    <div className="text-3xl font-bold text-blue-700">{result.annualRent.toLocaleString("fr-FR")} €</div>
-                    <div className="text-sm text-blue-600 mt-1">avant impôts</div>
+                    <div className="text-xs text-forest uppercase tracking-wide mb-1">Loyer annuel</div>
+                    <div className="text-3xl font-bold text-forest">{result.annualRent.toLocaleString("fr-FR")} €</div>
+                    <div className="text-sm text-forest mt-1">avant impôts</div>
                   </div>
                 </div>
-                <p className="text-sm text-blue-700 mt-4 text-center">
+                <p className="text-sm text-forest mt-4 text-center">
                   Estimation basee sur {surface} m² × {pricePerSqm} €/m²
                   {isZoneTendue !== null && (
                     <span> — zone {isZoneTendue ? "tendue (encadrement)" : "non tendue (liberté)"}</span>
@@ -206,7 +206,7 @@ export function LoyerCalculatorClient() {
 
           {/* Zone Tendue Info */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Zones tendues en France</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Zones tendues en France</h2>
             <p className="text-stone-600 mb-4">
               En zone tendue, les loyers sont encadrés. Ils doivent se situer entre le montant de référence minoré et le montant de référence majoré. Les communes de plus de 50 000 habitants avec un marché locatif tendu sont concernées.
             </p>
@@ -224,12 +224,12 @@ export function LoyerCalculatorClient() {
 
           {/* FAQ */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-6">Questions fréquentes</h2>
+            <h2 className="text-xl font-semibold text-ink mb-6">Questions fréquentes</h2>
             <div className="space-y-4">
               {faqData.map((faq, i) => (
                 <details key={i} className="group border border-stone-200 rounded-xl">
                   <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
-                    <span className="font-semibold text-stone-900">{faq.question}</span>
+                    <span className="font-semibold text-ink">{faq.question}</span>
                     <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
                     </svg>
@@ -242,33 +242,33 @@ export function LoyerCalculatorClient() {
 
           {/* Internal Links */}
           <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Outils complements</h2>
+            <h2 className="text-xl font-semibold text-ink mb-4">Outils complements</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/outils/calculateur-depot-garantie" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-depot-garantie" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">🔐</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Calculateur de Caution</div>
+                  <div className="font-semibold text-ink">Calculateur de Caution</div>
                   <div className="text-sm text-stone-600">Dépôt de garantie maximum</div>
                 </div>
               </Link>
-              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📄</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Modèle de Bail de Location</div>
+                  <div className="font-semibold text-ink">Modèle de Bail de Location</div>
                   <div className="text-sm text-stone-600">Bail conforme à la loi 1989</div>
                 </div>
               </Link>
-              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📖</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Glossaire Immobilier</div>
+                  <div className="font-semibold text-ink">Glossaire Immobilier</div>
                   <div className="text-sm text-stone-600">Toutes les définitions légales</div>
                 </div>
               </Link>
-              <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all">
+              <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
                 <span className="text-2xl">📈</span>
                 <div>
-                  <div className="font-semibold text-stone-900">Calculateur de Révision IRL</div>
+                  <div className="font-semibold text-ink">Calculateur de Révision IRL</div>
                   <div className="text-sm text-stone-600">Révision légale du loyer</div>
                 </div>
               </Link>
@@ -276,16 +276,16 @@ export function LoyerCalculatorClient() {
           </div>
 
           {/* CTA */}
-          <div className="bg-blue-600 rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-bold mb-2">Gérez vos loyers en toute conformité</h2>
-            <p className="text-blue-100 mb-6 max-w-xl mx-auto">
+          <div className="bg-forest rounded-2xl p-8 text-center text-white mb-8">
+            <h2 className="text-2xl font-semibold mb-2">Gérez vos loyers en toute conformité</h2>
+            <p className="text-cream/80 mb-6 max-w-xl mx-auto">
               Avec Lokna, vous suivez vos loyers automatiquement, générez les annexes de révision, et restez dans les clous réglementaires.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="inline-block bg-white text-blue-700 font-bold px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
+              <Link href="/register" className="inline-block bg-white text-forest font-bold px-8 py-3.5 rounded-xl hover:bg-sage-50 transition-colors">
                 Essai gratuit 14 jours
               </Link>
-              <Link href="/pricing" className="inline-block border-2 border-blue-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-blue-500 transition-colors">
+              <Link href="/pricing" className="inline-block border-2 border-sage-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-forest transition-colors">
                 Voir les tarifs
               </Link>
             </div>
