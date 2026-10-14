@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
 
+import Decimal from "decimal.js";
 import Link from "next/link";
 import { ArrowRight, Calculator } from "lucide-react";
 import { baseMetadata } from "@/lib/seo/metadata";
+import {
+  IRL_INDICES,
+  IRL_SOURCE_URL,
+  calculateRentRevision,
+  findIrlIndex,
+  formatQuarterLabel,
+  getLatestIrl,
+  type IrlIndexEntry,
+} from "@/lib/irl-calculator";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -21,6 +31,75 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+// Every index shown on this page comes from IRL_INDICES, the table the
+// calculator and the product use. Adding the next INSEE publication there
+// updates this guide; nothing here may be typed by hand.
+const formatIndex = (value: number) => value.toFixed(2).replace(".", ",");
+const shortQuarter = (entry: IrlIndexEntry) => `T${entry.trimester} ${entry.year}`;
+
+function yearOnYear(entry: IrlIndexEntry): string | null {
+  const previous = findIrlIndex(`T${entry.trimester}-${entry.year - 1}`);
+  if (!previous) return null;
+  const change = new Decimal(entry.value).div(previous.value).minus(1).times(100).toDecimalPlaces(2);
+  return `${change.isNegative() ? "−" : "+"}${change.abs().toFixed(2).replace(".", ",")} %`;
+}
+
+const latest = getLatestIrl();
+const latestChange = yearOnYear(latest);
+const latestPublished = new Intl.DateTimeFormat("fr-FR", {
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+}).format(new Date(`${latest.publicationDate}T00:00:00Z`));
+const recentIndices = IRL_INDICES.slice(-4).reverse();
+
+// Worked example on the latest year-on-year pair, computed by the same function
+// as the calculator.
+// irl-published-data.test.ts guarantees the year-ago index of the latest one exists.
+const exampleReference = findIrlIndex(`T${latest.trimester}-${latest.year - 1}`)!;
+const example = calculateRentRevision({
+  currentRent: "800.00",
+  referenceIrlQuarter: exampleReference.quarter,
+  newIrlQuarter: latest.quarter,
+});
+const exampleFormula = `800 × (${formatIndex(latest.value)} / ${formatIndex(exampleReference.value)}) = ${example.newRent.toFixed(2).replace(".", ",")} €`;
+
+const latestAnswer = `Le dernier IRL publié par l'INSEE est de ${formatIndex(latest.value)} au titre du ${formatQuarterLabel(latest.quarter)} (Journal officiel de ${latestPublished})${latestChange ? `, soit ${latestChange} sur un an` : ""}. Il n'existe pas un IRL unique pour l'année : la révision compare l'indice du trimestre de référence prévu au bail (à défaut, celui du dernier indice publié à la signature) à celui du même trimestre un an plus tôt.`;
+
+const faqs = [
+  { q: "Quelle est la valeur de l'IRL en 2026 ?", a: latestAnswer },
+  {
+    q: "Comment calculer une révision de loyer avec l'IRL ?",
+    a: `La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : ${exampleFormula}. La hausse ne peut pas dépasser la variation de l'IRL.`,
+  },
+  {
+    q: "Peut-on réviser le loyer rétroactivement ?",
+    a: "Non. Le bailleur a un an à compter de la date de révision prévue au bail pour la demander ; le nouveau loyer s'applique à partir de la date de la demande, sans rattrapage des mois passés. Passé ce délai d'un an, la révision de l'année est perdue (article 17-1 de la loi du 6 juillet 1989).",
+  },
+  {
+    q: "Que faire si l'IRL a baissé ?",
+    a: "Si l'IRL du trimestre de référence a baissé sur un an, l'application de la formule fait baisser le loyer dans la même proportion.",
+  },
+  {
+    q: "L'encadrement des loyers limite-t-il la révision IRL ?",
+    a: "Pas directement. Dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer de base inscrit au bail ne peut pas dépasser le loyer de référence majoré en vigueur à la date de signature du bail. La révision annuelle, elle, n'est pas plafonnée par ce majoré : elle est limitée à la variation de l'IRL (art. 17-1 I loi 89-462).",
+  },
+  {
+    q: "Comment informer le locataire de la révision ?",
+    a: "La loi n'impose pas de forme : le bailleur adresse sa demande de révision au locataire, et le nouveau loyer s'applique à partir de cette demande, sans effet rétroactif (article 17-1 de la loi du 6 juillet 1989). L'ANIL conseille une lettre recommandée avec avis de réception, qui prouve la date de la demande. Joindre le détail du calcul (ancien loyer, indices, nouveau loyer) évite les contestations.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
@@ -36,22 +115,22 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       name: "Appliquer la formule de révision",
-      text: "Multipliez le loyer actuel par le rapport entre le nouvel IRL et l'ancien IRL : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 × (146,68 / 145,17) = 808,32 €.",
+      text: `Multipliez le loyer actuel par le rapport entre le nouvel IRL et l'ancien IRL : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : ${exampleFormula}.`,
     },
     {
       "@type": "HowToStep",
       name: "Respecter le délai de révision annuelle",
-      text: "La révision ne peut intervenir qu'une fois par an, à la date anniversaire du bail. Elle n'est jamais rétroactive. Informez le locataire par LRAR avec le détail du calcul.",
+      text: "La révision intervient une fois par an, à la date prévue au bail ou, à défaut, à sa date anniversaire. Le bailleur a un an pour la demander ; elle s'applique à partir de la demande, sans effet rétroactif. Une lettre recommandée avec avis de réception, conseillée, prouve la date de la demande.",
     },
     {
       "@type": "HowToStep",
       name: "Baisser le loyer si l'IRL diminue",
-      text: "Si l'IRL a baissé depuis la dernière révision, le loyer doit diminuer proportionnellement. Le locataire peut exiger la baisse et le remboursement des trop-perçus.",
+      text: "Si l'IRL du trimestre de référence a baissé sur un an, l'application de la formule fait baisser le loyer dans la même proportion.",
     },
     {
       "@type": "HowToStep",
       name: "Consulter les valeurs officielles de l'IRL",
-      text: "Les valeurs de l'IRL sont disponibles gratuitement sur www.insee.fr, par trimestre et par année depuis 2008. Q4 2025 : 145,78 (+0,79 % sur un an).",
+      text: `Les valeurs de l'IRL sont publiées chaque trimestre par l'INSEE sur www.insee.fr. Dernier indice publié : ${shortQuarter(latest)} = ${formatIndex(latest.value)}${latestChange ? ` (${latestChange} sur un an)` : ""}.`,
     },
     {
       "@type": "HowToStep",
@@ -61,60 +140,6 @@ const howToSchema = {
   ],
 };
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Quelle est la valeur de l'IRL en 2026 ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "L'IRL applicable pour les révisions de loyer en 2026 est de 145,78 au titre du quatrième trimestre 2025, publié par l'INSEE en janvier 2026. La variation annuelle est de +0,79 % (145,78 contre 144,64 au quatrième trimestre 2024).",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Comment calculer une révision de loyer avec l'IRL ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 € × (146,68 / 145,17) = 808,32 €. Le résultat ne doit pas dépasser la variation de l'IRL, majorée du éventuellement complément de loyer indexé.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Peut-on réviser le loyer rétroactivement ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Non, la révision de loyer n'est jamais rétroactive. Si le bailleur omet de réviser à la date anniversaire du bail, il ne peut pas rattraper les mois passés. La révision prend effet à la date anniversaire.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Que faire si l'IRL a baissé ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Si l'IRL a diminué depuis la dernière révision, le loyer doit diminuer proportionnellement. Le locataire peut exiger la baisse et le remboursement des trop-perçus des mois précédents.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "L'encadrement des loyers limite-t-il la révision IRL ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Oui, dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer de base inscrit au bail ne peut pas dépasser le loyer de référence majoré en vigueur à la date de signature du bail. En revanche, la révision annuelle du loyer n&apos;est pas plafonnée par ce majoré : elle est limitée à la variation de l&apos;IRL (art. 17-1 I loi 89-462).",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Comment informer le locataire de la révision ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "La loi n'impose pas de forme : le bailleur adresse sa demande de révision au locataire, et le nouveau loyer s'applique à partir de cette demande, sans effet rétroactif (article 17-1 de la loi du 6 juillet 1989). L'ANIL conseille une lettre recommandée avec avis de réception, qui prouve la date de la demande. Joindre le détail du calcul (ancien loyer, indices, nouveau loyer) évite les contestations.",
-      },
-    },
-  ],
-};
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -142,14 +167,15 @@ export default function IRL2026GuidePage() {
           <span>Révision IRL 2026</span>
         </nav>
         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-3 py-1 text-xs font-medium text-forest">
-          Mis à jour avril 2026
+          Mis à jour octobre 2026
         </div>
         <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl text-balance">
           Indice de Référence des Loyers (IRL) 2026
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-stone-600">
-          L&apos;IRL est utilisé pour réviser le loyer d&apos;un bail en cours. Voici la valeur
-          officielle 2026, la méthode de calcul, et les pièges à éviter.
+          L&apos;IRL est utilisé pour réviser le loyer d&apos;un bail en cours. Voici le
+          dernier indice publié par l&apos;INSEE, la méthode de calcul et les pièges à
+          éviter.
         </p>
       </header>
 
@@ -158,17 +184,21 @@ export default function IRL2026GuidePage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-sm font-medium uppercase tracking-wide text-forest">
-              Valeur IRL 2026 (Q4 2025)
+              Dernier IRL publié ({shortQuarter(latest)})
             </h2>
-            <p className="mt-2 text-4xl font-bold text-ink">145,78</p>
+            <p className="mt-2 text-4xl font-bold text-ink">{formatIndex(latest.value)}</p>
             <p className="mt-1 text-sm text-stone-600">
-              Source : INSEE — Indice de référence des loyers
+              Source :{' '}
+              <a href={IRL_SOURCE_URL} className="underline underline-offset-2 hover:text-forest">
+                INSEE, série 001515333
+              </a>{' '}
+              — Journal officiel de {latestPublished}
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:items-end">
             <div className="rounded-lg bg-green-50 px-4 py-2 text-center">
               <p className="text-xs text-green-600">Variation annuelle</p>
-              <p className="text-lg font-bold text-green-700">+0,79 %</p>
+              <p className="text-lg font-bold text-green-700">{latestChange ?? "—"}</p>
             </div>
             <Link
               href="/templates/augmentation-de-loyer"
@@ -185,8 +215,9 @@ export default function IRL2026GuidePage() {
         <p>
           L&apos;Indice de Référence des Loyers (IRL) est un indice publié par l&apos;INSEE chaque
           trimestre. Il sert de base pour la révision des loyers des baux d&apos;habitation
-          principale en France. Créé par la loi de finances de 2008, il vise à encadrer
-          l&apos;évolution des loyers en limitant les hausses à l&apos;inflation constatée.
+          principale en France. Depuis la loi du 8 février 2008 pour le pouvoir d&apos;achat,
+          il correspond à la moyenne, sur les douze derniers mois, de l&apos;indice des prix
+          à la consommation hors tabac et hors loyers.
         </p>
         <p>
           L&apos;IRL ne concerne que les baux en cours de location. Pour un nouveau locataire,
@@ -201,11 +232,12 @@ export default function IRL2026GuidePage() {
           Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien)
         </div>
         <p>
-          Exemple : un loyer actuel de 800 € avec un IRL passé de 145,17 (T2 2024) et un IRL
-          actuel de 146,68 (T2 2025) :
+          Exemple : un loyer actuel de 800 € avec un IRL passé de{' '}
+          {formatIndex(exampleReference.value)} ({shortQuarter(exampleReference)}) et un IRL
+          actuel de {formatIndex(latest.value)} ({shortQuarter(latest)}) :
         </p>
         <div className="not-prose my-4 rounded-lg bg-stone-100 p-4 text-center font-mono text-sm">
-          800 × (146,68 / 145,17) = 808,32 € / mois
+          {exampleFormula} / mois
         </div>
 
         <h2>Quand peut-on réviser le loyer ?</h2>
@@ -213,7 +245,8 @@ export default function IRL2026GuidePage() {
           La révision ne peut intervenir qu&apos;<strong>une fois par an</strong>, à la date
           anniversaire du bail (ou à la date indiquée dans le bail si différente). Elle
           n&apos;est jamais rétroactive : si le bailleur oublie de réviser à la date
-          anniversaire, il ne peut pas rattraper les mois passés.
+          anniversaire, il ne peut pas rattraper les mois passés. Il dispose d&apos;un an
+          pour la demander ; passé ce délai, la révision de l&apos;année est perdue.
         </p>
         <p>
           La loi n&apos;impose pas de forme pour demander la révision. Une lettre
@@ -224,23 +257,27 @@ export default function IRL2026GuidePage() {
 
         <h2>Que faire si l&apos;IRL baisse ?</h2>
         <p>
-          Si l&apos;IRL a baissé depuis la dernière révision, le loyer doit logiquement
-          diminuer également — la clause de révision s&apos;applique dans les deux sens. Le
-          locataire peut exiger la baisse et le remboursement des trop-perçus.
+          Si l&apos;IRL du trimestre de référence a baissé sur un an, l&apos;application de
+          la formule fait baisser le loyer dans la même proportion.
         </p>
 
         <h2>Où trouver les valeurs de l&apos;IRL ?</h2>
         <p>
-          Les valeurs de l&apos;IRL sont publiées par l&apos;INSEE et accessibles gratuitement sur
+          Les valeurs de l&apos;IRL sont publiées par l&apos;INSEE et accessibles gratuitement sur{' '}
           <Link href="https://www.insee.fr" className="text-forest hover:underline">
             www.insee.fr
-          </Link>. Les valeurs sont disponibles par trimestre et par année depuis 2008.
+          </Link>. Les quatre derniers indices publiés :
         </p>
         <ul>
-          <li><strong>Q4 2025 (utilisable en 2026)</strong> : 145,78 (+0,79 % sur un an — 144,64 au T4 2024</li>
-          <li><strong>Q3 2025</strong> : 146,22 (+0,69 % sur un an)</li>
-          <li><strong>Q2 2025</strong> : 145,65 (+0,58 % sur un an)</li>
-          <li><strong>Q1 2025</strong> : 145,18 (+0,89 % sur un an)</li>
+          {recentIndices.map((entry) => {
+            const change = yearOnYear(entry);
+            return (
+              <li key={entry.quarter}>
+                <strong>{shortQuarter(entry)}</strong> : {formatIndex(entry.value)}
+                {change ? ` (${change} sur un an)` : ""}
+              </li>
+            );
+          })}
         </ul>
 
         <h2>Locatifs en zone tendue : l&apos;encadrement des loyers</h2>
@@ -256,32 +293,7 @@ référence majoré en vigueur à la date de signature du bail. Cette règle por
       <section className="mt-16 rounded-2xl border border-stone-200/60 bg-white p-8">
         <h2 className="mb-6 text-2xl font-semibold text-ink">Questions fréquentes sur l'IRL 2026</h2>
         <div className="space-y-4">
-          {[
-            {
-              q: "Quelle est la valeur de l'IRL en 2026 ?",
-              a: "L'IRL applicable pour les révisions de loyer en 2026 est de 145,78 au titre du quatrième trimestre 2025, publié par l'INSEE en janvier 2026. La variation annuelle est de +0,79 % (145,78 contre 144,64 au quatrième trimestre 2024).",
-            },
-            {
-              q: "Comment calculer une révision de loyer avec l'IRL ?",
-              a: "La formule est : Nouveau loyer = Loyer actuel × (IRL nouveau / IRL ancien). Par exemple : 800 € × (146,68 / 145,17) = 808,32 €. Le résultat ne doit pas dépasser la variation de l'IRL, majorée du éventuellement complément de loyer indexé.",
-            },
-            {
-              q: "Peut-on réviser le loyer rétroactivement ?",
-              a: "Non, la révision de loyer n'est jamais rétroactive. Si le bailleur omet de réviser à la date anniversaire du bail, il ne peut pas rattraper les mois passés.",
-            },
-            {
-              q: "Que faire si l'IRL a baissé ?",
-              a: "Si l'IRL a diminué depuis la dernière révision, le loyer doit diminuer proportionnellement. Le locataire peut exiger la baisse et le remboursement des trop-perçus des mois précédents.",
-            },
-            {
-              q: "L'encadrement des loyers limite-t-il la révision IRL ?",
-      a: "Oui, dans les communes soumises à l'encadrement (Paris, Lille, Lyon, Montpellier, etc.), le loyer de base inscrit au bail ne peut pas dépasser le loyer de référence majoré en vigueur à la date de signature du bail. En revanche, la révision annuelle du loyer n&apos;est pas plafonnée par ce majoré : elle est limitée à la variation de l&apos;IRL (art. 17-1 I loi 89-462).",
-            },
-            {
-              q: "Comment informer le locataire de la révision ?",
-              a: "La loi n'impose pas de forme. L'ANIL conseille une lettre recommandée avec avis de réception, qui prouve la date de la demande : le nouveau loyer s'applique à partir de cette date, sans effet rétroactif. Joignez le détail du calcul (ancien loyer, indices, nouveau loyer).",
-            },
-          ].map((item, i) => (
+          {faqs.map((item, i) => (
             <details key={i} className="group rounded-lg border border-stone-200 bg-stone-50 open:bg-white">
               <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 font-medium text-ink hover:text-forest">
                 {item.q}
@@ -304,8 +316,8 @@ référence majoré en vigueur à la date de signature du bail. Cette règle por
           Calculez automatiquement vos révisions IRL
         </h2>
         <p className="mx-auto mb-6 max-w-md text-stone-600">
-          Avec Lokna, l&apos;IRL est mis à jour automatiquement. La révision de loyer est
-          calculée et envoyée au locataire en 2 clics.
+          Lokna calcule la révision de chaque bail à partir des indices publiés par
+          l&apos;INSEE.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link

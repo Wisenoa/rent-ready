@@ -7,12 +7,13 @@
  * test was written: it must not appear in the data before that.
  *
  * When T3 2026 is published, the IRL mini-PR adds it to IRL_INDICES and to the
- * calculator's history, updates LATEST below, and fixes the /guides/irl-2026
- * headline (still showing T4 2025 = 145,78, see the todo at the end).
+ * calculator's history and updates LATEST below. /guides/irl-2026 reads
+ * IRL_INDICES, so it follows without an edit.
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { renderToStaticMarkup } from "react-dom/server";
 
 import { IRL_INDICES, calculateRentRevision, findIrlIndex, getLatestIrl } from "@/lib/irl-calculator";
 
@@ -59,5 +60,35 @@ describe("indices IRL publiés", () => {
     expect(result.newRent.toFixed(2)).toBe("809.22");
   });
 
-  it.todo("IRL mini-PR: /guides/irl-2026 headline shows the latest published index (still T4 2025 = 145,78)");
+});
+
+describe("guide IRL", () => {
+  const source = readFileSync(join(process.cwd(), "src/app/(marketing)/guides/irl-2026/page.tsx"), "utf8");
+
+  it("types no index by hand: every value comes from IRL_INDICES", () => {
+    expect(source).not.toMatch(/\b14\d,\d{2}\b/);
+    expect(source).toContain("getLatestIrl()");
+  });
+
+  it("shows the latest published index, its year-on-year change and a worked example", async () => {
+    const { default: IRL2026GuidePage } = await import("@/app/(marketing)/guides/irl-2026/page");
+    const html = renderToStaticMarkup(<IRL2026GuidePage />);
+    expect(html).toContain("Dernier IRL publié (T2 2026)");
+    expect(html).toContain('<p class="mt-2 text-4xl font-bold text-ink">148,37</p>');
+    expect(html).toContain("+1,15 %"); // 148,37 / 146,68 (T2 2025)
+    expect(html).toContain("800 × (148,37 / 146,68) = 809,22 €");
+    // The four latest indices, with INSEE's year-on-year changes.
+    expect(html).toContain("<strong>T3 2025</strong> : 145,77 (+0,87 % sur un an)");
+    // Values the guide used to show for 2025, none of them published by INSEE.
+    expect(html).not.toMatch(/146,22|145,65|145,18/);
+  });
+
+  it("its FAQ structured data carries the same latest index", async () => {
+    const { default: IRL2026GuidePage } = await import("@/app/(marketing)/guides/irl-2026/page");
+    const html = renderToStaticMarkup(<IRL2026GuidePage />);
+    const faq = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)]
+      .map((m) => JSON.parse(m[1]))
+      .find((ld) => ld["@type"] === "FAQPage");
+    expect(faq.mainEntity[0].acceptedAnswer.text).toContain("148,37 au titre du 2ème trimestre 2026");
+  });
 });
