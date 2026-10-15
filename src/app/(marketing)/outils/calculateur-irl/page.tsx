@@ -13,7 +13,7 @@ import {
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { IRL_INDICES, IRL_SOURCE_URL, getLatestIrl, type IrlIndexEntry } from "@/lib/irl-calculator";
 import { formatEuros, formatIndex, formatSignedPercent } from "@/lib/tools/amount";
-import { findPair, indexVariation, publicationMonth, quarterShortLabel, reviseRent, type Trimester } from "@/lib/tools/irl-revision";
+import { findPair, indexVariation, publicationLabel, quarterShortLabel, reviseRent, type Trimester } from "@/lib/tools/irl-revision";
 import { ToolHeader } from "@/components/marketing/tools/ToolHeader";
 import { ToolCta, ToolExplainer, ToolFaq, type FaqItem } from "@/components/marketing/tools/ToolContent";
 
@@ -146,7 +146,7 @@ export default function CalculateurIRLPage() {
     },
     {
       question: "Quelle est la valeur actuelle de l'IRL ?",
-      answer: `Le dernier indice publié est celui du ${quarterShortLabel(latest)} : ${formatIndex(latest.value)}, soit ${formatSignedPercent(indexVariation(latestPair))} sur un an (Journal officiel de ${publicationMonth(latest)}). Pour un bail dont le trimestre de référence est différent, c'est le dernier indice publié pour ce trimestre qui s'applique.`,
+      answer: `Le dernier indice publié est celui du ${quarterShortLabel(latest)} : ${formatIndex(latest.value)}, soit ${formatSignedPercent(indexVariation(latestPair))} sur un an (${publicationLabel(latest)}). Pour un bail dont le trimestre de référence est différent, c'est le dernier indice publié pour ce trimestre qui s'applique.`,
     },
     {
       question: "Le loyer peut-il baisser si l'IRL baisse ?",

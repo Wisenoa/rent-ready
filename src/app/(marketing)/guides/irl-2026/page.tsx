@@ -13,6 +13,7 @@ import {
   getLatestIrl,
   type IrlIndexEntry,
 } from "@/lib/irl-calculator";
+import { publicationLabel } from "@/lib/tools/irl-revision";
 
 // Rendered on demand. SEO/marketing content, not product surface: prerendering the
 // ~135-page content suite exhausted the Node heap during `next build`
@@ -46,11 +47,7 @@ function yearOnYear(entry: IrlIndexEntry): string | null {
 
 const latest = getLatestIrl();
 const latestChange = yearOnYear(latest);
-const latestPublished = new Intl.DateTimeFormat("fr-FR", {
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-}).format(new Date(`${latest.publicationDate}T00:00:00Z`));
+const latestPublished = publicationLabel(latest);
 const recentIndices = IRL_INDICES.slice(-4).reverse();
 
 // Worked example on the latest year-on-year pair, computed by the same function
@@ -64,7 +61,7 @@ const example = calculateRentRevision({
 });
 const exampleFormula = `800 × (${formatIndex(latest.value)} / ${formatIndex(exampleReference.value)}) = ${example.newRent.toFixed(2).replace(".", ",")} €`;
 
-const latestAnswer = `Le dernier IRL publié par l'INSEE est de ${formatIndex(latest.value)} au titre du ${formatQuarterLabel(latest.quarter)} (Journal officiel de ${latestPublished})${latestChange ? `, soit ${latestChange} sur un an` : ""}. Il n'existe pas un IRL unique pour l'année : la révision compare l'indice du trimestre de référence prévu au bail (à défaut, celui du dernier indice publié à la signature) à celui du même trimestre un an plus tôt.`;
+const latestAnswer = `Le dernier IRL publié par l'INSEE est de ${formatIndex(latest.value)} au titre du ${formatQuarterLabel(latest.quarter)} (${latestPublished})${latestChange ? `, soit ${latestChange} sur un an` : ""}. Il n'existe pas un IRL unique pour l'année : la révision compare l'indice du trimestre de référence prévu au bail (à défaut, celui du dernier indice publié à la signature) à celui du même trimestre un an plus tôt.`;
 
 const faqs = [
   { q: "Quelle est la valeur de l'IRL en 2026 ?", a: latestAnswer },
@@ -192,7 +189,7 @@ export default function IRL2026GuidePage() {
               <a href={IRL_SOURCE_URL} className="underline underline-offset-2 hover:text-forest">
                 INSEE, série 001515333
               </a>{' '}
-              — Journal officiel de {latestPublished}
+              — {latestPublished}
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:items-end">

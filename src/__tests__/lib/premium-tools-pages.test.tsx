@@ -34,12 +34,15 @@ describe("calculateur IRL", () => {
   });
 
   it("renders the worked example with the latest published index before any script runs", () => {
+    // Default quarter: the latest published, T3 2026 = 148,06 against T3 2025 = 145,77.
     expect(html).toContain("Exemple pour 800 €");
-    expect(html).toContain("809,22 €");
-    expect(html).toContain("+9,22 €");
-    expect(html).toContain("+110,64 €");
-    expect(html).toContain("+1,15 %");
-    expect(html).toMatch(/800,00 € × 148,37 ÷ 146,68 =\s*<strong[^>]*>809,22 €/);
+    expect(html).toContain("812,57 €");
+    expect(html).toContain("+12,57 €");
+    expect(html).toContain("+150,84 €");
+    expect(html).toContain("+1,57 %");
+    expect(html).toMatch(/800,00 € × 148,06 ÷ 145,77 =\s*<strong[^>]*>812,57 €/);
+    // No Journal officiel date for T3 2026 yet: the source says INSEE released it.
+    expect(html).toContain("T3 2026 publié par l'INSEE le 15 octobre 2026");
   });
 
   it("labels every field and offers the four quarters as radio buttons", () => {
@@ -57,8 +60,8 @@ describe("calculateur IRL", () => {
   });
 
   it("shows the published history, latest first, and nothing beyond it", () => {
-    expect(html).toMatch(/<th scope="row"[^>]*>T2 2026<\/th><td[^>]*>148,37<\/td>/);
-    expect(html).not.toContain("T3 2026</th>");
+    expect(html).toMatch(/<th scope="row"[^>]*>T3 2026<\/th><td[^>]*>148,06<\/td>/);
+    expect(html).not.toContain("T4 2026</th>");
   });
 
   it("links the guide, the letter, the lease template and the glossary in its text", () => {
@@ -127,7 +130,8 @@ describe("hub /outils", () => {
     const featured = html.slice(html.indexOf("essentiels-title"), html.indexOf('id="loyer"'));
     expect(featured).toContain('href="/outils/calculateur-irl"');
     expect(featured).toContain('href="/outils/calculateur-charges-locatives"');
-    expect(featured).toContain("T2 2026 · 148,37");
+    expect(featured).toContain("T3 2026 · 148,06");
+    expect(featured).toContain("+1,57 % sur un an");
     expect(featured).toContain("= 220,00 € à régler");
   });
 

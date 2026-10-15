@@ -17,8 +17,14 @@ export interface IrlIndexEntry {
   year: number;
   trimester: number; // 1-4
   value: number;
-  /** Date of publication in the Journal officiel (YYYY-MM-DD). */
+  /**
+   * Date of publication (YYYY-MM-DD): in the Journal officiel, or — when
+   * `publishedBy` is "insee" — the INSEE release date, while the Journal
+   * officiel publication is not yet known.
+   */
   publicationDate: string;
+  /** Absent: `publicationDate` is the Journal officiel date. */
+  publishedBy?: "insee";
 }
 
 /**
@@ -27,8 +33,11 @@ export interface IrlIndexEntry {
  * https://www.insee.fr/fr/statistiques/serie/001515333
  * (France métropolitaine, base 100 au 4e trimestre 1998).
  *
- * Transcribed 2026-10-04. The `publicationDate` is the date of publication in
- * the Journal officiel, which is what a landlord can cite.
+ * Transcribed 2026-10-04; T3-2026 added 2026-10-15 from the INSEE BDM API
+ * (bdm.insee.fr/series/sdmx/data/SERIES_BDM/001515333). The `publicationDate`
+ * is the date of publication in the Journal officiel, which is what a landlord
+ * can cite — or the INSEE release date while the Journal officiel one is
+ * pending (`publishedBy: "insee"`).
  *
  * FIVE OF THESE VALUES WERE WRONG BEFORE 2026-10-04 and the tests did not catch
  * it: they asserted the shape of the array, never its values. Both 2026 quarters
@@ -64,6 +73,10 @@ export const IRL_INDICES: IrlIndexEntry[] = [
   { quarter: "T4-2025", year: 2025, trimester: 4, value: 145.78, publicationDate: "2026-01-16" },
   { quarter: "T1-2026", year: 2026, trimester: 1, value: 146.60, publicationDate: "2026-04-16" },
   { quarter: "T2-2026", year: 2026, trimester: 2, value: 148.37, publicationDate: "2026-07-12" },
+  // Released by INSEE on 2026-10-15 (série 001515333, observation 2026-Q3,
+  // OBS_QUAL "DEF", +1,57 % sur un an); no Journal officiel date published
+  // yet. Replace the date and drop `publishedBy` once it appears.
+  { quarter: "T3-2026", year: 2026, trimester: 3, value: 148.06, publicationDate: "2026-10-15", publishedBy: "insee" },
 ];
 
 /** Canonical URL a landlord can verify the index against. */

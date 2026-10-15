@@ -9,7 +9,7 @@ import { AMOUNT_ERROR_MESSAGES, centsOf, formatEuros, formatIndex, formatSignedE
 import {
   TRIMESTERS,
   findPair,
-  publicationMonth,
+  publicationLabel,
   quarterShortLabel,
   reviseRent,
   revisionPairs,
@@ -248,7 +248,7 @@ export function IrlCalculator() {
             <a href={IRL_SOURCE_URL} className="underline decoration-line underline-offset-2 hover:text-ink" rel="noopener">
               INSEE, série 001515333
             </a>
-            . {quarterShortLabel(result.pair.current)} publié au Journal officiel en {publicationMonth(result.pair.current)}. Résultat
+            . {quarterShortLabel(result.pair.current)} {publicationLabel(result.pair.current)}. Résultat
             arrondi au centime le plus proche.
           </p>
         </>

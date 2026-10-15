@@ -4,7 +4,7 @@ import { test, expect, type Page } from '@playwright/test'
  * The two V3.2 calculators driven like a landlord would: from /outils, typing
  * amounts, changing a choice, making a mistake, on a phone, and following the
  * links out. Expected figures are computed by hand from the INSEE indices
- * (T2 2026 = 148,37, T2 2025 = 146,68, T3 2025 = 145,77, T3 2024 = 144,51,
+ * (T3 2026 = 148,06, T3 2025 = 145,77, T2 2026 = 148,37, T2 2025 = 146,68,
  * T4 2025 = 145,78, T4 2024 = 144,64).
  */
 
@@ -26,18 +26,19 @@ test.describe('Calculateur IRL', () => {
 
     const result = page.locator('#resultat')
     await expect(result).toContainText('Exemple pour 800 €')
-    await expect(result).toContainText(euros('809,22 €'))
+    await expect(result).toContainText(euros('812,57 €'))
 
     await page.getByLabel('Loyer mensuel hors charges').fill('1 000')
     await expect(result).toContainText('Votre calcul')
-    await expect(result).toContainText(euros('1 011,52 €'))
-    await expect(result).toContainText(euros('\\+11,52 €'))
-    await expect(result).toContainText(euros('\\+138,24 €'))
+    await expect(result).toContainText(euros('1 015,71 €'))
+    await expect(result).toContainText(euros('\\+15,71 €'))
+    await expect(result).toContainText(euros('\\+188,52 €'))
+    await expect(result).toContainText('+1,57 %')
 
-    await page.locator('label').filter({ hasText: /^T3/ }).click()
-    await expect(page.getByLabel("Indice de l'année de révision")).toHaveValue('2025')
-    await expect(result).toContainText(euros('1 008,72 €'))
-    await expect(result).toContainText('+0,87 %')
+    await page.locator('label').filter({ hasText: /^T2/ }).click()
+    await expect(page.getByLabel("Indice de l'année de révision")).toHaveValue('2026')
+    await expect(result).toContainText(euros('1 011,52 €'))
+    await expect(result).toContainText('+1,15 %')
   })
 
   test('explains a wrong amount instead of computing it', async ({ page }) => {
@@ -50,7 +51,7 @@ test.describe('Calculateur IRL', () => {
 
     await field.fill('850,50')
     await expect(field).not.toHaveAttribute('aria-invalid', 'true')
-    await expect(page.locator('#resultat')).toContainText(euros('860,30 €'))
+    await expect(page.locator('#resultat')).toContainText(euros('863,86 €'))
   })
 
   test('a shared link opens the same calculation, and carries no personal data', async ({ page }) => {
@@ -67,7 +68,7 @@ test.describe('Calculateur IRL', () => {
     await page.getByLabel('Loyer mensuel hors charges').fill('720')
     const jump = page.getByRole('link', { name: /Voir le détail/ })
     await expect(jump).toBeVisible()
-    await expect(jump).toContainText(euros('728,30 €'))
+    await expect(jump).toContainText(euros('731,31 €'))
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375)
 
     await expect(page.getByRole('link', { name: 'guide de la révision IRL' })).toHaveAttribute('href', '/guides/irl-2026')

@@ -41,6 +41,14 @@ import { IRL_INDICES, IRL_SOURCE_URL } from "@/lib/irl-calculator";
 /** Date de la passe de vérification qui a produit les `dateVerified` ci-dessous. */
 export const VERIFICATION_RUN_DATE = "2026-10-04";
 
+/**
+ * Indices IRL ajoutés après cette passe, avec le jour où leur valeur a été
+ * relevée sur la série INSEE.
+ */
+const IRL_VERIFIED_LATER: Record<string, string> = {
+  "T3-2026": "2026-10-15",
+};
+
 export type RegulatoryCategory =
   | "irl"
   | "depot-garantie"
@@ -146,7 +154,7 @@ export const SOURCES = {
   inseeIrl: {
     name: "INSEE — Indice de référence des loyers (IRL), série idBank 001515333",
     url: IRL_SOURCE_URL,
-    publishedAt: "2026-07-12",
+    publishedAt: "2026-10-15",
   },
 } as const;
 
@@ -155,6 +163,8 @@ export const SOURCES = {
  *
  * `appliesFrom` est la date de publication au Journal officiel : c'est à
  * compter de cette date que l'indice peut servir de référence de révision.
+ * Pour un indice dont la parution au JO n'est pas encore connue
+ * (`publishedBy: "insee"`), c'est la date de diffusion par l'INSEE.
  */
 export const IRL_SOURCE_RECORDS: RegulatorySource[] = IRL_INDICES.map((entry) => ({
   id: `irl-${entry.quarter.toLowerCase()}`,
@@ -166,9 +176,9 @@ export const IRL_SOURCE_RECORDS: RegulatorySource[] = IRL_INDICES.map((entry) =>
   source: SOURCES.inseeIrl.name,
   sourceUrl: IRL_SOURCE_URL,
   publishedAt: entry.publicationDate,
-  dateVerified: VERIFICATION_RUN_DATE,
+  dateVerified: IRL_VERIFIED_LATER[entry.quarter] ?? VERIFICATION_RUN_DATE,
   appliesFrom: entry.publicationDate,
-  lastChecked: VERIFICATION_RUN_DATE,
+  lastChecked: IRL_VERIFIED_LATER[entry.quarter] ?? VERIFICATION_RUN_DATE,
   verified: true,
 }));
 

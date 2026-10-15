@@ -620,7 +620,7 @@ describe("content integrity", () => {
     // stated inputs. Whether an index value is real is a separate question and
     // is maintained in KNOWN_REAL_IRL below.
     const REAL_IRL = new Set([
-      "148,37", "146,60", // 2026
+      "148,06", "148,37", "146,60", // 2026
       "145,78", "145,77", "146,68", "145,47", // 2025
       "144,64", "144,51", "145,17", "143,46", // 2024
       "141,03", "140,59", "138,61", // 2023

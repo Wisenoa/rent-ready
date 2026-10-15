@@ -49,6 +49,7 @@ const INSEE_SERIES: Record<string, number> = {
   "T4-2025": 145.78,
   "T1-2026": 146.6,
   "T2-2026": 148.37,
+  "T3-2026": 148.06,
 };
 
 describe("IRL_INDICES values match the official INSEE series", () => {
@@ -112,8 +113,15 @@ describe("getLatestIrl", () => {
   it("returns the current published quarter, not a stale one", () => {
     // If INSEE publishes a new quarter, this test is what tells you the table
     // was not updated. Do not relax it without updating IRL_INDICES first.
-    expect(getLatestIrl().quarter).toBe("T2-2026");
-    expect(getLatestIrl().value).toBe(148.37);
+    expect(getLatestIrl().quarter).toBe("T3-2026");
+    expect(getLatestIrl().value).toBe(148.06);
+  });
+
+  it("marks only an index still awaiting its Journal officiel date as published by INSEE", () => {
+    // T3-2026 was released by INSEE on 2026-10-15; its JO date was not yet known.
+    const pending = IRL_INDICES.filter((entry) => entry.publishedBy === "insee").map((entry) => entry.quarter);
+    expect(pending).toEqual(["T3-2026"]);
+    expect(findIrlIndex("T3-2026")?.publicationDate).toBe("2026-10-15");
   });
 });
 

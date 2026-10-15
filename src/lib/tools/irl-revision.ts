@@ -83,7 +83,23 @@ export function quarterShortLabel(entry: IrlIndexEntry): string {
 
 const MONTH_YEAR = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric", timeZone: "UTC" });
 
-/** Month of publication in the Journal officiel: "juillet 2026". */
+/** Month of publication: "juillet 2026". */
 export function publicationMonth(entry: IrlIndexEntry): string {
   return MONTH_YEAR.format(new Date(`${entry.publicationDate}T00:00:00Z`));
+}
+
+const LONG_DATE = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+
+/**
+ * Where and when an index was published, as a landlord can cite it:
+ * "publié au Journal officiel en juillet 2026", or "publié par l'INSEE le
+ * 15 octobre 2026" while the Journal officiel publication is pending.
+ */
+export function publicationLabel(entry: IrlIndexEntry): string {
+  if (entry.publishedBy === "insee") {
+    const date = new Date(`${entry.publicationDate}T00:00:00Z`);
+    const day = LONG_DATE.format(date);
+    return `publié par l'INSEE le ${date.getUTCDate() === 1 ? day.replace(/^1 /, "1er ") : day}`;
+  }
+  return `publié au Journal officiel en ${publicationMonth(entry)}`;
 }
