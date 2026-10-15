@@ -128,24 +128,27 @@ export function Breadcrumb({ items, showHomeIcon = true, className = "", pageIte
         // stone-500 measured 4.46:1 on the site's cream background — under the
         // 4.5:1 AA threshold. stone-600 measures 7.1:1, and it is the resting
         // state that has to pass, not the hover.
-        className={`flex items-center gap-1 text-sm text-stone-600 ${className}`}
+        className={`flex flex-wrap items-center gap-x-1 gap-y-0.5 text-sm text-stone-600 ${className}`}
       >
         {crumbs.map((crumb, index) => (
-          <span key={crumb.href} className="flex items-center gap-1">
+          <span key={crumb.href} className="flex min-w-0 items-center gap-1">
             {index === 0 && showHomeIcon ? (
               <Link href="/" className="-m-1 flex min-h-6 min-w-6 items-center justify-center p-1 hover:text-stone-700 transition-colors">
                 <Home className="h-3.5 w-3.5" aria-hidden="true" />
                 <span className="sr-only">Accueil</span>
               </Link>
             ) : index > 0 && (
-              <ChevronRight className="h-3.5 w-3.5 text-cream/80" aria-hidden="true" />
+              // cream/80 was cream on cream: the separators were invisible on
+              // every page. stone-500 measures 4.5:1 on cream and 4.3:1 on paper,
+              // above the 3:1 asked of a graphic that structures the trail.
+              <ChevronRight className="h-3.5 w-3.5 shrink-0 text-stone-500" aria-hidden="true" />
             )}
             {crumb.isCurrentPage ? (
               <span className="font-medium text-stone-700" aria-current="page">
                 {crumb.label}
               </span>
             ) : (
-              <Link href={crumb.href} className="hover:text-stone-700 transition-colors">
+              <Link href={crumb.href} className="whitespace-nowrap hover:text-stone-700 transition-colors">
                 {crumb.label}
               </Link>
             )}
