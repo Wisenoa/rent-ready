@@ -77,7 +77,6 @@ export function SurfaceHabitableClient() {
     setRooms((prev) => prev.filter((r) => r.id !== id));
   }
 
-  let hasRoomParseError = false;
   const parsedPieces = rooms.map((r) => {
     const pPlancher = parseAmount(r.plancherInput, 2_000);
     const pSous180 =
@@ -91,8 +90,6 @@ export function SurfaceHabitableClient() {
       : pPlancher.ok && pSous180.value.greaterThan(pPlancher.value)
         ? SURFACE_HABITABLE_ERROR_MESSAGES["sub-180-exceeds-total"]
         : null;
-
-    if (plancherErr || sous180Err) hasRoomParseError = true;
 
     return {
       draft: r,
@@ -110,6 +107,7 @@ export function SurfaceHabitableClient() {
           : null,
     };
   });
+  const hasRoomParseError = parsedPieces.some((p) => Boolean(p.plancherErr || p.sous180Err));
 
   const pSurfaceBail =
     surfaceBailInput.trim() === ""
