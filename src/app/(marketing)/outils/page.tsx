@@ -59,9 +59,9 @@ const TOOL_GROUPS: ToolGroup[] = [
     intro: "Fixer et faire évoluer ce que paie le locataire.",
     tools: [
       { title: "Calculateur de révision IRL", description: "Le nouveau loyer avec l'indice de référence des loyers publié par l'INSEE, et l'historique des indices.", href: "/outils/calculateur-irl", icon: TrendingUp },
-      { title: "Calculateur de loyer", description: "Estimez un loyer selon la surface et le prix au m², en zone tendue ou non.", href: "/outils/calculateur-loyer", icon: Home },
+      { title: "Calculateur de loyer & prorata", description: "Prorata de loyer en cas d'entrée ou de sortie en cours de mois, et loyer au m².", href: "/outils/calculateur-loyer", icon: Home },
       { title: "Charges locatives", description: "La régularisation annuelle : provisions versées, charges réelles, et le montant à régler ou à rembourser.", href: "/outils/calculateur-charges-locatives", icon: Calculator },
-      { title: "Dépôt de garantie", description: "Le montant maximum selon le type de bail, vide ou meublé.", href: "/outils/calculateur-depot-garantie", icon: ShieldCheck },
+      { title: "Dépôt de garantie", description: "Le montant maximum selon le type de bail, vide ou meublé, et les délais de restitution.", href: "/outils/calculateur-depot-garantie", icon: ShieldCheck },
     ],
   },
   {
@@ -69,11 +69,11 @@ const TOOL_GROUPS: ToolGroup[] = [
     title: "Quittances et courriers",
     intro: "Les documents à remettre au locataire ou à lui envoyer.",
     tools: [
-      { title: "Générateur de quittance", description: "Une quittance PDF conforme à la loi du 6 juillet 1989, sans inscription.", href: "/outils/generateur-quittance", icon: Receipt },
-      { title: "Modèle de quittance PDF", description: "Remplissez les montants et téléchargez la quittance du mois.", href: "/outils/modele-quittance-loyer-pdf", icon: FileText },
-      { title: "Lettre de relance", description: "Rappel amiable, relance formelle ou mise en demeure, prête à copier.", href: "/outils/lettre-relance-loyer", icon: Mail },
-      { title: "Congé pour vente", description: "La lettre de congé pour vendre le logement, à envoyer en recommandé.", href: "/outils/generateur-conge-vente", icon: FileSignature },
-      { title: "Calculateur de préavis", description: "La durée de préavis selon le bail, le motif et la zone.", href: "/outils/calculateur-preavis", icon: CalendarClock },
+      { title: "Générateur de quittance", description: "Une quittance PDF ou un reçu d'acompte conforme à l'article 21 de la loi de 1989.", href: "/outils/generateur-quittance", icon: Receipt },
+      { title: "Modèle de quittance PDF", description: "Trame de quittance expliquée clause par clause, personnalisable en ligne.", href: "/outils/modele-quittance-loyer-pdf", icon: FileText },
+      { title: "Lettre de relance", description: "Rappel amiable, relance formelle ou mise en demeure (art. 1344 du Code civil), prête à copier.", href: "/outils/lettre-relance-loyer", icon: Mail },
+      { title: "Congé pour vente", description: "La lettre de congé pour vendre avec date limite des 6 mois et droit de préemption.", href: "/outils/generateur-conge-vente", icon: FileSignature },
+      { title: "Calculateur de préavis", description: "La durée de préavis et la date exacte de fin de bail de quantième à quantième.", href: "/outils/calculateur-preavis", icon: CalendarClock },
     ],
   },
   {
@@ -81,8 +81,8 @@ const TOOL_GROUPS: ToolGroup[] = [
     title: "Bail et état des lieux",
     intro: "Préparer l'entrée et la sortie du locataire.",
     tools: [
-      { title: "Checklist état des lieux", description: "Pièce par pièce, les points à vérifier à l'entrée et à la sortie.", href: "/outils/checklist-etat-lieux", icon: ClipboardCheck },
-      { title: "Surface habitable", description: "La surface au sens de la loi Boutin, à reporter dans le bail.", href: "/outils/calculateur-surface-habitable", icon: Ruler },
+      { title: "Checklist état des lieux", description: "Les 10 mentions obligatoires du décret du 30 mars 2016 et la grille pièce par pièce.", href: "/outils/checklist-etat-lieux", icon: ClipboardCheck },
+      { title: "Surface habitable", description: "La surface au sens de la loi Boutin (hauteur ≥ 1,80 m) et le seuil d'écart de 5 %.", href: "/outils/calculateur-surface-habitable", icon: Ruler },
       { title: "Modèles de bail", description: "Bail vide, meublé, mobilité, colocation : les clauses à consulter en ligne.", href: "/templates", icon: FileText },
       { title: "Modèle d'état des lieux", description: "La grille d'entrée et de sortie, pièce par pièce.", href: "/templates/etat-des-lieux", icon: ClipboardCheck },
     ],
@@ -92,10 +92,11 @@ const TOOL_GROUPS: ToolGroup[] = [
     title: "Investissement et fiscalité",
     intro: "Estimer avant d'acheter, de vendre ou de déclarer.",
     tools: [
-      { title: "Rendement locatif", description: "Rendement brut et net de votre investissement.", href: "/outils/calculateur-rendement", icon: PiggyBank },
-      { title: "Prêt immobilier", description: "La mensualité et le tableau d'amortissement de votre prêt.", href: "/outils/simulateur-pret-immobilier", icon: Landmark },
-      { title: "Plus-value immobilière", description: "Une estimation de la plus-value et de l'impôt à la revente.", href: "/outils/calculateur-plus-value", icon: LineChart },
-      { title: "Fiscalité LMNP", description: "Micro-BIC ou régime réel pour une location meublée.", href: "/outils/simulateur-fiscalite-lmnp", icon: Scale },
+      { title: "Rendement locatif", description: "Rendement brut, net de charges et cash-flow mensuel avant impôt.", href: "/outils/calculateur-rendement", icon: PiggyBank },
+      { title: "Prêt immobilier", description: "Mensualité hors et avec assurance, coût total du crédit et tableau d'amortissement.", href: "/outils/simulateur-pret-immobilier", icon: Landmark },
+      { title: "Plus-value immobilière", description: "Abattements pour durée de détention (22 et 30 ans), IR (19 %), PS (17,2 %) et surtaxe.", href: "/outils/calculateur-plus-value", icon: LineChart },
+      { title: "Fiscalité LMNP", description: "Micro-BIC (50 % ou 30 %) contre régime réel avec amortissement plafonné (art. 39 C).", href: "/outils/simulateur-fiscalite-lmnp", icon: Scale },
+      { title: "Statut du bailleur privé (Jeanbrun)", description: "Amortissement fiscal en location nue avec plafonds de loyer (3,5 % à 5,5 %).", href: "/outils/simulateur-loi-jeanbrun", icon: Home },
     ],
   },
 ];

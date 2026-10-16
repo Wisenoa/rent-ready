@@ -1,464 +1,329 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
-import { FinalCta } from "@/components/landing/final-cta";
-import { Breadcrumb } from "@/components/seo/Breadcrumb";
 
-const ROOMS = [
-  {
-    id: "entree",
-    label: "Entrée",
-    icon: "🚪",
-    items: [
-      { id: "entree_porte", label: "Porte d'entrée (état, serrure, clés)" },
-      { id: "entree_huis", label: "Huisseries et vitrages" },
-      { id: "entree_sol", label: "Sol (carrelage, parquet, état)" },
-      { id: "entree_murs", label: "Murs et plafonds" },
-      { id: "entree_interrupteur", label: "Interrupteur et prise électrique" },
-      { id: "entree_placard", label: "Placard et étagères" },
-    ],
-  },
-  {
-    id: "salon",
-    label: "Salon / Séjour",
-    icon: "🛋️",
-    items: [
-      { id: "salon_sol", label: "Sol (parquet, moquette, carrelage)" },
-      { id: "salon_murs", label: "Murs et papiers peints" },
-      { id: "salon_plafond", label: "Plafond et luminaires" },
-      { id: "salon_fenetre", label: "Fenêtres et volets" },
-      { id: "salon_porte", label: "Portes intérieures" },
-      { id: "salon_electricite", label: "Prises et interrupteurs" },
-      { id: "salon_radiateur", label: "Radiateur / chauffage" },
-    ],
-  },
-  {
-    id: "cuisine",
-    label: "Cuisine",
-    icon: "🍳",
-    items: [
-      { id: "cuisine_sol", label: "Sol" },
-      { id: "cuisine_murs", label: "Murs et crédence" },
-      { id: "cuisine_plafond", label: "Plafond et hotte" },
-      { id: "cuisine_meuble", label: "Meubles hauts et bas" },
-      { id: "cuisine_evier", label: "Évier et robineterie" },
-      { id: "cuisine_plaque", label: "Plaque de cuisson" },
-      { id: "cuisine_four", label: "Four / réfrigérateur" },
-      { id: "cuisine_electricite", label: "Prises et interrupteurs" },
-    ],
-  },
-  {
-    id: "chambre1",
-    label: "Chambre 1",
-    icon: "🛏️",
-    items: [
-      { id: "ch1_sol", label: "Sol" },
-      { id: "ch1_murs", label: "Murs et plafonds" },
-      { id: "ch1_fenetre", label: "Fenêtre et rideaux" },
-      { id: "ch1_porte", label: "Porte" },
-      { id: "ch1_electricite", label: "Prises et interrupteurs" },
-      { id: "ch1_placard", label: "Placard" },
-    ],
-  },
-  {
-    id: "chambre2",
-    label: "Chambre 2",
-    icon: "🛏️",
-    items: [
-      { id: "ch2_sol", label: "Sol" },
-      { id: "ch2_murs", label: "Murs et plafonds" },
-      { id: "ch2_fenetre", label: "Fenêtre et rideaux" },
-      { id: "ch2_porte", label: "Porte" },
-      { id: "ch2_electricite", label: "Prises et interrupteurs" },
-      { id: "ch2_placard", label: "Placard" },
-    ],
-  },
-  {
-    id: "sdb",
-    label: "Salle de bain",
-    icon: "🚿",
-    items: [
-      { id: "sdb_sol", label: "Sol et murs" },
-      { id: "sdb_equipement", label: "Équipements (baignoire/douche, lavabo)" },
-      { id: "sdb_robinets", label: "Robinets et canalisations" },
-      { id: "sdb_meuble", label: "Meuble vasque et miroir" },
-      { id: "sdb_vmc", label: "VMC et ventilation" },
-      { id: "sdb_electricite", label: "Luminaire et prises" },
-    ],
-  },
-  {
-    id: "wc",
-    label: "Toilettes",
-    icon: "🚽",
-    items: [
-      { id: "wc_sol", label: "Sol et murs" },
-      { id: "wc_cuvette", label: "Cuvette et abattant" },
-      { id: "wc_lavabo", label: "Lavabo et robinets" },
-      { id: "wc_ventilation", label: "Ventilation" },
-    ],
-  },
-  {
-    id: "exterieur",
-    label: "Extérieur / Balcon",
-    icon: "🌿",
-    items: [
-      { id: "ext_balcon", label: "Balcon ou terrasse" },
-      { id: "ext_vitrage", label: "Vitrage et porte-fenêtre" },
-      { id: "ext_sol", label: "Sol extérieur" },
-      { id: "ext_jardin", label: "Jardin (si applicable)" },
-      { id: "ext_parking", label: "Place de parking" },
-    ],
-  },
-];
+import {
+  computeSyntheseEtatDesLieux,
+  ETAT_ELEMENT_LABELS,
+  POSTES_ETAT_DES_LIEUX,
+  type EtatElement,
+  type TypeEtatDesLieux,
+} from "@/lib/tools/etat-des-lieux";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  ChoiceGroup,
+  DateField,
+  SelectField,
+  TextField,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  DocumentSheet,
+  ResultBadge,
+  ResultJump,
+  ResultPanel,
+} from "@/components/marketing/tools/ToolResult";
 
-const faqData = [
-  {
-    question: "Qu'est-ce qu'un état des lieux ?",
-    answer:
-      "L'état des lieux est un document qui décrit l'état d'un logement lors de l'entrée et de la sortie du locataire. Il est obligatoire et doit être joint au bail. Il permet de comparer l'état du logement entre le début et la fin de la location pour évaluer les éventuelles dégradations.",
-  },
-  {
-    question: "L'état des lieux est-il obligatoire ?",
-    answer:
-      "Oui, l'état des lieux est obligatoire depuis la loi du 6 juillet 1989. Il doit être établi lors de la remise des clés (entrée) et lors de la restitution des clés (sortie). Un modèle conforme doit être signé par les deux parties.",
-  },
-  {
-    question: "Comment remplir l'état des lieux ?",
-    answer:
-      "Parcourez chaque pièce et chaque item de la checklist. Cochez « OK » si l'élément est en bon état, ou décrivez la dégradation constatée si applicable. Utilisez des photos pour appuyer vos constatations. Les deux parties (bailleur et locataire) doivent signer chaque page.",
-  },
-  {
-    question: "Que faire en cas de dégradations à la sortie ?",
-    answer:
-      "Si des dégradations sont constatées par rapport à l'état des lieux d'entrée, le propriétaire peut conserver une partie du dépôt de garantie pour couvrir les travaux de réparation. Il doit fournir un état exécutoire des sommes retenues. En cas de litige, le depósito peut être restitué après accord des deux parties ou décision de justice.",
-  },
-  {
-    question: "Peut-on faire un état des lieux numérique ?",
-    answer:
-      "Oui, l'état des lieux peut être établi sursupport numérique (email, PDF) s'il est signé par les deux parties. Il doit conserver une trace permettant de le produire en cas de litige. Notre checklist est un outil d'aide — pour un document officiel, utilisez le modèle conforme de l'annexe de la loi 1989.",
-  },
-];
+const ETAT_OPTIONS = (Object.keys(ETAT_ELEMENT_LABELS) as EtatElement[]).map((k) => ({
+  value: k,
+  label: ETAT_ELEMENT_LABELS[k],
+}));
 
-const breadcrumbItems = [
-  { label: "Accueil", href: "/" },
-  { label: "Outils", href: "/outils" },
-  { label: "Checklist État des Lieux", href: "/outils/checklist-etat-lieux" },
-];
-
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Checklist État des Lieux",
-      description: "Checklist interactive pour réaliser un état des lieux entrée ou sortie conforme à la loi.",
-      url: "https://lokna.fr/outils/checklist-etat-lieux",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://lokna.fr${item.href}`,
-      })),
-    },
-  ],
+const INITIAL_ETATS: Record<string, EtatElement> = {
+  "compteur-elec": "bon",
+  "compteur-eau": "bon",
+  "compteur-gaz": "bon",
+  "daaf-securite": "bon",
+  "cles-acces": "bon",
+  "entree-sejour-sols-murs": "bon",
+  "entree-sejour-menuiseries": "bon",
+  "cuisine-equipements": "usage",
+  chambres: "bon",
+  "sanitaires-sdb": "usage",
 };
 
-type ItemState = "ok" | "ko" | "na";
-
 export function ChecklistEDLClient() {
-  const [states, setStates] = useState<Record<string, ItemState>>({});
-  const [notes, setNotes] = useState<Record<string, string>>({});
+  const [typeEdl, setTypeEdl] = useState<TypeEtatDesLieux>("entree");
+  const [dateEdl, setDateEdl] = useState("2026-04-01");
+  const [bienAdresse, setBienAdresse] = useState("12 rue Oberkampf, 75011 Paris");
+  const [locataireNom, setLocataireNom] = useState("Claire Fontaine");
 
-  function toggleItem(roomId: string, itemId: string) {
-    setStates((prev) => {
-      const key = `${roomId}_${itemId}`;
-      const next: Record<string, ItemState> = { ...prev };
-      const current = prev[key] || "na";
-      next[key] = current === "ok" ? "ko" : current === "ko" ? "na" : "ok";
-      return next;
-    });
+  const [indexElectricite, setIndexElectricite] = useState("HP 14 280 kWh / HC 9 410 kWh");
+  const [indexEauFroide, setIndexEauFroide] = useState("312 m³");
+  const [indexGaz, setIndexGaz] = useState("Non applicable (tout électrique)");
+  const [nombreCles, setNombreCles] = useState("2 clés porte palière, 1 badge Vigik, 1 clé boîte aux lettres");
+
+  const [etats, setEtats] = useState<Record<string, EtatElement>>(INITIAL_ETATS);
+  const [observations, setObservations] = useState(
+    "Légère trace d'usage sur le plan de travail de la cuisine ; détecteur de fumée testé fonctionnel."
+  );
+  const [edited, setEdited] = useState(false);
+
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
+  };
+
+  function updatePosteEtat(id: string, value: EtatElement) {
+    setEdited(true);
+    setEtats((prev) => ({ ...prev, [id]: value }));
   }
 
-  function getState(roomId: string, itemId: string): ItemState {
-    return states[`${roomId}_${itemId}`] || "na";
-  }
-
-  function getRoomProgress(room: typeof ROOMS[0]) {
-    const itemStates = room.items.map((i) => getState(room.id, i.id));
-    const ok = itemStates.filter((s) => s === "ok").length;
-    const ko = itemStates.filter((s) => s === "ko").length;
-    const total = itemStates.filter((s) => s !== "na").length;
-    return { ok, ko, total, totalItems: room.items.length };
-  }
-
-  const totalOk = Object.values(states).filter((s) => s === "ok").length;
-  const totalKo = Object.values(states).filter((s) => s === "ko").length;
-  const totalItems = ROOMS.reduce((acc, r) => acc + r.items.length, 0);
+  const synthese = computeSyntheseEtatDesLieux({
+    typeEdl,
+    dateEdl,
+    bienAdresse,
+    locataireNom,
+    indexElectricite,
+    indexEauFroide,
+    indexGaz,
+    nombreCles,
+    etats,
+    observations,
+  });
 
   return (
-    <>
-      <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
+    <ToolWorkbench
+      variant="document"
+      form={
+        <ToolSheet label="Checklist interactive d'état des lieux (décret du 30 mars 2016)">
+          <ToolStep
+            step={1}
+            title="Nature de l'état des lieux et identification"
+            description="L'état des lieux contradictoire est établi gratuitement entre le bailleur et le locataire lors de la remise et de la restitution des clés (article 3-2 de la loi du 6 juillet 1989)."
+          >
+            <ChoiceGroup
+              name="type-edl"
+              legend="Moment de l'état des lieux"
+              value={typeEdl}
+              onChange={mark(setTypeEdl)}
+              choices={[
+                {
+                  value: "entree",
+                  label: "État des lieux d'entrée",
+                  description: "Rectifiable sous 10 jours (+ 1er mois de chauffe)",
+                },
+                {
+                  value: "sortie",
+                  label: "État des lieux de sortie",
+                  description: "Distinction dégradations vs vétusté normale",
+                },
+              ]}
+            />
 
-      <div className="min-h-screen bg-cream">
-        <div className="max-w-5xl mx-auto px-4 py-12">
-          <Breadcrumb items={breadcrumbItems} />
-
-          {/* Header */}
-          <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-1.5 bg-sage-50 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
-              <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-              Outil gratuit, sans inscription
-            </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3">
-              Checklist État des Lieux
-            </h1>
-            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
-              Checklist interactive pour.realiser un état des lieux entrée ou sortie conforme. Parcourez chaque pièce, cochez les éléments, ajoutez des notes.
-            </p>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-ink">Progression</h2>
-              <span className="text-sm text-stone-600">{totalOk + totalKo} / {totalItems} items vérifiés</span>
-            </div>
-            <div className="w-full bg-stone-200 rounded-full h-3 mb-4">
-              <div
-                className="bg-green-500 h-3 rounded-full transition-all"
-                style={{ width: `${((totalOk + totalKo) / totalItems) * 100}%` }}
+            <div className="grid gap-4 sm:grid-cols-3">
+              <DateField
+                id="edl-date"
+                label="Date du constat"
+                value={dateEdl}
+                onChange={mark(setDateEdl)}
+              />
+              <TextField
+                id="edl-locataire"
+                label="Nom du locataire"
+                value={locataireNom}
+                onChange={mark(setLocataireNom)}
+                placeholder="Ex. Claire Fontaine"
+              />
+              <TextField
+                id="edl-adresse"
+                label="Adresse du logement"
+                value={bienAdresse}
+                onChange={mark(setBienAdresse)}
+                placeholder="Ex. 12 rue Oberkampf, 75011 Paris"
               />
             </div>
-            <div className="flex gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="size-3 rounded-full bg-green-500" />
-                <span className="text-stone-600">OK: <strong className="text-ink">{totalOk}</strong></span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="size-3 rounded-full bg-red-500" />
-                <span className="text-stone-600">Dégradations: <strong className="text-ink">{totalKo}</strong></span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="size-3 rounded-full bg-stone-300" />
-                <span className="text-stone-600">Non vérifié: <strong className="text-ink">{totalItems - totalOk - totalKo}</strong></span>
-              </div>
+          </ToolStep>
+
+          <ToolStep
+            step={2}
+            title="Relevés des compteurs et inventaire des clés"
+            description="Mentions obligatoires imposées par l'article 2 du décret n° 2016-382 du 30 mars 2016."
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField
+                id="edl-index-elec"
+                label="Index électricité (HP / HC et n° PDL)"
+                value={indexElectricite}
+                onChange={mark(setIndexElectricite)}
+                placeholder="Ex. HP 14 280 kWh / HC 9 410 kWh"
+              />
+              <TextField
+                id="edl-index-eau"
+                label="Index compteur d'eau froide (et chaude)"
+                value={indexEauFroide}
+                onChange={mark(setIndexEauFroide)}
+                placeholder="Ex. 312 m³"
+              />
             </div>
-          </div>
-
-          {/* Rooms */}
-          {ROOMS.map((room) => {
-            const progress = getRoomProgress(room);
-            return (
-              <div key={room.id} className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-3xl">{room.icon}</span>
-                  <div className="flex-1">
-                    <h2 className="text-xl font-semibold text-ink">{room.label}</h2>
-                    <p className="text-sm text-stone-600">
-                      {progress.total} / {progress.totalItems} vérifiés
-                      {progress.ko > 0 && (
-                        <span className="text-red-500 ml-2">— {progress.ko} dégradation(s)</span>
-                      )}
-                    </p>
-                  </div>
-                  <div className="w-24 bg-stone-200 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full ${progress.ko > 0 ? "bg-red-400" : progress.total === progress.totalItems ? "bg-green-400" : "bg-sage-400"}`}
-                      style={{ width: `${(progress.total / progress.totalItems) * 100}%` }}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  {room.items.map((item) => {
-                    const state = getState(room.id, item.id);
-                    return (
-                      <div
-                        key={item.id}
-                        className={`flex items-center gap-3 p-3 rounded-xl border transition-colors ${
-                          state === "ok" ? "border-green-300 bg-green-50" : state === "ko" ? "border-red-300 bg-red-50" : "border-stone-200"
-                        }`}
-                      >
-                        <button
-                          type="button"
-                          onClick={() => toggleItem(room.id, item.id)}
-                          className={`size-8 rounded-full border-2 flex items-center justify-center transition-colors ${
-                            state === "ok" ? "border-green-500 bg-green-500 text-white" :
-                            state === "ko" ? "border-red-500 bg-red-500 text-white" :
-                            "border-stone-300 hover:border-sage-400"
-                          }`}
-                          aria-label={state === "ok" ? "Marquer comme OK" : state === "ko" ? "Marquer comme dégradation" : "Non vérifié"}
-                        >
-                          {state === "ok" && (
-                            <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg>
-                          )}
-                          {state === "ko" && (
-                            <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                          )}
-                        </button>
-                        <span className={`flex-1 text-sm font-medium ${state === "ko" ? "text-red-700" : "text-stone-700"}`}>
-                          {item.label}
-                        </span>
-                        <input
-                          type="text"
-                          placeholder="Note (ex: rayure mineure)"
-                          value={notes[`${room.id}_${item.id}`] || ""}
-                          onChange={(e) => setNotes((prev) => ({ ...prev, [`${room.id}_${item.id}`]: e.target.value }))}
-                          className="flex-1 text-sm border border-stone-200 rounded-lg px-3 py-1.5 focus:border-sage-400 focus:ring-1 focus:ring-sage-200"
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Signature Section */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-4">Signatures</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="border border-stone-200 rounded-xl p-4">
-                <h3 className="font-semibold text-stone-700 mb-3">Bailleur</h3>
-                <div className="space-y-2">
-                  <input type="text" placeholder="Nom prénom" className="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-stone-600">Date:</span>
-                    <input type="date" className="flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm" />
-                  </div>
-                  <div className="border-t border-stone-200 pt-3 mt-3">
-                    <p className="text-xs text-stone-600 italic">Signature (upload photo ou numérique)</p>
-                    <div className="h-16 border-2 border-dashed border-stone-200 rounded-lg flex items-center justify-center text-stone-600 text-sm mt-2">
-                      Zone signature
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="border border-stone-200 rounded-xl p-4">
-                <h3 className="font-semibold text-stone-700 mb-3">Locataire</h3>
-                <div className="space-y-2">
-                  <input type="text" placeholder="Nom prénom" className="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-stone-600">Date:</span>
-                    <input type="date" className="flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm" />
-                  </div>
-                  <div className="border-t border-stone-200 pt-3 mt-3">
-                    <p className="text-xs text-stone-600 italic">Signature (upload photo ou numérique)</p>
-                    <div className="h-16 border-2 border-dashed border-stone-200 rounded-lg flex items-center justify-center text-stone-600 text-sm mt-2">
-                      Zone signature
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField
+                id="edl-index-gaz"
+                label="Index gaz (et n° PCE) ou chauffage"
+                value={indexGaz}
+                onChange={mark(setIndexGaz)}
+                placeholder="Ex. 1 420 m³ ou Tout électrique"
+              />
+              <TextField
+                id="edl-cles"
+                label="Détail des clés, badges et télécommandes"
+                value={nombreCles}
+                onChange={mark(setNombreCles)}
+                placeholder="Ex. 2 clés porte palière, 1 badge Vigik"
+              />
             </div>
-          </div>
+          </ToolStep>
 
-          {/* Legal Note */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 mb-8">
-            <div className="flex items-start gap-3">
-              <span className="text-2xl">⚠️</span>
-              <div>
-                <h3 className="font-semibold text-yellow-900 mb-1">Important sur le plan légal</h3>
-                <p className="text-sm text-yellow-800 leading-relaxed">
-                  Cette checklist est un outil d'aide à la réalisation de l'état des lieux. Pour produire un document officiel recevable en cas de litige, utilisez le modèle prévu par l'arrêté du 15 mars 2012 (annexe II du Code de la construction et de l'habitation). Le modèle officiel est disponible sur <Link href="/templates/etat-des-lieux" className="font-semibold underline">notre page Modèles</Link>.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* FAQ */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-6">Questions fréquentes</h2>
+          <ToolStep
+            step={3}
+            title="Inspection pièce par pièce"
+            description="Qualifiez l'état de chaque poste pour générer votre relevé contradictoire."
+          >
             <div className="space-y-4">
-              {faqData.map((faq, i) => (
-                <details key={i} className="group border border-stone-200 rounded-xl">
-                  <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
-                    <span className="font-semibold text-ink">{faq.question}</span>
-                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
-                    </svg>
-                  </summary>
-                  <div className="px-4 pb-4 text-stone-600 leading-relaxed">{faq.answer}</div>
-                </details>
+              {POSTES_ETAT_DES_LIEUX.map((poste) => (
+                <div
+                  key={poste.id}
+                  className="rounded-xl border border-line-soft bg-cream/30 p-3.5 sm:p-4"
+                >
+                  <p className="text-[12px] font-semibold uppercase tracking-wider text-forest">
+                    {poste.piece}
+                  </p>
+                  <SelectField
+                    id={`edl-poste-${poste.id}`}
+                    label={poste.intitule}
+                    value={etats[poste.id] ?? "non-verifie"}
+                    onChange={(v) => updatePosteEtat(poste.id, v as EtatElement)}
+                    options={ETAT_OPTIONS}
+                    hint={poste.detailObligatoire}
+                  />
+                </div>
               ))}
             </div>
-          </div>
 
-          {/* Internal Links */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-4">Ressources complémentaires</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📄</span>
-                <div>
-                  <div className="font-semibold text-ink">Modèle Officiel État des Lieux</div>
-                  <div className="text-sm text-stone-600">Modèle légal à télécharger</div>
-                </div>
-              </Link>
-              <Link href="/templates/protocol-etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📋</span>
-                <div>
-                  <div className="font-semibold text-ink">Protocole État des Lieux</div>
-                  <div className="text-sm text-stone-600">Guide complet et détaillé</div>
-                </div>
-              </Link>
-              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📖</span>
-                <div>
-                  <div className="font-semibold text-ink">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-600">Toutes les définitions légales</div>
-                </div>
-              </Link>
-              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📝</span>
-                <div>
-                  <div className="font-semibold text-ink">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-600">Bail conforme à la loi 1989</div>
-                </div>
-              </Link>
+            <TextField
+              id="edl-observations"
+              label="Observations complémentaires ou réserves précises"
+              value={observations}
+              onChange={mark(setObservations)}
+              placeholder="Notez toute observation utile (rayure localisée, joint à remplacer...)"
+            />
+          </ToolStep>
+
+          <ResultJump
+            label={`Points vérifiés : ${synthese.nbVerifies} / ${synthese.totalPostes}`}
+            value={`${synthese.nbBonEtat} bon état · ${synthese.nbDegradations} anomalie(s)`}
+            detail={`État des lieux ${synthese.typeEdl === "entree" ? "d'entrée" : "de sortie"}`}
+          />
+        </ToolSheet>
+      }
+      result={
+        <ResultPanel
+          title="Synthèse de l'état des lieux"
+          badge={
+            edited ? (
+              <ResultBadge tone="sage">
+                {synthese.nbVerifies}/{synthese.totalPostes} contrôlés
+              </ResultBadge>
+            ) : (
+              <ResultBadge tone="example">Exemple pré-rempli</ResultBadge>
+            )
+          }
+          footer={
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <CopyButton
+                  text={synthese.plainText}
+                  label="Copier le relevé complet"
+                  copiedLabel="Relevé copié"
+                />
+                <span className="text-[12.5px] font-medium text-ink-muted">
+                  {synthese.nbDegradations === 0
+                    ? "Aucune dégradation signalée"
+                    : `${synthese.nbDegradations} anomalie(s) relevée(s)`}
+                </span>
+              </div>
+              <p className="text-[12px] leading-4.5 text-ink-muted">{synthese.rappelLegal}</p>
             </div>
-          </div>
-
-          {/* CTA */}
-          <div className="bg-forest rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-semibold mb-2">Gérez vos états des lieux avec Lokna</h2>
-            <p className="text-cream/80 mb-6 max-w-xl mx-auto">
-              Générez des états des lieux PDF conformes, stockez les photos, et comparez automatiquement entrée et sortie.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="inline-block bg-white text-forest font-bold px-8 py-3.5 rounded-xl hover:bg-sage-50 transition-colors">
-                Essai gratuit 14 jours
-              </Link>
-              <Link href="/outils" className="inline-block border-2 border-sage-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-forest transition-colors">
-                Autres outils gratuits
-              </Link>
+          }
+        >
+          <div className="space-y-4">
+            <div className="grid grid-cols-3 gap-2 text-center text-[12.5px]">
+              <div className="rounded-lg border border-line-soft bg-sage-50/70 px-2 py-2.5">
+                <p className="text-[1.2rem] font-semibold tabular-nums text-forest-deep">{synthese.nbBonEtat}</p>
+                <p className="text-ink-muted">Bon état</p>
+              </div>
+              <div className="rounded-lg border border-line-soft bg-paper px-2 py-2.5">
+                <p className="text-[1.2rem] font-semibold tabular-nums text-ink">{synthese.nbUsureNormale}</p>
+                <p className="text-ink-muted">Usure normale</p>
+              </div>
+              <div className="rounded-lg border border-line-soft bg-[#FBF3E2] px-2 py-2.5">
+                <p className="text-[1.2rem] font-semibold tabular-nums text-[#7A5512]">{synthese.nbDegradations}</p>
+                <p className="text-[#7A5512]">Anomalie(s)</p>
+              </div>
             </div>
-          </div>
 
-          <FinalCta />
-        </div>
-      </div>
-    </>
+            <DocumentSheet>
+              <div className="border-b border-line pb-2.5">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-forest">
+                  État des lieux {synthese.typeEdl === "entree" ? "d'entrée" : "de sortie"} · {synthese.dateEdlFr}
+                </p>
+                <p className="mt-0.5 text-[12.5px] text-ink-muted">
+                  {locataireNom || "Locataire"} — {bienAdresse || "Adresse du logement"}
+                </p>
+              </div>
+
+              <dl className="mt-3 space-y-1.5 border-b border-line-soft pb-3 text-[12.5px]">
+                <div className="flex justify-between gap-2">
+                  <dt className="text-ink-muted">Électricité</dt>
+                  <dd className="text-right font-medium text-ink">{indexElectricite || "—"}</dd>
+                </div>
+                <div className="flex justify-between gap-2">
+                  <dt className="text-ink-muted">Eau froide</dt>
+                  <dd className="text-right font-medium text-ink">{indexEauFroide || "—"}</dd>
+                </div>
+                <div className="flex justify-between gap-2">
+                  <dt className="text-ink-muted">Gaz / chauffage</dt>
+                  <dd className="text-right font-medium text-ink">{indexGaz || "—"}</dd>
+                </div>
+                <div className="flex justify-between gap-2">
+                  <dt className="text-ink-muted">Clés remises</dt>
+                  <dd className="text-right font-medium text-ink">{nombreCles || "—"}</dd>
+                </div>
+              </dl>
+
+              <ul className="mt-3 divide-y divide-line-soft text-[12.5px]">
+                {POSTES_ETAT_DES_LIEUX.map((poste) => {
+                  const etat = etats[poste.id] ?? "non-verifie";
+                  return (
+                    <li key={poste.id} className="flex items-baseline justify-between gap-3 py-1.5">
+                      <span className="text-ink">{poste.intitule}</span>
+                      <span
+                        className={`shrink-0 font-medium ${
+                          etat === "degradation"
+                            ? "text-[#A1281E]"
+                            : etat === "bon"
+                              ? "text-forest"
+                              : "text-ink-muted"
+                        }`}
+                      >
+                        {ETAT_ELEMENT_LABELS[etat]}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              {observations.trim() ? (
+                <p className="mt-3 rounded-lg bg-cream/60 p-2.5 text-[12px] leading-5 text-ink">
+                  <strong>Observations :</strong> {observations}
+                </p>
+              ) : null}
+            </DocumentSheet>
+          </div>
+        </ResultPanel>
+      }
+    />
   );
 }

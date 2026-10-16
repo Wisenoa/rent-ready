@@ -1,293 +1,326 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { FinalCta } from "@/components/landing/final-cta";
-import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import Decimal from "decimal.js";
 
-const faqData = [
-  {
-    question: "Qu'est-ce que le dépôt de garantie ?",
-    answer:
-      "Le dépôt de garantie est une somme versée par le locataire au bailleur lors de la signature du bail. Il garantit le paiement des sommes dues en cas de dégradations ou d'impayés à la fin du bail. Le montant maximum est encadré par la loi selon la zone géographique et le type de location.",
-  },
-  {
-    question: "Quel est le montant maximum du dépôt de garantie ?",
-    answer:
-      "En zone tendue, le dépôt est limité à 1 mois de loyer hors charges, pour les locations vides et meublées. En zone non tendue : 1 mois pour le vide, 2 mois pour le meublé. Le dépôt ne peut pas être utilisé comme dernier mois de loyer.",
-  },
-  {
-    question: "Qu'est-ce qu'une zone tendue ?",
-    answer:
-      "Une zone tendue est une zone géographique où il existe un déséquilibre entre l'offre et la demande de logements (villes de plus de 50 000 habitants avec un marché locatif tendu). Dans ces zones, le dépôt de garantie est limité à 1 mois, que le logement soit meublé ou vide.",
-  },
-  {
-    question: "Le dépôt doit-il être restitué avec intérêts ?",
-    answer:
-      "Non, le dépôt de garantie n'est pas productif d'intérêts au bénéfice du locataire. Il doit être restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme à celui d'entrée, deux mois sinon, déduction faite des sommes dues au titre des dégradations constatoes ou des impayés de loyer.",
-  },
-  {
-    question: " Peut-on demander une caution en plus du dépôt ?",
-    answer:
-      "Oui, le bailleur peut demander une caution (garant tiers) en plus du dépôt de garantie. Il peut s'agir d'un garant physique, d'une garantie loyers impayés (GLI) auprès d'un assureur, ou d'une action-logement. La caution ne remplace pas le dépôt de garantie.",
-  },
-];
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import {
+  computeDepotGarantie,
+  DEPOT_GARANTIE_ERROR_MESSAGES,
+  type ConformiteEtatLieux,
+  type PeriodiciteLoyer,
+  type TypeBailDepot,
+} from "@/lib/tools/depot-garantie";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  ChoiceGroup,
+  SelectField,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  ResultBadge,
+  ResultFigure,
+  ResultFormula,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+  ResultRows,
+} from "@/components/marketing/tools/ToolResult";
 
-const breadcrumbItems = [
-  { label: "Accueil", href: "/" },
-  { label: "Outils", href: "/outils" },
-  { label: "Calculateur Dépôt de Garantie", href: "/outils/calculateur-depot-garantie" },
-];
-
-;
+const RETARD_OPTIONS = Array.from({ length: 13 }, (_, idx) => ({
+  value: String(idx),
+  label:
+    idx === 0
+      ? "0 mois (restitution dans le délai légal)"
+      : idx === 1
+        ? "1 période mensuelle commencée en retard (+10 %)"
+        : `${idx} périodes mensuelles commencées en retard (+${idx * 10} %)`,
+}));
 
 export function DepotGarantieCalculatorClient() {
-  const [monthlyRent, setMonthlyRent] = useState("");
-  const [isZoneTendue, setIsZoneTendue] = useState<boolean | null>(null);
-  const [isFurnished, setIsFurnished] = useState<boolean | null>(null);
-  const [result, setResult] = useState<{ maxDeposit: number; legalBasis: string } | null>(null);
+  const [typeBail, setTypeBail] = useState<TypeBailDepot>("vide");
+  const [periodicite, setPeriodicite] = useState<PeriodiciteLoyer>("mensuel");
+  const [loyerHcInput, setLoyerHcInput] = useState("820");
 
-  function calculate() {
-    const rent = parseFloat(monthlyRent);
-    if (isNaN(rent) || rent <= 0) return;
-    if (isZoneTendue === null || isFurnished === null) return;
+  const [conformiteEdl, setConformiteEdl] = useState<ConformiteEtatLieux>("conforme");
+  const [enCopropriete, setEnCopropriete] = useState<"oui" | "non">("oui");
+  const [retenuesInput, setRetenuesInput] = useState("0");
+  const [moisRetard, setMoisRetard] = useState("0");
+  const [edited, setEdited] = useState(false);
 
-    let maxDeposit: number;
-    let legalBasis: string;
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
+  };
 
-    if (isZoneTendue) {
-      maxDeposit = rent;
-      legalBasis = "Zone tendue : dépôt limité à 1 mois de loyer (loi ALUR 2014)";
-    } else {
-      maxDeposit = isFurnished ? rent * 2 : rent;
-      legalBasis = isFurnished
-        ? "Zone non tendue + location meublée : dépôt limité à 2 mois de loyer (loi 1989)"
-        : "Zone non tendue + location vide : dépôt limité à 1 mois de loyer (loi 1989)";
-    }
+  const pLoyer = parseAmount(loyerHcInput, 100_000);
+  const pRetenues =
+    retenuesInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(retenuesInput, 200_000);
 
-    setResult({ maxDeposit, legalBasis });
-  }
+  const loyerErr = !pLoyer.ok
+    ? AMOUNT_ERROR_MESSAGES[pLoyer.error]
+    : pLoyer.value.isZero()
+      ? DEPOT_GARANTIE_ERROR_MESSAGES["zero-rent"]
+      : null;
+  const retenuesErr = !pRetenues.ok ? AMOUNT_ERROR_MESSAGES[pRetenues.error] : null;
+
+  const outcome =
+    !loyerErr && !retenuesErr && pLoyer.ok && pRetenues.ok
+      ? computeDepotGarantie({
+          typeBail,
+          periodicite,
+          loyerMensuelHc: pLoyer.value,
+          conformiteEdl,
+          enCopropriete: enCopropriete === "oui",
+          retenuesJustifiees: pRetenues.value,
+          moisRetardRestitution: Number(moisRetard),
+        })
+      : null;
+
+  const res = outcome && outcome.ok ? outcome.result : null;
 
   return (
-    <>
+    <ToolWorkbench
+      form={
+        <ToolSheet label="Calculateur de dépôt de garantie (plafond légal et restitution)">
+          <ToolStep
+            step={1}
+            title="Type de bail et loyer hors charges"
+            description="Le plafond légal dépend uniquement du type de bail (1 mois HC en location vide, 2 mois HC en location meublée, 0 € en bail mobilité), que le logement soit situé en zone tendue ou non."
+          >
+            <ChoiceGroup
+              name="type-bail-depot"
+              legend="Nature du contrat de location"
+              value={typeBail}
+              onChange={mark(setTypeBail)}
+              choices={[
+                {
+                  value: "vide",
+                  label: "Location vide (art. 22)",
+                  description: "Plafond : 1 mois de loyer hors charges",
+                },
+                {
+                  value: "meublee",
+                  label: "Location meublée (art. 25-6)",
+                  description: "Plafond : 2 mois de loyer hors charges",
+                },
+                {
+                  value: "mobilite",
+                  label: "Bail mobilité (art. 25-17)",
+                  description: "Dépôt de garantie interdit (0 €)",
+                },
+              ]}
+            />
 
-      <div className="min-h-screen bg-cream">
-        <div className="max-w-5xl mx-auto px-4 py-12">
-          <Breadcrumb items={breadcrumbItems} />
+            <AmountField
+              id="depot-loyer-hc"
+              label="Loyer mensuel hors charges (en principal)"
+              value={loyerHcInput}
+              onChange={mark(setLoyerHcInput)}
+              placeholder="820"
+              suffix="€ / mois"
+              size="lg"
+              error={loyerErr}
+            />
 
-          {/* Header */}
-          <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-1.5 bg-sage-50 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
-              <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-              Mis à jour — Base légale 2025
+            <ChoiceGroup
+              name="periodicite-loyer-depot"
+              legend="Périodicité de paiement prévue au bail"
+              value={periodicite}
+              onChange={mark(setPeriodicite)}
+              choices={[
+                {
+                  value: "mensuel",
+                  label: "Paiement mensuel (cas général)",
+                  description: "Dépôt de garantie autorisé",
+                },
+                {
+                  value: "plus-de-deux-mois",
+                  label: "Payable d'avance pour > 2 mois",
+                  description: "Ex. trimestre d'avance → dépôt interdit",
+                },
+              ]}
+            />
+          </ToolStep>
+
+          <ToolStep
+            step={2}
+            title="Restitution, retenues et pénalité de retard en fin de bail"
+            description="En fin de location, le délai légal de restitution est de 1 mois si l'état des lieux de sortie est conforme à l'entrée, et de 2 mois en cas de différences."
+          >
+            <ChoiceGroup
+              name="conformite-edl-depot"
+              legend="État des lieux de sortie comparé à l'entrée"
+              value={conformiteEdl}
+              onChange={mark(setConformiteEdl)}
+              choices={[
+                {
+                  value: "conforme",
+                  label: "Conforme à l'entrée",
+                  description: "Délai maximal de restitution : 1 mois",
+                },
+                {
+                  value: "differences",
+                  label: "Différences constatées",
+                  description: "Délai maximal de restitution : 2 mois",
+                },
+              ]}
+            />
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <AmountField
+                id="depot-retenues"
+                label="Retenues justifiées (devis, factures, impayés)"
+                value={retenuesInput}
+                onChange={mark(setRetenuesInput)}
+                placeholder="0"
+                suffix="€"
+                error={retenuesErr}
+              />
+              <ChoiceGroup
+                name="copropriete-depot"
+                legend="Logement en copropriété ?"
+                value={enCopropriete}
+                onChange={mark(setEnCopropriete)}
+                choices={[
+                  { value: "oui", label: "Oui (provision 20 % max)" },
+                  { value: "non", label: "Non (monopropriété)" },
+                ]}
+              />
             </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3">
-              Calculateur de Dépôt de Garantie
-            </h1>
-            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
-              Calculez le montant maximum du dépôt de garantie légal pour votre location selon la zone géographique et le type de bail.
-            </p>
-          </div>
 
-          {/* Calculator */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-6">Estimez le dépôt maximum</h2>
+            <SelectField
+              id="depot-retard"
+              label="Retard éventuel de restitution (article 22 alinéa 7)"
+              value={moisRetard}
+              onChange={mark(setMoisRetard)}
+              options={RETARD_OPTIONS}
+              hint="La loi applique une majoration égale à 10 % du loyer mensuel hors charges par période mensuelle commencée en retard."
+            />
+          </ToolStep>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-2" htmlFor="rent">
-                  Loyer mensuel hors charges (€)
-                </label>
-                <input
-                  id="rent"
-                  type="number"
-                  placeholder="Ex. 800"
-                  value={monthlyRent}
-                  onChange={(e) => setMonthlyRent(e.target.value)}
-                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-ink placeholder-stone-400 focus:border-forest focus:ring-2 focus:ring-sage-200"
+          {res ? (
+            <ResultJump
+              label="Plafond légal du dépôt de garantie"
+              value={formatEuros(res.plafondLegal)}
+              detail={`Restitution sous ${res.delaiRestitutionMois} mois : ${formatEuros(res.totalAPayerAuLocataire)}`}
+            />
+          ) : null}
+        </ToolSheet>
+      }
+      result={
+        <ResultPanel
+          title="Plafond & restitution"
+          badge={
+            res ? (
+              edited ? (
+                <ResultBadge tone="sage">Votre calcul</ResultBadge>
+              ) : (
+                <ResultBadge tone="example">Exemple · 820 € HC</ResultBadge>
+              )
+            ) : null
+          }
+          footer={
+            res ? (
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <CopyButton
+                  text={`Plafond légal du dépôt de garantie : ${formatEuros(res.plafondLegal)} (${res.nbMoisPlafond} mois HC) | Délai de restitution : ${res.delaiRestitutionMois} mois | Montant à restituer au locataire : ${formatEuros(res.totalAPayerAuLocataire)}`}
+                  label="Copier le résultat"
+                  copiedLabel="Résultat copié"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-2">Zone tendue ?</label>
-                <div className="flex gap-2 mt-1">
-                  <button
-                    type="button"
-                    onClick={() => setIsZoneTendue(true)}
-                    className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isZoneTendue === true ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
-                    }`}
-                  >
-                    Oui
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsZoneTendue(false)}
-                    className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isZoneTendue === false ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
-                    }`}
-                  >
-                    Non
-                  </button>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-2">Type de location</label>
-                <div className="flex gap-2 mt-1">
-                  <button
-                    type="button"
-                    onClick={() => setIsFurnished(false)}
-                    className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isFurnished === false ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
-                    }`}
-                  >
-                    Vide
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsFurnished(true)}
-                    className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isFurnished === true ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
-                    }`}
-                  >
-                    Meublé
-                  </button>
-                </div>
-              </div>
-            </div>
+            ) : undefined
+          }
+        >
+          {res ? (
+            <>
+              <ResultFigure
+                label="Plafond légal du dépôt de garantie à la signature"
+                cents={res.plafondLegalCents}
+                text={formatEuros(res.plafondLegal)}
+                muted={res.plafondLegal.isZero()}
+                caption={
+                  res.motifInterdiction ? (
+                    <>{res.motifInterdiction}</>
+                  ) : (
+                    <>
+                      Soit <strong>{res.nbMoisPlafond} mois</strong> de loyer hors charges (
+                      {formatEuros(res.loyerMensuelHc)}). Ce montant ne peut jamais être révisé en cours de bail ni
+                      lors de son renouvellement.
+                    </>
+                  )
+                }
+              />
 
-            <button
-              type="button"
-              onClick={calculate}
-              className="w-full md:w-auto bg-forest hover:bg-forest-hover text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
-            >
-              Calculer le dépôt maximum
-            </button>
+              <ResultRows
+                rows={[
+                  {
+                    label: "Délai légal de restitution après remise des clés",
+                    value: `${res.delaiRestitutionMois} mois`,
+                    strong: true,
+                  },
+                  ...(res.provisionMaxCopropriete.greaterThan(0)
+                    ? [
+                        {
+                          label: "Retenue provisoire maximale en copropriété (20 %)",
+                          detail: "Jusqu'à l'arrêté annuel des comptes du syndicat (art. 22)",
+                          value: formatEuros(res.provisionMaxCopropriete),
+                        },
+                      ]
+                    : []),
+                  {
+                    label: "Retenues justifiées déduites",
+                    value: `−${formatEuros(res.retenuesJustifiees)}`,
+                  },
+                  {
+                    label: "Solde à restituer (hors pénalité de retard)",
+                    value: formatEuros(res.soldeRestitueHorsPenalite),
+                    strong: true,
+                  },
+                  ...(res.penaliteTotaleRetard.greaterThan(0)
+                    ? [
+                        {
+                          label: `Pénalité légale de retard (${res.moisRetardRestitution} × 10 % du loyer HC)`,
+                          detail: `${res.moisRetardRestitution} × ${formatEuros(res.penaliteParMois)} (art. 22 al. 7)`,
+                          value: `+${formatEuros(res.penaliteTotaleRetard)}`,
+                        },
+                        {
+                          label: "Total dû au locataire (majoration incluse)",
+                          value: formatEuros(res.totalAPayerAuLocataire),
+                          strong: true,
+                        },
+                      ]
+                    : []),
+                  ...(res.complementDuParLocataire.greaterThan(0)
+                    ? [
+                        {
+                          label: "Solde restant dû par le locataire au-delà du dépôt",
+                          value: formatEuros(res.complementDuParLocataire),
+                          strong: true,
+                        },
+                      ]
+                    : []),
+                ]}
+              />
 
-            {result && (
-              <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-xl">
-                <div className="text-center mb-4">
-                  <div className="text-xs text-green-600 uppercase tracking-wide mb-1">Dépôt de garantie maximum</div>
-                  <div className="text-4xl font-bold text-green-700">{result.maxDeposit.toLocaleString("fr-FR")} €</div>
-                </div>
-                <div className="bg-white rounded-lg p-4 mb-4">
-                  <div className="text-xs text-stone-600 uppercase tracking-wide mb-1">Base légale</div>
-                  <div className="text-sm text-stone-700">{result.legalBasis}</div>
-                </div>
-                <div className="flex items-start gap-2 text-sm text-green-700">
-                  <svg className="size-5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                  </svg>
-                  <span>Ce montant ne peut pas être dépassé. Il est restitué dans un délai d'un mois après la remise des clés si l'état des lieux de sortie est conforme, de deux mois sinon.</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Reference Table */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-4">Règles de dépôt par situation</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-stone-200">
-                    <th className="text-left py-3 px-4 font-semibold text-stone-700">Situation</th>
-                    <th className="text-left py-3 px-4 font-semibold text-stone-700">Zone</th>
-                    <th className="text-right py-3 px-4 font-semibold text-stone-700">Dépôt maximum</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { situation: "Location vide", zone: "Tendue", deposit: "1 mois de loyer", bg: "bg-sage-50" },
-                    { situation: "Location vide", zone: "Non tendue", deposit: "1 mois de loyer", bg: "" },
-                    { situation: "Location meublée", zone: "Tendue", deposit: "1 mois de loyer", bg: "bg-sage-50" },
-                    { situation: "Location meublée", zone: "Non tendue", deposit: "2 mois de loyer", bg: "" },
-                  ].map((row, i) => (
-                    <tr key={i} className={`border-b border-stone-100 ${row.bg}`}>
-                      <td className="py-3 px-4 font-medium text-ink">{row.situation}</td>
-                      <td className="py-3 px-4 text-stone-600">{row.zone}</td>
-                      <td className="py-3 px-4 text-right font-semibold text-green-700">{row.deposit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="text-xs text-stone-600 mt-4">Source : loi du 6 juillet 1989 (art. 22) et loi ALUR 2014. Base légale applicable en 2025.</p>
-          </div>
-
-          {/* FAQ */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-6">Questions fréquentes</h2>
-            <div className="space-y-4">
-              {faqData.map((faq, i) => (
-                <details key={i} className="group border border-stone-200 rounded-xl">
-                  <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
-                    <span className="font-semibold text-ink">{faq.question}</span>
-                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
-                    </svg>
-                  </summary>
-                  <div className="px-4 pb-4 text-stone-600 leading-relaxed">{faq.answer}</div>
-                </details>
-              ))}
-            </div>
-          </div>
-
-          {/* Internal Links */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-4">Outils complémentaires</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/outils/calculateur-loyer" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">🏠</span>
-                <div>
-                  <div className="font-semibold text-ink">Calculateur de Loyer</div>
-                  <div className="text-sm text-stone-600">Estimez le loyer au m²</div>
-                </div>
-              </Link>
-              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📄</span>
-                <div>
-                  <div className="font-semibold text-ink">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-600">Conforme à la loi 1989</div>
-                </div>
-              </Link>
-              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📖</span>
-                <div>
-                  <div className="font-semibold text-ink">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-600">Toutes les définitions légales</div>
-                </div>
-              </Link>
-              <Link href="/templates/etat-des-lieux" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">🏠</span>
-                <div>
-                  <div className="font-semibold text-ink">Modèle État des Lieux</div>
-                  <div className="text-sm text-stone-600">Checklist entrée et sortie</div>
-                </div>
-              </Link>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="bg-forest rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-semibold mb-2">Gérez vos dépôts de garantie facilement</h2>
-            <p className="text-cream/80 mb-6 max-w-xl mx-auto">
-              Lokna vous aide à calculer les dépôts, suivre les restitutions, et gérer les retenues en toute conformité.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="inline-block bg-white text-forest font-bold px-8 py-3.5 rounded-xl hover:bg-sage-50 transition-colors">
-                Essai gratuit 14 jours
-              </Link>
-              <Link href="/outils" className="inline-block border-2 border-sage-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-forest transition-colors">
-                Autres outils gratuits
-              </Link>
-            </div>
-          </div>
-
-          <FinalCta />
-        </div>
-      </div>
-    </>
+              <ResultFormula>
+                {res.nbMoisPlafond} × {formatEuros(res.loyerMensuelHc)} = {formatEuros(res.plafondLegal)} (pénalité de
+                retard : {formatEuros(res.penaliteParMois)} / mois entamé)
+              </ResultFormula>
+            </>
+          ) : (
+            <ResultPending>
+              Indiquez le loyer mensuel hors charges pour calculer le plafond légal du dépôt de garantie et les règles de
+              restitution.
+            </ResultPending>
+          )}
+        </ResultPanel>
+      }
+    />
   );
 }

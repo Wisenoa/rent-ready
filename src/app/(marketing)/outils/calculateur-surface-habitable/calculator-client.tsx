@@ -1,262 +1,366 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Decimal from "decimal.js";
+import { Plus, Trash2 } from "lucide-react";
 
-type Room = {
-  name: string;
-  surface: string;
-  ceilingHeight: string;
-  type: "principal" | "accessoire";
-  included: boolean;
-};
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import { formatPercent } from "@/lib/tools/rendement-locatif";
+import {
+  computeSurfaceHabitable,
+  formatM2,
+  SURFACE_HABITABLE_ERROR_MESSAGES,
+  type CategoriePieceSurface,
+} from "@/lib/tools/surface-habitable";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  SelectField,
+  TextField,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  ResultBadge,
+  ResultFigure,
+  ResultFormula,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+  ResultRows,
+} from "@/components/marketing/tools/ToolResult";
 
-const FAQ = [
-  {
-    question: "Quelle est la différence entre surface habitable et surface privative ?",
-    answer: "La surface habitable (loi Boutin) est la surface de plancher construite après déduction des murs, cloisons, marches, gaines, et parties de moins de 1.80m de hauteur. La surface privative (loi Carrez) est similaire mais s'applique aux lots de copropriété et inclut certaines dépendances. Pour un bail, c'est la surface habitable qui doit être mentionnée.",
-  },
-  {
-    question: "Les combles sont-ils comptés dans la surface habitable ?",
-    answer: "Les combles non aménagés ne sont pas compter. Les combles aménagés le sont si la hauteur sous plafond est d'au moins 1.80m. Une pièce mansardée avec une pente de toit ne compte que la partie où la hauteur est ≥ 1.80m.",
-  },
-  {
-    question: "Que se passe-t-il si la surface mentionnée dans le bail est erronée ?",
-    answer: "Si la surface réelle est inférieure de plus de 5% à celle mentionnée dans le bail, le locataire peut demander une diminution proportionnelle du loyer. Cette action doit être faite dans les 3 mois suivant la signature du bail.",
-  },
-  {
-    question: "Le balcon ou la terrasse compte-t-il dans la surface habitable ?",
-    answer: "Non, les balcons, terrasses et loggias ne sont pas inclus dans la surface habitable. Ils peuvent être mentionnés séparément dans le bail comme annexes.",
-  },
-  {
-    question: "Une cave ou un parking fait-il partie de la surface habitable ?",
-    answer: "Non, les caves, garages, parkings et greniers non aménagés ne font pas partie de la surface habitable. Ils peuvent être loués séparément comme annexes.",
-  },
-];
+interface RoomDraft {
+  id: string;
+  nom: string;
+  categorie: CategoriePieceSurface;
+  plancherInput: string;
+  sous180Input: string;
+}
 
-const ROOM_TYPES = [
-  { name: "Séjour / Salon", type: "principal" as const },
-  { name: "Chambre", type: "principal" as const },
-  { name: "Cuisine", type: "principal" as const },
-  { name: "Salle de bain", type: "principal" as const },
-  { name: "WC", type: "principal" as const },
-  { name: "Bureau / Dressing", type: "principal" as const },
-  { name: "Couloir / Entrée", type: "accessoire" as const },
-  { name: "Dressing (si > 4m²)", type: "accessoire" as const },
-  { name: "Combles aménagés (< 1.80m partie déduite)", type: "principal" as const },
+const INITIAL_ROOMS: RoomDraft[] = [
+  { id: "piece-1", nom: "Séjour / cuisine ouverte", categorie: "habitable", plancherInput: "26,50", sous180Input: "0" },
+  { id: "piece-2", nom: "Chambre sous pente", categorie: "habitable", plancherInput: "14,00", sous180Input: "2,20" },
+  { id: "piece-3", nom: "Salle d'eau & entrée", categorie: "habitable", plancherInput: "6,80", sous180Input: "0" },
+  { id: "piece-4", nom: "Balcon / cave", categorie: "annexe-exclue", plancherInput: "4,50", sous180Input: "0" },
 ];
 
 export function SurfaceHabitableClient() {
-  const [rooms, setRooms] = useState<Room[]>([
-    { name: "Séjour", surface: "", ceilingHeight: "2.50", type: "principal", included: true },
-    { name: "Chambre 1", surface: "", ceilingHeight: "2.50", type: "principal", included: true },
-    { name: "Chambre 2", surface: "", ceilingHeight: "2.50", type: "principal", included: true },
-    { name: "Cuisine", surface: "", ceilingHeight: "2.50", type: "principal", included: true },
-    { name: "Salle de bain", surface: "", ceilingHeight: "2.50", type: "principal", included: true },
-  ]);
+  const [rooms, setRooms] = useState<RoomDraft[]>(INITIAL_ROOMS);
+  const [surfaceBailInput, setSurfaceBailInput] = useState("48,00");
+  const [loyerActuelInput, setLoyerActuelInput] = useState("860");
+  const [edited, setEdited] = useState(false);
 
-  const [customRooms, setCustomRooms] = useState<Room[]>([]);
+  function updateRoom(id: string, patch: Partial<RoomDraft>) {
+    setEdited(true);
+    setRooms((prev) => prev.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+  }
 
-  const addRoom = () => {
-    setCustomRooms([...customRooms, { name: "", surface: "", ceilingHeight: "2.50", type: "principal", included: true }]);
-  };
+  function addRoom() {
+    setEdited(true);
+    setRooms((prev) => [
+      ...prev,
+      {
+        id: `piece-${Date.now()}-${prev.length + 1}`,
+        nom: `Pièce ${prev.length + 1}`,
+        categorie: "habitable",
+        plancherInput: "10",
+        sous180Input: "0",
+      },
+    ]);
+  }
 
-  const removeRoom = (index: number) => {
-    setCustomRooms(customRooms.filter((_, i) => i !== index));
-  };
+  function removeRoom(id: string) {
+    if (rooms.length <= 1) return;
+    setEdited(true);
+    setRooms((prev) => prev.filter((r) => r.id !== id));
+  }
 
-  const updateCustomRoom = (index: number, field: keyof Room, value: string | boolean) => {
-    const updated = [...customRooms];
-    if (field === "included") {
-      updated[index] = { ...updated[index], [field]: value as boolean };
-    } else {
-      updated[index] = { ...updated[index], [field]: value as string };
-    }
-    setCustomRooms(updated);
-  };
+  let hasRoomParseError = false;
+  const parsedPieces = rooms.map((r) => {
+    const pPlancher = parseAmount(r.plancherInput, 2_000);
+    const pSous180 =
+      r.sous180Input.trim() === ""
+        ? { ok: true as const, value: new Decimal(0) }
+        : parseAmount(r.sous180Input, 2_000);
 
-  const updateRoom = (index: number, field: keyof Room, value: string) => {
-    const updated = [...rooms];
-    updated[index] = { ...updated[index], [field]: value };
-    setRooms(updated);
-  };
+    const plancherErr = !pPlancher.ok ? AMOUNT_ERROR_MESSAGES[pPlancher.error] : null;
+    const sous180Err = !pSous180.ok
+      ? AMOUNT_ERROR_MESSAGES[pSous180.error]
+      : pPlancher.ok && pSous180.value.greaterThan(pPlancher.value)
+        ? SURFACE_HABITABLE_ERROR_MESSAGES["sub-180-exceeds-total"]
+        : null;
 
-  const toggleRoom = (index: number) => {
-    const updated = [...rooms];
-    updated[index] = { ...updated[index], included: !updated[index].included };
-    setRooms(updated);
-  };
+    if (plancherErr || sous180Err) hasRoomParseError = true;
 
-  const allRooms = [...rooms.filter(r => r.included), ...customRooms.filter(r => r.included)];
+    return {
+      draft: r,
+      plancherErr,
+      sous180Err,
+      pieceInput:
+        pPlancher.ok && pSous180.ok
+          ? {
+              id: r.id,
+              nom: r.nom,
+              categorie: r.categorie,
+              surfacePlancherM2: pPlancher.value,
+              surfaceSous180M2: pSous180.value,
+            }
+          : null,
+    };
+  });
 
-  const habitableSurface = allRooms.reduce((sum, room) => {
-    const surface = parseFloat(room.surface) || 0;
-    const height = parseFloat(room.ceilingHeight) || 2.50;
-    if (surface === 0) return sum;
+  const pSurfaceBail =
+    surfaceBailInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(surfaceBailInput, 2_000);
+  const pLoyer =
+    loyerActuelInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(loyerActuelInput, 100_000);
 
-    // Article R.111-2 du code de la construction et de l'habitation excludes
-    // "les parties de locaux d'une hauteur inférieure à 1,80 mètre". The test is
-    // binary: a room is excluded in full below 1.80 m and counted in full from
-    // 1.80 m up. There is no proportional scale between the two.
-    //
-    // This used to interpolate (`surface * ((height - 1.80) / 0.70)` for the
-    // 1.80–2.50 m band), which does not exist in the law: a 20 m² room with a
-    // 2.15 m ceiling was declared as 10 m² habitable. The surface feeds
-    // `bail-pdf-generator.tsx`, so the error was written into the lease and used
-    // to compute the rent.
-    if (height < 1.80) return sum; // Excluded entirely
-    return sum + surface;
-  }, 0);
+  const surfaceBailErr = !pSurfaceBail.ok ? AMOUNT_ERROR_MESSAGES[pSurfaceBail.error] : null;
+  const loyerErr = !pLoyer.ok ? AMOUNT_ERROR_MESSAGES[pLoyer.error] : null;
+
+  const outcome =
+    !hasRoomParseError && !surfaceBailErr && !loyerErr && pSurfaceBail.ok && pLoyer.ok
+      ? computeSurfaceHabitable({
+          pieces: parsedPieces.map((p) => p.pieceInput!),
+          surfaceInscriteBailM2: pSurfaceBail.value.greaterThan(0) ? pSurfaceBail.value : null,
+          loyerMensuelHc: pLoyer.value.greaterThan(0) ? pLoyer.value : null,
+        })
+      : null;
+
+  const res = outcome && outcome.ok ? outcome.result : null;
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-        <h2 className="text-lg font-semibold text-stone-800 mb-4">Pièces du logement</h2>
+    <ToolWorkbench
+      form={
+        <ToolSheet label="Calculateur de surface habitable (loi Boutin, article R. 156-1 du CCH)">
+          <ToolStep
+            step={1}
+            title="Relevé pièce par pièce (article R. 156-1 du CCH)"
+            description="Saisissez la surface de plancher de chaque pièce et déduisez, le cas échéant, la fraction dont la hauteur sous plafond est inférieure à 1,80 mètre. Les caves, balcons, terrasses, vérandas et garages sont exclus."
+          >
+            <div className="space-y-4">
+              {parsedPieces.map(({ draft, plancherErr, sous180Err }, index) => (
+                <div
+                  key={draft.id}
+                  className="rounded-xl border border-line-soft bg-cream/30 p-4"
+                >
+                  <div className="flex items-center justify-between gap-2 pb-3">
+                    <span className="text-[13px] font-semibold text-forest">
+                      Espace n° {index + 1}
+                    </span>
+                    {rooms.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={() => removeRoom(draft.id)}
+                        className="inline-flex items-center gap-1 rounded px-2 py-1 text-[12.5px] font-medium text-ink-muted hover:bg-cream hover:text-[#A1281E]"
+                      >
+                        <Trash2 aria-hidden="true" className="size-3.5" />
+                        Supprimer
+                      </button>
+                    ) : null}
+                  </div>
 
-        {/* Default rooms */}
-        <div className="space-y-4 mb-6">
-          {rooms.map((room, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                checked={room.included}
-                onChange={() => toggleRoom(index)}
-                className="w-5 h-5 accent-forest flex-shrink-0"
-              />
-              <div className="flex-1 grid grid-cols-3 gap-3">
-                <input
-                  type="text"
-                  value={room.name}
-                  onChange={(e) => updateRoom(index, "name", e.target.value)}
-                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
-                  placeholder="Nom de la pièce"
-                />
-                <input
-                  type="number"
-                  min="0"
-                  step="0.5"
-                  value={room.surface}
-                  onChange={(e) => updateRoom(index, "surface", e.target.value)}
-                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
-                  placeholder="Surface (m²)"
-                />
-                <input
-                  type="number"
-                  min="1.0"
-                  max="5"
-                  step="0.1"
-                  value={room.ceilingHeight}
-                  onChange={(e) => updateRoom(index, "ceilingHeight", e.target.value)}
-                  className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
-                  placeholder="Hauteur (m)"
-                />
-              </div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <TextField
+                      id={`room-nom-${draft.id}`}
+                      label="Nom de la pièce ou annexe"
+                      value={draft.nom}
+                      onChange={(v) => updateRoom(draft.id, { nom: v })}
+                      placeholder="Ex. Séjour, Chambre..."
+                    />
+                    <SelectField
+                      id={`room-cat-${draft.id}`}
+                      label="Qualification réglementaire"
+                      value={draft.categorie}
+                      onChange={(v) =>
+                        updateRoom(draft.id, { categorie: v as CategoriePieceSurface })
+                      }
+                      options={[
+                        { value: "habitable", label: "Pièce habitable (incluse si h ≥ 1,80 m)" },
+                        { value: "annexe-exclue", label: "Annexe exclue (balcon, cave, véranda, garage)" },
+                      ]}
+                    />
+                  </div>
+
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    <AmountField
+                      id={`room-plancher-${draft.id}`}
+                      label="Surface de plancher totale"
+                      value={draft.plancherInput}
+                      onChange={(v) => updateRoom(draft.id, { plancherInput: v })}
+                      placeholder="15,00"
+                      suffix="m²"
+                      error={plancherErr}
+                    />
+                    {draft.categorie === "habitable" ? (
+                      <AmountField
+                        id={`room-sous180-${draft.id}`}
+                        label="Dont partie sous 1,80 m de hauteur"
+                        value={draft.sous180Input}
+                        onChange={(v) => updateRoom(draft.id, { sous180Input: v })}
+                        placeholder="0"
+                        suffix="m²"
+                        error={sous180Err}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Custom rooms */}
-        {customRooms.map((room, index) => (
-          <div key={index} className="flex items-center gap-3 mb-3">
             <button
               type="button"
-              onClick={() => removeRoom(index)}
-              className="text-red-500 hover:text-red-700 text-sm px-2"
+              onClick={addRoom}
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-line bg-white px-4 text-[14px] font-medium text-forest transition-colors hover:border-sage-300 hover:bg-sage-50/60"
             >
-              ✕
+              <Plus aria-hidden="true" className="size-4" />
+              Ajouter une pièce ou une annexe
             </button>
-            <div className="flex-1 grid grid-cols-3 gap-3">
-              <input
-                type="text"
-                value={room.name}
-                onChange={(e) => updateCustomRoom(index, "name", e.target.value)}
-                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
-                placeholder="Nom de la pièce"
+          </ToolStep>
+
+          <ToolStep
+            step={2}
+            title="Vérification de l'écart de 5 % avec le bail (article 3-1 loi de 1989)"
+            description="Si la surface habitable réelle est inférieure de plus d'un vingtième (5 %) à celle inscrite dans le bail, le locataire peut demander une diminution proportionnelle du loyer."
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <AmountField
+                id="surface-inscrite-bail"
+                label="Surface mentionnée dans le bail (optionnel)"
+                value={surfaceBailInput}
+                onChange={(v) => {
+                  setEdited(true);
+                  setSurfaceBailInput(v);
+                }}
+                placeholder="48,00"
+                suffix="m²"
+                error={surfaceBailErr}
               />
-              <input
-                type="number"
-                min="0"
-                step="0.5"
-                value={room.surface}
-                onChange={(e) => updateCustomRoom(index, "surface", e.target.value)}
-                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
-                placeholder="Surface (m²)"
-              />
-              <input
-                type="number"
-                min="1.0"
-                max="5"
-                step="0.1"
-                value={room.ceilingHeight}
-                onChange={(e) => updateCustomRoom(index, "ceilingHeight", e.target.value)}
-                className="border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest"
-                placeholder="Hauteur (m)"
+              <AmountField
+                id="surface-loyer-actuel"
+                label="Loyer mensuel hors charges actuel (optionnel)"
+                value={loyerActuelInput}
+                onChange={(v) => {
+                  setEdited(true);
+                  setLoyerActuelInput(v);
+                }}
+                placeholder="860"
+                suffix="€ / mois"
+                error={loyerErr}
               />
             </div>
-          </div>
-        ))}
+          </ToolStep>
 
-        <button
-          type="button"
-          onClick={addRoom}
-          className="w-full border-2 border-dashed border-stone-300 hover:border-sage-400 text-stone-600 hover:text-forest font-semibold py-3 rounded-xl transition-colors"
+          {res ? (
+            <ResultJump
+              label="Surface habitable (loi Boutin)"
+              value={formatM2(res.surfaceHabitableTotaleM2)}
+              detail={`${formatM2(res.surfaceTotaleExclueM2)} exclus (sous 1,80 m et annexes)`}
+            />
+          ) : null}
+        </ToolSheet>
+      }
+      result={
+        <ResultPanel
+          title="Surface habitable & contrôle du bail"
+          badge={
+            res ? (
+              edited ? (
+                <ResultBadge tone="sage">Votre relevé</ResultBadge>
+              ) : (
+                <ResultBadge tone="example">Exemple · 4 pièces / annexes</ResultBadge>
+              )
+            ) : null
+          }
+          footer={
+            res ? (
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <CopyButton
+                  text={`Surface habitable (art. R. 156-1 CCH) : ${formatM2(res.surfaceHabitableTotaleM2)} (plancher total : ${formatM2(res.surfaceTotalePlancherM2)}, surfaces exclues : ${formatM2(res.surfaceTotaleExclueM2)}).`}
+                  label="Copier le mesurage"
+                  copiedLabel="Mesurage copié"
+                />
+              </div>
+            ) : undefined
+          }
         >
-          + Ajouter une pièce
-        </button>
+          {res ? (
+            <>
+              <ResultFigure
+                label="Surface habitable totale à inscrire au bail"
+                text={formatM2(res.surfaceHabitableTotaleM2)}
+                caption={
+                  <>
+                    Après déduction de <strong>{formatM2(res.surfaceTotaleExclueM2)}</strong> de surfaces exclues (parties
+                    d&apos;une hauteur &lt; 1,80 m et annexes) sur {formatM2(res.surfaceTotalePlancherM2)} au sol.
+                  </>
+                }
+              />
 
-        {/* Result */}
-        {habitableSurface > 0 && (
-          <div className="mt-6 bg-green-50 border border-green-300 rounded-xl p-6">
-            <div className="flex justify-between items-center">
-              <span className="text-stone-600 font-semibold">Surface habitable (loi Boutin)</span>
-              <span className="text-3xl font-bold text-green-700">
-                {habitableSurface.toFixed(2)} m²
-              </span>
-            </div>
-            <p className="text-xs text-stone-600 mt-2">
-              Surface après déduction des parties de moins de 1.80m de hauteur.
-              Ne comprend pas : murs, cloisons, marches, gaines, ni annexes (balcon, cave, parking).
-            </p>
-          </div>
-        )}
-      </div>
+              {res.inferieureSeuilDecence9M2 ? (
+                <div className="mt-4 rounded-lg border border-[#EAD7AE] bg-[#FBF3E2] px-3.5 py-2.5 text-[13px] leading-5 text-[#7A5512]">
+                  <strong>Attention (décret n° 2002-120 du 30 janvier 2002) :</strong> une surface habitable inférieure à{" "}
+                  <strong>9 m²</strong> ne respecte pas le critère de décence d&apos;une résidence principale (sauf si le volume
+                  habitable atteint au moins 20 m³).
+                </div>
+              ) : null}
 
-      {/* Info */}
-      <div className="bg-sage-50 border border-sage-200 rounded-xl p-5">
-        <h3 className="font-bold text-ink mb-2">📋 Ce qui est INCLUS dans la surface habitable</h3>
-        <ul className="text-sm text-forest space-y-1">
-          <li>✅ Toutes les pièces principales (séjour, chambres, cuisine, salle de bain)</li>
-          <li>✅ Les bureaux et dressings</li>
-          <li>✅ Les parties de hauteur ≥ 1.80m sous combles aménagés</li>
-          <li>✅ Les couloirs et entrées</li>
-        </ul>
-        <h3 className="font-bold text-red-700 mt-4 mb-2">❌ Ce qui est EXCLU de la surface habitable</h3>
-        <ul className="text-sm text-red-700 space-y-1">
-          <li>❌ Murs, cloisons, marches et gaines</li>
-          <li>❌ Parties de hauteur &lt; 1.80m (sous combles, mansardes)</li>
-          <li>❌ Balcons, terrasses, loggias</li>
-          <li>❌ Caves, garages, parkings, greniers non aménagés</li>
-        </ul>
-      </div>
+              <ResultRows
+                rows={[
+                  ...res.piecesDetail.map((p) => ({
+                    label: p.nom,
+                    detail:
+                      p.categorie === "annexe-exclue"
+                        ? `Annexe exclue (${formatM2(p.surfacePlancherM2)})`
+                        : p.surfaceExclueM2.greaterThan(0)
+                          ? `${formatM2(p.surfacePlancherM2)} − ${formatM2(p.surfaceExclueM2)} (< 1,80 m)`
+                          : "Hauteur ≥ 1,80 m",
+                    value: formatM2(p.surfaceHabitableRetenueM2),
+                  })),
+                  {
+                    label: "Surface habitable retenue (loi Boutin)",
+                    value: formatM2(res.surfaceHabitableTotaleM2),
+                    strong: true,
+                  },
+                  ...(res.verificationBail
+                    ? [
+                        {
+                          label: `Écart avec le bail (${formatM2(res.verificationBail.surfaceBailM2)})`,
+                          detail: "Seuil légal d'action en réduction de loyer : > 5 % (art. 3-1)",
+                          value: `${formatM2(res.verificationBail.ecartM2)} (${formatPercent(res.verificationBail.ecartPourcent)})`,
+                        },
+                        {
+                          label: "Droit à diminution proportionnelle du loyer",
+                          value: res.verificationBail.depasseSeuilCinqPourcent
+                            ? res.verificationBail.loyerReduitProportionnelHc
+                              ? `Oui → loyer ramené à ${formatEuros(res.verificationBail.loyerReduitProportionnelHc)} (−${formatEuros(res.verificationBail.baisseMensuelleHc!)})`
+                              : "Oui (écart > 5 %)"
+                            : "Non (écart ≤ 5 %)",
+                          strong: true,
+                        },
+                      ]
+                    : []),
+                ]}
+              />
 
-      {/* FAQ */}
-      <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8">
-        <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
-        <div className="space-y-5">
-          {FAQ.map((item, i) => (
-            <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
-              <h3 className="font-semibold text-stone-800 mb-2">{item.question}</h3>
-              <p className="text-stone-600 leading-relaxed">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/outils/calculateur-loyer" className="text-forest hover:underline">Calculateur de loyer →</Link>
-        <Link href="/templates/etat-des-lieux" className="text-forest hover:underline">Modèle état des lieux →</Link>
-        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
-      </div>
-    </div>
+              <ResultFormula>
+                {formatM2(res.surfaceTotalePlancherM2)} (plancher) − {formatM2(res.surfaceTotaleExclueM2)} (exclus) ={" "}
+                {formatM2(res.surfaceHabitableTotaleM2)}
+              </ResultFormula>
+            </>
+          ) : (
+            <ResultPending>
+              Corrigez les surfaces indiquées en rouge pour calculer la surface habitable totale selon l&apos;article R. 156-1
+              du CCH.
+            </ResultPending>
+          )}
+        </ResultPanel>
+      }
+    />
   );
 }
