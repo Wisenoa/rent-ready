@@ -1,326 +1,330 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Decimal from "decimal.js";
 
-const FAQ = [
-  {
-    question: "Qu'est-ce que le statut LMNP ?",
-    answer: "Le Loueur Meublé Non Professionnel (LMNP) est un statut fiscal qui permet de louer un bien meublé tout en bénéficiant d'avantages fiscaux. Vous devez louer un bien équipé de tous les éléments mobiliers nécessaires à la vie quotidienne.",
-  },
-  {
-    question: "Quelle est la différence entre micro-BIC et régime réel ?",
-    answer: "Le micro-BIC applique un abattement forfaitaire de 50% (71% pour les locations meublées de tourisme) sur vos revenus locatifs. Le régime réel vous permet de déduire vos charges réelles (intérêts, taxe foncière, assurance, charges de copropriété) et d'amortir le bien sur 20-30 ans.",
-  },
-  {
-    question: "Quand le régime réel est-il plus avantageux que le micro-BIC ?",
-    answer: "Le régime réel est généralement plus avantageux quand vos charges déductibles dépassent 50% du loyer (ou 71% pour les meublés de tourisme). C'est souvent le cas pour les biens financés à crédit, avec une taxe foncière élevée ou des charges de copropriété importantes.",
-  },
-  {
-    question: "Qu'est-ce que l'amortissement en LMNP ?",
-    answer: "L'amortissement permet de déduire chaque année une partie de la valeur du bien (hors terrain) sur 20-25 ans. Cette déduction n'impacte pas votre trésorerie mais réduit votre imposition. Elle n'est possible que sous le régime réel.",
-  },
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import {
+  computeFiscaliteLmnp,
+  FISCALITE_LMNP_ERROR_MESSAGES,
+  type TmiRate,
+} from "@/lib/tools/fiscalite-lmnp";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  ChoiceGroup,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  ResultBadge,
+  ResultFigure,
+  ResultFormula,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+  ResultRows,
+} from "@/components/marketing/tools/ToolResult";
+
+const TMI_CHOICES: { value: `${TmiRate}`; label: string; description: string }[] = [
+  { value: "0", label: "0 %", description: "Non imposable" },
+  { value: "11", label: "11 %", description: "Tranche 1" },
+  { value: "30", label: "30 %", description: "Tranche 2" },
+  { value: "41", label: "41 %", description: "Tranche 3" },
 ];
 
 export function SimulateurLmnpClient() {
-  const [monthlyRent, setMonthlyRent] = useState("");
-  const [annualCharges, setAnnualCharges] = useState("");
-  const [propertyTax, setPropertyTax] = useState("");
-  const [insurance, setInsurance] = useState("");
-  const [managementFees, setManagementFees] = useState("");
-  const [interestPayments, setInterestPayments] = useState("");
-  const [purchasePrice, setPurchasePrice] = useState("");
-  const [taxBracket, setTaxBracket] = useState("11");
-  const [result, setResult] = useState<{
-    grossRent: number;
-    microBIC: { taxableIncome: number; tax: number };
-    realRegime: { taxableIncome: number; tax: number; amortization: number };
-    bestRegime: "micro" | "real" | "equal";
-    yearlyAmortization: number;
-    totalDeduction: number;
-  } | null>(null);
+  const [recettesInput, setRecettesInput] = useState("10800");
+  const [chargesInput, setChargesInput] = useState("2100");
+  const [interetsInput, setInteretsInput] = useState("2900");
+  const [valeurBienInput, setValeurBienInput] = useState("180000");
+  const [valeurMobilierInput, setValeurMobilierInput] = useState("7000");
+  const [tmi, setTmi] = useState<`${TmiRate}`>("30");
+  const [edited, setEdited] = useState(false);
 
-  function calculate() {
-    const rent = parseFloat(monthlyRent) || 0;
-    const charges = parseFloat(annualCharges) || 0;
-    const tax = parseFloat(propertyTax) || 0;
-    const insuranceAmount = parseFloat(insurance) || 0;
-    const management = parseFloat(managementFees) || 0;
-    const interest = parseFloat(interestPayments) || 0;
-    const price = parseFloat(purchasePrice) || 0;
-    const bracket = parseFloat(taxBracket) / 100;
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
+  };
 
-    const grossRent = rent * 12;
+  const pRecettes = parseAmount(recettesInput, 1_000_000);
+  const pCharges =
+    chargesInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(chargesInput, 500_000);
+  const pInterets =
+    interetsInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(interetsInput, 500_000);
+  const pBien = parseAmount(valeurBienInput, 20_000_000);
+  const pMobilier =
+    valeurMobilierInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(valeurMobilierInput, 1_000_000);
 
-    // Micro-BIC (50% abatement for residential furnished)
-    const microAbatement = grossRent * 0.50;
-    const microTaxableIncome = grossRent - microAbatement;
-    const microTax = microTaxableIncome * bracket + microTaxableIncome * 0.172; // IR + PS
+  const recettesErr = !pRecettes.ok
+    ? AMOUNT_ERROR_MESSAGES[pRecettes.error]
+    : pRecettes.value.isZero()
+      ? FISCALITE_LMNP_ERROR_MESSAGES["zero-revenue"]
+      : null;
+  const chargesErr = !pCharges.ok ? AMOUNT_ERROR_MESSAGES[pCharges.error] : null;
+  const interetsErr = !pInterets.ok ? AMOUNT_ERROR_MESSAGES[pInterets.error] : null;
+  const bienErr = !pBien.ok
+    ? AMOUNT_ERROR_MESSAGES[pBien.error]
+    : pBien.value.isZero()
+      ? FISCALITE_LMNP_ERROR_MESSAGES["zero-property"]
+      : null;
+  const mobilierErr = !pMobilier.ok ? AMOUNT_ERROR_MESSAGES[pMobilier.error] : null;
 
-    // Real regime
-    const totalCharges = charges + tax + insuranceAmount + management + interest;
-    // Amortization: building is ~80-85% of price, amortized over 25 years
-    const buildingValue = price * 0.85;
-    const yearlyAmortization = buildingValue / 25;
-    const amortizedInterest = Math.min(interest, yearlyAmortization); // interest first, then amortization
-    const realTaxableIncome = Math.max(0, grossRent - totalCharges - yearlyAmortization);
-    const realTax = realTaxableIncome * bracket + Math.max(0, grossRent - totalCharges) * 0.172;
+  const hasError = Boolean(recettesErr || chargesErr || interetsErr || bienErr || mobilierErr);
 
-    const bestRegime = Math.abs(microTax - realTax) < 10 ? "equal"
-      : microTax < realTax ? "micro" : "real";
+  const outcome =
+    !hasError && pRecettes.ok && pCharges.ok && pInterets.ok && pBien.ok && pMobilier.ok
+      ? computeFiscaliteLmnp({
+          recettesAnnuelles: pRecettes.value,
+          chargesDeductiblesAnnuelles: pCharges.value,
+          interetsEmpruntAnnuels: pInterets.value,
+          valeurBienImmobilier: pBien.value,
+          valeurMobilierEtTravaux: pMobilier.value,
+          tmi: Number(tmi) as TmiRate,
+        })
+      : null;
 
-    setResult({
-      grossRent,
-      microBIC: { taxableIncome: microTaxableIncome, tax: microTax },
-      realRegime: { taxableIncome: realTaxableIncome, tax: realTax, amortization: yearlyAmortization },
-      bestRegime,
-      yearlyAmortization,
-      totalDeduction: totalCharges + yearlyAmortization,
-    });
-  }
+  const res = outcome && outcome.ok ? outcome.result : null;
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-        <div className="space-y-5">
-          <div>
-            <label htmlFor="monthlyRent" className="block text-sm font-semibold text-stone-700 mb-1">
-              Loyer mensuel hors charges (€)
-            </label>
-            <input
-              id="monthlyRent"
-              type="number"
-              min="0"
-              step="10"
-              placeholder="Ex. : 800"
-              value={monthlyRent}
-              onChange={(e) => setMonthlyRent(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="annualCharges" className="block text-sm font-semibold text-stone-700 mb-1">
-                Charges annuelles non récupérables (€)
-              </label>
-              <input
-                id="annualCharges"
-                type="number"
-                min="0"
-                step="100"
-                placeholder="Ex. : 800"
-                value={annualCharges}
-                onChange={(e) => setAnnualCharges(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-              />
-            </div>
-            <div>
-              <label htmlFor="propertyTax" className="block text-sm font-semibold text-stone-700 mb-1">
-                Taxe foncière (€)
-              </label>
-              <input
-                id="propertyTax"
-                type="number"
-                min="0"
-                step="100"
-                placeholder="Ex. : 1200"
-                value={propertyTax}
-                onChange={(e) => setPropertyTax(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="insurance" className="block text-sm font-semibold text-stone-700 mb-1">
-                Assurance PNO (€)
-              </label>
-              <input
-                id="insurance"
-                type="number"
-                min="0"
-                step="50"
-                placeholder="Ex. : 300"
-                value={insurance}
-                onChange={(e) => setInsurance(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-              />
-            </div>
-            <div>
-              <label htmlFor="managementFees" className="block text-sm font-semibold text-stone-700 mb-1">
-                Frais de gestion (€)
-              </label>
-              <input
-                id="managementFees"
-                type="number"
-                min="0"
-                step="50"
-                placeholder="Ex. : 600"
-                value={managementFees}
-                onChange={(e) => setManagementFees(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="interestPayments" className="block text-sm font-semibold text-stone-700 mb-1">
-                Intérêts d'emprunt annuels (€)
-              </label>
-              <input
-                id="interestPayments"
-                type="number"
-                min="0"
-                step="100"
-                placeholder="Ex. : 3000"
-                value={interestPayments}
-                onChange={(e) => setInterestPayments(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-              />
-            </div>
-            <div>
-              <label htmlFor="purchasePrice" className="block text-sm font-semibold text-stone-700 mb-1">
-                Prix d'achat du bien (€) — pour amortissement
-              </label>
-              <input
-                id="purchasePrice"
-                type="number"
-                min="0"
-                step="5000"
-                placeholder="Ex. : 200000"
-                value={purchasePrice}
-                onChange={(e) => setPurchasePrice(e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="taxBracket" className="block text-sm font-semibold text-stone-700 mb-1">
-              Taux marginal d'imposition (IR)
-            </label>
-            <select
-              id="taxBracket"
-              value={taxBracket}
-              onChange={(e) => setTaxBracket(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-            >
-              <option value="0">0% (première tranche)</option>
-              <option value="11">11% (deuxième tranche)</option>
-              <option value="30">30% (troisième tranche)</option>
-              <option value="41">41% (quatrième tranche)</option>
-              <option value="45">45% (cinquième tranche)</option>
-            </select>
-          </div>
-
-          <button
-            type="button"
-            onClick={calculate}
-            className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors"
+    <ToolWorkbench
+      form={
+        <ToolSheet label="Simulateur de fiscalité LMNP (Micro-BIC vs Régime Réel)">
+          <ToolStep
+            step={1}
+            title="Recettes locatives et tranche marginale d'imposition"
+            description="En location meublée (LMNP), les recettes annuelles comprennent les loyers hors charges ET les provisions ou forfaits de charges encaissés."
           >
-            Calculer ma fiscalite LMNP
-          </button>
+            <AmountField
+              id="lmnp-recettes"
+              label="Recettes locatives annuelles (loyers + charges)"
+              value={recettesInput}
+              onChange={mark(setRecettesInput)}
+              placeholder="10800"
+              suffix="€ / an"
+              size="lg"
+              error={recettesErr}
+            />
 
-          {result && (
-            <div className="space-y-4">
-              {/* Best regime badge */}
-              <div className={`rounded-xl p-4 text-center ${result.bestRegime === "micro" ? "bg-sage-50 border border-sage-300" : result.bestRegime === "real" ? "bg-green-50 border border-green-300" : "bg-stone-100 border border-stone-300"}`}>
-                <p className="font-bold text-lg">
-                  {result.bestRegime === "micro" ? "📊 Le régime micro-BIC est plus avantageux" :
-                   result.bestRegime === "real" ? "✅ Le régime réel est plus avantageux" :
-                   "⚖️ Les deux régimes sont equivalents"}
-                </p>
-                <p className="text-sm text-stone-600 mt-1">
-                  Économie estimée : <strong>{Math.abs(result.microBIC.tax - result.realRegime.tax).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}/an</strong>
-                </p>
+            {res && res.depassePlafondMicroBic ? (
+              <div className="rounded-lg border border-[#EAD7AE] bg-[#FBF3E2] px-4 py-3 text-[13.5px] leading-5 text-[#7A5512]">
+                <strong>Plafond Micro-BIC dépassé (77 700 €) :</strong> au-delà de 77 700 € de recettes annuelles en location
+                meublée longue durée (article 50-0 du CGI), le régime Réel Simplifié s&apos;applique de plein droit.
               </div>
+            ) : null}
 
-              {/* Micro-BIC */}
-              <div className="bg-stone-50 border border-stone-200 rounded-xl p-5">
-                <h3 className="font-bold text-stone-800 mb-3">📊 Régime micro-BIC (abattement 50%)</h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-stone-600">Loyer annuel</span>
-                    <span className="font-semibold">{result.grossRent.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-stone-600">Abattement forfaitaire (50%)</span>
-                    <span className="text-red-600">-{(result.grossRent * 0.50).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
-                  </div>
-                  <div className="flex justify-between border-t border-stone-200 pt-2">
-                    <span className="text-stone-600">Revenu imposable</span>
-                    <span className="font-semibold">{result.microBIC.taxableIncome.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
-                  </div>
-                  <div className="flex justify-between border-t border-stone-200 pt-2">
-                    <span className="text-stone-600 font-bold">Imposition totale</span>
-                    <span className="font-bold text-red-700 text-lg">{result.microBIC.tax.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
-                  </div>
-                </div>
+            <ChoiceGroup
+              name="lmnp-tmi"
+              legend="Votre tranche marginale d'imposition (TMI)"
+              value={tmi}
+              onChange={mark(setTmi)}
+              columns={4}
+              compact
+              choices={TMI_CHOICES}
+              hint="S'y ajoutent les prélèvements sociaux de 17,2 % sur le bénéfice BIC net imposable."
+            />
+          </ToolStep>
+
+          <ToolStep
+            step={2}
+            title="Charges déductibles au régime réel"
+            description="Indiquez vos charges annuelles réelles (taxe foncière, copropriété, assurance PNO, expert-comptable) ainsi que les intérêts d'emprunt et l'assurance de prêt."
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <AmountField
+                id="lmnp-charges"
+                label="Charges annuelles (hors crédit)"
+                value={chargesInput}
+                onChange={mark(setChargesInput)}
+                placeholder="2100"
+                suffix="€ / an"
+                error={chargesErr}
+              />
+              <AmountField
+                id="lmnp-interets"
+                label="Intérêts d'emprunt & assurance prêt"
+                value={interetsInput}
+                onChange={mark(setInteretsInput)}
+                placeholder="2900"
+                suffix="€ / an"
+                error={interetsErr}
+              />
+            </div>
+          </ToolStep>
+
+          <ToolStep
+            step={3}
+            title="Valeur amortissable du bien et du mobilier"
+            description="Au régime réel, la part bâtie (estimée à 85 % du bien hors terrain sur 30 ans) et le mobilier (sur 7 ans) sont amortis sans pouvoir créer de déficit fiscal (art. 39 C du CGI)."
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <AmountField
+                id="lmnp-valeur-bien"
+                label="Valeur du bien immobilier"
+                value={valeurBienInput}
+                onChange={mark(setValeurBienInput)}
+                placeholder="180000"
+                suffix="€"
+                error={bienErr}
+              />
+              <AmountField
+                id="lmnp-valeur-mobilier"
+                label="Valeur du mobilier et équipements"
+                value={valeurMobilierInput}
+                onChange={mark(setValeurMobilierInput)}
+                placeholder="7000"
+                suffix="€"
+                error={mobilierErr}
+              />
+            </div>
+          </ToolStep>
+
+          {res ? (
+            <ResultJump
+              label={
+                res.regimePlusAvantageux === "reel"
+                  ? "Économie annuelle au Régime Réel"
+                  : "Économie annuelle au Micro-BIC"
+              }
+              value={formatEuros(res.economieAnnuelleReel.abs())}
+              detail={`Micro-BIC : ${formatEuros(res.microBic.impotTotal)} vs Réel : ${formatEuros(res.reelSimplifie.impotTotal)}`}
+            />
+          ) : null}
+        </ToolSheet>
+      }
+      result={
+        <ResultPanel
+          title="Comparatif Micro-BIC vs Réel"
+          badge={
+            res ? (
+              edited ? (
+                <ResultBadge tone="sage">Votre simulation</ResultBadge>
+              ) : (
+                <ResultBadge tone="example">Exemple · 900 € / mois</ResultBadge>
+              )
+            ) : null
+          }
+          footer={
+            res ? (
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <CopyButton
+                  text={`LMNP (${formatEuros(res.recettesAnnuelles)} / an, TMI ${res.tmi} %) — Micro-BIC : ${formatEuros(res.microBic.impotTotal)} d'impôt | Régime Réel : ${formatEuros(res.reelSimplifie.impotTotal)} d'impôt (économie annuelle : ${formatEuros(res.economieAnnuelleReel.abs())}).`}
+                  label="Copier le comparatif"
+                  copiedLabel="Comparatif copié"
+                />
               </div>
+            ) : undefined
+          }
+        >
+          {res ? (
+            <>
+              <ResultFigure
+                label={
+                  res.regimePlusAvantageux === "reel"
+                    ? "Économie d'impôt annuelle avec le Régime Réel"
+                    : "Économie d'impôt annuelle avec le Micro-BIC"
+                }
+                cents={res.economieAnnuelleCents}
+                text={formatEuros(res.economieAnnuelleReel.abs())}
+                caption={
+                  res.regimePlusAvantageux === "reel" ? (
+                    <>
+                      Le <strong>Régime Réel Simplifié</strong> ramène votre fiscalité annuelle (IR + PS) à{" "}
+                      <strong>{formatEuros(res.reelSimplifie.impotTotal)}</strong> contre{" "}
+                      <strong>{formatEuros(res.microBic.impotTotal)}</strong> en Micro-BIC.
+                    </>
+                  ) : (
+                    <>
+                      L&apos;abattement forfaitaire de 50 % du <strong>Micro-BIC</strong> est plus avantageux que vos charges et
+                      amortissements actuels.
+                    </>
+                  )
+                }
+              />
 
-              {/* Real regime */}
-              <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-                <h3 className="font-bold text-green-800 mb-3">📊 Régime réel (amortissement)</h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-stone-600">Loyer annuel</span>
-                    <span className="font-semibold">{result.grossRent.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-stone-600">Charges déductibles</span>
-                    <span className="text-red-600">
-                      -{parseFloat(annualCharges || "0") + parseFloat(propertyTax || "0") + parseFloat(insurance || "0") + parseFloat(managementFees || "0") + parseFloat(interestPayments || "0") <= 0
-                        ? "0"
-                        : (parseFloat(annualCharges) + parseFloat(propertyTax) + parseFloat(insurance) + parseFloat(managementFees) + parseFloat(interestPayments)).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-stone-600">Amortissement (25 ans)</span>
-                    <span className="text-forest">-{result.yearlyAmortization.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
-                  </div>
-                  <div className="flex justify-between border-t border-green-200 pt-2">
-                    <span className="text-stone-600">Revenu imposable</span>
-                    <span className="font-semibold">{result.realRegime.taxableIncome.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
-                  </div>
-                  <div className="flex justify-between border-t border-green-200 pt-2">
-                    <span className="text-stone-600 font-bold">Imposition totale</span>
-                    <span className="font-bold text-red-700 text-lg">{result.realRegime.tax.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
-                  </div>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <div
+                  className={`rounded-xl border p-3.5 ${
+                    res.regimePlusAvantageux === "micro"
+                      ? "border-forest bg-sage-50/70"
+                      : "border-line-soft bg-paper"
+                  }`}
+                >
+                  <p className="text-[12px] font-semibold uppercase tracking-wider text-ink-muted">Micro-BIC (50 %)</p>
+                  <p className="mt-1 text-[1.25rem] font-semibold tabular-nums text-ink">
+                    {formatEuros(res.microBic.impotTotal)}
+                  </p>
+                  <p className="mt-0.5 text-[12px] text-ink-muted">
+                    Base : {formatEuros(res.microBic.baseImposable)}
+                  </p>
                 </div>
-                <div className="mt-3 bg-green-100 rounded-lg p-3 text-sm">
-                  <p className="text-green-800">
-                    💡 <strong>Déductions totales : {result.totalDeduction.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}/an</strong>
-                    <br />
-                    <span className="text-green-700">L'amortissement de {result.yearlyAmortization.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ne réduit pas votre trésorerie mais diminue votre impôt.</span>
+
+                <div
+                  className={`rounded-xl border p-3.5 ${
+                    res.regimePlusAvantageux === "reel"
+                      ? "border-forest bg-sage-50/70"
+                      : "border-line-soft bg-paper"
+                  }`}
+                >
+                  <p className="text-[12px] font-semibold uppercase tracking-wider text-forest">Régime Réel</p>
+                  <p className="mt-1 text-[1.25rem] font-semibold tabular-nums text-forest-deep">
+                    {formatEuros(res.reelSimplifie.impotTotal)}
+                  </p>
+                  <p className="mt-0.5 text-[12px] text-ink-muted">
+                    Base : {formatEuros(res.reelSimplifie.baseImposable)}
                   </p>
                 </div>
               </div>
-            </div>
+
+              <ResultRows
+                rows={[
+                  {
+                    label: "Résultat avant amortissement (Réel)",
+                    detail: `${formatEuros(res.recettesAnnuelles)} − ${formatEuros(res.reelSimplifie.totalChargesEtInterets)} de charges/intérêts`,
+                    value: formatEuros(res.reelSimplifie.resultatAvantAmortissement),
+                  },
+                  {
+                    label: "Dotation annuelle aux amortissements",
+                    detail: `Bâti : ${formatEuros(res.reelSimplifie.dotationAmortissementBati)} + Mobilier : ${formatEuros(res.reelSimplifie.dotationAmortissementMobilier)}`,
+                    value: formatEuros(res.reelSimplifie.dotationAmortissementTotale),
+                  },
+                  {
+                    label: "Amortissement imputé sur l'exercice (art. 39 C)",
+                    detail:
+                      res.reelSimplifie.amortissementReportable.greaterThan(0)
+                        ? `Dont ${formatEuros(res.reelSimplifie.amortissementReportable)} mis en réserve reportable`
+                        : "100 % absorbé sur l'exercice",
+                    value: formatEuros(res.reelSimplifie.amortissementImpute),
+                    strong: true,
+                  },
+                  {
+                    label: `Impôt au Réel (IR ${res.tmi} % + PS 17,2 %)`,
+                    detail: `Sur une base BIC imposable de ${formatEuros(res.reelSimplifie.baseImposable)}`,
+                    value: formatEuros(res.reelSimplifie.impotTotal),
+                    strong: true,
+                  },
+                ]}
+              />
+
+              <ResultFormula>
+                Micro-BIC {formatEuros(res.microBic.impotTotal)} − Réel {formatEuros(res.reelSimplifie.impotTotal)} ={" "}
+                {formatEuros(res.economieAnnuelleReel)} / an
+              </ResultFormula>
+            </>
+          ) : (
+            <ResultPending>
+              Complétez vos recettes annuelles et la valeur du bien pour comparer le régime Micro-BIC et le régime Réel Simplifié.
+            </ResultPending>
           )}
-        </div>
-      </div>
-
-      {/* FAQ */}
-      <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8">
-        <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
-        <div className="space-y-5">
-          {FAQ.map((item, i) => (
-            <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
-              <h3 className="font-semibold text-stone-800 mb-2">{item.question}</h3>
-              <p className="text-stone-600 leading-relaxed">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/outils/calculateur-rendement" className="text-forest hover:underline">Calculateur rendement →</Link>
-        <Link href="/templates" className="text-forest hover:underline">Modèles de bail →</Link>
-        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
-      </div>
-    </div>
+        </ResultPanel>
+      }
+    />
   );
 }

@@ -1,299 +1,479 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
-import { FinalCta } from "@/components/landing/final-cta";
-import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import Decimal from "decimal.js";
 
-const ZONES_TENDUES = [
-  "Paris", "Lyon", "Marseille", "Bordeaux", "Lille", "Toulouse",
-  "Nantes", "Strasbourg", "Rennes", "Grenoble", "Montpellier", "Nice",
-  "Angers", "Le Havre", "Saint-Étienne", "Dijon", "Clermont-Ferrand",
-  "Tours", "Amiens", "Limoges", "Orléans", "Perpignan", "Brest", "Nîmes",
-];
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import {
+  computeLoyerM2,
+  computeProrataLoyer,
+  LOYER_M2_ERROR_MESSAGES,
+  PRORATA_LOYER_ERROR_MESSAGES,
+  type ConventionProrata,
+} from "@/lib/tools/loyer-prorata";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  ChoiceGroup,
+  DateField,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  ResultBadge,
+  ResultFigure,
+  ResultFormula,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+  ResultRows,
+} from "@/components/marketing/tools/ToolResult";
 
-const faqData = [
-  {
-    question: "Comment calculer un loyer au m² ?",
-    answer:
-      "Pour calculer un loyer, multipliez la surface habitable du bien (en m²) par le prix au m² dans votre zone. En zone tendue, ce prix ne peut pas dépasser le montant de référence definido par décret. Le loyer mensuel se calcule ainsi : surface (m²) × prix au m² = loyer mensuel charges comprises.",
-  },
-  {
-    question: "Qu'est-ce qu'une zone tendue ?",
-    answer:
-      "Une zone tendue est une commune ou agglomération où il existe un déséquilibre important entre l'offre et la demande de logements. Dans ces zones, l'encadrement des loyers s'applique : les loyers ne peuvent pas dépasser un montant de référence majoré (et doivent être au minimum égaux au montant de référence minoré).",
-  },
-  {
-    question: "Le montant de référence est-il le même partout ?",
-    answer:
-      "Non. Le montant de référence évolue selon la zone géographique, le type de logement (vide/meublé), et la taille du logement (studio, T2, T3, etc.). Chaque commune en zone tendue dispose de ses propres tableaux de référence. Consultez le site de la mairie ou de la préfecture pour votre commune.",
-  },
-  {
-    question: "Peut-on louer au-dessus du montant de référence ?",
-    answer:
-      "Oui, dans certains cas : si vous effectuez des travaux important de mejora (au moins le équivalent de 12 mois de loyer), ou si le logement était déjà loyer à un prix supérieur au montant de référence avant l'encadrement. Vous devez alors fournir les justifications nécessaires.",
-  },
-  {
-    question: "Le calculateur donne-t-il des résultats garantis ?",
-    answer:
-      "Non — ce calculateur donne une estimation basée sur les données générales disponibles. Pour connaître le montant exact applicable à votre situation, consultez le tableau de référence de votre commune sur service-public.fr ou adressez-vous à votre commune.",
-  },
-];
-
-const breadcrumbItems = [
-  { label: "Accueil", href: "/" },
-  { label: "Outils", href: "/outils" },
-  { label: "Calculateur de Loyer", href: "/outils/calculateur-loyer" },
-];
-
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Calculateur de Loyer au m²",
-      description: "Estimez le loyer de votre bien selon la surface et le prix au m². Applicable zone tendue et non tendue.",
-      url: "https://lokna.fr/outils/calculateur-loyer",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://lokna.fr${item.href}`,
-      })),
-    },
-  ],
-};
+type ModeCalculLoyer = "prorata" | "m2-encadrement";
 
 export function LoyerCalculatorClient() {
-  const [surface, setSurface] = useState("");
-  const [pricePerSqm, setPricePerSqm] = useState("");
-  const [isZoneTendue, setIsZoneTendue] = useState<boolean | null>(null);
-  const [result, setResult] = useState<{ monthlyRent: number; annualRent: number } | null>(null);
+  const [mode, setMode] = useState<ModeCalculLoyer>("prorata");
+  const [edited, setEdited] = useState(false);
 
-  function calculate() {
-    const s = parseFloat(surface);
-    const p = parseFloat(pricePerSqm);
-    if (isNaN(s) || isNaN(p) || s <= 0 || p <= 0) return;
-    const monthlyRent = parseFloat((s * p).toFixed(2));
-    setResult({ monthlyRent, annualRent: parseFloat((monthlyRent * 12).toFixed(2)) });
-  }
+  // Mode 1 : Prorata temporis
+  const [prorataLoyerHcInput, setProrataLoyerHcInput] = useState("840");
+  const [prorataChargesInput, setProrataChargesInput] = useState("60");
+  const [dateDebut, setDateDebut] = useState("2026-03-12");
+  const [dateFin, setDateFin] = useState("2026-03-31");
+  const [convention, setConvention] = useState<ConventionProrata>("jours-reels");
+
+  // Mode 2 : Loyer au m² & encadrement
+  const [surfaceInput, setSurfaceInput] = useState("45");
+  const [prixM2Input, setPrixM2Input] = useState("19,50");
+  const [m2ChargesInput, setM2ChargesInput] = useState("65");
+  const [loyerRefM2Input, setLoyerRefM2Input] = useState("17,20");
+
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
+  };
+
+  // Validation Mode Prorata
+  const pProLoyer = parseAmount(prorataLoyerHcInput, 100_000);
+  const pProCharges =
+    prorataChargesInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(prorataChargesInput, 50_000);
+
+  const proLoyerErr = !pProLoyer.ok
+    ? AMOUNT_ERROR_MESSAGES[pProLoyer.error]
+    : pProLoyer.value.isZero()
+      ? PRORATA_LOYER_ERROR_MESSAGES["zero-rent"]
+      : null;
+  const proChargesErr = !pProCharges.ok ? AMOUNT_ERROR_MESSAGES[pProCharges.error] : null;
+
+  const prorataOutcome =
+    !proLoyerErr && !proChargesErr && pProLoyer.ok && pProCharges.ok
+      ? computeProrataLoyer({
+          loyerMensuelHc: pProLoyer.value,
+          chargesMensuelles: pProCharges.value,
+          dateDebut,
+          dateFin,
+          convention,
+        })
+      : null;
+
+  const prorataDomainErr =
+    prorataOutcome && !prorataOutcome.ok ? PRORATA_LOYER_ERROR_MESSAGES[prorataOutcome.error] : null;
+  const prorataRes = prorataOutcome && prorataOutcome.ok ? prorataOutcome.result : null;
+
+  // Validation Mode m²
+  const pSurface = parseAmount(surfaceInput, 5_000);
+  const pPrixM2 = parseAmount(prixM2Input, 500);
+  const pM2Charges =
+    m2ChargesInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(m2ChargesInput, 50_000);
+  const pRefM2 =
+    loyerRefM2Input.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(loyerRefM2Input, 500);
+
+  const surfaceErr = !pSurface.ok
+    ? AMOUNT_ERROR_MESSAGES[pSurface.error]
+    : pSurface.value.isZero()
+      ? LOYER_M2_ERROR_MESSAGES["zero-surface"]
+      : null;
+  const prixM2Err = !pPrixM2.ok
+    ? AMOUNT_ERROR_MESSAGES[pPrixM2.error]
+    : pPrixM2.value.isZero()
+      ? LOYER_M2_ERROR_MESSAGES["zero-price-m2"]
+      : null;
+  const m2ChargesErr = !pM2Charges.ok ? AMOUNT_ERROR_MESSAGES[pM2Charges.error] : null;
+  const refM2Err = !pRefM2.ok ? AMOUNT_ERROR_MESSAGES[pRefM2.error] : null;
+
+  const m2Outcome =
+    !surfaceErr && !prixM2Err && !m2ChargesErr && !refM2Err && pSurface.ok && pPrixM2.ok && pM2Charges.ok && pRefM2.ok
+      ? computeLoyerM2({
+          surfaceHabitable: pSurface.value,
+          prixM2Hc: pPrixM2.value,
+          chargesMensuelles: pM2Charges.value,
+          loyerReferenceM2: pRefM2.value.greaterThan(0) ? pRefM2.value : null,
+        })
+      : null;
+
+  const m2Res = m2Outcome && m2Outcome.ok ? m2Outcome.result : null;
 
   return (
-    <>
-      <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
+    <ToolWorkbench
+      form={
+        <ToolSheet label="Calculateur de prorata de loyer et de loyer au m²">
+          <ToolStep
+            step={1}
+            title="Que souhaitez-vous calculer ?"
+            description="Choisissez le prorata de loyer pour une arrivée ou un départ en cours de mois, ou le calcul du loyer au m² et du plafond d'encadrement."
+          >
+            <ChoiceGroup
+              name="mode-calcul-loyer"
+              legend="Mode de calcul"
+              value={mode}
+              onChange={mark(setMode)}
+              choices={[
+                {
+                  value: "prorata",
+                  label: "Prorata de loyer",
+                  description: "Entrée ou sortie en cours de mois",
+                },
+                {
+                  value: "m2-encadrement",
+                  label: "Loyer au m² & encadrement",
+                  description: "Surface × €/m² + plafond majoré",
+                },
+              ]}
+            />
+          </ToolStep>
 
-      <div className="min-h-screen bg-cream">
-        <div className="max-w-5xl mx-auto px-4 py-12">
-          <Breadcrumb items={breadcrumbItems} />
-
-          {/* Header */}
-          <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-1.5 bg-sage-50 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
-              <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-              Outil gratuit — Mise à jour 2025
-            </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3">
-              Calculateur de Loyer au m²
-            </h1>
-            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
-              Estimez le loyer mensuel de votre bien selon la surface et le prix au m². Applicable en zone tendue et non tendue.
-            </p>
-          </div>
-
-          {/* Calculator */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-6">Estimez votre loyer</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-2" htmlFor="surface">
-                  Surface (m²)
-                </label>
-                <input
-                  id="surface"
-                  type="number"
-                  placeholder="Ex. 65"
-                  value={surface}
-                  onChange={(e) => setSurface(e.target.value)}
-                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-ink placeholder-stone-400 focus:border-forest focus:ring-2 focus:ring-sage-200"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-2" htmlFor="price">
-                  Prix au m² (€/m²)
-                </label>
-                <input
-                  id="price"
-                  type="number"
-                  placeholder="Ex. 18"
-                  value={pricePerSqm}
-                  onChange={(e) => setPricePerSqm(e.target.value)}
-                  className="w-full rounded-xl border border-stone-300 px-4 py-3 text-ink placeholder-stone-400 focus:border-forest focus:ring-2 focus:ring-sage-200"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-2">Zone tendue ?</label>
-                <div className="flex gap-2 mt-1">
-                  <button
-                    type="button"
-                    onClick={() => setIsZoneTendue(true)}
-                    className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isZoneTendue === true ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
-                    }`}
-                  >
-                    Oui
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsZoneTendue(false)}
-                    className={`flex-1 rounded-xl border px-4 py-3 font-semibold transition-colors ${
-                      isZoneTendue === false ? "bg-forest text-white border-forest" : "border-stone-300 text-stone-700 hover:bg-stone-50"
-                    }`}
-                  >
-                    Non
-                  </button>
+          {mode === "prorata" ? (
+            <>
+              <ToolStep
+                step={2}
+                title="Loyer mensuel et période occupée dans le mois"
+                description="Les jours de remise des clés (état des lieux d'entrée ou de sortie) sont comptés inclusivement dans la période d'occupation."
+              >
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <AmountField
+                    id="prorata-loyer-hc"
+                    label="Loyer mensuel hors charges"
+                    value={prorataLoyerHcInput}
+                    onChange={mark(setProrataLoyerHcInput)}
+                    placeholder="840"
+                    suffix="€ / mois"
+                    error={proLoyerErr}
+                  />
+                  <AmountField
+                    id="prorata-charges"
+                    label="Provisions ou forfait de charges"
+                    value={prorataChargesInput}
+                    onChange={mark(setProrataChargesInput)}
+                    placeholder="60"
+                    suffix="€ / mois"
+                    error={proChargesErr}
+                  />
                 </div>
-              </div>
-            </div>
 
-            <button
-              type="button"
-              onClick={calculate}
-              className="w-full md:w-auto bg-forest hover:bg-forest-hover text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
-            >
-              Calculer le loyer
-            </button>
-
-            {result && (
-              <div className="mt-6 p-6 bg-sage-50 border border-sage-200 rounded-xl">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="text-center">
-                    <div className="text-xs text-forest uppercase tracking-wide mb-1">Loyer mensuel</div>
-                    <div className="text-3xl font-bold text-forest">{result.monthlyRent.toLocaleString("fr-FR")} €</div>
-                    <div className="text-sm text-forest mt-1">charges comprises</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xs text-forest uppercase tracking-wide mb-1">Loyer annuel</div>
-                    <div className="text-3xl font-bold text-forest">{result.annualRent.toLocaleString("fr-FR")} €</div>
-                    <div className="text-sm text-forest mt-1">avant impôts</div>
-                  </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <DateField
+                    id="prorata-date-debut"
+                    label="Premier jour occupé du mois"
+                    value={dateDebut}
+                    onChange={mark(setDateDebut)}
+                  />
+                  <DateField
+                    id="prorata-date-fin"
+                    label="Dernier jour occupé du mois"
+                    value={dateFin}
+                    onChange={mark(setDateFin)}
+                    error={prorataDomainErr}
+                  />
                 </div>
-                <p className="text-sm text-forest mt-4 text-center">
-                  Estimation basee sur {surface} m² × {pricePerSqm} €/m²
-                  {isZoneTendue !== null && (
-                    <span> — zone {isZoneTendue ? "tendue (encadrement)" : "non tendue (liberté)"}</span>
-                  )}
-                </p>
-              </div>
+              </ToolStep>
+
+              <ToolStep
+                step={3}
+                title="Convention de calcul du prorata"
+                description="En droit locatif français, la méthode de référence rapporte le nombre de jours d'occupation au nombre réel de jours du mois (28, 29, 30 ou 31 jours)."
+              >
+                <ChoiceGroup
+                  name="convention-prorata"
+                  legend="Diviseur mensuel retenu"
+                  value={convention}
+                  onChange={mark(setConvention)}
+                  choices={[
+                    {
+                      value: "jours-reels",
+                      label: "Jours réels du mois (recommandé)",
+                      description: "Divisé par 28, 29, 30 ou 31 jours",
+                    },
+                    {
+                      value: "trentieme",
+                      label: "Trentième (base 30 jours)",
+                      description: "Divisé par 30 jours forfaitaires",
+                    },
+                  ]}
+                />
+              </ToolStep>
+
+              {prorataRes ? (
+                <ResultJump
+                  label={`Prorata (${prorataRes.joursOccupes} j. / ${prorataRes.diviseur})`}
+                  value={formatEuros(prorataRes.totalProrataCc)}
+                  detail={`Loyer HC : ${formatEuros(prorataRes.loyerProrataHc)} + Charges : ${formatEuros(prorataRes.chargesProrata)}`}
+                />
+              ) : null}
+            </>
+          ) : (
+            <>
+              <ToolStep
+                step={2}
+                title="Surface habitable et loyer hors charges au m²"
+                description="La surface habitable (article R. 156-1 du CCH) multiplie le prix au m² pour obtenir le loyer nu hors charges."
+              >
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <AmountField
+                    id="m2-surface"
+                    label="Surface habitable"
+                    value={surfaceInput}
+                    onChange={mark(setSurfaceInput)}
+                    placeholder="45"
+                    suffix="m²"
+                    error={surfaceErr}
+                  />
+                  <AmountField
+                    id="m2-prix-hc"
+                    label="Loyer HC souhaité au m²"
+                    value={prixM2Input}
+                    onChange={mark(setPrixM2Input)}
+                    placeholder="19,50"
+                    suffix="€ / m²"
+                    error={prixM2Err}
+                  />
+                  <AmountField
+                    id="m2-charges"
+                    label="Charges mensuelles"
+                    value={m2ChargesInput}
+                    onChange={mark(setM2ChargesInput)}
+                    placeholder="65"
+                    suffix="€ / mois"
+                    error={m2ChargesErr}
+                  />
+                </div>
+
+                {m2Res && m2Res.alerteSurfaceDecence ? (
+                  <div className="rounded-lg border border-[#EAD7AE] bg-[#FBF3E2] px-4 py-3 text-[13.5px] leading-5 text-[#7A5512]">
+                    <strong>Seuil de décence (décret n° 2002-120 du 30 janvier 2002) :</strong> un logement loué à usage de
+                    résidence principale doit comporter au moins une pièce principale d&apos;une surface habitable minimale de{" "}
+                    <strong>9 m²</strong> (ou un volume habitable d&apos;au moins 20 m³).
+                  </div>
+                ) : null}
+              </ToolStep>
+
+              <ToolStep
+                step={3}
+                title="Vérification de l'encadrement des loyers (optionnel)"
+                description="Dans les communes soumises au plafonnement des loyers (article 140 de la loi ELAN), indiquez le loyer de référence préfectoral hors charges au m² pour calculer le plafond majoré (+20 %)."
+              >
+                <AmountField
+                  id="m2-loyer-reference"
+                  label="Loyer de référence préfectoral (hors charges)"
+                  value={loyerRefM2Input}
+                  onChange={mark(setLoyerRefM2Input)}
+                  placeholder="17,20"
+                  suffix="€ / m²"
+                  error={refM2Err}
+                  hint="Laissez vide si la commune n'est pas soumise au plafonnement préfectoral des loyers au m²."
+                />
+              </ToolStep>
+
+              {m2Res ? (
+                <ResultJump
+                  label="Loyer mensuel charges comprises"
+                  value={formatEuros(m2Res.loyerMensuelCc)}
+                  detail={`Dont ${formatEuros(m2Res.loyerMensuelHc)} hors charges`}
+                />
+              ) : null}
+            </>
+          )}
+        </ToolSheet>
+      }
+      result={
+        mode === "prorata" ? (
+          <ResultPanel
+            title="Loyer au prorata temporis"
+            badge={
+              prorataRes ? (
+                edited ? (
+                  <ResultBadge tone="sage">Votre calcul</ResultBadge>
+                ) : (
+                  <ResultBadge tone="example">Exemple · 20 j. en mars</ResultBadge>
+                )
+              ) : null
+            }
+            footer={
+              prorataRes ? (
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <CopyButton
+                    text={`Prorata ${prorataRes.moisLabel} (${prorataRes.joursOccupes}/${prorataRes.diviseur} jours) : Loyer HC ${formatEuros(prorataRes.loyerProrataHc)} + Charges ${formatEuros(prorataRes.chargesProrata)} = Total CC ${formatEuros(prorataRes.totalProrataCc)}`}
+                    label="Copier le détail du prorata"
+                    copiedLabel="Prorata copié"
+                  />
+                </div>
+              ) : undefined
+            }
+          >
+            {prorataRes ? (
+              <>
+                <ResultFigure
+                  label={`Total à appeler (${prorataRes.joursOccupes} jours sur ${prorataRes.diviseur})`}
+                  cents={prorataRes.totalProrataCents}
+                  text={formatEuros(prorataRes.totalProrataCc)}
+                  caption={
+                    <>
+                      Pour la période du <strong>{prorataRes.dateDebutFr}</strong> au{" "}
+                      <strong>{prorataRes.dateFinFr}</strong> inclus, soit{" "}
+                      {formatEuros(prorataRes.differenceMensuel)} de moins qu&apos;une échéance mensuelle complète (
+                      {formatEuros(prorataRes.totalMensuelCc)}).
+                    </>
+                  }
+                />
+
+                <ResultRows
+                  rows={[
+                    {
+                      label: "Loyer hors charges au prorata",
+                      detail: `${formatEuros(prorataRes.loyerMensuelHc)} × ${prorataRes.joursOccupes} ÷ ${prorataRes.diviseur} jours`,
+                      value: formatEuros(prorataRes.loyerProrataHc),
+                      strong: true,
+                    },
+                    {
+                      label: "Charges au prorata",
+                      detail: `${formatEuros(prorataRes.chargesMensuelles)} × ${prorataRes.joursOccupes} ÷ ${prorataRes.diviseur} jours`,
+                      value: formatEuros(prorataRes.chargesProrata),
+                    },
+                    {
+                      label: "Total charges comprises appelé",
+                      value: formatEuros(prorataRes.totalProrataCc),
+                      strong: true,
+                    },
+                    {
+                      label: "Convention appliquée",
+                      value:
+                        prorataRes.convention === "jours-reels"
+                          ? `Jours réels (${prorataRes.joursDansMois} j.)`
+                          : "Trentième (30 j.)",
+                    },
+                  ]}
+                />
+
+                <ResultFormula>
+                  ({formatEuros(prorataRes.loyerMensuelHc)} + {formatEuros(prorataRes.chargesMensuelles)}) ×{" "}
+                  {prorataRes.joursOccupes} ÷ {prorataRes.diviseur} = {formatEuros(prorataRes.totalProrataCc)}
+                </ResultFormula>
+              </>
+            ) : (
+              <ResultPending>
+                Vérifiez le loyer et choisissez deux dates situées dans le même mois calendaire pour calculer le prorata.
+              </ResultPending>
             )}
-          </div>
-
-          {/* Zone Tendue Info */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-4">Zones tendues en France</h2>
-            <p className="text-stone-600 mb-4">
-              En zone tendue, les loyers sont encadrés. Ils doivent se situer entre le montant de référence minoré et le montant de référence majoré. Les communes de plus de 50 000 habitants avec un marché locatif tendu sont concernées.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {ZONES_TENDUES.map((city) => (
-                <span key={city} className="bg-stone-100 text-stone-600 text-sm px-3 py-1 rounded-full">
-                  {city}
-                </span>
-              ))}
-            </div>
-            <p className="text-xs text-stone-600 mt-4">
-              Source : liste officielle des zones tendues. Vérifiez sur service-public.fr pour votre commune exacte.
-            </p>
-          </div>
-
-          {/* FAQ */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-6">Questions fréquentes</h2>
-            <div className="space-y-4">
-              {faqData.map((faq, i) => (
-                <details key={i} className="group border border-stone-200 rounded-xl">
-                  <summary className="flex items-center justify-between cursor-pointer p-4 hover:bg-stone-50 list-none">
-                    <span className="font-semibold text-ink">{faq.question}</span>
-                    <svg className="size-5 text-stone-600 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
-                    </svg>
-                  </summary>
-                  <div className="px-4 pb-4 text-stone-600 leading-relaxed">{faq.answer}</div>
-                </details>
-              ))}
-            </div>
-          </div>
-
-          {/* Internal Links */}
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-ink mb-4">Outils complements</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link href="/outils/calculateur-depot-garantie" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">🔐</span>
-                <div>
-                  <div className="font-semibold text-ink">Calculateur de Caution</div>
-                  <div className="text-sm text-stone-600">Dépôt de garantie maximum</div>
+          </ResultPanel>
+        ) : (
+          <ResultPanel
+            title="Loyer mensuel & encadrement"
+            badge={
+              m2Res ? (
+                edited ? (
+                  <ResultBadge tone="sage">Votre calcul</ResultBadge>
+                ) : (
+                  <ResultBadge tone="example">Exemple · 45 m²</ResultBadge>
+                )
+              ) : null
+            }
+            footer={
+              m2Res ? (
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <CopyButton
+                    text={`Loyer pour ${m2Res.surfaceHabitable.toString().replace(".", ",")} m² : ${formatEuros(m2Res.loyerMensuelHc)} HC + ${formatEuros(m2Res.chargesMensuelles)} de charges = ${formatEuros(m2Res.loyerMensuelCc)} CC`}
+                    label="Copier le résultat"
+                    copiedLabel="Résultat copié"
+                  />
                 </div>
-              </Link>
-              <Link href="/templates/bail-vide" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📄</span>
-                <div>
-                  <div className="font-semibold text-ink">Modèle de Bail de Location</div>
-                  <div className="text-sm text-stone-600">Bail conforme à la loi 1989</div>
-                </div>
-              </Link>
-              <Link href="/glossaire-immobilier" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📖</span>
-                <div>
-                  <div className="font-semibold text-ink">Glossaire Immobilier</div>
-                  <div className="text-sm text-stone-600">Toutes les définitions légales</div>
-                </div>
-              </Link>
-              <Link href="/outils/calculateur-irl" className="flex items-center gap-3 p-4 border border-stone-200 rounded-xl hover:border-sage-300 hover:bg-sage-50 transition-all">
-                <span className="text-2xl">📈</span>
-                <div>
-                  <div className="font-semibold text-ink">Calculateur de Révision IRL</div>
-                  <div className="text-sm text-stone-600">Révision légale du loyer</div>
-                </div>
-              </Link>
-            </div>
-          </div>
+              ) : undefined
+            }
+          >
+            {m2Res ? (
+              <>
+                <ResultFigure
+                  label="Loyer mensuel hors charges"
+                  cents={m2Res.loyerMensuelHcCents}
+                  text={formatEuros(m2Res.loyerMensuelHc)}
+                  caption={
+                    <>
+                      Soit <strong>{formatEuros(m2Res.loyerMensuelCc)}</strong> charges comprises par mois (
+                      {formatEuros(m2Res.loyerAnnuelHc)} HC / an).
+                    </>
+                  }
+                />
 
-          {/* CTA */}
-          <div className="bg-forest rounded-2xl p-8 text-center text-white mb-8">
-            <h2 className="text-2xl font-semibold mb-2">Gérez vos loyers en toute conformité</h2>
-            <p className="text-cream/80 mb-6 max-w-xl mx-auto">
-              Avec Lokna, vous suivez vos loyers automatiquement, générez les annexes de révision, et restez dans les clous réglementaires.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="inline-block bg-white text-forest font-bold px-8 py-3.5 rounded-xl hover:bg-sage-50 transition-colors">
-                Essai gratuit 14 jours
-              </Link>
-              <Link href="/pricing" className="inline-block border-2 border-sage-300 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-forest transition-colors">
-                Voir les tarifs
-              </Link>
-            </div>
-          </div>
+                <ResultRows
+                  rows={[
+                    {
+                      label: "Loyer hors charges (loyer nu)",
+                      detail: `${m2Res.surfaceHabitable.toString().replace(".", ",")} m² × ${formatEuros(m2Res.prixM2Hc)} / m²`,
+                      value: formatEuros(m2Res.loyerMensuelHc),
+                      strong: true,
+                    },
+                    {
+                      label: "Provisions ou forfait de charges",
+                      value: formatEuros(m2Res.chargesMensuelles),
+                    },
+                    {
+                      label: "Loyer mensuel charges comprises (CC)",
+                      value: formatEuros(m2Res.loyerMensuelCc),
+                      strong: true,
+                    },
+                    ...(m2Res.encadrement
+                      ? [
+                          {
+                            label: "Plafond légal (loyer de référence majoré +20 %)",
+                            detail: `${formatEuros(m2Res.encadrement.loyerReferenceMajoreM2)} / m² × ${m2Res.surfaceHabitable.toString().replace(".", ",")} m²`,
+                            value: formatEuros(m2Res.encadrement.plafondMensuelHc),
+                          },
+                          {
+                            label: "Loyer de référence minoré (−30 %)",
+                            detail: `${formatEuros(m2Res.encadrement.loyerReferenceMinoreM2)} / m²`,
+                            value: formatEuros(m2Res.encadrement.plancherMensuelHc),
+                          },
+                          {
+                            label: "Statut vis-à-vis du plafond préfectoral",
+                            value: m2Res.encadrement.conformePlafond
+                              ? "Conforme au plafond"
+                              : `Dépassement de ${formatEuros(m2Res.encadrement.depassementHc)}`,
+                            strong: true,
+                          },
+                        ]
+                      : []),
+                  ]}
+                />
 
-          <FinalCta />
-        </div>
-      </div>
-    </>
+                <ResultFormula>
+                  {m2Res.surfaceHabitable.toString().replace(".", ",")} m² × {formatEuros(m2Res.prixM2Hc)} ={" "}
+                  {formatEuros(m2Res.loyerMensuelHc)} HC (+ {formatEuros(m2Res.chargesMensuelles)} ={" "}
+                  {formatEuros(m2Res.loyerMensuelCc)} CC)
+                </ResultFormula>
+              </>
+            ) : (
+              <ResultPending>
+                Indiquez la surface habitable et le loyer au m² hors charges pour calculer le loyer mensuel.
+              </ResultPending>
+            )}
+          </ResultPanel>
+        )
+      }
+    />
   );
 }

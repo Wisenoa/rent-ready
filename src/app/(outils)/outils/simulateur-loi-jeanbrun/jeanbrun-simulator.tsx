@@ -1,471 +1,267 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { Calculator, TrendingUp, ChevronDown } from "lucide-react";
+import { useState } from "react";
+import Decimal from "decimal.js";
 
-/* ─── Constants ─── */
-const TMI_OPTIONS = [0, 0.11, 0.3, 0.41, 0.45] as const;
-const PRELEVEMENTS_SOCIAUX = 0.172;
-const MICRO_BIC_ABATTEMENT = 0.5;
-const REEL_AMORT_RATE = 0.02; // 80% × 2.5%
-const LAND_EXCLUSION = 0.8;
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import type { TmiRate } from "@/lib/tools/fiscalite-lmnp";
+import {
+  computeLoiJeanbrun,
+  LOI_JEANBRUN_ERROR_MESSAGES,
+} from "@/lib/tools/loi-jeanbrun";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  ChoiceGroup,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  ResultBadge,
+  ResultFigure,
+  ResultFormula,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+  ResultRows,
+} from "@/components/marketing/tools/ToolResult";
 
-const JEANBRUN_RATES: Record<number, number> = {
-  1: 0.055,
-  2: 0.055,
-  3: 0.055,
-  4: 0.045,
-  5: 0.045,
-  6: 0.045,
-  7: 0.035,
-  8: 0.035,
-  9: 0.035,
-};
+const TMI_CHOICES: { value: `${TmiRate}`; label: string; description: string }[] = [
+  { value: "0", label: "0 %", description: "Non imposable" },
+  { value: "11", label: "11 %", description: "Tranche 1" },
+  { value: "30", label: "30 %", description: "Tranche 2" },
+  { value: "41", label: "41 %", description: "Tranche 3" },
+];
 
-/* ─── Types ─── */
-interface RegimeResult {
-  label: string;
-  recettesBrutes: number;
-  chargesDeductibles: number;
-  amortissement: number;
-  revenuImposable: number;
-  impot: number;
-  prelevementsSociaux: number;
-  revenuNet: number;
-}
-
-/* ─── Helpers ─── */
-function fmt(n: number): string {
-  return Math.round(n).toLocaleString("fr-FR");
-}
-
-function fmtPct(n: number): string {
-  return (n * 100).toLocaleString("fr-FR", { maximumFractionDigits: 1 });
-}
-
-function computeResults(
-  valeurBien: number,
-  loyerMensuel: number,
-  chargesAnnuelles: number,
-  tmi: number
-): { regimes: RegimeResult[]; bestIdx: number } {
-  const recettes = loyerMensuel * 12;
-
-  // ── Micro-BIC ──
-  const microImposable = recettes * MICRO_BIC_ABATTEMENT;
-  const microImpot = microImposable * tmi;
-  const microPS = microImposable * PRELEVEMENTS_SOCIAUX;
-  const microNet = recettes - chargesAnnuelles - microImpot - microPS;
-
-  // ── Réel simplifié ──
-  const reelAmort = valeurBien * REEL_AMORT_RATE;
-  const reelCharges = chargesAnnuelles + reelAmort;
-  const reelImposable = Math.max(0, recettes - reelCharges);
-  const reelImpot = reelImposable * tmi;
-  const reelPS = reelImposable * PRELEVEMENTS_SOCIAUX;
-  const reelNet = recettes - chargesAnnuelles - reelImpot - reelPS;
-
-  // ── Jeanbrun (year 1 for cards) ──
-  const jbAmort = valeurBien * LAND_EXCLUSION * JEANBRUN_RATES[1];
-  const jbCharges = chargesAnnuelles + jbAmort;
-  const jbImposable = Math.max(0, recettes - jbCharges);
-  const jbImpot = jbImposable * tmi;
-  const jbPS = jbImposable * PRELEVEMENTS_SOCIAUX;
-  const jbNet = recettes - chargesAnnuelles - jbImpot - jbPS;
-
-  const regimes: RegimeResult[] = [
-    {
-      label: "LMNP Micro-BIC",
-      recettesBrutes: recettes,
-      chargesDeductibles: 0,
-      amortissement: 0,
-      revenuImposable: microImposable,
-      impot: microImpot,
-      prelevementsSociaux: microPS,
-      revenuNet: microNet,
-    },
-    {
-      label: "LMNP Réel simplifié",
-      recettesBrutes: recettes,
-      chargesDeductibles: chargesAnnuelles,
-      amortissement: reelAmort,
-      revenuImposable: reelImposable,
-      impot: reelImpot,
-      prelevementsSociaux: reelPS,
-      revenuNet: reelNet,
-    },
-    {
-      label: "Dispositif Jeanbrun",
-      recettesBrutes: recettes,
-      chargesDeductibles: chargesAnnuelles,
-      amortissement: jbAmort,
-      revenuImposable: jbImposable,
-      impot: jbImpot,
-      prelevementsSociaux: jbPS,
-      revenuNet: jbNet,
-    },
-  ];
-
-  let bestIdx = 0;
-  regimes.forEach((r, i) => {
-    if (r.revenuNet > regimes[bestIdx].revenuNet) bestIdx = i;
-  });
-
-  return { regimes, bestIdx };
-}
-
-function compute9YearProjection(
-  valeurBien: number,
-  loyerMensuel: number,
-  chargesAnnuelles: number,
-  tmi: number
-) {
-  const recettes = loyerMensuel * 12;
-  const reelAmort = valeurBien * REEL_AMORT_RATE;
-
-  return Array.from({ length: 9 }, (_, i) => {
-    const year = i + 1;
-    const jbRate = JEANBRUN_RATES[year];
-    const jbAmort = valeurBien * LAND_EXCLUSION * jbRate;
-
-    const reelImposable = Math.max(
-      0,
-      recettes - chargesAnnuelles - reelAmort
-    );
-    const reelFiscal = reelImposable * (tmi + PRELEVEMENTS_SOCIAUX);
-
-    const jbImposable = Math.max(0, recettes - chargesAnnuelles - jbAmort);
-    const jbFiscal = jbImposable * (tmi + PRELEVEMENTS_SOCIAUX);
-
-    return {
-      year,
-      jbAmort,
-      reelAmort,
-      jbRate,
-      economie: reelFiscal - jbFiscal,
-    };
-  });
-}
-
-/* ─── Component ─── */
 export function JeanbrunSimulator() {
-  const [valeurBien, setValeurBien] = useState(200_000);
-  const [loyerMensuel, setLoyerMensuel] = useState(800);
-  const [chargesAnnuelles, setChargesAnnuelles] = useState(3_000);
-  const [tmi, setTmi] = useState(0.3);
+  const [prixInput, setPrixInput] = useState("210000");
+  const [loyerMensuelInput, setLoyerMensuelInput] = useState("920");
+  const [chargesAnnuellesInput, setChargesAnnuellesInput] = useState("2400");
+  const [tmi, setTmi] = useState<`${TmiRate}`>("30");
+  const [edited, setEdited] = useState(false);
 
-  const { regimes, bestIdx } = useMemo(
-    () => computeResults(valeurBien, loyerMensuel, chargesAnnuelles, tmi),
-    [valeurBien, loyerMensuel, chargesAnnuelles, tmi]
-  );
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
+  };
 
-  const projection = useMemo(
-    () =>
-      compute9YearProjection(valeurBien, loyerMensuel, chargesAnnuelles, tmi),
-    [valeurBien, loyerMensuel, chargesAnnuelles, tmi]
-  );
+  const pPrix = parseAmount(prixInput, 20_000_000);
+  const pLoyer = parseAmount(loyerMensuelInput, 100_000);
+  const pCharges =
+    chargesAnnuellesInput.trim() === ""
+      ? { ok: true as const, value: new Decimal(0) }
+      : parseAmount(chargesAnnuellesInput, 500_000);
 
-  const totalEconomie = projection.reduce((s, p) => s + p.economie, 0);
+  const prixErr = !pPrix.ok
+    ? AMOUNT_ERROR_MESSAGES[pPrix.error]
+    : pPrix.value.isZero()
+      ? LOI_JEANBRUN_ERROR_MESSAGES["zero-price"]
+      : null;
+  const loyerErr = !pLoyer.ok
+    ? AMOUNT_ERROR_MESSAGES[pLoyer.error]
+    : pLoyer.value.isZero()
+      ? LOI_JEANBRUN_ERROR_MESSAGES["zero-rent"]
+      : null;
+  const chargesErr = !pCharges.ok ? AMOUNT_ERROR_MESSAGES[pCharges.error] : null;
+
+  const outcome =
+    !prixErr && !loyerErr && !chargesErr && pPrix.ok && pLoyer.ok && pCharges.ok
+      ? computeLoiJeanbrun({
+          prixAcquisition: pPrix.value,
+          loyerMensuelHc: pLoyer.value,
+          chargesAnnuellesDeductibles: pCharges.value,
+          tmi: Number(tmi) as TmiRate,
+        })
+      : null;
+
+  const res = outcome && outcome.ok ? outcome.result : null;
 
   return (
-    <div className="space-y-10">
-      {/* ── Input form ── */}
-      <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-        <div className="mb-6 flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-sage-50 text-forest">
-            <Calculator className="size-5" />
-          </div>
-          <h2 className="text-lg font-semibold text-ink">
-            Paramètres de simulation
-          </h2>
-        </div>
-
-        <div className="grid gap-5 sm:grid-cols-2">
-          <NumberInput
-            id="valeurBien"
-            label="Valeur du bien (€)"
-            value={valeurBien}
-            onChange={setValeurBien}
-            min={10_000}
-            step={5_000}
-          />
-          <NumberInput
-            id="loyerMensuel"
-            label="Loyer mensuel brut (€)"
-            value={loyerMensuel}
-            onChange={setLoyerMensuel}
-            min={0}
-            step={50}
-          />
-          <NumberInput
-            id="chargesAnnuelles"
-            label="Charges annuelles déductibles (€)"
-            value={chargesAnnuelles}
-            onChange={setChargesAnnuelles}
-            min={0}
-            step={500}
-          />
-          <div className="space-y-2">
-            <label
-              htmlFor="tmi"
-              className="block text-sm font-medium text-stone-700"
+    <div className="space-y-8">
+      <ToolWorkbench
+        form={
+          <ToolSheet label="Simulateur d'amortissement dégressif sur 9 ans (dispositif Jeanbrun) vs LMNP">
+            <ToolStep
+              step={1}
+              title="Prix d'acquisition et loyer mensuel"
+              description="La base amortissable retenue pour le barème dégressif sur 9 ans représente 80 % du prix d'acquisition (exclusion forfaitaire de 20 % au titre du terrain)."
             >
-              Tranche marginale d&apos;imposition (TMI)
-            </label>
-            <div className="relative">
-              <select
-                id="tmi"
+              <div className="grid gap-4 sm:grid-cols-2">
+                <AmountField
+                  id="jeanbrun-prix"
+                  label="Prix d'acquisition du bien"
+                  value={prixInput}
+                  onChange={mark(setPrixInput)}
+                  placeholder="210000"
+                  suffix="€"
+                  error={prixErr}
+                />
+                <AmountField
+                  id="jeanbrun-loyer"
+                  label="Loyer mensuel hors charges"
+                  value={loyerMensuelInput}
+                  onChange={mark(setLoyerMensuelInput)}
+                  placeholder="920"
+                  suffix="€ / mois"
+                  error={loyerErr}
+                />
+              </div>
+            </ToolStep>
+
+            <ToolStep
+              step={2}
+              title="Charges annuelles et tranche d'imposition"
+              description="Le simulateur compare sur 9 ans la fiscalité totale (TMI + 17,2 % de prélèvements sociaux) selon trois profils : Micro-BIC (abattement 50 %), LMNP Réel linéaire et amortissement dégressif (5,5 % / 4,5 % / 3,5 %)."
+            >
+              <AmountField
+                id="jeanbrun-charges"
+                label="Charges annuelles déductibles (taxe foncière, copropriété, intérêts)"
+                value={chargesAnnuellesInput}
+                onChange={mark(setChargesAnnuellesInput)}
+                placeholder="2400"
+                suffix="€ / an"
+                error={chargesErr}
+              />
+
+              <ChoiceGroup
+                name="jeanbrun-tmi"
+                legend="Tranche marginale d'imposition (TMI)"
                 value={tmi}
-                onChange={(e) => setTmi(Number(e.target.value))}
-                className="h-10 w-full appearance-none rounded-lg border border-stone-200 bg-white px-3 pr-10 text-sm text-ink transition-colors focus:border-forest focus:ring-2 focus:ring-forest/20 focus:outline-none"
-              >
-                {TMI_OPTIONS.map((rate) => (
-                  <option key={rate} value={rate}>
-                    {fmtPct(rate)}&nbsp;%
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-stone-400" />
-            </div>
-          </div>
-        </div>
-      </div>
+                onChange={mark(setTmi)}
+                columns={4}
+                compact
+                choices={TMI_CHOICES}
+              />
+            </ToolStep>
 
-      {/* ── Result cards ── */}
-      <div>
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-sage-50 text-forest">
-            <TrendingUp className="size-5" />
-          </div>
-          <h2 className="text-lg font-semibold text-ink">
-            Comparaison des régimes fiscaux
-          </h2>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          {regimes.map((r, i) => (
-            <div
-              key={r.label}
-              className={`relative rounded-2xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md ${
-                i === bestIdx
-                  ? "border-forest ring-1 ring-forest"
-                  : "border-stone-200"
-              }`}
-            >
-              {i === bestIdx && (
-                <span className="absolute -top-3 left-4 rounded-full bg-forest px-3 py-0.5 text-xs font-semibold text-white">
-                  Recommandé
-                </span>
-              )}
-
-              <h3 className="mb-4 text-base font-semibold text-ink">
-                {r.label}
-              </h3>
-
-              <dl className="space-y-2 text-sm">
-                <ResultRow
-                  label="Revenus bruts annuels"
-                  value={`${fmt(r.recettesBrutes)} €`}
-                />
-                <ResultRow
-                  label="Charges déductibles"
-                  value={`${fmt(r.chargesDeductibles)} €`}
-                />
-                <ResultRow
-                  label="Amortissement"
-                  value={
-                    r.amortissement > 0 ? `${fmt(r.amortissement)} €` : "—"
-                  }
-                />
-                <ResultRow
-                  label="Revenu imposable"
-                  value={`${fmt(r.revenuImposable)} €`}
-                />
-                <ResultRow
-                  label="Impôt sur le revenu"
-                  value={`${fmt(r.impot)} €`}
-                  negative
-                />
-                <ResultRow
-                  label="Prélèvements sociaux"
-                  value={`${fmt(r.prelevementsSociaux)} €`}
-                  negative
-                />
-
-                <div className="border-t border-stone-100 pt-2">
-                  <ResultRow
-                    label="Revenu net après fiscalité"
-                    value={`${fmt(r.revenuNet)} €`}
-                    bold
-                    highlight={i === bestIdx}
+            {res ? (
+              <ResultJump
+                label="Économie sur 9 ans vs Micro-BIC"
+                value={formatEuros(res.cumul9Ans.economieVsMicroBic)}
+                detail={`Impôt 9 ans : ${formatEuros(res.cumul9Ans.impotAmortissementDegressif)}`}
+              />
+            ) : null}
+          </ToolSheet>
+        }
+        result={
+          <ResultPanel
+            title="Comparaison fiscale sur 9 ans"
+            badge={
+              res ? (
+                edited ? (
+                  <ResultBadge tone="sage">Votre simulation</ResultBadge>
+                ) : (
+                  <ResultBadge tone="example">Exemple · 210 000 €</ResultBadge>
+                )
+              ) : null
+            }
+            footer={
+              res ? (
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <CopyButton
+                    text={`Comparatif sur 9 ans (${formatEuros(res.prixAcquisition)}, TMI ${res.tmi} %) : Micro-BIC ${formatEuros(res.cumul9Ans.impotMicroBic)} | LMNP linéaire ${formatEuros(res.cumul9Ans.impotLmnpLineaire)} | Amortissement dégressif 9 ans ${formatEuros(res.cumul9Ans.impotAmortissementDegressif)} (économie vs Micro-BIC : ${formatEuros(res.cumul9Ans.economieVsMicroBic)}).`}
+                    label="Copier le comparatif 9 ans"
+                    copiedLabel="Comparatif copié"
                   />
                 </div>
-              </dl>
-            </div>
-          ))}
-        </div>
-      </div>
+              ) : undefined
+            }
+          >
+            {res ? (
+              <>
+                <ResultFigure
+                  label="Économie d'impôt cumulée sur 9 ans (vs Micro-BIC)"
+                  cents={res.cumul9Ans.economieVsMicroBicCents}
+                  text={formatEuros(res.cumul9Ans.economieVsMicroBic)}
+                  caption={
+                    <>
+                      Pour un amortissement dégressif total de{" "}
+                      <strong>{formatEuros(res.cumul9Ans.amortissementTotalDegressif)}</strong> sur 9 ans (base bâtie
+                      80 % = {formatEuros(res.baseAmortissable80Pct)}).
+                    </>
+                  }
+                />
 
-      {/* ── 9-year projection table ── */}
-      <div>
-        <h2 className="mb-4 text-lg font-semibold text-ink">
-          Projection sur 9 ans : Jeanbrun vs Réel
-        </h2>
-        <div className="overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-sm">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="bg-stone-50 text-stone-700">
-                <th className="px-4 py-3 font-semibold">Année</th>
-                <th className="px-4 py-3 text-right font-semibold">
-                  Taux Jeanbrun
-                </th>
-                <th className="px-4 py-3 text-right font-semibold">
-                  Amortissement Jeanbrun
-                </th>
-                <th className="px-4 py-3 text-right font-semibold">
-                  Amortissement Réel
-                </th>
-                <th className="px-4 py-3 text-right font-semibold">
-                  Économie Jeanbrun
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {projection.map((row) => (
-                <tr
-                  key={row.year}
-                  className={row.year % 2 === 0 ? "bg-stone-50/50" : ""}
-                >
-                  <td className="px-4 py-2.5 font-medium text-stone-700">
-                    {row.year}
-                  </td>
-                  <td className="px-4 py-2.5 text-right text-stone-600">
-                    {fmtPct(row.jbRate)}&nbsp;%
-                  </td>
-                  <td className="px-4 py-2.5 text-right text-stone-600">
-                    {fmt(row.jbAmort)}&nbsp;€
-                  </td>
-                  <td className="px-4 py-2.5 text-right text-stone-600">
-                    {fmt(row.reelAmort)}&nbsp;€
-                  </td>
-                  <td
-                    className={`px-4 py-2.5 text-right font-medium ${
-                      row.economie > 0
-                        ? "text-emerald-700"
-                        : row.economie < 0
-                          ? "text-red-500"
-                          : "text-stone-500"
-                    }`}
-                  >
-                    {row.economie > 0 ? "+" : ""}
-                    {fmt(row.economie)}&nbsp;€
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr className="border-t-2 border-stone-200 bg-stone-50 font-semibold">
-                <td className="px-4 py-3 text-ink" colSpan={4}>
-                  Total économie sur 9 ans
-                </td>
-                <td
-                  className={`px-4 py-3 text-right ${
-                    totalEconomie > 0
-                      ? "text-emerald-700"
-                      : totalEconomie < 0
-                        ? "text-red-500"
-                        : "text-stone-700"
-                  }`}
-                >
-                  {totalEconomie > 0 ? "+" : ""}
-                  {fmt(totalEconomie)}&nbsp;€
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        <p className="mt-3 text-xs text-stone-400">
-          L&apos;économie représente la différence d&apos;imposition totale
-          (IR&nbsp;+&nbsp;PS) entre le régime réel et le dispositif Jeanbrun,
-          sur la base des paramètres saisis.
-        </p>
-      </div>
-    </div>
-  );
-}
+                <ResultRows
+                  rows={[
+                    {
+                      label: "Impôt cumulé sur 9 ans en Micro-BIC (50 %)",
+                      detail: `Taux global ${res.tauxGlobalImpositionPct.toFixed(1).replace(".", ",")} % (TMI ${res.tmi} % + PS 17,2 %)`,
+                      value: formatEuros(res.cumul9Ans.impotMicroBic),
+                    },
+                    {
+                      label: "Impôt cumulé sur 9 ans en LMNP Réel linéaire",
+                      detail: "85 % du bien amorti linéairement sur 30 ans",
+                      value: formatEuros(res.cumul9Ans.impotLmnpLineaire),
+                    },
+                    {
+                      label: "Impôt cumulé sur 9 ans (profil dégressif 5,5 / 4,5 / 3,5 %)",
+                      detail: "80 % du bien amorti par paliers de 3 ans",
+                      value: formatEuros(res.cumul9Ans.impotAmortissementDegressif),
+                      strong: true,
+                    },
+                  ]}
+                />
 
-/* ─── Sub-components ─── */
-
-function NumberInput({
-  id,
-  label,
-  value,
-  onChange,
-  min = 0,
-  step = 1,
-}: {
-  id: string;
-  label: string;
-  value: number;
-  onChange: (v: number) => void;
-  min?: number;
-  step?: number;
-}) {
-  return (
-    <div className="space-y-2">
-      <label htmlFor={id} className="block text-sm font-medium text-stone-700">
-        {label}
-      </label>
-      <input
-        id={id}
-        type="number"
-        inputMode="numeric"
-        min={min}
-        step={step}
-        value={value}
-        onChange={(e) => {
-          const v = Number(e.target.value);
-          if (!Number.isNaN(v)) onChange(v);
-        }}
-        className="h-10 w-full rounded-lg border border-stone-200 bg-white px-3 text-sm text-ink transition-colors focus:border-forest focus:ring-2 focus:ring-forest/20 focus:outline-none"
+                <ResultFormula>
+                  Micro-BIC {formatEuros(res.cumul9Ans.impotMicroBic)} − Dégressif{" "}
+                  {formatEuros(res.cumul9Ans.impotAmortissementDegressif)} ={" "}
+                  {formatEuros(res.cumul9Ans.economieVsMicroBic)} sur 9 ans
+                </ResultFormula>
+              </>
+            ) : (
+              <ResultPending>
+                Indiquez le prix d&apos;acquisition et le loyer mensuel pour afficher le comparatif sur 9 ans.
+              </ResultPending>
+            )}
+          </ResultPanel>
+        }
       />
-    </div>
-  );
-}
 
-function ResultRow({
-  label,
-  value,
-  bold,
-  negative,
-  highlight,
-}: {
-  label: string;
-  value: string;
-  bold?: boolean;
-  negative?: boolean;
-  highlight?: boolean;
-}) {
-  return (
-    <div className="flex items-baseline justify-between gap-2">
-      <dt
-        className={`${bold ? "font-semibold text-stone-800" : "text-stone-500"}`}
-      >
-        {label}
-      </dt>
-      <dd
-        className={`text-right tabular-nums ${
-          highlight
-            ? "font-bold text-forest"
-            : bold
-              ? "font-semibold text-ink"
-              : negative
-                ? "text-red-500"
-                : "text-stone-700"
-        }`}
-      >
-        {value}
-      </dd>
+      {res ? (
+        <section
+          aria-labelledby="echeancier-jeanbrun-title"
+          className="overflow-hidden rounded-2xl border border-line bg-white"
+        >
+          <div className="border-b border-line-soft bg-paper px-5 py-4 sm:px-7">
+            <h2 id="echeancier-jeanbrun-title" className="text-[16px] font-semibold text-ink">
+              Échéancier annuel de l&apos;amortissement dégressif sur 9 ans
+            </h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-[13.5px]">
+              <caption className="sr-only">
+                Détail annuel de l&apos;amortissement dégressif et de l&apos;impôt sur 9 ans
+              </caption>
+              <thead className="bg-cream/60 text-left text-[12px] uppercase tracking-wider text-ink-muted">
+                <tr>
+                  <th scope="col" className="px-4 py-3 font-semibold sm:px-6">Année</th>
+                  <th scope="col" className="px-4 py-3 text-right font-semibold">Taux appliqué</th>
+                  <th scope="col" className="px-4 py-3 text-right font-semibold">Dotation amortissement</th>
+                  <th scope="col" className="px-4 py-3 text-right font-semibold">Base imposable</th>
+                  <th scope="col" className="px-4 py-3 text-right font-semibold sm:px-6">Impôt annuel (IR + PS)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line-soft tabular-nums">
+                {res.echeancier9Ans.map((row) => (
+                  <tr key={row.annee} className="hover:bg-cream/40">
+                    <th scope="row" className="px-4 py-2.5 text-left font-medium text-ink sm:px-6">
+                      Année {row.annee}
+                    </th>
+                    <td className="px-4 py-2.5 text-right text-ink-muted">{row.tauxAmortissementPct}</td>
+                    <td className="px-4 py-2.5 text-right text-ink">{formatEuros(row.dotationAmortissement)}</td>
+                    <td className="px-4 py-2.5 text-right text-ink-muted">{formatEuros(row.baseImposable)}</td>
+                    <td className="px-4 py-2.5 text-right font-medium text-forest-deep sm:px-6">
+                      {formatEuros(row.impotAnnuel)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

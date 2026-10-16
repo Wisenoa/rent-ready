@@ -1,470 +1,161 @@
-import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Info } from "lucide-react";
-import {
-  SchemaMarkup,
-  webApplicationSchema,
-} from "@/components/seo/schema-markup";
-import { JeanbrunSimulator } from "./jeanbrun-simulator";
+import { Check } from "lucide-react";
 
-// Rendered on demand. SEO/marketing content, not product surface: prerendering the
-// ~135-page content suite exhausted the Node heap during `next build`
-// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
-// per request costs ~ms and every URL keeps working.
+import { JeanbrunSimulator } from "./jeanbrun-simulator";
+import { baseMetadata } from "@/lib/seo/metadata";
+import {
+  buildGraphSchema,
+  buildBreadcrumbSchema,
+  buildWebApplicationSchema,
+  buildFAQPageSchema,
+} from "@/lib/seo/structured-data";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { ToolHeader } from "@/components/marketing/tools/ToolHeader";
+import { ToolCta, ToolExplainer, ToolFaq, type FaqItem } from "@/components/marketing/tools/ToolContent";
+
 export const revalidate = 3600;
 
-// Rendered on demand. SEO/marketing content, not product surface: prerendering the
-// ~135-page content suite exhausted the Node heap during `next build`
-// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
-// per request costs ~ms and every URL keeps working.
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Simulateur Loi Jeanbrun 2026 — Amortissement Locatif vs LMNP",
+    description:
+      "Simulez gratuitement l'impact d'un amortissement dégressif sur 9 ans (dispositif Jeanbrun : 5,5 %, 4,5 %, 3,5 %) face au Micro-BIC et au LMNP Réel linéaire.",
+    url: "/outils/simulateur-loi-jeanbrun",
+    ogType: "outil",
+  });
+}
 
-export const metadata: Metadata = {
-  title: "Simulateur Loi Jeanbrun 2026 — LMNP vs Jeanbrun",
-  description:
-    "Comparez le LMNP classique et le nouveau dispositif Jeanbrun 2026 : amortissement, fiscalité, rentabilité. Simulateur gratuit en ligne.",
-  keywords: [
-    "simulateur loi Jeanbrun 2026",
-    "LMNP vs Jeanbrun",
-    "amortissement Jeanbrun",
-    "dispositif fiscal immobilier 2026",
-    "investissement locatif France",
-    "comparateur LMNP",
-  ],
-  alternates: {
-    canonical: "https://lokna.fr/outils/simulateur-loi-jeanbrun",
-  },
-};
+const breadcrumb = [
+  { label: "Accueil", href: "/" },
+  { label: "Outils", href: "/outils" },
+  { label: "Simulateur loi Jeanbrun", href: "/outils/simulateur-loi-jeanbrun" },
+];
 
-const faqs = [
+const HYPOTHESES_SIMULATION = [
+  "Base amortissable fixée à 80 % du prix d'acquisition (exclusion forfaitaire de 20 % correspondant à la quote-part du foncier).",
+  "Profil dégressif sur 9 ans : 5,5 % par an les années 1 à 3, 4,5 % par an les années 4 à 6, et 3,5 % par an les années 7 à 9 (soit 40,5 % de la base bâtie sur 9 ans).",
+  "Comparaison directe avec les deux régimes de droit commun du CGI : le Micro-BIC (abattement de 50 %, art. 50-0) et le LMNP Réel linéaire (art. 39 C).",
+  "Plafonnement de l'amortissement au résultat locatif avant amortissement (pas de création de déficit fiscal imputable sur le revenu global).",
+];
+
+const FAQ_ITEMS: FaqItem[] = [
   {
-    question: "Qui peut bénéficier du dispositif Jeanbrun ?",
+    question: "Que modélise ce simulateur de loi Jeanbrun ?",
     answer:
-      "Tout contribuable français investissant dans un bien immobilier locatif neuf ou rénové, situé dans une zone éligible (zones A, A bis et B1 notamment). Le dispositif est ouvert aux particuliers comme aux SCI soumises à l&apos;IR. Les étrangers résidant en France peuvent également en bénéficier sous conditions.",
+      "Ce simulateur compare, sur une période d'engagement de 9 ans, un barème d'amortissement dégressif du bâti (5,5 % les trois premières années, 4,5 % les trois suivantes et 3,5 % les trois dernières, sur 80 % du prix du bien) avec les deux régimes fiscaux de référence en vigueur : le Micro-BIC (abattement forfaitaire de 50 %) et le régime LMNP Réel linéaire.",
   },
   {
-    question: "Peut-on cumuler le LMNP et le dispositif Jeanbrun ?",
+    question: "Pourquoi exclut-on 20 % du prix d'acquisition pour le calcul de l'amortissement ?",
     answer:
-      "Non, les deux dispositifs sont exclusifs l&apos;un de l&apos;autre. Le propriétaire doit choisir entre le régime LMNP (micro-BIC ou réel) et le dispositif Jeanbrun lors de sa déclaration fiscale. Il est donc essentiel de simuler les deux options avant de s&apos;engager pour identifier le régime le plus avantageux.",
+      "En fiscalité immobilière française, un terrain ne subit pas de dépréciation irréversible liée au temps et n'est donc jamais amortissable. Seule la part correspondant à la construction (généralement retenue entre 80 % et 85 % du prix total hors terrain) peut faire l'objet d'une dotation annuelle aux amortissements.",
   },
   {
-    question: "Quel est le taux d'amortissement Jeanbrun par année ?",
+    question: "Quelle est la différence entre un amortissement dégressif sur 9 ans et le LMNP Réel classique ?",
     answer:
-      "Le dispositif Jeanbrun prévoit un amortissement dégressif sur 9 ans : 5,5 % de la valeur du bien (hors terrain) les années 1 à 3, 4,5 % les années 4 à 6, et 3,5 % les années 7 à 9. Cela représente un avantage significatif par rapport aux 2 % du régime réel classique du LMNP.",
+      "En LMNP Réel classique, la construction est amortie de manière linéaire par composants sur une durée longue (souvent 25 à 35 ans, soit environ 2,8 % à 3,3 % par an). Un profil dégressif concentre une dotation plus élevée au cours des six premières années (5,5 % puis 4,5 %), ce qui absorbe des recettes locatives plus importantes en début de détention.",
   },
   {
-    question: "Le dispositif Jeanbrun est-il plus avantageux que le LMNP réel ?",
+    question: "Comment simuler plus finement mes amortissements de mobilier et mes intérêts d'emprunt ?",
     answer:
-      "Cela dépend de la valeur du bien, de votre tranche marginale d&apos;imposition et de vos charges déductibles. En règle générale, le dispositif Jeanbrun est plus avantageux pour les biens de valeur moyenne à élevée et les TMI supérieures à 30 %. Utilisez notre simulateur pour comparer.",
-  },
-  {
-    question: "Quelles sont les conditions pour bénéficier de la loi Jeanbrun ?",
-    answer:
-      "Les principales conditions sont : un engagement de location de 9 ans minimum, le respect des plafonds de loyer dans les zones tendues, un bien neuf ou rénové conforme aux normes énergétiques (re quieter-minimum), et la location à titre de résidence principale du locataire.",
-  },
-  {
-    question: "Qu'est-ce qui change par rapport au LMNP classique ?",
-    answer:
-      "Le LMNP classique permet de déduire les charges réelles et d&apos;amortir le bien (généralement 2 % par an). Le dispositif Jeanbrun remplace le système de réduction d&apos;impôt par un amortissement majoré (jusqu'à 5,5 % par an), offrant un avantage fiscal plus important et plus prévisible, notamment pour les investisseurs dans les zones tendues.",
+      "Pour détailler séparément vos intérêts d'emprunt, vos charges de copropriété et l'amortissement sur 7 ans de vos meubles, utilisez notre simulateur dédié à la fiscalité LMNP au régime réel.",
   },
 ];
 
-// ── HowTo structured data ──────────────────────────────────────────────────
-const howtoSteps = [
-  {
-    name: "Saisissez les paramètres de votre investissement",
-    text: "Entrez le prix d'achat du bien, le montant du crédit, le taux d'intérêt, votre tranche marginale d'imposition et la durée de location envisagée.",
-  },
-  {
-    name: "Comparez LMNP micro-BIC, LMNP réel et dispositif Jeanbrun",
-    text: "Le simulateur affiche côte à côte les résultats des trois régimes fiscaux : économie d'impôt, flux de trésorerie net, rentabilité nette après fiscalisation.",
-  },
-  {
-    name: "Analysez le tableau d'amortissement",
-    text: "Visualisez année par année l'amortissement déductible, le revenu foncier imposable et l'économie d'impôt générée sous chaque régime.",
-  },
-  {
-    name: "Choisissez le régime le plus adapté",
-    text: "Comparez la rentabilité nette après impôt de chaque dispositif. Le simulateur vous indique quel régime est optimal selon votre situation fiscale et la durée de détention prévue.",
-  },
-];
-
-const jeanbrunJsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "HowTo",
-      name: "Comment comparer LMNP et dispositif Jeanbrun 2026",
+function SimulateurJeanbrunJsonLd() {
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://lokna.fr" },
+      { name: "Outils", url: "https://lokna.fr/outils" },
+      { name: "Simulateur loi Jeanbrun", url: "https://lokna.fr/outils/simulateur-loi-jeanbrun" },
+    ]),
+    buildWebApplicationSchema({
+      name: "Simulateur Loi Jeanbrun — Amortissement Dégressif vs LMNP",
       description:
-        "Guide pour utiliser le simulateur et choisir le meilleur régime fiscal pour votre investissement locatif : LMNP classique ou nouveau dispositif Jeanbrun.",
-      step: howtoSteps,
-    },
-    {
-      "@type": "FAQPage",
-      name: "FAQ — Simulateur Loi Jeanbrun 2026",
-      mainEntity: faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq.answer,
-        },
-      })),
-    },
-    {
-      "@type": "WebApplication",
-      name: "Simulateur Loi Jeanbrun 2026 — Lokna",
-      url: "https://lokna.fr/outils/simulateur-loi-jeanbrun",
-      description:
-        "Comparez le LMNP classique et le nouveau dispositif Jeanbrun 2026 : amortissement, fiscalité, rentabilité. Simulateur gratuit.",
-      applicationCategory: "FinanceApplication",
-      operatingSystem: "Web",
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "EUR",
-      },
-    },
-  ],
-};
-
-function LegalBasis() {
-  return (
-    <div className="rounded-xl border border-sage-100 bg-sage-50/50 p-5">
-      <p className="flex items-start gap-2 text-sm text-ink">
-        <Info className="mt-0.5 size-4 shrink-0" />
-        <span>
-          <strong>Basis légale :</strong> Loi de finances 2025 (dispositif
-          Jeanbrun). Article 199 sexicies du Code général des impôts (CGI).
-          Amortissement prévu sur 9 ans selon le profil dégressif : 5,5 % (années
-          1-3), 4,5 % (années 4-6), 3,5 % (années 7-9). Plafonds de loyer et
-          ressources du locataire selon zonage (arrêté du 29 avril 2024).
-        </span>
-      </p>
-    </div>
+        "Comparez sur 9 ans un barème d'amortissement locatif dégressif (5,5 % / 4,5 % / 3,5 %) avec le régime Micro-BIC et le LMNP Réel linéaire.",
+      url: "/outils/simulateur-loi-jeanbrun",
+    }),
+    buildFAQPageSchema(FAQ_ITEMS)
   );
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
 }
 
-function CommonMistakes() {
-  return (
-    <div className="rounded-xl border border-amber-100 bg-amber-50/50 p-5">
-      <h4 className="mb-3 font-semibold text-amber-900">
-        Erreurs fréquentes à éviter
-      </h4>
-      <ul className="space-y-2 text-sm text-amber-800">
-        <li className="flex items-start gap-2">
-          <span className="font-medium">✗</span>
-          <span>
-            <strong>Choisir Jeanbrun sans simulation préalable</strong> : ce
-            dispositif n&apos;est pas toujours optimal. Un bien avec peu de
-            charges ou une TMI basse peut être mieux servi par le LMNP réel
-            classique.
-          </span>
-        </li>
-        <li className="flex items-start gap-2">
-          <span className="font-medium">✗</span>
-          <span>
-            <strong>Inclure le terrain dans l amortissement</strong> : seul le
-            prix du bâti (hors terrain) est amortissable. Inclure le terrain
-            donne uneBase exagérée et un avantage irreel.
-          </span>
-        </li>
-        <li className="flex items-start gap-2">
-          <span className="font-medium">✗</span>
-          <span>
-            <strong>Négliger les plafonds de loyer</strong> : en zone tendue,
-            le loyer est plafonné. Un loyer réel supérieur au plafond ne
-            génère pas de déficit déductible supplémentaire.
-          </span>
-        </li>
-        <li className="flex items-start gap-2">
-          <span className="font-medium">✗</span>
-          <span>
-            <strong>Sous-estimer la durée d&apos;engagement</strong> : le
-            dispositif Jeanbrun impose 9 ans de location. En cas de vente
-            anticipée, l&apos;amortissement non utilisé est requalifié.
-          </span>
-        </li>
-        <li className="flex items-start gap-2">
-          <span className="font-medium">✓</span>
-          <span>
-            <strong>Consulter un expert-comptable fiscaliste</strong> : pour les
-            investissements supérieurs à 300 000 €, un conseil personnalisé est
-            recommandé avant de trancher entre les régimes.
-          </span>
-        </li>
-      </ul>
-    </div>
-  );
-}
-
-export default function SimulateurJeanbrunPage() {
+export default function SimulateurLoiJeanbrunPage() {
   return (
     <>
-      <SchemaMarkup data={jeanbrunJsonLd} />
+      <SimulateurJeanbrunJsonLd />
+      <div className="bg-cream">
+        <div className="mx-auto max-w-6xl px-5 pb-16 pt-10 sm:px-8 sm:pt-14">
+          <ToolHeader
+            breadcrumb={breadcrumb}
+            eyebrow="Simulateur comparatif · 9 ans"
+            title="Simulateur loi Jeanbrun : amortissement dégressif sur 9 ans vs LMNP"
+            intro="Comparez sur 9 ans l'impact d'un profil d'amortissement dégressif (5,5 %, 4,5 % puis 3,5 % sur 80 % de la valeur du bien) face au régime Micro-BIC et au LMNP Réel linéaire."
+            facts={[
+              { label: "Horizon", value: "Projection sur 9 ans" },
+              { label: "Base bâtie", value: "80 % du prix hors terrain" },
+              { label: "Comparatif", value: "Micro-BIC, LMNP linéaire, Dégressif" },
+            ]}
+          />
 
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
-        {/* ── H1 + intro ── */}
-        <section className="mb-12 text-center">
-          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
-            Simulateur Loi Jeanbrun 2026 : comparez LMNP et nouveau dispositif
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-stone-600">
-            La <strong>loi Jeanbrun</strong> entre en vigueur en{" "}
-            <strong>2026</strong> et propose un nouveau cadre fiscal pour
-            l&apos;investissement locatif en remplacement du dispositif Pinel.
-            Grâce à un <strong>amortissement</strong> accéléré et dégressif,
-            ce dispositif offre une alternative au <strong>LMNP</strong>{" "}
-            classique. Utilisez notre simulateur gratuit pour comparer les
-            trois régimes fiscaux et identifier la solution la plus avantageuse
-            pour votre investissement.
-          </p>
-        </section>
-
-        {/* ── Interactive simulator ── */}
-        <section className="mb-16" aria-label="Simulateur Loi Jeanbrun">
-          <JeanbrunSimulator />
-        </section>
-
-        {/* ── How-to use ── */}
-        <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-ink">
-            Comment utiliser ce simulateur pour choisir votre régime fiscal
-          </h2>
-          <div className="rounded-xl border border-stone-200/60 bg-white p-6 sm:p-8">
-            <ol className="mb-6 list-inside list-decimal space-y-4 text-stone-600">
-              <li>
-                <strong className="text-stone-800">
-                  Saisissez les paramètres de votre investissement
-                </strong>{" "}
-                — Entrez le prix d&apos;achat du bien, le montant du crédit, le
-                taux d&apos;intérêt, votre tranche marginale d&apos;imposition et
-                la durée de location envisagée.
-              </li>
-              <li>
-                <strong className="text-stone-800">
-                  Comparez les trois régimes instantanément
-                </strong>{" "}
-                — Le simulateur affiche côte à côte les résultats : économie
-                d&apos;impôt, flux de trésorerie net, rentabilité nette après
-                fiscalisation pour LMNP micro-BIC, LMNP réel et Jeanbrun.
-              </li>
-              <li>
-                <strong className="text-stone-800">
-                  Analysez le tableau d&apos;amortissement
-                </strong>{" "}
-                — Visualisez année par année l&apos;amortissement déductible,
-                le revenu foncier imposable et l&apos;économie d&apos;impôt
-                générée sous chaque régime.
-              </li>
-              <li>
-                <strong className="text-stone-800">
-                  Choisissez le régime optimal
-                </strong>{" "}
-                — Comparez la rentabilité nette après impôt. Le simulateur
-                vous indique quel régime est le meilleur selon votre situation
-                fiscale et votre horizon de détention.
-              </li>
-            </ol>
-            <CommonMistakes />
+          <div className="mt-10">
+            <JeanbrunSimulator />
           </div>
-        </section>
 
-        {/* ── Jeanbrun vs LMNP comparison ── */}
-        <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-ink">
-            Dispositif Jeanbrun vs LMNP : quelle différence ?
-          </h2>
-          <div className="overflow-hidden rounded-xl border border-stone-200/60">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-stone-200/60 bg-stone-100/80">
-                  <th className="px-4 py-3 font-semibold text-stone-700">
-                    Critère
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-stone-700">
-                    LMNP micro-BIC
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-stone-700">
-                    LMNP réel
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-stone-700">
-                    Dispositif Jeanbrun
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-white">
-                  <td className="px-4 py-3 font-medium text-stone-800">
-                    Amortissement
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Non
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    ~2 %/an (fourchette indicative)
-                  </td>
-                  <td className="px-4 py-3 text-center font-medium text-green-700">
-                    5,5 % puis 4,5 % puis 3,5 %
-                  </td>
-                </tr>
-                <tr className="bg-stone-50">
-                  <td className="px-4 py-3 font-medium text-stone-800">
-                    Charges déductibles
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Abattement 50 %
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Oui (réelles)
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Oui (réelles)
-                  </td>
-                </tr>
-                <tr className="bg-white">
-                  <td className="px-4 py-3 font-medium text-stone-800">
-                    Durée d&apos;engagement
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Aucune
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Aucune
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    9 ans minimum
-                  </td>
-                </tr>
-                <tr className="bg-stone-50">
-                  <td className="px-4 py-3 font-medium text-stone-800">
-                    Réduction d&apos;impôt
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Non
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Non
-                  </td>
-                  <td className="px-4 py-3 text-center font-medium text-green-700">
-                    Oui (amortissement majoré)
-                  </td>
-                </tr>
-                <tr className="bg-white">
-                  <td className="px-4 py-3 font-medium text-stone-800">
-                    Zones éligibles
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Toutes
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Toutes
-                  </td>
-                  <td className="px-4 py-3 text-center text-stone-600">
-                    Zones A, A bis, B1
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <section aria-labelledby="hypotheses-jeanbrun-title" className="mt-8 rounded-2xl border border-line bg-paper px-5 py-6 sm:px-7">
+            <h2 id="hypotheses-jeanbrun-title" className="text-[17px] font-semibold text-ink">
+              Hypothèses de calcul retenues dans le comparateur
+            </h2>
+            <ul className="mt-4 grid gap-x-8 gap-y-3 md:grid-cols-2">
+              {HYPOTHESES_SIMULATION.map((item) => (
+                <li key={item} className="flex gap-2.5 text-[14.5px] leading-6 text-ink">
+                  <Check aria-hidden="true" className="mt-1 size-4 shrink-0 text-sage-600" strokeWidth={2.25} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <div className="mt-16 space-y-14">
+            <ToolExplainer id="explications-jeanbrun" title="Comprendre l'effet d'un amortissement dégressif sur la fiscalité locative">
+              <p>
+                Lorsqu&apos;un propriétaire bailleur investit dans un logement locatif, le poids de l&apos;impôt sur le revenu
+                (selon sa tranche marginale d&apos;imposition de 0 % à 45 %) additionné aux prélèvements sociaux (17,2 %) dépend
+                directement du mode de détermination de l&apos;assiette imposable.
+              </p>
+              <h3>1. Amortissement dégressif sur 9 ans vs amortissement linéaire</h3>
+              <p>
+                Dans un schéma d&apos;amortissement dégressif en trois paliers triennaux (5,5 % par an les années 1 à 3, 4,5 % les
+                années 4 à 6, puis 3,5 % les années 7 à 9 sur 80 % du prix d&apos;achat), le propriétaire amortit{" "}
+                <strong>40,5 % de la valeur de la construction</strong> en neuf ans (soit 32,4 % du prix total terrain inclus). À
+                titre de comparaison, un amortissement linéaire sur 30 ans en{" "}
+                <Link href="/outils/simulateur-fiscalite-lmnp">LMNP au régime réel</Link> représente 30 % de la base bâtie sur la
+                même période de neuf ans.
+              </p>
+              <h3>2. Quand les deux régimes produisent-ils le même impôt ?</h3>
+              <p>
+                Tant que le résultat locatif (loyers moins charges déductibles) est inférieur à la dotation d&apos;amortissement
+                linéaire, la base imposable est déjà ramenée à 0 € dans les deux cas en application du plafonnement de
+                l&apos;article 39 C du CGI. L&apos;écart fiscal apparaît lorsque le rendement locatif est élevé ou que les charges
+                et <Link href="/outils/simulateur-pret-immobilier">intérêts d&apos;emprunt</Link> diminuent : la dotation
+                dégressive plus forte permet alors de continuer à gommer le bénéfice imposable.
+              </p>
+              <p>
+                Pour évaluer la rentabilité globale de votre acquisition avant impôt, complétez votre analyse avec notre{" "}
+                <Link href="/outils/calculateur-rendement">calculateur de rentabilité locative</Link> et notre{" "}
+                <Link href="/outils/calculateur-plus-value">calculateur de plus-value immobilière</Link>.
+              </p>
+            </ToolExplainer>
+
+            <ToolFaq items={FAQ_ITEMS} title="Questions fréquentes sur la simulation d'amortissement sur 9 ans" />
           </div>
-          <LegalBasis />
-        </section>
 
-        {/* ── FAQ ── */}
-        <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-ink">
-            Questions fréquentes sur la loi Jeanbrun et le LMNP
-          </h2>
-          <div className="space-y-3">
-            {faqs.map((faq) => (
-              <details
-                key={faq.question}
-                className="group rounded-xl border border-stone-200/60 bg-white"
-              >
-                <summary className="cursor-pointer px-5 py-4 text-sm font-semibold text-stone-800 select-none marker:text-stone-400">
-                  {faq.question}
-                </summary>
-                <p className="px-5 pb-4 text-sm leading-relaxed text-stone-600">
-                  {faq.answer}
-                </p>
-              </details>
-            ))}
+          <div className="mt-16">
+            <ToolCta title="Pilotez vos locations au quotidien avec Lokna">
+              Centralisez vos biens, vos baux, le suivi de vos loyers et l&apos;édition de vos quittances PDF dans un seul espace
+              clair et sans engagement.
+            </ToolCta>
           </div>
-        </section>
-
-        {/* ── Related resources ── */}
-        <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-ink">
-            Ressources complémentaires
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Link
-              href="/blog/statut-lmnp-2026-guide-complet"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-sage-200 hover:bg-sage-50/30">
-              <span className="text-2xl">📄</span>
-              <div>
-                <p className="font-medium text-stone-800">
-                  Guide complet de la loi Jeanbrun 2026
-                </p>
-                <p className="text-sm text-stone-500">Article de blog</p>
-              </div>
-            </Link>
-            <Link
-              href="/blog/lmnp-declaration-fiscale-2026"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-sage-200 hover:bg-sage-50/30">
-              <span className="text-2xl">📊</span>
-              <div>
-                <p className="font-medium text-stone-800">
-                  LMNP réel vs micro-BIC : guide comparatif
-                </p>
-                <p className="text-sm text-stone-500">Article de blog</p>
-              </div>
-            </Link>
-            <Link
-              href="/templates/bail-vide"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-sage-200 hover:bg-sage-50/30">
-              <span className="text-2xl">📄</span>
-              <div>
-                <p className="font-medium text-stone-800">
-                  Modèle de bail de location
-                </p>
-                <p className="text-sm text-stone-500">Téléchargement gratuit</p>
-              </div>
-            </Link>
-            <Link
-              href="/glossaire-immobilier"
-              className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-white p-4 transition-colors hover:border-sage-200 hover:bg-sage-50/30">
-              <span className="text-2xl">📖</span>
-              <div>
-                <p className="font-medium text-stone-800">
-                  Glossaire de l&apos;investissement locatif
-                </p>
-                <p className="text-sm text-stone-500">Tous les termes</p>
-              </div>
-            </Link>
-          </div>
-        </section>
-
-        {/* ── CTA Banner ── */}
-        <section
-          className="rounded-xl border border-sage-200/60 bg-gradient-to-br from-sage-50 to-sage-100/50 p-8 text-center sm:p-10"
-          aria-label="Appel à l'action"
-        >
-          <h2 className="mb-3 text-xl font-semibold text-ink sm:text-2xl">
-            Gérez vos investissements locatifs en un seul outil
-          </h2>
-          <p className="mx-auto mb-6 max-w-lg text-stone-600">
-            Lokna centralise vos biens, calcule automatiquement les
-            amortissements et génère vos déclarations fiscales. Essai gratuit
-            14&nbsp;jours.
-          </p>
-          <Link
-            href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-forest px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest-hover"
-          >
-            Commencer l&apos;essai gratuit
-            <ArrowRight className="size-4" />
-          </Link>
-        </section>
+        </div>
       </div>
     </>
   );

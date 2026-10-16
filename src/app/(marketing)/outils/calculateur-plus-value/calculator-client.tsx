@@ -1,289 +1,352 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Decimal from "decimal.js";
 
-const FAQ = [
-  {
-    question: "La plus-value de ma résidence principale est-elle taxée ?",
-    answer: "Non, la vente de votre résidence principale est totalement exonérée de plus-value immobilière. C'est l'un des avantages fiscaux les plus importants en France.",
-  },
-  {
-    question: "Comment fonctionne l'abattement pour durée de détention ?",
-    answer: "Pour une vente après 5 ans de détention, un abattement de 6% par an s'applique chaque année de la 6e à la 21e année. Après 22 ans, l'exonération est totale pour l'impôt sur le revenu. Pour les prélèvements sociaux, l'exonération totale intervient après 30 ans.",
-  },
-  {
-    question: "Puis-je déduire les travaux de la plus-value ?",
-    answer: "Oui, vous pouvez ajouter au prix d'achat : les travaux de construction, reconstruction, extension ou amélioration (si non déjà déductibles), les frais de voirie, et les frais d'acquisition (droits de mutation, honoraires).",
-  },
-  {
-    question: "Quel taux s'applique sur la plus-value imposable ?",
-    answer: "L'impôt sur le revenu est actuellement au taux de 19%. Les prélèvements sociaux (CSG, CRDS) s'appliquent au taux de 17.2%. Une surtaxe peut s'appliquer pour les plus-values supérieures à 50 000 €.",
-  },
-];
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import {
+  computePlusValue,
+  PLUS_VALUE_ERROR_MESSAGES,
+  type ModeFraisAcquisition,
+  type ModeTravauxPlusValue,
+  type NatureBienPlusValue,
+} from "@/lib/tools/plus-value";
+import { formatPercent } from "@/lib/tools/rendement-locatif";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  ChoiceGroup,
+  SelectField,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  ResultBadge,
+  ResultFigure,
+  ResultFormula,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+  ResultRows,
+} from "@/components/marketing/tools/ToolResult";
+
+const ANNEES_OPTIONS = Array.from({ length: 35 }, (_, idx) => ({
+  value: String(idx),
+  label:
+    idx === 0
+      ? "Moins d'un an (0 année révolue)"
+      : idx === 1
+        ? "1 année pleine révolue"
+        : idx === 22
+          ? "22 ans (exonéré d'impôt sur le revenu)"
+          : idx === 30
+            ? "30 ans (exonéré d'IR et de prélèvements sociaux)"
+            : `${idx} années pleines révolues`,
+}));
 
 export function PlusValueClient() {
-  const [purchasePrice, setPurchasePrice] = useState("");
-  const [salePrice, setSalePrice] = useState("");
-  const [acquisitionDate, setAcquisitionDate] = useState("2018");
-  const [worksAmount, setWorksAmount] = useState("");
-  const [isPrimaryResidence, setIsPrimaryResidence] = useState(false);
-  const [result, setResult] = useState<{
-    grossPlusValue: number;
-    taxablePlusValue: number;
-    irTax: number;
-    socialTax: number;
-    totalTax: number;
-    netPlusValue: number;
-    yearsHeld: number;
-  } | null>(null);
+  const [natureBien, setNatureBien] = useState<NatureBienPlusValue>("locatif-secondaire");
+  const [prixAcquisitionInput, setPrixAcquisitionInput] = useState("190000");
+  const [prixCessionInput, setPrixCessionInput] = useState("275000");
+  const [anneesDetention, setAnneesDetention] = useState("11");
 
-  function calculate() {
-    const buy = parseFloat(purchasePrice);
-    const sell = parseFloat(salePrice);
-    const works = parseFloat(worksAmount) || 0;
-    if (isNaN(buy) || isNaN(sell) || buy <= 0) return;
+  const [modeFrais, setModeFrais] = useState<ModeFraisAcquisition>("forfait-7-5");
+  const [fraisReelsInput, setFraisReelsInput] = useState("15200");
 
-    const grossPlusValue = sell - buy - works;
-    if (grossPlusValue <= 0) {
-      setResult({
-        grossPlusValue,
-        taxablePlusValue: 0,
-        irTax: 0,
-        socialTax: 0,
-        totalTax: 0,
-        netPlusValue: 0,
-        yearsHeld: new Date().getFullYear() - parseInt(acquisitionDate),
-      });
-      return;
-    }
+  const [modeTravaux, setModeTravaux] = useState<ModeTravauxPlusValue>("forfait-15");
+  const [travauxReelsInput, setTravauxReelsInput] = useState("12000");
+  const [edited, setEdited] = useState(false);
 
-    const currentYear = new Date().getFullYear();
-    const yearsHeld = currentYear - parseInt(acquisitionDate);
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
+  };
 
-    // For secondary residence: no abatement before year 6
-    // Year 6-21: 6% per year for IR, 1.65% per year for PS
-    // Year 22+: 4% per year for IR, 0% for PS (after 30 years PS is 0)
-    // Actually: after 22 years, IR is fully abated (6% × 16 = 96%, then 4% for year 22 = 100%)
-    // For PS: 1.65% × 22 = 36.3%, then 1.875% × 8 = 15%, total ~51.3% after 30 years = 100%
+  const pAchat = parseAmount(prixAcquisitionInput, 50_000_000);
+  const pVente = parseAmount(prixCessionInput, 50_000_000);
+  const pFraisReels =
+    modeFrais === "reel"
+      ? parseAmount(fraisReelsInput, 10_000_000)
+      : { ok: true as const, value: new Decimal(0) };
+  const pTravauxReels =
+    modeTravaux === "reel"
+      ? parseAmount(travauxReelsInput, 15_000_000)
+      : { ok: true as const, value: new Decimal(0) };
 
-    let irAbatement = 0;
-    let psAbatement = 0;
-    const years = yearsHeld;
+  const achatErr = !pAchat.ok
+    ? AMOUNT_ERROR_MESSAGES[pAchat.error]
+    : pAchat.value.isZero()
+      ? PLUS_VALUE_ERROR_MESSAGES["zero-purchase"]
+      : null;
+  const venteErr = !pVente.ok
+    ? AMOUNT_ERROR_MESSAGES[pVente.error]
+    : pVente.value.isZero()
+      ? PLUS_VALUE_ERROR_MESSAGES["zero-sale"]
+      : null;
+  const fraisErr = modeFrais === "reel" && !pFraisReels.ok ? AMOUNT_ERROR_MESSAGES[pFraisReels.error] : null;
+  const travauxErr = modeTravaux === "reel" && !pTravauxReels.ok ? AMOUNT_ERROR_MESSAGES[pTravauxReels.error] : null;
 
-    if (years >= 22) {
-      irAbatement = 100;
-    } else if (years > 5) {
-      irAbatement = Math.min(100, (years - 5) * 6);
-    }
+  const outcome =
+    !achatErr && !venteErr && !fraisErr && !travauxErr && pAchat.ok && pVente.ok && pFraisReels.ok && pTravauxReels.ok
+      ? computePlusValue({
+          natureBien,
+          prixAcquisition: pAchat.value,
+          prixCession: pVente.value,
+          anneesDetention: Number(anneesDetention),
+          modeFraisAcquisition: modeFrais,
+          fraisAcquisitionReels: pFraisReels.value,
+          modeTravaux,
+          travauxReels: pTravauxReels.value,
+        })
+      : null;
 
-    if (years >= 30) {
-      psAbatement = 100;
-    } else if (years > 5) {
-      psAbatement = Math.min(100, (years - 5) * 1.65 + 6 * (Math.max(0, years - 22) * 0.75));
-    }
-
-    const taxablePlusValue = grossPlusValue * (1 - irAbatement / 100);
-    const irTax = taxablePlusValue * 0.19;
-    const psTax = grossPlusValue * (1 - psAbatement / 100) * 0.172;
-    const totalTax = irTax + psTax;
-    const netPlusValue = grossPlusValue - totalTax;
-
-    setResult({ grossPlusValue, taxablePlusValue, irTax, socialTax: psTax, totalTax, netPlusValue, yearsHeld });
-  }
-
-  if (isPrimaryResidence) {
-    return (
-      <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-        <div className="text-center py-8">
-          <span className="text-5xl mb-4 block">🏠</span>
-          <h2 className="text-2xl font-semibold text-stone-800 mb-3">Exonération résidence principale</h2>
-          <p className="text-stone-600 max-w-lg mx-auto">
-            La vente de votre résidence principale est <strong>totalement exonérée de plus-value immobilière</strong>. Vous n'avez aucun impôt à payer sur la plus-value.
-          </p>
-          <div className="mt-6 inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-lg">
-            <span>✅</span> Plus-value nette : <strong>0 €</strong> — Exonéré
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const res = outcome && outcome.ok ? outcome.result : null;
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-        <div className="space-y-5">
-          <div className="flex items-center gap-3 mb-4">
-            <input
-              id="isPrimary"
-              type="checkbox"
-              checked={isPrimaryResidence}
-              onChange={(e) => setIsPrimaryResidence(e.target.checked)}
-              className="w-5 h-5 accent-forest"
-            />
-            <label htmlFor="isPrimary" className="text-sm font-semibold text-stone-700">
-              Ce bien est ma résidence principale (vente avec exonération totale)
-            </label>
-          </div>
-
-          <div>
-            <label htmlFor="purchasePrice" className="block text-sm font-semibold text-stone-700 mb-1">
-              Prix d'achat initial (€)
-            </label>
-            <input
-              id="purchasePrice"
-              type="number"
-              min="0"
-              step="5000"
-              placeholder="Ex. : 200000"
-              value={purchasePrice}
-              onChange={(e) => setPurchasePrice(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="salePrice" className="block text-sm font-semibold text-stone-700 mb-1">
-              Prix de vente (€)
-            </label>
-            <input
-              id="salePrice"
-              type="number"
-              min="0"
-              step="5000"
-              placeholder="Ex. : 300000"
-              value={salePrice}
-              onChange={(e) => setSalePrice(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="acquisitionDate" className="block text-sm font-semibold text-stone-700 mb-1">
-              Année d'acquisition
-            </label>
-            <select
-              id="acquisitionDate"
-              value={acquisitionDate}
-              onChange={(e) => setAcquisitionDate(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
-            >
-              {[2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005].map(y => (
-                <option key={y} value={y}>{y}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="worksAmount" className="block text-sm font-semibold text-stone-700 mb-1">
-              Montant des travaux déductibles (€) — optionnel
-            </label>
-            <input
-              id="worksAmount"
-              type="number"
-              min="0"
-              step="1000"
-              placeholder="Ex. : 20000"
-              value={worksAmount}
-              onChange={(e) => setWorksAmount(e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest"
-            />
-            <p className="text-xs text-stone-600 mt-1">
-              Travaux de construction, reconstruction, extension ou amélioration (non déjà déductibles).
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={calculate}
-            className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors"
+    <ToolWorkbench
+      form={
+        <ToolSheet label="Calculateur de plus-value immobilière">
+          <ToolStep
+            step={1}
+            title="Nature du bien et prix d'acquisition / cession"
+            description="Les biens locatifs et résidences secondaires relèvent du régime des plus-values des particuliers (articles 150 U à 150 VH du CGI). La résidence principale est exonérée."
           >
-            Calculer ma plus-value
-          </button>
+            <ChoiceGroup
+              name="nature-bien-pv"
+              legend="Usage du bien vendu"
+              value={natureBien}
+              onChange={mark(setNatureBien)}
+              choices={[
+                {
+                  value: "locatif-secondaire",
+                  label: "Investissement locatif / secondaire",
+                  description: "Soumis au barème d'abattement (22 / 30 ans)",
+                },
+                {
+                  value: "residence-principale",
+                  label: "Résidence principale",
+                  description: "Exonération totale (art. 150 U II-1° CGI)",
+                },
+              ]}
+            />
 
-          {result && (
-            <div className="space-y-4">
-              <div className="bg-stone-50 border border-stone-200 rounded-xl p-5">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-stone-600">Plus-value brute</span>
-                  <span className="text-xl font-bold text-stone-800">
-                    {result.grossPlusValue.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-stone-600">Durée de détention</span>
-                  <span className="text-xl font-bold text-stone-800">{result.yearsHeld} ans</span>
-                </div>
-                <div className="flex justify-between items-center border-t border-stone-200 pt-3 mb-3">
-                  <span className="text-stone-600">Abattement appliqué (IR)</span>
-                  <span className="font-semibold text-green-700">
-                    {result.yearsHeld < 6 ? "0%" : `${Math.min(100, (result.yearsHeld - 5) * 6)}%`}
-                  </span>
-                </div>
-              </div>
-
-              <div className="bg-red-50 border border-red-200 rounded-xl p-5">
-                <h3 className="text-sm font-semibold text-red-800 uppercase tracking-wide mb-3">Impôts à payer</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-stone-600">Impôt sur le revenu (19%)</span>
-                    <span className="font-bold text-red-700">
-                      {result.irTax.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-stone-600">Prélèvements sociaux (17.2%)</span>
-                    <span className="font-bold text-red-700">
-                      {result.socialTax.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                    </span>
-                  </div>
-                  <div className="flex justify-between border-t border-red-200 pt-2 mt-2">
-                    <span className="text-stone-600 font-semibold">Total impôts</span>
-                    <span className="font-bold text-red-800 text-lg">
-                      {result.totalTax.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-green-50 border border-green-300 rounded-xl p-5">
-                <div className="flex justify-between items-center">
-                  <span className="text-stone-600 font-semibold">Plus-value NETTE</span>
-                  <span className="text-2xl font-bold text-green-700">
-                    {result.netPlusValue.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                  </span>
-                </div>
-              </div>
-
-              {result.yearsHeld >= 22 && (
-                <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 text-center">
-                  <p className="text-forest text-sm">
-                    🎉 Après 22 ans de détention, vous êtes <strong>totalement exonéré d'impôt sur le revenu</strong> (reste CSG/CRDS après 30 ans).
-                  </p>
-                </div>
-              )}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <AmountField
+                id="pv-prix-achat"
+                label="Prix d'acquisition initial"
+                value={prixAcquisitionInput}
+                onChange={mark(setPrixAcquisitionInput)}
+                placeholder="190000"
+                suffix="€"
+                error={achatErr}
+              />
+              <AmountField
+                id="pv-prix-vente"
+                label="Prix de cession (net vendeur)"
+                value={prixCessionInput}
+                onChange={mark(setPrixCessionInput)}
+                placeholder="275000"
+                suffix="€"
+                error={venteErr}
+              />
             </div>
+
+            <SelectField
+              id="pv-annees-detention"
+              label="Durée de détention en années pleines révolues"
+              value={anneesDetention}
+              onChange={mark(setAnneesDetention)}
+              options={ANNEES_OPTIONS}
+              hint="L'abattement fiscal commence à partir de la 6e année pleine de détention."
+            />
+          </ToolStep>
+
+          <ToolStep
+            step={2}
+            title="Majoration du prix d'acquisition (frais et travaux)"
+            description="L'article 150 VB II du CGI permet d'ajouter au prix d'achat les frais d'acquisition (forfait de 7,5 % ou frais réels) ainsi que les dépenses de travaux (forfait de 15 % après 5 ans de détention, ou montant réel sur factures)."
+          >
+            <ChoiceGroup
+              name="mode-frais-pv"
+              legend="Frais d'acquisition (frais de notaire)"
+              value={modeFrais}
+              onChange={mark(setModeFrais)}
+              choices={[
+                {
+                  value: "forfait-7-5",
+                  label: "Forfait légal de 7,5 %",
+                  description: "Sans justificatif pour un achat à titre onéreux",
+                },
+                {
+                  value: "reel",
+                  label: "Frais réels",
+                  description: "Sur justificatifs notariés",
+                },
+              ]}
+            />
+
+            {modeFrais === "reel" ? (
+              <AmountField
+                id="pv-frais-reels"
+                label="Montant réel des frais d'acquisition"
+                value={fraisReelsInput}
+                onChange={mark(setFraisReelsInput)}
+                placeholder="15200"
+                suffix="€"
+                error={fraisErr}
+              />
+            ) : null}
+
+            <ChoiceGroup
+              name="mode-travaux-pv"
+              legend="Dépenses de travaux (construction, agrandissement, amélioration)"
+              value={modeTravaux}
+              onChange={mark(setModeTravaux)}
+              choices={[
+                {
+                  value: "forfait-15",
+                  label: "Forfait légal de 15 %",
+                  description: "Applicable si détention ≥ 5 ans, sans facture",
+                },
+                {
+                  value: "reel",
+                  label: "Travaux réels sur factures",
+                  description: "Non déjà déduits des revenus fonciers",
+                },
+              ]}
+            />
+
+            {modeTravaux === "reel" ? (
+              <AmountField
+                id="pv-travaux-reels"
+                label="Montant réel des travaux éligibles"
+                value={travauxReelsInput}
+                onChange={mark(setTravauxReelsInput)}
+                placeholder="12000"
+                suffix="€"
+                error={travauxErr}
+              />
+            ) : res && res.forfaitTravauxNonEligible ? (
+              <p className="rounded-lg border border-[#EAD7AE] bg-[#FBF3E2] px-3.5 py-2.5 text-[13px] text-[#7A5512]">
+                Pour une durée de détention inférieure à 5 ans, le forfait travaux de 15 % n&apos;est pas applicable (retenu à
+                0 €). Choisissez « Travaux réels » si vous disposez de factures d&apos;entreprises.
+              </p>
+            ) : null}
+          </ToolStep>
+
+          {res ? (
+            <ResultJump
+              label="Impôt total sur la plus-value"
+              value={formatEuros(res.impotTotal)}
+              detail={`Net vendeur : ${formatEuros(res.netVendeurApresImpot)}`}
+            />
+          ) : null}
+        </ToolSheet>
+      }
+      result={
+        <ResultPanel
+          title="Impôt sur la plus-value"
+          badge={
+            res ? (
+              edited ? (
+                <ResultBadge tone="sage">Votre calcul</ResultBadge>
+              ) : (
+                <ResultBadge tone="example">Exemple · 11 ans</ResultBadge>
+              )
+            ) : null
+          }
+          footer={
+            res ? (
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <CopyButton
+                  text={`Plus-value brute : ${formatEuros(res.plusValueBrute)} | Impôt total (${res.anneesDetention} ans) : ${formatEuros(res.impotTotal)} (IR : ${formatEuros(res.impotRevenu)}, PS : ${formatEuros(res.prelevementsSociaux)}${res.surtaxe.greaterThan(0) ? `, Surtaxe : ${formatEuros(res.surtaxe)}` : ""}) | Net vendeur : ${formatEuros(res.netVendeurApresImpot)}`}
+                  label="Copier le décompte fiscal"
+                  copiedLabel="Décompte copié"
+                />
+              </div>
+            ) : undefined
+          }
+        >
+          {res ? (
+            <>
+              <ResultFigure
+                label="Impôt et prélèvements sociaux à payer"
+                cents={res.impotTotalCents}
+                text={formatEuros(res.impotTotal)}
+                muted={res.impotTotal.isZero()}
+                caption={
+                  res.motifExoneration ? (
+                    <>{res.motifExoneration}</>
+                  ) : (
+                    <>
+                      Soit un produit net vendeur après impôt de{" "}
+                      <strong>{formatEuros(res.netVendeurApresImpot)}</strong> sur un prix de vente de{" "}
+                      {formatEuros(res.prixCession)}.
+                    </>
+                  )
+                }
+              />
+
+              <ResultRows
+                rows={[
+                  {
+                    label: "Prix d'acquisition corrigé",
+                    detail: `${formatEuros(res.prixAcquisition)} + ${formatEuros(res.fraisAcquisitionRetenus)} (frais) + ${formatEuros(res.travauxRetenus)} (travaux)`,
+                    value: formatEuros(res.prixAcquisitionCorrige),
+                  },
+                  {
+                    label: "Plus-value brute",
+                    detail: `${formatEuros(res.prixCession)} − ${formatEuros(res.prixAcquisitionCorrige)}`,
+                    value: formatEuros(res.plusValueBrute),
+                    strong: true,
+                  },
+                  {
+                    label: `Plus-value imposable à l'IR (abattement ${formatPercent(res.tauxAbattementIr, 0)})`,
+                    value: formatEuros(res.plusValueNetteIr),
+                  },
+                  {
+                    label: "Impôt sur le revenu (taux forfaitaire 19 %)",
+                    value: formatEuros(res.impotRevenu),
+                  },
+                  {
+                    label: `Plus-value imposable aux PS (abattement ${formatPercent(res.tauxAbattementPs)})`,
+                    value: formatEuros(res.plusValueNettePs),
+                  },
+                  {
+                    label: "Prélèvements sociaux (17,2 %)",
+                    value: formatEuros(res.prelevementsSociaux),
+                  },
+                  ...(res.surtaxe.greaterThan(0)
+                    ? [
+                        {
+                          label: "Surtaxe plus-value > 50 000 € (art. 1609 nonies G)",
+                          value: formatEuros(res.surtaxe),
+                        },
+                      ]
+                    : []),
+                  {
+                    label: "Net vendeur après fiscalité",
+                    value: formatEuros(res.netVendeurApresImpot),
+                    strong: true,
+                  },
+                ]}
+              />
+
+              <ResultFormula>
+                IR {formatEuros(res.impotRevenu)} + PS {formatEuros(res.prelevementsSociaux)}
+                {res.surtaxe.greaterThan(0) ? ` + Surtaxe ${formatEuros(res.surtaxe)}` : ""} ={" "}
+                {formatEuros(res.impotTotal)}
+              </ResultFormula>
+            </>
+          ) : (
+            <ResultPending>
+              Indiquez les prix d&apos;achat et de revente pour calculer la plus-value imposable et les abattements pour durée de
+              détention.
+            </ResultPending>
           )}
-        </div>
-      </div>
-
-      {/* FAQ */}
-      <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8">
-        <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
-        <div className="space-y-5">
-          {FAQ.map((item, i) => (
-            <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
-              <h3 className="font-semibold text-stone-800 mb-2">{item.question}</h3>
-              <p className="text-stone-600 leading-relaxed">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/outils/calculateur-rendement" className="text-forest hover:underline">Calculateur rendement →</Link>
-        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
-      </div>
-    </div>
+        </ResultPanel>
+      }
+    />
   );
 }

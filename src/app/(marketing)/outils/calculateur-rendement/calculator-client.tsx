@@ -1,322 +1,289 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
-import { FinalCta } from "@/components/landing/final-cta";
-import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import Decimal from "decimal.js";
 
-// Benchmarks for France
-const BENCHMARKS = [
-  { city: "Paris", netYield: "2.5–3.5%", note: "marché tendu, prix élevés" },
-  { city: "Lyon", netYield: "3.5–4.5%", note: "bonne liquidité" },
-  { city: "Bordeaux", netYield: "3.0–4.0%", note: "en baisse depuis 2022" },
-  { city: "Marseille", netYield: "4.0–6.0%", note: "rendement supérieur, tension modérée" },
-  { city: "Toulouse", netYield: "3.5–4.5%", note: "croissance démographique" },
-  { city: "Lille", netYield: "3.5–5.0%", note: "forte demande locative" },
-  { city: "Province moyenne", netYield: "4.0–7.0%", note: "plus accessible, frais moindre" },
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import {
+  computeRendementLocatif,
+  formatPercent,
+  RENDEMENT_ERROR_MESSAGES,
+} from "@/lib/tools/rendement-locatif";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  SelectField,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  ResultBadge,
+  ResultFigure,
+  ResultFormula,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+  ResultRows,
+} from "@/components/marketing/tools/ToolResult";
+
+const VACANCE_OPTIONS = [
+  { value: "0", label: "0 mois / an (occupation 100 %)" },
+  { value: "0.5", label: "0,5 mois / an (~15 jours de rotation)" },
+  { value: "1", label: "1 mois / an (8,3 % de vacance)" },
+  { value: "2", label: "2 mois / an (16,7 % de vacance)" },
 ];
-
-const faqData = [
-  {
-    question: "Quelle est la différence entre rendement brut et rendement net ?",
-    answer:
-      "Le rendement brut = (loyer mensuel × 12) / prix d'achat × 100. Il ne tient pas compte des charges. Le rendement net = (loyer annuel - charges) / prix d'achat × 100. Il est plus réaliste car il déduit les charges de propriété (taxe foncière, assurance, gestion, travaux).",
-  },
-  {
-    question: "Qu'est-ce qu'un bon rendement locatif en France ?",
-    answer:
-      "Cela dépend de la ville. En province, un bon rendement net se situe entre 4% et 7%. À Paris, il est plutôt entre 2.5% et 3.5% en raison des prix élevés. Un rendement net supérieur à 5% est généralement considéré comme intéressant.",
-  },
-  {
-    question: "Quelles charges sont déductibles du rendement ?",
-    answer:
-      "Les principales charges déductibles : taxe foncière, assurance PNO (Propriétaire Non Occupant), frais de gestion (environ 8-10% du loyer), charges de copropriété non récupérables, intérêts d'emprunt, et travaux de réparation/entretien.",
-  },
-  {
-    question: "Faut-il inclure la vacance locative dans le calcul ?",
-    answer:
-      "Oui, c'est recommandé. Notre calculateur applique un taux de vacance (par défaut 8%) qui réduit le loyer annuel effectif. Cela donne une picture plus réaliste du rendement attendu sur l'année.",
-  },
-];
-
-const breadcrumbItems = [
-  { label: "Accueil", href: "/" },
-  { label: "Outils", href: "/outils" },
-  { label: "Calculateur Rendement Locatif", href: "/outils/calculateur-rendement" },
-];
-
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Calculateur de Rendement Locatif",
-      description: "Calculez le rendement NET et BRUT de votre investissement locatif avec benchmarks France",
-      url: "https://lokna.fr/outils/calculateur-rendement",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://lokna.fr${item.href}`,
-      })),
-    },
-  ],
-};
-
-function YieldCalculatorInner() {
-  const [purchasePrice, setPurchasePrice] = useState("");
-  const [monthlyRent, setMonthlyRent] = useState("");
-  const [annualCharges, setAnnualCharges] = useState("");
-  const [vacancyRate, setVacancyRate] = useState("8");
-  const [result, setResult] = useState<{
-    grossYield: number;
-    netYield: number;
-    annualizedRent: number;
-    effectiveRent: number;
-  } | null>(null);
-
-  function calculate() {
-    const price = parseFloat(purchasePrice);
-    const rent = parseFloat(monthlyRent);
-    const charges = parseFloat(annualCharges) || 0;
-    const vacancy = parseFloat(vacancyRate) || 0;
-    if (isNaN(price) || isNaN(rent) || price <= 0) return;
-
-    const annualizedRent = rent * 12;
-    const effectiveRent = annualizedRent * (1 - vacancy / 100);
-    const grossYield = (annualizedRent / price) * 100;
-    const netYield = ((effectiveRent - charges) / price) * 100;
-
-    setResult({ grossYield, netYield, annualizedRent, effectiveRent });
-  }
-
-  return (
-    <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-      <div className="space-y-5">
-        <div>
-          <label htmlFor="purchasePrice" className="block text-sm font-semibold text-stone-700 mb-1">
-            Prix d'achat du bien (€)
-          </label>
-          <input
-            id="purchasePrice"
-            type="number"
-            min="0"
-            step="1000"
-            placeholder="Ex. : 200000"
-            value={purchasePrice}
-            onChange={(e) => setPurchasePrice(e.target.value)}
-            className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest focus:border-transparent"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="monthlyRent" className="block text-sm font-semibold text-stone-700 mb-1">
-            Loyer mensuel hors charges (€)
-          </label>
-          <input
-            id="monthlyRent"
-            type="number"
-            min="0"
-            step="10"
-            placeholder="Ex. : 900"
-            value={monthlyRent}
-            onChange={(e) => setMonthlyRent(e.target.value)}
-            className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest focus:border-transparent"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="annualCharges" className="block text-sm font-semibold text-stone-700 mb-1">
-            Charges annuelles (€) — laisser vide si inconnu
-          </label>
-          <input
-            id="annualCharges"
-            type="number"
-            min="0"
-            step="100"
-            placeholder="Ex. : 2500"
-            value={annualCharges}
-            onChange={(e) => setAnnualCharges(e.target.value)}
-            className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest focus:border-transparent"
-          />
-          <p className="text-xs text-stone-600 mt-1">
-            Inclut : taxe foncière, assurance, frais de gestion, chargesCopro non récupérables.
-          </p>
-        </div>
-
-        <div>
-          <label htmlFor="vacancyRate" className="block text-sm font-semibold text-stone-700 mb-1">
-            Taux de vacance locative estimé (%)
-          </label>
-          <input
-            id="vacancyRate"
-            type="number"
-            min="0"
-            max="100"
-            placeholder="Ex. : 8"
-            value={vacancyRate}
-            onChange={(e) => setVacancyRate(e.target.value)}
-            className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-forest focus:border-transparent"
-          />
-          <p className="text-xs text-stone-600 mt-1">
-            Defaut: 8% — ajustez selon votre marché local.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={calculate}
-          className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors shadow-sm"
-        >
-          Calculer le rendement
-        </button>
-
-        {result && (
-          <div className="bg-green-50 border border-green-300 rounded-xl p-6">
-            <h3 className="text-sm font-semibold text-green-800 uppercase tracking-wide mb-4">
-              Résultat du rendement
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-stone-600">Rendement brut</span>
-                <span className="text-2xl font-bold text-green-700">
-                  {result.grossYield.toFixed(2)}%
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-stone-600">Rendement net (après charges)</span>
-                <span className="text-2xl font-bold text-green-700">
-                  {result.netYield.toFixed(2)}%
-                </span>
-              </div>
-              <div className="border-t border-green-200 pt-3 mt-3 space-y-2 text-sm text-stone-600">
-                <div className="flex justify-between">
-                  <span>Loyer anualisé</span>
-                  <span className="font-semibold">
-                    {result.annualizedRent.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Loyer effectif (après vacance {vacancyRate}%)</span>
-                  <span className="font-semibold">
-                    {result.effectiveRent.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 export function YieldCalculatorClient() {
+  return <YieldCalculatorInner />;
+}
+
+function YieldCalculatorInner() {
+  const [prixAchatInput, setPrixAchatInput] = useState("185000");
+  const [fraisAcquisitionInput, setFraisAcquisitionInput] = useState("14800");
+  const [travauxInput, setTravauxInput] = useState("5200");
+
+  const [loyerMensuelInput, setLoyerMensuelInput] = useState("850");
+  const [vacanceMois, setVacanceMois] = useState("0.5");
+
+  const [taxeFonciereInput, setTaxeFonciereInput] = useState("980");
+  const [chargesNonRecupInput, setChargesNonRecupInput] = useState("540");
+  const [assuranceInput, setAssuranceInput] = useState("240");
+  const [edited, setEdited] = useState(false);
+
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
+  };
+
+  const pPrix = parseAmount(prixAchatInput, 50_000_000);
+  const pFrais = fraisAcquisitionInput.trim() === "" ? { ok: true as const, value: new Decimal(0) } : parseAmount(fraisAcquisitionInput, 10_000_000);
+  const pTravaux = travauxInput.trim() === "" ? { ok: true as const, value: new Decimal(0) } : parseAmount(travauxInput, 10_000_000);
+  const pLoyer = parseAmount(loyerMensuelInput, 200_000);
+  const pTf = taxeFonciereInput.trim() === "" ? { ok: true as const, value: new Decimal(0) } : parseAmount(taxeFonciereInput, 500_000);
+  const pCharges = chargesNonRecupInput.trim() === "" ? { ok: true as const, value: new Decimal(0) } : parseAmount(chargesNonRecupInput, 500_000);
+  const pAssurance = assuranceInput.trim() === "" ? { ok: true as const, value: new Decimal(0) } : parseAmount(assuranceInput, 200_000);
+
+  const prixError = !pPrix.ok ? AMOUNT_ERROR_MESSAGES[pPrix.error] : pPrix.value.isZero() ? RENDEMENT_ERROR_MESSAGES["zero-price"] : null;
+  const fraisError = !pFrais.ok ? AMOUNT_ERROR_MESSAGES[pFrais.error] : null;
+  const travauxError = !pTravaux.ok ? AMOUNT_ERROR_MESSAGES[pTravaux.error] : null;
+  const loyerError = !pLoyer.ok ? AMOUNT_ERROR_MESSAGES[pLoyer.error] : pLoyer.value.isZero() ? RENDEMENT_ERROR_MESSAGES["zero-rent"] : null;
+  const tfError = !pTf.ok ? AMOUNT_ERROR_MESSAGES[pTf.error] : null;
+  const chargesError = !pCharges.ok ? AMOUNT_ERROR_MESSAGES[pCharges.error] : null;
+  const assuranceError = !pAssurance.ok ? AMOUNT_ERROR_MESSAGES[pAssurance.error] : null;
+
+  const hasError = Boolean(prixError || fraisError || travauxError || loyerError || tfError || chargesError || assuranceError);
+
+  const outcome =
+    !hasError && pPrix.ok && pFrais.ok && pTravaux.ok && pLoyer.ok && pTf.ok && pCharges.ok && pAssurance.ok
+      ? computeRendementLocatif({
+          prixAchat: pPrix.value,
+          fraisAcquisition: pFrais.value,
+          travaux: pTravaux.value,
+          loyerMensuelHc: pLoyer.value,
+          vacanceMoisParAn: new Decimal(vacanceMois),
+          taxeFonciereAnnuelle: pTf.value,
+          chargesNonRecuperablesAnnuelles: pCharges.value,
+          assuranceAnnuelle: pAssurance.value,
+        })
+      : null;
+
+  const res = outcome && outcome.ok ? outcome.result : null;
+
   return (
-    <>
-      <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
-
-      <div className="min-h-screen bg-cream">
-        <div className="max-w-3xl mx-auto px-4 py-12">
-          <Breadcrumb items={breadcrumbItems} />
-
-          <div className="mb-8">
-            <div className="inline-flex items-center gap-2 bg-sage-100 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
-              <span>🏠</span> Outil gratuit
+    <ToolWorkbench
+      form={
+        <ToolSheet label="Calculateur de rentabilité et rendement locatif">
+          <ToolStep
+            step={1}
+            title="Coût complet d'acquisition"
+            description="Distinguez le prix d'achat net vendeur, les frais d'acquisition (notaire ~7,5 à 8 % dans l'ancien, ~2 à 3 % dans le neuf) et l'enveloppe de travaux."
+          >
+            <AmountField
+              id="rendement-prix-achat"
+              label="Prix d'achat du bien"
+              value={prixAchatInput}
+              onChange={mark(setPrixAchatInput)}
+              placeholder="185000"
+              suffix="€"
+              size="lg"
+              error={prixError}
+            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <AmountField
+                id="rendement-frais-notaire"
+                label="Frais de notaire et d'acquisition"
+                value={fraisAcquisitionInput}
+                onChange={mark(setFraisAcquisitionInput)}
+                placeholder="14800"
+                suffix="€"
+                error={fraisError}
+              />
+              <AmountField
+                id="rendement-travaux"
+                label="Travaux et ameublement"
+                value={travauxInput}
+                onChange={mark(setTravauxInput)}
+                placeholder="5200"
+                suffix="€"
+                error={travauxError}
+              />
             </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3 leading-tight">
-              Calculateur de Rendement Locatif
-            </h1>
-            <p className="text-lg text-stone-600 leading-relaxed">
-              Calculez le rendement NET et BRUT de votre investissement locatif. Inclut les benchmarks par ville et la prise en compte des charges et de la vacance.
-            </p>
-          </div>
+          </ToolStep>
 
-          <div className="mb-10">
-            <YieldCalculatorInner />
-          </div>
-
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 mb-8">
-            <h2 className="text-lg font-semibold text-stone-800 mb-4">Benchmarks de rendement par ville</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-stone-200">
-                    <th className="text-left py-2 px-3 font-semibold text-stone-600">Ville</th>
-                    <th className="text-right py-2 px-3 font-semibold text-stone-600">Rendement net</th>
-                    <th className="text-left py-2 px-3 font-semibold text-stone-600">Note</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {BENCHMARKS.map((b) => (
-                    <tr key={b.city} className="border-b border-stone-100 hover:bg-stone-50">
-                      <td className="py-2 px-3 font-semibold text-stone-800">{b.city}</td>
-                      <td className="py-2 px-3 text-right font-mono text-green-700">{b.netYield}</td>
-                      <td className="py-2 px-3 text-stone-600">{b.note}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <ToolStep
+            step={2}
+            title="Loyers hors charges et vacance locative"
+            description="Ne retenez que le loyer hors charges : les provisions sur charges récupérables ne constituent pas un revenu pour le bailleur."
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <AmountField
+                id="rendement-loyer-hc"
+                label="Loyer mensuel hors charges"
+                value={loyerMensuelInput}
+                onChange={mark(setLoyerMensuelInput)}
+                placeholder="850"
+                suffix="€ / mois"
+                error={loyerError}
+              />
+              <SelectField
+                id="rendement-vacance"
+                label="Vacance locative estimée"
+                value={vacanceMois}
+                onChange={mark(setVacanceMois)}
+                options={VACANCE_OPTIONS}
+              />
             </div>
-            <p className="text-xs text-stone-600 mt-3">
-              Benchmarks indicatifs basés sur les données marché 2024-2025.
-            </p>
-          </div>
+          </ToolStep>
 
-          <div className="prose prose-stone max-w-none mb-10">
-            <h2 className="text-2xl font-semibold text-ink mb-4">
-              Comment calculer le rendement locatif ?
-            </h2>
-            <h3 className="text-xl font-semibold text-stone-800 mb-2">Rendement brut</h3>
-            <div className="bg-stone-100 rounded-xl p-4 font-mono text-sm text-stone-800 mb-4">
-              Rendement brut = (Loyer mensuel × 12) / Prix d'achat × 100
+          <ToolStep
+            step={3}
+            title="Charges annuelles supportées par le propriétaire"
+            description="Indiquez les dépenses qui restent définitivement à votre charge (hors charges récupérables sur le locataire)."
+          >
+            <div className="grid gap-4 sm:grid-cols-3">
+              <AmountField
+                id="rendement-taxe-fonciere"
+                label="Taxe foncière (hors TEOM)"
+                value={taxeFonciereInput}
+                onChange={mark(setTaxeFonciereInput)}
+                placeholder="980"
+                suffix="€ / an"
+                error={tfError}
+              />
+              <AmountField
+                id="rendement-charges-copro"
+                label="Charges non récupérables"
+                value={chargesNonRecupInput}
+                onChange={mark(setChargesNonRecupInput)}
+                placeholder="540"
+                suffix="€ / an"
+                error={chargesError}
+              />
+              <AmountField
+                id="rendement-assurance"
+                label="Assurance PNO / GLI"
+                value={assuranceInput}
+                onChange={mark(setAssuranceInput)}
+                placeholder="240"
+                suffix="€ / an"
+                error={assuranceError}
+              />
             </div>
-            <h3 className="text-xl font-semibold text-stone-800 mb-2">Rendement net</h3>
-            <div className="bg-stone-100 rounded-xl p-4 font-mono text-sm text-stone-800 mb-4">
-              Rendement net = (Loyer effectif - Charges) / Prix d'achat × 100
-            </div>
-            <p className="text-stone-700 leading-relaxed">
-              Le rendement net est plus fiable que le brut car il tient compte des charges réelles.
-              Notre calculateur applique également un taux de vacance pour refléter les périodes sans locataire.
-            </p>
-          </div>
+          </ToolStep>
 
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8 mb-10">
-            <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
-            <div className="space-y-5">
-              {faqData.map((item, i) => (
-                <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
-                  <h3 className="font-semibold text-stone-800 mb-2">{item.question}</h3>
-                  <p className="text-stone-600 leading-relaxed">{item.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          {res ? (
+            <ResultJump
+              label="Rendement net de charges"
+              value={formatPercent(res.rendementNetCharges)}
+              detail={`Brut : ${formatPercent(res.rendementBrutSurPrix)} · Net annuel : ${formatEuros(res.revenuNetAnnuel)}`}
+            />
+          ) : null}
+        </ToolSheet>
+      }
+      result={
+        <ResultPanel
+          title="Rentabilité du projet"
+          badge={
+            res ? (
+              edited ? (
+                <ResultBadge tone="sage">Votre calcul</ResultBadge>
+              ) : (
+                <ResultBadge tone="example">Exemple · 185 000 €</ResultBadge>
+              )
+            ) : null
+          }
+          footer={
+            res ? (
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <CopyButton
+                  text={`Rendement brut : ${formatPercent(res.rendementBrutSurPrix)} | Rendement net de charges : ${formatPercent(res.rendementNetCharges)} | Revenu net annuel avant impôt : ${formatEuros(res.revenuNetAnnuel)}`}
+                  label="Copier la synthèse"
+                  copiedLabel="Synthèse copiée"
+                />
+              </div>
+            ) : undefined
+          }
+        >
+          {res ? (
+            <>
+              <ResultFigure
+                label="Rendement net de charges (avant impôt)"
+                text={formatPercent(res.rendementNetCharges)}
+                caption={
+                  <>
+                    Soit <strong>{formatEuros(res.revenuNetAnnuel)}</strong> de revenu net annuel (
+                    {formatEuros(res.revenuNetMensuel)} / mois) pour un coût total acte en main de{" "}
+                    <strong>{formatEuros(res.coutTotalProjet)}</strong>.
+                  </>
+                }
+              />
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
-            <Link href="/bail" className="text-forest hover:underline">Bail de location →</Link>
-            <Link href="/quittances" className="text-forest hover:underline">Quittances automatiques →</Link>
-            <Link href="/templates" className="text-forest hover:underline">Modèles gratuits →</Link>
-            <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
-          </div>
+              <ResultRows
+                rows={[
+                  {
+                    label: "Rendement brut (sur prix d'achat)",
+                    detail: `${formatEuros(res.loyerAnnuelPlein)} ÷ ${formatEuros(res.prixAchat)}`,
+                    value: formatPercent(res.rendementBrutSurPrix),
+                    strong: true,
+                  },
+                  {
+                    label: "Rendement brut acte en main",
+                    detail: `Inclut ${formatEuros(res.fraisAcquisition.plus(res.travaux))} de frais et travaux`,
+                    value: formatPercent(res.rendementBrutActeEnMain),
+                  },
+                  {
+                    label: "Loyers annuels encaissés (après vacance)",
+                    detail: res.perteVacanceAnnuelle.greaterThan(0)
+                      ? `Après déduction de ${formatEuros(res.perteVacanceAnnuelle)} de vacance`
+                      : "12 mois pleins hors charges",
+                    value: formatEuros(res.loyerAnnuelEffectif),
+                  },
+                  {
+                    label: "Charges propriétaire annuelles",
+                    detail: "Taxe foncière + charges non récupérables + assurances",
+                    value: `−${formatEuros(res.totalChargesAnnuelles)}`,
+                  },
+                  {
+                    label: "Revenu net annuel avant impôt",
+                    value: formatEuros(res.revenuNetAnnuel),
+                    strong: true,
+                  },
+                ]}
+              />
 
-          <FinalCta />
-        </div>
-      </div>
-    </>
+              <ResultFormula>
+                ({formatEuros(res.loyerAnnuelEffectif)} − {formatEuros(res.totalChargesAnnuelles)}) ÷{" "}
+                {formatEuros(res.coutTotalProjet)} = {formatPercent(res.rendementNetCharges)}
+              </ResultFormula>
+            </>
+          ) : (
+            <ResultPending>
+              Corrigez les montants indiqués en rouge pour calculer le rendement brut et le rendement net de charges.
+            </ResultPending>
+          )}
+        </ResultPanel>
+      }
+    />
   );
 }
