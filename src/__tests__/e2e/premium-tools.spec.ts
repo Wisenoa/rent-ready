@@ -145,3 +145,67 @@ test.describe('Calculateur de charges', () => {
     await expect(page.getByRole('link', { name: 'Essayer Lokna gratuitement' })).toHaveAttribute('href', '/register')
   })
 })
+
+test.describe('Outils V3.3 — Quittance, Prorata, Fiscalité & Gestion locative', () => {
+  test('Générateur de quittance switches between Quittance and Reçu de paiement partiel', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/outils/generateur-quittance')
+    await dismissCookies(page)
+
+    const result = page.locator('#resultat')
+    await expect(result).toContainText('QUITTANCE DE LOYER')
+    await expect(result).toContainText(euros('850,00 €'))
+
+    // Switch to partial payment
+    await page.locator('label').filter({ hasText: /Paiement partiel/ }).click()
+    await page.getByLabel('Somme effectivement reçue').fill('500')
+    await expect(result).toContainText('REÇU DE PAIEMENT PARTIEL DE LOYER')
+    await expect(result).toContainText(euros('350,00 €'))
+  })
+
+  test('Calculateur de loyer & prorata calculates exact prorata and switches to loyer au m²', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/outils/calculateur-loyer')
+    await dismissCookies(page)
+
+    const result = page.locator('#resultat')
+    await expect(result).toContainText(euros('580,65 €'))
+    await expect(result).toContainText('20 jours sur 31')
+
+    await page.locator('label').filter({ hasText: /Loyer au m²/ }).click()
+    await expect(result).toContainText(euros('877,50 €'))
+  })
+
+  test('Simulateur LMNP compares Micro-BIC and Régime Réel with art. 39 C amortization cap', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/outils/simulateur-fiscalite-lmnp')
+    await dismissCookies(page)
+
+    const result = page.locator('#resultat')
+    await expect(result).toContainText('Régime Réel')
+    await expect(result).toContainText(euros('2 548,80 €'))
+  })
+
+  test('Calculateur de dépôt de garantie & Calculateur de préavis render and have zero mobile overflow (375px)', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 })
+
+    for (const url of [
+      '/outils/generateur-quittance',
+      '/outils/calculateur-loyer',
+      '/outils/calculateur-rendement',
+      '/outils/simulateur-fiscalite-lmnp',
+      '/outils/calculateur-depot-garantie',
+      '/outils/calculateur-preavis',
+      '/outils/checklist-etat-lieux',
+      '/outils/calculateur-surface-habitable',
+    ]) {
+      await page.goto(url)
+      await dismissCookies(page)
+      await expect(page.locator('h1')).toHaveCount(1)
+      await expect(page.locator('#resultat')).toBeVisible()
+      const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
+      expect(scrollWidth, `overflow on ${url}`).toBeLessThanOrEqual(375)
+    }
+  })
+})
+
