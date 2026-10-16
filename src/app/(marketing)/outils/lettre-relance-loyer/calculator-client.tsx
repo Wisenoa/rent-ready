@@ -1,332 +1,300 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { SchemaMarkup } from "@/components/seo/schema-markup";
-import { FinalCta } from "@/components/landing/final-cta";
-import { Breadcrumb } from "@/components/seo/Breadcrumb";
-import { Copy, Check, Sparkles, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import Decimal from "decimal.js";
 
-const breadcrumbItems = [
-  { label: "Accueil", href: "/" },
-  { label: "Outils", href: "/outils" },
-  { label: "Lettre de Relance Loyer", href: "/outils/lettre-relance-loyer" },
-];
-
-const faqData = [
-  {
-    question: "Quand envoyer une lettre de relance ?",
-    answer:
-      "En pratique, on attend 5 à 10 jours après la date d'échéance pour laisser le temps au virement d'être traité. Passé 30 jours, il est recommandé d'engager la procédure formelle de relance en recommandé avec accusé de réception pour préserver vos droits.",
-  },
-  {
-    question: "La lettre de relance doit-elle être en recommandée ?",
-    answer:
-      "Pour la première relance amiable (email ou courrier simple), le recommandé n'est pas obligatoire. Pour la mise en demeure, la loi n'impose pas de forme, mais le recommandé avec accusé de réception est vivement conseillé : il prouve la date de votre demande.",
-  },
-  {
-    question: "Que faire si le locataire ne paie toujours pas ?",
-    answer:
-      "Faites délivrer un commandement de payer par un commissaire de justice. Si la dette n'est pas réglée dans les six semaines, la clause résolutoire du bail permet de demander au juge de constater la résiliation. Attention : la trêve hivernale (1er novembre au 31 mars) suspend l'exécution des expulsions.",
-  },
-  {
-    question: "Puis-je déduire les impayés de mes revenus ?",
-    answer:
-      "Les loyers impayés ne sont pas déductibles tant qu'ils ne sont pas définitivement perdus (procédure judiciaire épuisée, locataire insolvable). Conservez tous les courriers et preuves de relances pour documenter votre dossier.",
-  },
-];
-
-const jsonLdData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      name: "Générateur de Lettre de Relance Loyer",
-      description: "Générez une lettre de relance loyer impayé et une mise en demeure conforme. Prête à envoyer en recommandé.",
-      url: "https://lokna.fr/outils/lettre-relance-loyer",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: faqData.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbItems.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.label,
-        item: `https://lokna.fr${item.href}`,
-      })),
-    },
-  ],
-};
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import {
+  computeLettreRelance,
+  LETTRE_RELANCE_ERROR_MESSAGES,
+  type TonRelance,
+} from "@/lib/tools/lettre-relance";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  ChoiceGroup,
+  DateField,
+  TextField,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  DocumentSheet,
+  ResultBadge,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+} from "@/components/marketing/tools/ToolResult";
 
 export function LettreRelanceClient() {
-  const [formData, setFormData] = useState({
-    bailleurNom: "",
-    bailleurAdresse: "",
-    bailleurCodePostal: "",
-    bailleurVille: "",
-    locataireNom: "",
-    locataireAdresse: "",
-    bienAdresse: "",
-    montantDu: "",
-    periode: "",
-    iban: "",
-    delai: "10",
-  });
-  const [letterType, setLetterType] = useState<"relance" | "miseEnDemeurer">("relance");
-  const [copied, setCopied] = useState(false);
+  const [ton, setTon] = useState<TonRelance>("amiable");
+  const [bailleurNom, setBailleurNom] = useState("Jean-Marc Dupuis");
+  const [bailleurAdresse, setBailleurAdresse] = useState("22 avenue Jean Jaurès, 69007 Lyon");
+  const [locataireNom, setLocataireNom] = useState("Sophie Garnier");
+  const [bienAdresse, setBienAdresse] = useState("5 rue de la Part-Dieu, 69003 Lyon");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const [periodeImpayee, setPeriodeImpayee] = useState("mars 2026");
+  const [dateEcheance, setDateEcheance] = useState("2026-03-05");
+  const [dateCourrier, setDateCourrier] = useState("2026-03-14");
+  const [villeCourrier, setVilleCourrier] = useState("Lyon");
+
+  const [loyerInput, setLoyerInput] = useState("740");
+  const [chargesInput, setChargesInput] = useState("60");
+  const [dejaVerseInput, setDejaVerseInput] = useState("0");
+  const [edited, setEdited] = useState(false);
+
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
   };
 
-  function generateLetter(): string {
-    const { bailleurNom, bailleurAdresse, bailleurCodePostal, bailleurVille, locataireNom, locataireAdresse, bienAdresse, montantDu, periode, iban, delai } = formData;
+  const parsedLoyer = parseAmount(loyerInput, 100_000);
+  const parsedCharges = chargesInput.trim() === "" ? { ok: true as const, value: new Decimal(0) } : parseAmount(chargesInput, 50_000);
+  const parsedDejaVerse =
+    dejaVerseInput.trim() === "" ? { ok: true as const, value: new Decimal(0) } : parseAmount(dejaVerseInput, 150_000);
 
-    const objet = letterType === "relance"
-      ? `Objet : Relance pour impayé de loyer — ${bienAdresse}`
-      : `Objet : Mise en demeure pour impayé de loyer — ${bienAdresse}`;
+  const loyerError = !parsedLoyer.ok ? AMOUNT_ERROR_MESSAGES[parsedLoyer.error] : null;
+  const chargesError = !parsedCharges.ok ? AMOUNT_ERROR_MESSAGES[parsedCharges.error] : null;
+  const dejaVerseError = !parsedDejaVerse.ok ? AMOUNT_ERROR_MESSAGES[parsedDejaVerse.error] : null;
 
-    const contenu = letterType === "relance"
-      ? `Par la présente, je me permets de vous rappeler que le loyer du mois de ${periode}, d'un montant de ${montantDu} EUR, n'a pas été réglé à ce jour.\n\nJe vous prie de bien vouloir effectuer le règlement dans un délai de ${delai} jours à compter de la réception du présent courrier, par virement bancaire sur mon compte :\n\nTitulaire : ${bailleurNom}\nIBAN : ${iban}\n\nÀ défaut de règlement dans ce délai, je me verrai dans l'obligation d'engager les procédures prévues par le bail et la législation en vigueur.`
-      : `Par la présente, je vous mets en demeure de régler dans un délai de ${delai} jours à compter de la réception du présent courrier le montant de ${montantDu} EUR au titre du loyer impayé pour la période de ${periode}.\n\nPassé ce délai, je ferai délivrer un commandement de payer par commissaire de justice visant la clause résolutoire de notre bail.\n\nVous pouvez effectuer le règlement par virement sur mon compte :\n\nTitulaire : ${bailleurNom}\nIBAN : ${iban}`;
+  const outcome =
+    !loyerError && !chargesError && !dejaVerseError && parsedLoyer.ok && parsedCharges.ok && parsedDejaVerse.ok
+      ? computeLettreRelance({
+          ton,
+          bailleurNom,
+          bailleurAdresse,
+          locataireNom,
+          bienAdresse,
+          periodeImpayee,
+          dateEcheance,
+          dateCourrier,
+          villeCourrier,
+          loyerHorsCharges: parsedLoyer.value,
+          charges: parsedCharges.value,
+          montantDejaVerse: parsedDejaVerse.value,
+        })
+      : null;
 
-    return `${bailleurNom}\n${bailleurAdresse}\n${bailleurCodePostal} ${bailleurVille}\n\n${locataireNom}\n${locataireAdresse}\n\n${objet}\n\n${contenu}\n\nDans l'attente de votre réponse, je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations.\n\n${bailleurNom}`;
-  }
-
-  function copyLetter() {
-    navigator.clipboard.writeText(generateLetter());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
+  const domainError = outcome && !outcome.ok ? LETTRE_RELANCE_ERROR_MESSAGES[outcome.error] : null;
+  const letter = outcome && outcome.ok ? outcome.result : null;
 
   return (
-    <>
-      <SchemaMarkup data={jsonLdData} breadcrumbRenderedByComponent />
+    <ToolWorkbench
+      variant="document"
+      form={
+        <ToolSheet label="Générateur de lettre de relance de loyer impayé">
+          <ToolStep
+            step={1}
+            title="Niveau de relance"
+            description="Commencez par un rappel courtois dès 5 à 10 jours de retard, puis passez à la mise en demeure en LRAR si l'impayé persiste."
+          >
+            <ChoiceGroup
+              name="ton-relance"
+              legend="Type de courrier à générer"
+              value={ton}
+              onChange={mark(setTon)}
+              choices={[
+                {
+                  value: "amiable",
+                  label: "1. Relance amiable",
+                  description: "Rappel courtois par courrier simple ou e-mail",
+                },
+                {
+                  value: "mise-en-demeure",
+                  label: "2. Mise en demeure (LRAR)",
+                  description: "Délai formel de 8 jours avant commissaire de justice",
+                },
+              ]}
+            />
+          </ToolStep>
 
-      <div className="min-h-screen bg-cream">
-        <div className="max-w-3xl mx-auto px-4 py-12">
-          <Breadcrumb items={breadcrumbItems} />
-
-          <div className="mb-8">
-            <div className="inline-flex items-center gap-2 bg-sage-100 text-forest text-xs font-semibold px-3 py-1 rounded-full mb-4">
-              <span>✉️</span> Outil gratuit
-            </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-ink mb-3 leading-tight">
-              Générateur de Lettre de Relance Loyer
-            </h1>
-            <p className="text-lg text-stone-600 leading-relaxed">
-              Générez une lettre de relance amiable ou une mise en demeure conforme. Copiez-collez ou téléchargez.
-            </p>
-          </div>
-
-          <div className="space-y-6 mb-10">
-            {/* Letter type selector */}
-            <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-              <div className="mb-5">
-                <label className="block text-sm font-semibold text-stone-700 mb-2">Type de courrier</label>
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setLetterType("relance")}
-                    className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
-                      letterType === "relance"
-                        ? "border-forest bg-sage-50 text-forest"
-                        : "border-stone-200 text-stone-600 hover:border-sage-300"
-                    }`}
-                  >
-                    Relance amiable
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setLetterType("miseEnDemeurer")}
-                    className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-colors ${
-                      letterType === "miseEnDemeurer"
-                        ? "border-red-600 bg-red-50 text-red-700"
-                        : "border-stone-200 text-stone-600 hover:border-red-300"
-                    }`}
-                  >
-                    Mise en demeure
-                  </button>
-                </div>
-                <p className="text-xs text-stone-600 mt-2">
-                  {letterType === "relance"
-                    ? "Courrier informel pour les premiers retards. Pas de valeur juridique contraignante."
-                    : "Courrier formel fixant un dernier délai de paiement amiable, avant le commandement de payer."}
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-600 mb-1">Nom du bailleur</label>
-                    <input name="bailleurNom" value={formData.bailleurNom} onChange={handleChange} placeholder="Jean Dupont" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-600 mb-1">Nom du locataire</label>
-                    <input name="locataireNom" value={formData.locataireNom} onChange={handleChange} placeholder="Marie Martin" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-stone-600 mb-1">Adresse du bailleur</label>
-                  <input name="bailleurAdresse" value={formData.bailleurAdresse} onChange={handleChange} placeholder="12 rue de la Paix" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-600 mb-1">Code postal</label>
-                    <input name="bailleurCodePostal" value={formData.bailleurCodePostal} onChange={handleChange} placeholder="75001" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-semibold text-stone-600 mb-1">Ville</label>
-                    <input name="bailleurVille" value={formData.bailleurVille} onChange={handleChange} placeholder="Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-stone-600 mb-1">Adresse du bien (dans le bail)</label>
-                  <input name="bienAdresse" value={formData.bienAdresse} onChange={handleChange} placeholder="12 rue de la Paix, 75001 Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-stone-600 mb-1">Adresse du locataire</label>
-                  <input name="locataireAdresse" value={formData.locataireAdresse} onChange={handleChange} placeholder="15 avenue des Champs, 75008 Paris" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-600 mb-1">Montant dû (€)</label>
-                    <input name="montantDu" value={formData.montantDu} onChange={handleChange} placeholder="800.00" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-600 mb-1">Période concernée</label>
-                    <input name="periode" value={formData.periode} onChange={handleChange} placeholder="Janvier 2026" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-600 mb-1">Délai (jours)</label>
-                    <input name="delai" value={formData.delai} onChange={handleChange} placeholder="10" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-stone-600 mb-1">IBAN (pour le règlement)</label>
-                  <input name="iban" value={formData.iban} onChange={handleChange} placeholder="FR76 XXXX XXXX XXXX XXXX XXX" className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest" />
-                </div>
-              </div>
+          <ToolStep
+            step={2}
+            title="Décompte de l'échéance impayée"
+            description="Le courrier distingue le loyer hors charges, les provisions sur charges et un éventuel versement partiel."
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField
+                id="periode-impayee"
+                label="Période concernée"
+                value={periodeImpayee}
+                onChange={mark(setPeriodeImpayee)}
+                placeholder="Ex. mars 2026"
+              />
+              <DateField
+                id="date-echeance"
+                label="Date d'exigibilité prévue au bail"
+                value={dateEcheance}
+                onChange={mark(setDateEcheance)}
+              />
             </div>
 
-            {/* Letter preview */}
-            <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-stone-800">Aperçu du courrier</h3>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={copyLetter}
-                    className="flex items-center gap-1.5 text-sm font-semibold text-emerald-800 hover:text-emerald-900 px-3.5 py-1.5 rounded-lg border border-emerald-300 bg-emerald-50/50 hover:bg-emerald-100 transition-colors"
-                  >
-                    {copied ? (
-                      <>
-                        <Check className="size-4 text-emerald-700" />
-                        <span>Copié !</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="size-4 text-emerald-700" />
-                        <span>Copier</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-              <div className="bg-stone-50 rounded-xl p-5 font-mono text-sm text-stone-800 whitespace-pre-wrap leading-relaxed">
-                {generateLetter() || "Remplissez le formulaire pour générer votre lettre..."}
-              </div>
-
-              {/* Contextual Product CTA */}
-              <div className="mt-6 rounded-xl border border-emerald-200/90 bg-emerald-50/60 p-5 space-y-3">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
-                  <Sparkles className="size-3.5" />
-                  <span>Surveillance Lokna</span>
-                </div>
-                <h4 className="text-sm font-bold text-ink">
-                  Anticipez les retards avant qu'ils ne deviennent des impayés
-                </h4>
-                <p className="text-xs text-stone-600 leading-relaxed">
-                  Lokna identifie immédiatement les retards de loyer sur votre tableau de bord et prépare vos courriers de relance (amiable, formel ou mise en demeure) pré-remplis en 1 clic.
-                </p>
-                <div className="pt-1">
-                  <Link
-                    href="/register"
-                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-800 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-900"
-                  >
-                    <span>Centraliser mes loyers et relances (14j gratuits)</span>
-                    <ArrowRight className="size-3.5" />
-                  </Link>
-                </div>
-              </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <AmountField
+                id="relance-loyer"
+                label="Loyer hors charges"
+                value={loyerInput}
+                onChange={mark(setLoyerInput)}
+                placeholder="740"
+                suffix="€"
+                error={loyerError}
+              />
+              <AmountField
+                id="relance-charges"
+                label="Charges appelées"
+                value={chargesInput}
+                onChange={mark(setChargesInput)}
+                placeholder="60"
+                suffix="€"
+                error={chargesError}
+              />
+              <AmountField
+                id="relance-deja-verse"
+                label="Déjà versé (si partiel)"
+                value={dejaVerseInput}
+                onChange={mark(setDejaVerseInput)}
+                placeholder="0"
+                suffix="€"
+                error={dejaVerseError ?? domainError}
+              />
             </div>
-          </div>
+          </ToolStep>
 
-          {letterType === "miseEnDemeurer" && (
-            <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-8">
-              <p className="text-sm text-red-700">
-                <strong>⚠️ Important :</strong> Envoyez la mise en demeure en <strong>recommandé avec accusé de réception</strong> : ce n'est pas imposé, mais c'est la preuve de la date de votre demande. Conservez le récépissé.
+          <ToolStep
+            step={3}
+            title="Coordonnées du bailleur et du locataire"
+            description="Ces informations remplissent l'en-tête et le corps du courrier en temps réel."
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField
+                id="relance-bailleur-nom"
+                label="Nom et prénom du bailleur"
+                value={bailleurNom}
+                onChange={mark(setBailleurNom)}
+                placeholder="Ex. Jean-Marc Dupuis"
+              />
+              <TextField
+                id="relance-bailleur-adresse"
+                label="Adresse du bailleur"
+                value={bailleurAdresse}
+                onChange={mark(setBailleurAdresse)}
+                placeholder="Ex. 22 avenue Jean Jaurès, 69007 Lyon"
+              />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField
+                id="relance-locataire-nom"
+                label="Nom et prénom du locataire"
+                value={locataireNom}
+                onChange={mark(setLocataireNom)}
+                placeholder="Ex. Sophie Garnier"
+              />
+              <TextField
+                id="relance-bien-adresse"
+                label="Adresse du logement loué"
+                value={bienAdresse}
+                onChange={mark(setBienAdresse)}
+                placeholder="Ex. 5 rue de la Part-Dieu, 69003 Lyon"
+              />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField
+                id="relance-ville"
+                label="Fait à (ville)"
+                value={villeCourrier}
+                onChange={mark(setVilleCourrier)}
+                placeholder="Lyon"
+              />
+              <DateField
+                id="relance-date-courrier"
+                label="Date du courrier"
+                value={dateCourrier}
+                onChange={mark(setDateCourrier)}
+              />
+            </div>
+          </ToolStep>
+
+          {letter ? (
+            <ResultJump
+              label={letter.ton === "amiable" ? "Relance amiable" : "Mise en demeure LRAR"}
+              value={formatEuros(letter.resteDu)}
+              detail={`Solde réclamé · ${periodeImpayee || "échéance"}`}
+            />
+          ) : null}
+        </ToolSheet>
+      }
+      result={
+        <ResultPanel
+          title="Courrier prêt à copier"
+          badge={
+            letter ? (
+              edited ? (
+                <ResultBadge tone="sage">Votre courrier</ResultBadge>
+              ) : (
+                <ResultBadge tone="example">Exemple pré-rempli</ResultBadge>
+              )
+            ) : null
+          }
+          footer={
+            letter ? (
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <CopyButton
+                    text={letter.plainText}
+                    label="Copier le courrier complet"
+                    copiedLabel="Courrier copié"
+                  />
+                  <span className="text-[12.5px] font-medium text-ink-muted">
+                    Solde réclamé : <strong className="tabular-nums text-ink">{formatEuros(letter.resteDu)}</strong>
+                  </span>
+                </div>
+                <p className="text-[12.5px] leading-5 text-ink-muted">{letter.prochaineEtape}</p>
+              </div>
+            ) : undefined
+          }
+        >
+          {letter ? (
+            <DocumentSheet>
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-line pb-3 text-[12.5px]">
+                <div>
+                  <p className="font-semibold text-ink">{bailleurNom || "Nom du bailleur"}</p>
+                  <p className="text-ink-muted">{bailleurAdresse || "Adresse du bailleur"}</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-semibold text-ink">À {locataireNom || "Nom du locataire"}</p>
+                  <p className="text-ink-muted">{bienAdresse || "Adresse du logement"}</p>
+                </div>
+              </div>
+
+              <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2 text-[12px] text-ink-muted">
+                <span className="font-medium text-forest">{letter.modeEnvoiLabel}</span>
+                <span>
+                  À {villeCourrier || "Lyon"}, le {letter.dateCourrierFr}
+                </span>
+              </div>
+
+              <p className="mt-3 rounded-lg bg-cream/70 px-3 py-2 text-[13px] font-semibold text-ink">
+                {letter.objet}
               </p>
-            </div>
+
+              <div className="mt-3.5 space-y-2.5 text-[13px] leading-5.5 text-ink">
+                {letter.paragraphs.map((p, index) => (
+                  <p key={index}>{p}</p>
+                ))}
+              </div>
+
+              <p className="mt-4 text-right text-[13px] font-semibold text-ink">
+                {bailleurNom || "Signature du bailleur"}
+              </p>
+            </DocumentSheet>
+          ) : (
+            <ResultPending>
+              Vérifiez les montants saisis pour afficher le courrier de relance et son décompte exact.
+            </ResultPending>
           )}
-
-          <div className="prose prose-stone max-w-none mb-10">
-            <h2 className="text-2xl font-semibold text-ink mb-4">
-              Quand utiliser chaque type de courrier ?
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-sage-50 border border-sage-200 rounded-xl p-5">
-                <h3 className="font-semibold text-ink mb-2">Relance amiable</h3>
-                <p className="text-sm text-forest">
-                  À utiliser dans les 5 à 15 jours suivant la date d'échéance. Elle rappelle au locataire ses obligations sans engager de procédure. Peut être envoyée par email ou courrier simple.
-                </p>
-              </div>
-              <div className="bg-red-50 border border-red-200 rounded-xl p-5">
-                <h3 className="font-semibold text-red-800 mb-2">Mise en demeure</h3>
-                <p className="text-sm text-red-700">
-                  À utiliser quand la relance amiable reste sans effet. Elle fixe un dernier délai amiable mais ne déclenche pas la clause résolutoire : seul un commandement de payer délivré par un commissaire de justice le fait, avec six semaines pour payer.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow border border-stone-200 p-6 md:p-8 mb-10">
-            <h2 className="text-xl font-semibold text-stone-800 mb-6">Questions fréquentes</h2>
-            <div className="space-y-5">
-              {faqData.map((item, i) => (
-                <div key={i} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
-                  <h3 className="font-semibold text-stone-800 mb-2">{item.question}</h3>
-                  <p className="text-stone-600 leading-relaxed">{item.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600 mb-8">
-            <Link href="/bail" className="text-forest hover:underline">Bail de location →</Link>
-            <Link href="/quittances" className="text-forest hover:underline">Quittances automatiques →</Link>
-            <Link href="/templates" className="text-forest hover:underline">Modèles gratuits →</Link>
-            <Link href="/pricing" className="text-forest hover:underline">Tarifs →</Link>
-          </div>
-
-          <FinalCta />
-        </div>
-      </div>
-    </>
+        </ResultPanel>
+      }
+    />
   );
 }

@@ -10,9 +10,21 @@ import type { ReactNode } from "react";
  */
 
 /** Form on the left, result on the right (sticky on large screens); stacked below `lg`. */
-export function ToolWorkbench({ form, result }: { form: ReactNode; result: ReactNode }) {
+export function ToolWorkbench({
+  form,
+  result,
+  variant = "calculator",
+}: {
+  form: ReactNode;
+  result: ReactNode;
+  variant?: "calculator" | "document";
+}) {
+  const cols =
+    variant === "document"
+      ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)]"
+      : "lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)]";
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:items-start xl:gap-10">
+    <div className={`grid gap-6 ${cols} lg:items-start xl:gap-10`}>
       <div className="min-w-0">{form}</div>
       <div className="min-w-0 lg:sticky lg:top-24">{result}</div>
     </div>
@@ -279,6 +291,7 @@ export function DateField({
   error,
   min,
   max,
+  hint,
 }: {
   id: string;
   label: string;
@@ -287,6 +300,7 @@ export function DateField({
   error?: string | null;
   min?: string;
   max?: string;
+  hint?: ReactNode;
 }) {
   return (
     <div className="min-w-0">
@@ -302,10 +316,52 @@ export function DateField({
         max={max}
         onChange={(event) => onChange(event.target.value)}
         aria-invalid={error ? true : undefined}
-        aria-describedby={describedBy(id, undefined, error)}
+        aria-describedby={describedBy(id, hint, error)}
         className={fieldClass(Boolean(error), "mt-2 h-12 min-w-0 px-3.5 text-[15.5px]")}
       />
-      <FieldMessages id={id} error={error} />
+      <FieldMessages id={id} hint={hint} error={error} />
     </div>
   );
 }
+
+export function TextField({
+  id,
+  label,
+  value,
+  onChange,
+  placeholder,
+  hint,
+  error,
+  autoComplete = "off",
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  hint?: ReactNode;
+  error?: string | null;
+  autoComplete?: string;
+}) {
+  return (
+    <div className="min-w-0">
+      <label htmlFor={id} className="block text-[14.5px] font-medium text-ink">
+        {label}
+      </label>
+      <input
+        id={id}
+        name={id}
+        type="text"
+        autoComplete={autoComplete}
+        value={value}
+        placeholder={placeholder}
+        onChange={(event) => onChange(event.target.value)}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy(id, hint, error)}
+        className={fieldClass(Boolean(error), "mt-2 h-12 min-w-0 px-3.5 font-sans text-[15.5px]")}
+      />
+      <FieldMessages id={id} hint={hint} error={error} />
+    </div>
+  );
+}
+

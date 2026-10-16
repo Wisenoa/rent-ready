@@ -56,7 +56,7 @@ export function ResultFigure({
   muted = false,
 }: {
   label: string;
-  cents: number;
+  cents?: number;
   text: string;
   caption: ReactNode;
   muted?: boolean;
@@ -69,7 +69,7 @@ export function ResultFigure({
           muted ? "text-ink-soft" : "text-forest-deep"
         }`}
       >
-        <Amount cents={cents} label={text} />
+        {typeof cents === "number" ? <Amount cents={cents} label={text} /> : <span className="tabular-nums">{text}</span>}
       </p>
       <div className="mt-2.5 text-[14.5px] leading-6 text-ink">{caption}</div>
     </div>
@@ -123,6 +123,18 @@ export function ResultPending({ children }: { children: ReactNode }) {
 }
 
 /**
+ * Paper-style live preview used by document and letter generators (quittance,
+ * relance, congé). Visually distinct from a numerical calculator.
+ */
+export function DocumentSheet({ children }: { children: ReactNode }) {
+  return (
+    <div className="rounded-xl border border-line bg-white p-5 text-[13.5px] leading-6 text-ink shadow-[0_8px_24px_-16px_rgba(6,24,18,0.22)] sm:p-6">
+      {children}
+    </div>
+  );
+}
+
+/**
  * Below `lg` the result comes after the form. This line, at the end of the
  * form, gives the answer at once and links down to the detail — instead of a
  * sticky bar that would cover the fields.
@@ -142,3 +154,4 @@ export function ResultJump({ label, value, detail }: { label: string; value: str
     </a>
   );
 }
+

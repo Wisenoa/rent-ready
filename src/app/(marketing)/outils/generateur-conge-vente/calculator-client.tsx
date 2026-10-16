@@ -1,249 +1,332 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
-const INFO = [
-  {
-    title: "congé pour vente : ce qu'il faut savoir",
-    content: "Le congé pour vente est la notification par laquelle le propriétaire informe son locataire qu'il entend vendre le bien loué. Ce congé doit être délivré au moins 6 mois avant la fin du bail (ou 3 mois pour une location meublée saisonnière).",
-  },
-  {
-    title: "Congé pour vente = droit de préemption du locataire",
-    content: "Lors d'un congé pour vente, le locataire bénéficie d'un droit de préemption : il peut acheter le bien aux mêmes conditions. Le propriétaire doit donc lui proposer la vente en premier.",
-  },
-  {
-    title: "Forme et délai du congé",
-    content: "Le congé pour vente doit être adressé par lettre recommandée avec accusé de réception, ou signifié par huissier. Il doit être délivré au moins 6 mois avant la fin du bail. En pratique, il est recommandé de le envoyer 7 mois avant pour tenir compte des délais postaux.",
-  },
-];
-
-function formatDate(date: Date) {
-  return date.toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" });
-}
+import { AMOUNT_ERROR_MESSAGES, formatEuros, parseAmount } from "@/lib/tools/amount";
+import {
+  computeCongeVente,
+  CONGE_VENTE_ERROR_MESSAGES,
+  type TypeBailConge,
+} from "@/lib/tools/conge-vente";
+import { CopyButton } from "@/components/marketing/tools/CopyButton";
+import {
+  AmountField,
+  ChoiceGroup,
+  DateField,
+  TextField,
+  ToolSheet,
+  ToolStep,
+  ToolWorkbench,
+} from "@/components/marketing/tools/ToolForm";
+import {
+  DocumentSheet,
+  ResultBadge,
+  ResultJump,
+  ResultPanel,
+  ResultPending,
+} from "@/components/marketing/tools/ToolResult";
 
 export function CongeVenteClient() {
-  const [formData, setFormData] = useState({
-    landlordName: "",
-    landlordAddress: "",
-    tenantName: "",
-    tenantAddress: "",
-    propertyAddress: "",
-    propertyType: "vide",
-    leaseStartDate: "",
-    salePrice: "",
-    notaryName: "",
-    notaryAddress: "",
-    agentName: "",
-    agentAddress: "",
-  });
+  const [typeBail, setTypeBail] = useState<TypeBailConge>("vide");
+  const [dateEcheanceBail, setDateEcheanceBail] = useState("2026-11-30");
+  const [dateCourrier, setDateCourrier] = useState("2026-04-15");
 
-  const [result, setResult] = useState<string | null>(null);
+  const [prixVenteInput, setPrixVenteInput] = useState("245000");
+  const [descriptionBien, setDescriptionBien] = useState(
+    "Appartement T3 de 62 m² au 3e étage (lot n° 14) et cave n° 8 en sous-sol"
+  );
+  const [conditionsPaiement, setConditionsPaiement] = useState(
+    "Paiement comptant à la signature de l'acte authentique devant notaire, hors frais d'acte notarié à la charge de l'acquéreur"
+  );
 
-  const update = (field: string, value: string) => {
-    setFormData({ ...formData, [field]: value });
+  const [bailleurNom, setBailleurNom] = useState("Hélène Marchand");
+  const [bailleurAdresse, setBailleurAdresse] = useState("19 cours Mirabeau, 13100 Aix-en-Provence");
+  const [locataireNom, setLocataireNom] = useState("Nicolas Bernard");
+  const [bienAdresse, setBienAdresse] = useState("42 rue de la République, 13001 Marseille");
+  const [villeCourrier, setVilleCourrier] = useState("Aix-en-Provence");
+  const [edited, setEdited] = useState(false);
+
+  const mark = <T,>(setter: (val: T) => void) => (val: T) => {
+    setEdited(true);
+    setter(val);
   };
 
-  const generate = () => {
-    if (!formData.landlordName || !formData.tenantName || !formData.propertyAddress || !formData.leaseStartDate) return;
+  const parsedPrix = parseAmount(prixVenteInput, 50_000_000);
+  const prixError = !parsedPrix.ok
+    ? AMOUNT_ERROR_MESSAGES[parsedPrix.error]
+    : parsedPrix.value.isZero()
+      ? CONGE_VENTE_ERROR_MESSAGES["zero-price"]
+      : null;
 
-    const today = new Date();
-    const endOfBail = new Date(formData.leaseStartDate);
-    endOfBail.setFullYear(endOfBail.getFullYear() + 1);
-    const sixMonthsBefore = new Date(endOfBail);
-    sixMonthsBefore.setMonth(sixMonthsBefore.getMonth() - 6);
+  const outcome =
+    !prixError && parsedPrix.ok
+      ? computeCongeVente({
+          typeBail,
+          dateEcheanceBail,
+          dateCourrier,
+          prixVente: parsedPrix.value,
+          conditionsPaiement,
+          descriptionBien,
+          bailleurNom,
+          bailleurAdresse,
+          locataireNom,
+          bienAdresse,
+          villeCourrier,
+        })
+      : null;
 
-    const letter = `
-LETTRE RECOMMANDEE AVEC ACCUSE DE RECEPTION
-
-[Nom et Prénom du Bailleur]
-[Adresse du Bailleur]
-
-À [Ville], le ${formatDate(today)}
-
-À l'attention de [Nom et Prénom du Locataire]
-[Adresse du bien loué]
-
-Objet : Congé pour vente du bien situé [adresse complète du bien]
-
-Madame, Monsieur,
-
-Par la présente, nous avons l'honneur de vous notifier notre décision de donner congé pour vente du logement que vous occupez en vertu d'un bail sous seing privé en date du ${formData.leaseStartDate}, et portant sur le bien situé :
-
-${formData.propertyAddress}
-
-Ce congé vous est notifié conformément aux dispositions des articles 15 et 15-1 de la loi n° 89-462 du 6 juillet 1989 tendant à améliorer les rapports locatifs.
-
-Vous êtes informé(e) que, conformément à l'article 15 de la loi du 6 juillet 1989, vous bénéficiez d'un droit de préemption vous permettant d'acquérir le bien susvisé aux conditions et prix qui seront convenus.
-
-À cet effet, nous vous informons que :
-
-- Prix de vente envisagé : ${formData.salePrice || "[à compléter]"}
-- Le bien sera vendu libre de toute occupation
-
-Vous disposerez d'un délai de deux mois à compter de la notification du présent congé pour nous faire connaître votre intention d'acquérir le bien. Passé ce délai, votre silence sera considéré comme un refus.
-
-Si vous choisissez de ne pas user de votre droit de préemption, nous vous remercions de bien vouloir libérer les lieux à l'échéance de votre bail, soit le ${formatDate(endOfBail)}.
-
-Nous restons à votre disposition pour tout renseignement complémentaire.
-
-Veuillez agréer, Madame, Monsieur, l'assurance de nos salutations distinguées.
-
-${formData.landlordName}
-
-${formData.notaryName ? `Notaire chargé de la transaction :\n${formData.notaryName}\n${formData.notaryAddress}` : ""}
-
-${formData.agentName ? `Agence chargée de la vente :\n${formData.agentName}\n${formData.agentAddress}` : ""}
-`.trim();
-
-    setResult(letter);
-  };
+  const domainError = outcome && !outcome.ok ? CONGE_VENTE_ERROR_MESSAGES[outcome.error] : null;
+  const conge = outcome && outcome.ok ? outcome.result : null;
 
   return (
-    <div className="space-y-8">
-      {/* Info box */}
-      <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
-        <h2 className="font-semibold text-amber-800 mb-3">⚠️ Informations importantes</h2>
-        <div className="space-y-3">
-          {INFO.map((item, i) => (
-            <div key={i}>
-              <h3 className="font-semibold text-amber-900 text-sm">{item.title}</h3>
-              <p className="text-amber-700 text-sm leading-relaxed">{item.content}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Form */}
-      <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-        <h2 className="text-lg font-semibold text-stone-800 mb-5">Vos informations</h2>
-        <div className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">Nom et Prénom du Bailleur</label>
-              <input type="text" value={formData.landlordName} onChange={(e) => update("landlordName", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                placeholder="Ex. : Dupont Jean" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse du Bailleur</label>
-              <input type="text" value={formData.landlordAddress} onChange={(e) => update("landlordAddress", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                placeholder="Ex. : 12 rue de la Paix, 75002 Paris" />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">Nom et Prénom du Locataire</label>
-              <input type="text" value={formData.tenantName} onChange={(e) => update("tenantName", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                placeholder="Ex. : Martin Sophie" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse du bien loué</label>
-              <input type="text" value={formData.tenantAddress} onChange={(e) => update("tenantAddress", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                placeholder="même adresse que le bien" />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse complète du bien</label>
-            <input type="text" value={formData.propertyAddress} onChange={(e) => update("propertyAddress", e.target.value)}
-              className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-              placeholder="Ex. : 45 avenue des Champs, 75008 Paris" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">Date de début du bail</label>
-              <input type="date" value={formData.leaseStartDate} onChange={(e) => update("leaseStartDate", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">Prix de vente envisagé (€)</label>
-              <input type="text" value={formData.salePrice} onChange={(e) => update("salePrice", e.target.value)}
-                className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                placeholder="Ex. : 350 000" />
-            </div>
-          </div>
-
-          <details className="group">
-            <summary className="cursor-pointer text-sm text-forest font-semibold hover:text-forest">
-              + Informations optionnelles (notaire, agence)
-            </summary>
-            <div className="mt-4 space-y-4 pt-2 border-t border-stone-200">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-stone-700 mb-1">Nom du Notaire</label>
-                  <input type="text" value={formData.notaryName} onChange={(e) => update("notaryName", e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                    placeholder="Optionnel" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse du Notaire</label>
-                  <input type="text" value={formData.notaryAddress} onChange={(e) => update("notaryAddress", e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                    placeholder="Optionnel" />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-stone-700 mb-1">Agence immobilière</label>
-                  <input type="text" value={formData.agentName} onChange={(e) => update("agentName", e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                    placeholder="Optionnel" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-stone-700 mb-1">Adresse de l'agence</label>
-                  <input type="text" value={formData.agentAddress} onChange={(e) => update("agentAddress", e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-                    placeholder="Optionnel" />
-                </div>
-              </div>
-            </div>
-          </details>
-
-          <button
-            type="button"
-            onClick={generate}
-            className="w-full bg-forest hover:bg-forest-hover text-white font-semibold py-4 rounded-xl text-lg transition-colors"
+    <ToolWorkbench
+      variant="document"
+      form={
+        <ToolSheet label="Générateur de lettre de congé pour vente">
+          <ToolStep
+            step={1}
+            title="Type de bail et échéance"
+            description="Le congé pour vente ne peut prendre effet qu'à l'échéance du bail en cours. Le délai court à compter de la réception effective par le locataire."
           >
-            Générer le congé pour vente
-          </button>
-        </div>
-      </div>
+            <ChoiceGroup
+              name="type-bail-conge"
+              legend="Nature du contrat de location"
+              value={typeBail}
+              onChange={mark(setTypeBail)}
+              choices={[
+                {
+                  value: "vide",
+                  label: "Location vide (art. 15)",
+                  description: "Préavis 6 mois · droit de préemption du locataire",
+                },
+                {
+                  value: "meublee",
+                  label: "Location meublée (art. 25-8)",
+                  description: "Préavis 3 mois · sans droit de préemption légal",
+                },
+              ]}
+            />
 
-      {/* Result */}
-      {result && (
-        <div className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-8">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-stone-800">Votre lettre de congé pour vente</h2>
-            <button
-              onClick={() => navigator.clipboard.writeText(result)}
-              className="text-sm bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold px-4 py-2 rounded-lg transition-colors"
-            >
-              Copier
-            </button>
-          </div>
-          <pre className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm text-stone-800 whitespace-pre-wrap font-mono leading-relaxed">
-            {result}
-          </pre>
-          <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-4">
-            <p className="text-amber-800 text-sm">
-              <strong>⚠️ Important :</strong> Envoyez cette lettre en <strong>lettre recommandée avec accusé de réception</strong>. Conservez une copie et l'accusé de réception comme preuve. Nous vous recommandons de faire vérifier ce document par un avocat avant envoi.
-            </p>
-          </div>
-        </div>
-      )}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <DateField
+                id="conge-date-echeance"
+                label="Date d'échéance du bail"
+                value={dateEcheanceBail}
+                onChange={mark(setDateEcheanceBail)}
+                error={domainError}
+                hint={
+                  conge
+                    ? `Réception impérative au plus tard le ${conge.dateLimiteReceptionFr}.`
+                    : undefined
+                }
+              />
+              <DateField
+                id="conge-date-courrier"
+                label="Date d'envoi prévue du courrier"
+                value={dateCourrier}
+                onChange={mark(setDateCourrier)}
+              />
+            </div>
 
-      {/* Related links */}
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-stone-600">
-        <Link href="/templates/conge-proprietaire" className="text-forest hover:underline">Modèle congé propriétaire →</Link>
-        <Link href="/templates/bail-vide" className="text-forest hover:underline">Modèle bail vide →</Link>
-        <Link href="/pricing" className="text-forest hover:underline">Essai gratuit →</Link>
-      </div>
-    </div>
+            {conge && conge.estHorsDelai ? (
+              <div className="rounded-lg border border-[#EAD7AE] bg-[#FBF3E2] px-4 py-3 text-[13.5px] leading-5 text-[#7A5512]">
+                <strong>Attention au délai légal :</strong> pour une échéance au {conge.dateEcheanceFr}, le locataire doit avoir{" "}
+                <strong>reçu</strong> le congé au plus tard le {conge.dateLimiteReceptionFr} ({conge.delaiPreavisMois} mois avant
+                l&apos;échéance). Passé cette date, le bail est reconduit tacitement.
+              </div>
+            ) : null}
+          </ToolStep>
+
+          <ToolStep
+            step={2}
+            title="Prix, conditions et désignation des locaux vendus"
+            description="En location vide, l'indication du prix de vente et la désignation exacte des locaux loués sont exigées à peine de nullité du congé."
+          >
+            <AmountField
+              id="conge-prix-vente"
+              label="Prix de vente proposé (hors frais d'acte notarié)"
+              value={prixVenteInput}
+              onChange={mark(setPrixVenteInput)}
+              placeholder="245000"
+              suffix="€"
+              error={prixError}
+            />
+
+            <TextField
+              id="conge-description-bien"
+              label="Désignation précise des locaux loués et annexes vendus"
+              value={descriptionBien}
+              onChange={mark(setDescriptionBien)}
+              placeholder="Ex. Appartement T3 de 62 m² au 3e étage (lot n° 14) et cave n° 8"
+              hint="Reprenez la consistance exacte figurant dans le contrat de location."
+            />
+
+            <TextField
+              id="conge-conditions-paiement"
+              label="Modalités de paiement du prix"
+              value={conditionsPaiement}
+              onChange={mark(setConditionsPaiement)}
+              placeholder="Paiement comptant le jour de la signature de l'acte authentique"
+            />
+          </ToolStep>
+
+          <ToolStep
+            step={3}
+            title="Identité du bailleur et du locataire"
+            description="Si le logement est loué à plusieurs colocataires ou époux cotitulaires, le congé doit être notifié à chacun d'eux."
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField
+                id="conge-bailleur-nom"
+                label="Nom et prénom du bailleur (ou SCI)"
+                value={bailleurNom}
+                onChange={mark(setBailleurNom)}
+                placeholder="Ex. Hélène Marchand"
+              />
+              <TextField
+                id="conge-bailleur-adresse"
+                label="Adresse du bailleur"
+                value={bailleurAdresse}
+                onChange={mark(setBailleurAdresse)}
+                placeholder="Ex. 19 cours Mirabeau, 13100 Aix-en-Provence"
+              />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <TextField
+                id="conge-locataire-nom"
+                label="Nom et prénom du locataire"
+                value={locataireNom}
+                onChange={mark(setLocataireNom)}
+                placeholder="Ex. Nicolas Bernard"
+              />
+              <TextField
+                id="conge-bien-adresse"
+                label="Adresse du logement loué"
+                value={bienAdresse}
+                onChange={mark(setBienAdresse)}
+                placeholder="Ex. 42 rue de la République, 13001 Marseille"
+              />
+            </div>
+            <TextField
+              id="conge-ville-courrier"
+              label="Fait à (ville)"
+              value={villeCourrier}
+              onChange={mark(setVilleCourrier)}
+              placeholder="Aix-en-Provence"
+            />
+          </ToolStep>
+
+          {conge ? (
+            <ResultJump
+              label={`Congé pour vente (${conge.delaiPreavisMois} mois)`}
+              value={`Avant le ${conge.dateLimiteReceptionFr}`}
+              detail={`Offre à ${formatEuros(conge.prixVente)}`}
+            />
+          ) : null}
+        </ToolSheet>
+      }
+      result={
+        <ResultPanel
+          title="Calendrier & lettre de congé"
+          badge={
+            conge ? (
+              edited ? (
+                <ResultBadge tone="sage">Votre courrier</ResultBadge>
+              ) : (
+                <ResultBadge tone="example">Exemple pré-rempli</ResultBadge>
+              )
+            ) : null
+          }
+          footer={
+            conge ? (
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <CopyButton
+                    text={conge.plainText}
+                    label="Copier le congé (avec mentions légales)"
+                    copiedLabel="Congé copié"
+                  />
+                </div>
+                <p className="text-[12px] leading-4.5 text-ink-muted">
+                  {conge.droitPreemption
+                    ? "N'oubliez pas de joindre la notice d'information obligatoire (arrêté du 13 décembre 2017). Les 5 premiers alinéas de l'article 15 II sont inclus dans le texte copié."
+                    : "Notifiez ce congé par LRAR, acte de commissaire de justice ou remise en main propre contre récépissé ou émargement."}
+                </p>
+              </div>
+            ) : undefined
+          }
+        >
+          {conge ? (
+            <div className="space-y-4">
+              <dl className="grid grid-cols-2 gap-2.5 rounded-xl border border-line-soft bg-paper p-3.5 text-[13px]">
+                <div>
+                  <dt className="text-[11.5px] text-ink-muted">Réception au plus tard le</dt>
+                  <dd className="mt-0.5 font-semibold text-forest-deep">{conge.dateLimiteReceptionFr}</dd>
+                </div>
+                <div>
+                  <dt className="text-[11.5px] text-ink-muted">Échéance du bail</dt>
+                  <dd className="mt-0.5 font-semibold text-ink">{conge.dateEcheanceFr}</dd>
+                </div>
+                {conge.finOffrePreemptionFr ? (
+                  <div className="col-span-2 border-t border-line-soft pt-2">
+                    <dt className="text-[11.5px] text-ink-muted">
+                      Délai d&apos;acceptation de l&apos;offre par le locataire (2 premiers mois du préavis)
+                    </dt>
+                    <dd className="mt-0.5 font-medium text-ink">
+                      Du {conge.dateLimiteReceptionFr} au {conge.finOffrePreemptionFr}
+                    </dd>
+                  </div>
+                ) : null}
+              </dl>
+
+              <DocumentSheet>
+                <div className="flex flex-wrap items-start justify-between gap-3 border-b border-line pb-3 text-[12.5px]">
+                  <div>
+                    <p className="font-semibold text-ink">{bailleurNom || "Nom du bailleur"}</p>
+                    <p className="text-ink-muted">{bailleurAdresse || "Adresse du bailleur"}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-ink">À {locataireNom || "Nom du locataire"}</p>
+                    <p className="text-ink-muted">{bienAdresse || "Adresse du logement"}</p>
+                  </div>
+                </div>
+
+                <p className="mt-3 rounded-lg bg-cream/70 px-3 py-2 text-[12.5px] font-semibold text-ink">
+                  {conge.objet}
+                </p>
+
+                <div className="mt-3.5 space-y-2.5 text-[12.8px] leading-5 text-ink">
+                  {conge.paragraphs.map((p, idx) => (
+                    <p key={idx}>{p}</p>
+                  ))}
+                </div>
+
+                <p className="mt-3.5 text-right text-[12.5px] font-semibold text-ink">
+                  {bailleurNom || "Signature du bailleur"}
+                </p>
+
+                {conge.alineasArt15 ? (
+                  <details className="mt-4 border-t border-line-soft pt-3 text-[11.5px] leading-4.5 text-ink-muted">
+                    <summary className="cursor-pointer font-semibold text-forest">
+                      Voir les 5 alinéas de l&apos;article 15 II reproduits à peine de nullité
+                    </summary>
+                    <div className="mt-2 space-y-2">
+                      {conge.alineasArt15.map((a, idx) => (
+                        <p key={idx}>{a}</p>
+                      ))}
+                    </div>
+                  </details>
+                ) : null}
+              </DocumentSheet>
+            </div>
+          ) : (
+            <ResultPending>
+              Complétez la date d&apos;échéance du bail et le prix de vente pour calculer la date limite de notification et
+              afficher le courrier.
+            </ResultPending>
+          )}
+        </ResultPanel>
+      }
+    />
   );
 }

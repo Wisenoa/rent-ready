@@ -1,182 +1,194 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  SchemaMarkup,
-  webApplicationSchema,
-} from "@/components/seo/schema-markup";
-import { QuittanceGenerator } from "./quittance-generator";
+import { Check } from "lucide-react";
 
-// Rendered on demand. SEO/marketing content, not product surface: prerendering the
-// ~135-page content suite exhausted the Node heap during `next build`
-// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
-// per request costs ~ms and every URL keeps working.
+import { QuittanceTool } from "@/components/marketing/tools/QuittanceTool";
+import { baseMetadata } from "@/lib/seo/metadata";
+import {
+  buildGraphSchema,
+  buildBreadcrumbSchema,
+  buildWebApplicationSchema,
+  buildFAQPageSchema,
+} from "@/lib/seo/structured-data";
+import { SchemaMarkup } from "@/components/seo/schema-markup";
+import { ToolHeader } from "@/components/marketing/tools/ToolHeader";
+import { ToolCta, ToolExplainer, ToolFaq, type FaqItem } from "@/components/marketing/tools/ToolContent";
+
 export const revalidate = 3600;
 
-// Rendered on demand. SEO/marketing content, not product surface: prerendering the
-// ~135-page content suite exhausted the Node heap during `next build`
-// ("Ineffective mark-compacts near heap limit"). All data is local, so rendering
-// per request costs ~ms and every URL keeps working.
+export async function generateMetadata() {
+  return baseMetadata({
+    title: "Modèle de Quittance de Loyer PDF Gratuit 2026 — Loi de 1989",
+    description:
+      "Modèle de quittance de loyer PDF gratuit et conforme à l'article 21 de la loi du 6 juillet 1989. Mentions obligatoires commentées, distinction loyer/charges et téléchargement immédiat.",
+    url: "/outils/modele-quittance-loyer-pdf",
+    ogType: "outil",
+  });
+}
 
-export const metadata: Metadata = {
-  title: "Modèle quittance de loyer PDF gratuit 2026",
-  description:
-    "Générez une quittance de loyer PDF gratuite et conforme à la loi de 1989. Distinction loyer/charges, mentions légales obligatoires. Sans inscription.",
-  alternates: {
-    canonical: "https://lokna.fr/outils/modele-quittance-loyer-pdf",
-  },
-};
+const breadcrumb = [
+  { label: "Accueil", href: "/" },
+  { label: "Outils", href: "/outils" },
+  { label: "Modèle de quittance PDF", href: "/outils/modele-quittance-loyer-pdf" },
+];
 
-const faqs = [
+const CLAUSES_MODELE = [
+  "En-tête explicite : « Quittance de loyer » (si règlement intégral) ou « Reçu de paiement partiel » (si solde impayé).",
+  "Identification complète des parties : nom et adresse du bailleur (ou dénomination de la SCI) et du locataire.",
+  "Désignation de l'adresse exacte du logement loué et de la période d'échéance quittancée.",
+  "Ventilation réglementaire : montant du loyer hors charges séparé des provisions ou du forfait pour charges.",
+  "Formule de quittancement datée (« dont quittance, sous réserve de tous mes droits ») et signature du bailleur.",
+  "Gratuité absolue de la délivrance conformément à l'article 21 de la loi n° 89-462 du 6 juillet 1989.",
+];
+
+const FAQ_ITEMS: FaqItem[] = [
   {
-    question: "Une quittance de loyer est-elle obligatoire ?",
+    question: "Une quittance de loyer est-elle obligatoire chaque mois ?",
     answer:
-      "Oui, dès lors que le locataire en fait la demande. L'article 21 de la loi n° 89-462 du 6 juillet 1989 oblige le bailleur à transmettre gratuitement une quittance après réception du paiement intégral du loyer et des charges.",
+      "L'article 21 de la loi n° 89-462 du 6 juillet 1989 oblige le bailleur à transmettre gratuitement une quittance au locataire qui en fait la demande, dès lors que le loyer et des charges de la période ont été intégralement payés. En pratique, de nombreux bailleurs la remettent après chaque règlement mensuel.",
   },
   {
-    question:
-      "Quelles sont les mentions obligatoires d'une quittance de loyer ?",
+    question: "Quelles mentions obligatoires doivent figurer sur un modèle de quittance de loyer ?",
     answer:
-      "Une quittance de loyer conforme doit contenir : le nom et l'adresse du bailleur, le nom et l'adresse du locataire, la période concernée, le montant du loyer hors charges, le montant des provisions pour charges, le total payé, et la date de paiement.",
+      "Le modèle doit comporter : les coordonnées du bailleur et du locataire, l'adresse du bien loué, la période concernée, la ventilation entre le loyer nu (hors charges) et la provision ou le forfait de charges, la somme totale reçue, ainsi que la date et le lieu d'émission.",
   },
   {
-    question:
-      "Peut-on émettre une quittance pour un paiement partiel ?",
+    question: "Quelle différence entre ce modèle de quittance et un avis d'échéance ?",
     answer:
-      "Non. Si le locataire n'a payé qu'une partie du loyer, le bailleur doit délivrer un reçu de paiement partiel, et non une quittance. La quittance atteste du paiement intégral du loyer et des charges pour la période donnée.",
+      "L'avis d'échéance (ou appel de loyer) est envoyé avant le paiement pour rappeler le montant à régler. La quittance de loyer n'est délivrée qu'après encaissement effectif de la totalité de l'échéance et vaut preuve de paiement pour le locataire.",
   },
   {
-    question: "Quel format pour une quittance de loyer en 2026 ?",
+    question: "Ce modèle convient-il à une location vide, meublée ou en SCI ?",
     answer:
-      "La loi n'impose pas de format : le PDF est le plus courant. Avec l'accord exprès du locataire, la quittance peut lui être transmise par voie dématérialisée, par exemple par e-mail (article 21 de la loi du 6 juillet 1989).",
+      "Oui. L'article 21 de la loi du 6 juillet 1989 s'applique aussi bien aux locations vides qu'aux locations meublées à usage de résidence principale (par renvoi de l'article 25-3). Pour une SCI, indiquez simplement la dénomination sociale et le nom du gérant signataire dans le champ Bailleur.",
   },
   {
-    question:
-      "Comment automatiser les quittances chaque mois ?",
+    question: "Comment générer les quittances de plusieurs biens sans ressaisir le modèle ?",
     answer:
-      "Avec Lokna, la quittance est générée lorsque vous enregistrez le paiement qui solde le mois ; un paiement partiel donne un reçu. Vous la téléchargez en PDF, à la demande, et la transmettez vous-même à votre locataire.",
+      "Dans Lokna, les coordonnées du bailleur, des locataires et les montants de loyer et de charges sont conservés sur chaque bail. Lorsque vous enregistrez le paiement qui solde l'échéance, vous téléchargez la quittance PDF prête à transmettre à votre locataire.",
   },
 ];
 
-const schemaData = webApplicationSchema(
-  "Générateur de quittance de loyer PDF gratuit",
-  "/outils/modele-quittance-loyer-pdf",
-  "Générez une quittance de loyer PDF gratuite et conforme à la loi de 1989. Distinction loyer/charges, mentions légales obligatoires.",
-  faqs
-);
+function ModeleQuittanceJsonLd() {
+  const schema = buildGraphSchema(
+    buildBreadcrumbSchema([
+      { name: "Accueil", url: "https://lokna.fr" },
+      { name: "Outils", url: "https://lokna.fr/outils" },
+      { name: "Modèle de quittance PDF", url: "https://lokna.fr/outils/modele-quittance-loyer-pdf" },
+    ]),
+    buildWebApplicationSchema({
+      name: "Modèle de Quittance de Loyer PDF Gratuit",
+      description:
+        "Modèle de quittance de loyer PDF gratuit conforme à l'article 21 de la loi n° 89-462 du 6 juillet 1989, avec personnalisation en ligne et téléchargement immédiat.",
+      url: "/outils/modele-quittance-loyer-pdf",
+    }),
+    buildFAQPageSchema(FAQ_ITEMS)
+  );
+  return <SchemaMarkup data={schema} breadcrumbRenderedByComponent />;
+}
 
 export default function ModeleQuittanceLoyerPdfPage() {
   return (
     <>
-      <SchemaMarkup data={schemaData} />
+      <ModeleQuittanceJsonLd />
+      <div className="bg-cream">
+        <div className="mx-auto max-w-6xl px-5 pb-16 pt-10 sm:px-8 sm:pt-14">
+          <ToolHeader
+            breadcrumb={breadcrumb}
+            eyebrow="Modèle officiel · PDF gratuit"
+            title="Modèle de quittance de loyer PDF gratuit (conforme loi de 1989)"
+            intro="Consultez la structure réglementaire d'une quittance de loyer conforme à l'article 21 de la loi du 6 juillet 1989, personnalisez les champs ci-dessous et téléchargez directement votre exemplaire au format PDF."
+            facts={[
+              { label: "Texte de référence", value: "Art. 21 loi du 6 juillet 1989" },
+              { label: "Locations couvertes", value: "Vide, meublée, SCI" },
+              { label: "Format", value: "PDF A4 prêt à imprimer ou envoyer" },
+            ]}
+          />
 
-      <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
-        {/* ─── Hero ─── */}
-        <header className="mb-10 text-center">
-          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
-            Modèle de quittance de loyer PDF gratuit — Conforme 2026
-          </h1>
-          <p className="mt-4 text-lg leading-relaxed text-stone-600">
-            Générez votre <strong>quittance de loyer</strong> au format{" "}
-            <strong>PDF</strong>, <strong>gratuit</strong> et sans inscription.
-            Notre modèle respecte les mentions obligatoires de la{" "}
-            <strong>loi n° 89-462 du 6 juillet 1989</strong> : distinction
-            loyer / charges, identification du bailleur et du locataire, période
-            et montant total. Téléchargez un document professionnel en quelques
-            clics, prêt à envoyer à votre locataire.
-          </p>
-        </header>
-
-        {/* ─── Form ─── */}
-        <QuittanceGenerator />
-
-        {/* ─── SEO Content ─── */}
-        <section className="mt-16 space-y-12">
-          {/* Mentions obligatoires */}
-          <div>
-            <h2 className="text-2xl font-semibold text-ink">
-              Mentions obligatoires d&apos;une quittance de loyer
-            </h2>
-            <p className="mt-3 text-stone-600">
-              Conformément à l&apos;article 21 de la loi n° 89-462 du 6 juillet
-              1989, toute quittance de loyer doit comporter les éléments
-              suivants :
-            </p>
-            <ul className="mt-4 list-inside list-disc space-y-2 text-stone-700">
-              <li>Nom et adresse du bailleur</li>
-              <li>Nom et adresse du locataire</li>
-              <li>Adresse du logement loué</li>
-              <li>Période de location concernée (mois et année)</li>
-              <li>
-                Détail des sommes versées :{" "}
-                <strong>loyer hors charges</strong> et{" "}
-                <strong>provisions pour charges</strong>, distingués
-              </li>
-              <li>Montant total acquitté</li>
-              <li>Date de paiement</li>
-            </ul>
+          <div className="mt-10">
+            <QuittanceTool formLabel="Personnaliser le modèle de quittance de loyer PDF" />
           </div>
 
-          {/* Quittance vs reçu */}
-          <div>
-            <h2 className="text-2xl font-semibold text-ink">
-              Quittance ou reçu de paiement : quelle différence ?
+          <section aria-labelledby="clauses-title" className="mt-8 rounded-2xl border border-line bg-paper px-5 py-6 sm:px-7">
+            <h2 id="clauses-title" className="text-[17px] font-semibold text-ink">
+              Structure légale du modèle de quittance
             </h2>
-            <p className="mt-3 leading-relaxed text-stone-600">
-              Une <strong>quittance de loyer</strong> ne peut être délivrée que
-              lorsque le locataire a payé <strong>l&apos;intégralité</strong> du
-              loyer et des charges pour la période concernée. Elle atteste du
-              paiement complet et libère le locataire de son obligation.
-            </p>
-            <p className="mt-3 leading-relaxed text-stone-600">
-              En revanche, si le paiement est <strong>partiel</strong>, le
-              bailleur est tenu de délivrer un simple{" "}
-              <strong>reçu de paiement</strong> mentionnant le montant
-              effectivement perçu. Le reçu ne vaut pas quittance et ne libère
-              pas le locataire de la totalité de sa dette locative.
-            </p>
-          </div>
-
-          {/* FAQ */}
-          <div>
-            <h2 className="text-2xl font-semibold text-ink">
-              Questions fréquentes
-            </h2>
-            <div className="mt-4 divide-y divide-stone-200 rounded-xl border border-stone-200 bg-white">
-              {faqs.map((faq) => (
-                <details key={faq.question} className="group px-5 py-4">
-                  <summary className="flex cursor-pointer items-center justify-between font-medium text-stone-800 marker:[content:none] [&::-webkit-details-marker]:hidden">
-                    {faq.question}
-                    <span className="ml-2 shrink-0 text-stone-400 transition-transform duration-200 group-open:rotate-45">
-                      +
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm leading-relaxed text-stone-600">
-                    {faq.answer}
-                  </p>
-                </details>
+            <ul className="mt-4 grid gap-x-8 gap-y-3 md:grid-cols-2">
+              {CLAUSES_MODELE.map((clause) => (
+                <li key={clause} className="flex gap-2.5 text-[14.5px] leading-6 text-ink">
+                  <Check aria-hidden="true" className="mt-1 size-4 shrink-0 text-sage-600" strokeWidth={2.25} />
+                  {clause}
+                </li>
               ))}
-            </div>
-          </div>
-        </section>
+            </ul>
+            <p className="mt-5 text-[14px] leading-6 text-ink-muted">
+              Sources officielles :{" "}
+              <a
+                href="https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000028806698"
+                className="text-forest underline decoration-sage-300 underline-offset-4 hover:decoration-forest"
+                rel="noopener"
+              >
+                Légifrance (article 21 de la loi n° 89-462)
+              </a>{" "}
+              et{" "}
+              <a
+                href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31699"
+                className="text-forest underline decoration-sage-300 underline-offset-4 hover:decoration-forest"
+                rel="noopener"
+              >
+                Service-Public.fr — Quittance de loyer
+              </a>
+              . Retrouvez toutes les règles détaillées dans notre{" "}
+              <Link
+                href="/guides/quittance-loyer"
+                className="text-forest underline decoration-sage-300 underline-offset-4 hover:decoration-forest"
+              >
+                guide de la quittance de loyer
+              </Link>
+              .
+            </p>
+          </section>
 
-        {/* ─── CTA Banner ─── */}
-        <section className="mt-16 rounded-2xl bg-forest px-6 py-10 text-center text-white shadow-lg sm:px-10">
-          <h2 className="text-2xl font-semibold sm:text-3xl">
-            Automatisez vos quittances chaque mois
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-cream/80">
-            Lokna génère la quittance conforme dès que vous enregistrez le
-            paiement qui solde le mois, et un reçu en cas de paiement partiel.
-            Essai gratuit 14&nbsp;jours.
-          </p>
-          <Link
-            href="/register"
-            className="mt-6 inline-block rounded-xl bg-white px-8 py-3 font-semibold text-forest shadow-sm transition-colors hover:bg-sage-50"
-          >
-            Essayer gratuitement
-          </Link>
-        </section>
-      </article>
+          <div className="mt-16 space-y-14">
+            <ToolExplainer id="anatomie-modele" title="Anatomie d'un modèle de quittance de loyer valable">
+              <p>
+                Un <strong>modèle de quittance de loyer</strong> sert à la fois de preuve de règlement pour le locataire (notamment
+                comme justificatif de domicile ou pour ses démarches auprès de la CAF) et de pièce comptable pour le propriétaire
+                bailleur. Pour être irréprochable au regard de la loi du 6 juillet 1989, il doit respecter trois principes
+                essentiels.
+              </p>
+              <h3>1. La ventilation entre loyer nu et charges</h3>
+              <p>
+                Une quittance mentionnant uniquement une somme globale « charges comprises » est irrégulière. Le document doit
+                isoler sur deux lignes distinctes le <strong>loyer hors charges</strong> et la{" "}
+                <strong>provision sur charges</strong> (ou le forfait de charges en location meublée ou colocation). Lors de la
+                clôture annuelle des comptes de copropriété, reportez les provisions appelées dans notre{" "}
+                <Link href="/outils/calculateur-charges-locatives">calculateur de régularisation des charges locatives</Link>.
+              </p>
+              <h3>2. La réserve « sous réserve de tous mes droits »</h3>
+              <p>
+                La formule finale de quittancement précise que la quittance porte uniquement sur la période désignée, « sous
+                réserve de tous mes droits » et sans présumer du paiement des échéances antérieures ni d&apos;une éventuelle{" "}
+                <Link href="/outils/calculateur-irl">révision annuelle du loyer selon l&apos;IRL</Link>.
+              </p>
+              <h3>3. Que faire si le loyer n&apos;est payé que partiellement ?</h3>
+              <p>
+                Ne remettez jamais une quittance de loyer pour un règlement incomplet : basculez l&apos;outil ci-dessus sur{" "}
+                <strong>« Paiement partiel »</strong> afin d&apos;éditer un reçu mentionnant le solde restant dû, ou consultez
+                notre <Link href="/templates/recu-loyer">modèle de reçu de paiement de loyer</Link>.
+              </p>
+            </ToolExplainer>
+
+            <ToolFaq items={FAQ_ITEMS} title="Questions fréquentes sur le modèle de quittance PDF" />
+          </div>
+
+          <div className="mt-16">
+            <ToolCta title="Conservez vos quittances et vos loyers au même endroit">
+              Avec Lokna, chaque bien et chaque bail conservent l&apos;historique des échéances : vous téléchargez la quittance PDF
+              dès que le loyer complet est enregistré, ou un reçu en cas de règlement partiel.
+            </ToolCta>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
