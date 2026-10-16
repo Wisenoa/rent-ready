@@ -311,9 +311,9 @@ export function SimulateurLmnpClient() {
                     strong: true,
                   },
                   {
-                    label: "Impact fiscal à la revente (loi de finances)",
-                    detail: "Les amortissements déduits minorent le prix d'achat retenu pour le calcul de la plus-value (art. 150 VB)",
-                    value: `+${formatEuros(res.reelSimplifie.amortissementImpute)} de PV brute`,
+                    label: "Impact revente LMNP (art. 150 VB III CGI)",
+                    detail: "Cessions depuis le 15/02/2025 : les amortissements déduits du bâti minorent le prix d'achat (le mobilier est exclu)",
+                    value: `+${formatEuros(Decimal.min(res.reelSimplifie.amortissementImpute, res.reelSimplifie.dotationAmortissementBati))} de PV brute`,
                   },
                 ]}
               />

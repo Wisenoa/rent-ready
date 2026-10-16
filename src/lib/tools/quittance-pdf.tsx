@@ -16,7 +16,7 @@ export function formatEuros(amount: { toFixed: (n: number) => string }): string 
   return `${withSpaces},${decPart} €`;
 }
 
-export const quittancePdfStyles = StyleSheet.create({
+export const quittancePdfRawStyles = {
   page: {
     padding: 46,
     fontFamily: "Helvetica",
@@ -42,8 +42,8 @@ export const quittancePdfStyles = StyleSheet.create({
     marginTop: 4,
   },
   partiesRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "row" as const,
+    justifyContent: "space-between" as const,
     gap: 20,
     marginBottom: 22,
   },
@@ -57,7 +57,7 @@ export const quittancePdfStyles = StyleSheet.create({
     fontSize: 9,
     fontFamily: "Helvetica-Bold",
     color: "#1E3A2F",
-    textTransform: "uppercase",
+    textTransform: "uppercase" as const,
     letterSpacing: 0.8,
     marginBottom: 4,
   },
@@ -70,32 +70,32 @@ export const quittancePdfStyles = StyleSheet.create({
     fontSize: 10,
     fontFamily: "Helvetica-Bold",
     color: "#1E3A2F",
-    textTransform: "uppercase",
+    textTransform: "uppercase" as const,
     letterSpacing: 0.8,
     marginBottom: 8,
   },
   paragraph: {
     marginBottom: 18,
-    textAlign: "justify",
+    textAlign: "justify" as const,
   },
   table: {
     borderWidth: 1,
     borderColor: "#DCD8CE",
     borderRadius: 4,
-    overflow: "hidden",
+    overflow: "hidden" as const,
     marginBottom: 22,
   },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "row" as const,
+    justifyContent: "space-between" as const,
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderBottomWidth: 1,
     borderBottomColor: "#ECE8DF",
   },
   rowTotal: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "row" as const,
+    justifyContent: "space-between" as const,
     paddingVertical: 9,
     paddingHorizontal: 12,
     backgroundColor: "#1E3A2F",
@@ -105,8 +105,8 @@ export const quittancePdfStyles = StyleSheet.create({
   rowTotalLabel: { fontSize: 11, fontFamily: "Helvetica-Bold", color: "#FFFFFF" },
   rowTotalValue: { fontSize: 11, fontFamily: "Helvetica-Bold", color: "#FFFFFF" },
   rowBalance: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "row" as const,
+    justifyContent: "space-between" as const,
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: "#FBF3E2",
@@ -118,7 +118,7 @@ export const quittancePdfStyles = StyleSheet.create({
   },
   signatureBlock: {
     marginTop: 8,
-    alignItems: "flex-end",
+    alignItems: "flex-end" as const,
   },
   legalFooter: {
     marginTop: 28,
@@ -128,15 +128,34 @@ export const quittancePdfStyles = StyleSheet.create({
     fontSize: 8.8,
     color: "#5C6B64",
   },
-});
+};
+
+export const quittancePdfStyles = StyleSheet.create(quittancePdfRawStyles);
+
+export interface PdfPrimitives {
+  Document: React.ComponentType<any>;
+  Page: React.ComponentType<any>;
+  View: React.ComponentType<any>;
+  Text: React.ComponentType<any>;
+  StyleSheet?: { create: (styles: any) => any };
+}
 
 export function QuittancePdfDocument({
   doc,
   parties,
+  primitives,
 }: {
   doc: QuittanceComputed;
   parties: QuittanceParties;
+  primitives?: PdfPrimitives;
 }) {
+  const Doc = primitives?.Document ?? Document;
+  const Pg = primitives?.Page ?? Page;
+  const Vw = primitives?.View ?? View;
+  const Tx = primitives?.Text ?? Text;
+  const ss = primitives?.StyleSheet ?? StyleSheet;
+  const styles = ss.create(quittancePdfRawStyles);
+
   const bailleurNom = parties.bailleurNom.trim() || "Nom du bailleur";
   const bailleurAdresse = parties.bailleurAdresse.trim() || "Adresse du bailleur";
   const locataireNom = parties.locataireNom.trim() || "Nom du locataire";
@@ -144,69 +163,69 @@ export function QuittancePdfDocument({
   const villeSignature = parties.villeSignature.trim() || "Paris";
 
   return (
-    <Document title={`${doc.documentShortLabel} — ${doc.periodeCourte}`}>
-      <Page size="A4" style={quittancePdfStyles.page}>
-        <View style={quittancePdfStyles.headerBox}>
-          <Text style={quittancePdfStyles.title}>{doc.documentTitle}</Text>
-          <Text style={quittancePdfStyles.subtitle}>Période : {doc.periodeLabel}</Text>
-        </View>
+    <Doc title={`${doc.documentShortLabel} — ${doc.periodeCourte}`}>
+      <Pg size="A4" style={styles.page}>
+        <Vw style={styles.headerBox}>
+          <Tx style={styles.title}>{doc.documentTitle}</Tx>
+          <Tx style={styles.subtitle}>Période : {doc.periodeLabel}</Tx>
+        </Vw>
 
-        <View style={quittancePdfStyles.partiesRow}>
-          <View style={quittancePdfStyles.partyBox}>
-            <Text style={quittancePdfStyles.partyLabel}>Bailleur</Text>
-            <Text style={quittancePdfStyles.partyName}>{bailleurNom}</Text>
-            <Text>{bailleurAdresse}</Text>
-          </View>
-          <View style={quittancePdfStyles.partyBox}>
-            <Text style={quittancePdfStyles.partyLabel}>Locataire & logement loué</Text>
-            <Text style={quittancePdfStyles.partyName}>{locataireNom}</Text>
-            <Text>{bienAdresse}</Text>
-          </View>
-        </View>
+        <Vw style={styles.partiesRow}>
+          <Vw style={styles.partyBox}>
+            <Tx style={styles.partyLabel}>Bailleur</Tx>
+            <Tx style={styles.partyName}>{bailleurNom}</Tx>
+            <Tx>{bailleurAdresse}</Tx>
+          </Vw>
+          <Vw style={styles.partyBox}>
+            <Tx style={styles.partyLabel}>Locataire & logement loué</Tx>
+            <Tx style={styles.partyName}>{locataireNom}</Tx>
+            <Tx>{bienAdresse}</Tx>
+          </Vw>
+        </Vw>
 
-        <Text style={quittancePdfStyles.paragraph}>{doc.attestationParagraph}</Text>
+        <Tx style={styles.paragraph}>{doc.attestationParagraph}</Tx>
 
-        <Text style={quittancePdfStyles.sectionTitle}>Détail du règlement</Text>
-        <View style={quittancePdfStyles.table}>
-          <View style={quittancePdfStyles.row}>
-            <Text style={quittancePdfStyles.rowLabel}>Loyer nu (hors charges)</Text>
-            <Text style={quittancePdfStyles.rowValue}>{formatEuros(doc.loyerAppele)}</Text>
-          </View>
-          <View style={quittancePdfStyles.row}>
-            <Text style={quittancePdfStyles.rowLabel}>{doc.chargesLabel}</Text>
-            <Text style={quittancePdfStyles.rowValue}>{formatEuros(doc.chargesAppelees)}</Text>
-          </View>
-          <View style={quittancePdfStyles.row}>
-            <Text style={quittancePdfStyles.rowLabel}>Total appelé pour la période</Text>
-            <Text style={quittancePdfStyles.rowValue}>{formatEuros(doc.totalAppele)}</Text>
-          </View>
-          <View style={quittancePdfStyles.rowTotal}>
-            <Text style={quittancePdfStyles.rowTotalLabel}>
+        <Tx style={styles.sectionTitle}>Détail du règlement</Tx>
+        <Vw style={styles.table}>
+          <Vw style={styles.row}>
+            <Tx style={styles.rowLabel}>Loyer nu (hors charges)</Tx>
+            <Tx style={styles.rowValue}>{formatEuros(doc.loyerAppele)}</Tx>
+          </Vw>
+          <Vw style={styles.row}>
+            <Tx style={styles.rowLabel}>{doc.chargesLabel}</Tx>
+            <Tx style={styles.rowValue}>{formatEuros(doc.chargesAppelees)}</Tx>
+          </Vw>
+          <Vw style={styles.row}>
+            <Tx style={styles.rowLabel}>Total appelé pour la période</Tx>
+            <Tx style={styles.rowValue}>{formatEuros(doc.totalAppele)}</Tx>
+          </Vw>
+          <Vw style={styles.rowTotal}>
+            <Tx style={styles.rowTotalLabel}>
               Somme reçue le {doc.datePaiementFr} ({doc.modePaiementLabel})
-            </Text>
-            <Text style={quittancePdfStyles.rowTotalValue}>{formatEuros(doc.montantEncaisse)}</Text>
-          </View>
+            </Tx>
+            <Tx style={styles.rowTotalValue}>{formatEuros(doc.montantEncaisse)}</Tx>
+          </Vw>
           {!doc.isQuittance ? (
-            <View style={quittancePdfStyles.rowBalance}>
-              <Text style={quittancePdfStyles.rowBalanceText}>Solde restant dû sur la période</Text>
-              <Text style={quittancePdfStyles.rowBalanceText}>{formatEuros(doc.resteDu)}</Text>
-            </View>
+            <Vw style={styles.rowBalance}>
+              <Tx style={styles.rowBalanceText}>Solde restant dû sur la période</Tx>
+              <Tx style={styles.rowBalanceText}>{formatEuros(doc.resteDu)}</Tx>
+            </Vw>
           ) : null}
-        </View>
+        </Vw>
 
-        <View style={quittancePdfStyles.signatureBlock}>
-          <Text>
+        <Vw style={styles.signatureBlock}>
+          <Tx>
             Fait à {villeSignature}, le {doc.datePaiementFr}
-          </Text>
-          <Text style={{ marginTop: 6, fontFamily: "Helvetica-Bold" }}>
+          </Tx>
+          <Tx style={{ marginTop: 6, fontFamily: "Helvetica-Bold" }}>
             Le bailleur : {bailleurNom}
-          </Text>
-        </View>
+          </Tx>
+        </Vw>
 
-        <View style={quittancePdfStyles.legalFooter}>
-          <Text>{doc.reserveLegaleParagraph}</Text>
-        </View>
-      </Page>
-    </Document>
+        <Vw style={styles.legalFooter}>
+          <Tx>{doc.reserveLegaleParagraph}</Tx>
+        </Vw>
+      </Pg>
+    </Doc>
   );
 }

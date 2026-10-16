@@ -49,18 +49,18 @@ const ANNEES_OPTIONS = Array.from({ length: 35 }, (_, idx) => ({
 const TYPE_LOCATION_CHOICES: { value: TypeLocationPlusValue; label: string; description: string }[] = [
   {
     value: "location-nue-ou-autre",
-    label: "Location nue classique / Résidence secondaire",
-    description: "Aucun amortissement déduit durant la détention",
+    label: "Location nue classique / Micro-foncier / Micro-BIC",
+    description: "Aucun amortissement déduit durant la détention (pas de réintégration)",
   },
   {
     value: "lmnp-reel",
     label: "Location meublée LMNP (régime réel)",
-    description: "Réintégration des amortissements déduits (Loi de finances art. 150 VB)",
+    description: "Réintégration des amortissements déduits hors mobilier (art. 150 VB III CGI)",
   },
   {
     value: "jeanbrun",
     label: "Statut du bailleur privé (Jeanbrun)",
-    description: "Réintégration des amortissements pratiqués sur les revenus fonciers",
+    description: "Location nue : minoration du prix d'achat par les amortissements déduits",
   },
 ];
 
@@ -178,7 +178,11 @@ export function PlusValueClient() {
                 placeholder="Ex. 35000"
                 suffix="€"
                 error={amortErr}
-                hint="En application de la loi de finances (art. 150 VB modifié), les amortissements déduits viennent minorer le prix d'achat retenu pour le calcul de la plus-value."
+                hint={
+                  typeLocation === "lmnp-reel"
+                    ? "Cessions depuis le 15 février 2025 (art. 150 VB III du CGI) : indiquez les amortissements immobiliers et de travaux effectivement déduits. Le mobilier et les amortissements réputés différés non imputés sont exclus."
+                    : "Statut du bailleur privé (location nue, loi de finances 2026) : les amortissements déduits des revenus fonciers viennent minorer le prix d'achat corrigé."
+                }
               />
             ) : null}
 

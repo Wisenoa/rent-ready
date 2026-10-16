@@ -454,8 +454,30 @@ describe("loi-jeanbrun (Statut du bailleur privé - loi de finances 2026)", () =
     }
   });
 
-  it("handles the 10,700 € global deficit cap and carry-forward", () => {
-    const out = computeLoiJeanbrun({
+  it("enforces statutory annual ceilings (8 000 €, 10 000 €, 12 000 €) and handles the 10,700 € global deficit cap", () => {
+    // 1. Ceiling test: 300,000 € purchase in intermediate sector
+    // 80% base = 240,000 € * 3.5% = 8,400 € theoretical -> capped at 8,000 €!
+    const outCeiling = computeLoiJeanbrun({
+      prixAcquisition: d("300000"),
+      loyerMensuelHc: d("1000"),
+      chargesAnnuellesDeductibles: d("1500"),
+      secteur: "intermediaire",
+      tmi: 30,
+    });
+    expect(outCeiling.ok).toBe(true);
+    if (outCeiling.ok) {
+      expect(outCeiling.result.amortissementTheorique.toFixed(2)).toBe("8400.00");
+      expect(outCeiling.result.amortissementPlafonne).toBe(true);
+      expect(outCeiling.result.amortissementAnnuel.toFixed(2)).toBe("8000.00");
+      expect(outCeiling.result.depassementPlafondAnnuel.toFixed(2)).toBe("400.00");
+    }
+
+    // 2. Global deficit test in tres-social (capped at 12,000 € annual amort)
+    // 300,000 € * 80% = 240,000 * 5.5% = 13,200 € -> capped at 12,000 €
+    // Loyer: 6,000 €, charges: 8,000 €, interets: 2,000 €, amort: 12,000 € -> total deductions: 22,000 €
+    // Deficit: 6,000 - 22,000 = -16,000 €
+    // Capped at 10,700 € on global income, excess 5,300 € carried forward on property income
+    const outDeficit = computeLoiJeanbrun({
       prixAcquisition: d("300000"),
       loyerMensuelHc: d("500"),
       chargesAnnuellesDeductibles: d("8000"),
@@ -463,12 +485,13 @@ describe("loi-jeanbrun (Statut du bailleur privé - loi de finances 2026)", () =
       secteur: "tres-social",
       tmi: 30,
     });
-    expect(out.ok).toBe(true);
-    if (!out.ok) return;
-    const yr1 = out.result.echeancier9Ans[0];
-    expect(yr1.resultatFoncier.toFixed(2)).toBe("-17200.00");
+    expect(outDeficit.ok).toBe(true);
+    if (!outDeficit.ok) return;
+    expect(outDeficit.result.amortissementAnnuel.toFixed(2)).toBe("12000.00");
+    const yr1 = outDeficit.result.echeancier9Ans[0];
+    expect(yr1.resultatFoncier.toFixed(2)).toBe("-16000.00");
     expect(yr1.deficitImputeRevenuGlobal.toFixed(2)).toBe("10700.00");
-    expect(yr1.deficitReportable.toFixed(2)).toBe("6500.00");
+    expect(yr1.deficitReportable.toFixed(2)).toBe("5300.00");
   });
 });
 

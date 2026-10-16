@@ -224,9 +224,19 @@ export function JeanbrunSimulator() {
                   text={formatEuros(res.statutJeanbrun.economieTotaleVsFoncierClassique)}
                   caption={
                     <>
-                      Grâce à la déduction annuelle d&apos;un amortissement de{" "}
-                      <strong>{formatEuros(res.amortissementAnnuel)}</strong> ({res.tauxAmortissementAnnuelPct} % de la base
-                      bâtie de {formatEuros(res.baseAmortissable80Pct)}).
+                      {res.amortissementPlafonne ? (
+                        <>
+                          Déduction annuelle plafonnée au maximum légal de{" "}
+                          <strong>{res.plafondAnnuelEuros.toLocaleString("fr-FR")}&nbsp;€ / an</strong> pour le{" "}
+                          {SECTEUR_JEANBRUN_INFO[res.secteur].label} (calcul théorique : {formatEuros(res.amortissementTheorique)}).
+                        </>
+                      ) : (
+                        <>
+                          Grâce à la déduction annuelle d&apos;un amortissement de{" "}
+                          <strong>{formatEuros(res.amortissementAnnuel)}</strong> ({res.tauxAmortissementAnnuelPct} % de la base
+                          bâtie de {formatEuros(res.baseAmortissable80Pct)}, sous le plafond légal de {res.plafondAnnuelEuros.toLocaleString("fr-FR")}&nbsp;€/an).
+                        </>
+                      )}
                     </>
                   }
                 />
@@ -261,7 +271,9 @@ export function JeanbrunSimulator() {
                   rows={[
                     {
                       label: "Amortissement annuel déductible",
-                      detail: `${res.tauxAmortissementAnnuelPct} % sur 80 % du prix (${formatEuros(res.baseAmortissable80Pct)})`,
+                      detail: res.amortissementPlafonne
+                        ? `Plafonné à ${res.plafondAnnuelEuros.toLocaleString("fr-FR")} € / an (théorique : ${res.tauxAmortissementAnnuelPct} % = ${formatEuros(res.amortissementTheorique)})`
+                        : `${res.tauxAmortissementAnnuelPct} % sur 80 % du prix (${formatEuros(res.baseAmortissable80Pct)})`,
                       value: `${formatEuros(res.amortissementAnnuel)} / an`,
                       strong: true,
                     },

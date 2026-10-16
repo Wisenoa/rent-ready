@@ -38,21 +38,24 @@ export type SecteurJeanbrun = "intermediaire" | "social" | "tres-social";
 
 export const SECTEUR_JEANBRUN_INFO: Record<
   SecteurJeanbrun,
-  { label: string; tauxPct: number; decoteLoyerLabel: string }
+  { label: string; tauxPct: number; plafondAnnuelEuros: number; decoteLoyerLabel: string }
 > = {
   intermediaire: {
     label: "Secteur intermédiaire",
     tauxPct: 3.5,
+    plafondAnnuelEuros: 8_000,
     decoteLoyerLabel: "Loyer intermédiaire plafonné",
   },
   social: {
     label: "Secteur social",
     tauxPct: 4.5,
+    plafondAnnuelEuros: 10_000,
     decoteLoyerLabel: "Loyer social (décote ~15 % par rapport au marché)",
   },
   "tres-social": {
     label: "Secteur très social",
     tauxPct: 5.5,
+    plafondAnnuelEuros: 12_000,
     decoteLoyerLabel: "Loyer très social (décote ~30 % par rapport au marché)",
   },
 };
@@ -91,7 +94,11 @@ export interface LoiJeanbrunComputed {
   baseAmortissable80Pct: Decimal;
   secteur: SecteurJeanbrun;
   tauxAmortissementAnnuelPct: number;
+  plafondAnnuelEuros: number;
+  amortissementTheorique: Decimal;
   amortissementAnnuel: Decimal;
+  amortissementPlafonne: boolean;
+  depassementPlafondAnnuel: Decimal;
   amortissementTotal9Ans: Decimal;
   loyerAnnuel: Decimal;
   chargesAnnuellesDeductibles: Decimal;
@@ -143,7 +150,13 @@ export function computeLoiJeanbrun(input: LoiJeanbrunInput): LoiJeanbrunOutcome 
 
   const tauxInfo = SECTEUR_JEANBRUN_INFO[input.secteur];
   const tauxAmortRatio = new Decimal(tauxInfo.tauxPct).dividedBy(100);
-  const amortissementAnnuel = toCents(baseAmortissable80Pct.times(tauxAmortRatio));
+  const amortissementTheorique = toCents(baseAmortissable80Pct.times(tauxAmortRatio));
+  const plafondAnnuel = new Decimal(tauxInfo.plafondAnnuelEuros);
+  const amortissementPlafonne = amortissementTheorique.greaterThan(plafondAnnuel);
+  const depassementPlafondAnnuel = amortissementPlafonne
+    ? toCents(amortissementTheorique.minus(plafondAnnuel))
+    : new Decimal(0);
+  const amortissementAnnuel = amortissementPlafonne ? plafondAnnuel : amortissementTheorique;
   const amortissementTotal9Ans = toCents(amortissementAnnuel.times(9));
 
   const tauxIr = new Decimal(input.tmi).dividedBy(100);
@@ -233,7 +246,9 @@ export function computeLoiJeanbrun(input: LoiJeanbrunInput): LoiJeanbrunOutcome 
     });
   }
 
-  const economieTotale = toCents(impotFoncierClassique9Ans.minus(impotJeanbrun9Ans));
+  const economieTotale = toCents(
+    echeancier9Ans.reduce((acc, row) => acc.plus(row.economieVsFoncierClassique), new Decimal(0))
+  );
 
   return {
     ok: true,
@@ -242,7 +257,11 @@ export function computeLoiJeanbrun(input: LoiJeanbrunInput): LoiJeanbrunOutcome 
       baseAmortissable80Pct,
       secteur: input.secteur,
       tauxAmortissementAnnuelPct: tauxInfo.tauxPct,
+      plafondAnnuelEuros: tauxInfo.plafondAnnuelEuros,
+      amortissementTheorique,
       amortissementAnnuel,
+      amortissementPlafonne,
+      depassementPlafondAnnuel,
       amortissementTotal9Ans,
       loyerAnnuel,
       chargesAnnuellesDeductibles: charges,

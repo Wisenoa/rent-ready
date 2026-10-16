@@ -35,7 +35,8 @@ const HYPOTHESES_SIMULATION = [
   "Régime applicable à la location nue (revenus fonciers, loi n° 2026-103 du 19 février 2026 de finances pour 2026).",
   "Base amortissable égale à 80 % du prix d'acquisition (la quote-part de 20 % pour le terrain est exclue).",
   "Taux d'amortissement annuel sur 9 ans selon le loyer conventionné : 3,5 % (intermédiaire), 4,5 % (social) ou 5,5 % (très social).",
-  "Déficit foncier imputable sur le revenu global dans la limite de 10 700 € / an (hors intérêts d'emprunt), l'excédent étant reportable sur 10 ans.",
+  "Plafonds annuels de déduction par foyer fiscal : 8 000 € (intermédiaire), 10 000 € (social), 12 000 € (très social). L'excédent n'est pas reportable.",
+  "Déficit foncier imputable sur le revenu global dans la limite de 10 700 € / an (hors intérêts d'emprunt), l'excédent étant reportable sur 10 ans sur les revenus fonciers.",
   "Éligibilité : logements en immeuble collectif (neuf ou ancien avec travaux ≥ 30 % du prix total), location nue en résidence principale pendant 9 ans.",
   "Règle de sortie à la revente : les amortissements fiscalement déduits minorent le prix d'achat retenu pour le calcul de la plus-value.",
 ];
@@ -49,7 +50,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quels sont les taux d'amortissement et les plafonds applicables ?",
     answer:
-      "Le taux annuel dépend du niveau de conventionnement choisi : 3,5 % par an en loyer intermédiaire, 4,5 % en loyer social (décote d'environ 15 % par rapport au marché) et 5,5 % en loyer très social (décote d'environ 30 %). Sur 9 ans, entre 31,5 % et 49,5 % de la base bâtie sont ainsi déduits des revenus imposables.",
+      "Le taux annuel dépend du niveau de conventionnement choisi : 3,5 % par an en loyer intermédiaire (plafonné à 8 000 € / an par foyer fiscal), 4,5 % en loyer social (plafonné à 10 000 € / an, décote d'environ 15 % par rapport au marché) et 5,5 % en loyer très social (plafonné à 12 000 € / an, décote d'environ 30 %). L'excédent éventuel au-delà du plafond annuel n'est pas reportable. Cet amortissement n'est pas soumis au plafonnement global des niches fiscales de 10 000 €.",
   },
   {
     question: "Quels types de logements sont éligibles au dispositif ?",

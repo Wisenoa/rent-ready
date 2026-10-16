@@ -60,6 +60,11 @@ const FAQ_ITEMS: FaqItem[] = [
     answer:
       "En location meublée (catégorie des Bénéfices Industriels et Commerciaux — BIC), le chiffre d'affaires imposable comprend à la fois les loyers hors charges et les provisions ou forfaits de charges payés par le locataire au cours de l'année civile.",
   },
+  {
+    question: "Les amortissements déduits en LMNP sont-ils réintégrés lors de la revente ?",
+    answer:
+      "Oui, pour les cessions réalisées depuis le 15 février 2025 (art. 150 VB III du CGI issu de la loi de finances) : les amortissements immobiliers et de travaux déduits au régime réel minorent le prix d'acquisition retenu, ce qui augmente d'autant la plus-value brute imposable à la vente. En revanche, les amortissements du mobilier et les amortissements réputés différés non imputés ne sont pas réintégrés. Le régime Micro-BIC n'est pas concerné par cette réintégration.",
+  },
 ];
 
 function SimulateurLmnpJsonLd() {
@@ -178,7 +183,7 @@ export default function SimulateurLmnpPage() {
               </p>
               <h3>3. Impact à la revente : la réforme de la plus-value LMNP</h3>
               <p>
-                <strong>Attention à la revente :</strong> En application de la loi de finances (article 150 VB du CGI), les cessions intervenues depuis le 15 février 2025 et en 2026 intègrent désormais les amortissements déduits durant la location dans l&apos;assiette de la plus-value des particuliers. Le prix d&apos;acquisition retenu est minoré du total des amortissements pratiqués, ce qui majore d&apos;autant la plus-value brute. Utilisez notre{" "}
+                <strong>Attention à la revente :</strong> En application de la loi de finances (article 150 VB III du CGI), les cessions intervenues depuis le 15 février 2025 et en 2026 intègrent désormais les amortissements déduits durant la location (hors amortissements du mobilier) dans l&apos;assiette de la plus-value des particuliers. Le prix d&apos;acquisition retenu est minoré du total des amortissements immobiliers et travaux pratiqués, ce qui majore d&apos;autant la plus-value brute (tout en maintenant les abattements de 22 et 30 ans). En revanche, le régime Micro-BIC n&apos;est pas concerné par cette réintégration. Utilisez notre{" "}
                 <Link href="/outils/calculateur-plus-value">calculateur de plus-value immobilière</Link> pour chiffrer l&apos;impôt exact en fin d&apos;opération.
               </p>
               <p>
