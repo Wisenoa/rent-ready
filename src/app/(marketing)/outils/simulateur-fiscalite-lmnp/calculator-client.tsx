@@ -310,6 +310,11 @@ export function SimulateurLmnpClient() {
                     value: formatEuros(res.reelSimplifie.impotTotal),
                     strong: true,
                   },
+                  {
+                    label: "Impact fiscal à la revente (loi de finances)",
+                    detail: "Les amortissements déduits minorent le prix d'achat retenu pour le calcul de la plus-value (art. 150 VB)",
+                    value: `+${formatEuros(res.reelSimplifie.amortissementImpute)} de PV brute`,
+                  },
                 ]}
               />
 

@@ -2,27 +2,35 @@
  * Calculateur de plus-value immobilière des particuliers (CGI articles 150 U,
  * 150 VB, 150 VC, 200 B et 1609 nonies G).
  *
- * Règles fiscales exactes :
+ * Règles fiscales exactes en vigueur en 2026 :
  * - Frais d'acquisition : forfait de 7,5 % du prix d'achat ou frais réels sur
  *   justificatifs (art. 150 VB II-3° CGI).
  * - Travaux : forfait de 15 % du prix d'achat si le bien bâti est détenu depuis
- *   plus de 5 ans, ou montant réel sur factures d'entreprises (art. 150 VB II-4°).
- * - Abattement IR (19 %) : 6 %/an de la 6e à la 21e année, 4 % la 22e année
- *   (exonération totale d'IR au bout de 22 ans).
- * - Abattement PS (17,2 %) : 1,65 %/an de la 6e à la 21e année, 1,60 % la 22e
- *   année, 9 %/an de la 23e à la 30e année (exonération totale à 30 ans).
+ *   au moins 5 ans, ou montant réel sur factures d'entreprises (art. 150 VB II-4°).
+ * - Réforme de la loi de finances (applicable aux cessions depuis le 15 février 2025
+ *   et en 2026) : pour les biens loués en meublé non professionnel (LMNP) au régime
+ *   réel ou sous le statut du bailleur privé (Jeanbrun), les amortissements
+ *   déduits pendant la période de location sont réintégrés dans l'assiette taxable
+ *   en venant diminuer le prix d'acquisition corrigé (art. 150 VB modifié).
+ * - Abattement IR (taux forfaitaire 19 %) : 6 %/an de la 6e à la 21e année, 4 %
+ *   la 22e année (exonération totale d'impôt sur le revenu au bout de 22 ans).
+ * - Abattement Prélèvements Sociaux (17,2 %) : 1,65 %/an de la 6e à la 21e année,
+ *   1,60 % la 22e année, 9 %/an de la 23e à la 30e année (exonération totale à 30 ans).
  * - Surtaxe progressive de 2 % à 6 % lorsque la plus-value nette imposable à
- *   l'IR excède 50 000 € (art. 1609 nonies G du CGI).
+ *   l'IR excède 50 000 € (art. 1609 nonies G du CGI) avec mécanisme de lissage.
  */
 import Decimal from "decimal.js";
 import { centsOf, toCents } from "./amount";
 
 export type NatureBienPlusValue = "locatif-secondaire" | "residence-principale";
+export type TypeLocationPlusValue = "location-nue-ou-autre" | "lmnp-reel" | "jeanbrun";
 export type ModeFraisAcquisition = "forfait-7-5" | "reel";
 export type ModeTravauxPlusValue = "forfait-15" | "reel";
 
 export interface PlusValueInput {
   natureBien: NatureBienPlusValue;
+  typeLocation?: TypeLocationPlusValue;
+  amortissementsDeduits?: Decimal;
   prixAcquisition: Decimal;
   prixCession: Decimal;
   anneesDetention: number; // années pleines révolues (0..50)
@@ -44,10 +52,13 @@ export interface PlusValueComputed {
   exonere: boolean;
   motifExoneration: string | null;
   anneesDetention: number;
+  natureBien: NatureBienPlusValue;
+  typeLocation: TypeLocationPlusValue;
   prixAcquisition: Decimal;
   fraisAcquisitionRetenus: Decimal;
   travauxRetenus: Decimal;
   forfaitTravauxNonEligible: boolean;
+  amortissementsReintegres: Decimal;
   prixAcquisitionCorrige: Decimal;
   prixCession: Decimal;
   plusValueBrute: Decimal;
@@ -133,6 +144,7 @@ export function computePlusValue(input: PlusValueInput): PlusValueOutcome {
     return { ok: false, error: "invalid-years" };
   }
 
+  const typeLocation: TypeLocationPlusValue = input.typeLocation ?? "location-nue-ou-autre";
   const prixAcquisition = toCents(input.prixAcquisition);
   const prixCession = toCents(input.prixCession);
 
@@ -151,8 +163,17 @@ export function computePlusValue(input: PlusValueInput): PlusValueOutcome {
         : new Decimal(0)
       : toCents(input.travauxReels);
 
+  // Réintégration des amortissements déduits en LMNP au réel ou statut Jeanbrun (loi de finances)
+  const amortissementsReintegres =
+    input.natureBien === "residence-principale" || typeLocation === "location-nue-ou-autre" || !input.amortissementsDeduits
+      ? new Decimal(0)
+      : toCents(Decimal.max(0, input.amortissementsDeduits));
+
   const prixAcquisitionCorrige = toCents(
-    prixAcquisition.plus(fraisAcquisitionRetenus).plus(travauxRetenus)
+    Decimal.max(
+      0,
+      prixAcquisition.plus(fraisAcquisitionRetenus).plus(travauxRetenus).minus(amortissementsReintegres)
+    )
   );
   const plusValueBrute = toCents(prixCession.minus(prixAcquisitionCorrige));
 
@@ -167,10 +188,13 @@ export function computePlusValue(input: PlusValueInput): PlusValueOutcome {
         motifExoneration:
           "Exonération totale au titre de la résidence principale (article 150 U II-1° du CGI).",
         anneesDetention: input.anneesDetention,
+        natureBien: input.natureBien,
+        typeLocation,
         prixAcquisition,
         fraisAcquisitionRetenus,
         travauxRetenus,
         forfaitTravauxNonEligible,
+        amortissementsReintegres: new Decimal(0),
         prixAcquisitionCorrige,
         prixCession,
         plusValueBrute,
@@ -196,10 +220,13 @@ export function computePlusValue(input: PlusValueInput): PlusValueOutcome {
         motifExoneration:
           "Exonération totale lorsque le prix de cession est inférieur ou égal à 15 000 € (article 150 U II-6° du CGI).",
         anneesDetention: input.anneesDetention,
+        natureBien: input.natureBien,
+        typeLocation,
         prixAcquisition,
         fraisAcquisitionRetenus,
         travauxRetenus,
         forfaitTravauxNonEligible,
+        amortissementsReintegres,
         prixAcquisitionCorrige,
         prixCession,
         plusValueBrute,
@@ -223,12 +250,15 @@ export function computePlusValue(input: PlusValueInput): PlusValueOutcome {
       result: {
         exonere: true,
         motifExoneration:
-          "Aucune plus-value imposable : le prix de vente est inférieur ou égal au prix d'acquisition majoré des frais et travaux.",
+          "Aucune plus-value imposable : le prix de vente est inférieur ou égal au prix d'acquisition corrigé des frais, travaux et amortissements.",
         anneesDetention: input.anneesDetention,
+        natureBien: input.natureBien,
+        typeLocation,
         prixAcquisition,
         fraisAcquisitionRetenus,
         travauxRetenus,
         forfaitTravauxNonEligible,
+        amortissementsReintegres,
         prixAcquisitionCorrige,
         prixCession,
         plusValueBrute,
@@ -246,33 +276,33 @@ export function computePlusValue(input: PlusValueInput): PlusValueOutcome {
     };
   }
 
-  const plusValueNetteIr = toCents(
-    plusValueBrute.times(new Decimal(100).minus(tauxAbattementIr).dividedBy(100))
-  );
-  const plusValueNettePs = toCents(
-    plusValueBrute.times(new Decimal(100).minus(tauxAbattementPs).dividedBy(100))
-  );
+  // Abattements pour durée de détention
+  const ratioIr = Decimal.max(0, new Decimal(1).minus(tauxAbattementIr.dividedBy(100)));
+  const ratioPs = Decimal.max(0, new Decimal(1).minus(tauxAbattementPs.dividedBy(100)));
+
+  const plusValueNetteIr = toCents(plusValueBrute.times(ratioIr));
+  const plusValueNettePs = toCents(plusValueBrute.times(ratioPs));
 
   const impotRevenu = toCents(plusValueNetteIr.times("0.19"));
   const prelevementsSociaux = toCents(plusValueNettePs.times("0.172"));
   const surtaxe = computeSurtaxePlusValue(plusValueNetteIr);
+
   const impotTotal = toCents(impotRevenu.plus(prelevementsSociaux).plus(surtaxe));
   const netVendeurApresImpot = toCents(prixCession.minus(impotTotal));
-
-  const exonere30Ans = input.anneesDetention >= 30;
 
   return {
     ok: true,
     result: {
-      exonere: exonere30Ans,
-      motifExoneration: exonere30Ans
-        ? "Exonération totale d'impôt sur le revenu (dès 22 ans) et de prélèvements sociaux (dès 30 ans)."
-        : null,
+      exonere: false,
+      motifExoneration: null,
       anneesDetention: input.anneesDetention,
+      natureBien: input.natureBien,
+      typeLocation,
       prixAcquisition,
       fraisAcquisitionRetenus,
       travauxRetenus,
       forfaitTravauxNonEligible,
+      amortissementsReintegres,
       prixAcquisitionCorrige,
       prixCession,
       plusValueBrute,

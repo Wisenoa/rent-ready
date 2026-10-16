@@ -10,6 +10,7 @@ import {
   type ModeFraisAcquisition,
   type ModeTravauxPlusValue,
   type NatureBienPlusValue,
+  type TypeLocationPlusValue,
 } from "@/lib/tools/plus-value";
 import { formatPercent } from "@/lib/tools/rendement-locatif";
 import { CopyButton } from "@/components/marketing/tools/CopyButton";
@@ -45,8 +46,28 @@ const ANNEES_OPTIONS = Array.from({ length: 35 }, (_, idx) => ({
             : `${idx} années pleines révolues`,
 }));
 
+const TYPE_LOCATION_CHOICES: { value: TypeLocationPlusValue; label: string; description: string }[] = [
+  {
+    value: "location-nue-ou-autre",
+    label: "Location nue classique / Résidence secondaire",
+    description: "Aucun amortissement déduit durant la détention",
+  },
+  {
+    value: "lmnp-reel",
+    label: "Location meublée LMNP (régime réel)",
+    description: "Réintégration des amortissements déduits (Loi de finances art. 150 VB)",
+  },
+  {
+    value: "jeanbrun",
+    label: "Statut du bailleur privé (Jeanbrun)",
+    description: "Réintégration des amortissements pratiqués sur les revenus fonciers",
+  },
+];
+
 export function PlusValueClient() {
   const [natureBien, setNatureBien] = useState<NatureBienPlusValue>("locatif-secondaire");
+  const [typeLocation, setTypeLocation] = useState<TypeLocationPlusValue>("location-nue-ou-autre");
+  const [amortissementsInput, setAmortissementsInput] = useState("0");
   const [prixAcquisitionInput, setPrixAcquisitionInput] = useState("190000");
   const [prixCessionInput, setPrixCessionInput] = useState("275000");
   const [anneesDetention, setAnneesDetention] = useState("11");
@@ -73,6 +94,10 @@ export function PlusValueClient() {
     modeTravaux === "reel"
       ? parseAmount(travauxReelsInput, 15_000_000)
       : { ok: true as const, value: new Decimal(0) };
+  const pAmortissements =
+    typeLocation !== "location-nue-ou-autre" && amortissementsInput.trim() !== ""
+      ? parseAmount(amortissementsInput, 50_000_000)
+      : { ok: true as const, value: new Decimal(0) };
 
   const achatErr = !pAchat.ok
     ? AMOUNT_ERROR_MESSAGES[pAchat.error]
@@ -86,11 +111,14 @@ export function PlusValueClient() {
       : null;
   const fraisErr = modeFrais === "reel" && !pFraisReels.ok ? AMOUNT_ERROR_MESSAGES[pFraisReels.error] : null;
   const travauxErr = modeTravaux === "reel" && !pTravauxReels.ok ? AMOUNT_ERROR_MESSAGES[pTravauxReels.error] : null;
+  const amortErr = typeLocation !== "location-nue-ou-autre" && !pAmortissements.ok ? AMOUNT_ERROR_MESSAGES[pAmortissements.error] : null;
 
   const outcome =
-    !achatErr && !venteErr && !fraisErr && !travauxErr && pAchat.ok && pVente.ok && pFraisReels.ok && pTravauxReels.ok
+    !achatErr && !venteErr && !fraisErr && !travauxErr && !amortErr && pAchat.ok && pVente.ok && pFraisReels.ok && pTravauxReels.ok && pAmortissements.ok
       ? computePlusValue({
           natureBien,
+          typeLocation,
+          amortissementsDeduits: pAmortissements.value,
           prixAcquisition: pAchat.value,
           prixCession: pVente.value,
           anneesDetention: Number(anneesDetention),
@@ -110,7 +138,7 @@ export function PlusValueClient() {
           <ToolStep
             step={1}
             title="Nature du bien et prix d'acquisition / cession"
-            description="Les biens locatifs et résidences secondaires relèvent du régime des plus-values des particuliers (articles 150 U à 150 VH du CGI). La résidence principale est exonérée."
+            description="Les biens locatifs et résidences secondaires relèvent du régime des plus-values des particuliers (articles 150 U à 150 VH du CGI). La résidence principale est totalement exonérée."
           >
             <ChoiceGroup
               name="nature-bien-pv"
@@ -120,7 +148,7 @@ export function PlusValueClient() {
               choices={[
                 {
                   value: "locatif-secondaire",
-                  label: "Investissement locatif / secondaire",
+                  label: "Investissement locatif / résidence secondaire",
                   description: "Soumis au barème d'abattement (22 / 30 ans)",
                 },
                 {
@@ -130,6 +158,29 @@ export function PlusValueClient() {
                 },
               ]}
             />
+
+            {natureBien === "locatif-secondaire" ? (
+              <ChoiceGroup
+                name="type-location-pv"
+                legend="Régime de location durant la détention"
+                value={typeLocation}
+                onChange={mark(setTypeLocation)}
+                choices={TYPE_LOCATION_CHOICES}
+              />
+            ) : null}
+
+            {natureBien === "locatif-secondaire" && typeLocation !== "location-nue-ou-autre" ? (
+              <AmountField
+                id="pv-amortissements"
+                label={`Total des amortissements déduits en ${typeLocation === "lmnp-reel" ? "LMNP réel" : "statut Jeanbrun"}`}
+                value={amortissementsInput}
+                onChange={mark(setAmortissementsInput)}
+                placeholder="Ex. 35000"
+                suffix="€"
+                error={amortErr}
+                hint="En application de la loi de finances (art. 150 VB modifié), les amortissements déduits viennent minorer le prix d'achat retenu pour le calcul de la plus-value."
+              />
+            ) : null}
 
             <div className="grid gap-4 sm:grid-cols-2">
               <AmountField
@@ -291,9 +342,33 @@ export function PlusValueClient() {
               <ResultRows
                 rows={[
                   {
-                    label: "Prix d'acquisition corrigé",
-                    detail: `${formatEuros(res.prixAcquisition)} + ${formatEuros(res.fraisAcquisitionRetenus)} (frais) + ${formatEuros(res.travauxRetenus)} (travaux)`,
+                    label: "Prix d'acquisition initial",
+                    value: formatEuros(res.prixAcquisition),
+                  },
+                  {
+                    label: "Frais d'acquisition retenus",
+                    detail: `${formatEuros(res.fraisAcquisitionRetenus)} (forfait 7,5 % ou réel)`,
+                    value: `+${formatEuros(res.fraisAcquisitionRetenus)}`,
+                  },
+                  {
+                    label: "Dépenses de travaux retenues",
+                    detail: `${formatEuros(res.travauxRetenus)} (forfait 15 % ou réel)`,
+                    value: `+${formatEuros(res.travauxRetenus)}`,
+                  },
+                  ...(res.amortissementsReintegres.greaterThan(0)
+                    ? [
+                        {
+                          label: "Amortissements réintégrés (loi de finances)",
+                          detail: "Déduits du prix d'acquisition retenu (art. 150 VB modifié)",
+                          value: `−${formatEuros(res.amortissementsReintegres)}`,
+                          strong: true,
+                        },
+                      ]
+                    : []),
+                  {
+                    label: "Prix d'acquisition corrigé retenu",
                     value: formatEuros(res.prixAcquisitionCorrige),
+                    strong: true,
                   },
                   {
                     label: "Plus-value brute",

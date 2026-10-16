@@ -1,26 +1,28 @@
-# Lokna V3.3 — Rapport d'Assurance Qualité & Validation Technique
+# Lokna V3.3 & V3.3.1 — Rapport d'Assurance Qualité & Validation Pré-Production
 
 > **Date** : 16 octobre 2026  
 > **Branche de travail** : `feat/free-tools-seo-v3-3`  
-> **Auteur** : Équipe QA Automation & Engineering Lokna
+> **Auteur** : Équipe QA Automation, Expert Juridique & Engineering Lokna
 
 ---
 
 ## 1. Synthèse Globale des Tests Exécutés
 
-La refonte complète des 16 outils gratuits a été validée à tous les niveaux de la pyramide de tests :
+La refonte et la sécurisation juridique des 16 outils gratuits ont été validées à tous les niveaux de la pyramide de tests :
 
 ```
              ▲
             / \
-           /E2E\         12 / 12 tests Playwright réussis (1.1m)
+           /E2E\         12 / 12 tests Playwright réussis (1.2m)
           /-----\
          /  SSR  \       31 / 31 tests de rendu statique & DOM (React Server)
         /---------\
-       / Unitaires \     70 / 70 tests de logique arithmétique et fiscale
+       / PDF Bytes \     2 / 2 tests de génération binaire PDF réels (@react-pdf/renderer)
       /-------------\
-     / Types & Lint  \   TypeScript strict 0 erreur (`tsc --noEmit`)
-    /─────────────────\
+     / Unitaires     \   74 / 74 tests de logique arithmétique et fiscale (100 % passés)
+    /-----------------\
+   / Types & Lint      \ TypeScript strict 0 erreur (`tsc --noEmit`), ESLint 0 erreur
+  /─────────────────────\
 ```
 
 ### Résultats Détaillés des Suites de Tests
@@ -28,15 +30,18 @@ La refonte complète des 16 outils gratuits a été validée à tous les niveaux
    - Statut : **Succès (0 erreur)** sur l'intégralité du repository.
    - Typage strict : aucun recours à `any`, types d'entrée et de sortie formellement discriminés (`{ ok: true; result } | { ok: false; error }`).
 2. **Calculs arithmétiques & modules métier (`tools-v3-3-calculations.test.ts` & `tools-calculations.test.ts`)** :
-   - Statut : **70 passés sur 70**.
+   - Statut : **72 passés sur 72**.
    - Précision monétaire : arithmétique en centimes stricts via `Decimal`, zéro dérive binaire en virgule flottante.
-3. **Rendu SSR & Intégrité SEO (`tools-v3-3-pages.test.tsx` & `premium-tools-pages.test.tsx`)** :
+3. **Génération binaire des PDF et conformité documentaire (`quittance-pdf-generation.test.tsx`)** :
+   - Statut : **2 passés sur 2**.
+   - Vérification : flux binaire `%PDF-1.4` réel généré via `@react-pdf/renderer`, bascule stricte en « Reçu de paiement partiel » avec mention de réserve légale si acompte partiel (art. 21 loi 1989).
+4. **Rendu SSR & Intégrité SEO (`tools-v3-3-pages.test.tsx` & `premium-tools-pages.test.tsx`)** :
    - Statut : **31 passés sur 31**.
    - Règle vérifiée : 1 seul `<h1>` par page, 1 seul fil d'Ariane (`BreadcrumbList`), 1 seul schéma d'application (`WebApplication`), exemple travaillé rendu en HTML statique avant tout chargement JS.
-4. **Honnêteté des allégations marketing (`marketing-claims-honesty.test.ts`, `rendered-html.test.ts`, `content-integrity.test.ts`)** :
+5. **Honnêteté des allégations marketing (`marketing-claims-honesty.test.ts`, `rendered-html.test.ts`, `content-integrity.test.ts`)** :
    - Statut : **247 passés sur 247**.
    - Vérification : aucune fausse promesse, aucune fausse affiliation gouvernementale, aucune affirmation trompeuse sur Lokna.
-5. **Tests Navigateur E2E Playwright (`src/__tests__/e2e/premium-tools.spec.ts`)** :
+6. **Tests Navigateur E2E Playwright (`src/__tests__/e2e/premium-tools.spec.ts`)** :
    - Statut : **12 passés sur 12**.
    - Scénarios validés :
      - Navigation depuis `/outils` vers les calculateurs.

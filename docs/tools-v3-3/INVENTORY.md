@@ -168,32 +168,39 @@ Lokna propose désormais un ensemble de **16 outils gratuits et sans inscription
   - Génération du tableau d'amortissement année par année (capital remboursé, intérêts, assurance, capital restant dû).
 
 ### 14. Plus-value immobilière (`/outils/calculateur-plus-value`)
-- **Fonction principale** : Estimation de la plus-value nette imposable et des impôts (IR 19 %, PS 17,2 %, surtaxe) après abattements pour durée de détention.
-- **Intention** : *« calcul plus value immobilière », « abattement durée détention plus value », « impôt vente résidence secondaire »*.
-- **Cible** : Propriétaire bailleur envisageant l'arbitrage ou la vente d'un bien locatif.
-- **Refonte V3.3** :
+- **Fonction principale** : Estimation de la plus-value nette imposable et des impôts (IR 19 %, PS 17,2 %, surtaxe) après abattements pour durée de détention et réintégration éventuelle des amortissements.
+- **Intention** : *« calcul plus value immobilière », « abattement durée détention plus value », « impôt vente résidence secondaire », « revente lmnp amortissement »*.
+- **Cible** : Propriétaire bailleur envisageant l'arbitrage ou la vente d'un bien locatif nu ou meublé.
+- **Refonte V3.3 & Sécurisation V3.3.1** :
   - Module `src/lib/tools/plus-value.ts`.
   - Barèmes officiels des articles 150 VB et 150 VC du CGI (forfait frais acquisition 7,5 %, forfait travaux 15 % dès 5 ans).
   - Abattements progressifs distincts : exonération d'IR à 22 ans, exonération de prélèvements sociaux à 30 ans.
   - Barème de la taxe sur les plus-values élevées (> 50 000 € net IR) avec lissage (art. 1609 nonies G CGI).
+  - **Prise en compte de la réforme fiscale 2025/2026 (art. 150 VB modifié)** : intégration de la réintégration des amortissements déduits en LMNP réel ou en statut du bailleur privé venant minorer le prix d'acquisition corrigé et majorer la plus-value brute soumise au barème des particuliers.
 
 ### 15. Fiscalité LMNP (`/outils/simulateur-fiscalite-lmnp`)
 - **Fonction principale** : Comparatif d'imposition entre Micro-BIC (50 %) et Régime Réel Simplifié avec plafonnement de l'amortissement (art. 39 C CGI).
 - **Intention** : *« simulateur fiscalité lmnp », « lmnp réel ou micro bic », « calcul amortissement lmnp »*.
 - **Cible** : Propriétaire loueur en meublé non professionnel.
-- **Refonte V3.3** :
+- **Refonte V3.3 & Sécurisation V3.3.1** :
   - Module `src/lib/tools/fiscalite-lmnp.ts`.
   - **Correction fiscale majeure** : application des prélèvements sociaux (17,2 %) sur la base nette après amortissement (et non sur le brut).
   - Application stricte de la règle de l'article 39 C : l'amortissement ne peut créer de déficit BIC ; l'excédent est ventilé en réserve d'amortissement reportable sans limitation de durée.
+  - **Avertissement fiscal sur la revente** : mention explicite de la réintégration des amortissements en LMNP réel lors de la cession (art. 150 VB modifié du CGI) avec lien direct vers le calculateur de plus-value immobilière.
 
 ### 16. Simulateur loi Jeanbrun (`/outils/simulateur-loi-jeanbrun`)
-- **Fonction principale** : Simulation comparative d'un amortissement dégressif sur 9 ans (5,5 % / 4,5 % / 3,5 %) face au Micro-BIC et au LMNP classique.
-- **Intention** : *« simulateur loi jeanbrun », « statut bailleur privé amortissement », « jeanbrun vs lmnp »*.
-- **Cible** : Propriétaire bailleur suivant les évolutions législatives pour l'investissement locatif nu.
-- **Refonte V3.3** :
+- **Fonction principale** : Simulation du Statut du Bailleur Privé (amortissement sur 9 ans en location nue selon conventionnement de loyer, comparaison avec le régime foncier réel classique et le micro-foncier).
+- **Intention** : *« simulateur loi jeanbrun », « statut bailleur privé amortissement », « jeanbrun revenus fonciers »*.
+- **Cible** : Propriétaire bailleur envisageant un investissement locatif nu neuf (VEFA) ou ancien avec rénovation lourde (≥ 30 % du coût total).
+- **Refonte V3.3 & Sécurisation V3.3.1** :
   - Module `src/lib/tools/loi-jeanbrun.ts`.
-  - Mention expresse du caractère prospectif / indicatif du barème pour respecter scrupuleusement la règle d'honnêteté marketing (aucune affirmation infondée sur une loi non promulguée).
-  - Comparatif chiffré sur 9 ans avec économie d'impôt réelle.
+  - **Fondement législatif vérifié** : loi n° 2026-103 du 19 février 2026 de finances pour 2026.
+  - **Régime fiscal** : location nue en **revenus fonciers** (et non meublé BIC).
+  - **Base amortissable** : 80 % du prix d'acquisition (exclusion forfaitaire de la part terrain de 20 %).
+  - **3 secteurs de loyer conventionné** : intermédiaire (3,5 %/an), social (4,5 %/an, décote loyer ~15 %), très social (5,5 %/an, décote loyer ~30 %).
+  - **Règles de déficit foncier** : imputation sur le revenu global plafonnée à 10 700 €/an, excédent reportable 10 ans sur les revenus fonciers.
+  - **Comparatif direct** : confrontation sur 9 ans avec le régime réel classique et le micro-foncier (abattement 30 %).
+  - **Avertissement de sortie** : mention expresse de la reprise des amortissements dans la plus-value immobilière lors de la revente ultérieure.
 
 ---
 

@@ -358,6 +358,28 @@ describe("plus-value immobilière (art. 150 U à 150 VH du CGI)", () => {
     expect(computeSurtaxePlusValue(d("50000")).toFixed(2)).toBe("0.00");
     expect(computeSurtaxePlusValue(d("80000")).toFixed(2)).toBe("1600.00");
   });
+
+  it("integrates LMNP amortization recapture under reformed art. 150 VB CGI (reducing acquisition cost)", () => {
+    // Normal sale: 200k purchase + 7.5% fees (15k) + 15% works (30k) = 245k cost. Resale 280k -> 35k gain.
+    // LMNP réel with 40k deducted amortizations: corrected cost reduced by 40k -> 205k cost. Resale 280k -> 75k gain!
+    const outLmnp = computePlusValue({
+      natureBien: "locatif-secondaire",
+      typeLocation: "lmnp-reel",
+      prixAcquisition: d("200000"),
+      prixCession: d("280000"),
+      anneesDetention: 10,
+      modeFraisAcquisition: "forfait-7-5",
+      fraisAcquisitionReels: d(0),
+      modeTravaux: "forfait-15",
+      travauxReels: d(0),
+      amortissementsDeduits: d("40000"),
+    });
+    expect(outLmnp.ok).toBe(true);
+    if (!outLmnp.ok) return;
+    expect(outLmnp.result.amortissementsReintegres.toFixed(2)).toBe("40000.00");
+    expect(outLmnp.result.prixAcquisitionCorrige.toFixed(2)).toBe("205000.00");
+    expect(outLmnp.result.plusValueBrute.toFixed(2)).toBe("75000.00");
+  });
 });
 
 describe("fiscalite-lmnp (art. 50-0 & art. 39 C du CGI)", () => {
@@ -388,21 +410,65 @@ describe("fiscalite-lmnp (art. 50-0 & art. 39 C du CGI)", () => {
   });
 });
 
-describe("loi-jeanbrun (amortissement dégressif 9 ans vs Micro-BIC & LMNP)", () => {
-  it("computes the 80% amortizable base and 9-year schedule (5.5% / 4.5% / 3.5%)", () => {
-    const out = computeLoiJeanbrun({
+describe("loi-jeanbrun (Statut du bailleur privé - loi de finances 2026)", () => {
+  it("computes the 80% amortizable base and annual amortization by sector (3.5% / 4.5% / 5.5%)", () => {
+    const outIntermediaire = computeLoiJeanbrun({
       prixAcquisition: d("220000"),
       loyerMensuelHc: d("900"),
       chargesAnnuellesDeductibles: d("1800"),
+      secteur: "intermediaire",
+      tmi: 30,
+    });
+    expect(outIntermediaire.ok).toBe(true);
+    if (!outIntermediaire.ok) return;
+    expect(outIntermediaire.result.baseAmortissable80Pct.toFixed(2)).toBe("176000.00");
+    expect(outIntermediaire.result.tauxAmortissementAnnuelPct).toBe(3.5);
+    expect(outIntermediaire.result.amortissementAnnuel.toFixed(2)).toBe("6160.00");
+    expect(outIntermediaire.result.amortissementTotal9Ans.toFixed(2)).toBe("55440.00");
+    expect(outIntermediaire.result.echeancier9Ans).toHaveLength(9);
+
+    const outSocial = computeLoiJeanbrun({
+      prixAcquisition: d("220000"),
+      loyerMensuelHc: d("765"),
+      chargesAnnuellesDeductibles: d("1800"),
+      secteur: "social",
+      tmi: 30,
+    });
+    expect(outSocial.ok).toBe(true);
+    if (outSocial.ok) {
+      expect(outSocial.result.tauxAmortissementAnnuelPct).toBe(4.5);
+      expect(outSocial.result.amortissementAnnuel.toFixed(2)).toBe("7920.00");
+    }
+
+    const outTresSocial = computeLoiJeanbrun({
+      prixAcquisition: d("220000"),
+      loyerMensuelHc: d("630"),
+      chargesAnnuellesDeductibles: d("1800"),
+      secteur: "tres-social",
+      tmi: 30,
+    });
+    expect(outTresSocial.ok).toBe(true);
+    if (outTresSocial.ok) {
+      expect(outTresSocial.result.tauxAmortissementAnnuelPct).toBe(5.5);
+      expect(outTresSocial.result.amortissementAnnuel.toFixed(2)).toBe("9680.00");
+    }
+  });
+
+  it("handles the 10,700 € global deficit cap and carry-forward", () => {
+    const out = computeLoiJeanbrun({
+      prixAcquisition: d("300000"),
+      loyerMensuelHc: d("500"),
+      chargesAnnuellesDeductibles: d("8000"),
+      interetsEmpruntAnnuels: d("2000"),
+      secteur: "tres-social",
       tmi: 30,
     });
     expect(out.ok).toBe(true);
     if (!out.ok) return;
-    expect(out.result.baseAmortissable80Pct.toFixed(2)).toBe("176000.00");
-    expect(out.result.echeancier9Ans).toHaveLength(9);
-    expect(out.result.echeancier9Ans[0].tauxAmortissementPct).toBe("5,5 %");
-    expect(out.result.echeancier9Ans[3].tauxAmortissementPct).toBe("4,5 %");
-    expect(out.result.echeancier9Ans[6].tauxAmortissementPct).toBe("3,5 %");
+    const yr1 = out.result.echeancier9Ans[0];
+    expect(yr1.resultatFoncier.toFixed(2)).toBe("-17200.00");
+    expect(yr1.deficitImputeRevenuGlobal.toFixed(2)).toBe("10700.00");
+    expect(yr1.deficitReportable.toFixed(2)).toBe("6500.00");
   });
 });
 

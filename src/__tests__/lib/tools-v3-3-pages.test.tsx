@@ -93,7 +93,7 @@ const PAGES = [
   {
     slug: "/outils/simulateur-loi-jeanbrun",
     Component: LoiJeanbrunPage,
-    expectedH1: "Simulateur loi Jeanbrun : amortissement dégressif sur 9 ans vs LMNP",
+    expectedH1: "Simulateur loi Jeanbrun : statut du bailleur privé (amortissement sur 9 ans)",
     expectedSnippet: "5,5 %",
   },
   {

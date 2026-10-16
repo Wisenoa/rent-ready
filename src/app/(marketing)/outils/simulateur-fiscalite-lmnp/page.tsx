@@ -176,6 +176,11 @@ export default function SimulateurLmnpPage() {
                 valeur du bâti (hors terrain) et du mobilier. Dès que vos charges et amortissements dépassent 50 % de vos
                 recettes, le régime réel devient mathématiquement plus avantageux que le Micro-BIC.
               </p>
+              <h3>3. Impact à la revente : la réforme de la plus-value LMNP</h3>
+              <p>
+                <strong>Attention à la revente :</strong> En application de la loi de finances (article 150 VB du CGI), les cessions intervenues depuis le 15 février 2025 et en 2026 intègrent désormais les amortissements déduits durant la location dans l&apos;assiette de la plus-value des particuliers. Le prix d&apos;acquisition retenu est minoré du total des amortissements pratiqués, ce qui majore d&apos;autant la plus-value brute. Utilisez notre{" "}
+                <Link href="/outils/calculateur-plus-value">calculateur de plus-value immobilière</Link> pour chiffrer l&apos;impôt exact en fin d&apos;opération.
+              </p>
               <p>
                 Pour évaluer la performance globale de votre opération avant impôt, utilisez notre{" "}
                 <Link href="/outils/calculateur-rendement">calculateur de rentabilité locative</Link>, et pour préparer le contrat
