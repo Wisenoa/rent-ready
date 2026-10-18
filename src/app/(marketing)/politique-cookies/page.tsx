@@ -1,3 +1,4 @@
+import { CookieSettingsButton } from "@/components/cookie-consent";
 import type { Metadata } from "next";
 import { baseMetadata } from "@/lib/seo/metadata";
 import { SITE_NAME, SITE_URL } from "@/data/entity";
@@ -89,7 +90,7 @@ export default function PolitiqueCookiesPage() {
           Politique de Cookies
         </h1>
         <p className="mt-4 text-sm text-stone-600">
-          Derniere mise a jour : mars 2026
+          Dernière mise à jour : 18 octobre 2026
         </p>
 
         <div className="mt-10 space-y-10 text-[15px] leading-relaxed text-stone-600 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-stone-900 [&_h2]:mb-3">
@@ -107,9 +108,10 @@ export default function PolitiqueCookiesPage() {
           <section>
             <h2>2. Cookies utilises sur Lokna</h2>
             <p>
-              Nous utilisons uniquement des cookies strictement necessaires au
-              fonctionnement du service. Aucun cookie publicitaire, de
-              tracage ou d&apos;analyse tiers n&apos;est depose.
+              Les cookies nécessaires assurent la connexion et les préférences. Avec votre accord,
+              une mesure interne enregistre les pages publiques, l’usage des outils et les étapes
+              réussies du parcours produit. Aucun montant de calcul, nom, adresse, email,
+              paramètre d’URL, adresse IP ou token n’est inclus dans ces événements de mesure.
             </p>
 
             <h3 className="mt-4 text-base font-medium text-stone-700">
@@ -132,7 +134,7 @@ export default function PolitiqueCookiesPage() {
                     Maintien de votre session d&apos;authentification. Essentiel
                     pour vous connecter a votre espace bailleur.
                   </td>
-                  <td className="py-2">Session</td>
+                  <td className="py-2">7 jours, avec renouvellement de session</td>
                 </tr>
                 <tr>
                   <td className="py-2 font-mono text-xs text-stone-600">
@@ -150,6 +152,12 @@ export default function PolitiqueCookiesPage() {
 
           <section>
             <h2>3. Consentement et refus des cookies</h2>
+            <p>La mesure d’usage est facultative et inactive avant acceptation. Le choix est
+            conservé pendant six mois. Si vous cliquez vers l’inscription depuis un outil après
+            avoir accepté, le cookie lokna_source_tool mémorise uniquement le nom de cet outil
+            pendant 30 jours. Les événements produit sont rattachés au compte pour mesurer son activation.
+            Le refus ne bloque aucune fonctionnalité.</p>
+            <p className="mt-3"><CookieSettingsButton /></p>
             <p>
               Conformement a la reglementation francaise et europeenne (RGPD,
               Directive ePrivacy), les cookies strictement necessaires ne
@@ -221,8 +229,7 @@ export default function PolitiqueCookiesPage() {
           <section>
             <h2>5. Traceurs autres que les cookies</h2>
             <p>
-              Nous n&apos;utilisons pas de technologies de tracage autres que les
-              cookies strictement necessaires. Nous n&apos;utilisons pas d&apos;empreinte
+              Le choix de consentement est également mémorisé dans le stockage local du navigateur. Nous n&apos;utilisons pas d&apos;empreinte
               digitale (fingerprinting), de pixels espions ni de scripts de
               suivi tiers.
             </p>

@@ -1,3 +1,4 @@
+import { hasAnalyticsConsent } from '@/lib/analytics/client';
 import { onCLS, onFCP, onLCP, onTTFB, onINP } from 'web-vitals';
 import { track } from '@vercel/analytics/react';
 
@@ -26,6 +27,8 @@ function sendToAnalytics(metric: {
     );
     return;
   }
+
+  if (!process.env.NEXT_PUBLIC_VERCEL_ENV || !hasAnalyticsConsent()) return;
 
   // In production: send to Vercel Analytics as a custom event
   // Vercel Analytics automatically bins these into the CWV dashboard,

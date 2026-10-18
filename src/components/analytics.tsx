@@ -1,61 +1,59 @@
 'use client';
 
 import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-
-declare global {
-  interface Window {
-    /**
-     * Plausible injects this function via its script tag. It is optional at
-     * runtime — the component guards for it — so the type reflects that.
-     */
-    plausible?: (
-      event: string,
-      options?: { props?: Record<string, string | number | boolean> }
-    ) => void;
-  }
-}
-
-function getUtmParams(): {
-  utm_source?: string;
-  utm_medium?: string;
-  utm_campaign?: string;
-} {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
-  return {
-    utm_source: params.get("utm_source") ?? undefined,
-    utm_medium: params.get("utm_medium") ?? undefined,
-    utm_campaign: params.get("utm_campaign") ?? undefined,
-  };
-}
+import { usePathname } from "next/navigation";
+import { analyticsConsentMaxAge, hasAnalyticsConsent, trackBrowserEvent } from "@/lib/analytics/client";
+import { toolSlugSchema } from "@/lib/analytics/privacy";
 
 export function Analytics() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   useEffect(() => {
-    const path = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
-    const referrer = document.referrer;
-    const utms = getUtmParams();
-
-    // 1. Custom internal pageview log (used for SEO and custom analytics pipeline)
-    fetch("/api/analytics/page-view", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ path, referrer, ...utms }),
-    }).catch(() => {
-      // Silently ignore failures
-    });
-
-    // 2. Plausible Analytics — privacy-first marketing site analytics
-    // Plausible is GDPR-compliant and does NOT require cookie consent.
-    // It tracks: unique visitors, pageviews, referrers, UTM params, and custom events.
-    // The script is loaded via <head> in the marketing layout.
-    if (typeof window !== "undefined" && window.plausible) {
-      window.plausible("pageview", { props: utms });
-    }
-  }, [pathname, searchParams]);
-
+    const tool = toolSlugSchema.safeParse(pathname?.replace(/^\/outils\//, ""));
+    let viewed = false;
+    let started = false;
+    let completed = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const view = () => {
+      // Navigation must never restart the consent lifetime on the server.
+      const maxAge = analyticsConsentMaxAge();
+      document.cookie = `lokna_cookie_consent=${maxAge > 0 ? "accepted" : "rejected"}; Path=/; SameSite=Lax; Max-Age=${maxAge}`;
+      if (maxAge === 0) document.cookie = "lokna_source_tool=; Path=/; SameSite=Lax; Max-Age=0";
+      if (!viewed && hasAnalyticsConsent()) {
+        viewed = true;
+        trackBrowserEvent("pageview");
+        if (tool.success) trackBrowserEvent("tool_viewed", tool.data);
+      }
+    };
+    view();
+    const interact = (event: Event) => {
+      if (!tool.success || !hasAnalyticsConsent() || !(event.target instanceof Element) || !event.target.closest("form")) return;
+      if (!started) { started = true; trackBrowserEvent("tool_started", tool.data); }
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (!completed && document.querySelector('[data-tool-result="ready"]') && !document.querySelector('[aria-invalid="true"]')) {
+          completed = true; trackBrowserEvent("tool_completed", tool.data);
+        }
+      }, 600);
+    };
+    const click = (event: MouseEvent) => {
+      if (!tool.success || !(event.target instanceof Element)) return;
+      const link = event.target.closest('a[href^="/register"]');
+      if (link && hasAnalyticsConsent()) {
+        document.cookie = `lokna_source_tool=${tool.data}; Path=/; SameSite=Lax; Max-Age=2592000`;
+        trackBrowserEvent("tool_cta_clicked", tool.data);
+      }
+    };
+    window.addEventListener("lokna-consent-change", view);
+    document.addEventListener("input", interact);
+    document.addEventListener("change", interact);
+    document.addEventListener("click", click);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("lokna-consent-change", view);
+      document.removeEventListener("input", interact);
+      document.removeEventListener("change", interact);
+      document.removeEventListener("click", click);
+    };
+  }, [pathname]);
   return null;
 }

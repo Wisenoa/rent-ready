@@ -1,65 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthenticatedUserId } from "@/lib/auth";
+import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
+import { z } from "zod";
 
-// ========================================
-// Onboarding Analytics Event Tracking
-// ========================================
-// Records onboarding step completions, skips, and drop-offs.
-// All events are stored in AuditLog with entityType ONBOARDING.
+const payloadSchema = z.object({
+  event: z.enum(["onboarding_started", "onboarding_step_1_completed", "onboarding_step_1_skipped", "onboarding_step_2_completed", "onboarding_step_2_skipped", "onboarding_lease_completed", "onboarding_completed", "onboarding_abandoned"]),
+  metadata: z.object({
+    variant: z.enum(["A", "B", "C"]).optional(),
+    step: z.number().int().min(1).max(4).optional(),
+    duration_seconds: z.number().int().min(0).max(86400).optional(),
+    propertySkipped: z.boolean().optional(), tenantSkipped: z.boolean().optional(),
+  }).default({}),
+});
 
 export async function POST(req: NextRequest) {
-  const userId = await getAuthenticatedUserId();
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const body = await req.json();
-  const { event, metadata } = body;
-
-  if (!event || typeof event !== "string") {
-    return NextResponse.json({ error: "event is required" }, { status: 400 });
-  }
-
-  // Map onboarding event to a meaningful entityId for tracking
-  const entityIdMap: Record<string, string> = {
-    onboarding_started: "wizard_opened",
-    onboarding_step_1_completed: `property:${metadata?.propertyId ?? "unknown"}`,
-    onboarding_step_1_skipped: "property_skipped",
-    onboarding_step_2_completed: `tenant:${metadata?.tenantId ?? "unknown"}`,
-    onboarding_step_2_skipped: "tenant_skipped",
-    onboarding_lease_completed: `lease:${metadata?.propertyId ?? "unknown"}:${metadata?.tenantId ?? "unknown"}`,
-    onboarding_completed: "wizard_completed",
-    onboarding_abandoned: `abandoned_step_${metadata?.step ?? "unknown"}`,
-  };
-
-  const entityId = entityIdMap[event] ?? event;
-
-  // Infer drop-off: if wizard_completed never fires, last seen step = drop-off
-  // Server-side we just log the event; funnel analysis is done in queries.
-
+  if (req.cookies.get("lokna_cookie_consent")?.value !== "accepted") return new NextResponse(null, { status: 204 });
   try {
-    await prisma.auditLog.create({
-      data: {
-        userId,
-        entityType: "ONBOARDING",
-        entityId,
-        action: "CREATE", // reusing enum — here means "event logged"
-        changes: {
-          event,
-          metadata,
-          userAgent: req.headers.get("user-agent"),
-          timestamp: new Date().toISOString(),
-        },
-      },
-    });
-
-    return NextResponse.json({ ok: true }, { status: 200 });
-  } catch (err) {
-    console.error("[onboarding/track]", err);
-    return NextResponse.json(
-      { error: "Failed to track event" },
-      { status: 500 }
-    );
+    const session = await auth.api.getSession({ headers: req.headers });
+    if (!session?.user?.id) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+    const parsed = payloadSchema.safeParse(await req.json().catch(() => null));
+    if (!parsed.success) return NextResponse.json({ error: "Événement invalide" }, { status: 400 });
+    await prisma.auditLog.create({ data: {
+      userId: session.user.id, entityType: "ONBOARDING", entityId: parsed.data.event,
+      action: "CREATE", changes: parsed.data,
+    } });
+    return NextResponse.json({ ok: true });
+  } catch {
+    console.error("[onboarding/track] event persistence failed");
+    return NextResponse.json({ error: "Mesure indisponible" }, { status: 500 });
   }
 }

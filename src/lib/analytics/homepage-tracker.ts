@@ -1,8 +1,9 @@
+import { trackBrowserEvent } from "./client";
 /**
  * Homepage Conversion & Interaction Event Tracker.
  *
  * Privacy-first: strictly zero PII, zero banking details, zero sensitive attributes.
- * Dispatches to window.plausible (GDPR cookie-exempt) and non-blocking beacon logger.
+ * Uses the shared consent-gated, sanitized internal collector.
  */
 
 export type HomepageEvent =
@@ -15,29 +16,5 @@ export type HomepageEvent =
   | { name: "homepage_final_cta_click"; properties?: { position?: string } };
 
 export function trackHomepageEvent(event: HomepageEvent) {
-  if (typeof window === "undefined") return;
-
-  // 1. Plausible Analytics custom event
-  if (window.plausible) {
-    try {
-      window.plausible(event.name, { props: event.properties as Record<string, string | number | boolean> });
-    } catch {
-      // Ignore analytics dispatch failure
-    }
-  }
-
-  // 2. Non-blocking beacon for local observability
-  try {
-    if (navigator.sendBeacon) {
-      const payload = JSON.stringify({
-        event: event.name,
-        properties: event.properties,
-        timestamp: Date.now(),
-        path: window.location.pathname,
-      });
-      navigator.sendBeacon("/api/analytics/page-view", payload);
-    }
-  } catch {
-    // Fail silently
-  }
+  trackBrowserEvent(event.name);
 }

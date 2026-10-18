@@ -1,4 +1,5 @@
 "use client";
+import { hasAnalyticsConsent } from "@/lib/analytics/client";
 
 import { useState, useTransition, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -125,12 +126,14 @@ function trackEvent(
   event: string,
   metadata: Record<string, string | number | boolean | undefined>
 ) {
+  if (!hasAnalyticsConsent()) return;
   fetch("/api/onboarding/track", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       event,
-      metadata,
+      metadata: Object.fromEntries(Object.entries(metadata).filter(([key]) =>
+        ["step", "duration_seconds", "variant", "propertySkipped", "tenantSkipped"].includes(key))),
       timestamp: new Date().toISOString(),
     }),
   }).catch(() => {

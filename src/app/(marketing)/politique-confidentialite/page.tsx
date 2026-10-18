@@ -101,7 +101,8 @@ export default function PolitiqueConfidentialitePage() {
             social]. Délégué à la protection des données (DPO) :{" "}
             <a href="mailto:dpo@lokna.fr" className="text-forest underline underline-offset-2">dpo@lokna.fr</a>
           </p>
-        </section>
+        <p className="mt-3">Avec votre consentement, notre mesure interne conserve des événements d’usage : outil consulté, interaction, résultat disponible, clic vers l’inscription et étapes produit réussies. Les étapes d’activation sont liées à votre compte. Aucun paramètre de calcul, montant, nom de locataire, adresse de logement, token ou adresse IP n’est transmis dans ces événements. Vous pouvez retirer votre accord depuis la politique de cookies.</p>
+          </section>
 
         <section>
           <h2>2. Données collectées</h2>

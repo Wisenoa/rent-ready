@@ -1,4 +1,5 @@
 "use client";
+import { trackBrowserEvent } from "@/lib/analytics/client";
 
 import { useState } from "react";
 import Decimal from "decimal.js";
@@ -44,6 +45,7 @@ async function downloadQuittancePdf(doc: QuittanceComputed, parties: QuittancePa
   a.download = doc.filename;
   document.body.appendChild(a);
   a.click();
+  trackBrowserEvent("tool_document_downloaded", window.location.pathname.split("/").pop());
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }

@@ -62,7 +62,7 @@ export function ResultFigure({
   muted?: boolean;
 }) {
   return (
-    <div>
+    <div data-tool-result="ready">
       <p className="text-[13.5px] font-medium text-ink-muted">{label}</p>
       <p
         className={`mt-1 text-[2.6rem] font-semibold leading-none tracking-[-0.035em] sm:text-[2.9rem] ${

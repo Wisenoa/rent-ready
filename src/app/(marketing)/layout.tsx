@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 
 /**
  * Marketing pages are ISR, revalidated hourly at the edge.
@@ -21,17 +20,6 @@ import { Suspense } from "react";
  */
 export const revalidate = 3600;
 import { MarketingShell } from "@/components/marketing/site/MarketingShell";
-import { Analytics } from "@/components/analytics";
-
-
-function AnalyticsWrapper() {
-  return (
-    <Suspense fallback={null}>
-      <Analytics />
-    </Suspense>
-  );
-}
-
 export default function MarketingLayout({
   children,
 }: {
@@ -40,8 +28,7 @@ export default function MarketingLayout({
   return (
     <MarketingShell>
       {children}
-      {/* Page view analytics (unchanged scope: marketing pages only). */}
-      <AnalyticsWrapper />
+
     </MarketingShell>
   );
 }

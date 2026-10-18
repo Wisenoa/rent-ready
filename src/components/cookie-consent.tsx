@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { spring } from "@/components/landing/motion-config";
 
 const COOKIE_KEY = "lokna_cookie_consent";
-const LEGACY_COOKIE_KEYS = ["locelio_cookie_consent", "rentready_cookie_consent"];
+const CONSENT_AT_KEY = "lokna_cookie_consent_at";
 
 /** How long to wait before interrupting the user with the banner. */
 const DELAY_MS = 1500;
@@ -18,21 +18,29 @@ export function CookieConsent() {
   const [elapsed, setElapsed] = useState(false);
 
   useEffect(() => {
-    if (
-      localStorage.getItem(COOKIE_KEY) ||
-      LEGACY_COOKIE_KEYS.some((key) => localStorage.getItem(key))
-    ) {
-      return;
-    }
-    const id = setTimeout(() => {
+    const show = () => {
       setMountedAt(Date.now());
       setElapsed(true);
-    }, DELAY_MS);
-    return () => clearTimeout(id);
+    };
+    let id: ReturnType<typeof setTimeout> | undefined;
+    try {
+      const recordedAt = Number(localStorage.getItem(CONSENT_AT_KEY));
+      if (!localStorage.getItem(COOKIE_KEY) || recordedAt <= 0 || Date.now() - recordedAt >= 180 * 24 * 60 * 60 * 1000) {
+        id = setTimeout(show, DELAY_MS);
+      }
+    } catch { id = setTimeout(show, DELAY_MS); }
+    window.addEventListener("lokna-consent-settings", show);
+    return () => {
+      clearTimeout(id);
+      window.removeEventListener("lokna-consent-settings", show);
+    };
   }, []);
 
   function decide(value: "accepted" | "rejected") {
-    localStorage.setItem(COOKIE_KEY, value);
+    try { localStorage.setItem(COOKIE_KEY, value); localStorage.setItem(CONSENT_AT_KEY, String(Date.now())); } catch { /* Browser storage may be disabled. */ }
+    document.cookie = `lokna_cookie_consent=${value}; Path=/; SameSite=Lax; Max-Age=15552000`;
+    if (value === "rejected") document.cookie = "lokna_source_tool=; Path=/; Max-Age=0; SameSite=Lax";
+    window.dispatchEvent(new Event("lokna-consent-change"));
     setElapsed(false);
   }
 
@@ -60,7 +68,7 @@ export function CookieConsent() {
             <p className="text-[14px] leading-relaxed text-stone-600 sm:flex-1">
               Ce site utilise des cookies strictement nécessaires au
               fonctionnement de l&apos;authentification et à la mémorisation de
-              vos préférences. Aucun cookie publicitaire n&apos;est utilisé.{" "}
+              vos préférences. Avec votre accord, nous mesurons aussi l’usage des outils et du produit. Aucun cookie publicitaire n&apos;est utilisé.{" "}
               <Link
                 href="/politique-confidentialite"
                 className="underline underline-offset-2 text-stone-800 hover:text-blue-600"
@@ -89,4 +97,14 @@ export function CookieConsent() {
       )}
     </AnimatePresence>
   );
+}
+
+export function CookieSettingsButton() {
+  return <button type="button" className="text-forest underline underline-offset-2" onClick={() => {
+    // Withdrawal takes effect immediately, before the preference dialog opens.
+    try { localStorage.setItem(COOKIE_KEY, "rejected"); localStorage.setItem(CONSENT_AT_KEY, String(Date.now())); } catch { /* No storage access. */ }
+    document.cookie = "lokna_cookie_consent=rejected; Path=/; SameSite=Lax; Max-Age=15552000";
+    document.cookie = "lokna_source_tool=; Path=/; Max-Age=0; SameSite=Lax";
+    window.dispatchEvent(new Event("lokna-consent-settings"));
+  }}>Modifier mon choix de mesure d’audience</button>;
 }

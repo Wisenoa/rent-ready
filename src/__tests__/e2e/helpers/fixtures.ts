@@ -5,7 +5,7 @@ import { test as base, expect } from '@playwright/test'
  * Kept in sync with src/components/cookie-consent.tsx — if that name changes,
  * this file must change with it, otherwise the banner silently comes back.
  */
-const COOKIE_CONSENT_KEY = 'rentready_cookie_consent'
+const COOKIE_CONSENT_KEY = 'lokna_cookie_consent'
 
 /**
  * A test user who has already answered the cookie banner.
@@ -28,7 +28,10 @@ const COOKIE_CONSENT_KEY = 'rentready_cookie_consent'
 export const test = base.extend({
   page: async ({ page }, use) => {
     await page.addInitScript((key: string) => {
-      window.localStorage.setItem(key, 'accepted')
+      if (!window.localStorage.getItem(key)) {
+        window.localStorage.setItem(key, 'rejected')
+        window.localStorage.setItem('lokna_cookie_consent_at', String(Date.now()))
+      }
     }, COOKIE_CONSENT_KEY)
 
     // `use` here is Playwright's fixture callback, not React's use hook.

@@ -4,7 +4,7 @@ import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
 import { OrganizationSchema, WebSiteSchema } from "@/components/seo/organization-schema";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@/components/analytics";
 import { WebVitalsProvider } from "@/components/web-vitals-provider";
 import "./globals.css";
 
@@ -141,8 +141,8 @@ export default function RootLayout({
         >
           Aller au contenu principal
         </a>
-        {/* Vercel Analytics only works on Vercel; elsewhere its script 404s on every page. */}
-        {process.env.VERCEL ? <Analytics /> : null}
+        {/* Optional measurement uses the consent-gated internal collector. */}
+        <Analytics />
         <WebVitalsProvider />
         {children}
         {/* Mounted here, not only imported: without it `toast(...)` from ANY
