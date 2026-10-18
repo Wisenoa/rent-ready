@@ -383,7 +383,7 @@ describe("plus-value immobilière (art. 150 U à 150 VH du CGI)", () => {
 });
 
 describe("fiscalite-lmnp (art. 50-0 & art. 39 C du CGI)", () => {
-  it("applies social contributions (17.2%) after expenses and amortization in réel, and caps amortization at rent minus charges", () => {
+  it("applies social contributions (18.6%, 2026 LMNP) after expenses and amortization in réel, and caps amortization at rent minus charges", () => {
     const out = computeFiscaliteLmnp({
       recettesAnnuelles: d("10800"),
       chargesDeductiblesAnnuelles: d("2100"),
@@ -396,7 +396,7 @@ describe("fiscalite-lmnp (art. 50-0 & art. 39 C du CGI)", () => {
     if (!out.ok) return;
     // Micro-BIC 50% on 10,800 € = 5,400 € taxable
     expect(out.result.microBic.baseImposable.toFixed(2)).toBe("5400.00");
-    expect(out.result.microBic.impotTotal.toFixed(2)).toBe("2548.80");
+    expect(out.result.microBic.impotTotal.toFixed(2)).toBe("2624.40");
 
     // Réel: 10,800 - 5,000 = 5,800 before amortization; amortization = 5,100 (bâti) + 2,000 (mobilier) = 7,100
     // Capped at 5,800 under art. 39 C CGI -> 0 € taxable for BOTH IR and PS, 1,300 € carried forward!

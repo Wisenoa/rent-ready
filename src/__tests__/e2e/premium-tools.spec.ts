@@ -1,4 +1,5 @@
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect } from './helpers/fixtures'
+import { type Page } from '@playwright/test'
 
 /**
  * The two V3.2 calculators driven like a landlord would: from /outils, typing
@@ -183,7 +184,7 @@ test.describe('Outils V3.3 — Quittance, Prorata, Fiscalité & Gestion locative
 
     const result = page.locator('#resultat')
     await expect(result).toContainText('Régime Réel')
-    await expect(result).toContainText(euros('2 548,80 €'))
+    await expect(result).toContainText(euros('2 624,40 €'))
   })
 
   test('Calculateur de dépôt de garantie & Calculateur de préavis render and have zero mobile overflow (375px)', async ({ page }) => {

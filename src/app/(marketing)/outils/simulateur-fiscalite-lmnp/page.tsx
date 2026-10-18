@@ -33,10 +33,10 @@ const breadcrumb = [
 ];
 
 const REGLES_LMNP = [
-  "Micro-BIC (art. 50-0 CGI) : abattement forfaitaire de 50 % en location meublée longue durée jusqu'à 77 700 € de recettes annuelles.",
+  "Micro-BIC (art. 50-0 CGI) : abattement forfaitaire de 50 % en location meublée longue durée jusqu'à 83 600 € de recettes annuelles.",
   "Régime Réel Simplifié : déduction des charges réelles (taxe foncière, copropriété, assurance, comptabilité, intérêts d'emprunt).",
   "Plafonnement de l'amortissement (art. 39 C CGI) : l'amortissement du bâti et du mobilier ne peut pas créer de déficit fiscal, mais l'excédent est reportable sans limite de durée.",
-  "Assiette sociale et fiscale : l'impôt sur le revenu (TMI) et les prélèvements sociaux (17,2 %) s'appliquent tous deux au bénéfice BIC net après amortissement.",
+  "Assiette sociale et fiscale : l'impôt sur le revenu (TMI) et les prélèvements sociaux (18,6 %) s'appliquent tous deux au bénéfice BIC net après amortissement.",
 ];
 
 const FAQ_ITEMS: FaqItem[] = [
@@ -48,7 +48,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Pourquoi le Régime Réel permet-il souvent de ramener l'impôt LMNP à 0 € ?",
     answer:
-      "Au régime réel, outre les charges de copropriété, la taxe foncière et les intérêts d'emprunt, vous déduisez chaque année l'amortissement comptable de la construction (hors terrain) et du mobilier. Tant que la somme de vos charges et de vos dotations d'amortissement couvre vos recettes locatives, votre résultat BIC imposable est ramené à 0 €, tant pour l'impôt sur le revenu que pour les prélèvements sociaux de 17,2 %.",
+      "Au régime réel, outre les charges de copropriété, la taxe foncière et les intérêts d'emprunt, vous déduisez chaque année l'amortissement comptable de la construction (hors terrain) et du mobilier. Tant que la somme de vos charges et de vos dotations d'amortissement couvre vos recettes locatives, votre résultat BIC imposable est ramené à 0 €, tant pour l'impôt sur le revenu que pour les prélèvements sociaux de 18,6 %.",
   },
   {
     question: "Que devient la part d'amortissement qui dépasse le résultat de l'année ?",
@@ -115,11 +115,11 @@ export default function SimulateurLmnpPage() {
             breadcrumb={breadcrumb}
             eyebrow="Outil gratuit · sans inscription"
             title="Simulateur de fiscalité LMNP (Micro-BIC vs Régime Réel)"
-            intro="Comparez en temps réel l'impôt sur le revenu et les prélèvements sociaux (17,2 %) d'une location meublée longue durée entre l'abattement forfaitaire de 50 % du Micro-BIC et l'amortissement au Régime Réel Simplifié."
+            intro="Comparez en temps réel l'impôt sur le revenu et les prélèvements sociaux (18,6 %) d'une location meublée longue durée entre l'abattement forfaitaire de 50 % du Micro-BIC et l'amortissement au Régime Réel Simplifié."
             facts={[
-              { label: "Micro-BIC", value: "Abattement 50 % (plafond 77 700 €)" },
+              { label: "Micro-BIC", value: "Abattement 50 % (plafond 83 600 €)" },
               { label: "Régime Réel", value: "Charges + amortissements (art. 39 C)" },
-              { label: "Prélèvements sociaux", value: "17,2 % inclus" },
+              { label: "Prélèvements sociaux", value: "18,6 % inclus" },
             ]}
           />
 
@@ -148,6 +148,8 @@ export default function SimulateurLmnpPage() {
               >
                 impots.gouv.fr — Les locations meublées
               </a>{" "}
+              · <a rel="noopener noreferrer" href="https://www.impots.gouv.fr/particulier/questions/je-donne-un-bien-en-location-dois-je-payer-des-prelevements-sociaux" className="text-forest underline">Prélèvements sociaux (vérifiés le 18 octobre 2026)</a>{" "}
+              · <a rel="noopener noreferrer" href="https://www.economie.gouv.fr/particuliers/impots-et-fiscalite/gerer-mon-impot-sur-le-revenu/location-meublee-longue-duree-quels-revenus-declarer" className="text-forest underline">Seuil micro-BIC 2026</a>{" "}
               et notre fiche{" "}
               <Link
                 href="/glossaire-immobilier/location-meuble"
@@ -168,14 +170,14 @@ export default function SimulateurLmnpPage() {
               </p>
               <h3>1. Le régime Micro-BIC : la simplicité de l&apos;abattement de 50 %</h3>
               <p>
-                Pour une location meublée d&apos;habitation longue durée dont les recettes annuelles ne dépassent pas 77 700 €
+                Pour une location meublée d&apos;habitation longue durée dont les recettes annuelles ne dépassent pas 83 600 €
                 (article 50-0 du CGI), l&apos;administration fiscale applique automatiquement un abattement forfaitaire de 50 %. Vous
-                êtes donc imposé (à votre TMI + 17,2 % de prélèvements sociaux) sur la moitié de vos loyers charges comprises,
+                êtes donc imposé (à votre TMI + 18,6 % de prélèvements sociaux) sur la moitié de vos loyers charges comprises,
                 quel que soit le montant réel de vos charges.
               </p>
               <h3>2. Le Régime Réel Simplifié : déduction des charges et amortissement</h3>
               <p>
-                Sur option (ou de plein droit au-delà de 77 700 €), le régime réel vous permet de déduire l&apos;ensemble de vos
+                Sur option (ou de plein droit au-delà de 83 600 €), le régime réel vous permet de déduire l&apos;ensemble de vos
                 charges réelles (taxe foncière, charges de copropriété, assurance PNO, frais de tenue de comptabilité,{" "}
                 <Link href="/outils/simulateur-pret-immobilier">intérêts d&apos;emprunt</Link>) puis d&apos;amortir chaque année la
                 valeur du bâti (hors terrain) et du mobilier. Dès que vos charges et amortissements dépassent 50 % de vos

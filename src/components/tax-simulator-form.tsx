@@ -17,7 +17,6 @@ import {
   compareTaxRegimes,
   MARGINAL_TAX_RATES,
   JEANBRUN_RATES,
-  SOCIAL_LEVIES_RATE,
   JEANBRUN_DURATION_YEARS,
 } from "@/lib/tax-simulator";
 
@@ -106,40 +105,16 @@ export function TaxSimulatorForm() {
     raw: string,
   ) {
     const parsed = parseFloat(raw);
-    updateField(key, isNaN(parsed) ? 0 : parsed);
+    updateField(key, !Number.isFinite(parsed) ? 0 : Math.max(0, parsed));
   }
 
-  const results: Array<{
-    key: string;
-    result: TaxSimulationResult;
-    isBest: boolean;
-  }> = [
-    {
-      key: "micro",
-      result: comparison.lmnpMicroBic,
-      isBest:
-        comparison.lmnpMicroBic.totalTax <=
-          comparison.lmnpReel.totalTax &&
-        comparison.lmnpMicroBic.totalTax <=
-          comparison.jeanbrun.totalTax,
-    },
-    {
-      key: "reel",
-      result: comparison.lmnpReel,
-      isBest:
-        comparison.lmnpReel.totalTax <
-          comparison.lmnpMicroBic.totalTax &&
-        comparison.lmnpReel.totalTax <= comparison.jeanbrun.totalTax,
-    },
-    {
-      key: "jeanbrun",
-      result: comparison.jeanbrun,
-      isBest:
-        comparison.jeanbrun.totalTax <
-          comparison.lmnpMicroBic.totalTax &&
-        comparison.jeanbrun.totalTax < comparison.lmnpReel.totalTax,
-    },
-  ];
+  const available = [
+    { key: "micro", result: comparison.lmnpMicroBic },
+    { key: "reel", result: comparison.lmnpReel },
+    { key: "jeanbrun", result: comparison.jeanbrun },
+  ].filter(item => item.result.eligible);
+  const minimumTax = Math.min(...available.map(item => item.result.totalTax));
+  const results = available.map(item => ({ ...item, isBest: item.result.totalTax === minimumTax }));
 
   return (
     <div className="space-y-8">
@@ -399,7 +374,7 @@ export function TaxSimulatorForm() {
 
       {/* ─── Results grid ───────────────────────────────────────── */}
       <div className="grid gap-4 md:grid-cols-3">
-        {results.map(({ key, result, isBest }) => (
+        {results.filter(item => item.result.eligible).map(({ key, result, isBest }) => (
           <ResultCard key={key} result={result} isBest={isBest} />
         ))}
       </div>
@@ -464,7 +439,7 @@ function ResultCard({
           muted
         />
         <ResultRow
-          label={`Prélèvements sociaux (${(SOCIAL_LEVIES_RATE * 100).toFixed(1)} %)`}
+          label="Prélèvements sociaux (18,6 % meublé / 17,2 % nu)"
           value={formatCurrency(result.socialLevies, true)}
           muted
         />

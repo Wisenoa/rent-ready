@@ -14,6 +14,7 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Decimal from "decimal.js";
+import { IRL_INDICES } from "@/lib/irl-calculator";
 
 import {
   standaloneLeaseSchema,
@@ -72,16 +73,9 @@ const PAYMENT_METHODS = [
   { value: "OTHER", label: "Autre moyen de paiement" },
 ] as const;
 
-const IRL_QUARTERS = [
-  { value: "T1-2025", label: "T1 2025 (143,46)" },
-  { value: "T2-2025", label: "T2 2025 (144,30)" },
-  { value: "T3-2025", label: "T3 2025 (144,51)" },
-  { value: "T4-2025", label: "T4 2025 (144,82)" },
-  { value: "T1-2026", label: "T1 2026 (145,10)" },
-  { value: "T2-2026", label: "T2 2026" },
-  { value: "T3-2026", label: "T3 2026" },
-  { value: "T4-2026", label: "T4 2026" },
-] as const;
+const IRL_QUARTERS = IRL_INDICES.map(index => ({
+  value: index.quarter, label: `${index.quarter} (${String(index.value).replace(".", ",")})`,
+})).reverse();
 
 interface StandaloneLeaseFormProps {
   properties: Array<{ id: string; name: string; addressLine1: string; city: string }>;
@@ -154,7 +148,7 @@ export function StandaloneLeaseForm({
   // Plafond légal français du dépôt de garantie (Art. 22 Loi du 6 juillet 1989)
   const currentLeaseConfig =
     LEASE_TYPES.find((t) => t.value === selectedLeaseType) ?? LEASE_TYPES[0];
-  const legalStandardDeposit = safeRent * currentLeaseConfig.depositFactor;
+  const legalStandardDeposit = new Decimal(safeRent).times(currentLeaseConfig.depositFactor).toNumber();
 
   // Callback de création rapide d'un locataire inline
   function handleTenantCreated(created: { id: string; firstName: string; lastName: string }) {
@@ -252,7 +246,7 @@ export function StandaloneLeaseForm({
                 <Select
                   value={selectedPropertyId || ""}
                   onValueChange={(val) =>
-                    setValue("propertyId", val === "__none__" || !val ? undefined : (val as string), {
+                    setValue("propertyId", val === "__none__" || !val ? "" : val, {
                       shouldValidate: true,
                     })
                   }
@@ -301,7 +295,7 @@ export function StandaloneLeaseForm({
                 <Select
                   value={selectedTenantId || ""}
                   onValueChange={(val) =>
-                    setValue("tenantId", val === "__none__" || !val ? undefined : (val as string), {
+                    setValue("tenantId", val === "__none__" || !val ? "" : val, {
                       shouldValidate: true,
                     })
                   }

@@ -152,14 +152,18 @@ export function calculateRentRevision(
   }
 
   // Use Decimal.js for precise monetary arithmetic
-  const currentRent = toDecimal(input.currentRent);
+  const currentRent = toDecimal(input.currentRent).toDecimalPlaces(2, Decimal.ROUND_HALF_UP);
+  if (!currentRent.isFinite() || currentRent.isNegative()) {
+    throw new Error("Le loyer doit être un montant positif ou nul et fini.");
+  }
   const newRentRaw = currentRent
     .times(newIrl.value)
     .dividedBy(referenceIrl.value);
-  const newRent = newRentRaw.toDecimalPlaces(2).toNumber();
+  const roundedNewRent = newRentRaw.toDecimalPlaces(2, Decimal.ROUND_HALF_UP);
+  const newRent = roundedNewRent.toNumber();
 
-  const difference = newRentRaw.minus(currentRent).toDecimalPlaces(2).toNumber();
-  const percentageChange = newRentRaw
+  const difference = roundedNewRent.minus(currentRent).toDecimalPlaces(2).toNumber();
+  const percentageChange = currentRent.isZero() ? 0 : newRentRaw
     .minus(currentRent)
     .dividedBy(currentRent)
     .times(100)

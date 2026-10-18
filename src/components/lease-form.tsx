@@ -1,5 +1,6 @@
 "use client";
 
+import { IRL_INDICES } from "@/lib/irl-calculator";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,16 +44,9 @@ const PAYMENT_METHODS = [
   { value: "OTHER", label: "Autre" },
 ] as const;
 
-const IRL_QUARTERS = [
-  { value: "T1-2025", label: "T1 2025" },
-  { value: "T2-2025", label: "T2 2025" },
-  { value: "T3-2025", label: "T3 2025" },
-  { value: "T4-2025", label: "T4 2025" },
-  { value: "T1-2026", label: "T1 2026" },
-  { value: "T2-2026", label: "T2 2026" },
-  { value: "T3-2026", label: "T3 2026" },
-  { value: "T4-2026", label: "T4 2026" },
-] as const;
+const IRL_QUARTERS = IRL_INDICES.map(index => ({
+  value: index.quarter, label: `${index.quarter} (${String(index.value).replace(".", ",")})`,
+})).reverse();
 
 export interface LeaseOption {
   id: string;

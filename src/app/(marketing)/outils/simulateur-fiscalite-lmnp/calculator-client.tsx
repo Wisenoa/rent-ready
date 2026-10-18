@@ -115,7 +115,7 @@ export function SimulateurLmnpClient() {
 
             {res && res.depassePlafondMicroBic ? (
               <div className="rounded-lg border border-[#EAD7AE] bg-[#FBF3E2] px-4 py-3 text-[13.5px] leading-5 text-[#7A5512]">
-                <strong>Plafond Micro-BIC dépassé (77 700 €) :</strong> au-delà de 77 700 € de recettes annuelles en location
+                <strong>Plafond Micro-BIC dépassé (83 600 €) :</strong> au-delà de 83 600 € de recettes annuelles en location
                 meublée longue durée (article 50-0 du CGI), le régime Réel Simplifié s&apos;applique de plein droit.
               </div>
             ) : null}
@@ -128,7 +128,7 @@ export function SimulateurLmnpClient() {
               columns={4}
               compact
               choices={TMI_CHOICES}
-              hint="S'y ajoutent les prélèvements sociaux de 17,2 % sur le bénéfice BIC net imposable."
+              hint="S'y ajoutent les prélèvements sociaux de 18,6 % sur le bénéfice BIC net imposable."
             />
           </ToolStep>
 
@@ -225,6 +225,7 @@ export function SimulateurLmnpClient() {
         >
           {res ? (
             <>
+              <p className="mb-4 text-sm text-ink-muted">Estimation simplifiée pour les revenus 2026 : TMI constante, hors effets du barème progressif et de la CSG déductible. Le seuil micro-BIC dépend des recettes des années précédentes ; ce comparatif annuel ne vérifie pas votre éligibilité complète.</p>
               <ResultFigure
                 label={
                   res.regimePlusAvantageux === "reel"
@@ -305,7 +306,7 @@ export function SimulateurLmnpClient() {
                     strong: true,
                   },
                   {
-                    label: `Impôt au Réel (IR ${res.tmi} % + PS 17,2 %)`,
+                    label: `Impôt au Réel (IR ${res.tmi} % + PS 18,6 %)`,
                     detail: `Sur une base BIC imposable de ${formatEuros(res.reelSimplifie.baseImposable)}`,
                     value: formatEuros(res.reelSimplifie.impotTotal),
                     strong: true,

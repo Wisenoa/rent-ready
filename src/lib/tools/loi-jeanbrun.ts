@@ -69,9 +69,10 @@ export interface LoiJeanbrunInput {
   tmi: TmiRate;
 }
 
-export type LoiJeanbrunError = "zero-price" | "zero-rent";
+export type LoiJeanbrunError = "zero-price" | "zero-rent" | "invalid-amount";
 
 export const LOI_JEANBRUN_ERROR_MESSAGES: Record<LoiJeanbrunError, string> = {
+  "invalid-amount": "Les montants doivent être positifs ou nuls et finis.",
   "zero-price": "Indiquez un prix d'acquisition supérieur à 0 €.",
   "zero-rent": "Indiquez un loyer mensuel hors charges supérieur à 0 €.",
 };
@@ -133,6 +134,9 @@ const TAUX_PS = new Decimal("0.172");
 const PLAFOND_DEFICIT_FONCIER_GLOBAL = new Decimal(10_700);
 
 export function computeLoiJeanbrun(input: LoiJeanbrunInput): LoiJeanbrunOutcome {
+  if ([input.prixAcquisition, input.loyerMensuelHc, input.chargesAnnuellesDeductibles, input.interetsEmpruntAnnuels ?? new Decimal(0)].some(value => !value.isFinite() || value.isNegative())) {
+    return { ok: false, error: "invalid-amount" };
+  }
   if (input.prixAcquisition.lessThanOrEqualTo(0)) {
     return { ok: false, error: "zero-price" };
   }
@@ -167,6 +171,11 @@ export function computeLoiJeanbrun(input: LoiJeanbrunInput): LoiJeanbrunOutcome 
   const resultatFoncierClassique = toCents(loyerAnnuel.minus(totalChargesAvecInterets));
   const baseFoncierClassique = Decimal.max(0, resultatFoncierClassique);
   const impotFoncierClassiqueAnnuel = toCents(baseFoncierClassique.times(tauxGlobal));
+  // BOI-RFPI-BASE-30-20: interest offsets gross rent first. The comparison
+  // must also include the classical regime's global-income deficit benefit.
+  const deficitClassiqueGlobal = Decimal.min(PLAFOND_DEFICIT_FONCIER_GLOBAL,
+    Decimal.max(0, charges.minus(Decimal.max(0, loyerAnnuel.minus(interets)))));
+  const avantageClassiqueGlobal = toCents(deficitClassiqueGlobal.times(tauxIr));
   const impotFoncierClassique9Ans = toCents(impotFoncierClassiqueAnnuel.times(9));
 
   // 2. Micro-foncier classique (abattement 30 % si loyer brut annuel <= 15 000 €)
@@ -184,8 +193,7 @@ export function computeLoiJeanbrun(input: LoiJeanbrunInput): LoiJeanbrunOutcome 
 
   for (let annee = 1; annee <= 9; annee++) {
     // Règle du déficit foncier :
-    // Revenus bruts - charges (hors intérêts) - amortissement = résultat hors intérêts
-    // Puis déduction des intérêts d'emprunt
+    // Les intérêts sont réputés absorbés en premier par les revenus bruts (BOFiP 4142).
     const totalDeductions = toCents(totalChargesAvecInterets.plus(amortissementAnnuel));
     const soldeFoncierBrut = toCents(loyerAnnuel.minus(totalDeductions));
 
@@ -199,7 +207,7 @@ export function computeLoiJeanbrun(input: LoiJeanbrunInput): LoiJeanbrunOutcome 
       // seul le déficit provenant des charges et de l'amortissement s'impute dans la limite de 10 700 €
       const deficitHorsInterets = Decimal.max(
         0,
-        toCents(totalChargesHorsInterets.plus(amortissementAnnuel).minus(loyerAnnuel))
+        toCents(totalChargesHorsInterets.plus(amortissementAnnuel).minus(Decimal.max(0, loyerAnnuel.minus(interets))))
       );
       deficitImputeRevenuGlobal = Decimal.min(
         deficitTotal,
@@ -229,7 +237,7 @@ export function computeLoiJeanbrun(input: LoiJeanbrunInput): LoiJeanbrunOutcome 
 
     impotJeanbrun9Ans = toCents(impotJeanbrun9Ans.plus(impotFoncierAnnuel));
     const economieVsFoncierClassique = toCents(
-      impotFoncierClassiqueAnnuel.minus(impotFoncierAnnuel).plus(deficitImputeRevenuGlobal.times(tauxIr))
+      impotFoncierClassiqueAnnuel.minus(avantageClassiqueGlobal).minus(impotFoncierAnnuel).plus(deficitImputeRevenuGlobal.times(tauxIr))
     );
 
     echeancier9Ans.push({

@@ -76,7 +76,7 @@ export default function FiscalPage() {
         <Info className="size-4 mt-0.5 shrink-0" />
         <p>
           Ce simulateur est fourni à titre indicatif. Les calculs sont basés sur
-          les taux en vigueur pour 2026 (prélèvements sociaux à 18,6%). Consultez
+          une TMI constante et les taux 2026 (18,6 % en meublé, 17,2 % en location nue). Le calcul Jeanbrun utilise les taux du neuf ; cette estimation annuelle exclut la revente et les reports de déficits. Consultez
           un expert-comptable pour une analyse personnalisée.
         </p>
       </div>

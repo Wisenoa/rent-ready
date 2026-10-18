@@ -1,12 +1,12 @@
 /**
  * Simulateur de fiscalité LMNP (Loueur en Meublé Non Professionnel) :
  * comparaison entre le régime Micro-BIC (article 50-0 du CGI, abattement de
- * 50 % en location meublée longue durée jusqu'à 77 700 € de recettes) et le
+ * 50 % en location meublée longue durée jusqu'à 83 600 € de recettes) et le
  * régime Réel Simplifié (déduction des charges réelles et amortissement du bâti
  * et du mobilier plafonné selon l'article 39 C du CGI).
  *
  * Correction majeure V3.3 : au régime réel, l'impôt sur le revenu (TMI) ET les
- * prélèvements sociaux (17,2 %) sont tous deux assis sur le résultat BIC net
+ * prélèvements sociaux (18,6 %) sont tous deux assis sur le résultat BIC net
  * après imputation des amortissements.
  */
 import Decimal from "decimal.js";
@@ -23,9 +23,10 @@ export interface FiscaliteLmnpInput {
   tmi: TmiRate;
 }
 
-export type FiscaliteLmnpError = "zero-revenue" | "zero-property";
+export type FiscaliteLmnpError = "zero-revenue" | "zero-property" | "invalid-amount";
 
 export const FISCALITE_LMNP_ERROR_MESSAGES: Record<FiscaliteLmnpError, string> = {
+  "invalid-amount": "Les montants doivent être positifs ou nuls et finis.",
   "zero-revenue": "Indiquez un montant de recettes locatives annuelles supérieur à 0 €.",
   "zero-property": "Indiquez la valeur du bien immobilier pour estimer l'amortissement comptable.",
 };
@@ -64,10 +65,13 @@ export type FiscaliteLmnpOutcome =
   | { ok: true; result: FiscaliteLmnpComputed }
   | { ok: false; error: FiscaliteLmnpError };
 
-const TAUX_PS = new Decimal("0.172");
-const PLAFOND_MICRO_BIC_CLASSIQUE = new Decimal(77_700);
+const TAUX_PS = new Decimal("0.186");
+const PLAFOND_MICRO_BIC_CLASSIQUE = new Decimal(83_600);
 
 export function computeFiscaliteLmnp(input: FiscaliteLmnpInput): FiscaliteLmnpOutcome {
+  if ([input.recettesAnnuelles, input.chargesDeductiblesAnnuelles, input.interetsEmpruntAnnuels, input.valeurBienImmobilier, input.valeurMobilierEtTravaux].some(value => !value.isFinite() || value.isNegative())) {
+    return { ok: false, error: "invalid-amount" };
+  }
   if (input.recettesAnnuelles.lessThanOrEqualTo(0)) {
     return { ok: false, error: "zero-revenue" };
   }

@@ -114,7 +114,7 @@ export function JeanbrunSimulator() {
             <ToolStep
               step={1}
               title="Prix du bien et niveau de loyer conventionné"
-              description="Le dispositif s'applique à la location nue en immeuble collectif (neuf ou ancien avec travaux ≥ 30 %). La base amortissable est fixée à 80 % du prix d'achat hors terrain."
+              description="Cette simulation utilise les taux du neuf en immeuble collectif (CGI art. 31 I-1° i). Elle ne chiffre pas l’ancien réhabilité, dont les taux diffèrent. Base : 80 % du prix d’acquisition net de frais."
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <AmountField
@@ -218,7 +218,8 @@ export function JeanbrunSimulator() {
           >
             {res ? (
               <>
-                <ResultFigure
+                <p className="mb-4 text-sm text-ink-muted">Simulation indicative à TMI et loyers constants sur neuf années pleines, pour un seul bien neuf. L’éligibilité, les plafonds de loyers et de ressources, les autres revenus du foyer et l’impôt de revente ne sont pas vérifiés. Le plafond d’amortissement est partagé par le foyer fiscal.</p>
+              <ResultFigure
                   label="Économie d'impôt sur 9 ans vs régime foncier classique"
                   cents={res.statutJeanbrun.economieTotaleCents}
                   text={formatEuros(res.statutJeanbrun.economieTotaleVsFoncierClassique)}
