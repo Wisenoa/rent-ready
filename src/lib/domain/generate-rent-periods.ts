@@ -72,9 +72,10 @@ type Db = Pick<typeof prisma, "transaction">;
  */
 export async function generateRentPeriodsForLease(
   leaseId: string,
-  now: Date = new Date()
+  now: Date = new Date(),
+  db: Pick<Prisma.TransactionClient, "lease" | "transaction"> = prisma
 ): Promise<GenerationResult> {
-  const lease = await prisma.lease.findUnique({
+  const lease = await db.lease.findUnique({
     where: { id: leaseId },
     select: {
       id: true,
@@ -99,7 +100,7 @@ export async function generateRentPeriodsForLease(
     return { created: 0, skipped: 0, periods: [] };
   }
 
-  const existing = await prisma.transaction.findMany({
+  const existing = await db.transaction.findMany({
     where: {
       leaseId: lease.id,
       periodStart: { gte: periods[0].periodStart },
@@ -125,7 +126,7 @@ export async function generateRentPeriodsForLease(
     };
   }
 
-  await prisma.transaction.createMany({
+  await db.transaction.createMany({
     data: missing.map((p) => ({
       userId: lease.userId,
       leaseId: lease.id,
@@ -186,8 +187,8 @@ export async function generateRentPeriodsForLease(
  * Returns how many periods were re-rated, so a caller can tell a rent change
  * that reached nothing from one that did not run.
  */
-export async function rerateUnpaidRentPeriods(leaseId: string): Promise<number> {
-  const lease = await prisma.lease.findUnique({
+export async function rerateUnpaidRentPeriods(leaseId: string, client: Prisma.TransactionClient | typeof prisma = prisma): Promise<number> {
+  const lease = await client.lease.findUnique({
     where: { id: leaseId },
     select: { id: true, rentAmount: true, chargesAmount: true },
   });
@@ -197,7 +198,7 @@ export async function rerateUnpaidRentPeriods(leaseId: string): Promise<number> 
   const charges = new Decimal(lease.chargesAmount ?? 0).toDecimalPlaces(2);
   const total = rent.plus(charges).toDecimalPlaces(2);
 
-  const openPeriods = await prisma.transaction.findMany({
+  const openPeriods = await client.transaction.findMany({
     where: { leaseId, paidAt: null, status: { not: "CANCELLED" } },
     select: { id: true, periodStart: true, periodEnd: true },
   });
@@ -205,7 +206,7 @@ export async function rerateUnpaidRentPeriods(leaseId: string): Promise<number> 
   let rerated = 0;
   for (const period of openPeriods) {
     // A month that took any payment keeps its figures — see the note above.
-    const received = await prisma.transaction.findFirst({
+    const received = await client.transaction.findFirst({
       where: {
         leaseId,
         periodStart: period.periodStart,
@@ -217,7 +218,7 @@ export async function rerateUnpaidRentPeriods(leaseId: string): Promise<number> 
     });
     if (received) continue;
 
-    await prisma.transaction.update({
+    await client.transaction.update({
       where: { id: period.id },
       data: {
         amount: total.toNumber(),

@@ -145,6 +145,13 @@ export function getPremiumProductPriceId(productKey: keyof typeof PREMIUM_PRODUC
 
 // ─── Helper Functions ───
 
+export class TrialCheckoutUnavailableError extends Error {
+  constructor() {
+    super("Votre essai reste actif. Vous pourrez souscrire à son expiration ; aucun paiement anticipé n’a été créé.");
+    this.name = "TrialCheckoutUnavailableError";
+  }
+}
+
 /**
  * Create a Stripe Checkout session for a new subscription
  */
@@ -155,7 +162,14 @@ export async function createCheckoutSession(params: {
   successUrl: string;
   cancelUrl: string;
   userId: string;
+  trialEndsAt?: Date | null;
 }) {
+  const remainingTrial = params.trialEndsAt ? params.trialEndsAt.getTime() - Date.now() : 0;
+  // Checkout requires trial_end at least 48 hours ahead. Dropping the trial
+  // would charge early; creating a new one would extend the account's rights.
+  if (remainingTrial > 0 && remainingTrial <= 48 * 60 * 60 * 1000) {
+    throw new TrialCheckoutUnavailableError();
+  }
   return stripe.checkout.sessions.create({
     mode: "subscription",
     customer: params.customerId || undefined,
@@ -166,7 +180,10 @@ export async function createCheckoutSession(params: {
     metadata: { userId: params.userId },
     subscription_data: {
       metadata: { userId: params.userId },
-      trial_period_days: 14,
+      // Preserve the remaining account trial; checkout never starts a new one.
+      ...(params.trialEndsAt && params.trialEndsAt.getTime() > Date.now() + 48 * 60 * 60 * 1000
+        ? { trial_end: Math.floor(params.trialEndsAt.getTime() / 1000) }
+        : {}),
     },
     locale: "fr",
     allow_promotion_codes: true,

@@ -1,5 +1,6 @@
 "use server";
 
+import { recordProductEvent } from "@/lib/analytics/product-events";
 import { revalidatePath } from "next/cache";
 import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
@@ -201,10 +202,21 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
     // download time. Falling back to the derivation only covers a payment that
     // predates the stored type.
     const receiptType = transaction.receiptType ?? settlement.receiptType;
+    const currentPeriod = settlePeriodPayments({
+      rentAmount: periodRent,
+      chargesAmount: periodCharges,
+      payments: [...periodPayments.filter(payment => payment.id !== current.id), current],
+    });
+    // A later cancellation can reopen a period whose closing row still carries
+    // QUITTANCE. Preserve an existing archive, but never issue a new full receipt
+    // while the ledger no longer contains enough money to cover the period.
+    if (receiptType === "QUITTANCE" && !currentPeriod.settled) {
+      return { success: false, error: "Cette période présente un solde après annulation. Une quittance complète ne peut pas être générée." };
+    }
     // What the tenant still owes for the month AFTER this payment, floored at 0
     // and rounded once, in Decimal: an overpayment must never print as a credit
     // invented by the document.
-    const remainingAmount = settlement.outstanding.toDecimalPlaces(2);
+    const remainingAmount = receiptType === "QUITTANCE" ? new Decimal(0) : settlement.outstanding.toDecimalPlaces(2);
 
     // Atomic per-landlord allocation. This was count()+1, a read followed by a
     // write: two receipts generated in the same second read the same count and
@@ -241,7 +253,9 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
         .join(", "),
       rentAmount: new Decimal(periodRent),
       chargesAmount: new Decimal(periodCharges ?? 0),
-      totalAmount: transaction.amount,
+      // A quittance attests the whole period; a partial receipt attests only its
+      // own instalment. Never print the closing instalment as the full total.
+      totalAmount: receiptType === "QUITTANCE" ? settlement.totalDue : transaction.amount,
       // The balance the settlement just decided, not a figure this document
       // works out for itself. Same `settlePeriodPayments` call as the receipt
       // route, so the PDF and the JSON view cannot print different numbers for
@@ -300,6 +314,8 @@ export async function generateQuittance(transactionId: string): Promise<ActionRe
         receiptUrl,
       },
     });
+
+    await recordProductEvent(userId, "receipt_generated");
 
     // `revalidatePath` needs a request context. This action is also reached from
     // a route handler and from a background caller, where there is none, and

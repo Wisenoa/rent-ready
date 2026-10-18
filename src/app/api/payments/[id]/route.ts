@@ -1,3 +1,4 @@
+import { assertSubscriptionAccess, SubscriptionRequiredError } from "@/lib/subscription-access";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
@@ -41,6 +42,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ data: payment });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("GET /api/payments/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -68,6 +70,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     const { id } = await params;
 
@@ -121,6 +124,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     const updated = await prisma.transaction.findUnique({ where: { id } });
     return NextResponse.json({ data: updated });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("PATCH /api/payments/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -140,6 +144,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     const { id } = await params;
     const result = await cancelRentPayment({
@@ -161,6 +166,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       },
     });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("DELETE /api/payments/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }

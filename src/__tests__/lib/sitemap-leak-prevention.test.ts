@@ -22,6 +22,8 @@ describe("Sitemap & Private Routes Leak Prevention (TECH-01)", () => {
       "/dashboard",
       "/login",
       "/register",
+      "/forgot-password",
+      "/reset-password",
       "/properties",
       "/tenants",
       "/leases",

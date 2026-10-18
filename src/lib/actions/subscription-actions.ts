@@ -6,8 +6,11 @@ import {
   type PlanKey,
   createCheckoutSession,
   createPortalSession,
+  getStripe,
+  TrialCheckoutUnavailableError,
 } from "@/lib/stripe";
 import type { ActionResult } from "./property-actions";
+import { z } from "zod";
 
 /**
  * Check if the current user has an active subscription (isPro).
@@ -50,6 +53,11 @@ export async function createSubscriptionCheckout(
   try {
     const user = await getCurrentUser();
     const selected = resolvePlan(plan, interval);
+    const choice = z.object({ plan: z.enum(["starter", "pro"]), interval: z.enum(["month", "year"]) }).safeParse({ plan, interval });
+    if (!choice.success) return { success: false, error: "Offre invalide." };
+    if (user.stripeSubscriptionId) {
+      return { success: false, error: "Gérez votre abonnement existant depuis le portail de facturation." };
+    }
     const priceId = process.env[selected.priceIdEnv];
 
     if (!priceId) {
@@ -75,6 +83,7 @@ export async function createSubscriptionCheckout(
       successUrl: `${appUrl}/billing?success=true`,
       cancelUrl: `${appUrl}/billing?cancelled=true`,
       userId: user.id,
+      trialEndsAt: user.trialEndsAt,
     });
 
     if (!session.url) {
@@ -83,6 +92,7 @@ export async function createSubscriptionCheckout(
 
     return { success: true, data: { url: session.url } };
   } catch (error) {
+    if (error instanceof TrialCheckoutUnavailableError) return { success: false, error: error.message };
     console.error("createSubscriptionCheckout error:", error);
     return { success: false, error: "Erreur lors de la création du paiement." };
   }
@@ -112,13 +122,17 @@ export async function createPremiumTemplateCheckout({
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
-    const session = await createCheckoutSession({
-      customerId: user.stripeCustomerId ?? undefined,
-      customerEmail: user.stripeCustomerId ? undefined : user.email,
-      priceId: process.env.STRIPE_PRICE_ID_PREMIUM_TEMPLATE!,
-      successUrl: `${appUrl}/dashboard?purchase_success=true&productType=${productType}`,
-      cancelUrl: `${appUrl}/dashboard?purchase_cancelled=true`,
-      userId: user.id,
+    const product = z.object({ productId: z.string().max(100), productType: z.enum(["premium_template", "quittance", "bail_template"]) }).safeParse({ productId, productType });
+    if (!product.success) return { success: false, error: "Produit invalide." };
+    const session = await getStripe().checkout.sessions.create({
+      mode: "payment",
+      customer: user.stripeCustomerId ?? undefined,
+      customer_email: user.stripeCustomerId ? undefined : user.email,
+      line_items: [{ price: process.env.STRIPE_PRICE_ID_PREMIUM_TEMPLATE, quantity: 1 }],
+      success_url: `${appUrl}/billing?purchase_success=true`,
+      cancel_url: `${appUrl}/billing?purchase_cancelled=true`,
+      metadata: { userId: user.id, productType: product.data.productType, productId: product.data.productId },
+      locale: "fr",
     });
 
     if (!session.url) {

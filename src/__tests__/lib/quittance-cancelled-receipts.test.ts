@@ -133,6 +133,28 @@ beforeEach(() => {
 const BUDGET = 30_000;
 
 describe("generateQuittance after a cancellation", () => {
+  it.each(["renderer", "storage"])("reports a %s failure without pretending a document exists or losing payment", async provider => {
+    const store = newStore();
+    const paid = await recordRentPayment({ userId: LANDLORD, leaseId: LEASE, duePeriodId: "period-oct", amount: TOTAL_DUE });
+    expect(paid.ok).toBe(true);
+    pdfMock.mockRejectedValueOnce(new Error(`Local QA ${provider} failure`));
+    const result = await generate(paid.ok ? paid.transactionId : "");
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("Le paiement reste enregistré");
+    expect(result.data).toBeUndefined();
+    expect(store.rows.find(row => row.id === (paid.ok ? paid.transactionId : ""))?.status).toBe("PAID");
+  }, BUDGET);
+  it("refuses a new full quittance when cancelling an instalment reopened the period", async () => {
+    newStore();
+    const first = await recordRentPayment({ userId: LANDLORD, leaseId: LEASE, duePeriodId: "period-oct", amount: 400, paidAt: new Date("2026-10-05") });
+    const closing = await recordRentPayment({ userId: LANDLORD, leaseId: LEASE, duePeriodId: "period-oct", amount: "570.55", paidAt: new Date("2026-10-10") });
+    expect(first.ok && closing.ok).toBe(true);
+    await cancelRentPayment({ userId: LANDLORD, transactionId: first.ok ? first.transactionId : "" });
+    const result = await generate(closing.ok ? closing.transactionId : "");
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("solde après annulation");
+    expect(pdfMock).not.toHaveBeenCalled();
+  }, BUDGET);
   it("issues a partial RECU, not a balance quittance, for a month that is not settled", async () => {
     const store = newStore();
 

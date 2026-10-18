@@ -25,6 +25,7 @@ import { NextRequest } from "next/server";
 
 const { prismaMock, sessionMock, bailPdfMock, rentPeriodsMock } = vi.hoisted(() => ({
   prismaMock: {
+    user: { findUnique: vi.fn(async () => ({ subscriptionStatus: "ACTIVE", trialEndsAt: null })) },
     lease: { findFirst: vi.fn(), findUnique: vi.fn(), findMany: vi.fn(), updateMany: vi.fn(), create: vi.fn(), update: vi.fn() },
     transaction: { findFirst: vi.fn(), findMany: vi.fn(), count: vi.fn(), updateMany: vi.fn(), findUnique: vi.fn() },
     tenant: { findFirst: vi.fn(), findUnique: vi.fn(), updateMany: vi.fn(), deleteMany: vi.fn() },
@@ -290,7 +291,7 @@ describe("tenant mutations", () => {
 
     expect(response.status).toBe(404);
     expect(prismaMock.tenant.deleteMany).toHaveBeenCalledWith({
-      where: { id: "tenant-bob", userId: ALICE },
+      where: { id: "tenant-bob", userId: ALICE, leases: { none: {} } },
     });
   });
 });

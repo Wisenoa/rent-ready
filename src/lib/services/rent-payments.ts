@@ -30,10 +30,10 @@
 
 import Decimal from "decimal.js";
 import type { PaymentMethod, Prisma } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
 import { settlePeriodPayments } from "@/lib/domain/period-settlement";
 import { settlePeriod } from "@/lib/domain/rent-periods";
 import { findUnpaidPeriod, settleRentPeriod } from "@/lib/domain/generate-rent-periods";
+import { withFinancialTransaction } from "@/lib/services/financial-transaction";
 
 export interface RecordRentPaymentInput {
   /** The authenticated landlord. Every read and write is scoped by it. */
@@ -59,6 +59,8 @@ export interface RecordRentPaymentInput {
   paidAt?: Date | null;
   paymentMethod?: PaymentMethod | null;
   notes?: string | null;
+  /** Provider reference, assigned only by trusted server integrations. */
+  bankTransactionId?: string;
 }
 
 export interface RecordRentPaymentSuccess {
@@ -132,12 +134,6 @@ function formatEuros(value: Decimal): string {
   return `${value.toDecimalPlaces(2).toFixed(2)} €`;
 }
 
-function totalDueOf(lease: {
-  rentAmount: Prisma.Decimal | Decimal | number | string;
-  chargesAmount: Prisma.Decimal | Decimal | number | string | null;
-}): Decimal {
-  return new Decimal(lease.rentAmount).plus(new Decimal(lease.chargesAmount ?? 0)).toDecimalPlaces(2);
-}
 
 /**
  * Record money received against one rent period of one lease.
@@ -147,16 +143,9 @@ function totalDueOf(lease: {
  * lives in sibling receipt rows), so that row's own `amount` is the ceiling.
  */
 export async function recordRentPayment(
-  input: RecordRentPaymentInput
+  input: RecordRentPaymentInput,
+  client?: Prisma.TransactionClient
 ): Promise<RecordRentPaymentResult> {
-  const lease = await prisma.lease.findFirst({
-    where: { id: input.leaseId, userId: input.userId },
-    select: { id: true, rentAmount: true, chargesAmount: true },
-  });
-  if (!lease) {
-    return refuse("LEASE_NOT_FOUND", "Bail introuvable ou accès non autorisé.");
-  }
-
   const paidAt = input.paidAt ?? new Date();
 
   // Everything that decides the outcome — the period's own row, the month's
@@ -175,7 +164,15 @@ export async function recordRentPayment(
   // below treats that CAS as the point of truth: the loser updates nothing, comes
   // back here, re-reads the month and re-decides — which on the 970.55 example
   // means refusing AMOUNT_ABOVE_BALANCE instead of over-collecting.
-  return prisma.$transaction(async (tx) => {
+  const record = async (tx: Prisma.TransactionClient): Promise<RecordRentPaymentResult> => {
+    const lease = await tx.lease.findFirst({
+      where: { id: input.leaseId, userId: input.userId },
+      select: { id: true, rentAmount: true, chargesAmount: true },
+    });
+    if (!lease) {
+      return refuse("LEASE_NOT_FOUND", "Bail introuvable ou accès non autorisé.");
+    }
+
     for (let attempt = 0; attempt < CAP_ATTEMPTS; attempt += 1) {
       // Resolve the period from the database. A posted period id is resolved
       // scoped to this lease and this landlord and must still be unpaid;
@@ -373,6 +370,12 @@ export async function recordRentPayment(
         // closed=true means this payment discharged the balance: the period row now
         // IS the receipt for it, and no separate row is written.
         if (settled.closed) {
+          if (input.bankTransactionId) {
+            await tx.transaction.update({
+              where: { id: period.id },
+              data: { bankTransactionId: input.bankTransactionId },
+            });
+          }
           return {
             ok: true,
             transactionId: period.id,
@@ -410,6 +413,7 @@ export async function recordRentPayment(
           isFullPayment: settlement.isFullPayment,
           receiptType: settlement.receiptType,
           notes: input.notes || null,
+          bankTransactionId: input.bankTransactionId ?? null,
         },
       });
 
@@ -429,7 +433,8 @@ export async function recordRentPayment(
       "PERIOD_ALREADY_SETTLED",
       "Cette période de loyer vient déjà d'être encaissée."
     );
-  });
+  };
+  return client ? record(client) : withFinancialTransaction(record);
 }
 
 export type CancelRentPaymentErrorCode =
@@ -468,60 +473,64 @@ export async function cancelRentPayment(input: {
   userId: string;
   transactionId: string;
 }): Promise<CancelRentPaymentResult> {
-  const row = await prisma.transaction.findFirst({
-    where: { id: input.transactionId, userId: input.userId },
-    select: {
-      id: true,
-      leaseId: true,
-      userId: true,
-      amount: true,
-      paidAt: true,
-      status: true,
-      periodStart: true,
-      periodEnd: true,
-      dueDate: true,
-      lease: { select: { rentAmount: true, chargesAmount: true } },
-    },
-  });
+  return withFinancialTransaction(async (tx): Promise<CancelRentPaymentResult> => {
+    const row = await tx.transaction.findFirst({
+      where: { id: input.transactionId, userId: input.userId },
+      select: {
+        id: true,
+        leaseId: true,
+        userId: true,
+        amount: true,
+        receiptRentAmount: true,
+        receiptChargesAmount: true,
+        paidAt: true,
+        status: true,
+        periodStart: true,
+        periodEnd: true,
+        dueDate: true,
+        lease: { select: { rentAmount: true, chargesAmount: true } },
+      },
+    });
 
-  if (!row) {
-    return refuseCancel(
-      "PAYMENT_NOT_FOUND",
-      "Paiement introuvable ou accès non autorisé."
-    );
-  }
-  if (!row.paidAt) {
-    return refuseCancel(
-      "NOTHING_TO_CANCEL",
-      "Cette ligne n'a reçu aucun paiement : il n'y a rien à annuler."
-    );
-  }
-  if (row.status === "CANCELLED") {
-    return refuseCancel("ALREADY_CANCELLED", "Ce paiement est déjà annulé.");
-  }
+    if (!row) {
+      return refuseCancel(
+        "PAYMENT_NOT_FOUND",
+        "Paiement introuvable ou accès non autorisé."
+      );
+    }
+    if (!row.paidAt) {
+      return refuseCancel(
+        "NOTHING_TO_CANCEL",
+        "Cette ligne n'a reçu aucun paiement : il n'y a rien à annuler."
+      );
+    }
+    if (row.status === "CANCELLED") {
+      return refuseCancel("ALREADY_CANCELLED", "Ce paiement est déjà annulé.");
+    }
 
-  const amount = new Decimal(row.amount).toDecimalPlaces(2);
-  const totalDue = totalDueOf(row.lease);
+    const amount = new Decimal(row.amount).toDecimalPlaces(2);
+    const invoicedRent = new Decimal(row.receiptRentAmount ?? row.lease.rentAmount).toDecimalPlaces(2);
+    const invoicedCharges = new Decimal(row.receiptChargesAmount ?? row.lease.chargesAmount ?? 0).toDecimalPlaces(2);
+    const totalDue = invoicedRent.plus(invoicedCharges);
 
-  // What the month still holds from the OTHER receipts, so reopening it does not
-  // forget the instalments that really did arrive.
-  const siblings = await prisma.transaction.findMany({
-    where: {
-      leaseId: row.leaseId,
-      periodStart: row.periodStart,
-      periodEnd: row.periodEnd,
-      paidAt: { not: null },
-      status: { not: "CANCELLED" },
-      id: { not: row.id },
-    },
-    select: { amount: true },
-  });
-  const receivedFromSiblings = siblings
-    .reduce((sum, p) => sum.plus(new Decimal(p.amount)), new Decimal(0))
-    .toDecimalPlaces(2);
-  const outstanding = Decimal.max(totalDue.minus(receivedFromSiblings), new Decimal(0));
+    // What the month still holds from the OTHER receipts, so reopening it does not
+    // forget the instalments that really did arrive.
+    const siblings = await tx.transaction.findMany({
+      where: {
+        leaseId: row.leaseId,
+        periodStart: row.periodStart,
+        periodEnd: row.periodEnd,
+        paidAt: { not: null },
+        status: { not: "CANCELLED" },
+        id: { not: row.id },
+      },
+      select: { amount: true },
+    });
+    const receivedFromSiblings = siblings
+      .reduce((sum, p) => sum.plus(new Decimal(p.amount)), new Decimal(0))
+      .toDecimalPlaces(2);
+    const outstanding = Decimal.max(totalDue.minus(receivedFromSiblings), new Decimal(0));
 
-  return prisma.$transaction(async (tx) => {
     await tx.transaction.update({
       where: { id: row.id },
       data: { status: "CANCELLED", isFullPayment: false, receiptType: null },
@@ -556,8 +565,8 @@ export async function cancelRentPayment(input: {
     // The cancelled row WAS the month (a full payment closes the period row
     // itself), so the month has to be re-materialised as its own open row.
     if (outstanding.gt(0)) {
-      const rent = new Decimal(row.lease.rentAmount).toDecimalPlaces(2);
-      const charges = new Decimal(row.lease.chargesAmount ?? 0).toDecimalPlaces(2);
+      const rent = invoicedRent;
+      const charges = invoicedCharges;
       // The month is INVOICED at rent + charges, whatever is left of it. Only
       // `amount` — the balance — is reduced by what came back.
       //

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,6 +9,7 @@ import { z } from "zod/v4";
 import { Loader2, Mail, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { signIn } from "@/lib/auth-client";
+import { safeAuthCallback } from "@/lib/auth-redirect";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,9 +23,10 @@ const loginSchema = z.object({
 type LoginValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
+  const hydrated = useSyncExternalStore(() => () => {}, () => true, () => false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams?.get("callbackUrl") ?? "/dashboard";
+  const callbackUrl = safeAuthCallback(searchParams?.get("callbackUrl"));
   const [isLoading, setIsLoading] = useState(false);
   /**
    * Held in state, not only raised as a toast.
@@ -69,7 +72,7 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+    <form method="post" onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div className="rounded-2xl border border-border/50 bg-card p-6 shadow-sm space-y-5">
         <div className="space-y-2">
           <Label htmlFor="email" className="text-sm font-medium">
@@ -124,7 +127,7 @@ export function LoginForm() {
           </p>
         )}
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="w-full" disabled={isLoading || !hydrated}>
           {isLoading ? (
             <>
               <Loader2 className="mr-2 size-4 animate-spin" />
@@ -135,6 +138,7 @@ export function LoginForm() {
           )}
         </Button>
       </div>
+      <Link href="/forgot-password" className="block text-center text-sm underline">Mot de passe oublié ?</Link>
     </form>
   );
 }

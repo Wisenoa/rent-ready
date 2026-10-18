@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth-server";
 import { emailService } from "@/lib/email/service";
 import { z, ZodError } from "zod";
@@ -27,7 +28,11 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { transactionId, tone } = RequestBodySchema.parse(body);
 
-    await emailService.sendRentReminderEmail(transactionId, tone);
+    const owned = await prisma.transaction.findFirst({ where: { id: transactionId, userId: session.user.id }, select: { id: true } });
+    if (!owned) return NextResponse.json({ error: "Ressource introuvable" }, { status: 404 });
+
+    const result = await emailService.sendRentReminderEmail(transactionId, tone);
+    if (result.status !== "sent") return NextResponse.json({ error: result.detail }, { status: 400 });
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

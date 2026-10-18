@@ -66,7 +66,7 @@ function receiptFor(payments: Array<{ amount: string; day: number }>) {
     propertyAddress: "5 rue du-test, 69001 Lyon",
     rentAmount: RENT,
     chargesAmount: CHARGES,
-    totalAmount: current.amount,
+    totalAmount: settlement.settled ? settlement.totalDue : current.amount,
     remainingAmount: settlement.outstanding.toDecimalPlaces(2),
     periodStart: new Date("2026-10-01T00:00:00.000Z"),
     periodEnd: new Date("2026-10-31T00:00:00.000Z"),
@@ -122,6 +122,7 @@ describe("the balance printed on a receipt for a period paid in instalments", ()
     const text = printed(data);
 
     expect(text).toContain("Quittance de Loyer");
+    expect(text).toContain("Total acquitté970,55");
     // A settled month has nothing left to announce; printing a line at 0,00
     // would read as a debt that does not exist.
     expect(text).not.toContain("Solde restant dû");

@@ -26,7 +26,7 @@ import { ArrearsSection } from "./arrears-section";
 import { PropertyForm } from "@/components/property-form";
 import { MarkPaidButton } from "@/components/mark-paid-button";
 import { ReminderButton } from "@/components/reminder-button";
-import Decimal from "decimal.js";
+import { summariseLease } from "@/lib/domain/lease-summary";
 import {
   PageShell,
   MonthHeader,
@@ -58,7 +58,7 @@ export default async function DashboardPage() {
   const [stats, properties, currentMonthTransactions, openTickets] = await Promise.all([
     getDashboardStats(userId),
     prisma.property.findMany({
-      where: { userId },
+      where: { userId, deletedAt: null },
       include: {
         leases: {
           where: { status: "ACTIVE" },
@@ -66,7 +66,6 @@ export default async function DashboardPage() {
             tenant: { select: { id: true, firstName: true, lastName: true } },
             transactions: {
               where: { periodStart: { gte: monthStart, lte: monthEnd } },
-              take: 1,
             },
           },
           take: 1,
@@ -97,25 +96,12 @@ export default async function DashboardPage() {
   const hasProperties = properties.length > 0;
 
   // Calculs financiers stricts pour le mois en cours (Decimal - AGENTS.md §10)
-  let expectedRentMonth = new Decimal(0);
-  let receivedRentMonth = new Decimal(0);
-
-  for (const prop of properties) {
-    const activeLease = prop.leases[0];
-    if (activeLease) {
-      const rent = new Decimal(activeLease.rentAmount);
-      const charges = new Decimal(activeLease.chargesAmount || 0);
-      expectedRentMonth = expectedRentMonth.plus(rent).plus(charges);
-    }
-  }
-
-  for (const tx of currentMonthTransactions) {
-    if (tx.status === "PAID" && tx.paidAt) {
-      receivedRentMonth = receivedRentMonth.plus(new Decimal(tx.amount));
-    }
-  }
-
-  const pendingRentMonth = Decimal.max(0, expectedRentMonth.minus(receivedRentMonth));
+  // Period rows preserve historical amounts, including instalments and leases
+  // that ended this month. Current contractual rent can change later.
+  const monthSummary = summariseLease(currentMonthTransactions, now);
+  const receivedRentMonth = monthSummary.collected;
+  const pendingRentMonth = monthSummary.outstanding;
+  const expectedRentMonth = receivedRentMonth.plus(pendingRentMonth);
   const collectionPercentage = expectedRentMonth.gt(0)
     ? Math.round(receivedRentMonth.dividedBy(expectedRentMonth).times(100).toNumber())
     : 100;
@@ -132,8 +118,8 @@ export default async function DashboardPage() {
   let pendingCount = 0;
   for (const prop of properties) {
     const activeLease = prop.leases[0];
-    const tx = activeLease?.transactions[0];
-    if (tx?.status === "PAID") {
+    const summary = summariseLease(activeLease?.transactions ?? [], now);
+    if (summary.collected.gt(0) && summary.outstanding.eq(0)) {
       paidCount++;
     } else if (activeLease) {
       pendingCount++;
@@ -375,16 +361,14 @@ export default async function DashboardPage() {
               {properties.map((property) => {
                 const activeLease = property.leases[0];
                 const tenant = activeLease?.tenant;
-                const totalRent = activeLease
-                  ? new Decimal(activeLease.rentAmount).plus(new Decimal(activeLease.chargesAmount || 0))
-                  : null;
-                const currentMonthTx = activeLease?.transactions[0];
-
-                const isPaid = currentMonthTx?.status === "PAID";
-                const isPartial = currentMonthTx?.status === "PARTIAL";
-                const isLate =
-                  currentMonthTx?.status === "LATE" ||
-                  (currentMonthTx?.dueDate ? new Date(currentMonthTx.dueDate) < now && !isPaid : false);
+                const rows = (activeLease?.transactions ?? []).filter(tx => tx.status !== "CANCELLED");
+                const summary = summariseLease(rows, now);
+                const totalRent = activeLease ? summary.collected.plus(summary.outstanding) : null;
+                const currentMonthTx = rows.find(tx => !tx.paidAt)
+                  ?? rows.filter(tx => tx.paidAt).sort((a, b) => b.paidAt!.getTime() - a.paidAt!.getTime())[0];
+                const isPaid = summary.collected.gt(0) && summary.outstanding.eq(0);
+                const isPartial = summary.collected.gt(0) && summary.outstanding.gt(0);
+                const isLate = summary.overdueAmount.gt(0);
 
                 const status = !activeLease
                   ? "VACANT"
@@ -404,9 +388,7 @@ export default async function DashboardPage() {
                   ? format(new Date(currentMonthTx.dueDate), "d MMM", { locale: fr })
                   : null;
 
-                const remainingAmount = currentMonthTx?.amount
-                  ? new Decimal(currentMonthTx.amount)
-                  : totalRent;
+                const remainingAmount = summary.outstanding;
 
                 const actionSlot =
                   currentMonthTx && !isPaid ? (
@@ -439,7 +421,7 @@ export default async function DashboardPage() {
                     remainingAmount={!isPaid && remainingAmount ? remainingAmount : null}
                     exceptionNotice={
                       isPartial
-                        ? "Acompte perçu. Reçu d'acompte émis (art. 21). Le solde reste à pointer."
+                        ? "Acompte perçu. Le solde reste à encaisser ; un reçu partiel peut être généré."
                         : isLate
                         ? "Échéance passée sans paiement constaté. Une relance peut être envoyée."
                         : undefined

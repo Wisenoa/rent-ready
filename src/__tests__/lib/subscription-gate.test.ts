@@ -85,12 +85,12 @@ describe("SubscriptionGate & logic tests", () => {
   });
 
   describe("SubscriptionGate runtime behavior", () => {
-    it("does not block unauthenticated requests (lets auth middleware handle)", async () => {
+    it("redirects unauthenticated requests to login", async () => {
       mockHeaders.mockResolvedValue(new Map());
       mockGetSession.mockResolvedValue(null);
 
-      await expect(SubscriptionGate()).resolves.toBeUndefined();
-      expect(mockRedirect).not.toHaveBeenCalled();
+      await expect(SubscriptionGate()).rejects.toThrow("NEXT_REDIRECT");
+      expect(mockRedirect).toHaveBeenCalledWith("/login");
     });
 
     it("lets active users through without redirect", async () => {
@@ -146,4 +146,33 @@ describe("SubscriptionGate & logic tests", () => {
       expect(mockRedirect).not.toHaveBeenCalled();
     });
   });
+});
+
+
+describe("subscription verification failures", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockHeaders.mockResolvedValue(new Map([["x-pathname", "/dashboard"]]));
+    mockGetSession.mockResolvedValue({ user: { id: "user-1" } });
+  });
+  it("propagates a database outage instead of granting access", async () => {
+    mockFindUnique.mockRejectedValueOnce(new Error("database unavailable"));
+    await expect(SubscriptionGate()).rejects.toThrow("database unavailable");
+  });
+  it("propagates an authentication service outage", async () => {
+    mockGetSession.mockRejectedValueOnce(new Error("auth unavailable"));
+    await expect(SubscriptionGate()).rejects.toThrow("auth unavailable");
+  });
+  it("rejects a deleted user with a cached session", async () => {
+    mockFindUnique.mockResolvedValueOnce(null);
+    await expect(SubscriptionGate()).rejects.toThrow("NEXT_REDIRECT");
+    expect(mockRedirect).toHaveBeenCalledWith("/login");
+  });
+  it.each(["referer", "x-url"])("does not trust a %s containing billing", async (header) => {
+    mockHeaders.mockResolvedValueOnce(new Map([["x-pathname", "/properties"], [header, "https://lokna.fr/billing"]]));
+    mockFindUnique.mockResolvedValueOnce({ subscriptionStatus: "EXPIRED", trialEndsAt: null });
+    await expect(SubscriptionGate()).rejects.toThrow("NEXT_REDIRECT");
+  });
+  it("blocks unknown states", () => expect(isAccessBlocked("UNKNOWN", null)).toBe(true));
+  it("expires at the precise boundary", () => expect(isAccessBlocked("TRIAL", new Date(0))).toBe(true));
 });

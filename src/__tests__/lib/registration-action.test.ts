@@ -92,13 +92,10 @@ describe("registerWithStripeCustomer", () => {
     expect(signUpEmail).not.toHaveBeenCalled();
   });
 
-  it("does not send a blank name when only one part is given", async () => {
-    // `${firstName} ${lastName}` with both empty produced " ", which the
-    // endpoint rejects; the action trims, so the caller cannot cause that.
-    await registerWithStripeCustomer({ ...CREDENTIALS, firstName: "  ", lastName: "  " });
-
-    const body = signUpEmail.mock.calls[0][0].body as { name: string };
-    expect(body.name).toBe("");
+  it("rejects blank names before calling the authentication endpoint", async () => {
+    const result = await registerWithStripeCustomer({ ...CREDENTIALS, firstName: "  ", lastName: "  " });
+    expect(result.success).toBe(false);
+    expect(signUpEmail).not.toHaveBeenCalled();
   });
 
   it("reports a thrown failure instead of swallowing it, without leaking it", async () => {
@@ -157,14 +154,14 @@ describe("registerWithStripeCustomer", () => {
     expect(result.error).toBe("Un compte existe déjà avec cette adresse email.");
   });
 
-  it("still succeeds when the background Stripe customer creation fails", async () => {
-    // Stripe is best-effort by design: the account exists, so a Stripe outage
-    // must not be reported as a failed registration.
+  it("creates an account without calling Stripe", async () => {
+    // Stripe is outside signup; an outage cannot affect account creation.
     stripeCreate.mockRejectedValueOnce(new Error("Stripe unreachable"));
 
     const result = await registerWithStripeCustomer(CREDENTIALS);
 
     expect(result.success).toBe(true);
     expect(result.userId).toBe("user-1");
+    expect(stripeCreate).not.toHaveBeenCalled();
   });
 });

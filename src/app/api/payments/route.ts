@@ -1,3 +1,4 @@
+import { assertSubscriptionAccess, SubscriptionRequiredError } from "@/lib/subscription-access";
 import { NextRequest, NextResponse } from "next/server";
 import Decimal from "decimal.js";
 import type { Prisma } from "@prisma/client";
@@ -121,6 +122,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("GET /api/payments error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -135,6 +137,7 @@ export async function POST(request: NextRequest) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     // Rate limit on the authenticated user ID, same budget as
     // POST /api/transactions. This route writes money and had none.
@@ -200,6 +203,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ data: payment }, { status: 201 });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("POST /api/payments error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }

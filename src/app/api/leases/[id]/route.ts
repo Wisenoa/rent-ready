@@ -1,3 +1,6 @@
+import { withFinancialTransaction } from "@/lib/services/financial-transaction";
+import { rerateUnpaidRentPeriods, generateRentPeriodsForLease } from "@/lib/domain/generate-rent-periods";
+import { assertSubscriptionAccess, SubscriptionRequiredError } from "@/lib/subscription-access";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
@@ -51,6 +54,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ data: lease });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("GET /api/leases/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -65,6 +69,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     const { id } = await params;
     const body = await request.json();
@@ -77,20 +82,28 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const result = await prisma.lease.updateMany({
-      where: { id, userId: session.user.id },
-      data: {
-        rentAmount: parsed.data.rentAmount,
-        chargesAmount: parsed.data.chargesAmount,
-        depositAmount: parsed.data.depositAmount,
-        startDate: new Date(parsed.data.startDate),
-        endDate: parsed.data.endDate ? new Date(parsed.data.endDate) : null,
-        paymentDay: parsed.data.paymentDay,
-        paymentMethod: parsed.data.paymentMethod,
-        leaseType: parsed.data.leaseType,
-        irlReferenceQuarter: parsed.data.irlReferenceQuarter || null,
-        irlReferenceValue: parsed.data.irlReferenceValue ?? null,
-      },
+    const result = await withFinancialTransaction(async tx => {
+      const changed = await tx.lease.updateMany({
+        where: { id, userId: session.user.id },
+        data: {
+          rentAmount: parsed.data.rentAmount,
+          chargesAmount: parsed.data.chargesAmount,
+          depositAmount: parsed.data.depositAmount,
+          startDate: new Date(parsed.data.startDate),
+          endDate: parsed.data.endDate ? new Date(parsed.data.endDate) : null,
+          paymentDay: parsed.data.paymentDay,
+          paymentMethod: parsed.data.paymentMethod,
+          leaseType: parsed.data.leaseType,
+          irlReferenceQuarter: parsed.data.irlReferenceQuarter || null,
+          irlReferenceValue: parsed.data.irlReferenceValue ?? null,
+        },
+      });
+
+      if (changed.count > 0) {
+        await rerateUnpaidRentPeriods(id, tx);
+        await generateRentPeriodsForLease(id, new Date(), tx);
+      }
+      return changed;
     });
 
     if (result.count === 0) {
@@ -100,6 +113,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     const updated = await prisma.lease.findUnique({ where: { id } });
     return NextResponse.json({ data: updated });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("PATCH /api/leases/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -114,6 +128,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     const { id } = await params;
     const existing = await prisma.lease.findFirst({
@@ -138,6 +153,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     const updated = await prisma.lease.findUnique({ where: { id } });
     return NextResponse.json({ data: updated });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("DELETE /api/leases/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }

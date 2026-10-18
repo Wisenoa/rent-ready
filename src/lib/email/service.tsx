@@ -11,7 +11,7 @@
  */
 
 import { nanoid } from "nanoid";
-import { sendEmail } from "./sender";
+import { sendEmail, type SendEmailOptions } from "./sender";
 import { prisma } from "@/lib/prisma";
 import { fromEmail } from "@/lib/email";
 import { WelcomeEmail } from "../../emails/welcome";
@@ -20,6 +20,11 @@ import { TenantInvitationEmail } from "../../emails/tenant-invitation";
 import { PaymentReminderEmail } from "../../emails/payment-reminder";
 import { LeaseExpiryEmail } from "../../emails/lease-expiry";
 import type { EmailType } from "@prisma/client";
+
+async function sendRequiredEmail(options: SendEmailOptions): Promise<void> {
+  const result = await sendEmail(options);
+  if (!result.ok) throw new Error("L’envoi de l’email n’a pas été confirmé par le fournisseur.");
+}
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -47,13 +52,13 @@ async function sendWelcomeEmail(userId: string): Promise<void> {
 
   if (!user?.email) {
     console.warn("[email/service] sendWelcomeEmail: user not found or has no email", userId);
-    return;
+    throw new Error("Destinataire introuvable.");
   }
 
   const loginUrl = appUrl("/dashboard");
   const clientId = `welcome-${user.id}-${Date.now()}`;
 
-  await sendEmail({
+  await sendRequiredEmail({
     clientId,
     to: user.email,
     subject: "Bienvenue sur Lokna — Votre espace de gestion locative est prêt",
@@ -82,7 +87,7 @@ async function sendPasswordResetEmail(
 ): Promise<void> {
   const clientId = `password-reset-${email}-${Date.now()}`;
 
-  await sendEmail({
+  await sendRequiredEmail({
     clientId,
     to: email,
     subject: "Réinitialisation de votre mot de passe Lokna",
@@ -116,12 +121,12 @@ async function sendTenantInvitationEmail(
 
   if (!tenant?.email) {
     console.warn("[email/service] sendTenantInvitationEmail: tenant not found or has no email", tenantId);
-    return;
+    throw new Error("Le locataire ne dispose pas d’une adresse email.");
   }
 
   const clientId = `tenant-invite-${tenant.id}-${Date.now()}`;
 
-  await sendEmail({
+  await sendRequiredEmail({
     clientId,
     to: tenant.email,
     subject: "Accédez à votre espace locataire — Lokna",
@@ -186,6 +191,9 @@ async function sendRentReminderEmail(
     return { status: "not_found", detail: "transaction introuvable" };
   }
 
+  if (tx.paidAt || tx.status === "CANCELLED" || tx.dueDate >= new Date()) {
+    return { status: "failed", detail: "Cette échéance n’est pas un impayé en retard." };
+  }
   const { lease, user } = tx;
   const { tenant, property } = lease;
 
@@ -209,7 +217,7 @@ async function sendRentReminderEmail(
 
   const clientId = `rent-reminder-${tx.id}-${tone}-${Date.now()}`;
 
-  await sendEmail({
+  await sendRequiredEmail({
     clientId,
     to: tenant.email,
     subject,
@@ -252,7 +260,7 @@ async function sendDemoRequestNotification(
   const salesEmail = process.env.SALES_EMAIL ?? "contact@lokna.fr";
   const clientId = `demo-request-${lead.email}-${Date.now()}`;
 
-  await sendEmail({
+  await sendRequiredEmail({
     clientId,
     to: salesEmail,
     subject: `[Lokna] Nouvelle demande de démo — ${lead.name}`,
@@ -350,12 +358,12 @@ async function sendLeaseExpiryEmail(leaseId: string): Promise<void> {
 
   if (!lease) {
     console.warn("[email/service] sendLeaseExpiryEmail: lease not found", leaseId);
-    return;
+    throw new Error("Aucun avis de fin de bail ne peut être envoyé pour ce bail.");
   }
 
   if (!lease.user?.email || !lease.user?.firstName) {
     console.warn("[email/service] sendLeaseExpiryEmail: landlord has no email or firstName", lease.userId);
-    return;
+    throw new Error("Aucun avis de fin de bail ne peut être envoyé pour ce bail.");
   }
 
   // A lease without an end date is an open-ended tenancy: there is no expiry to
@@ -365,7 +373,7 @@ async function sendLeaseExpiryEmail(leaseId: string): Promise<void> {
       "[email/service] sendLeaseExpiryEmail: lease has no endDate, skipping",
       leaseId
     );
-    return;
+    throw new Error("Aucun avis de fin de bail ne peut être envoyé pour ce bail.");
   }
 
   // postalCode is selected on `property`, not on the lease; reading
@@ -377,7 +385,7 @@ async function sendLeaseExpiryEmail(leaseId: string): Promise<void> {
   const dashboardUrl = appUrl("/dashboard");
   const clientId = `lease-expiry-${lease.id}-${Date.now()}`;
 
-  await sendEmail({
+  await sendRequiredEmail({
     clientId,
     to: lease.user.email,
     subject: `[Fin de bail] ${propertyAddress} — expiration le ${new Intl.DateTimeFormat("fr-FR").format(lease.endDate)}`,

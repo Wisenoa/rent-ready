@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
-import { getStripe } from "@/lib/stripe";
+import { z } from "zod";
+import { PREMIUM_PRODUCTS, getStripe } from "@/lib/stripe";
 import { rateLimit, getClientIp, setRateLimitHeaders } from "@/lib/rate-limit";
 
 /**
@@ -33,27 +34,30 @@ export async function POST(request: NextRequest) {
       return res;
     }
 
-    const body = await request.json();
-    const { priceId, productName, productDescription, metadata = {} } = body;
-
-    if (!priceId || !productName) {
-      return NextResponse.json(
-        { error: "priceId and productName are required" },
-        { status: 400 }
-      );
-    }
+    const parsed = z.object({
+      priceId: z.string().min(1),
+      productName: z.string().max(200),
+      productDescription: z.string().max(1000).optional(),
+      metadata: z.strictObject({ productType: z.enum(["premium_template", "quittance", "bail_template"]).optional(), productId: z.string().max(100).optional() }).default({}),
+    }).safeParse(await request.json().catch(() => null));
+    if (!parsed.success) return NextResponse.json({ error: "Produit invalide" }, { status: 400 });
+    const { priceId, metadata } = parsed.data;
+    const product = Object.entries(PREMIUM_PRODUCTS).find(([, value]) => process.env[value.priceIdEnv] === priceId);
+    if (!product) return NextResponse.json({ error: "Prix non disponible" }, { status: 400 });
 
     const stripe = getStripe();
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
     // Get or create Stripe customer
-    let customerId = session.user.stripeCustomerId;
+    const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+    if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+    let customerId = user.stripeCustomerId;
     if (!customerId) {
       const customer = await stripe.customers.create({
         email: session.user.email,
         name: session.user.name,
         metadata: { userId: session.user.id },
-      });
+      }, { idempotencyKey: `customer:${session.user.id}` });
       customerId = customer.id;
       await prisma.user.update({
         where: { id: session.user.id },
@@ -73,8 +77,9 @@ export async function POST(request: NextRequest) {
       success_url: `${appUrl}/dashboard?payment_success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appUrl}/dashboard?payment_cancelled=true`,
       metadata: {
+        productId: metadata.productId ?? "",
+        productType: product[0].toLowerCase(),
         userId: session.user.id,
-        ...metadata,
       },
       locale: "fr",
     });

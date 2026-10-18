@@ -1,3 +1,5 @@
+import { recordProductEvent } from "@/lib/analytics/product-events";
+import { assertSubscriptionAccess, SubscriptionRequiredError } from "@/lib/subscription-access";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
@@ -88,6 +90,7 @@ export async function GET(request: NextRequest) {
       pagination: { page, limit, total, pages: Math.ceil(total / limit) },
     });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("GET /api/leases error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -102,6 +105,7 @@ export async function POST(request: NextRequest) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     const body = await request.json();
     const parsed = leaseSchema.safeParse(body);
@@ -150,31 +154,26 @@ export async function POST(request: NextRequest) {
       irlReferenceValue: parsed.data.irlReferenceValue ?? null,
     };
 
-    const lease = await prisma.lease.create({
-      data: {
-        ...leaseData,
-        // The NEXT revision date. This route is the API twin of the createLease
-        // server action, and it left `revisionDate` null — so a lease created
-        // through the API had no revision date at all, which is one of the two
-        // reasons /api/cron/revision-check could never find anything. See
-        // `@/lib/domain/lease-revision`.
-        revisionDate: isRevisable(leaseData)
-          ? nextRevisionDate(leaseData.startDate, new Date(), leaseData.endDate ?? null)
-          : null,
-      },
+    const lease = await prisma.$transaction(async (tx) => {
+      const created = await tx.lease.create({
+        data: {
+          ...leaseData,
+          // The NEXT revision date. This route is the API twin of the createLease
+          // server action, and it left `revisionDate` null — so a lease created
+          // through the API had no revision date at all, which is one of the two
+          // reasons /api/cron/revision-check could never find anything. See
+          // `@/lib/domain/lease-revision`.
+          revisionDate: isRevisable(leaseData)
+            ? nextRevisionDate(leaseData.startDate, new Date(), leaseData.endDate ?? null)
+            : null,
+        },
+      });
+      await generateRentPeriodsForLease(created.id, new Date(), tx);
+      return created;
     });
 
-    // Materialise the rent owed from the lease start through the current month so
-    // arrears detection and the relance flow have data to work from.
-    try {
-      await generateRentPeriodsForLease(lease.id);
-    } catch (error) {
-      console.error("[leases] rent period generation failed:", error);
-    }
-
-    // Fire-and-forget: generate bail PDF without blocking the response.
-    // If PDF generation fails, the lease is still created successfully.
-    // The documentUrl can be populated later via a separate job or on-demand.
+    // PDF rendering/storage stays outside the database transaction. A missing
+    // document does not undo the lease and its recorded rent expectations.
     const _bailPdf = generateAndUploadBailPdf(
       lease.id,
       session.user.id,
@@ -186,24 +185,21 @@ export async function POST(request: NextRequest) {
       return null;
     });
 
-    // If PDF generation succeeds, update the lease in a single transaction.
-    // Combine update + fetch into one step by using a transaction.
-    const fullLease = await prisma.$transaction(async (tx) => {
-      const url = await _bailPdf;
-      if (url) {
-        await tx.lease.update({ where: { id: lease.id }, data: { documentUrl: url } });
-      }
-      return tx.lease.findUnique({
-        where: { id: lease.id },
-        include: {
-          property: { select: { id: true, name: true } },
-          tenant: { select: { id: true, firstName: true, lastName: true } },
-        },
-      });
+    // Persist a URL only after storage actually succeeded.
+    const url = await _bailPdf;
+    if (url) await prisma.lease.update({ where: { id: lease.id }, data: { documentUrl: url } });
+    const fullLease = await prisma.lease.findUnique({
+      where: { id: lease.id },
+      include: {
+        property: { select: { id: true, name: true } },
+        tenant: { select: { id: true, firstName: true, lastName: true } },
+      },
     });
 
+    await recordProductEvent(session.user.id, "lease_created");
     return NextResponse.json({ data: fullLease }, { status: 201 });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("POST /api/leases error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }

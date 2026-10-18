@@ -28,7 +28,7 @@ export function MonthHeader({
 }: MonthHeaderProps) {
   return (
     <header className={cn("space-y-3 border-b border-neutral-200/80 pb-4 sm:pb-5", className)}>
-      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4">
+      <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-baseline lg:justify-between gap-4">
         <div>
           <h1 className="font-sans text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight capitalize">
             <span className="sr-only">Tableau de bord · </span>
@@ -41,7 +41,7 @@ export function MonthHeader({
 
         {/* Liens de circulation secondaires */}
         {actionsSlot ? (
-          <div className="shrink-0">{actionsSlot}</div>
+          <div className="min-w-0 max-w-full">{actionsSlot}</div>
         ) : (
           <div className="flex flex-wrap items-center gap-2 text-xs">
             {typeof propertiesCount === "number" && (

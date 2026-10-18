@@ -49,6 +49,8 @@ const PRIVATE_PREFIXES = [
   "/fiscal",
   "/leases",
   "/login",
+  "/forgot-password",
+  "/reset-password",
   "/maintenance",
   "/offline",
   "/portal",

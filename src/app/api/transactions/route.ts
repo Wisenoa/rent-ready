@@ -1,3 +1,4 @@
+import { assertSubscriptionAccess, SubscriptionRequiredError } from "@/lib/subscription-access";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
@@ -59,6 +60,7 @@ export async function GET(request: NextRequest) {
       pagination: { page, limit, total, pages: Math.ceil(total / limit) },
     });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("GET /api/transactions error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -74,6 +76,7 @@ export async function POST(request: NextRequest) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     // Rate limit on authenticated user ID
     const result = await rateLimit(session.user.id, { limit: 30, window: 3600 });
@@ -137,6 +140,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ data: transaction }, { status: 201 });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("POST /api/transactions error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }

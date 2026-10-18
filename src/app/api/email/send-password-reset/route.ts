@@ -1,53 +1,23 @@
-import { NextResponse } from "next/server";
-import { emailService } from "@/lib/email/service";
-import { z, ZodError } from "zod";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/lib/auth-server";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { z } from "zod";
 
-const RequestBodySchema = z.object({
-  email: z.string().email("Invalid email address"),
-});
-
-/**
- * POST /api/email/send-password-reset
- * Sends a password-reset magic link to the given address.
- *
- * This endpoint is intentionally unauthenticated — it accepts an email
- * and sends a reset link regardless of whether the account exists
- * (to prevent user enumeration, return success for both cases).
- */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const input = z.object({ email: z.string().trim().toLowerCase().pipe(z.email().max(254)) }).safeParse(await request.json().catch(() => null));
+  if (!input.success) return NextResponse.json({ error: "Adresse email invalide" }, { status: 400 });
+  const limit = await rateLimit(`password-reset:${getClientIp(request.headers)}`, { limit: 5, window: 900 });
+  if (!limit.success) return NextResponse.json({ error: "Trop de demandes. Réessayez dans quelques minutes." }, { status: 429 });
+  if (!process.env.RESEND_API_KEY) return NextResponse.json({ error: "L’envoi des liens est momentanément indisponible. Réessayez plus tard." }, { status: 503 });
   try {
-    const body = await request.json();
-    const { email } = RequestBodySchema.parse(body);
-
-    const appUrl =
-      process.env.NEXT_PUBLIC_APP_URL ??
-      process.env.VERCEL_URL ??
-      "https://lokna.fr";
-
-    // Generate a magic link using better-auth's internal token generation
-    // so the user lands on the password-reset callback page.
-    // We pass ?type=reset so the callback page knows to show the reset form.
-    const magicLinkUrl = `${appUrl}/api/auth/callback/email?email=${encodeURIComponent(email)}&type=reset`;
-
-    // better-auth requires a token+callback URL pattern; we generate a token
-    // by sending a sign-in request and extracting the token, or use the built-in
-    // oob mechanism. For simplicity, use the magic-link endpoint directly.
-    await emailService.sendPasswordResetEmail(email, magicLinkUrl);
-
-    return NextResponse.json({ success: true }, { status: 200 });
-  } catch (error) {
-    console.error("[send-password-reset] Error:", error);
-
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        { error: "Invalid request body", details: error.flatten() },
-        { status: 422 }
-      );
-    }
-
-    // Always return 200 to prevent user enumeration
-    // (email might not exist, but we don't want to reveal that)
-    console.warn("[send-password-reset] Swallowing error for security:", error);
-    return NextResponse.json({ success: true }, { status: 200 });
+    // Better Auth owns the expiring, single-use token; never fabricate a callback URL.
+    await auth.api.requestPasswordReset({
+      headers: request.headers,
+      body: { email: input.data.email, redirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/reset-password` },
+    });
+    return NextResponse.json({ success: true, message: "Si un compte correspond à cette adresse, un lien de réinitialisation vous sera envoyé." });
+  } catch {
+    console.error("[password-reset] request failed");
+    return NextResponse.json({ error: "La demande n’a pas abouti. Réessayez plus tard." }, { status: 503 });
   }
 }

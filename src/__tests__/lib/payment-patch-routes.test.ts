@@ -18,6 +18,7 @@ import { NextRequest } from "next/server";
 
 const { prismaMock, sessionMock } = vi.hoisted(() => ({
   prismaMock: {
+    user: { findUnique: vi.fn(async () => ({ subscriptionStatus: "ACTIVE", trialEndsAt: null })) },
     transaction: {
       findFirst: vi.fn(),
       findMany: vi.fn(),

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useSyncExternalStore } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod/v4";
@@ -23,8 +23,8 @@ const registerSchema = z.object({
 type RegisterValues = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
+  const hydrated = useSyncExternalStore(() => () => {}, () => true, () => false);
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   /**
    * Kept in state as well as raised as a toast.
@@ -86,34 +86,25 @@ export function RegisterForm() {
       }
 
       toast.success("Compte créé avec succès !");
-      const qs = searchParams?.toString();
-      router.push(qs ? `/dashboard?${qs}` : "/dashboard");
+      router.push("/dashboard");
       router.refresh();
     } catch {
-      toast.error("Une erreur est survenue lors de l'inscription");
+      const message = "Inscription interrompue. Réessayez ou connectez-vous si votre compte a été créé.";
+      setFormError(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
   }
 
-  async function handleGoogleSignUp() {
-    try {
-      const { signIn } = await import("@/lib/auth-client");
-      await signIn.social({
-        provider: "google",
-        callbackURL: "/dashboard",
-      });
-    } catch {
-      toast.error("Erreur lors de la connexion avec Google");
-    }
-  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+    <form method="post" onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       {/* Google OAuth Button */}
       <button
         type="button"
-        onClick={handleGoogleSignUp}
+        disabled
+        title="La connexion Google n’est pas configurée"
         className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-border/60 bg-card py-3.5 text-sm font-semibold text-foreground shadow-sm transition-all hover:bg-muted/60 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60"
       >
         <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -122,7 +113,7 @@ export function RegisterForm() {
           <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
           <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
         </svg>
-        Continuer avec Google
+        Connexion Google indisponible
       </button>
 
       <div className="relative">
@@ -209,7 +200,7 @@ export function RegisterForm() {
           </p>
         )}
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="w-full" disabled={isLoading || !hydrated}>
           {isLoading ? (
             <>
               <Loader2 className="mr-2 size-4 animate-spin" />

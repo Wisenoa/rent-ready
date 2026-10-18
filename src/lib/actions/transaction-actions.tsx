@@ -1,5 +1,7 @@
 "use server";
 
+import { recordProductEvent } from "@/lib/analytics/product-events";
+import { SubscriptionRequiredError } from "@/lib/subscription-access";
 import { revalidatePath } from "next/cache";
 import Decimal from "decimal.js";
 import { prisma } from "@/lib/prisma";
@@ -21,7 +23,7 @@ import { toNumber } from "@/lib/decimal";
 
 export async function createTransaction(formData: FormData): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
 
     const raw = Object.fromEntries(formData.entries());
     const parsed = transactionSchema.safeParse(raw);
@@ -54,8 +56,10 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
     revalidatePath("/billing");
     revalidatePath("/dashboard");
     revalidatePath("/leases");
+    await recordProductEvent(userId, "payment_recorded");
     return { success: true, data: { id: result.transactionId, receiptType: result.receiptType } };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("createTransaction error:", error);
     return { success: false, error: "Impossible d'enregistrer le paiement." };
   }
@@ -67,7 +71,7 @@ export async function createTransaction(formData: FormData): Promise<ActionResul
  */
 export async function cancelTransaction(id: string): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
     const result = await cancelRentPayment({ userId, transactionId: id });
 
     if (!result.ok) {
@@ -82,6 +86,7 @@ export async function cancelTransaction(id: string): Promise<ActionResult> {
       data: { id, collectable: result.collectable, reopenedPeriodId: result.reopenedPeriodId },
     };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("cancelTransaction error:", error);
     return { success: false, error: "Impossible d'annuler ce paiement." };
   }
@@ -106,7 +111,7 @@ export async function markTransactionPaid(
   paidAt?: string
 ): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
 
     const transaction = await prisma.transaction.findFirst({
       where: { id, userId },
@@ -128,6 +133,8 @@ export async function markTransactionPaid(
     if (!result.ok) {
       return { success: false, error: result.error };
     }
+
+    await recordProductEvent(userId, "payment_recorded");
 
     // Auto-generate PDF quittance after marking as paid.
     //
@@ -156,6 +163,7 @@ export async function markTransactionPaid(
       },
     };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("markTransactionPaid error:", error);
     return { success: false, error: "Impossible de valider le paiement." };
   }
@@ -166,7 +174,7 @@ export async function sendPaymentReminder(
   tone: "friendly" | "formal" | "legal" = "formal"
 ): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
 
     const transaction = await prisma.transaction.findUnique({
       where: { id: transactionId },
@@ -306,6 +314,7 @@ export async function sendPaymentReminder(
       },
     };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("sendPaymentReminder error:", error);
     return { success: false, error: "Impossible d'envoyer la relance." };
   }
@@ -322,7 +331,7 @@ export async function getOverdueTransactions(): Promise<
     lease: { id: string };
   }>
 > {
-  const userId = await getCurrentUserId();
+  const userId = await getCurrentUserId({ requireSubscription: true });
 
   const now = new Date();
   const transactions = await prisma.transaction.findMany({

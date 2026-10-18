@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth-server";
 import { emailService } from "@/lib/email/service";
 import { z, ZodError } from "zod";
@@ -24,6 +25,9 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const { leaseId } = RequestBodySchema.parse(body);
+
+    const owned = await prisma.lease.findFirst({ where: { id: leaseId, userId: session.user.id }, select: { id: true } });
+    if (!owned) return NextResponse.json({ error: "Ressource introuvable" }, { status: 404 });
 
     await emailService.sendLeaseExpiryEmail(leaseId);
 

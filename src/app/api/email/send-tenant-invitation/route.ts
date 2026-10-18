@@ -38,8 +38,8 @@ export async function POST(request: Request) {
     }
 
     // Optional: look up property address for context
-    const tenant = await (await import("@/lib/prisma")).prisma.tenant.findUnique({
-      where: { id: tenantId },
+    const tenant = await (await import("@/lib/prisma")).prisma.tenant.findFirst({
+      where: { id: tenantId, userId: session.user.id },
       select: {
         leases: {
           where: { userId: session.user.id },
@@ -56,6 +56,18 @@ export async function POST(request: Request) {
         },
       },
     });
+
+    if (!tenant) return NextResponse.json({ error: "Locataire introuvable" }, { status: 404 });
+    const target = new URL(portalUrl);
+    const base = new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000");
+    const token = target.pathname.match(/^\/portal\/([^/]+)$/)?.[1];
+    if (target.origin !== base.origin || !token || target.search || target.hash) {
+      return NextResponse.json({ error: "Lien locataire invalide" }, { status: 400 });
+    }
+    const validToken = await (await import("@/lib/prisma")).prisma.tenantAccessToken.findFirst({
+      where: { tenantId, token, OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] }, select: { id: true },
+    });
+    if (!validToken) return NextResponse.json({ error: "Lien locataire invalide ou expiré" }, { status: 400 });
 
     const propertyAddress = tenant?.leases?.[0]?.property
       ? `${tenant.leases[0].property.addressLine1}, ${tenant.leases[0].property.postalCode} ${tenant.leases[0].property.city}`

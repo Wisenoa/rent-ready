@@ -55,9 +55,8 @@ export interface QuittanceData {
   rentAmount: Decimal;
   chargesAmount: Decimal;
   /**
-   * Money received BY THIS PAYMENT. The receipt attests one event, so this is
-   * the amount of that event, not the month's total — a 570,55 instalment that
-   * closes a 970,55 month prints 570,55 here.
+   * Amount attested by the document, established by the domain: the full period
+   * on a quittance, or this payment alone on a partial receipt.
    */
   totalAmount: Decimal;
   /**

@@ -1,3 +1,4 @@
+import { assertSubscriptionAccess, SubscriptionRequiredError } from "@/lib/subscription-access";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
@@ -36,6 +37,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ data: tenant });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("GET /api/tenants/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -50,6 +52,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     const { id } = await params;
     const body = await request.json();
@@ -88,6 +91,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     const updated = await prisma.tenant.findUnique({ where: { id } });
     return NextResponse.json({ data: updated });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("PATCH /api/tenants/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -102,18 +106,22 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     const { id } = await params;
     const deleted = await prisma.tenant.deleteMany({
-      where: { id, userId: session.user.id },
+      where: { id, userId: session.user.id, leases: { none: {} } },
     });
 
     if (deleted.count === 0) {
+      const existing = await prisma.tenant.findFirst({ where: { id, userId: session.user.id }, select: { id: true } });
+      if (existing) return NextResponse.json({ error: "Ce locataire est lié à un bail. Son historique doit être conservé." }, { status: 409 });
       return NextResponse.json({ error: "Locataire introuvable" }, { status: 404 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("DELETE /api/tenants/[id] error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }

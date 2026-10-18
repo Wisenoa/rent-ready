@@ -1,7 +1,8 @@
 "use server";
 
+import { recordProductEvent } from "@/lib/analytics/product-events";
+import { registrationSchema } from "@/lib/validations/registration";
 import { auth } from "@/lib/auth-server";
-import { getStripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import type { ActionResult } from "./property-actions";
 import { registerErrorMessage } from "@/lib/register-error";
@@ -11,23 +12,16 @@ export interface RegisterResult extends ActionResult {
 }
 
 
-
-
 /**
  * Register a new user via better-auth (handles password hashing internally)
- * and create a Stripe customer in the background (best-effort).
+ * Stripe creates the customer only when checkout is requested.
  */
-export async function registerWithStripeCustomer({
-  firstName,
-  lastName,
-  email,
-  password,
-}: {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+export async function registerWithStripeCustomer(input: {
+  firstName: string; lastName: string; email: string; password: string;
 }): Promise<RegisterResult> {
+  const parsed = registrationSchema.safeParse(input);
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message ?? "Données invalides" };
+  const { firstName, lastName, email, password } = parsed.data;
   try {
     // Check if user already exists via better-auth
     const existing = await prisma.user.findUnique({ where: { email } });
@@ -54,48 +48,14 @@ export async function registerWithStripeCustomer({
     });
 
     if (result.user) {
-      // Create Stripe customer in background (best-effort — don't block signup)
-      createStripeCustomerBackground(result.user.id, email, `${firstName} ${lastName}`);
+      await recordProductEvent(result.user.id, "signup_completed");
+      return { success: true, userId: result.user.id };
     }
 
-    return { success: true, userId: result.user?.id };
+    return { success: false, error: "La création du compte n’a pas abouti. Réessayez." };
   } catch (error: unknown) {
     // The full error stays in the server log.
     console.error("[register] Error:", error);
     return { success: false, error: registerErrorMessage(error) };
-  }
-}
-
-/**
- * Create Stripe customer asynchronously — fire and forget.
- * If Stripe fails, the user can still use the app (no Stripe features).
- */
-async function createStripeCustomerBackground(
-  userId: string,
-  email: string,
-  name: string
-) {
-  try {
-    const stripe = getStripe();
-    const stripeCustomer = await stripe.customers.create({
-      email,
-      name,
-      metadata: { rentReadyUserId: userId, source: "rent_ready_signup" },
-    });
-
-    // Update user with Stripe customer ID
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        stripeCustomerId: stripeCustomer.id,
-        subscriptionStatus: "TRIAL",
-        trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 14 days
-      },
-    });
-
-    console.log(`[Stripe] Customer created for user ${userId}: ${stripeCustomer.id}`);
-  } catch (err) {
-    // Best-effort — log but don't throw
-    console.error(`[Stripe] Customer creation failed for user ${userId}:`, err);
   }
 }

@@ -195,7 +195,8 @@ test('a new landlord can reach a rent schedule from an empty account', async ({ 
 
   // ── the account starts empty, and says so ────────────────────────────────────
   await gotoStable(page, '/dashboard')
-  await expect(page.getByText(/aucun bien/i).first()).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Bienvenue sur Lokna' })).toBeVisible()
+  await expect(page.getByText('Ajouter mon premier logement')).toBeVisible()
 
   // ── property ────────────────────────────────────────────────────────────────
   await createProperty(page, {
@@ -435,12 +436,8 @@ test('a landlord takes a partial payment, then the balance, and downloads the re
   // The dashboard must agree. It used to sum only the PAID rows, which for a
   // month paid in instalments is the closing 500 alone — so a landlord who had
   // received 900 was told « 500,00 € encaissés ».
-  // The figure lives in the card's CONTENT, a sibling of its header, so scoping
-  // to the label's own parent finds only the label. The card is what has to be
-  // asserted.
-  const collectedCard = page
-    .locator('[data-slot="card"]')
-    .filter({ has: page.getByText('Total encaissé') })
+  // Scope the amount to the existing financial-summary label.
+  const collectedCard = page.getByText('Loyers perçus', { exact: true }).locator('..')
   await expect(collectedCard).toContainText(euros(MONTH_DUE))
 
   // And the instalment row keeps saying « Reçu »: settling the month later did

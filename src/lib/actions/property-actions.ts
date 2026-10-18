@@ -1,5 +1,7 @@
 "use server";
 
+import { recordProductEvent } from "@/lib/analytics/product-events";
+import { SubscriptionRequiredError } from "@/lib/subscription-access";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
@@ -13,7 +15,7 @@ export type ActionResult = {
 
 export async function createProperty(formData: FormData): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
     
     const raw = Object.fromEntries(formData.entries());
     const parsed = propertySchema.safeParse(raw);
@@ -40,8 +42,10 @@ export async function createProperty(formData: FormData): Promise<ActionResult> 
     });
 
     revalidatePath("/properties");
+    await recordProductEvent(userId, "property_created");
     return { success: true, data: { id: property.id } };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("createProperty error:", error);
     return { success: false, error: "Impossible de créer le bien. Veuillez réessayer." };
   }
@@ -49,7 +53,7 @@ export async function createProperty(formData: FormData): Promise<ActionResult> 
 
 export async function updateProperty(id: string, formData: FormData): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
     
     // Verify ownership
     const existing = await prisma.property.findUnique({ where: { id } });
@@ -84,6 +88,7 @@ export async function updateProperty(id: string, formData: FormData): Promise<Ac
     revalidatePath("/properties");
     return { success: true };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("updateProperty error:", error);
     return { success: false, error: "Impossible de modifier le bien." };
   }
@@ -91,7 +96,7 @@ export async function updateProperty(id: string, formData: FormData): Promise<Ac
 
 export async function deleteProperty(id: string): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
     
     const existing = await prisma.property.findFirst({ where: { id, userId, deletedAt: null } });
     if (!existing) {
@@ -102,6 +107,7 @@ export async function deleteProperty(id: string): Promise<ActionResult> {
     revalidatePath("/properties");
     return { success: true };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("deleteProperty error:", error);
     return { success: false, error: "Impossible de supprimer le bien." };
   }

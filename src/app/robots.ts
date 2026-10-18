@@ -33,6 +33,8 @@ export default function robots(): MetadataRoute.Robots {
           // Auth routes — no search value, must not be indexed.
           "/login",
           "/register",
+          "/forgot-password",
+          "/reset-password",
           // Internal API — never expose to crawlers.
           "/api",
           // Admin.

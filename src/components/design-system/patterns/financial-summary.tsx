@@ -30,7 +30,7 @@ export function FinancialSummary({
 
   return (
     <div className={cn("space-y-4", className)}>
-      <div className="grid grid-cols-3 gap-4 border-b border-neutral-200/80 pb-4 sm:pb-5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-neutral-200/80 pb-4 sm:pb-5">
         {/* 1. Attendus */}
         <div className="space-y-1">
           <span className="text-xs font-medium text-neutral-500 block">

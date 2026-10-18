@@ -1,3 +1,4 @@
+import { assertSubscriptionAccess, SubscriptionRequiredError } from "@/lib/subscription-access";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
@@ -224,6 +225,7 @@ export async function GET(request: NextRequest, { params }: { params: RouteParam
 
     return NextResponse.json({ data: receipt });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("GET /api/transactions/[id]/receipt error:", error);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
@@ -241,6 +243,7 @@ export async function POST(
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    await assertSubscriptionAccess(session.user.id);
 
     const { id } = await context.params;
 
@@ -269,6 +272,7 @@ export async function POST(
 
     return NextResponse.json(result.data, { status: 200 });
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return NextResponse.json({ error: error.message }, { status: 403 });
     console.error("POST /api/transactions/[id]/receipt error:", error);
     return NextResponse.json(
       { error: "Erreur lors de la génération de la quittance." },

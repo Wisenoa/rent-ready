@@ -1,105 +1,26 @@
-/**
- * SubscriptionGate — server component
- *
- * Protects dashboard routes from users whose subscription has expired,
- * been cancelled, or is past-due.
- *
- * Users with ACTIVE or valid TRIAL are let through.
- * All other states redirect to /billing with a paywall message.
- */
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
+import { isAccessBlocked } from "@/lib/domain/subscription";
 
-export type SubscriptionStatus =
-  | "TRIAL"
-  | "ACTIVE"
-  | "PAST_DUE"
-  | "CANCELLED"
-  | "EXPIRED";
+export { isAccessBlocked, isTrialExpired } from "@/lib/domain/subscription";
+export type { SubscriptionStatus } from "@prisma/client";
 
-const BLOCKED_STATUSES: SubscriptionStatus[] = [
-  "PAST_DUE",
-  "CANCELLED",
-  "EXPIRED",
-];
-
-export function isTrialExpired(trialEndsAt: Date | null): boolean {
-  if (!trialEndsAt) return false; // New user without explicit trial expiration date is not expired
-  return trialEndsAt < new Date();
-}
-
-/**
- * Returns true if the subscription status blocks dashboard access.
- * TRIAL users are only blocked once their trial has expired.
- */
-export function isAccessBlocked(
-  status: SubscriptionStatus,
-  trialEndsAt: Date | null
-): boolean {
-  if (BLOCKED_STATUSES.includes(status)) return true;
-  if (status === "TRIAL" && isTrialExpired(trialEndsAt)) return true;
-  return false;
-}
-
-/**
- * Server-side subscription gate.
- * Call this at the top of dashboard page Server Components.
- *
- * Usage in a page:
- *   import { SubscriptionGate } from "@/components/subscription-gate";
- *   export default async function MyPage() {
- *     await SubscriptionGate();
- *     return <div>...</div>;
- *   }
- */
+/** Errors propagate to Next's error boundary; redirects are outside any catch. */
 export async function SubscriptionGate(): Promise<void> {
-  try {
-    const reqHeaders = await headers();
-    const session = await auth.api.getSession({
-      headers: reqHeaders,
-    });
-
-    if (!session?.user?.id) {
-      // Not logged in — let NextAuth handle redirect
-      return;
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        subscriptionStatus: true,
-        trialEndsAt: true,
-      },
-    });
-
-    if (!user) return;
-
-    const status = (user.subscriptionStatus ?? "TRIAL") as SubscriptionStatus;
-
-    if (isAccessBlocked(status, user.trialEndsAt)) {
-      // Avoid infinite redirect loop if already loading billing page
-      const pathname = reqHeaders.get("x-pathname") || "";
-      const xUrl = reqHeaders.get("x-url") || reqHeaders.get("referer") || "";
-      if (pathname.startsWith("/billing") || xUrl.includes("/billing")) {
-        return;
-      }
-
-      redirect(
-        "/billing?paywall=expired&status=" +
-          encodeURIComponent(status)
-      );
-    }
-  } catch (error: unknown) {
-    // Let Next.js redirects propagate
-    if (
-      error instanceof Error &&
-      error.message === "NEXT_REDIRECT"
-    ) {
-      throw error;
-    }
-    // Non-redirect errors: log and let the user through (don't hard-block on errors)
-    console.error("[SubscriptionGate] Error checking subscription:", error);
+  const reqHeaders = await headers();
+  const session = await auth.api.getSession({ headers: reqHeaders });
+  if (!session?.user?.id) redirect("/login");
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { subscriptionStatus: true, trialEndsAt: true },
+  });
+  if (!user) redirect("/login");
+  // Overwritten by middleware. Referrers/query strings cannot bypass the gate.
+  // Billing must remain reachable to subscribe.
+  if (reqHeaders.get("x-pathname") === "/billing") return;
+  if (isAccessBlocked(user.subscriptionStatus, user.trialEndsAt)) {
+    redirect(`/billing?paywall=expired&status=${encodeURIComponent(user.subscriptionStatus)}`);
   }
 }

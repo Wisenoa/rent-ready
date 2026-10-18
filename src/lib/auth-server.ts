@@ -3,6 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
 import { sendMagicLinkEmail } from "@/lib/auth-email-link";
 import { emailService } from "@/lib/email/service";
+import { trialEndAtCreation } from "@/lib/domain/subscription";
 
 export const auth = betterAuth({
   baseURL:
@@ -12,6 +13,15 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => ({
+          data: { ...user, subscriptionStatus: "TRIAL", trialEndsAt: trialEndAtCreation() },
+        }),
+      },
+    },
+  },
   /**
    * Better Auth rate-limits auth endpoints PER IP by default. The E2E suite
    * registers a fresh account per test — 35 of them in a full run, all from
@@ -66,6 +76,10 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
+    revokeSessionsOnPasswordReset: true,
+    sendResetPassword: async ({ user, url }) => {
+      await emailService.sendPasswordResetEmail(user.email, url);
+    },
   },
   emailLink: {
     enabled: true,

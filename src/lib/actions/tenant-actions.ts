@@ -1,5 +1,7 @@
 "use server";
 
+import { recordProductEvent } from "@/lib/analytics/product-events";
+import { SubscriptionRequiredError } from "@/lib/subscription-access";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
@@ -8,7 +10,7 @@ import type { ActionResult } from "./property-actions";
 
 export async function createTenant(formData: FormData): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
     
     const raw = Object.fromEntries(formData.entries());
     const parsed = tenantSchema.safeParse(raw);
@@ -36,8 +38,10 @@ export async function createTenant(formData: FormData): Promise<ActionResult> {
     });
 
     revalidatePath("/tenants");
+    await recordProductEvent(userId, "tenant_created");
     return { success: true, data: { id: tenant.id } };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("createTenant error:", error);
     return { success: false, error: "Impossible de créer le locataire." };
   }
@@ -45,7 +49,7 @@ export async function createTenant(formData: FormData): Promise<ActionResult> {
 
 export async function updateTenant(id: string, formData: FormData): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
     
     const existing = await prisma.tenant.findUnique({ where: { id } });
     if (!existing || existing.userId !== userId) {
@@ -80,6 +84,7 @@ export async function updateTenant(id: string, formData: FormData): Promise<Acti
     revalidatePath("/tenants");
     return { success: true };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("updateTenant error:", error);
     return { success: false, error: "Impossible de modifier le locataire." };
   }
@@ -87,17 +92,19 @@ export async function updateTenant(id: string, formData: FormData): Promise<Acti
 
 export async function deleteTenant(id: string): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
     
     const existing = await prisma.tenant.findUnique({ where: { id } });
     if (!existing || existing.userId !== userId) {
       return { success: false, error: "Locataire introuvable ou accès non autorisé." };
     }
 
-    await prisma.tenant.delete({ where: { id } });
+    const deleted = await prisma.tenant.deleteMany({ where: { id, userId, leases: { none: {} } } });
+    if (deleted.count === 0) return { success: false, error: "Ce locataire est lié à un bail. Son historique doit être conservé." };
     revalidatePath("/tenants");
     return { success: true };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("deleteTenant error:", error);
     return { success: false, error: "Impossible de supprimer le locataire." };
   }

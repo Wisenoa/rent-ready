@@ -1,4 +1,5 @@
 "use server";
+import { SubscriptionRequiredError } from "@/lib/subscription-access";
 
 import { getCurrentUserId } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -16,7 +17,7 @@ export async function computeRentRevision(
   newIrlQuarter: string
 ): Promise<ActionResult & { data?: { revision: RentRevisionResult } }> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
 
     const lease = await prisma.lease.findUnique({ where: { id: leaseId } });
     if (!lease || lease.userId !== userId) {
@@ -38,6 +39,7 @@ export async function computeRentRevision(
 
     return { success: true, data: { revision } };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     if (error instanceof Error) {
       return { success: false, error: error.message };
     }
@@ -73,7 +75,7 @@ export async function applyRentRevision(
   newIrlValue: number
 ): Promise<ActionResult> {
   try {
-    const userId = await getCurrentUserId();
+    const userId = await getCurrentUserId({ requireSubscription: true });
 
     const lease = await prisma.lease.findUnique({ where: { id: leaseId } });
     if (!lease || lease.userId !== userId) {
@@ -93,6 +95,7 @@ export async function applyRentRevision(
 
     return { success: true };
   } catch (error) {
+    if (error instanceof SubscriptionRequiredError) return { success: false, error: error.message };
     console.error("applyRentRevision error:", error);
     return { success: false, error: "Impossible d'appliquer la révision." };
   }

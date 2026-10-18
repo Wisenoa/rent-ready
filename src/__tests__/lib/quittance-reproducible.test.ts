@@ -317,7 +317,7 @@ describe("the balance the document prints is the period's, not the payment's", (
     // Settled month: a QUITTANCE, with no balance line to print.
     expect(data?.receiptType).toBe("QUITTANCE");
     expect(allFigures()).toEqual([
-      `rent=850.50 charges=120.05 total=570.55 remaining=0.00`,
+      `rent=850.50 charges=120.05 total=970.55 remaining=0.00`,
     ]);
   }, BUDGET);
 

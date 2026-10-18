@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { cache } from "react";
+import { assertSubscriptionAccess } from "@/lib/subscription-access";
 
 export class AuthenticationError extends Error {
   constructor(message = "Vous devez être connecté pour effectuer cette action.") {
@@ -73,7 +74,7 @@ export async function getAuthenticatedUserId(): Promise<string> {
 /**
  * Get the database User record for the current session.
  * Better Auth stores users directly in the DB, so we just fetch by ID.
- * Sets trial on first access if missing.
+ * Reads never create or extend trials. Legacy accounts are left unchanged.
  *
  * Cached per request to avoid multiple DB calls.
  */
@@ -88,16 +89,6 @@ export const getCurrentUser = cache(async () => {
     throw new AuthenticationError();
   }
 
-  // Set trial end date on first login if not already set
-  if (!user.trialEndsAt) {
-    return prisma.user.update({
-      where: { id: userId },
-      data: {
-        trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-      },
-    });
-  }
-
   return user;
 });
 
@@ -106,8 +97,10 @@ export const getCurrentUser = cache(async () => {
  * Use this in server actions for lightweight auth checks.
  * Throws AuthenticationError if not logged in.
  */
-export const getCurrentUserId = cache(async (): Promise<string> => {
-  return requireAuth();
+export const getCurrentUserId = cache(async (options?: { requireSubscription: boolean }): Promise<string> => {
+  const userId = await requireAuth();
+  if (options?.requireSubscription) await assertSubscriptionAccess(userId);
+  return userId;
 });
 
 /**

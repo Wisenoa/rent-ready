@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
  *
  * Responsibilities:
  * 1. Auth gate — redirect unauthenticated users away from private routes
- * 2. Auth redirect — authenticated users visiting /login or /register go to dashboard
+ * 2. Session validation stays server-side; stale cookies cannot gate login
  * 3. Lowercase normalization — redirect uppercase URLs to lowercase
  * 4. Trailing slash removal — redirect /path/ to /path (consistent URL canonical form)
  * 5. x-robots-tag: noindex — applied to /portal/* (private app routes)
@@ -143,11 +143,10 @@ export default function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
   // ── 1. Auth check ────────────────────────────────────────────────
-  const sessionToken = req.cookies.get("better-auth.session_token")?.value;
+  const sessionToken = req.cookies.get("better-auth.session_token")?.value ?? req.cookies.get("__Secure-better-auth.session_token")?.value;
 
-  if (sessionToken && (pathname.startsWith("/login") || pathname.startsWith("/register"))) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
+  // Cookie presence is only a navigation hint. A stale cookie must not redirect
+  // /login back to a dashboard that rejects the session.
 
   if (!sessionToken && isPrivatePath(pathname)) {
     const loginUrl = new URL("/login", req.url);
